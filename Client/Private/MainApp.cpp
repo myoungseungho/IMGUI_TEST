@@ -86,6 +86,25 @@ HRESULT CMainApp::Render()
 			ShowObjects();
 		}
 		ImGui::End();
+
+		bool bShowCameraControlWindow = true;
+		ImGui::Begin("Camera Control", &bShowCameraControlWindow);
+
+		// 카메라 위치 조절
+		static float position[3] = { 0.0f, 0.0f, 0.0f };
+		ImGui::Text("Position");
+		ImGui::SliderFloat("X", &position[0], -100.0f, 100.0f);
+		ImGui::SliderFloat("Y", &position[1], -100.0f, 100.0f);
+		ImGui::SliderFloat("Z", &position[2], -100.0f, 100.0f);
+
+		// 카메라 회전 조절
+		static float rotation[3] = { 0.0f, 0.0f, 0.0f };
+		ImGui::Text("Rotation");
+		ImGui::SliderFloat("Rot X", &rotation[0], -360.0f, 360.0f);
+		ImGui::SliderFloat("Rot Y", &rotation[1], -360.0f, 360.0f);
+		ImGui::SliderFloat("Rot Z", &rotation[2], -360.0f, 360.0f);
+
+		ImGui::End();
 	}
 
 #pragma endregion
