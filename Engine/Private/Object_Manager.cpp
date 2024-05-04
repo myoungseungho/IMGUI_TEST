@@ -120,6 +120,7 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 	if (iLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
+	
 	for (auto& Pair : m_pLayers[iLevelIndex])
 		Safe_Release(Pair.second);
 
