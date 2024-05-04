@@ -10,6 +10,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 
+bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -51,54 +52,48 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
-
 HRESULT CMainApp::Render()
 {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-#pragma region 데모
-	//bool bDemo = true;
-	//if (bDemo)
-	//	ImGui::ShowDemoWindow(&bDemo);
-#pragma endregion
-
-	bool bShowLevelWindow = true;
-	//1. 창의 제목, 2. 보여줄지의 여부, 3. 창의 행동 결정 플래그
-	ImGui::Begin("Levels", &bShowLevelWindow, ImGuiWindowFlags_NoCollapse);
-
-	// 레벨 목록을 불러와서 표시하는 함수 호출
-	if (bShowLevelWindow) {
-		ShowLevels();
+	// 토글 버튼
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("Option")) {
+			if (ImGui::MenuItem("IMGUI ON", NULL, &bShowImGuiWindows)) {
+				// bShowImGuiWindows 값이 클릭할 때마다 토글됩니다.
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
 	}
 
-	ImGui::End();
+	if (bShowImGuiWindows) {  // 이 조건을 통해 모든 ImGui 창의 표시 여부를 제어
+		bool bShowLevelWindow = true;
+		ImGui::Begin("Levels", &bShowLevelWindow, ImGuiWindowFlags_NoCollapse);
+		if (bShowLevelWindow) {
+			ShowLevels();
+		}
+		ImGui::End();
 
-	bool bShowObjectWindow = true;
-	//1. 창의 제목, 2. 보여줄지의 여부, 3. 창의 행동 결정 플래그
-	ImGui::Begin("ObjectList", &bShowObjectWindow, ImGuiWindowFlags_NoCollapse);
-
-	// 레벨 목록을 불러와서 표시하는 함수 호출
-	if (bShowObjectWindow) {
-		ShowObjects();
+		bool bShowObjectWindow = true;
+		ImGui::Begin("ObjectList", &bShowObjectWindow, ImGuiWindowFlags_NoCollapse);
+		if (bShowObjectWindow) {
+			ShowObjects();
+		}
+		ImGui::End();
 	}
-
-	ImGui::End();
 
 	ImGui::Render();
 
 	m_pGameInstance->Render_Begin();
-
 	m_pGameInstance->Render_Engine();
-
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-
 	m_pGameInstance->Render_End();
 
 	return S_OK;
 }
-
 HRESULT CMainApp::ShowLevels()
 {
 	// 가정: 레벨 이름과 ID를 가진 배열 또는 리스트
@@ -186,6 +181,7 @@ void CMainApp::Free()
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+
 	__super::Free();
 
 	Safe_Release(m_pGraphic_Device);
