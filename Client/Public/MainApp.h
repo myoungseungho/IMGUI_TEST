@@ -21,8 +21,8 @@ public:
 	HRESULT Render();
 
 private:
-	CGameInstance*				m_pGameInstance = { nullptr };
-	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };	
+	CGameInstance* m_pGameInstance = { nullptr };
+	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 
 private:
 	HRESULT SetUp_DefaultState();
@@ -31,8 +31,9 @@ private:
 	HRESULT Ready_Prototype_Components();
 private:
 	HRESULT ShowLevels();
-
-public: 
+	HRESULT ShowObjects();
+	HRESULT SpawnObjectAtZero(const std::string& type);
+public:
 	static CMainApp* Create();
 	virtual void Free() override;
 };

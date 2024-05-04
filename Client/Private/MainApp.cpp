@@ -77,6 +77,14 @@ HRESULT CMainApp::Render()
 			ShowLevels();
 		}
 		ImGui::End();
+
+
+		bool bShowObjectWindow = true;
+		ImGui::Begin("ObjectList", &bShowObjectWindow, ImGuiWindowFlags_NoCollapse);
+		if (bShowObjectWindow) {
+			ShowObjects();
+		}
+		ImGui::End();
 	}
 
 #pragma endregion
@@ -105,6 +113,32 @@ HRESULT CMainApp::ShowLevels()
 	return S_OK;
 }
 
+HRESULT CMainApp::ShowObjects()
+{
+	vector<string> objectPrototypes;
+	m_pGameInstance->AddObjectPrototypesVector(&objectPrototypes);
+	int selectedItem = -1; // 초기 선택 항목 없음
+
+	for (int i = 0; i < objectPrototypes.size(); i++) {
+		if (ImGui::Selectable(objectPrototypes[i].c_str(), selectedItem == i)) {
+			selectedItem = i;
+			// 오브젝트 생성 로직
+			SpawnObjectAtZero(objectPrototypes[i]);
+		}
+	}
+
+	return S_OK;
+
+}
+
+
+HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"), TEXT("Layer_BackGround"))))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 /* 내 게임에 기초가되는 디바이스 상태(렌더상태, 샘플링방식에대한 설정)를 설정한다. */
 HRESULT CMainApp::SetUp_DefaultState()
