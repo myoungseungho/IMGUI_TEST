@@ -39,6 +39,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
 HRESULT CLevel_Logo::Render()
 {
+	__super::Render();
 	SetWindowText(g_hWnd, TEXT("로고레벨"));
 
 	bool bShowObjectWindow = true;
@@ -69,6 +70,7 @@ HRESULT CLevel_Logo::ShowObjects()
 	return S_OK;
 
 }
+
 HRESULT CLevel_Logo::SpawnObjectAtZero(const std::string& type)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"), TEXT("Layer_BackGround"))))
@@ -76,6 +78,7 @@ HRESULT CLevel_Logo::SpawnObjectAtZero(const std::string& type)
 
 	return S_OK;
 }
+
 HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring & strLayerTag)
 {
 	CBackGround::BACKGROUND_DESC		Desc{};
