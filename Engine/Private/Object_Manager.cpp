@@ -2,6 +2,8 @@
 
 #include "Layer.h"
 #include "GameObject.h"
+#include <locale>
+#include <codecvt>
 
 CObject_Manager::CObject_Manager()
 {
@@ -33,6 +35,8 @@ HRESULT CObject_Manager::Add_Prototype(const wstring& strPrototypeTag, CGameObje
 {
 	if (nullptr == Find_Prototype(strPrototypeTag))
 		m_Prototypes.emplace(strPrototypeTag, pPrototype);
+	else
+		Safe_Release(pPrototype);
 
 	return S_OK;
 }
@@ -62,6 +66,24 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLevelIndex, const wstring
 	}
 	else
 		pLayer->Add_GameObject(pGameObject);
+
+	return S_OK;
+}
+
+HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
+{
+	if (_pVector == nullptr)
+		return E_FAIL;
+
+	// Create a wstring_convert object to perform conversion
+	wstring_convert<codecvt_utf8<wchar_t>> converter;
+
+	for (auto& iter : m_Prototypes)
+	{
+		// Convert wstring (iter.first) to string
+	string converted = converter.to_bytes(iter.first);
+		_pVector->push_back(converted);
+	}
 
 	return S_OK;
 }

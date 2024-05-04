@@ -21,13 +21,13 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_GameObject_ToLayer(_uint iLevelIndex, const wstring& strPrototypeTag, const wstring& strLayerTag, void* pArg = nullptr);
+	HRESULT AddObjectPrototypesVector(vector<string>*);
 
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 
 	HRESULT Clear_Resources(_uint iLevelIndex);
-	map<const wstring, class CLayer*> GetLayer(_uint iLevelIndex) { return m_pLayers[iLevelIndex]; };
 private:
 	map<const wstring, class CGameObject*>		m_Prototypes;
 

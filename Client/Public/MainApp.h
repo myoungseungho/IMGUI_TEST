@@ -31,8 +31,7 @@ private:
 	HRESULT Ready_Prototype_Components();
 private:
 	HRESULT ShowLevels();
-	HRESULT ShowObjects();
-	HRESULT SpawnObjectAtZero(const std::string& type);
+
 public: 
 	static CMainApp* Create();
 	virtual void Free() override;

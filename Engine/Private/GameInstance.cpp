@@ -140,13 +140,14 @@ CComponent * CGameInstance::Get_Component(_uint iLevelIndex, const _wstring & st
 	return	m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag, strComponentTag, iIndex);
 }
 
-map<const wstring, class CLayer*>* CGameInstance::GetLayer(_uint iLevelIndex)
+HRESULT CGameInstance::AddObjectPrototypesVector(vector<string>* pVector)
 {
 	if (nullptr == m_pObject_Manager)
-		return nullptr;
+		return E_FAIL;
 
-	return &(m_pObject_Manager->GetLayer(iLevelIndex));
+	return	m_pObject_Manager->AddObjectPrototypesVector(pVector);
 }
+
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring & strPrototypeTag, CComponent * pPrototype)
 {
