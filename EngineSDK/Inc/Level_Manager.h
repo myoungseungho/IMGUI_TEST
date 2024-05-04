@@ -21,9 +21,10 @@ public:
 
 public:
 	HRESULT Change_Level(class CLevel* pNewLevel);
+	_uint GetCurrentLevelIndex();
+
 private:
 	class CLevel*				m_pCurrentLevel = { nullptr };	
-
 public:
 	static CLevel_Manager* Create();
 	virtual void Free() override;

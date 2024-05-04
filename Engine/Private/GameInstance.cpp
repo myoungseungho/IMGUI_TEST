@@ -106,6 +106,14 @@ HRESULT CGameInstance::Change_Level(CLevel * pNewLevel)
 	return m_pLevel_Manager->Change_Level(pNewLevel);	
 }
 
+_uint CGameInstance::GetCurrentLevelIndex()
+{
+	if (nullptr == m_pLevel_Manager)
+		return E_FAIL;
+
+	return m_pLevel_Manager->GetCurrentLevelIndex();
+}
+
 HRESULT CGameInstance::Add_Timer(const _wstring & strTimerTag)
 {
 	return m_pTimer_Manager->Add_Timer(strTimerTag);	

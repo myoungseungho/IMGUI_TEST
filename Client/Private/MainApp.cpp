@@ -9,6 +9,7 @@
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -134,9 +135,29 @@ HRESULT CMainApp::ShowObjects()
 
 HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"), TEXT("Layer_BackGround"))))
-		return E_FAIL;
+	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
 
+	// 문자열에서 "Prototype_GameObject_" 접두어 제거
+	string prefix = "Prototype_GameObject_";
+	string suffix;
+
+	if (type.substr(0, prefix.size()) == prefix) {
+		suffix = type.substr(prefix.size());
+	}
+	else {
+		suffix = type; // 접두어가 없다면 전체 타입을 사용
+	}
+
+	// Layer 이름 생성
+	string layerName = "Layer_" + suffix;
+
+	wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	wstring converted = converter.from_bytes(type);
+	wstring wLayerName = converter.from_bytes(layerName);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, converted.c_str(), wLayerName)))
+		return E_FAIL;
+	
 	return S_OK;
 }
 

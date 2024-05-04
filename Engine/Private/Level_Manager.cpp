@@ -39,6 +39,11 @@ HRESULT CLevel_Manager::Change_Level(CLevel * pNewLevel)
 	return S_OK;
 }
 
+_uint CLevel_Manager::GetCurrentLevelIndex()
+{
+	return m_pCurrentLevel->GetLevelIndex();
+}
+
 CLevel_Manager * CLevel_Manager::Create()
 {
 	CLevel_Manager*		pInstance = new CLevel_Manager();
