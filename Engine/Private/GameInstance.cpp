@@ -156,7 +156,7 @@ HRESULT CGameInstance::AddObjectPrototypesVector(vector<string>* pVector)
 	return	m_pObject_Manager->AddObjectPrototypesVector(pVector);
 }
 
-HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<string>* pVector)
+HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < string, list<CGameObject*>>>* pVector)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;

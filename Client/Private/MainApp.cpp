@@ -156,15 +156,17 @@ HRESULT CMainApp::Show_LayerObjects()
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
 	ImGui::Columns(2, NULL, true); // 두 개의 컬럼 생성
 
-	int selectedItem = -1; // 초기 선택 항목 없음
+	static int selectedItem = -1; // 초기 선택 항목 없음
+	static int selectedObject = -1;
 
-	vector<string> objectLayers;
-	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayers);
+	vector<pair < string, list<CGameObject*>>> objectLayersVector;
+	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
 	ImGui::BeginChild("LeftPane", ImVec2(150, 0), true); // 왼쪽 창 생성
-	for (int i = 0; i < objectLayers.size(); i++) {
-		if (ImGui::Selectable(objectLayers[i].c_str(), selectedItem == i)) {
+	for (int i = 0; i < objectLayersVector.size(); i++) {
+		if (ImGui::Selectable(objectLayersVector[i].first.c_str(), selectedItem == i)) {
 			selectedItem = i;
+			selectedObject = -1; // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
 		}
 	}
 
@@ -172,6 +174,19 @@ HRESULT CMainApp::Show_LayerObjects()
 	ImGui::NextColumn(); // 다음 컬럼으로 이동
 
 	ImGui::BeginChild("RightPane", ImVec2(0, 0), true); // 오른쪽 창 생성
+	if (selectedItem != -1) { // 유효한 레이어가 선택된 경우
+		const string& layerName = objectLayersVector[selectedItem].first;
+		const list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
+		int index = 0;  // 게임 오브젝트의 번호를 표시하기 위한 인덱스
+		for (CGameObject* gameObject : gameObjects) {
+			// 각 게임 오브젝트를 클릭 가능하게 만듬
+			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), selectedObject == index)) {
+				selectedObject = index; // 선택된 객체 인덱스 업데이트
+				// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
+			}
+			index++;  // 다음 오브젝트에 대해 인덱스 증가
+		}
+	}
 	ImGui::EndChild();
 
 	ImGui::Columns(1); // 열 병합

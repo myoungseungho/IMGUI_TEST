@@ -89,19 +89,23 @@ HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
 }
 
 
-HRESULT CObject_Manager::AddObjectLayersVector(_uint _level ,vector<string>* _pVector)
+HRESULT CObject_Manager::AddObjectLayersVector(_uint _level , vector<pair < string, list<CGameObject*>>>* pVector)
 {
-	if (_pVector == nullptr)
+	if (pVector == nullptr)
 		return E_FAIL;
 
 	// Create a wstring_convert object to perform conversion
 	wstring_convert<codecvt_utf8<wchar_t>> converter;
-
+	list<CGameObject*> tempList;
 	for (auto& iter : m_pLayers[_level])
 	{
 		// Convert wstring (iter.first) to string
 		string converted = converter.to_bytes(iter.first);
-		_pVector->push_back(converted);
+		iter.second->Add_List(&tempList);
+
+		pair<string, list<CGameObject*>> tempPair;
+		tempPair = { converted ,tempList };
+		pVector->push_back(tempPair);
 	}
 
 	return S_OK;
