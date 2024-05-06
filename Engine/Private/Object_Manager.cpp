@@ -88,6 +88,25 @@ HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
 	return S_OK;
 }
 
+
+HRESULT CObject_Manager::AddObjectLayersVector(_uint _level ,vector<string>* _pVector)
+{
+	if (_pVector == nullptr)
+		return E_FAIL;
+
+	// Create a wstring_convert object to perform conversion
+	wstring_convert<codecvt_utf8<wchar_t>> converter;
+
+	for (auto& iter : m_pLayers[_level])
+	{
+		// Convert wstring (iter.first) to string
+		string converted = converter.to_bytes(iter.first);
+		_pVector->push_back(converted);
+	}
+
+	return S_OK;
+}
+
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)

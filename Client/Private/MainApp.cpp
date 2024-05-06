@@ -72,41 +72,41 @@ HRESULT CMainApp::Render()
 	}
 
 	if (bShowImGuiWindows) {  // 이 조건을 통해 모든 ImGui 창의 표시 여부를 제어
-		bool bShowLevelWindow = true;
-		ImGui::Begin("Levels", &bShowLevelWindow, ImGuiWindowFlags_NoCollapse);
-		if (bShowLevelWindow) {
-			ShowLevels();
+
+		ImGui::Begin("Main Tab", &bShowImGuiWindows); // 메인 창 시작
+		if (ImGui::BeginTabBar("MyTabBar")) { // 탭 바 시작
+			if (ImGui::BeginTabItem("Levels")) { // "Levels" 탭 아이템 시작
+				//레벨 창
+				bool bShowLevelWindow = true;
+				if (bShowLevelWindow) {
+					ShowLevels();
+				}
+				ImGui::EndTabItem(); // "Levels" 탭 아이템 종료
+			}
+
+
+			if (ImGui::BeginTabItem("Prototype_ObjectList")) { // "ObjectList" 탭 아이템 시작
+				//원형 오브젝트 창
+				bool bShowObjectWindow = true;
+				if (bShowObjectWindow) {
+					Show_PrototypeObjects();
+				}
+				ImGui::EndTabItem(); // "ObjectList" 탭 아이템 종료
+			}
+
+			if (ImGui::BeginTabItem("Layer_ObjectList")) { // "ObjectList" 탭 아이템 시작
+				//원형 오브젝트 창
+				bool bShowObjectWindow = true;
+				if (bShowObjectWindow) {
+					Show_LayerObjects();
+				}
+				ImGui::EndTabItem(); // "ObjectList" 탭 아이템 종료
+			}
+
+			ImGui::EndTabBar(); // 탭 바 종료
 		}
-		ImGui::End();
-
-
-		bool bShowObjectWindow = true;
-		ImGui::Begin("ObjectList", &bShowObjectWindow, ImGuiWindowFlags_NoCollapse);
-		if (bShowObjectWindow) {
-			ShowObjects();
-		}
-		ImGui::End();
-
-		bool bShowCameraControlWindow = true;
-		ImGui::Begin("Camera Control", &bShowCameraControlWindow);
-
-		// 카메라 위치 조절
-		static float position[3] = { 0.0f, 0.0f, 0.0f };
-		ImGui::Text("Position");
-		ImGui::SliderFloat("X", &position[0], -100.0f, 100.0f);
-		ImGui::SliderFloat("Y", &position[1], -100.0f, 100.0f);
-		ImGui::SliderFloat("Z", &position[2], -100.0f, 100.0f);
-
-		// 카메라 회전 조절
-		static float rotation[3] = { 0.0f, 0.0f, 0.0f };
-		ImGui::Text("Rotation");
-		ImGui::SliderFloat("Rot X", &rotation[0], -360.0f, 360.0f);
-		ImGui::SliderFloat("Rot Y", &rotation[1], -360.0f, 360.0f);
-		ImGui::SliderFloat("Rot Z", &rotation[2], -360.0f, 360.0f);
-
 		ImGui::End();
 	}
-
 #pragma endregion
 	m_pGameInstance->Render_Begin();
 	m_pGameInstance->Render_Engine();
@@ -133,7 +133,7 @@ HRESULT CMainApp::ShowLevels()
 	return S_OK;
 }
 
-HRESULT CMainApp::ShowObjects()
+HRESULT CMainApp::Show_PrototypeObjects()
 {
 	vector<string> objectPrototypes;
 	m_pGameInstance->AddObjectPrototypesVector(&objectPrototypes);
@@ -149,6 +149,34 @@ HRESULT CMainApp::ShowObjects()
 
 	return S_OK;
 
+}
+
+HRESULT CMainApp::Show_LayerObjects()
+{
+	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
+	ImGui::Columns(2, NULL, true); // 두 개의 컬럼 생성
+
+	int selectedItem = -1; // 초기 선택 항목 없음
+
+	vector<string> objectLayers;
+	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayers);
+
+	ImGui::BeginChild("LeftPane", ImVec2(150, 0), true); // 왼쪽 창 생성
+	for (int i = 0; i < objectLayers.size(); i++) {
+		if (ImGui::Selectable(objectLayers[i].c_str(), selectedItem == i)) {
+			selectedItem = i;
+		}
+	}
+
+	ImGui::EndChild();
+	ImGui::NextColumn(); // 다음 컬럼으로 이동
+
+	ImGui::BeginChild("RightPane", ImVec2(0, 0), true); // 오른쪽 창 생성
+	ImGui::EndChild();
+
+	ImGui::Columns(1); // 열 병합
+
+	return S_OK;
 }
 
 
@@ -176,7 +204,7 @@ HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, converted.c_str(), wLayerName)))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 

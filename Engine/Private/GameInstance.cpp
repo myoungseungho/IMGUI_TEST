@@ -9,7 +9,7 @@
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
-CGameInstance::CGameInstance()	
+CGameInstance::CGameInstance()
 {
 
 }
@@ -46,7 +46,7 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	/* 엔진에서 관리하는 객체들 중, 반복적인 갱신이 필요한 객체들이 있다면. */
-	/* 여기에서 갱신을 수행해준다. */	
+	/* 여기에서 갱신을 수행해준다. */
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
@@ -76,7 +76,7 @@ HRESULT CGameInstance::Clear_LevelResources(_uint iLevelIndex)
 	if (FAILED(m_pObject_Manager->Clear_Resources(iLevelIndex)))
 		return E_FAIL;
 
-	if(FAILED(m_pComponent_Manager->Clear_Resources(iLevelIndex)))
+	if (FAILED(m_pComponent_Manager->Clear_Resources(iLevelIndex)))
 		return E_FAIL;
 
 	return S_OK;
@@ -98,12 +98,12 @@ void CGameInstance::Render_End(HWND hWnd)
 	m_pGraphic_Device->Render_End(hWnd);
 }
 
-HRESULT CGameInstance::Change_Level(CLevel * pNewLevel)
+HRESULT CGameInstance::Change_Level(CLevel* pNewLevel)
 {
 	if (nullptr == m_pLevel_Manager)
 		return E_FAIL;
 
-	return m_pLevel_Manager->Change_Level(pNewLevel);	
+	return m_pLevel_Manager->Change_Level(pNewLevel);
 }
 
 _uint CGameInstance::GetCurrentLevelIndex()
@@ -114,25 +114,25 @@ _uint CGameInstance::GetCurrentLevelIndex()
 	return m_pLevel_Manager->GetCurrentLevelIndex();
 }
 
-HRESULT CGameInstance::Add_Timer(const _wstring & strTimerTag)
+HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 {
-	return m_pTimer_Manager->Add_Timer(strTimerTag);	
+	return m_pTimer_Manager->Add_Timer(strTimerTag);
 }
 
-_float CGameInstance::Compute_TimeDelta(const _wstring & strTimerTag)
+_float CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
 }
 
-HRESULT CGameInstance::Add_Prototype(const wstring & strPrototypeTag, CGameObject * pPrototype)
+HRESULT CGameInstance::Add_Prototype(const wstring& strPrototypeTag, CGameObject* pPrototype)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
 
-	return m_pObject_Manager->Add_Prototype(strPrototypeTag, pPrototype);	
+	return m_pObject_Manager->Add_Prototype(strPrototypeTag, pPrototype);
 }
 
-HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLevelIndex, const wstring & strPrototypeTag, const wstring & strLayerTag, void * pArg)
+HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLevelIndex, const wstring& strPrototypeTag, const wstring& strLayerTag, void* pArg)
 {
 	if (nullptr == m_pObject_Manager)
 		return E_FAIL;
@@ -140,7 +140,7 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLevelIndex, const wstring &
 	return m_pObject_Manager->Add_GameObject_ToLayer(iLevelIndex, strPrototypeTag, strLayerTag, pArg);
 }
 
-CComponent * CGameInstance::Get_Component(_uint iLevelIndex, const _wstring & strLayerTag, const _wstring & strComponentTag, _uint iIndex)
+CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
 {
 	if (nullptr == m_pObject_Manager)
 		return nullptr;
@@ -156,16 +156,24 @@ HRESULT CGameInstance::AddObjectPrototypesVector(vector<string>* pVector)
 	return	m_pObject_Manager->AddObjectPrototypesVector(pVector);
 }
 
+HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<string>* pVector)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
 
-HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring & strPrototypeTag, CComponent * pPrototype)
+	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
+}
+
+
+HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)
 		return E_FAIL;
 
-	return m_pComponent_Manager->Add_Prototype(iLevelIndex, strPrototypeTag, pPrototype);	
+	return m_pComponent_Manager->Add_Prototype(iLevelIndex, strPrototypeTag, pPrototype);
 }
 
-CComponent * CGameInstance::Clone_Component(_uint iLevelIndex, const _wstring & strPrototypeTag, void * pArg)
+CComponent* CGameInstance::Clone_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
 	if (nullptr == m_pComponent_Manager)
 		return nullptr;
@@ -173,12 +181,12 @@ CComponent * CGameInstance::Clone_Component(_uint iLevelIndex, const _wstring & 
 	return m_pComponent_Manager->Clone_Component(iLevelIndex, strPrototypeTag, pArg);
 }
 
-HRESULT CGameInstance::Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, CGameObject * pRenderObject)
+HRESULT CGameInstance::Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
 {
 	if (nullptr == m_pRenderer)
 		return E_FAIL;
 
-	return m_pRenderer->Add_RenderObject(eRenderGroup, pRenderObject);	
+	return m_pRenderer->Add_RenderObject(eRenderGroup, pRenderObject);
 }
 
 void CGameInstance::Release_Engine()
@@ -197,5 +205,5 @@ void CGameInstance::Free()
 {
 	__super::Free();
 
-	
+
 }

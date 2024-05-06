@@ -22,7 +22,7 @@ public:
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
 	HRESULT Add_GameObject_ToLayer(_uint iLevelIndex, const wstring& strPrototypeTag, const wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT AddObjectPrototypesVector(vector<string>*);
-
+	HRESULT AddObjectLayersVector(_uint, vector<string>* _pVector);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
@@ -33,7 +33,7 @@ private:
 
 private:
 	_uint										m_iNumLevels = { 0 };
-	map<const wstring, class CLayer*>*			m_pLayers = { nullptr };
+	map<const wstring, class CLayer*>* m_pLayers = { nullptr };
 
 private:
 	class CGameObject* Find_Prototype(const wstring& strPrototypeTag);
