@@ -161,6 +161,7 @@ HRESULT CMainApp::Show_LayerObjects()
 
 	static int selectedItem = -1; // 초기 선택 항목 없음
 	static int selectedObject = -1;
+	static CGameObject* pSelectedGameObject = nullptr; // 선택된 객체의 포인터
 
 	vector<pair < string, list<CGameObject*>>> objectLayersVector;
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
@@ -170,6 +171,7 @@ HRESULT CMainApp::Show_LayerObjects()
 		if (ImGui::Selectable(objectLayersVector[i].first.c_str(), selectedItem == i)) {
 			selectedItem = i;
 			selectedObject = -1; // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
+			pSelectedGameObject = nullptr;
 		}
 	}
 
@@ -185,19 +187,26 @@ HRESULT CMainApp::Show_LayerObjects()
 			// 각 게임 오브젝트를 클릭 가능하게 만듬
 			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), selectedObject == index)) {
 				selectedObject = index; // 선택된 객체 인덱스 업데이트
-				// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
-				CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
-				if (component != nullptr)
-				{
-					component->AddRef();
-					CTransform* transform = static_cast<CTransform*>(component);
-					_float3 position = transform->Get_State(CTransform::STATE_POSITION);
-					ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
-					Safe_Release(component);
-				}
+				pSelectedGameObject = gameObject; // 선택된 객체 저장
+				pSelectedGameObject->AddRef();
 			}
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
+	}
+
+	if (pSelectedGameObject)
+	{
+		// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
+		CComponent* component = pSelectedGameObject->Get_Component(TEXT("Com_Transform"));
+		if (component != nullptr)
+		{
+			component->AddRef();
+			CTransform* transform = static_cast<CTransform*>(component);
+			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
+			ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
+			Safe_Release(component);
+		}
+
 	}
 	ImGui::EndChild();
 
@@ -210,6 +219,8 @@ HRESULT CMainApp::Show_LayerObjects()
 			Safe_Release(iter2);
 		}
 	}
+
+	Safe_Release(pSelectedGameObject);
 
 	return S_OK;
 }
