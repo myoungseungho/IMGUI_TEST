@@ -34,7 +34,6 @@ private:
 	HRESULT Show_PrototypeObjects();
 	HRESULT SpawnObjectAtZero(const std::string& type);
 	HRESULT Show_LayerObjects();
-	int Add();
 
 public:
 	static CMainApp* Create();
