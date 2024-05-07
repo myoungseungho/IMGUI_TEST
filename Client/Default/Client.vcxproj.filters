@@ -46,6 +46,9 @@
     <Filter Include="97. Imgui\h">
       <UniqueIdentifier>{51c7bedd-2a1f-4658-b358-1ef42feb205e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera">
+      <UniqueIdentifier>{24d91bed-70bb-479e-a6ef-c6a774315506}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -114,6 +117,9 @@
     <ClInclude Include="..\Public\imgui_internal.h">
       <Filter>97. Imgui\h</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>02.GameObjects\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -166,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\imgui_widgets.cpp">
       <Filter>97. Imgui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>02.GameObjects\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

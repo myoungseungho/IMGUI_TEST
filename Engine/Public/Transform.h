@@ -40,6 +40,13 @@ public:
 			D3DXVec3Length(&Get_State(STATE_LOOK)));
 	}
 
+
+	_float4x4 Get_WorldMatrixInverse() {
+		_float4x4	WorldMatrixInv = {};
+		return *D3DXMatrixInverse(&WorldMatrixInv, nullptr, &m_WorldMatrix);
+	}
+
+
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
