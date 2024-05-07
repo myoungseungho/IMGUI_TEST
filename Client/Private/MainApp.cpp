@@ -219,6 +219,11 @@ HRESULT CMainApp::Show_LayerObjects()
 	return S_OK;
 }
 
+int CMainApp::Add()
+{
+	return 0;
+}
+
 
 HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 {
