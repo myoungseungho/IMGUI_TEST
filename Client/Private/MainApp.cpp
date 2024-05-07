@@ -9,6 +9,8 @@
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "GameObject.h"
+
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -190,6 +192,14 @@ HRESULT CMainApp::Show_LayerObjects()
 	ImGui::EndChild();
 
 	ImGui::Columns(1); // 열 병합
+
+	for (auto& iter : objectLayersVector)
+	{
+		for (auto& iter2 : iter.second)
+		{
+			Safe_Release(iter2);
+		}
+	}
 
 	return S_OK;
 }
