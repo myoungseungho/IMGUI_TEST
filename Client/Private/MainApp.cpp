@@ -188,7 +188,6 @@ HRESULT CMainApp::Show_LayerObjects()
 			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), selectedObject == index)) {
 				selectedObject = index; // 선택된 객체 인덱스 업데이트
 				pSelectedGameObject = gameObject; // 선택된 객체 저장
-				pSelectedGameObject->AddRef();
 			}
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
@@ -206,7 +205,6 @@ HRESULT CMainApp::Show_LayerObjects()
 			ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
 			Safe_Release(component);
 		}
-
 	}
 	ImGui::EndChild();
 
@@ -215,12 +213,8 @@ HRESULT CMainApp::Show_LayerObjects()
 	for (auto& iter : objectLayersVector)
 	{
 		for (auto& iter2 : iter.second)
-		{
 			Safe_Release(iter2);
-		}
 	}
-
-	Safe_Release(pSelectedGameObject);
 
 	return S_OK;
 }
