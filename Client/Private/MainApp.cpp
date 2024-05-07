@@ -187,11 +187,14 @@ HRESULT CMainApp::Show_LayerObjects()
 				selectedObject = index; // 선택된 객체 인덱스 업데이트
 				// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
 				CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
-				component->AddRef();
-				CTransform* transform = static_cast<CTransform*>(component);
-				_float3 position = transform->Get_State(CTransform::STATE_POSITION);
-				ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
-				Safe_Release(component);
+				if (component != nullptr)
+				{
+					component->AddRef();
+					CTransform* transform = static_cast<CTransform*>(component);
+					_float3 position = transform->Get_State(CTransform::STATE_POSITION);
+					ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
+					Safe_Release(component);
+				}
 			}
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
