@@ -76,12 +76,6 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	D3DXMatrixLookAtLH(&ViewMatrix, &_float3(0.f, 0.f, -10.f), &_float3(0.f, 0.f, 0.f), &_float3(0.f, 1.f, 0.f));
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &ViewMatrix);
-	
-	D3DXMatrixPerspectiveFovLH(&ProjMatrix, D3DXToRadian(60.0f), (_float)g_iWinSizeX / g_iWinSizeY, 0.1f, 1000.f);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &ProjMatrix);
-
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 

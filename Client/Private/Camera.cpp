@@ -89,7 +89,6 @@ HRESULT CCamera::Ready_Components()
 
 HRESULT CCamera::Bind_PipeLines()
 {
-
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_WorldMatrixInverse());
 
 	_float4x4		ProjMatrix = {};
