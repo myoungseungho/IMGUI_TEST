@@ -3,6 +3,7 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 
+
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
 {
@@ -96,7 +97,10 @@ HRESULT CBoss_Bug::KeyInput()
 {
 	if (GetAsyncKeyState('E'))
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"))))
+		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+		SkillDesc.pTargetTransform = m_pTransformCom;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
 			return E_FAIL;
 	}
 }
