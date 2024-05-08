@@ -30,7 +30,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
-	void KeyInput();
+	HRESULT  KeyInput();
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };

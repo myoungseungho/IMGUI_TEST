@@ -35,6 +35,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
+	KeyInput();
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
@@ -91,11 +92,12 @@ HRESULT CBoss_Bug::Ready_Components()
 	return S_OK;
 }
 
-void CBoss_Bug::KeyInput()
+HRESULT CBoss_Bug::KeyInput()
 {
 	if (GetAsyncKeyState('E'))
 	{
-		//m_pBullet->Create();
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"))))
+			return E_FAIL;
 	}
 }
 
