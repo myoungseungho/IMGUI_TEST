@@ -11,6 +11,12 @@ BEGIN(Client)
 
 class CCamera final : public CGameObject
 {	
+public:
+	typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}CAMERA_DESC;
+
 private:
 	CCamera(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CCamera(const CCamera& Prototype); /* 사본생성 시 */
@@ -31,6 +37,9 @@ private:
 	_float				m_fAspect = {};
 	_float				m_fNear = {};
 	_float				m_fFar = {};
+
+private:
+	CTransform* m_pTargetTransform = { nullptr };
 
 private:
 	HRESULT Ready_Components();
