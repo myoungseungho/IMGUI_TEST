@@ -26,7 +26,7 @@ HRESULT CMon_Pocket::Initialize(void * pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	MONSTER_DESC*		pDesc = static_cast<MONSTER_DESC*>(pArg);
+	MON_POCKET_DESC*		pDesc = static_cast<MON_POCKET_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);

@@ -21,7 +21,6 @@ protected:
 public:
 	typedef struct 
 	{
-		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 
 protected:
