@@ -25,6 +25,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	int a = 10;
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
