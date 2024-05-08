@@ -37,7 +37,12 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
-
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	{
+		//m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"));
+		//m_isDead = true;
+		return;
+	}
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
@@ -48,16 +53,10 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-	{
-		m_isDead = true;
-		return;
-	} 
+	
 
-	if (m_isDead == false)
-	{
 		m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	}
+	
 }
 
 HRESULT CSkill_Bug_Bullet::Render()

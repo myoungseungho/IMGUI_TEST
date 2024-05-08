@@ -34,13 +34,13 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 
 HRESULT CLayer::Delete_GameObject(_uint iIndex)
 {
-	auto	iter = m_GameObjects.begin();
+	auto&	iter = m_GameObjects.begin();
 
 	for (size_t i = 0; i < iIndex; i++)
 		++iter;
 
 	if (iter == m_GameObjects.end())
-		return E_FAIL;;
+		return E_FAIL;
 
 	Safe_Release(*iter);
 	m_GameObjects.erase(iter);
