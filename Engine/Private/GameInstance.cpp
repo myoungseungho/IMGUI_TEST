@@ -156,6 +156,14 @@ CGameObject* CGameInstance::Get_GameObject(_uint iLevelIndex, const _wstring& st
 	return	m_pObject_Manager->Get_GameObject(iLevelIndex, strLayerTag, iIndex);
 }
 
+HRESULT CGameInstance::Delete_GaemObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return m_pObject_Manager->Delete_GaemObject(iLevelIndex , strLayerTag, iIndex);
+}
+
 HRESULT CGameInstance::AddObjectPrototypesVector(vector<string>* pVector)
 {
 	if (nullptr == m_pObject_Manager)

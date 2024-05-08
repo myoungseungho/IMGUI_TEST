@@ -17,6 +17,7 @@ private:
 public:
 	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex);
 	class CGameObject* Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex);
+	HRESULT Delete_GaemObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex);
 	
 public:
 	HRESULT Initialize(_uint iNumLevels);
