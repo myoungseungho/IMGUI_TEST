@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CMon_Pocket::CMon_Pocket(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CMonster{ pGraphic_Device }
 {
 }
 
 CMon_Pocket::CMon_Pocket(const CMon_Pocket & Prototype)
-	: CGameObject{ Prototype }
+	: CMonster{ Prototype }
 {
 }
 
@@ -36,8 +36,6 @@ HRESULT CMon_Pocket::Initialize(void * pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
-	// m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
 	

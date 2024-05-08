@@ -27,11 +27,6 @@ HRESULT CMonster::Ready_Component()
 	return S_OK;
 }
 
-HRESULT CMonster::Load_Texture()
-{
-	return S_OK;
-}
-
 void CMonster::Free()
 {
 	__super::Free();

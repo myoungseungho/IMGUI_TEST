@@ -7,7 +7,7 @@ BEGIN(Engine)
 
 class CTexture;
 class CVIBuffer_Rect;
-class CTransForm;
+class CTransform;
 
 END
 
@@ -17,7 +17,7 @@ class CMonster abstract : public CGameObject
 {
 protected:
 	enum MON_STATE { IDLE, WALK, ATTACK };
-public:
+protected:
 	CMonster(LPDIRECT3DDEVICE9 _pGraphicDevice);
 	CMonster(const CMonster& Prototype);
 	virtual ~CMonster() = default;
@@ -28,12 +28,11 @@ public:
 
 public:
 	virtual HRESULT Ready_Component();
-	virtual HRESULT Load_Texture();
 
 protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTransForm* m_pTransformCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
 
 	MON_STATE m_eMon_State;
 

@@ -19,8 +19,6 @@ private:
 	CPlayer(const CPlayer& Prototype); /* 사본생성 시 */
 	virtual ~CPlayer() = default;
 
-
-
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
@@ -37,8 +35,6 @@ private:
 
 private:
 	HRESULT Ready_Components();
-
-
 
 public:
 	/* 원형객체를 생성한다. */
