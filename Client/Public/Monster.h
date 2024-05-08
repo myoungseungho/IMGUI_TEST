@@ -21,6 +21,8 @@ protected:
 public:
 	typedef struct 
 	{
+		_uint iHp = {0};
+		_uint iAttack = { 0 };
 	}MONSTER_DESC;
 
 protected:

@@ -20,6 +20,11 @@ HRESULT CBoss_Bug::Initialize_Prototype()
 
 HRESULT CBoss_Bug::Initialize(void* pArg)
 {
+	if (nullptr == pArg)
+		return E_FAIL;
+
+	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

@@ -64,7 +64,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag)))
+	CMonster::MONSTER_DESC			MonsterDesc{};
+
+	MonsterDesc.iHp = 10;
+	MonsterDesc.iAttack = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &MonsterDesc)))
 		return E_FAIL;
 
 	return S_OK;
