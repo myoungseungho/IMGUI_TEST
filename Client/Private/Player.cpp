@@ -8,6 +8,7 @@
 #include "..\Public\Player.h"
 
 #include "GameInstance.h"
+#include <Skill_Bug_Bullet.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -39,7 +40,6 @@ HRESULT CPlayer::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
 
-	
 
 	return S_OK;
 }
@@ -62,8 +62,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 		m_pTransformCom->Go_Backward(fTimeDelta);
-	
-	
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)

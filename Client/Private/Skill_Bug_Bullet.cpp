@@ -30,12 +30,14 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_LOOK));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	
 	return S_OK;
 }
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)

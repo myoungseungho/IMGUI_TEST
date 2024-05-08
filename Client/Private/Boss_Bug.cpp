@@ -46,6 +46,11 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	{
+		//Safe_Release(m_pBullet);
+	}
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -71,6 +76,11 @@ HRESULT CBoss_Bug::Render()
 
 HRESULT CBoss_Bug::Ready_Components()
 {
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -103,6 +113,8 @@ HRESULT CBoss_Bug::KeyInput()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
 			return E_FAIL;
 	}
+
+	return S_OK;
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -135,6 +147,7 @@ void CBoss_Bug::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
