@@ -52,6 +52,9 @@
     <Filter Include="02.GameObjects\Monster\Boss">
       <UniqueIdentifier>{2dc6f27d-adcc-40ff-857f-3983087d1ef1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Pocket">
+      <UniqueIdentifier>{282b6d17-7e5e-44f3-be90-4f58a5f2abc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -120,8 +123,11 @@
     <ClInclude Include="..\Public\Camera.h">
       <Filter>02.GameObjects\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Mon_Pocket.h">
+    <ClInclude Include="..\public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Pocket.h">
+      <Filter>02.GameObjects\Monster\Pocket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,8 +182,11 @@
     <ClCompile Include="..\Private\Camera.cpp">
       <Filter>02.GameObjects\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+    <ClCompile Include="..\private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+      <Filter>02.GameObjects\Monster\Pocket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
