@@ -55,10 +55,10 @@ void CPlayer::Update(_float fTimeDelta)
 		m_pTransformCom->Go_Straight(fTimeDelta);
 
 	if (GetKeyState(VK_LEFT) & 0x8000)
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+		m_pTransformCom->Go_Left(fTimeDelta);
 
 	if (GetKeyState(VK_RIGHT) & 0x8000)
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+		m_pTransformCom->Go_Right(fTimeDelta);
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 		m_pTransformCom->Go_Backward(fTimeDelta);
