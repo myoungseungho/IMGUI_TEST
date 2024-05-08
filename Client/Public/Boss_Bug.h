@@ -3,10 +3,18 @@
 #include "Client_Defines.h"
 #include "Monster.h"
 
+#include "Skill_Bug_Bullet.h"
+
 BEGIN(Client)
 
 class CBoss_Bug final:public CMonster
 {
+public:
+	typedef struct :public CMonster::MONSTER_DESC
+	{
+		CSkill_Bug_Bullet* m_pBullet = {nullptr};
+	}BOSS_BUG_DESC;
+
 private:
 	CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBoss_Bug(const CBoss_Bug& Prototype);

@@ -8,6 +8,7 @@
 
 #include "GameInstance.h"
 #include "Mon_Pocket.h"
+#include "Boss_Bug.h"
 
 #include "Monster.h"
 #include <Camera.h>
@@ -72,12 +73,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
-	CMonster::MONSTER_DESC			MonsterDesc{};
+	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
 
-	MonsterDesc.iHp = 10;
-	MonsterDesc.iAttack = 1;
+	BossBug.iHp = 10;
+	BossBug.iAttack = 1;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &MonsterDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &BossBug)))
 		return E_FAIL;
 
 	return S_OK;
