@@ -52,7 +52,7 @@ void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 	{
 		m_isDead = true;
 		return;
-	}
+	} 
 
 	if (m_isDead == false)
 	{
