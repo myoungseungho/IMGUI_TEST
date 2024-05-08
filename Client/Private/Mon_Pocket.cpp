@@ -56,8 +56,6 @@ void CMon_Pocket::Update(_float fTimeDelta)
 void CMon_Pocket::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	int a = 10;
 }
 
 HRESULT CMon_Pocket::Render()

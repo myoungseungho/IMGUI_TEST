@@ -26,7 +26,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Components();
+	virtual HRESULT Ready_Components();
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };

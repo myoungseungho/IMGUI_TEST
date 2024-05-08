@@ -129,6 +129,9 @@
     <ClInclude Include="..\Public\Mon_Pocket.h">
       <Filter>02.GameObjects\Monster\Pocket</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Boss_Bug.h">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mon_Pocket.cpp">
       <Filter>02.GameObjects\Monster\Pocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

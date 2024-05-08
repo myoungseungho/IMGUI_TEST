@@ -17,6 +17,7 @@ class CMonster abstract : public CGameObject
 {
 protected:
 	enum MON_STATE { IDLE, WALK, ATTACK };
+
 protected:
 	CMonster(LPDIRECT3DDEVICE9 _pGraphicDevice);
 	CMonster(const CMonster& Prototype);
@@ -26,7 +27,7 @@ public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
 
-public:
+protected:
 	virtual HRESULT Ready_Component();
 
 protected:
