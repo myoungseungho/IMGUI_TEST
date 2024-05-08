@@ -220,6 +220,30 @@ HRESULT CMainApp::Show_LayerObjects()
 			ImGui::SliderFloat("Scale Z", &scale.z, 0.1f, 10.0f);
 			transform->Set_Scaled(scale); // 스케일 적용
 
+			//회전 적용
+			static _float3 lastEulerRotation = { 0.0f, 0.0f, 0.0f };
+			_float3 eulerRotation = lastEulerRotation;
+
+			ImGui::Text("Rotation: ");
+			bool changedX = ImGui::SliderFloat("Rotate X", &eulerRotation.x, -3.14159f, 3.14159f);
+			bool changedY = ImGui::SliderFloat("Rotate Y", &eulerRotation.y, -3.14159f, 3.14159f);
+			bool changedZ = ImGui::SliderFloat("Rotate Z", &eulerRotation.z, -3.14159f, 3.14159f);
+
+			if (changedX) {
+				_float3 deltaRotation = { _float3(1.0f, 0.0f, 0.0f) * (eulerRotation.x - lastEulerRotation.x) };
+				transform->Turn(_float3(1.0f, 0.0f, 0.0f), deltaRotation.x);
+			}
+			if (changedY) {
+				_float3 deltaRotation = { _float3(0.0f, 1.0f, 0.0f) * (eulerRotation.y - lastEulerRotation.y) };
+				transform->Turn(_float3(0.0f, 1.0f, 0.0f), deltaRotation.y);
+			}
+			if (changedZ) {
+				_float3 deltaRotation = { _float3(0.0f, 0.0f, 1.0f) * (eulerRotation.z - lastEulerRotation.z) };
+				transform->Turn(_float3(0.0f, 0.0f, 1.0f), deltaRotation.z);
+			}
+
+			lastEulerRotation = eulerRotation;
+
 			Safe_Release(component);
 		}
 	}
