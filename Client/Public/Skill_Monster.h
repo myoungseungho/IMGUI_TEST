@@ -8,6 +8,7 @@ BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
+class CCalc_Timer;
 
 END
 
@@ -26,10 +27,12 @@ public:
 
 public:
 	virtual HRESULT Ready_Components();
+	
 protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CCalc_Timer* m_pTimerCom = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
