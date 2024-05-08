@@ -86,8 +86,62 @@ HRESULT CTransform::Go_Backward(_float fTimeDelta)
 	Set_State(STATE_POSITION, &vPosition);
 
 	return S_OK;
+}
 
-	
+HRESULT CTransform::Go_Straight_Left(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vLook = Get_State(STATE_LOOK);
+	_float3		vRight = Get_State(STATE_RIGHT);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+	vPosition -= *D3DXVec3Normalize(&vRight, &vRight) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Straight_Right(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vLook = Get_State(STATE_LOOK);
+	_float3		vRight = Get_State(STATE_RIGHT);
+
+	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+	vPosition += *D3DXVec3Normalize(&vRight, &vRight) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Backward_Left(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vLook = Get_State(STATE_LOOK);
+	_float3		vRight = Get_State(STATE_RIGHT);
+
+	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+	vPosition -= *D3DXVec3Normalize(&vRight, &vRight) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Backward_Right(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vLook = Get_State(STATE_LOOK);
+	_float3		vRight = Get_State(STATE_RIGHT);
+
+	vPosition -= *D3DXVec3Normalize(&vLook, &vLook) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+	vPosition += *D3DXVec3Normalize(&vRight, &vRight) * sqrt(m_fSpeedPerSec) * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
 }
 
 void CTransform::Turn(const _float3 & vAxis, _float fTimeDelta)

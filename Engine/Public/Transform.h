@@ -56,6 +56,10 @@ public:
 	HRESULT Go_Left(_float fTimeDelta);
 	HRESULT Go_Right(_float fTimeDelta);
 	HRESULT Go_Backward(_float fTimeDelta);
+	HRESULT Go_Straight_Left(_float fTimeDelta);
+	HRESULT Go_Straight_Right(_float fTimeDelta);
+	HRESULT Go_Backward_Left(_float fTimeDelta);
+	HRESULT Go_Backward_Right(_float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void LookAt(const _float3& vTargetPos);	
