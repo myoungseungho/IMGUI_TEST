@@ -19,9 +19,9 @@ protected:
 	enum MON_STATE { IDLE, WALK, ATTACK };
 
 public:
-	typedef struct 
+	typedef struct
 	{
-		_uint iHp = {0};
+		_uint iHp = { 0 };
 		_uint iAttack = { 0 };
 	}MONSTER_DESC;
 
