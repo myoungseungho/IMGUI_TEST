@@ -38,12 +38,14 @@ HRESULT CCamera::Initialize(void * pArg)
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
 	//m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));	
 
-	_float3 Target = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
+	m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
-
-	m_fFovy = D3DXToRadian(60.0f);
+	m_fFovy = D3DXToRadian(30.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
@@ -58,14 +60,11 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	if (GetKeyState('W') & 0x8000)
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	if (GetKeyState('S') & 0x8000)
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	if (GetKeyState('A') & 0x8000)
-		m_pTransformCom->Go_Left(fTimeDelta);
-	if (GetKeyState('D') & 0x8000)
-		m_pTransformCom->Go_Right(fTimeDelta);
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
 
 	Bind_PipeLines();
 }
