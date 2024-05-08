@@ -202,7 +202,24 @@ HRESULT CMainApp::Show_LayerObjects()
 			component->AddRef();
 			CTransform* transform = static_cast<CTransform*>(component);
 			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
-			ImGui::Text("Position: (%.2f, %.2f, %.2f)", position.x, position.y, position.z);  // 위치 정보 표시
+			
+			// 위치 정보 표시 및 슬라이더 조작
+			ImGui::Text("Position: ");
+			ImGui::SliderFloat("X", &position.x, -100.0f, 100.0f);
+			ImGui::SliderFloat("Y", &position.y, -100.0f, 100.0f);
+			ImGui::SliderFloat("Z", &position.z, -100.0f, 100.0f);
+
+			transform->Set_State(CTransform::STATE_POSITION, &position);
+
+
+			// 스케일 조절 슬라이더
+			_float3 scale = transform->Get_Scaled();
+			ImGui::Text("Scale: ");
+			ImGui::SliderFloat("Scale X", &scale.x, 0.1f, 10.0f);
+			ImGui::SliderFloat("Scale Y", &scale.y, 0.1f, 10.0f);
+			ImGui::SliderFloat("Scale Z", &scale.z, 0.1f, 10.0f);
+			transform->Set_Scaled(scale); // 스케일 적용
+
 			Safe_Release(component);
 		}
 	}
