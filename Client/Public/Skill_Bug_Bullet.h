@@ -6,6 +6,12 @@ BEGIN(Client)
 
 class CSkill_Bug_Bullet final:public CSkill_Monster
 {
+public:
+	typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}SKILL_BUG_BULLET_DESC;
+
 private:
 	CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSkill_Bug_Bullet(const CSkill_Bug_Bullet& Prototype);
@@ -19,7 +25,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
 	virtual HRESULT Ready_Components() override;
+
+private:
+	CTransform* m_pTargetTransform = { nullptr };
 
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -20,6 +20,13 @@ HRESULT CSkill_Bug_Bullet::Initialize_Prototype()
 
 HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 {
+	if (nullptr == pArg)
+		return E_FAIL;
+
+	SKILL_BUG_BULLET_DESC* pDesc = static_cast<SKILL_BUG_BULLET_DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+
 	return S_OK;
 }
 
@@ -93,5 +100,7 @@ CGameObject* CSkill_Bug_Bullet::Clone(void* pArg)
 
 void CSkill_Bug_Bullet::Free()
 {
+
+	Safe_Release(m_pTargetTransform);
 	__super::Free();
 }

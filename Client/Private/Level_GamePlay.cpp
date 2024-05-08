@@ -7,10 +7,13 @@
 #include "..\Public\Level_GamePlay.h"
 
 #include "GameInstance.h"
+
+#include "Monster.h"
 #include "Mon_Pocket.h"
 #include "Boss_Bug.h"
 
-#include "Monster.h"
+#include "Skill_Bug_Bullet.h"
+
 #include <Camera.h>
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -87,7 +90,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag)))
+	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+
+	SkillDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Bug"), TEXT("Com_Transform")));
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag, &SkillDesc)))
 		return E_FAIL;
 
 	return S_OK;
