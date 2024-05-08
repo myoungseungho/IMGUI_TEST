@@ -10,9 +10,15 @@ private:
 	virtual ~CCalc_Timer() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize_Prototype(_float fTimeDelta);
 	virtual HRESULT Initialize(void* pArg)	override;
-	void Update();
+
+public:
+	_bool Time_Limit(_float fTimeDelta, _float fTimer)
+	{
+		if (fTimeDelta >= fTimer)
+			return true;
+	}
 
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_Device, _float fTimeDelta);
