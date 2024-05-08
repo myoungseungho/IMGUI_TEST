@@ -9,6 +9,7 @@ class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
+class CKeyState;
 
 END
 
@@ -43,6 +44,7 @@ protected:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 
 	MON_STATE m_eMon_State;
 

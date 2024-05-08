@@ -78,6 +78,11 @@ HRESULT CBoss_Bug::Render()
 HRESULT CBoss_Bug::Ready_Components()
 {
 	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_Key"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	/* For.Com_Timer*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
 		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
@@ -106,7 +111,7 @@ HRESULT CBoss_Bug::Ready_Components()
 
 HRESULT CBoss_Bug::KeyInput()
 {
-	if (GetAsyncKeyState('E'))
+	if (m_pKeyCom->Key_Down('E'))
 	{
 		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
 		SkillDesc.pTargetTransform = m_pTransformCom;
@@ -158,6 +163,7 @@ void CBoss_Bug::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

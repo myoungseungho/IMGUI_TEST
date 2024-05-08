@@ -20,20 +20,20 @@ HRESULT CKeyState::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CKeyState::Key_Pressing(_uint _iKey)
+_bool CKeyState::Key_Pressing(_uint _iKey)
 {
 	if (GetAsyncKeyState(_iKey) & 0x8000)
-		return S_OK;
+		return true;
 
-	return E_FAIL;
+	return false;
 }
 
-HRESULT CKeyState::Key_Down(_uint _iKey)
+_bool CKeyState::Key_Down(_uint _iKey)
 {
 	if ((!m_bKeyState[_iKey]) && (GetAsyncKeyState(_iKey) & 0x8000))
 	{
 		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
-		return S_OK;
+		return true;
 	}
 
 	for (int i = 0; i < VK_MAX; ++i)
@@ -42,15 +42,15 @@ HRESULT CKeyState::Key_Down(_uint _iKey)
 			m_bKeyState[i] = !m_bKeyState[i];
 	}
 
-	return E_FAIL;
+	return false;
 }
 
-HRESULT CKeyState::Key_Up(_uint _iKey)
+_bool CKeyState::Key_Up(_uint _iKey)
 {
 	if ((m_bKeyState[_iKey]) && !(GetAsyncKeyState(_iKey) & 0x8000))
 	{
 		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
-		return S_OK;
+		return true;
 	}
 
 	for (int i = 0; i < VK_MAX; ++i)
@@ -59,7 +59,7 @@ HRESULT CKeyState::Key_Up(_uint _iKey)
 			m_bKeyState[i] = !m_bKeyState[i];
 	}
 
-	return E_FAIL;
+	return false;
 }
 
 CKeyState* CKeyState::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
