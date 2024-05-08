@@ -48,7 +48,7 @@ void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
 	{
-		//Safe_Release(m_pBullet);
+		
 	}
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);

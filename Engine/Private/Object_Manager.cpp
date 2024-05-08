@@ -31,7 +31,7 @@ CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& 
 	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
 	if (nullptr == pLayer)
 		return nullptr;
-
+	
 	return pLayer->Get_GameObject(iIndex);
 }
 
