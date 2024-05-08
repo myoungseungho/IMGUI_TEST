@@ -72,7 +72,6 @@ private:
 	_float					m_fSpeedPerSec = { 0.0f };
 	_float					m_fRotationPerSec = { 0.0f };
 
-
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
