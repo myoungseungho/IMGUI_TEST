@@ -7,6 +7,8 @@
 #include "..\Public\Level_GamePlay.h"
 
 #include "GameInstance.h"
+#include "Mon_Pocket.h"
+
 #include "Monster.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -22,10 +24,13 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	return E_FAIL;
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -57,6 +62,19 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
+{
+	CMonster::MONSTER_DESC			MonsterDesc{};
+
+	MonsterDesc.iHp = 10;
+	MonsterDesc.iAttack = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &MonsterDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag)))
@@ -67,7 +85,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring & strLayerTag)
 {
-	CMonster::MONSTER_DESC			MonsterDesc{};
+	CMon_Pocket::MON_POCKET_DESC			MonsterDesc{};
 
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))

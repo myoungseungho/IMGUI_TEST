@@ -1,23 +1,21 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
-
-BEGIN(Engine)
-class CTexture;
-class CTransform;
-class CComponent;
-class CVIBuffer_Rect;
-END
+#include "Monster.h"
 
 BEGIN(Client)
 
-class CPlayer final : public CGameObject
-{	
+class CMon_Pocket final : public CMonster
+{
+public:
+	typedef struct :public CMonster::MONSTER_DESC
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}MON_POCKET_DESC;
 private:
-	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CPlayer(const CPlayer& Prototype); /* 사본생성 시 */
-	virtual ~CPlayer() = default;
+	CMon_Pocket(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CMon_Pocket(const CMon_Pocket& Prototype); /* 사본생성 시 */
+	virtual ~CMon_Pocket() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -27,18 +25,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:	
-	CTexture*			m_pTextureCom = { nullptr };
-	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-
+private:
+	virtual HRESULT Ready_Components();
 
 private:
-	HRESULT Ready_Components();
+	CTransform* m_pTargetTransform = { nullptr };
 
 public:
 	/* 원형객체를 생성한다. */
-	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CMon_Pocket* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;
