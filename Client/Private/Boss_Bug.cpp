@@ -37,12 +37,12 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
-	KeyInput();
+
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
-	
+	KeyInput();
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)

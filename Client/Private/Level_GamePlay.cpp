@@ -39,8 +39,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
