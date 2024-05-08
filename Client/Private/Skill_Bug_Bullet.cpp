@@ -48,7 +48,16 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	{
+		m_isDead = true;
+		return;
+	}
+
+	if (m_isDead == false)
+	{
+		m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	}
 }
 
 HRESULT CSkill_Bug_Bullet::Render()
@@ -73,6 +82,11 @@ HRESULT CSkill_Bug_Bullet::Render()
 
 HRESULT CSkill_Bug_Bullet::Ready_Components()
 {
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -123,6 +137,7 @@ CGameObject* CSkill_Bug_Bullet::Clone(void* pArg)
 
 void CSkill_Bug_Bullet::Free()
 {
+	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);

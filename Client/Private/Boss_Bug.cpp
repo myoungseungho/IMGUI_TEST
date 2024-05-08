@@ -28,7 +28,8 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_pBullet = pDesc->pBullet;
 
-	if (FAILED(Ready_Components()))
+
+ 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	return S_OK;

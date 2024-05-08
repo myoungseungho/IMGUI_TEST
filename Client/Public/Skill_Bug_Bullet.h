@@ -30,6 +30,7 @@ protected:
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
+	_bool	m_isDead = { false };
 
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
