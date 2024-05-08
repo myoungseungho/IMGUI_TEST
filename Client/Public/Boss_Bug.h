@@ -12,7 +12,7 @@ class CBoss_Bug final:public CMonster
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
-		CSkill_Bug_Bullet* m_pBullet = {nullptr};
+		CSkill_Bug_Bullet* pBullet = {nullptr};
 	}BOSS_BUG_DESC;
 
 private:
@@ -30,6 +30,10 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
+	void KeyInput();
+
+private:
+	CSkill_Bug_Bullet* m_pBullet = { nullptr };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

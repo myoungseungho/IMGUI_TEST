@@ -27,6 +27,10 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_LOOK));
 	return S_OK;
 }
 
@@ -36,6 +40,8 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
+	//m_pTargetTransform->Go_Straight(fTimeDelta);
+	m_pTransformCom->Go_Straight(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
@@ -45,13 +51,28 @@ void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 
 HRESULT CSkill_Bug_Bullet::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+		return E_FAIL;
+
+	_float4x4		ViewMatrix, ProjMatrix;
+
+	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	return S_OK;
 }
 
 HRESULT CSkill_Bug_Bullet::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -100,7 +121,9 @@ CGameObject* CSkill_Bug_Bullet::Clone(void* pArg)
 
 void CSkill_Bug_Bullet::Free()
 {
-
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	__super::Free();
 }

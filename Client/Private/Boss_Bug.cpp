@@ -23,7 +23,9 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
+	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
+
+	m_pBullet = pDesc->pBullet;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -37,6 +39,7 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
+	
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -86,6 +89,14 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CBoss_Bug::KeyInput()
+{
+	if (GetAsyncKeyState('E'))
+	{
+		//m_pBullet->Create();
+	}
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
