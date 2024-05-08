@@ -9,6 +9,8 @@
 #include "GameInstance.h"
 #include "Mon_Pocket.h"
 
+#include "Monster.h"
+
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -78,7 +80,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring & strLayerTag)
 {
-	CMon_Pocket::MONSTER_DESC			MonsterDesc{};
+	CMon_Pocket::MON_POCKET_DESC			MonsterDesc{};
 
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))

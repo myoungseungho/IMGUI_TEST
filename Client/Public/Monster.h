@@ -18,6 +18,12 @@ class CMonster abstract : public CGameObject
 protected:
 	enum MON_STATE { IDLE, WALK, ATTACK };
 
+public:
+	typedef struct 
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}MONSTER_DESC;
+
 protected:
 	CMonster(LPDIRECT3DDEVICE9 _pGraphicDevice);
 	CMonster(const CMonster& Prototype);

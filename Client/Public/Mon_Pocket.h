@@ -6,12 +6,12 @@
 BEGIN(Client)
 
 class CMon_Pocket final : public CMonster
-{	
+{
 public:
-	typedef struct 
+	typedef struct :public CMonster::MONSTER_DESC
 	{
 		CTransform* pTargetTransform = { nullptr };
-	}MONSTER_DESC;
+	}MON_POCKET_DESC;
 private:
 	CMon_Pocket(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CMon_Pocket(const CMon_Pocket& Prototype); /* 사본생성 시 */
