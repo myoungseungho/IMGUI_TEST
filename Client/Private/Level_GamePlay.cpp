@@ -34,6 +34,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Skill_Bug_Bullet"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -75,6 +78,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 	MonsterDesc.iAttack = 1;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &MonsterDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
