@@ -174,7 +174,7 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
-    <ClInclude Include="..\Public\Monster.h" />
+    <ClInclude Include="..\Public\Mon_Pocket.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
@@ -196,7 +196,7 @@
     <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
-    <ClCompile Include="..\Private\Monster.cpp" />
+    <ClCompile Include="..\Private\Mon_Pocket.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">

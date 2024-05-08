@@ -11,7 +11,7 @@ END
 
 BEGIN(Client)
 
-class CMonster final : public CGameObject
+class CMon_Pocket final : public CGameObject
 {	
 public:
 	typedef struct
@@ -19,9 +19,9 @@ public:
 		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 private:
-	CMonster(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CMonster(const CMonster& Prototype); /* 사본생성 시 */
-	virtual ~CMonster() = default;
+	CMon_Pocket(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CMon_Pocket(const CMon_Pocket& Prototype); /* 사본생성 시 */
+	virtual ~CMon_Pocket() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -47,7 +47,7 @@ private:
 
 public:
 	/* 원형객체를 생성한다. */
-	static CMonster* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CMon_Pocket* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

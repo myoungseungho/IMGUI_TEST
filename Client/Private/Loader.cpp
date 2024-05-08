@@ -3,7 +3,7 @@
 
 #include "GameInstance.h"
 #include "BackGround.h"
-#include "Monster.h"
+#include "Mon_Pocket.h"
 #include "Player.h"
 #include "Camera.h"
 
@@ -132,7 +132,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-		CMonster::Create(m_pGraphic_Device))))
+		CMon_Pocket::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

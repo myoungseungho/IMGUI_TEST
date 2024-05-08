@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Monster.h"
+#include "..\Public\Mon_Pocket.h"
 
 #include "GameInstance.h"
 
-CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
+CMon_Pocket::CMon_Pocket(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
 }
 
-CMonster::CMonster(const CMonster & Prototype)
+CMon_Pocket::CMon_Pocket(const CMon_Pocket & Prototype)
 	: CGameObject{ Prototype }
 {
 }
 
-HRESULT CMonster::Initialize_Prototype()
+HRESULT CMon_Pocket::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CMonster::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CMonster::Initialize(void * pArg)
+HRESULT CMon_Pocket::Initialize(void * pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -44,25 +44,25 @@ HRESULT CMonster::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CMonster::Priority_Update(_float fTimeDelta)
+void CMon_Pocket::Priority_Update(_float fTimeDelta)
 {
 	int a = 10;
 }
 
-void CMonster::Update(_float fTimeDelta)
+void CMon_Pocket::Update(_float fTimeDelta)
 {
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	m_pTransformCom->Chase(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 1.f);
 }
 
-void CMonster::Late_Update(_float fTimeDelta)
+void CMon_Pocket::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
 	int a = 10;
 }
 
-HRESULT CMonster::Render()
+HRESULT CMon_Pocket::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -84,7 +84,7 @@ HRESULT CMonster::Render()
 	return S_OK;
 }
 
-HRESULT CMonster::Ready_Components()
+HRESULT CMon_Pocket::Ready_Components()
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
@@ -108,9 +108,9 @@ HRESULT CMonster::Ready_Components()
 	return S_OK;
 }
 
-CMonster * CMonster::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CMon_Pocket * CMon_Pocket::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CMonster*		pInstance = new CMonster(pGraphic_Device);
+	CMon_Pocket*		pInstance = new CMon_Pocket(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -122,9 +122,9 @@ CMonster * CMonster::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CMonster::Clone(void * pArg)
+CGameObject * CMon_Pocket::Clone(void * pArg)
 {
-	CMonster*		pInstance = new CMonster(*this);
+	CMon_Pocket*		pInstance = new CMon_Pocket(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -135,7 +135,7 @@ CGameObject * CMonster::Clone(void * pArg)
 	return pInstance;
 }
 
-void CMonster::Free()
+void CMon_Pocket::Free()
 {
 	__super::Free();
 
