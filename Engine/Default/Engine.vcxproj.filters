@@ -67,6 +67,9 @@
     <Filter Include="01.Utility\04.Components\Transform">
       <UniqueIdentifier>{62fb4a18-0596-48b3-835d-a02ca77c067e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\Calc_Timer">
+      <UniqueIdentifier>{f0dbe66a-6f8f-422d-99d7-50b58edc4ffe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Transform.cpp">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Calc_Timer.cpp">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Transform.h">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Calc_Timer.h">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
