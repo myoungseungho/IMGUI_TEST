@@ -90,6 +90,30 @@ HRESULT CTransform::Go_Backward(_float fTimeDelta)
 	
 }
 
+HRESULT CTransform::Go_Up(_float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE_POSITION);
+	_float3 vDirection = _float3(0.f, 1.f, 0.f);
+
+	vPosition += vDirection * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Down(_float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE_POSITION);
+	_float3 vDirection = _float3(0.f, -1.f, 0.f);
+
+	vPosition += vDirection * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
 void CTransform::Turn(const _float3 & vAxis, _float fTimeDelta)
 {
 	_float3		vRight = Get_State(STATE_RIGHT);
@@ -194,6 +218,4 @@ CComponent * CTransform::Clone(void * pArg)
 void CTransform::Free()
 {
 	__super::Free();
-
-
 }

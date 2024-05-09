@@ -58,7 +58,10 @@ void CCamera::Update(_float fTimeDelta)
 		m_pTransformCom->Go_Left(fTimeDelta);
 	if (GetKeyState('D') & 0x8000)
 		m_pTransformCom->Go_Right(fTimeDelta);
-
+	if (GetKeyState('E') & 0x8000)
+		m_pTransformCom->Go_Up(fTimeDelta);
+	if (GetKeyState('Q') & 0x8000)
+		m_pTransformCom->Go_Down(fTimeDelta);
 
 	POINT			ptMouse{};
 
