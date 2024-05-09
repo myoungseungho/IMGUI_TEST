@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Boss_Bug.h"
+#include "Skill_Bug_Bullet.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -116,6 +117,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Monster/Monster.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
+		return E_FAIL;
+
+
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 	
@@ -139,6 +145,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	/* For.Prototype_GameObject_Boss_Bug */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Bug"),
 		CBoss_Bug::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_Bug_Bullet*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Bug_Bullet"),
+		CSkill_Bug_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

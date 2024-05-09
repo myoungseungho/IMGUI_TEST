@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "GameObject.h"
+#include "Skill.h"
+#include "GameInstance.h"
 
 BEGIN(Engine)
 
@@ -9,44 +9,30 @@ class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
-class CKeyState;
 
 END
 
 BEGIN(Client)
 
-class CMonster abstract : public CGameObject
+class CSkill_Monster abstract:public CSkill
 {
 protected:
-	enum MON_STATE { IDLE, WALK, ATTACK };
-
-public:
-	typedef struct
-	{
-		_uint iHp = { 0 };
-		_uint iAttack = { 0 };
-	}MONSTER_DESC;
-
-protected:
-	CMonster(LPDIRECT3DDEVICE9 _pGraphicDevice);
-	CMonster(const CMonster& Prototype);
-	virtual ~CMonster() = default;
+	CSkill_Monster(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Monster(const CSkill_Monster& Prototype);
+	virtual ~CSkill_Monster()= default;
 
 public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
 
-protected:
-	virtual HRESULT Ready_Component();
-
+public:
+	virtual HRESULT Ready_Components();
+	
 protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
-	CKeyState* m_pKeyCom = { nullptr };
-
-	MON_STATE m_eMon_State;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;

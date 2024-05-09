@@ -159,11 +159,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\private\Calc_Timer.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\Component_Manager.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
+    <ClCompile Include="..\private\KeyState.cpp" />
     <ClCompile Include="..\private\Layer.cpp" />
     <ClCompile Include="..\private\Level.cpp" />
     <ClCompile Include="..\private\Level_Manager.cpp" />
@@ -178,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\public\Calc_Timer.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\Component_Manager.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="..\public\GameInstance.h" />
     <ClInclude Include="..\public\GameObject.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
+    <ClInclude Include="..\public\KeyState.h" />
     <ClInclude Include="..\public\Layer.h" />
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\public\Level_Manager.h" />

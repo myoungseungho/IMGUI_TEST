@@ -1,24 +1,21 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "Monster.h"
-
-#include "Skill_Bug_Bullet.h"
+#include "Skill_Monster.h"
 
 BEGIN(Client)
 
-class CBoss_Bug final:public CMonster
+class CSkill_Bug_Bullet final:public CSkill_Monster
 {
 public:
-	typedef struct :public CMonster::MONSTER_DESC
+	typedef struct
 	{
-		CSkill_Bug_Bullet* pBullet = {nullptr};
-	}BOSS_BUG_DESC;
+		CTransform* pTargetTransform = { nullptr };
+	}SKILL_BUG_BULLET_DESC;
 
 private:
-	CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBoss_Bug(const CBoss_Bug& Prototype);
-	virtual ~CBoss_Bug() = default;
+	CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Bug_Bullet(const CSkill_Bug_Bullet& Prototype);
+	virtual ~CSkill_Bug_Bullet() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,19 +25,19 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
+	virtual HRESULT Ready_Components() override;
 private:
-	virtual HRESULT Ready_Components();
-	HRESULT  KeyInput();
 	HRESULT	 DeleteBullet(_float fTimeDelta);
 
 private:
-	CSkill_Bug_Bullet* m_pBullet = { nullptr };
-
+	CTransform* m_pTargetTransform = { nullptr };
+	
 public:
-	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 
 END
-

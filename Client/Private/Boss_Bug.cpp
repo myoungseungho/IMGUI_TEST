@@ -3,6 +3,7 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 
+
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
 {
@@ -23,9 +24,12 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
+	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
 
-	if (FAILED(Ready_Components()))
+	m_pBullet = pDesc->pBullet;
+
+
+ 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	return S_OK;
@@ -33,14 +37,21 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
+	KeyInput();
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
+	/*if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
+	{
+		DeleteBullet(fTimeDelta);
+	}*/
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -66,6 +77,16 @@ HRESULT CBoss_Bug::Render()
 
 HRESULT CBoss_Bug::Ready_Components()
 {
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_Key"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -84,6 +105,37 @@ HRESULT CBoss_Bug::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CBoss_Bug::KeyInput()
+{
+	if (m_pKeyCom->Key_Down('E'))
+	{
+		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+		SkillDesc.pTargetTransform = m_pTransformCom;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
+			return E_FAIL;
+
+		//Safe_Release()
+	}
+
+	//m_pBullet->\
+
+	return S_OK;
+}
+
+HRESULT CBoss_Bug::DeleteBullet(_float fTimeDelta)
+{
+	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	{
+		if (FAILED(m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"), m_iBulletCnt)))
+			E_FAIL;
+		else
+			++m_iBulletCnt;	
+	}*/
 
 	return S_OK;
 }
@@ -118,6 +170,8 @@ void CBoss_Bug::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pKeyCom);
+	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
