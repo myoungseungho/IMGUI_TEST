@@ -12,6 +12,9 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
+#include "Calc_Timer.h"
+#include "KeyState.h"
+
 #include <codecvt>
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -312,6 +315,16 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Timer*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		CCalc_Timer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Key*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		CKeyState::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

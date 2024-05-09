@@ -7,9 +7,13 @@
 #include "..\Public\Level_GamePlay.h"
 
 #include "GameInstance.h"
-#include "Mon_Pocket.h"
 
 #include "Monster.h"
+#include "Mon_Pocket.h"
+#include "Boss_Bug.h"
+
+#include "Skill_Bug_Bullet.h"
+
 #include <Camera.h>
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -31,8 +35,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+
 	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
+
+	/*if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -69,12 +77,24 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
-	CMonster::MONSTER_DESC			MonsterDesc{};
+	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
 
-	MonsterDesc.iHp = 10;
-	MonsterDesc.iAttack = 1;
+	BossBug.iHp = 10;
+	BossBug.iAttack = 1;
+	BossBug.pBullet = dynamic_cast<CSkill_Bug_Bullet*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")));
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &MonsterDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &BossBug)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag)
+{
+	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+
+	SkillDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Bug"), TEXT("Com_Transform")));
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag, &SkillDesc)))
 		return E_FAIL;
 
 	return S_OK;

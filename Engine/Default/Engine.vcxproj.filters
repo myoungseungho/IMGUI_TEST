@@ -67,6 +67,12 @@
     <Filter Include="01.Utility\04.Components\Transform">
       <UniqueIdentifier>{62fb4a18-0596-48b3-835d-a02ca77c067e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\Calc_Timer">
+      <UniqueIdentifier>{f0dbe66a-6f8f-422d-99d7-50b58edc4ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\KeyState">
+      <UniqueIdentifier>{cd586b71-f6cb-4856-8dc7-7540d558a437}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -119,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Transform.cpp">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Calc_Timer.cpp">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KeyState.cpp">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Transform.h">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Calc_Timer.h">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\KeyState.h">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

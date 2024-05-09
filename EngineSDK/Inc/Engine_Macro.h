@@ -46,3 +46,5 @@ unsigned int  ClassName::Destroy_Instance()				\
 	return iRefCnt;										\
 }
 
+#define	VK_MAX	0xff
+

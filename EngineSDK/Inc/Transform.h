@@ -66,6 +66,7 @@ public:
 	void LookAt_ForLandObject(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 
+
 public:
 	HRESULT Bind_WorldMatrix();
 
