@@ -67,6 +67,12 @@
     <Filter Include="01.Utility\04.Components\Transform">
       <UniqueIdentifier>{62fb4a18-0596-48b3-835d-a02ca77c067e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\98.Files">
+      <UniqueIdentifier>{c6d5c352-6d11-422f-9ce1-c2bc4a3e5e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\98.Files\Manager">
+      <UniqueIdentifier>{dc92a54f-61a0-4580-ba51-05c4fc1eda31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Transform.cpp">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FileManager.cpp">
+      <Filter>01.Utility\98.Files\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Transform.h">
       <Filter>01.Utility\04.Components\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FileManager.h">
+      <Filter>01.Utility\98.Files\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

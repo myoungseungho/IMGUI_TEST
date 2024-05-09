@@ -49,9 +49,6 @@
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{24d91bed-70bb-479e-a6ef-c6a774315506}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. Imgui\File">
-      <UniqueIdentifier>{141e9e4d-0423-4dc0-81df-584587aa3eaa}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
