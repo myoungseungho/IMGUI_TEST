@@ -20,9 +20,6 @@ HRESULT CSkill_Bug_Bullet::Initialize_Prototype()
 
 HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 {
-	/*if (nullptr == pArg)
-		return E_FAIL;*/
-
 	SKILL_BUG_BULLET_DESC* pDesc = static_cast<SKILL_BUG_BULLET_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
@@ -37,26 +34,23 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-	{
-		//m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"));
-		//m_isDead = true;
-		return;
-	}
+
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
-	//m_pTargetTransform->Go_Straight(fTimeDelta);
 	m_pTransformCom->Go_Straight(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
-	
-
 		m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	
+
+	if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
+	{
+		DeleteBullet(fTimeDelta);
+	}
+
 }
 
 HRESULT CSkill_Bug_Bullet::Render()
@@ -104,6 +98,16 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CSkill_Bug_Bullet::DeleteBullet(_float fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	{
+		m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"));
+	}
 
 	return S_OK;
 }

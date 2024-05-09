@@ -47,10 +47,10 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
+	/*if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
 	{
 		DeleteBullet(fTimeDelta);
-	}
+	}*/
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
@@ -118,17 +118,24 @@ HRESULT CBoss_Bug::KeyInput()
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
 			return E_FAIL;
+
+		//Safe_Release()
 	}
+
+	//m_pBullet->\
 
 	return S_OK;
 }
 
 HRESULT CBoss_Bug::DeleteBullet(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
 	{
-		m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"),1);
-	}
+		if (FAILED(m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"), m_iBulletCnt)))
+			E_FAIL;
+		else
+			++m_iBulletCnt;	
+	}*/
 
 	return S_OK;
 }
