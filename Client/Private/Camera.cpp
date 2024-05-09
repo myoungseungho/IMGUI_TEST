@@ -8,7 +8,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CCamera::CCamera(const CCamera & Prototype)
+CCamera::CCamera(const CCamera& Prototype)
 	: CGameObject{ Prototype }
 {
 }
@@ -21,8 +21,8 @@ HRESULT CCamera::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCamera::Initialize(void * pArg)
-{	
+HRESULT CCamera::Initialize(void* pArg)
+{
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -31,12 +31,14 @@ HRESULT CCamera::Initialize(void * pArg)
 
 	/* 카메라가 내 월드 공간에 어디에 존재하는지. */
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
-	m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));	
+	m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));
 
 	m_fFovy = D3DXToRadian(90.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
+
+	GetCursorPos(&m_OldMousePos);
 
 	return S_OK;
 }
@@ -57,7 +59,29 @@ void CCamera::Update(_float fTimeDelta)
 	if (GetKeyState('D') & 0x8000)
 		m_pTransformCom->Go_Right(fTimeDelta);
 
+
+	POINT			ptMouse{};
+
+	GetCursorPos(&ptMouse);
+
+	long		MouseMoveX = {}, MouseMoveY = {};
+
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	{
+		if (MouseMoveX = ptMouse.x - m_OldMousePos.x)
+		{
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * MouseMoveX * m_fMouseSensor);
+		}
+
+		if (MouseMoveY = ptMouse.y - m_OldMousePos.y)
+		{
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMoveY * m_fMouseSensor);
+		}
+	}
+
 	Bind_PipeLines();
+
+	m_OldMousePos = ptMouse;
 }
 
 void CCamera::Late_Update(_float fTimeDelta)
@@ -77,8 +101,8 @@ HRESULT CCamera::Ready_Components()
 {
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+	TransformDesc.fSpeedPerSec = 10.0f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(60.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
@@ -98,9 +122,9 @@ HRESULT CCamera::Bind_PipeLines()
 	return S_OK;
 }
 
-CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CCamera*		pInstance = new CCamera(pGraphic_Device);
+	CCamera* pInstance = new CCamera(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -112,9 +136,9 @@ CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CCamera::Clone(void * pArg)
+CGameObject* CCamera::Clone(void* pArg)
 {
-	CCamera*		pInstance = new CCamera(*this);
+	CCamera* pInstance = new CCamera(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -129,9 +153,9 @@ void CCamera::Free()
 {
 	__super::Free();
 
-	
+
 
 	Safe_Release(m_pTransformCom);
 
-	
+
 }

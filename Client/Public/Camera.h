@@ -33,6 +33,10 @@ private:
 	_float				m_fFar = {};
 
 private:
+	POINT				m_OldMousePos = {};
+	_float				m_fMouseSensor = {0.2f};
+
+private:
 	HRESULT Ready_Components();
 
 private:
