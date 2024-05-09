@@ -71,9 +71,7 @@ void CCamera::Update(_float fTimeDelta)
 
 void CCamera::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
-	int a = 10;
 }
 
 HRESULT CCamera::Render()

@@ -51,35 +51,40 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	if (GetKeyState(VK_UP) & 0x8000)
+	if (m_pKeyCom->Key_Pressing(VK_UP))
 	{
-		if (GetKeyState(VK_LEFT) & 0x8000)
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			m_pTransformCom->Go_Straight_Left(fTimeDelta);
 
-		else if (GetKeyState(VK_RIGHT) & 0x8000)
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			m_pTransformCom->Go_Straight_Right(fTimeDelta);
 
 		else
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
 
-	if (GetKeyState(VK_DOWN) & 0x8000)
+	if (m_pKeyCom->Key_Pressing(VK_DOWN))
 	{
-		if (GetKeyState(VK_LEFT) & 0x8000)
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			m_pTransformCom->Go_Backward_Left(fTimeDelta);
 
-		else if (GetKeyState(VK_RIGHT) & 0x8000)
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			m_pTransformCom->Go_Backward_Right(fTimeDelta);
 
 		else
 			m_pTransformCom->Go_Backward(fTimeDelta);
 	}
 
-	if (GetKeyState(VK_LEFT) & 0x8000)
+	if (m_pKeyCom->Key_Pressing(VK_LEFT))
 		m_pTransformCom->Go_Left(fTimeDelta);
 
-	if (GetKeyState(VK_RIGHT) & 0x8000)
+	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 		m_pTransformCom->Go_Right(fTimeDelta);
+
+	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+		m_pTransformCom->Set_Speed(10.f);
+	else
+		m_pTransformCom->Set_Speed(5.f);
 
 }
 
@@ -122,15 +127,19 @@ HRESULT CPlayer::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
+
+
 	TransformDesc.fSpeedPerSec = 5.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
 	
 	return S_OK;
 }
+
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

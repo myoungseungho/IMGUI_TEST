@@ -8,6 +8,7 @@ class CTexture;
 class CTransform;
 class CComponent;
 class CVIBuffer_Rect;
+class CKeyState;
 END
 
 BEGIN(Client)
@@ -28,13 +29,16 @@ public:
 	virtual HRESULT Render() override;
 
 private:	
-	CTexture*			m_pTextureCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CKeyState*				m_pKeyCom = { nullptr };
 
 
 private:
 	HRESULT Ready_Components();
+
+private:
 
 public:
 	/* 원형객체를 생성한다. */

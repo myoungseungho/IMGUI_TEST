@@ -46,6 +46,10 @@ public:
 		return *D3DXMatrixInverse(&WorldMatrixInv, nullptr, &m_WorldMatrix);
 	}
 
+	void Set_Speed(_float fSpeed) {
+		m_fSpeedPerSec = fSpeed;
+	}
+
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
