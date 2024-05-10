@@ -45,7 +45,10 @@ HRESULT CObject_Manager::Delete_GaemObject(_uint iLevelIndex, const _wstring& st
 	if (nullptr == pLayer)
 		return E_FAIL;
 
-	return pLayer->Delete_GameObject(iIndex);;
+	if(FAILED(pLayer->Delete_GameObject(iIndex)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
@@ -157,10 +160,11 @@ void CObject_Manager::Update(_float fTimeDelta)
 
 void CObject_Manager::Late_Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+ 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Late_Update(fTimeDelta);
+		
 	}
 }
 

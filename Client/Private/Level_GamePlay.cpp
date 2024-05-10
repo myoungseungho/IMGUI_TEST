@@ -29,6 +29,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	return E_FAIL;
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
 	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;*/
 
@@ -128,7 +129,6 @@ CLevel_GamePlay * CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 		MSG_BOX(TEXT("Failed to Created : CLevel_GamePlay"));
 		Safe_Release(pInstance);
 	}
-
 	return pInstance;
 }
 

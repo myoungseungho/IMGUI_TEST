@@ -27,6 +27,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components() override;
+
 private:
 	HRESULT	 DeleteBullet(_float fTimeDelta);
 

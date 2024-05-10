@@ -24,11 +24,6 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
-
-	m_pBullet = pDesc->pBullet;
-
-
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -47,11 +42,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
-	/*if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
-	{
-		DeleteBullet(fTimeDelta);
-	}*/
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -118,11 +108,7 @@ HRESULT CBoss_Bug::KeyInput()
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
 			return E_FAIL;
-
-		//Safe_Release()
 	}
-
-	//m_pBullet->\
 
 	return S_OK;
 }
