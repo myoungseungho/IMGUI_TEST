@@ -209,6 +209,14 @@ HRESULT CGameInstance::SaveObjects(const wstring& filename, void* pArg)
 	return m_pFileManager->SaveObjects(filename, pArg);
 }
 
+void* CGameInstance::LoadObjects(const wstring& filename)
+{
+	if (nullptr == m_pFileManager)
+		return nullptr;
+
+	return m_pFileManager->LoadObjects(filename);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pRenderer);

@@ -289,18 +289,8 @@ HRESULT CMainApp::Show_LayerObjects()
 
 HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
 {
-	//오브젝트 당 넘겨줄 정보 구조체
-	struct FileData
-	{
-		wstring prototypeTag;
-		wstring layerName;
-		_uint levelIndex;
-		_float3 position;
-		_float3 scale;
-	};
-
 	//오브젝트마다의 정보
-	vector<FileData> vecFileData;
+	vector<FILEDATA> vecFileData;
 
 	//레벨 정보 
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
@@ -325,7 +315,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 				wstring newPrefix = L"Prototype_GameObject_" + suffix;
 
 				// 이 새로운 문자열을 vecFileData에 추가
-				vecFileData.emplace_back<FileData>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled() });
+				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled() });
 			}
 		}
 	}
@@ -340,10 +330,6 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	//이걸 레벨당 사본객체 리스트를 넘겨줘야 한다.
 	HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"), &vecFileData);
 	if (result == S_OK) {
-
-
-
-
 		*bShowSaveSuccessMessage = true;
 		*bShowSaveFailMessage = false;
 
