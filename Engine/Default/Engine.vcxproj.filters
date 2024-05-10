@@ -73,6 +73,9 @@
     <Filter Include="01.Utility\04.Components\KeyState">
       <UniqueIdentifier>{cd586b71-f6cb-4856-8dc7-7540d558a437}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\Cube">
+      <UniqueIdentifier>{e14bd0d4-65a6-453d-bc49-8169fab1ec50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="..\private\KeyState.cpp">
       <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="..\public\KeyState.h">
       <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Cube.h">
+      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
