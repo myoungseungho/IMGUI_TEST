@@ -51,40 +51,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Pressing(VK_UP))
-	{
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-			m_pTransformCom->Go_Straight_Left(fTimeDelta);
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-			m_pTransformCom->Go_Straight_Right(fTimeDelta);
-
-		else
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_DOWN))
-	{
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-			m_pTransformCom->Go_Backward_Left(fTimeDelta);
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-			m_pTransformCom->Go_Backward_Right(fTimeDelta);
-
-		else
-			m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		m_pTransformCom->Go_Left(fTimeDelta);
-
-	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		m_pTransformCom->Go_Right(fTimeDelta);
-
-	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
-		m_pTransformCom->Set_Speed(10.f);
-	else
-		m_pTransformCom->Set_Speed(5.f);
+	Key_Input(fTimeDelta);
 
 }
 
@@ -140,6 +107,46 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
+HRESULT CPlayer::Key_Input(_float fTimeDelta)
+{
+	if (m_pKeyCom->Key_Pressing(VK_UP))
+	{
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+
+		else
+			m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+
+	if (m_pKeyCom->Key_Pressing(VK_DOWN))
+	{
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+
+		else
+			m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+
+	if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		m_pTransformCom->Go_Left(fTimeDelta);
+
+	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		m_pTransformCom->Go_Right(fTimeDelta);
+
+	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+		m_pTransformCom->Set_Speed(10.f);
+	else
+		m_pTransformCom->Set_Speed(5.f);
+
+	return S_OK;
+}
+
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -177,4 +184,6 @@ void CPlayer::Free()
 	Safe_Release(m_pVIBufferCom);
 
 	Safe_Release(m_pTextureCom);
+
+	Safe_Release(m_pKeyCom);
 }

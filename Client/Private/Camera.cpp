@@ -60,6 +60,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
+
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
@@ -77,6 +78,12 @@ void CCamera::Late_Update(_float fTimeDelta)
 HRESULT CCamera::Render()
 {
 
+	return S_OK;
+}
+
+HRESULT CCamera::Key_Input(_float fTimeDelta)
+{
+		
 	return S_OK;
 }
 

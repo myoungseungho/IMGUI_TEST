@@ -5,6 +5,7 @@
 
 BEGIN(Engine)
 class CTransform;
+class CKeyState;
 END
 
 BEGIN(Client)
@@ -40,8 +41,10 @@ private:
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 
 private:
+	HRESULT Key_Input(_float fTimeDelta);
 	HRESULT Ready_Components();
 
 private:
@@ -49,6 +52,8 @@ private:
 	/* 투영변환 : / w */
 	/* 렌더링 파이프라인에 필요한 뷰변환행렬 + 투영행렬 */
 	HRESULT Bind_PipeLines();
+
+public:
 
 public:
 	/* 원형객체를 생성한다. */

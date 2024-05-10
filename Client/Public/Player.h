@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameObject.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CTransform;
@@ -34,11 +35,11 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CKeyState*				m_pKeyCom = { nullptr };
 
-
 private:
 	HRESULT Ready_Components();
 
 private:
+	HRESULT			Key_Input(_float fTimeDelta);
 
 public:
 	/* 원형객체를 생성한다. */

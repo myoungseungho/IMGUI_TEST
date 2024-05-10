@@ -73,6 +73,9 @@
     <Filter Include="01.Utility\04.Components\KeyState">
       <UniqueIdentifier>{cd586b71-f6cb-4856-8dc7-7540d558a437}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\Collision">
+      <UniqueIdentifier>{69ce34b1-9fef-4d27-a128-ce2a149be3e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="..\private\KeyState.cpp">
       <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collision.cpp">
+      <Filter>01.Utility\04.Components\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="..\public\KeyState.h">
       <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collision.h">
+      <Filter>01.Utility\04.Components\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
