@@ -1,12 +1,12 @@
 #include "Collider.h"
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CComponent{ pGraphic_Device }
+	:CVIBuffer{ pGraphic_Device }
 {
 }
 
 CCollider::CCollider(const CCollider& Prototype)
-	:CComponent{ Prototype }
+	:CVIBuffer{ Prototype }
 {
 }
 
@@ -20,8 +20,25 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCollider::Render()
+HRESULT CCollider::Render(CVIBuffer_Cube* pCube)
 {
+	Begin_Render();
+
+	if (FAILED(__super::Render()));
+
+	End_Render();
+}
+
+void CCollider::Begin_Render()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+}
+
+void CCollider::End_Render()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
