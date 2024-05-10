@@ -34,6 +34,9 @@ private:
 	HRESULT Show_PrototypeObjects();
 	HRESULT SpawnObjectAtZero(const std::string& type);
 	HRESULT Show_LayerObjects();
+	HRESULT Save_Button_Pressed(bool*, bool*);
+	HRESULT Load_Button_Pressed();
+
 
 public:
 	static CMainApp* Create();

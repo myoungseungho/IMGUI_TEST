@@ -112,20 +112,15 @@ HRESULT CMainApp::Render()
 
 
 		bool bShowSettings = true;
+
+
 		static bool bShowSaveSuccessMessage = false;
 		static bool bShowSaveFailMessage = false;
+
 		// 새로운 창 추가
 		ImGui::Begin("Settings", &bShowSettings); // "Settings" 창 시작
 		if (ImGui::Button("Save")) { // "Save" 버튼
-			HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"));
-			if (result == S_OK) {
-				bShowSaveSuccessMessage = true;
-				bShowSaveFailMessage = false;
-			}
-			else {
-				bShowSaveFailMessage = true;
-				bShowSaveSuccessMessage = false;
-			}
+			Save_Button_Pressed(&bShowSaveSuccessMessage, &bShowSaveFailMessage);
 		}
 
 		if (bShowSaveSuccessMessage) {
@@ -139,6 +134,7 @@ HRESULT CMainApp::Render()
 		if (ImGui::Button("Load")) { // "Load" 버튼
 			//LoadSettings();
 		}
+
 		ImGui::End(); // "Settings" 창 종료
 	}
 #pragma endregion
@@ -233,7 +229,7 @@ HRESULT CMainApp::Show_LayerObjects()
 			component->AddRef();
 			CTransform* transform = static_cast<CTransform*>(component);
 			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
-			
+
 			// 위치 정보 표시 및 슬라이더 조작
 			ImGui::Text("Position: ");
 			ImGui::SliderFloat("X", &position.x, -100.0f, 100.0f);
@@ -289,6 +285,81 @@ HRESULT CMainApp::Show_LayerObjects()
 	}
 
 	return S_OK;
+}
+
+HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
+{
+	//오브젝트 당 넘겨줄 정보 구조체
+	struct FileData
+	{
+		wstring prototypeTag;
+		wstring layerName;
+		_uint levelIndex;
+		_float3 position;
+		_float3 scale;
+	};
+
+	//오브젝트마다의 정보
+	vector<FileData> vecFileData;
+
+	//레벨 정보 
+	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
+
+	vector<pair < wstring, list<CGameObject*>>> objectLayersVector;
+	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
+
+	for (auto& object : objectLayersVector)
+	{
+		for (auto& iter : object.second)
+		{
+			CTransform* transform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+
+			// Layer_ 뒤의 문자열 추출
+			wstring layerName = object.first;
+			size_t pos = layerName.find(L"Layer_");
+			if (pos != wstring::npos) {
+				// "Layer_" 다음 문자열 시작 위치는 pos + 6
+				wstring suffix = layerName.substr(pos + 6);
+
+				// 새로운 prefix 생성
+				wstring newPrefix = L"Prototype_GameObject_" + suffix;
+
+				// 이 새로운 문자열을 vecFileData에 추가
+				vecFileData.emplace_back<FileData>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled() });
+			}
+		}
+	}
+
+	//결국에 넘겨줘야 하는건 뭐야?
+	// '하나의 오브젝트'에 대해서
+	//1. 레이어 이름
+	//2. 프로토타입 태그
+	//3. 레벨정보
+	//4. 트랜스폼 정보 (위치, 회전, 스케일 FLOAT3)
+
+	//이걸 레벨당 사본객체 리스트를 넘겨줘야 한다.
+	HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"), &vecFileData);
+	if (result == S_OK) {
+
+
+
+
+		*bShowSaveSuccessMessage = true;
+		*bShowSaveFailMessage = false;
+
+		return S_OK;
+	}
+	else {
+		*bShowSaveFailMessage = true;
+		*bShowSaveSuccessMessage = false;
+
+		return E_FAIL;
+	}
+}
+
+HRESULT CMainApp::Load_Button_Pressed()
+{
+	return E_NOTIMPL;
 }
 
 

@@ -168,6 +168,14 @@ HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < st
 	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
 }
 
+HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < wstring, list<CGameObject*>>>* pVector)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
+}
+
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CComponent* pPrototype)
 {
@@ -193,12 +201,12 @@ HRESULT CGameInstance::Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, CGa
 	return m_pRenderer->Add_RenderObject(eRenderGroup, pRenderObject);
 }
 
-HRESULT CGameInstance::SaveObjects(const wstring& filename)
+HRESULT CGameInstance::SaveObjects(const wstring& filename, void* pArg)
 {
 	if (nullptr == m_pFileManager)
 		return E_FAIL;
 
-	return m_pFileManager->SaveObjects(filename);
+	return m_pFileManager->SaveObjects(filename, pArg);
 }
 
 void CGameInstance::Release_Engine()
@@ -208,6 +216,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pFileManager);
 	Safe_Release(m_pGraphic_Device);
 
 	CGameInstance::Get_Instance()->Destroy_Instance();

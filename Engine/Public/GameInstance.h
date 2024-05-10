@@ -36,6 +36,7 @@ public: /* For.Object_Manager */
 	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
 	HRESULT AddObjectPrototypesVector(vector<string>*);
 	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < string, list<CGameObject*>>>*);
+	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < wstring, list<CGameObject*>>>*);
 
 
 public: /* For.Component_Manager */
@@ -47,20 +48,20 @@ public: /* For.Renderer */
 	HRESULT Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 
 public: /* For.FileManager */
-	HRESULT SaveObjects(const wstring& filename);
+	HRESULT SaveObjects(const wstring& filename,void* pArg);
 
 private:
-	class CGraphic_Device*				m_pGraphic_Device = { nullptr };
-	class CLevel_Manager*				m_pLevel_Manager = { nullptr };
-	class CTimer_Manager*				m_pTimer_Manager = { nullptr };
-	class CObject_Manager*				m_pObject_Manager = { nullptr };
-	class CComponent_Manager*			m_pComponent_Manager = { nullptr };
-	class CRenderer*					m_pRenderer = { nullptr };
-	class CFile_Manager*				m_pFileManager = { nullptr };
+	class CGraphic_Device* m_pGraphic_Device = { nullptr };
+	class CLevel_Manager* m_pLevel_Manager = { nullptr };
+	class CTimer_Manager* m_pTimer_Manager = { nullptr };
+	class CObject_Manager* m_pObject_Manager = { nullptr };
+	class CComponent_Manager* m_pComponent_Manager = { nullptr };
+	class CRenderer* m_pRenderer = { nullptr };
+	class CFile_Manager* m_pFileManager = { nullptr };
 
 public:
 	void Release_Engine();
-	
+
 	virtual void Free() override;
 
 };

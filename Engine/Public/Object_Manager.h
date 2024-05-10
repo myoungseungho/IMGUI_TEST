@@ -23,6 +23,9 @@ public:
 	HRESULT Add_GameObject_ToLayer(_uint iLevelIndex, const wstring& strPrototypeTag, const wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT AddObjectPrototypesVector(vector<string>*);
 	HRESULT AddObjectLayersVector(_uint, vector<pair < string, list<CGameObject*>>>* pVector);
+	HRESULT AddObjectLayersVector(_uint, vector<pair < wstring, list<CGameObject*>>>* pVector);
+
+
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);

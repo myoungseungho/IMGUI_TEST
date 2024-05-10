@@ -1,5 +1,6 @@
 #include "..\Public\FileManager.h"
 #include <sstream>
+
 CFile_Manager::CFile_Manager()
 {
 }
@@ -9,7 +10,7 @@ HRESULT CFile_Manager::Initialize()
 	return S_OK;
 }
 
-HRESULT CFile_Manager::SaveObjects(const wstring& filename)
+HRESULT CFile_Manager::SaveObjects(const wstring& filename, void* pArg)
 {
 	wofstream file(filename);
 	if (!file.is_open()) {
@@ -17,12 +18,13 @@ HRESULT CFile_Manager::SaveObjects(const wstring& filename)
 		return E_FAIL;
 	}
 
-	for (const auto& data : m_vecFileData) {
+	vector<FileData>* pvecFileData = reinterpret_cast<vector<FileData>*>(pArg);
+
+	for (const auto& data : *pvecFileData) {
 		file << L"LayerName: " << data.layerName << L"\n";
 		file << L"PrototypeTag: " << data.prototypeTag << L"\n";
 		file << L"LevelIndex: " << data.levelIndex << L"\n";
 		file << L"Position: " << data.position.x << L" " << data.position.y << L" " << data.position.z << L"\n";
-		file << L"Rotation: " << data.rotation.x << L" " << data.rotation.y << L" " << data.rotation.z << L"\n";
 		file << L"Scale: " << data.scale.x << L" " << data.scale.y << L" " << data.scale.z << L"\n\n";
 	}
 
@@ -45,7 +47,7 @@ HRESULT CFile_Manager::LoadObjects(const wstring& filename)
 	while (getline(file, line)) {
 		ParseLine(line, data);
 		if (line.empty()) {
-			m_vecFileData.push_back(data);  // Assuming a blank line indicates the end of one object's data
+			//m_vecFileData.push_back(data);  // Assuming a blank line indicates the end of one object's data
 		}
 	}
 
@@ -79,11 +81,11 @@ HRESULT CFile_Manager::ParseLine(const wstring& line, FileData& obj)
 				obj.position.y = b;
 				obj.position.z = c;
 			}
-			else if (key == L"Rotation") {
+			/*else if (key == L"Rotation") {
 				obj.rotation.x = a;
 				obj.rotation.y = b;
 				obj.rotation.z = c;
-			}
+			}*/
 			else if (key == L"Scale") {
 				obj.scale.x = a;
 				obj.scale.y = b;

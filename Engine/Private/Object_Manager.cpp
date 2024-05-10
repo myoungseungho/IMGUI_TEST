@@ -70,7 +70,7 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uint iLevelIndex, const wstring
 	return S_OK;
 }
 
-HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
+HRESULT CObject_Manager::AddObjectPrototypesVector(vector<string>* _pVector)
 {
 	if (_pVector == nullptr)
 		return E_FAIL;
@@ -81,7 +81,7 @@ HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
 	for (auto& iter : m_Prototypes)
 	{
 		// Convert wstring (iter.first) to string
-	string converted = converter.to_bytes(iter.first);
+		string converted = converter.to_bytes(iter.first);
 		_pVector->push_back(converted);
 	}
 
@@ -89,7 +89,7 @@ HRESULT CObject_Manager::AddObjectPrototypesVector( vector<string>* _pVector)
 }
 
 
-HRESULT CObject_Manager::AddObjectLayersVector(_uint _level , vector<pair < string, list<CGameObject*>>>* pVector)
+HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < string, list<CGameObject*>>>* pVector)
 {
 	if (pVector == nullptr)
 		return E_FAIL;
@@ -110,6 +110,42 @@ HRESULT CObject_Manager::AddObjectLayersVector(_uint _level , vector<pair < stri
 
 	return S_OK;
 }
+
+
+HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < wstring, list<CGameObject*>>>* pVector)
+{
+	if (pVector == nullptr)
+		return E_FAIL;
+
+	list<CGameObject*> tempList;
+	for (auto& iter : m_pLayers[_level])
+	{
+		iter.second->Add_List(&tempList);
+
+		pair<wstring, list<CGameObject*>> tempPair;
+		tempPair = { iter.first ,tempList };
+		pVector->push_back(tempPair);
+	}
+
+	return S_OK;
+}
+
+//
+//HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<list<CGameObject*>>* pVector)
+//{
+//	if (pVector == nullptr)
+//		return E_FAIL;
+//
+//	list<CGameObject*> tempList;
+//	for (auto& iter : m_pLayers[_level])
+//	{
+//		iter.second->Add_List(&tempList);
+//		pVector->push_back(tempList);
+//	}
+//
+//	return S_OK;
+//}
+
 
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
@@ -143,7 +179,7 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 	if (iLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
-	
+
 	for (auto& Pair : m_pLayers[iLevelIndex])
 		Safe_Release(Pair.second);
 
