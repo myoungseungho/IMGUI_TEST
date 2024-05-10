@@ -17,17 +17,17 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_GamePlay::Initialize()
 {
 	m_iLevelIndex = LEVEL_GAMEPLAY;
-	//return ParseInitialize();
+	return ParseInitialize();
 
 	/*if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;*/
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	/*if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK();
 
@@ -63,7 +63,7 @@ HRESULT CLevel_GamePlay::ParseInitialize()
 {
 
 	vector<FILEDATA>* pvecFileData = reinterpret_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
-
+	size_t totalSize = pvecFileData->size() * sizeof(FILEDATA);
 	for (auto& iter : *pvecFileData)
 	{
 		POSITIONANDSCALE postionAndScale{ iter.position,iter.scale };

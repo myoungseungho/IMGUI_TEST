@@ -35,11 +35,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
-	/*POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
+	/*m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));*/
+	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
 	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));*/
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
 
 	return S_OK;
 }
