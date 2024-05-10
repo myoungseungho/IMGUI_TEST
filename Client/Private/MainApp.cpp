@@ -109,6 +109,37 @@ HRESULT CMainApp::Render()
 			ImGui::EndTabBar(); // 탭 바 종료
 		}
 		ImGui::End();
+
+
+		bool bShowSettings = true;
+		static bool bShowSaveSuccessMessage = false;
+		static bool bShowSaveFailMessage = false;
+		// 새로운 창 추가
+		ImGui::Begin("Settings", &bShowSettings); // "Settings" 창 시작
+		if (ImGui::Button("Save")) { // "Save" 버튼
+			HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"));
+			if (result == S_OK) {
+				bShowSaveSuccessMessage = true;
+				bShowSaveFailMessage = false;
+			}
+			else {
+				bShowSaveFailMessage = true;
+				bShowSaveSuccessMessage = false;
+			}
+		}
+
+		if (bShowSaveSuccessMessage) {
+			ImGui::Text("File saved successfully!");
+		}
+
+		if (bShowSaveFailMessage) {
+			ImGui::Text("Failed to save file!");
+		}
+
+		if (ImGui::Button("Load")) { // "Load" 버튼
+			//LoadSettings();
+		}
+		ImGui::End(); // "Settings" 창 종료
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();

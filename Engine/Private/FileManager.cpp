@@ -1,15 +1,15 @@
 #include "..\Public\FileManager.h"
 #include <sstream>
-CFileManager::CFileManager()
+CFile_Manager::CFile_Manager()
 {
 }
 
-HRESULT CFileManager::Initialize()
+HRESULT CFile_Manager::Initialize()
 {
 	return S_OK;
 }
 
-HRESULT CFileManager::SaveObjects(const wstring& filename)
+HRESULT CFile_Manager::SaveObjects(const wstring& filename)
 {
 	wofstream file(filename);
 	if (!file.is_open()) {
@@ -31,7 +31,7 @@ HRESULT CFileManager::SaveObjects(const wstring& filename)
 	return S_OK;
 }
 
-HRESULT CFileManager::LoadObjects(const wstring& filename)
+HRESULT CFile_Manager::LoadObjects(const wstring& filename)
 {
 	std::wifstream file(filename);
 	if (!file.is_open()) {
@@ -54,7 +54,7 @@ HRESULT CFileManager::LoadObjects(const wstring& filename)
 	return S_OK;
 }
 
-HRESULT CFileManager::ParseLine(const wstring& line, FileData& obj)
+HRESULT CFile_Manager::ParseLine(const wstring& line, FileData& obj)
 {
 	wistringstream iss(line);
 	wstring key;
@@ -95,9 +95,9 @@ HRESULT CFileManager::ParseLine(const wstring& line, FileData& obj)
 		return E_FAIL;
 }
 
-CFileManager* CFileManager::Create()
+CFile_Manager* CFile_Manager::Create()
 {
-	CFileManager* pInstance = new CFileManager();
+	CFile_Manager* pInstance = new CFile_Manager();
 
 	if (FAILED(pInstance->Initialize()))
 	{
@@ -108,7 +108,7 @@ CFileManager* CFileManager::Create()
 	return pInstance;
 }
 
-void CFileManager::Free()
+void CFile_Manager::Free()
 {
 	__super::Free();
 }

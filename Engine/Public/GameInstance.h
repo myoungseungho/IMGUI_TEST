@@ -46,6 +46,9 @@ public: /* For.Component_Manager */
 public: /* For.Renderer */
 	HRESULT Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 
+public: /* For.FileManager */
+	HRESULT SaveObjects(const wstring& filename);
+
 private:
 	class CGraphic_Device*				m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*				m_pLevel_Manager = { nullptr };
@@ -53,6 +56,7 @@ private:
 	class CObject_Manager*				m_pObject_Manager = { nullptr };
 	class CComponent_Manager*			m_pComponent_Manager = { nullptr };
 	class CRenderer*					m_pRenderer = { nullptr };
+	class CFile_Manager*				m_pFileManager = { nullptr };
 
 public:
 	void Release_Engine();

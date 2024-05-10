@@ -5,7 +5,7 @@
 #include "Object_Manager.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
-
+#include "FileManager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -38,6 +38,10 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 
 	m_pTimer_Manager = CTimer_Manager::Create();
 	if (nullptr == m_pTimer_Manager)
+		return E_FAIL;
+
+	m_pFileManager = CFile_Manager::Create();
+	if (nullptr == m_pFileManager)
 		return E_FAIL;
 
 	return S_OK;
@@ -187,6 +191,14 @@ HRESULT CGameInstance::Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, CGa
 		return E_FAIL;
 
 	return m_pRenderer->Add_RenderObject(eRenderGroup, pRenderObject);
+}
+
+HRESULT CGameInstance::SaveObjects(const wstring& filename)
+{
+	if (nullptr == m_pFileManager)
+		return E_FAIL;
+
+	return m_pFileManager->SaveObjects(filename);
 }
 
 void CGameInstance::Release_Engine()

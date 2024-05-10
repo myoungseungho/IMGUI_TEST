@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <algorithm>
+#include <fstream>
 using namespace std;
 
 #include "Engine_Macro.h"
