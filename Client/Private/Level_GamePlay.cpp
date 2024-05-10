@@ -61,8 +61,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::ParseInitialize()
 {
-
-	vector<FILEDATA>* pvecFileData = reinterpret_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
+	vector<FILEDATA>* pvecFileData = static_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
 	size_t totalSize = pvecFileData->size() * sizeof(FILEDATA);
 	for (auto& iter : *pvecFileData)
 	{
