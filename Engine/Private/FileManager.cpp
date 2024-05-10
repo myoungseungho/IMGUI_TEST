@@ -55,14 +55,14 @@ void* CFile_Manager::LoadObjects(const wstring& filename)
 			//라인이 비면, 새로운 블록시 시작된다고 간주하고
 			// 지금까지 파싱한 data 객체를 objects 벡터에 저장한다. 그 후 data 객체 초기화
 			if (line == L"") {
-				objects.push_back(data);
+				m_vecpFileData.push_back(data);
 				data = FILEDATA();
 			}
 		}
 	}
 
 	file.close();
-	return &objects;
+	return &m_vecpFileData;
 }
 
 HRESULT CFile_Manager::ParseLine(const wstring& line, FILEDATA& obj) {
@@ -99,7 +99,7 @@ HRESULT CFile_Manager::ParseLine(const wstring& line, FILEDATA& obj) {
 				obj.scale.y = b;
 				obj.scale.z = c;
 				// Scale을 처리한 후 객체를 저장해야 함
-				objects.push_back(obj); // 데이터 블록 완료
+				m_vecpFileData.push_back(obj); // 데이터 블록 완료
 				obj = FILEDATA(); // 객체 초기화
 			}
 		}

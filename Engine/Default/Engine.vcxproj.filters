@@ -73,6 +73,9 @@
     <Filter Include="01.Utility\98.Files\Manager">
       <UniqueIdentifier>{dc92a54f-61a0-4580-ba51-05c4fc1eda31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\Terrain">
+      <UniqueIdentifier>{a6471453-7bbe-4c0e-bef0-2e6a066a1a1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\FileManager.cpp">
       <Filter>01.Utility\98.Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\FileManager.h">
       <Filter>01.Utility\98.Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

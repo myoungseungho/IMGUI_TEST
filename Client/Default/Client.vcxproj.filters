@@ -49,6 +49,9 @@
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{24d91bed-70bb-479e-a6ef-c6a774315506}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Terrain">
+      <UniqueIdentifier>{d301e9b2-490f-4931-8bc9-efd2be7291fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -120,6 +123,9 @@
     <ClInclude Include="..\Public\Camera.h">
       <Filter>02.GameObjects\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02.GameObjects\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -175,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera.cpp">
       <Filter>02.GameObjects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02.GameObjects\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

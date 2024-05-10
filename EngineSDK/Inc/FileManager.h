@@ -21,7 +21,7 @@ public:
 	void* LoadObjects(const wstring& filename);
 	HRESULT ParseLine(const wstring& line, FILEDATA& obj);
 private:
-	vector<FILEDATA*> m_vecpFileData;
+	vector<FILEDATA> m_vecpFileData;
 
 public:
 	static CFile_Manager* Create();
