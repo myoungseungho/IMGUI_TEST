@@ -50,6 +50,9 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pVertices[5].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[5].vTexcoord = _float2(0.f, 1.f);
 
+
+
+
 	m_pVB->Unlock();
 	
 	

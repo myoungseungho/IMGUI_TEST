@@ -32,8 +32,8 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	/* void**는 오로지 void*형의 주소만 담을 수 있다. */
 	m_pVB->Lock(0, 0, (void**)&pVertices, 0);
 	// 앞면
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.5f);
-	pVertices[0].vTexcoord = _float2(0.0f, 0.f);
+	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
 	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
@@ -41,8 +41,8 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, 0.5f, 0.5f);
-	pVertices[3].vTexcoord = _float2(0.0f, 0.f);
+	pVertices[3].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+	pVertices[3].vTexcoord = _float2(0.f, 0.f);
 
 	pVertices[4].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[4].vTexcoord = _float2(1.f, 1.f);
@@ -65,7 +65,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[10].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[10].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[11].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[11].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[11].vTexcoord = _float2(0.f, 1.f);
 	//뒷면
 	pVertices[12].vPosition = _float3(0.5f, 0.5f, 0.5f);
@@ -74,7 +74,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[13].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[13].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[14].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[14].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[14].vTexcoord = _float2(1.f, 1.f);
 
 	pVertices[15].vPosition = _float3(0.5f, 0.5f, 0.5f);
@@ -86,62 +86,59 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[17].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[17].vTexcoord = _float2(0.f, 1.f);
 	//아래
-	pVertices[18].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[18].vTexcoord = _float2(0.f, 1.f);
+	pVertices[18].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[18].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[19].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[19].vTexcoord = _float2(0.f, 1.f);
+	pVertices[19].vPosition = _float3(0.5f, -0.5f, -0.5f);
+	pVertices[19].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[20].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[20].vTexcoord = _float2(0.f, 1.f);
+	pVertices[20].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[20].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[21].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[21].vTexcoord = _float2(0.f, 1.f);
+	pVertices[21].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[21].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[22].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[22].vTexcoord = _float2(0.f, 1.f);
+	pVertices[22].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[22].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[23].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[23].vTexcoord = _float2(0.f, 1.f);
+	//왼쪽
+	pVertices[24].vPosition = _float3(-0.5f, 0.5f, 0.5f);
+	pVertices[24].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[24].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[24].vTexcoord = _float2(0.f, 1.f);
+	pVertices[25].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+	pVertices[25].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[25].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[25].vTexcoord = _float2(0.f, 1.f);
+	pVertices[26].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[26].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[26].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[26].vTexcoord = _float2(0.f, 1.f);
+	pVertices[27].vPosition = _float3(-0.5f, 0.5f, 0.5f);
+	pVertices[27].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[27].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[27].vTexcoord = _float2(0.f, 1.f);
+	pVertices[28].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[28].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[28].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[28].vTexcoord = _float2(0.f, 1.f);
-
-	pVertices[29].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[29].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[29].vTexcoord = _float2(0.f, 1.f);
+	//오른쪽
+	pVertices[30].vPosition = _float3(0.5f, 0.5f, -0.5f);
+	pVertices[30].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[30].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[30].vTexcoord = _float2(0.f, 1.f);
+	pVertices[31].vPosition = _float3(0.5f, 0.5f, 0.5f);
+	pVertices[31].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[31].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[31].vTexcoord = _float2(0.f, 1.f);
+	pVertices[32].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[32].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[32].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[32].vTexcoord = _float2(0.f, 1.f);
+	pVertices[33].vPosition = _float3(0.5f, 0.5f, -0.5f);
+	pVertices[33].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[33].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[33].vTexcoord = _float2(0.f, 1.f);
+	pVertices[34].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[34].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[34].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[34].vTexcoord = _float2(0.f, 1.f);
-
-	pVertices[35].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[35].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[35].vTexcoord = _float2(0.f, 1.f);
-
-	pVertices[36].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[36].vTexcoord = _float2(0.f, 1.f);
 
 
 

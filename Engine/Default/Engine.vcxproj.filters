@@ -76,6 +76,9 @@
     <Filter Include="01.Utility\04.Components\Collision">
       <UniqueIdentifier>{69ce34b1-9fef-4d27-a128-ce2a149be3e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\Cube">
+      <UniqueIdentifier>{3d1f37b8-3e4e-483a-b5a6-24f03c5e5bef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -137,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collision.cpp">
       <Filter>01.Utility\04.Components\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Collision.h">
       <Filter>01.Utility\04.Components\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -73,7 +73,10 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferRectCom->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCubeCom->Render()))
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -89,7 +92,12 @@ HRESULT CPlayer::Ready_Components()
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		TEXT("Com_VIBuffer_Cube"), reinterpret_cast<CComponent**>(&m_pVIBufferCubeCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -181,7 +189,9 @@ void CPlayer::Free()
 
 	Safe_Release(m_pTransformCom);
 
-	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pVIBufferRectCom);
+
+	Safe_Release(m_pVIBufferCubeCom);
 
 	Safe_Release(m_pTextureCom);
 

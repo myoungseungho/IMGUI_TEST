@@ -9,7 +9,9 @@ class CTexture;
 class CTransform;
 class CComponent;
 class CVIBuffer_Rect;
+class CVIBuffer_Cube;
 class CKeyState;
+
 END
 
 BEGIN(Client)
@@ -32,7 +34,8 @@ public:
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CVIBuffer_Rect*		m_pVIBufferRectCom = { nullptr };
+	CVIBuffer_Cube*		m_pVIBufferCubeCom = { nullptr };
 	CKeyState*				m_pKeyCom = { nullptr };
 
 private:
