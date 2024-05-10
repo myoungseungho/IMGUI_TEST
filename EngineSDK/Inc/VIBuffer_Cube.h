@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class ENGINDE_DLL CVIBuffer_Cube final :public CVIBuffer
+class ENGINE_DLL CVIBuffer_Cube final : public CVIBuffer
 {
 private:
 	CVIBuffer_Cube(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -92,7 +92,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -101,7 +101,10 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
+	//if (FAILED(m_pVIBufferCom->Render()))
+		//return E_FAIL;
+
+	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -119,6 +122,13 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
+
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom))))
+		return E_FAIL;
+
+	
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
@@ -166,6 +176,7 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pColliderCom);
 
 	Safe_Release(m_pTextureCom);
 }

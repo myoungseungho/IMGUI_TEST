@@ -124,7 +124,8 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
-	
+
+  	
 
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
