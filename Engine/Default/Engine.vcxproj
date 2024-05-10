@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Calc_Timer.cpp" />
+    <ClCompile Include="..\private\Collider.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\Component_Manager.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
@@ -182,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\public\Calc_Timer.h" />
+    <ClInclude Include="..\public\Collider.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\Component_Manager.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />

@@ -101,8 +101,8 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	//if (FAILED(m_pVIBufferCom->Render()))
-		//return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 
 	if (FAILED(m_pColliderCom->Render()))
 		return E_FAIL;
