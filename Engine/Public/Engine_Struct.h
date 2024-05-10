@@ -19,4 +19,10 @@ namespace Engine
 		_float3 position;
 		_float3 scale;
 	}FILEDATA;
+
+	typedef struct  
+	{
+		_float3 position;
+		_float3 scale;
+	}POSITIONANDSCALE;
 }

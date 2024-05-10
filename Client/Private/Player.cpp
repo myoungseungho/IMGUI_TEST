@@ -14,7 +14,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CPlayer::CPlayer(const CPlayer & Prototype)
+CPlayer::CPlayer(const CPlayer& Prototype)
 	: CGameObject{ Prototype }
 {
 }
@@ -27,7 +27,7 @@ HRESULT CPlayer::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CPlayer::Initialize(void * pArg)
+HRESULT CPlayer::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -35,11 +35,11 @@ HRESULT CPlayer::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
-
-	
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
+	/*POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
+	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));*/
 
 	return S_OK;
 }
@@ -62,8 +62,8 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 		m_pTransformCom->Go_Backward(fTimeDelta);
-	
-	
+
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -111,13 +111,13 @@ HRESULT CPlayer::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 
-CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPlayer*		pInstance = new CPlayer(pGraphic_Device);
+	CPlayer* pInstance = new CPlayer(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -129,9 +129,9 @@ CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CPlayer::Clone(void * pArg)
+CGameObject* CPlayer::Clone(void* pArg)
 {
-	CPlayer*		pInstance = new CPlayer(*this);
+	CPlayer* pInstance = new CPlayer(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
