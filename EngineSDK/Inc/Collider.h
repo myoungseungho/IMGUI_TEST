@@ -16,11 +16,14 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
-	virtual HRESULT Render(CVIBuffer_Cube* pCube);
+	virtual HRESULT Render(CVIBuffer_Cube** ppCube);
 
 private:
 	void Begin_Render();
 	void End_Render();
+
+private:
+	CVIBuffer_Cube* m_pColliderBuffer;
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
