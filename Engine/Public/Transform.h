@@ -40,6 +40,9 @@ public:
 			D3DXVec3Length(&Get_State(STATE_LOOK)));
 	}
 
+	_float4x4 Get_WorldMatrix() {
+		return m_WorldMatrix;
+	}
 
 	_float4x4 Get_WorldMatrixInverse() {
 		_float4x4	WorldMatrixInv = {};

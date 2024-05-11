@@ -62,6 +62,7 @@ HRESULT CTerrain::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	return S_OK;

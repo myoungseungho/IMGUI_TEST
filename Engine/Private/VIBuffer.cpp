@@ -31,7 +31,7 @@ HRESULT CVIBuffer::Initialize_Prototype()
 HRESULT CVIBuffer::Initialize(void * pArg)
 {
 	return S_OK;
-}
+}-
 
 HRESULT CVIBuffer::Render()
 {
@@ -39,8 +39,7 @@ HRESULT CVIBuffer::Render()
 	m_pGraphic_Device->SetFVF(m_dwFVF);
 	m_pGraphic_Device->SetIndices(m_pIB);
 
-	m_pGraphic_Device->DrawPrimitive(m_PrimitiveType, 0, m_iNumPrimitive);
-
+	m_pGraphic_Device->DrawIndexedPrimitive(m_PrimitiveType, 0, 0, m_iNumVertices, 0, m_iNumPrimitive);
 	return S_OK;
 }
 
