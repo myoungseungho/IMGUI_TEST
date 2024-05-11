@@ -118,14 +118,19 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Terrain/Tile0.jpg"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Terrain/Orgu_Terrain_0.png"), 1))))
 		return E_FAIL;
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 	/* For.Prototype_Component_VIBuffer_Terrain */
+	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Terrain/PlaneHeight.bmp")))))
+		return E_FAIL;*/
+
+	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 10,10))))
 		return E_FAIL;
 
 
