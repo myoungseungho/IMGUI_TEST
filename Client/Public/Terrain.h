@@ -30,7 +30,7 @@ public:
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer*	m_pVIBufferCom = { nullptr };
+	CVIBuffer_Terrain*	m_pVIBufferCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
