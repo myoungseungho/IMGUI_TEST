@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CTree::CTree(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CTree::CTree(const CTree& Prototype)
-	: CLandObject{ Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -29,8 +29,12 @@ HRESULT CTree::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+	/*m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));*/
+
+	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
+	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
 
 	return S_OK;
 }
@@ -41,7 +45,6 @@ void CTree::Priority_Update(_float fTimeDelta)
 
 void CTree::Update(_float fTimeDelta)
 {
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
 }
 
 void CTree::Late_Update(_float fTimeDelta)
@@ -126,7 +129,6 @@ void CTree::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

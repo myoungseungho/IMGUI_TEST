@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "LandObject.h"
+#include "GameObject.h"
 
 
 BEGIN(Engine)
@@ -12,13 +12,8 @@ END
 
 BEGIN(Client)
 
-class CTree final : public CLandObject
+class CTree final : public CGameObject
 {	
-public:
-	typedef struct : public CLandObject::LANDOBJECT_DESC
-	{
-		CTransform* pTargetTransform = { nullptr };
-	}MONSTER_DESC;
 private:
 	CTree(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CTree(const CTree& Prototype); /* 사본생성 시 */
@@ -38,13 +33,7 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 
 private:
-	CTransform*			m_pTargetTransform = { nullptr };
-
-
-private:
 	HRESULT Ready_Components();
-
-
 
 public:
 	/* 원형객체를 생성한다. */

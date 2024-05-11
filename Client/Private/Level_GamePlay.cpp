@@ -25,13 +25,20 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
-	//return ParseInitialize();
+	if (FAILED(ParseInitialize()))
+		return E_FAIL;
+
+	/*for (size_t i = 0; i < 15; i++)
+	{
+		if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"))))
+			return E_FAIL;
+	}*/
 
 	return S_OK();
-
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
@@ -73,8 +80,7 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"), Desc)))
 		return E_FAIL;*/
 
-	if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"), Desc)))
-		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -121,9 +127,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag, CLandO
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Tree(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_GamePlay::Ready_Layer_Tree(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Tree"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Tree"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
