@@ -31,7 +31,6 @@ public:
 private:
 	virtual HRESULT Ready_Components();
 	HRESULT  KeyInput();
-	HRESULT	 DeleteBullet(_float fTimeDelta);
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };

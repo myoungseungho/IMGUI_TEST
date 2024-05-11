@@ -8,6 +8,5 @@ namespace Engine
 	{
 		D3DXVECTOR3		vPosition;
 		D3DXVECTOR2		vTexcoord;
-		D3DCOLOR		vColor;
 	}VTXPOSTEX;
 }

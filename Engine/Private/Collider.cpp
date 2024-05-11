@@ -21,15 +21,13 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CCollider::Render(CVIBuffer_Cube** ppCube)
+HRESULT CCollider::Render()
 {
 	Begin_Render();
 
-
-	if (FAILED((*ppCube)->Render()))
+	if (__super::Render())
 		return E_FAIL;
 	  
-		
 	End_Render();
 
 	return S_OK;

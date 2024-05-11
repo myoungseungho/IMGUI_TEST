@@ -113,19 +113,6 @@ HRESULT CBoss_Bug::KeyInput()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::DeleteBullet(_float fTimeDelta)
-{
-	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-	{
-		if (FAILED(m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"), m_iBulletCnt)))
-			E_FAIL;
-		else
-			++m_iBulletCnt;	
-	}*/
-
-	return S_OK;
-}
-
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CBoss_Bug* pInstance = new CBoss_Bug(pGraphic_Device);

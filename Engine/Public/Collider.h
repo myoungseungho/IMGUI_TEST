@@ -16,7 +16,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
-	virtual HRESULT Render(CVIBuffer_Cube** ppCube);
+	virtual HRESULT Render();
 
 private:
 	void Begin_Render();
