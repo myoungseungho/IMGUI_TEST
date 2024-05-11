@@ -435,7 +435,6 @@ HRESULT CMainApp::Load_Button_Pressed()
 	return E_NOTIMPL;
 }
 
-
 HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 {
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();

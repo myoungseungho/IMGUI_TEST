@@ -55,8 +55,11 @@
     <Filter Include="02.GameObjects\LandObject\Player">
       <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\LandObject\Building">
+    <Filter Include="02.GameObjects\LandObject\StaticObject">
       <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\StaticObject\Grass">
+      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +138,9 @@
     <ClInclude Include="..\Public\LandObject.h">
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Grass.h">
+      <Filter>02.GameObjects\LandObject\StaticObject\Grass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -196,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\LandObject.cpp">
       <Filter>02.GameObjects\LandObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Grass.cpp">
+      <Filter>02.GameObjects\LandObject\StaticObject\Grass</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
