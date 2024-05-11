@@ -126,13 +126,13 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pIndices[29] = 2;
 
 	//¾Õ¸é
-	pIndices[30] = 4;
-	pIndices[31] = 0;
-	pIndices[32] = 3;
+	pIndices[0] = 4;
+	pIndices[1] = 0;
+	pIndices[2] = 3;
 
-	pIndices[33] = 4;
-	pIndices[34] = 3;
-	pIndices[35] = 7;
+	pIndices[3] = 4;
+	pIndices[4] = 3;
+	pIndices[5] = 7;
 
 	m_pIB->Unlock();
 
@@ -145,11 +145,11 @@ HRESULT CVIBuffer_Cube::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Cube::Render()
-{
-	//m_pGraphic_Device->
-	return S_OK;
-}
+//HRESULT CVIBuffer_Cube::Render()
+//{
+//	//m_pGraphic_Device->
+//	return S_OK;
+//}
 
 CVIBuffer_Cube* CVIBuffer_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

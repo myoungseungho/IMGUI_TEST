@@ -101,10 +101,10 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	/*if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;*/
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 
-	if (FAILED(m_pColliderCom->Render(m_pVIBufferCube_Com))) 
+ 	if (FAILED(m_pColliderCom->Render(m_pVIBufferCube_Com)))
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
