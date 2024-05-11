@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Grass.h"
+#include "..\Public\Tree.h"
 
 #include "GameInstance.h"
 
-CGrass::CGrass(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+CTree::CTree(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CLandObject{ pGraphic_Device }
 {
 }
 
-CGrass::CGrass(const CGrass& Prototype)
-	: CGameObject{ Prototype }
+CTree::CTree(const CTree& Prototype)
+	: CLandObject{ Prototype }
 {
 }
 
-HRESULT CGrass::Initialize_Prototype()
+HRESULT CTree::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,48 +21,35 @@ HRESULT CGrass::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CGrass::Initialize(void * pArg)
+HRESULT CTree::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	MONSTER_DESC*		pDesc = static_cast<MONSTER_DESC*>(pArg);
-
-	m_pTargetTransform = pDesc->pTargetTransform;
-	Safe_AddRef(m_pTargetTransform);
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
-	
+
 	return S_OK;
 }
 
-void CGrass::Priority_Update(_float fTimeDelta)
+void CTree::Priority_Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
-void CGrass::Update(_float fTimeDelta)
+void CTree::Update(_float fTimeDelta)
 {
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
-	m_pTransformCom->Chase(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 1.f);
+	SetUp_OnTerrain(m_pTransformCom, 0.f);
 }
 
-void CGrass::Late_Update(_float fTimeDelta)
+void CTree::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	int a = 10;
 }
 
-HRESULT CGrass::Render()
+HRESULT CTree::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -84,10 +71,10 @@ HRESULT CGrass::Render()
 	return S_OK;
 }
 
-HRESULT CGrass::Ready_Components()
+HRESULT CTree::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Tree"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -108,13 +95,13 @@ HRESULT CGrass::Ready_Components()
 	return S_OK;
 }
 
-CGrass* CGrass::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTree* CTree::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CGrass*		pInstance = new CGrass(pGraphic_Device);
+	CTree* pInstance = new CTree(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CGrass"));
+		MSG_BOX(TEXT("Failed to Created : CTree"));
 		Safe_Release(pInstance);
 	}
 
@@ -122,20 +109,20 @@ CGrass* CGrass::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CGrass::Clone(void * pArg)
+CGameObject* CTree::Clone(void* pArg)
 {
-	CGrass*		pInstance = new CGrass(*this);
+	CTree* pInstance = new CTree(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CGrass"));
+		MSG_BOX(TEXT("Failed to Cloned : CTree"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CGrass::Free()
+void CTree::Free()
 {
 	__super::Free();
 

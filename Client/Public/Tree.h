@@ -12,7 +12,7 @@ END
 
 BEGIN(Client)
 
-class CGrass final : public CGameObject
+class CTree final : public CLandObject
 {	
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
@@ -20,9 +20,9 @@ public:
 		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 private:
-	CGrass(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CGrass(const CGrass& Prototype); /* 사본생성 시 */
-	virtual ~CGrass() = default;
+	CTree(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CTree(const CTree& Prototype); /* 사본생성 시 */
+	virtual ~CTree() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -48,7 +48,7 @@ private:
 
 public:
 	/* 원형객체를 생성한다. */
-	static CGrass* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CTree* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

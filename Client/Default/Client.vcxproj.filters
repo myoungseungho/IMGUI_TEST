@@ -138,7 +138,7 @@
     <ClInclude Include="..\Public\LandObject.h">
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Grass.h">
+    <ClInclude Include="..\Public\Tree.h">
       <Filter>02.GameObjects\LandObject\StaticObject\Grass</Filter>
     </ClInclude>
   </ItemGroup>
@@ -203,7 +203,7 @@
     <ClCompile Include="..\Private\LandObject.cpp">
       <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Grass.cpp">
+    <ClCompile Include="..\Private\Tree.cpp">
       <Filter>02.GameObjects\LandObject\StaticObject\Grass</Filter>
     </ClCompile>
   </ItemGroup>

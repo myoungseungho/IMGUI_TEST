@@ -161,7 +161,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\Public\Grass.h" />
+    <ClInclude Include="..\Public\Tree.h" />
     <ClInclude Include="..\Public\imconfig.h" />
     <ClInclude Include="..\Public\imgui.h" />
     <ClInclude Include="..\Public\imgui_impl_dx9.h" />
@@ -187,7 +187,7 @@
   <ItemGroup>
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
-    <ClCompile Include="..\Private\Grass.cpp" />
+    <ClCompile Include="..\Private\Tree.cpp" />
     <ClCompile Include="..\Private\imgui.cpp" />
     <ClCompile Include="..\Private\imgui_demo.cpp" />
     <ClCompile Include="..\Private\imgui_draw.cpp" />
