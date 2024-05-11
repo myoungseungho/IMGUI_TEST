@@ -5,7 +5,7 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain & Prototype)
+CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& Prototype)
 	: CVIBuffer{ Prototype }
 	, m_iNumVerticesX{ Prototype.m_iNumVerticesX }
 	, m_iNumVerticesZ{ Prototype.m_iNumVerticesZ }
@@ -14,6 +14,11 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain & Prototype)
 
 HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ)
 {
+	m_iNumVerticesX = iNumVerticesX;
+	m_iNumVerticesZ = iNumVerticesZ;
+
+	/* 네모를 구성하기위한 정점들을 생성한다. */
+	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
 	/* 네모를 구성하기위한 정점들을 생성한다. */
 	m_iNumVertices = iNumVerticesX * iNumVerticesZ;
 	m_iVertexStride = sizeof(VTXPOSTEX);
@@ -31,7 +36,10 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 		return E_FAIL;
 
 	/* 공간에 값을 채우기위한 작업을 수행해야한다. */
-	VTXPOSTEX*		pVertices = { nullptr };
+	VTXPOSTEX* pVertices = { nullptr };
+
+	m_pVerticesPos = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVerticesPos, sizeof(_float3) * m_iNumVertices);
 
 	/* void** <- void** */
 	/* void*는 모든 주소를 다 담을 수 있는것이 맞지만, */
@@ -44,7 +52,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 		{
 			_uint		iIndex = i * iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3(j, 0.0f, i);
+			pVertices[iIndex].vPosition = m_pVerticesPos[iIndex] = _float3(j, 0.0f, i);
 			pVertices[iIndex].vTexcoord = _float2(j / (iNumVerticesX - 1.f) * 50.f, i / (iNumVerticesZ - 1.f) * 50.f);
 		}
 	}
@@ -55,7 +63,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 		, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
 		return E_FAIL;
 
-	_uint*			pIndices = { nullptr };
+	_uint* pIndices = { nullptr };
 
 	_uint			iNumIndices = { 0 };
 
@@ -68,9 +76,9 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 			_uint		iIndex = i * iNumVerticesX + j;
 
 			_uint		iIndices[4] = {
-				iIndex + iNumVerticesX, 
-				iIndex + iNumVerticesX + 1, 
-				iIndex + 1, 
+				iIndex + iNumVerticesX,
+				iIndex + iNumVerticesX + 1,
+				iIndex + 1,
 				iIndex
 			};
 
@@ -87,11 +95,11 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 
 	m_pIB->Unlock();
-	
+
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePath)
+HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar* pHeightMapFilePath)
 {
 	_ulong		dwByte = { 0 };
 	HANDLE		hFile = CreateFile(pHeightMapFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -100,13 +108,13 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePat
 
 	BITMAPFILEHEADER			fh;
 	BITMAPINFOHEADER			ih;
-	_uint*						pPixel = { nullptr };
+	_uint* pPixel = { nullptr };
 
 	ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr);
 	ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr);
 
 	pPixel = new _uint[ih.biWidth * ih.biHeight];
-	
+
 	ReadFile(hFile, pPixel, sizeof(_uint) * ih.biWidth * ih.biHeight, &dwByte, nullptr);
 
 	CloseHandle(hFile);
@@ -131,7 +139,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePat
 		return E_FAIL;
 
 	/* 공간에 값을 채우기위한 작업을 수행해야한다. */
-	VTXPOSTEX*		pVertices = { nullptr };
+	VTXPOSTEX* pVertices = { nullptr };
 
 	m_pVerticesPos = new _float3[m_iNumVertices];
 	ZeroMemory(m_pVerticesPos, sizeof(_float3) * m_iNumVertices);
@@ -141,11 +149,11 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePat
 	/* void**는 오로지 void*형의 주소만 담을 수 있다. */
 	m_pVB->Lock(0, 0, (void**)&pVertices, 0);
 
-//	11111111 10111011 10111011 10111011
-//
-//&	00000000 00000000 00000000 11111111
-//
-//	00000000 00000000 00000000 10111011
+	//	11111111 10111011 10111011 10111011
+	//
+	//&	00000000 00000000 00000000 11111111
+	//
+	//	00000000 00000000 00000000 10111011
 
 	for (size_t i = 0; i < m_iNumVerticesZ; i++)
 	{
@@ -164,7 +172,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePat
 		, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
 		return E_FAIL;
 
-	_uint*			pIndices = { nullptr };
+	_uint* pIndices = { nullptr };
 
 	_uint			iNumIndices = { 0 };
 
@@ -201,12 +209,12 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(const _tchar * pHeightMapFilePat
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Terrain::Initialize(void * pArg)
+HRESULT CVIBuffer_Terrain::Initialize(void* pArg)
 {
 	return S_OK;
 }
 
-_float CVIBuffer_Terrain::Compute_Height(const _float3 & vPosition)
+_float CVIBuffer_Terrain::Compute_Height(const _float3& vPosition)
 {
 	/* 1. 어떤 삼각형안에 있는지를 구한다. */
 	/* 1-1. 어떤 네모안에 있는지?! */
@@ -241,9 +249,9 @@ _float CVIBuffer_Terrain::Compute_Height(const _float3 & vPosition)
 	return (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b;
 }
 
-CVIBuffer_Terrain * CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ)
+CVIBuffer_Terrain* CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ)
 {
-	CVIBuffer_Terrain*		pInstance = new CVIBuffer_Terrain(pGraphic_Device);
+	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype(iNumVerticesX, iNumVerticesZ)))
 	{
@@ -254,10 +262,10 @@ CVIBuffer_Terrain * CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device,
 	return pInstance;
 }
 
-CVIBuffer_Terrain * CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar * pHeightMapFilePath)
+CVIBuffer_Terrain* CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pHeightMapFilePath)
 {
 
-	CVIBuffer_Terrain*		pInstance = new CVIBuffer_Terrain(pGraphic_Device);
+	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype(pHeightMapFilePath)))
 	{
@@ -269,9 +277,9 @@ CVIBuffer_Terrain * CVIBuffer_Terrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device,
 }
 
 
-CComponent * CVIBuffer_Terrain::Clone(void * pArg)
+CComponent* CVIBuffer_Terrain::Clone(void* pArg)
 {
-	CVIBuffer_Terrain*		pInstance = new CVIBuffer_Terrain(*this);
+	CVIBuffer_Terrain* pInstance = new CVIBuffer_Terrain(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

@@ -7,6 +7,7 @@
 #include "..\Public\Level_GamePlay.h"
 
 #include "GameInstance.h"
+#include "LandObject.h"
 #include "Monster.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -20,12 +21,11 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
-	//if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-	//	return E_FAIL;
-	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
 	//return ParseInitialize();
@@ -61,6 +61,21 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_LandObjects()
+{
+	CLandObject::LANDOBJECT_DESC	Desc{};
+
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
+		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"), Desc)))
+		return E_FAIL;*/
+
+	return S_OK;
+}
+
 HRESULT CLevel_GamePlay::ParseInitialize()
 {
 	vector<FILEDATA>* pvecFileData = static_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
@@ -75,24 +90,34 @@ HRESULT CLevel_GamePlay::ParseInitialize()
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
+
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
 
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
-		return E_FAIL;
+	MonsterDesc.m_pTerrainTransform = Desc.m_pTerrainTransform;
+	MonsterDesc.m_pTerrainBuffer = Desc.m_pTerrainBuffer;
+
+	for (size_t i = 0; i < 30; i++)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
+			return E_FAIL;
+	}
+
+
 
 	return S_OK;
 }
+
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

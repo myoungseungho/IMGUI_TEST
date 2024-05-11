@@ -13,19 +13,23 @@ CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect & Prototype)
 HRESULT CVIBuffer_Rect::Initialize_Prototype()
 {
 	/* 네모를 구성하기위한 정점들을 생성한다. */
-	m_iNumVertices = 6;
+	m_iNumVertices = 4;
 	m_iVertexStride = sizeof(VTXPOSTEX);
 	// m_dwFVF = D3DFVF_XYZ | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE3(1);
 	m_dwFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2(0);
 	m_PrimitiveType = D3DPT_TRIANGLELIST;
 	m_iNumPrimitive = 2;
 
+	m_iIndexStride = 2;
+	m_iNumIndices = 6;
+	m_eIndexFormat = D3DFMT_INDEX16;
+
 	/* 정점배열에 대한 공간을 모두 생성했다. */
 	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_dwFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
 		return E_FAIL;
 
 	/* 공간에 값을 채우기위한 작업을 수행해야한다. */
-	VTXPOSTEX*		pVertices = { nullptr };
+	VTXPOSTEX* pVertices = { nullptr };
 
 	/* void** <- void** */
 	/* void*는 모든 주소를 다 담을 수 있는것이 맞지만, */
@@ -41,18 +45,29 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, 0.5f, 0.f);
-	pVertices[3].vTexcoord = _float2(0.0f, 0.f);
-
-	pVertices[4].vPosition = _float3(0.5f, -0.5f, 0.f);
-	pVertices[4].vTexcoord = _float2(1.f, 1.f);
-
-	pVertices[5].vPosition = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[5].vTexcoord = _float2(0.f, 1.f);
+	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
 	m_pVB->Unlock();
-	
-	
+
+	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices
+		, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
+		return E_FAIL;
+
+	_ushort* pIndices = { nullptr };
+
+	m_pIB->Lock(0, 0, (void**)&pIndices, 0);
+
+	pIndices[0] = 0;
+	pIndices[1] = 1;
+	pIndices[2] = 2;
+
+	pIndices[3] = 0;
+	pIndices[4] = 2;
+	pIndices[5] = 3;
+
+	m_pIB->Unlock();
+
 	return S_OK;
 }
 

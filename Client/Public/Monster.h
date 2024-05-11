@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "LandObject.h"
+
 
 BEGIN(Engine)
 class CTexture;
@@ -14,7 +15,7 @@ BEGIN(Client)
 class CMonster final : public CGameObject
 {	
 public:
-	typedef struct
+	typedef struct : public CLandObject::LANDOBJECT_DESC
 	{
 		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;

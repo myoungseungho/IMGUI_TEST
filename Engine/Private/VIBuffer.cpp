@@ -31,7 +31,7 @@ HRESULT CVIBuffer::Initialize_Prototype()
 HRESULT CVIBuffer::Initialize(void * pArg)
 {
 	return S_OK;
-}-
+}
 
 HRESULT CVIBuffer::Render()
 {

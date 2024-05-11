@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "LandObject.h"
+
 
 BEGIN(Engine)
 class CTexture;
@@ -12,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CGameObject
+class CPlayer final : public CLandObject
 {	
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */

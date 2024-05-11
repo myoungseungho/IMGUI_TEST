@@ -31,12 +31,6 @@
     <Filter Include="02.GameObjects\BackGround">
       <UniqueIdentifier>{00b0977b-28d1-4d3e-8c7e-eaba26c2ab85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player">
-      <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster">
-      <UniqueIdentifier>{b582b878-7d24-4112-912e-1f594742f5e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Imgui">
       <UniqueIdentifier>{54738d0b-dec9-4d92-945a-87529e336b85}</UniqueIdentifier>
     </Filter>
@@ -51,6 +45,18 @@
     </Filter>
     <Filter Include="02.GameObjects\Terrain">
       <UniqueIdentifier>{d301e9b2-490f-4931-8bc9-efd2be7291fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject">
+      <UniqueIdentifier>{4decf3b6-23c4-486f-8c1f-d51fe47bf50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster">
+      <UniqueIdentifier>{b582b878-7d24-4112-912e-1f594742f5e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Player">
+      <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Building">
+      <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,10 +97,10 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
-      <Filter>02.GameObjects\Player</Filter>
+      <Filter>02.GameObjects\LandObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monster.h">
-      <Filter>02.GameObjects\Monster</Filter>
+      <Filter>02.GameObjects\LandObject\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\imstb_rectpack.h">
       <Filter>97. Imgui\h</Filter>
@@ -126,6 +132,9 @@
     <ClInclude Include="..\Public\Terrain.h">
       <Filter>02.GameObjects\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\LandObject.h">
+      <Filter>02.GameObjects\LandObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -153,10 +162,10 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
-      <Filter>02.GameObjects\Player</Filter>
+      <Filter>02.GameObjects\LandObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monster.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
+      <Filter>02.GameObjects\LandObject\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\imgui.cpp">
       <Filter>97. Imgui\cpp</Filter>
@@ -184,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Terrain.cpp">
       <Filter>02.GameObjects\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LandObject.cpp">
+      <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

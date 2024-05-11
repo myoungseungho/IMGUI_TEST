@@ -10,12 +10,12 @@
 #include "GameInstance.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CLandObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CGameObject{ Prototype }
+	: CLandObject{ Prototype }
 {
 }
 
@@ -35,11 +35,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	/*m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));*/
-	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
+
+	/*POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
 	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));*/
 
 	return S_OK;
 }
@@ -51,6 +52,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	SetUp_OnTerrain(m_pTransformCom, 0.f);
+
 	if (GetKeyState(VK_UP) & 0x8000)
 		m_pTransformCom->Go_Straight(fTimeDelta);
 
@@ -75,6 +78,8 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
+	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
