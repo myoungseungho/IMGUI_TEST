@@ -16,6 +16,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render();
 
+
 public:
 	static CVIBuffer_Cube* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;

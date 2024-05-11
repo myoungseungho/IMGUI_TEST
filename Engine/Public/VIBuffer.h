@@ -36,6 +36,7 @@ protected:
 	_uint								m_iNumIndices = { 0 };
 	D3DFORMAT							m_eIndexFormat = {};
 
+
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 	virtual void Free() override;

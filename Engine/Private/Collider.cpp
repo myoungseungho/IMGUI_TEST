@@ -24,15 +24,18 @@ HRESULT CCollider::Render(CVIBuffer_Cube* pCube)
 {
 	Begin_Render();
 
-	if (FAILED(__super::Render()));
+	if (FAILED(__super::Render()))
+		return E_FAIL;
 
 	End_Render();
+
+	return S_OK;
 }
 
 void CCollider::Begin_Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 void CCollider::End_Render()

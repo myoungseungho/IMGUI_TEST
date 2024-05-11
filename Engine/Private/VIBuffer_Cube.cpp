@@ -16,7 +16,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	m_iNumVertices = 8;
 	m_iVertexStride = sizeof(VTXPOSTEX);
 	// m_dwFVF = D3DFVF_XYZ | D3DFVF_TEX2 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_TEXCOORDSIZE3(1);
-	m_dwFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2(0);
+	m_dwFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE2(0) | D3DFVF_DIFFUSE;
 	m_PrimitiveType = D3DPT_TRIANGLELIST;
 	m_iNumPrimitive = 12;
 
@@ -39,27 +39,35 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	pVertices[0].vPosition = _float3(-0.5f, -0.5f, -0.5f);
 	pVertices[0].vTexcoord = _float2(0.0f, 0.f);
+	pVertices[0].vColor = RED;
 
 	pVertices[1].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[1].vTexcoord = _float2(0.f, 1.f);
+	pVertices[1].vColor = RED;
 
 	pVertices[2].vPosition = _float3(0.5f, 0.5f, -0.5f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
+	pVertices[2].vColor = RED;
 
 	pVertices[3].vPosition = _float3(0.5f, -0.5f, -0.5f);
 	pVertices[3].vTexcoord = _float2(1.0f, 0.f);
+	pVertices[3].vColor = RED;
 
 	pVertices[4].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[4].vTexcoord = _float2(0.0f, 0.f);
+	pVertices[4].vColor = RED;
 
 	pVertices[5].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[5].vTexcoord = _float2(0.f, 1.f);
+	pVertices[5].vColor = RED;
 
 	pVertices[6].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[6].vTexcoord = _float2(1.f, 1.f);
+	pVertices[6].vColor = RED;
 
 	pVertices[7].vPosition = _float3(0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float2(1.0f, 0.f);
+	pVertices[7].vColor = RED;
 
 
 	m_pVB->Unlock();
