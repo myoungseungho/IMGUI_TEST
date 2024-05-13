@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "Collider.h"
 
 /* 1. 화면에 그려야할 객체들을 그리는 순서대로 보관한다. */
 /* 2. 보관하고 있는 객체들의 렌더함수를 호출한다.(렌더콜) */
@@ -23,7 +24,7 @@ public:
 	HRESULT Check_Collison(_float);
 
 private:
-	list<class CGameObject*>			m_ColliderObjects[CG_END];
+	list<class CCollider*>			m_Colliders[CG_END];
 
 public:
 	static CCollider_Manager* Create();
