@@ -41,9 +41,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster_Turtle(TEXT("Layer_Monster_Turtle"))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -105,18 +102,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Monster_Turtle(const _wstring& strLayerTag)
-{
-	CMonster::MONSTER_DESC Monster_Desc{};
-
-	Monster_Desc.iHp = 10;
-	Monster_Desc.iAttack = 1;
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), strLayerTag, &Monster_Desc)))
-		return E_FAIL;
-
-	return S_OK;
-}
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 {

@@ -22,7 +22,6 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Boss_Bug(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Boss_Koofu(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Monster_Turtle(const _wstring& strLayerTag);
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

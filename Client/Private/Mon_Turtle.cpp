@@ -42,6 +42,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 
 void CMon_Turtle::Update(_float fTimeDelta)
 {
+	
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)

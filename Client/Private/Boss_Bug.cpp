@@ -32,6 +32,8 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	Turtle_Create();
+
 	return S_OK;
 }
 
@@ -146,6 +148,16 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	}
 	else 
 		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+}
+
+HRESULT CBoss_Bug::Turtle_Create()
+{
+	
+	m_tTurtleDesc.iHp = 10;
+	m_tTurtleDesc.iHp = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &m_tTurtleDesc)))
+		return E_FAIL;
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
