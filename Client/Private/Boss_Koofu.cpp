@@ -111,7 +111,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 
 HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('3') || m_isScale)
+	if (m_pKeyCom->Key_Down('4') || m_isScale)
 	{
 		m_isScale = true;
 		ScaleUp(fTimeDelta);
@@ -122,7 +122,7 @@ HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (m_pTimerCom->Timer_Update(fTimeDelta, 3.5f))
+	if (m_pTimerCom->Time_Update(fTimeDelta, 3.5f))
 		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fScaleTimer + 1));
 }
 

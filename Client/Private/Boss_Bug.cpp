@@ -120,12 +120,17 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 		Dash(fTimeDelta);
 	}
 
+	if (m_pKeyCom->Key_Down('3'))
+	{
+		Warf(10, 10, fTimeDelta);
+	}
+
 	return S_OK;
 }
 
 void CBoss_Bug::Dash(_float fTimeDelta)
 {
-	if (!m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
+	if (!m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 		m_isDash = true;
@@ -135,9 +140,13 @@ void CBoss_Bug::Dash(_float fTimeDelta)
 	}
 }
 
-void CBoss_Bug::Warf(_int fMaxPosX, _int fMaxPosY)
+void CBoss_Bug::Warf(_int fMaxPosX, _int fMaxPosY, _float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX, rand() % fMaxPosX, 0.f));
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX, rand() % fMaxPosX, 0.f));
+		m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	}
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -172,6 +181,7 @@ void CBoss_Bug::Free()
 
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

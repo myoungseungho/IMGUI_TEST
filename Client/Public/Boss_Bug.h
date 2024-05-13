@@ -34,7 +34,7 @@ private:
 	HRESULT  KeyInput(_float fTimeDelta);
 
 	void Dash(_float fTimeDelta);
-	void Warf(_int fMaxPosX, _int fMaxPosY);
+	void Warf(_int fMaxPosX, _int fMaxPosY , _float fTimeDelta);
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };

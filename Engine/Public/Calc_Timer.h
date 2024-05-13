@@ -29,7 +29,7 @@ public:
 			return false;
 	}
 
-	_bool Timer_Update(_float fTimeDelta, _float fTimer)
+	_bool Time_Update(_float fTimeDelta, _float fTimer)
 	{
 		m_fTimer += fTimeDelta;
 
@@ -46,6 +46,8 @@ public:
 		}
 	}
 
+	_bool Timer_Eable;
+
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_DevicefTimeDelta);
 	virtual CComponent* Clone(void* pArg) override;
@@ -55,6 +57,7 @@ private:
 	_float m_fTimer = { 0.f };
 	_float m_fPrevTimer = { 0.f };
 	_float m_fCurrTimer = { 0.f };
+	_bool m_isTimeCheck = { false };
 
 };
 
