@@ -2,6 +2,7 @@
 
 #include "Boss_Bug.h"
 #include "GameInstance.h"
+#include "Mon_Turtle.h"
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -29,6 +30,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
 
+
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -50,8 +52,12 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	//Skill_Dash(fTimeDelta);
-	
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+
+	if (iter->Get_Death())
+	{
+		Skill_Dash(fTimeDelta);
+	}
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -152,11 +158,12 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 
 HRESULT CBoss_Bug::Turtle_Create()
 {
-	
-	m_tTurtleDesc.iHp = 10;
-	m_tTurtleDesc.iAttack = 1;
+	CMonster::MONSTER_DESC  MonsterDesc{};
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &m_tTurtleDesc)))
+	MonsterDesc.iHp = 10;
+	MonsterDesc.iAttack = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &MonsterDesc)))
 		return E_FAIL;
 }
 

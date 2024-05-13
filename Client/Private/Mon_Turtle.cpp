@@ -25,13 +25,16 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
 
+	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iAttack = pDesc->iAttack;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(5.0f, 0.f, 5.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20, 0.f, rand() % 20));
+	
 
 	return S_OK;
 }
@@ -42,7 +45,8 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 
 void CMon_Turtle::Update(_float fTimeDelta)
 {
-	
+	if(m_pTimerCom->Time_Limit(fTimeDelta,10.f))
+		Death();
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -70,7 +74,9 @@ HRESULT CMon_Turtle::Render()
 
 void CMon_Turtle::Death()
 {
-	//if()
+
+	m_isDeath = true;
+	
 }
 
 HRESULT CMon_Turtle::Ready_Components()
@@ -83,6 +89,11 @@ HRESULT CMon_Turtle::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -128,6 +139,7 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTimerCom);
 
 	__super::Free();
 }

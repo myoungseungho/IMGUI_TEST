@@ -46,7 +46,8 @@ protected:
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
 
-	MON_STATE m_eMon_State;
+	MON_STATE m_eMon_State = {};
+	MONSTER_DESC m_tMonsterDesc = {};
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;

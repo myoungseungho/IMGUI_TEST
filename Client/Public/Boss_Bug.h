@@ -46,8 +46,6 @@ private:
 	_float m_fAngle =	{ 0.f };
 	_bool m_isSkillChange = { false };
 
-	MONSTER_DESC m_tTurtleDesc = {};
-
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
