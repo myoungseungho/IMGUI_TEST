@@ -32,6 +32,7 @@ HRESULT CTransform::Initialize_Prototype()
 
 HRESULT CTransform::Initialize(void * pArg)
 {	
+
 	TRANSFORM_DESC*		pDesc = static_cast<TRANSFORM_DESC*>(pArg);
 
 	m_fSpeedPerSec = pDesc->fSpeedPerSec;

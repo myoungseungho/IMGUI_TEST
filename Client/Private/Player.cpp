@@ -8,7 +8,7 @@
 #include "..\Public\Player.h"
 
 #include "GameInstance.h"
-#include <Skill_Bug_Bullet.h>
+#include "Skill_Player.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -124,12 +124,19 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 void CPlayer::Player_Skill(_float fTimeDelta)
 {
-	_float3 m_TargetTransform = this->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
+	SkillDesc.pTargetTransform = m_pTransformCom;
 
-	_float3 m_Headbutt1 = { m_TargetTransform.x + 5.f,  m_TargetTransform.y , m_TargetTransform.z };
+	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + 1.f;
+	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom), &m_Headbutt1)));
+	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
+
+	SkillDesc.pTargetTransform->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Playert"), TEXT("Layer_Skill_Player"), &SkillDesc);
 
 }
 
@@ -249,7 +256,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);
 		
 	}
-	if (m_pKeyCom->Key_Pressing('E'))
+	if (m_pKeyCom->Key_Down('E'))
 	{
 		Set_State(STATE_SKILL);
 		Player_Skill(fTimeDelta);
