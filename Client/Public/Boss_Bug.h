@@ -13,6 +13,7 @@ public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
 		CSkill_Bug_Bullet* pBullet = { nullptr };
+		CTransform* pTargetTransform = { nullptr };
 	}BOSS_BUG_DESC;
 
 private:
@@ -33,9 +34,11 @@ private:
 	HRESULT  KeyInput(_float fTimeDelta);
 
 	void Dash(_float fTimeDelta);
+	void Warf(_int fMaxPosX, _int fMaxPosY);
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };
+	CTransform* m_pTargetTransform = { nullptr };
 	bool	m_isDash = { false };
 
 

@@ -24,6 +24,11 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
+	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
+
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -128,6 +133,11 @@ void CBoss_Bug::Dash(_float fTimeDelta)
 	else {
 		m_isDash = false;
 	}
+}
+
+void CBoss_Bug::Warf(_int fMaxPosX, _int fMaxPosY)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX, rand() % fMaxPosX, 0.f));
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

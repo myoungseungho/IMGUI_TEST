@@ -25,6 +25,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	srand((_uint)time(NULL));
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
