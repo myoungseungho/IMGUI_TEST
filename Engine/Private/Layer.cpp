@@ -32,25 +32,17 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 	return (*iter);
 }
 
-HRESULT CLayer::Delete_GameObject()
+_bool CLayer::Delete_GameObject()
 {
-	for (auto iter = m_GameObjects.begin() ; iter != m_GameObjects.end() ; )
+	for (auto& iter = m_GameObjects.begin() ; iter != m_GameObjects.end() ; ++iter)
 	{
 		_bool isDeath  = (*iter)->Get_Death();
 
-		if (isDeath)
-		{
-			Safe_Release(*iter);
-			iter = m_GameObjects.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
+		return true;
 
 	}
 
-	return S_OK;
+	return false;
 }
 
 
@@ -88,8 +80,20 @@ void CLayer::Priority_Update(_float fTimeDelta)
 
 void CLayer::Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
-		pGameObject->Update(fTimeDelta);
+	for (auto& pGameObject = m_GameObjects.begin() ; pGameObject!= m_GameObjects.end();  )
+	{
+		(*pGameObject)->Update(fTimeDelta);
+		_bool isDeath = (*pGameObject)->Get_Death();
+
+		if (isDeath)
+		{
+			Safe_Release(*pGameObject);
+			pGameObject = m_GameObjects.erase(pGameObject);
+		}
+		else
+			pGameObject++;
+		
+	}
 }
 
 void CLayer::Late_Update(_float fTimeDelta)

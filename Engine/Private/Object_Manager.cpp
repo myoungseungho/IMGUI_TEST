@@ -153,8 +153,24 @@ void CObject_Manager::Update(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
-		for (auto& Pair : m_pLayers[i])
-			Pair.second->Update(fTimeDelta);
+	
+		for (auto& Pair = m_pLayers[i].begin() ; Pair != m_pLayers[i].end() ; )
+		{
+
+			(*Pair).second->Update(fTimeDelta);
+			_bool Dead = 	(*Pair).second->Delete_GameObject();
+
+			if (Dead)
+			{
+				Safe_Release((*Pair).second);
+				(Pair) = m_pLayers[i].erase(Pair);
+			}
+			else
+				Pair++;
+
+			 
+		}
+		
 	}
 }
 
