@@ -32,18 +32,23 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 	return (*iter);
 }
 
-HRESULT CLayer::Delete_GameObject(_uint iIndex)
+HRESULT CLayer::Delete_GameObject()
 {
-	auto	iter = m_GameObjects.begin();
+	for (auto iter = m_GameObjects.begin() ; iter != m_GameObjects.end() ; )
+	{
+		_bool isDeath  = (*iter)->Get_Death();
 
-	for (size_t i = 0; i < iIndex; i++)
-		++iter;
+		if (isDeath)
+		{
+			Safe_Release(*iter);
+			iter = m_GameObjects.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 
-	if (iter == m_GameObjects.end())
-		return E_FAIL;
-		
-	Safe_Release(*iter);
-	iter = m_GameObjects.erase(iter);
+	}
 
 	return S_OK;
 }

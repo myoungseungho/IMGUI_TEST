@@ -45,9 +45,9 @@ HRESULT CObject_Manager::Delete_GaemObject(_uint iLevelIndex, const _wstring& st
 	if (nullptr == pLayer)
 		return E_FAIL;
 
-	if(FAILED(pLayer->Delete_GameObject(iIndex)))
+	if(FAILED(pLayer->Delete_GameObject()))
 		return E_FAIL;
-
+	
 	return S_OK;
 }
 
