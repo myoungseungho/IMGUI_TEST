@@ -33,7 +33,9 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_LOOK));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f),  ((pDesc->iBulletCnt * 15 )- 45) * D3DX_PI / 180.f);
 
+	/*float(pDesc->iBulletCnt /10.f) - 0.3f*/
 	return S_OK;
 }
 
@@ -97,7 +99,7 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 3.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),

@@ -10,6 +10,7 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr };
+		_int  iBulletCnt = { 0 };
 	}SKILL_BUG_BULLET_DESC;
 
 private:

@@ -48,7 +48,7 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	Skill_Dash(fTimeDelta);
+	//Skill_Dash(fTimeDelta);
 	
 }
 
@@ -117,9 +117,13 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 	{
 		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
 		SkillDesc.pTargetTransform = m_pTransformCom;
-
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
-			return E_FAIL;
+		
+		for (int i = 1; i <=5; ++i)
+		{
+			SkillDesc.iBulletCnt = i; 
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
+				return E_FAIL;
+		}
 	}
 		
 	return S_OK;
