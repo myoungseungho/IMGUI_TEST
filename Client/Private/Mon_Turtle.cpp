@@ -45,14 +45,14 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 
 void CMon_Turtle::Update(_float fTimeDelta)
 {
-	if(m_pTimerCom->Time_Limit(fTimeDelta,10.f))
-		Death();
 
-	m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY ,TEXT("Layer_Monster_Turtle"));
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+		Death();
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 

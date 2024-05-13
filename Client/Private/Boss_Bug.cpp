@@ -52,12 +52,8 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
-
-	if (iter->Get_Death())
-	{
+	if(FAILED(Desh_Stop()))
 		Skill_Dash(fTimeDelta);
-	}
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -137,10 +133,10 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 	return S_OK;
 }
 
-void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fTimeDelta)
+void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fAngle)
 {
-	_float WarfPosX = iPosX +  fDistance * cos(fTimeDelta  * (D3DX_PI / 180.f));
-	_float WarfPosZ = iPosZ -   fDistance * sin(fTimeDelta  * (D3DX_PI / 180.f));
+	_float WarfPosX = iPosX +  fDistance * cos(fAngle * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ -   fDistance * sin(fAngle * (D3DX_PI / 180.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX,  3.f, WarfPosZ));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	
@@ -154,6 +150,16 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	}
 	else 
 		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+}
+
+HRESULT CBoss_Bug::Desh_Stop()
+{
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+
+	if (iter == nullptr)
+		return E_FAIL;
+	else
+		return S_OK;
 }
 
 HRESULT CBoss_Bug::Turtle_Create()

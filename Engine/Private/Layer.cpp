@@ -82,17 +82,19 @@ void CLayer::Update(_float fTimeDelta)
 {
 	for (auto& pGameObject = m_GameObjects.begin() ; pGameObject!= m_GameObjects.end();  )
 	{
+		if ((*pGameObject) == nullptr)
+			return;
+
 		(*pGameObject)->Update(fTimeDelta);
 		_bool isDeath = (*pGameObject)->Get_Death();
 
 		if (isDeath)
 		{
 			Safe_Release(*pGameObject);
-			pGameObject = m_GameObjects.erase(pGameObject);
+			pGameObject = m_GameObjects.erase(pGameObject);                                
 		}
 		else
 			pGameObject++;
-		
 	}
 }
 

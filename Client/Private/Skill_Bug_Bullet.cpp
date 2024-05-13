@@ -53,11 +53,10 @@ void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
-	if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr )
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
 	{
-		DeleteBullet(fTimeDelta);
+		m_isDeath = true;
 	}
-	int a = 10;
 }
 
 HRESULT CSkill_Bug_Bullet::Render()
@@ -66,8 +65,6 @@ HRESULT CSkill_Bug_Bullet::Render()
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
-
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -105,18 +102,6 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CSkill_Bug_Bullet::DeleteBullet(_float fTimeDelta)
-{
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-	{
-		//m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"));
-
-		//Safe_Release(*this);	
-	}
 
 	return S_OK;
 }

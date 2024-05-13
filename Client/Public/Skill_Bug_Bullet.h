@@ -30,9 +30,6 @@ protected:
 	virtual HRESULT Ready_Components() override;
 
 private:
-	HRESULT	 DeleteBullet(_float fTimeDelta);
-
-private:
 	CTransform* m_pTargetTransform = { nullptr };
 	
 public:
