@@ -11,13 +11,16 @@ class CComponent;
 class CVIBuffer_Rect;
 class CVIBuffer_Cube;
 class CKeyState;
-
 END
 
 BEGIN(Client)
 
 class CPlayer final : public CGameObject
 {	
+private:
+enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
+enum STATE {STATE_IDLE, STATE_ATTACK, STATE_END};
+
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CPlayer(const CPlayer& Prototype); /* 사본생성 시 */
@@ -43,6 +46,20 @@ private:
 
 private:
 	HRESULT			Key_Input(_float fTimeDelta);
+
+	void					Player_Attack(_float fTimeDelta);
+	
+	void					Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
+	void					Set_State(STATE _STATE) { m_PlayerState = _STATE; }
+	
+
+private:
+	_float fTimeAcc = {0.0f};
+	_float3		forScaled;
+
+	DIRECTION	m_PlayerDir = { DIR_END };
+	STATE			m_PlayerState = { STATE_END };
+
 
 public:
 	/* 원형객체를 생성한다. */

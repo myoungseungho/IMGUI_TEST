@@ -36,10 +36,11 @@ HRESULT CPlayer::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	// m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
+	//m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
 
+	forScaled = m_pTransformCom->Get_Scaled();
 
 	return S_OK;
 }
@@ -51,6 +52,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+
 	Key_Input(fTimeDelta);
 
 }
@@ -64,7 +66,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-	//m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
@@ -85,6 +87,26 @@ HRESULT CPlayer::Render()
 
 	return S_OK;
 }
+void CPlayer::Player_Attack(_float fTimeDelta)
+{
+
+	fTimeAcc = 0.f;
+
+	_float3		curScaled;
+	
+	// 평타
+	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
+	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
+	
+
+	curScaled.x = forScaled.x + 10.f;
+	curScaled.y = forScaled.y + 10.f;
+	curScaled.z = forScaled.z + 10.f;
+
+	m_pTransformCom->Set_Scaled(curScaled);	
+	
+
+}
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -100,6 +122,11 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
 		TEXT("Com_VIBuffer_Cube"), reinterpret_cast<CComponent**>(&m_pVIBufferCubeCom))))
+		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -122,37 +149,76 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	if (m_pKeyCom->Key_Pressing(VK_UP))
 	{
 		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			Set_Direction(DIR_LEFTUP);
 			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+		}
+			
 
 		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			Set_Direction(DIR_RIGHTUP);
 			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+		}
+			
 
 		else
+		{
+			Set_Direction(DIR_UP);
 			m_pTransformCom->Go_Straight(fTimeDelta);
+		}
 	}
 
 	if (m_pKeyCom->Key_Pressing(VK_DOWN))
 	{
 		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			Set_Direction(DIR_LEFTDOWN);
 			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+		}
+			
 
 		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			Set_Direction(DIR_RIGHTDOWN);
 			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+		}
+			
 
 		else
+		{
+			Set_Direction(DIR_DOWN);
 			m_pTransformCom->Go_Backward(fTimeDelta);
+		}
+			
 	}
 
 	if (m_pKeyCom->Key_Pressing(VK_LEFT))
+	{
+		Set_Direction(DIR_LEFT);
 		m_pTransformCom->Go_Left(fTimeDelta);
+	}
+		
 
 	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+	{
+		Set_Direction(DIR_RIGHT);
 		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+		
 
 	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
 		m_pTransformCom->Set_Speed(10.f);
 	else
 		m_pTransformCom->Set_Speed(5.f);
+	
+	if (m_pKeyCom->Key_Down('A'))
+	{
+		Set_State(STATE_ATTACK);
+		Player_Attack(fTimeDelta);
+	}
+		
+	
 
 	return S_OK;
 }

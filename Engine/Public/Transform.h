@@ -30,7 +30,7 @@ public:
 
 
 	_float3 Get_State(STATE eState) const {
-		return *(_float3*)&m_WorldMatrix.m[eState][0];
+a		return *(_float3*)&m_WorldMatrix.m[eState][0];
 	}
 
 
