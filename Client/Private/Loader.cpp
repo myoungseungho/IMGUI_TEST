@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Boss_Bug.h"
+#include "Boss_Koofu.h"
 #include "Skill_Bug_Bullet.h"
 
 
@@ -146,6 +147,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	/* For.Prototype_GameObject_Boss_Bug */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Bug"),
 		CBoss_Bug::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Boss_Koofu */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Koofu"),
+		CBoss_Koofu::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Effect_Bug_Bullet*/

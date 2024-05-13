@@ -29,12 +29,12 @@ public:
 			return false;
 	}
 
-	_bool Time_Update(_float fTimeDelta, _float fTime)
+	_bool Timer_Update(_float fTimeDelta, _float fTimer)
 	{
-		m_fTimer += fTime;
+		m_fTimer += fTimeDelta;
 
 		{
-			if (!(m_fTimer >= fTime))
+			if (!(m_fTimer >= fTimer))
 			{
 				return true;
 			}

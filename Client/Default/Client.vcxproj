@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Boss_Bug.h" />
+    <ClInclude Include="..\Public\Boss_Koofu.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\imconfig.h" />
@@ -189,6 +190,7 @@
   <ItemGroup>
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\Boss_Bug.cpp" />
+    <ClCompile Include="..\Private\Boss_Koofu.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\imgui.cpp" />
     <ClCompile Include="..\Private\imgui_demo.cpp" />

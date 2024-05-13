@@ -1,58 +1,68 @@
 #include "stdafx.h"
 
-#include "Boss_Bug.h"
+#include "Boss_Koofu.h"
 #include "GameInstance.h"
 
 
-CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
+CBoss_Koofu::CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
 {
 }
 
-CBoss_Bug::CBoss_Bug(const CBoss_Bug& Prototype)
+CBoss_Koofu::CBoss_Koofu(const CBoss_Koofu& Prototype)
 	:CMonster{ Prototype }
 {
 }
 
-HRESULT CBoss_Bug::Initialize_Prototype()
+HRESULT CBoss_Koofu::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::Initialize(void* pArg)
+HRESULT CBoss_Koofu::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
+		return E_FAIL;
+
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+
 	return S_OK;
 }
 
-void CBoss_Bug::Priority_Update(_float fTimeDelta)
+void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CBoss_Bug::Update(_float fTimeDelta)
+void CBoss_Koofu::Update(_float fTimeDelta)
 {
 	KeyInput(fTimeDelta);
+	fScaleTimer += (fTimeDelta);
+
+	if (fScaleTimer > 2.f)
+	{
+		fScaleTimer = { 0.f };
+		m_isScale = false;
+	}
 }
 
-void CBoss_Bug::Late_Update(_float fTimeDelta)
+void CBoss_Koofu::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CBoss_Bug::Render()
+HRESULT CBoss_Koofu::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
-
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -65,7 +75,7 @@ HRESULT CBoss_Bug::Render()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::Ready_Components()
+HRESULT CBoss_Koofu::Ready_Components()
 {
 	/* For.Com_Timer*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
@@ -99,64 +109,52 @@ HRESULT CBoss_Bug::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
+HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('1'))
+	if (m_pKeyCom->Key_Down('3') || m_isScale)
 	{
-		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
-		SkillDesc.pTargetTransform = m_pTransformCom;
-
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
-			return E_FAIL;
-	}
-
-	if (m_pKeyCom->Key_Down('2') || m_isDash)
-	{
-		Dash(fTimeDelta);
+		m_isScale = true;
+		ScaleUp(fTimeDelta);
 	}
 
 	return S_OK;
 }
 
-void CBoss_Bug::Dash(_float fTimeDelta)
+void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (!m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_isDash = true;
-	}
-	else {
-		m_isDash = false;
-	}
+	if (m_pTimerCom->Timer_Update(fTimeDelta, 3.5f))
+		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fScaleTimer + 1));
 }
 
-CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+
+CBoss_Koofu* CBoss_Koofu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CBoss_Bug* pInstance = new CBoss_Bug(pGraphic_Device);
+	CBoss_Koofu* pInstance = new CBoss_Koofu(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : Boss_Bug"));
+		MSG_BOX(TEXT("Failed to Created : Boss_Koofu"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CBoss_Bug::Clone(void* pArg)
+CGameObject* CBoss_Koofu::Clone(void* pArg)
 {
-	CBoss_Bug* pInstance = new CBoss_Bug(*this);
+	CBoss_Koofu* pInstance = new CBoss_Koofu(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : Boss_Bug"));
+
+		MSG_BOX(TEXT("Failed to Cloned : Boss_Koofu"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBoss_Bug::Free()
+void CBoss_Koofu::Free()
 {
 	__super::Free();
 

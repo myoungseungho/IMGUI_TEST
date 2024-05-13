@@ -3,22 +3,20 @@
 #include "Client_Defines.h"
 #include "Monster.h"
 
-#include "Skill_Bug_Bullet.h"
-
 BEGIN(Client)
 
-class CBoss_Bug final :public CMonster
+class CBoss_Koofu final :public CMonster
 {
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
-		CSkill_Bug_Bullet* pBullet = { nullptr };
-	}BOSS_BUG_DESC;
+		
+	}BOSS_KOOFU_DESC;
 
 private:
-	CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CBoss_Bug(const CBoss_Bug& Prototype);
-	virtual ~CBoss_Bug() = default;
+	CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBoss_Koofu(const CBoss_Koofu& Prototype);
+	virtual ~CBoss_Koofu() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -31,16 +29,13 @@ public:
 private:
 	virtual HRESULT Ready_Components();
 	HRESULT  KeyInput(_float fTimeDelta);
-
-	void Dash(_float fTimeDelta);
-
+	void ScaleUp(_float fTimeDelta);
 private:
-	CSkill_Bug_Bullet* m_pBullet = { nullptr };
-	bool	m_isDash = { false };
-
+	bool	m_isScale = { false };
+	_float fScaleTimer = { 0.f };
 
 public:
-	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };

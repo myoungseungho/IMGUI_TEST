@@ -67,6 +67,12 @@
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
       <UniqueIdentifier>{24ad1d1b-0a96-42c7-99c0-f668ff9b9e49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\Bug">
+      <UniqueIdentifier>{ee60bb36-240b-4572-ab17-a1c6c22f1ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Boss\Koofu">
+      <UniqueIdentifier>{b608a6ae-4194-4acf-928d-5d236733510e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -141,9 +147,6 @@
     <ClInclude Include="..\Public\Mon_Pocket.h">
       <Filter>02.GameObjects\Monster\Pocket</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Boss_Bug.h">
-      <Filter>02.GameObjects\Monster\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Skill_Monster.h">
       <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
     </ClInclude>
@@ -152,6 +155,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Skill_Bug_Bullet.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Boss_Bug.h">
+      <Filter>02.GameObjects\Monster\Boss\Bug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Koofu.h">
+      <Filter>02.GameObjects\Monster\Boss\Koofu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +218,6 @@
     <ClCompile Include="..\Private\Mon_Pocket.cpp">
       <Filter>02.GameObjects\Monster\Pocket</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Boss_Bug.cpp">
-      <Filter>02.GameObjects\Monster\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Skill_Monster.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
     </ClCompile>
@@ -223,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\Monster\Boss\Bug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Koofu.cpp">
+      <Filter>02.GameObjects\Monster\Boss\Koofu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

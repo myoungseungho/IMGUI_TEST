@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Mon_Pocket.h"
 #include "Boss_Bug.h"
+#include "Boss_Koofu.h"
 
 #include "Skill_Bug_Bullet.h"
 
@@ -27,21 +28,18 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	//if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 	//	return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
-
-	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -90,12 +88,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
-	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	SkillDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Bug"), TEXT("Com_Transform")));
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag, &SkillDesc)))
+	Bosskoofu.iHp = 10;
+	Bosskoofu.iAttack = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag , &Bosskoofu)))
 		return E_FAIL;
 
 	return S_OK;
@@ -104,17 +104,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTa
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring & strLayerTag)
-{
-	CMon_Pocket::MON_POCKET_DESC			MonsterDesc{};
-
-	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 
 	return S_OK;
