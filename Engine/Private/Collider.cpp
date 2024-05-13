@@ -12,7 +12,7 @@ CCollider::CCollider(const CCollider& Prototype)
 
 HRESULT CCollider::Initialize_Prototype()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 

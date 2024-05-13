@@ -385,8 +385,17 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	vector<pair < wstring, list<CGameObject*>>> objectLayersVector;
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
+	// 여기에 스킵할 레이어 이름을 정의
+	unordered_set<wstring> skipLayers = 
+	{ L"Layer_BackGround", L"Layer_Camera",  L"Layer_Player" };
+
 	for (auto& object : objectLayersVector)
 	{
+		// 현재 레이어가 스킵할 리스트에 있는지 검사
+		if (skipLayers.find(object.first) != skipLayers.end()) {
+			continue;  // 스킵할 레이어면 다음 반복으로 넘어감
+		}
+
 		for (auto& iter : object.second)
 		{
 			CTransform* transform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));

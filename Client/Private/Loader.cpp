@@ -111,18 +111,22 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Player/Player0.png"), 1))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_Texture_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Terrain/Orgu_Terrain_0.png"), 1))))
 		return E_FAIL;
 
-	/* 텍스쳐를 로드한다. */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Tree"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Enviorment/Tree_69.png"), 1))))
+		return E_FAIL;
+
+	//컴포넌트 로드한다.
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		CCollider::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

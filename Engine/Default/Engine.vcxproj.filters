@@ -76,6 +76,9 @@
     <Filter Include="01.Utility\04.Components\VIBuffer\Terrain">
       <UniqueIdentifier>{a6471453-7bbe-4c0e-bef0-2e6a066a1a1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\Collider">
+      <UniqueIdentifier>{46f84713-0020-4305-a0f5-493b7f345e61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
       <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01.Utility\04.Components\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Terrain.h">
       <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01.Utility\04.Components\Collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
