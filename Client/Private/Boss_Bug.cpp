@@ -106,7 +106,7 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
 		SkillDesc.pTargetTransform = m_pTransformCom;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"),&SkillDesc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
 			return E_FAIL;
 	}
 
@@ -115,12 +115,12 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 		Dash(fTimeDelta);
 	}
 
-	if (m_pKeyCom->Key_Down('3'))
+	if (m_pKeyCom->Key_Down('3') || m_isScale)
 	{
 		ScaleUp(fTimeDelta);
 	}
 
-	if (m_pKeyCom->Key_Down('4'))
+	if (m_pKeyCom->Key_Down('4') || m_isScale)
 	{
 		ScaleDown(fTimeDelta);
 	}
@@ -143,12 +143,27 @@ void CBoss_Bug::Dash(_float fTimeDelta)
 
 void CBoss_Bug::ScaleUp(_float fTimeDelta)
 {
-	m_pTransformCom->Set_Scaled(_float3( 2.f, 2.f,2.f ));
+	if (!m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	{
+		m_pTransformCom->Set_Scaled(_float3(20.f, 20.f, 20.f) * fTimeDelta);
+		m_isScale = true;
+	}
+	else
+	{
+		m_isScale = false;
+	}
 }
 
 void CBoss_Bug::ScaleDown(_float fTimeDelta)
 {
-	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
+	if (!m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	{
+		m_pTransformCom->Set_Scaled(_float3(10.f, 10.f, 10.f) * fTimeDelta);
+	}
+	else
+	{
+		m_isScale = false;
+	}
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

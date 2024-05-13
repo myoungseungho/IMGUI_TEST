@@ -29,9 +29,21 @@ public:
 			return false;
 	}
 
-	_bool Time_Check(_float fTimeDelta, _float _fTimer)
+	_bool Time_Update(_float fTimeDelta, _float fTime)
 	{
+		m_fTimer += fTime;
 
+		{
+			if (!(m_fTimer >= fTime))
+			{
+				return true;
+			}
+			else
+			{
+				m_fTimer = { 0 };
+				return false;
+			}
+		}
 	}
 
 public:
