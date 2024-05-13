@@ -52,7 +52,7 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	if(FAILED(Desh_Stop()))
+	if(FAILED(Desh_Stop(fTimeDelta)))
 		Skill_Dash(fTimeDelta);
 }
 
@@ -152,14 +152,21 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 }
 
-HRESULT CBoss_Bug::Desh_Stop()
+HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
 	if (iter != nullptr)
+	{
 		return E_FAIL;
+	}
 	else
+	{
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+			Turtle_Create();
+
 		return S_OK;
+	}
 }
 
 HRESULT CBoss_Bug::Turtle_Create()

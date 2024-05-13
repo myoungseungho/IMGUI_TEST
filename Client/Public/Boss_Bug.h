@@ -34,13 +34,12 @@ private:
 
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
-	HRESULT Desh_Stop();
+	HRESULT Desh_Stop(_float fTimeDelta);
 	HRESULT Turtle_Create();
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };
-	_bool m_isSkillChange = { false };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
