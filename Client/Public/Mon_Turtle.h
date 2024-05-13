@@ -19,6 +19,8 @@ private:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Death();
+
 private:
 	virtual HRESULT Ready_Components();
 

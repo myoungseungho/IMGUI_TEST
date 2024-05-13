@@ -154,7 +154,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 {
 	
 	m_tTurtleDesc.iHp = 10;
-	m_tTurtleDesc.iHp = 1;
+	m_tTurtleDesc.iAttack = 1;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &m_tTurtleDesc)))
 		return E_FAIL;

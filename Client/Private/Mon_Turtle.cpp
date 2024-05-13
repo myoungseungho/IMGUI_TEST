@@ -68,6 +68,11 @@ HRESULT CMon_Turtle::Render()
 	return S_OK;
 }
 
+void CMon_Turtle::Death()
+{
+	//if()
+}
+
 HRESULT CMon_Turtle::Ready_Components()
 {
 	/* For.Com_Texture */
