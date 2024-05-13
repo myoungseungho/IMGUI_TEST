@@ -18,6 +18,7 @@ private:
 
 public:
 	void Update(_float fTimeDelta);
+	HRESULT Render();
 
 public:
 	HRESULT Add_ColliderObject(COLLIDERGROUP eRenderGroup, class CGameObject* pRenderObject);
@@ -26,7 +27,7 @@ public:
 
 private:
 	list<class CCollider*>			m_Colliders[CG_END];
-
+	map<std::pair<CCollider*, CCollider*>, bool> m_CollisionHistory;
 public:
 	static CCollider_Manager* Create();
 	virtual void Free() override;

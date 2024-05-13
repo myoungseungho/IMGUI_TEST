@@ -23,14 +23,20 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 public:
+	void Update(_float fTimeDelta);
+	void Render();
+public:
 	void OnCollisionEnter(CCollider*);
+	void OnCollisionStay(CCollider*);
+	void OnCollisionExit(CCollider*);
+
 public:
 	_float3 m_Center = {};  // ¡ﬂΩ… ¡¬«•
 	_float m_Width = { 0.0f };  // ∆¯
 	_float m_Height = { 0.0f }; // ≥Ù¿Ã
 	_float m_Depth = { 0.0f };  // ±Ì¿Ã
 	CGameObject* m_MineGameObject = { nullptr };
-	bool _isCollied = { false };
+	bool m_IsCollied = { false };
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

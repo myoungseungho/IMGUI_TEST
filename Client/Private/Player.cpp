@@ -125,7 +125,7 @@ HRESULT CPlayer::Ready_Components()
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = m_pTransformCom->Get_Scaled().z;
+	ColliderDesc.depth = 0.05f;
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.

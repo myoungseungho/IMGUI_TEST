@@ -79,6 +79,9 @@ HRESULT CGameInstance::Render_Engine()
 	if (FAILED(m_pLevel_Manager->Render()))
 		return E_FAIL;
 
+	if (FAILED(m_pColliderManager->Render()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

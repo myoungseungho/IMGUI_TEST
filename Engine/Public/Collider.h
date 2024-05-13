@@ -23,7 +23,13 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 public:
+	void Update(_float fTimeDelta);
+	void Render();
+public:
 	void OnCollisionEnter(CCollider*);
+	void OnCollisionStay(CCollider*);
+	void OnCollisionExit(CCollider*);
+
 public:
 	_float3 m_Center = {};  // Áß½É ÁÂÇ¥
 	_float m_Width = { 0.0f };  // Æø

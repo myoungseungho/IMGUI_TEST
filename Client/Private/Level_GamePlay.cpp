@@ -29,8 +29,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
-	if (FAILED(ParseInitialize()))
-		return E_FAIL;
+	/*if (FAILED(ParseInitialize()))
+		return E_FAIL;*/
 
 	/*for (size_t i = 0; i < 15; i++)
 	{

@@ -8,7 +8,26 @@ CCollider_Manager::CCollider_Manager()
 
 void CCollider_Manager::Update(_float fTimeDelta)
 {
+	// 먼저 모든 콜라이더를 업데이트
+	for (size_t i = 0; i < CG_END; i++) {
+		for (auto& collider : m_Colliders[i]) {
+			collider->Update(fTimeDelta);
+		}
+	}
+
 	Check_Collison(fTimeDelta);
+}
+
+HRESULT CCollider_Manager::Render()
+{
+	for (size_t i = 0; i < CG_END; i++)
+	{
+		for (auto& iter : m_Colliders[i])
+		{
+			iter->Render();
+		}
+	}
+	return S_OK;
 }
 
 HRESULT CCollider_Manager::Add_ColliderObject(COLLIDERGROUP eColliderGroup, CGameObject* pColliderObject)
@@ -32,6 +51,7 @@ HRESULT CCollider_Manager::Add_ColliderObject(COLLIDERGROUP eColliderGroup, CGam
 
 HRESULT CCollider_Manager::Check_Collison(_float fTimeDelta)
 {
+	map<pair<CCollider*, CCollider*>, bool> currentCollisions;
 	//최적화 개선 법
 	//1. 공간 분할 (쿼드트리, 옥트리)
 	//2. 이벤트 기반 충돌 검사 (객체 움직일때만 충돌 검사?)
@@ -44,13 +64,34 @@ HRESULT CCollider_Manager::Check_Collison(_float fTimeDelta)
 				for (auto& colliderB : m_Colliders[j])
 				{
 					if (IsColliding(colliderA, colliderB)) {
-						colliderA->OnCollisionEnter(colliderB);
-						colliderB->OnCollisionEnter(colliderA);
+
+						auto key = make_pair(colliderA, colliderB);
+						currentCollisions[key] = true;
+
+						if (m_CollisionHistory.find(key) == m_CollisionHistory.end() || !m_CollisionHistory[key]) {
+							colliderA->OnCollisionEnter(colliderB);
+							colliderB->OnCollisionEnter(colliderA);
+						}
+						else {
+							colliderA->OnCollisionStay(colliderB);
+							colliderB->OnCollisionStay(colliderA);
+						}
 					}
 				}
 			}
 		}
 	}
+
+	// Check for OnCollisionExit
+	for (auto& pair : m_CollisionHistory) {
+		if (currentCollisions.find(pair.first) == currentCollisions.end() || !currentCollisions[pair.first]) {
+			pair.first.first->OnCollisionExit(pair.first.second);
+			pair.first.second->OnCollisionExit(pair.first.first);
+		}
+	}
+
+	// Update the collision history for the next frame
+	m_CollisionHistory = currentCollisions;
 	return S_OK;
 }
 
