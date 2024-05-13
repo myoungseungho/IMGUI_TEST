@@ -7,13 +7,11 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider final : public CComponent
 {
 public:
-	struct Cube
+	typedef struct
 	{
-		_float3 center = {};  // ¡ﬂΩ… ¡¬«•
-		_float width = 0.0f;  // ∆¯
-		_float height = 0.0f; // ≥Ù¿Ã
-		_float depth = 0.0f;  // ±Ì¿Ã
-	};
+		_float3 center;  // ¡ﬂΩ… ¡¬«•
+		_float width, height, depth;
+	}CUBEDESC;
 
 private:
 	CCollider(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -25,7 +23,10 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
-	Cube cube;
+	_float3 center = {};  // ¡ﬂΩ… ¡¬«•
+	_float width = 0.0f;  // ∆¯
+	_float height = 0.0f; // ≥Ù¿Ã
+	_float depth = 0.0f;  // ±Ì¿Ã
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

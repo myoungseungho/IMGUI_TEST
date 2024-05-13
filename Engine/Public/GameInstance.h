@@ -48,8 +48,11 @@ public: /* For.Renderer */
 	HRESULT Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 
 public: /* For.FileManager */
-	HRESULT SaveObjects(const wstring& filename,void* pArg);
+	HRESULT SaveObjects(const wstring& filename, void* pArg);
 	void* LoadObjects(const wstring& filename);
+public: /* For.ColliderManager */
+	HRESULT Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, class CGameObject* pColliderObject);
+
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
 	class CLevel_Manager* m_pLevel_Manager = { nullptr };
@@ -58,6 +61,7 @@ private:
 	class CComponent_Manager* m_pComponent_Manager = { nullptr };
 	class CRenderer* m_pRenderer = { nullptr };
 	class CFile_Manager* m_pFileManager = { nullptr };
+	class CCollider_Manager* m_pColliderManager = { nullptr };
 
 public:
 	void Release_Engine();

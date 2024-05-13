@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CComponent;
 class CVIBuffer_Rect;
+class CCollider;
 END
 
 BEGIN(Client)

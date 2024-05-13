@@ -6,6 +6,7 @@
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
 #include "FileManager.h"
+#include "Collider_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -42,6 +43,10 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 
 	m_pFileManager = CFile_Manager::Create();
 	if (nullptr == m_pFileManager)
+		return E_FAIL;
+
+	m_pColliderManager = CCollider_Manager::Create();
+	if (nullptr == m_pColliderManager)
 		return E_FAIL;
 
 	return S_OK;
@@ -217,6 +222,14 @@ void* CGameInstance::LoadObjects(const wstring& filename)
 	return m_pFileManager->LoadObjects(filename);
 }
 
+HRESULT CGameInstance::Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, CGameObject* pColliderObject)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->Add_ColliderObject(eColliderGroup, pColliderObject);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pRenderer);
@@ -225,14 +238,12 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pFileManager);
+	Safe_Release(m_pColliderManager);
 	Safe_Release(m_pGraphic_Device);
-
 	CGameInstance::Get_Instance()->Destroy_Instance();
 }
 
 void CGameInstance::Free()
 {
 	__super::Free();
-
-
 }
