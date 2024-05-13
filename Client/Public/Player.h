@@ -20,7 +20,7 @@ class CPlayer final : public CGameObject
 {	
 private:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
-enum STATE {STATE_IDLE, STATE_ATTACK, STATE_END};
+enum STATE {STATE_IDLE, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -50,6 +50,7 @@ private:
 	HRESULT			Key_Input(_float fTimeDelta);
 
 	void					Player_Attack(_float fTimeDelta);
+	void					Player_Skill(_float fTimeDelta);
 	
 	void					Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
 	void					Set_State(STATE _STATE) { m_PlayerState = _STATE; }

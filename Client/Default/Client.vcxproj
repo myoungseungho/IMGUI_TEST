@@ -181,6 +181,7 @@
     <ClInclude Include="..\public\Skill.h" />
     <ClInclude Include="..\public\Skill_Bug_Bullet.h" />
     <ClInclude Include="..\public\Skill_Monster.h" />
+    <ClInclude Include="..\Public\Skill_Player.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="..\private\Skill.cpp" />
     <ClCompile Include="..\private\Skill_Bug_Bullet.cpp" />
     <ClCompile Include="..\private\Skill_Monster.cpp" />
+    <ClCompile Include="..\Private\Skill_Player.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

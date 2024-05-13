@@ -67,6 +67,9 @@
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
       <UniqueIdentifier>{24ad1d1b-0a96-42c7-99c0-f668ff9b9e49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Player">
+      <UniqueIdentifier>{5a8fd0c8-39f9-4cc7-acaf-de46166190f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -153,6 +156,9 @@
     <ClInclude Include="..\public\Skill_Bug_Bullet.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill_Player.h">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -223,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Skill_Bug_Bullet.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Player.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -47,15 +47,22 @@ HRESULT CPlayer::Initialize(void * pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
+
+	_float		fTimeAcc = { 0.0f };
+	_float		fCountTime = { 0.0f };
 
 	while (m_PlayerState == STATE_ATTACK)
 	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		fCountTime = m_pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
+
+		fTimeAcc += fCountTime;
+
+		if (fTimeAcc >= 1.f)
 		{
 			m_PlayerState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
@@ -112,6 +119,17 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 	curScaled.z = forScaled.z + 10.f;
 
 	m_pTransformCom->Set_Scaled(curScaled);
+
+}
+
+void CPlayer::Player_Skill(_float fTimeDelta)
+{
+	_float3 m_TargetTransform = this->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 m_Headbutt1 = { m_TargetTransform.x + 5.f,  m_TargetTransform.y , m_TargetTransform.z };
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom), &m_Headbutt1)));
 
 }
 
@@ -230,6 +248,12 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Set_State(STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 		
+	}
+	if (m_pKeyCom->Key_Pressing('E'))
+	{
+		Set_State(STATE_SKILL);
+		Player_Skill(fTimeDelta);
+
 	}
 	
 
