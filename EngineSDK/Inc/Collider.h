@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-
+#include "GameObject.h"
 BEGIN(Engine)
 
 class ENGINE_DLL CCollider final : public CComponent
@@ -11,7 +11,8 @@ public:
 	{
 		_float3 center;  // ¡ﬂΩ… ¡¬«•
 		_float width, height, depth;
-	}CUBEDESC;
+		CGameObject* MineGameObject;
+	}COLLIDER_DESC;
 
 private:
 	CCollider(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -23,10 +24,11 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
-	_float3 center = {};  // ¡ﬂΩ… ¡¬«•
-	_float width = 0.0f;  // ∆¯
-	_float height = 0.0f; // ≥Ù¿Ã
-	_float depth = 0.0f;  // ±Ì¿Ã
+	_float3 m_Center = {};  // ¡ﬂΩ… ¡¬«•
+	_float m_Width = { 0.0f };  // ∆¯
+	_float m_Height = { 0.0f }; // ≥Ù¿Ã
+	_float m_Depth = { 0.0f };  // ±Ì¿Ã
+	CGameObject* m_MineGameObject = { nullptr };
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

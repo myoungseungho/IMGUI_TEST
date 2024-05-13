@@ -19,6 +19,19 @@ HRESULT CCollider::Initialize_Prototype()
 
 HRESULT CCollider::Initialize(void* pArg)
 {
+	COLLIDER_DESC* pDesc = static_cast<COLLIDER_DESC*>(pArg);
+
+	m_Center = pDesc->center;
+	m_Width = pDesc->width;
+	m_Height = pDesc->height;
+	m_Depth = pDesc->depth;
+
+	if (pDesc->MineGameObject != nullptr)
+	{
+		m_MineGameObject = pDesc->MineGameObject;
+		Safe_AddRef(m_MineGameObject);
+	}
+
 	return S_OK;
 }
 
@@ -35,9 +48,9 @@ CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CComponent * CCollider::Clone(void * pArg)
+CComponent* CCollider::Clone(void* pArg)
 {
-	CCollider*		pInstance = new CCollider(*this);
+	CCollider* pInstance = new CCollider(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -51,4 +64,6 @@ CComponent * CCollider::Clone(void * pArg)
 void CCollider::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_MineGameObject);
 }
