@@ -43,12 +43,26 @@ HRESULT CCollider_Manager::Check_Collison(_float fTimeDelta)
 			{
 				for (auto& colliderB : m_Colliders[j])
 				{
-
+					if (IsColliding(colliderA, colliderB)) {
+						colliderA->OnCollisionEnter(colliderB);
+						colliderB->OnCollisionEnter(colliderA);
+					}
 				}
 			}
 		}
 	}
 	return S_OK;
+}
+
+bool CCollider_Manager::IsColliding(const CCollider* a, const CCollider* b)
+{
+	// AABB 충돌 검사
+	return (a->m_Center.x - a->m_Width / 2 < b->m_Center.x + b->m_Width / 2 &&
+		a->m_Center.x + a->m_Width / 2 > b->m_Center.x - b->m_Width / 2 &&
+		a->m_Center.y - a->m_Height / 2 < b->m_Center.y + b->m_Height / 2 &&
+		a->m_Center.y + a->m_Height / 2 > b->m_Center.y - b->m_Height / 2 &&
+		a->m_Center.z - a->m_Depth / 2 < b->m_Center.z + b->m_Depth / 2 &&
+		a->m_Center.z + a->m_Depth / 2 > b->m_Center.z - b->m_Depth / 2);
 }
 
 

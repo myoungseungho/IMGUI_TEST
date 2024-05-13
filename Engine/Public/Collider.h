@@ -22,13 +22,15 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
-private:
+public:
+	void OnCollisionEnter(CCollider*);
+public:
 	_float3 m_Center = {};  // ¡ﬂΩ… ¡¬«•
 	_float m_Width = { 0.0f };  // ∆¯
 	_float m_Height = { 0.0f }; // ≥Ù¿Ã
 	_float m_Depth = { 0.0f };  // ±Ì¿Ã
 	CGameObject* m_MineGameObject = { nullptr };
+	bool _isCollied = { false };
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

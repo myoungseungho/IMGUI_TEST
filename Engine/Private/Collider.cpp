@@ -35,6 +35,11 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CCollider::OnCollisionEnter(CCollider* other)
+{
+
+}
+
 CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider* pInstance = new CCollider(pGraphic_Device);

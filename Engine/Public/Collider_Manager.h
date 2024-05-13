@@ -22,6 +22,7 @@ public:
 public:
 	HRESULT Add_ColliderObject(COLLIDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 	HRESULT Check_Collison(_float);
+	bool IsColliding(const CCollider* a, const CCollider* b);
 
 private:
 	list<class CCollider*>			m_Colliders[CG_END];
