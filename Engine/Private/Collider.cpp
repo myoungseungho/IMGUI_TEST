@@ -37,6 +37,10 @@ HRESULT CCollider::Initialize(void* pArg)
 
 void CCollider::OnCollisionEnter(CCollider* other)
 {
+	//처음 false면 true해주기
+	if (!m_IsCollied)
+		m_IsCollied != m_IsCollied;
+
 
 }
 

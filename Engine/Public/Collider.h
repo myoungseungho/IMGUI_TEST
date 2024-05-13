@@ -30,7 +30,7 @@ public:
 	_float m_Height = { 0.0f }; // ≥Ù¿Ã
 	_float m_Depth = { 0.0f };  // ±Ì¿Ã
 	CGameObject* m_MineGameObject = { nullptr };
-	bool _isCollied = { false };
+	bool m_IsCollied = { false };
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
