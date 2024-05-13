@@ -45,7 +45,7 @@ HRESULT CCamera::Initialize(void * pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
 	m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
 
-	m_fFovy = D3DXToRadian(30.0f);
+	m_fFovy = D3DXToRadian(60.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
