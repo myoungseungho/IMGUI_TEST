@@ -11,6 +11,7 @@ class CComponent;
 class CVIBuffer_Rect;
 class CVIBuffer_Cube;
 class CKeyState;
+class CCalc_Timer;
 END
 
 BEGIN(Client)
@@ -40,6 +41,7 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferRectCom = { nullptr };
 	CVIBuffer_Cube*		m_pVIBufferCubeCom = { nullptr };
 	CKeyState*				m_pKeyCom = { nullptr };
+	CCalc_Timer*			m_pTimerCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
@@ -54,7 +56,6 @@ private:
 	
 
 private:
-	_float fTimeAcc = {0.0f};
 	_float3		forScaled;
 
 	DIRECTION	m_PlayerDir = { DIR_END };

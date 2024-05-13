@@ -53,6 +53,17 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 
+	while (m_PlayerState == STATE_ATTACK)
+	{
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		{
+			m_PlayerState = STATE_IDLE;
+			m_pTransformCom->Set_Scaled(forScaled);
+
+			break;
+		}
+	}
+
 	Key_Input(fTimeDelta);
 
 }
@@ -89,9 +100,6 @@ HRESULT CPlayer::Render()
 }
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
-
-	fTimeAcc = 0.f;
-
 	_float3		curScaled;
 	
 	// ÆòÅ¸
@@ -103,10 +111,11 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 	curScaled.y = forScaled.y + 10.f;
 	curScaled.z = forScaled.z + 10.f;
 
-	m_pTransformCom->Set_Scaled(curScaled);	
-	
+	m_pTransformCom->Set_Scaled(curScaled);
 
 }
+
+
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -114,12 +123,12 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	/* For.Com_VIBuffer */
+	/* For.Com_VIBuffer_Rect */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom))))
 		return E_FAIL;
 
-	/* For.Com_VIBuffer */
+	/* For.Com_VIBuffer_Cube */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
 		TEXT("Com_VIBuffer_Cube"), reinterpret_cast<CComponent**>(&m_pVIBufferCubeCom))))
 		return E_FAIL;
@@ -127,6 +136,10 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -216,8 +229,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	{
 		Set_State(STATE_ATTACK);
 		Player_Attack(fTimeDelta);
-	}
 		
+	}
 	
 
 	return S_OK;
@@ -262,6 +275,8 @@ void CPlayer::Free()
 	Safe_Release(m_pVIBufferCubeCom);
 
 	Safe_Release(m_pTextureCom);
+
+	Safe_Release(m_pTimerCom);
 
 	Safe_Release(m_pKeyCom);
 }
