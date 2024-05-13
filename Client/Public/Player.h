@@ -41,8 +41,6 @@ private:
 private:
 	HRESULT Ready_Components();
 
-
-
 public:
 	/* 원형객체를 생성한다. */
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

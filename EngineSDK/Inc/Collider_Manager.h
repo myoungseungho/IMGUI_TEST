@@ -16,8 +16,11 @@ private:
 	virtual ~CCollider_Manager() = default;
 
 public:
+	void Update(_float fTimeDelta);
+
+public:
 	HRESULT Add_ColliderObject(COLLIDERGROUP eRenderGroup, class CGameObject* pRenderObject);
-	HRESULT Check_Collison();
+	HRESULT Check_Collison(_float);
 
 private:
 	list<class CGameObject*>			m_ColliderObjects[CG_END];
