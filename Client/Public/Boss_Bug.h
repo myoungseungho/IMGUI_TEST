@@ -33,14 +33,17 @@ private:
 	virtual HRESULT Ready_Components();
 	HRESULT  KeyInput(_float fTimeDelta);
 
-	void Dash(_float fTimeDelta);
-	void Warf(_int fMaxPosX, _int fMaxPosY , _float fTimeDelta);
+	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fTimeDelta);
+	void Skill_Dash(_float fTimeDelta);
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };
 	CTransform* m_pTargetTransform = { nullptr };
 	bool	m_isDash = { false };
-
+	_float m_fWarfPosX = { 0.f };
+	_float m_fWarfPosZ = { 0.f };
+	_float m_fAngle =	{ 0.f };
+	_bool m_isSkillChange = { false };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -43,6 +43,13 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 void CBoss_Bug::Update(_float fTimeDelta)
 {
 	KeyInput(fTimeDelta);
+	m_fAngle++;
+
+	if (m_fAngle > 360.f)
+		m_fAngle = 0.f;
+
+	Skill_Dash(fTimeDelta);
+	
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -114,39 +121,27 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
 			return E_FAIL;
 	}
-
-	if (m_pKeyCom->Key_Down('2') || m_isDash)
-	{
-		Dash(fTimeDelta);
-	}
-
-	if (m_pKeyCom->Key_Down('3'))
-	{
-		Warf(10, 10, fTimeDelta);
-	}
-
+		
 	return S_OK;
 }
 
-void CBoss_Bug::Dash(_float fTimeDelta)
+void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fTimeDelta)
 {
-	if (!m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_isDash = true;
-	}
-	else {
-		m_isDash = false;
-	}
+	_float WarfPosX = iPosX +  fDistance * cos(fTimeDelta  * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ -   fDistance * sin(fTimeDelta  * (D3DX_PI / 180.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX,  3.f, WarfPosZ));
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	
 }
 
-void CBoss_Bug::Warf(_int fMaxPosX, _int fMaxPosY, _float fTimeDelta)
+void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX, rand() % fMaxPosX, 0.f));
-		m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+		Warf(0, 0, 10.f, m_fAngle);
 	}
+	else 
+		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -62,6 +62,9 @@ public:
 	HRESULT Go_Backward_Right(_float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
+
+	void Rotation(const _float3& vAxis, _float fRadian);
+
 	void LookAt(const _float3& vTargetPos);	
 	void LookAt_ForLandObject(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);

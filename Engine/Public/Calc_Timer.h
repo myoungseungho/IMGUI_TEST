@@ -33,7 +33,7 @@ public:
 	{
 		m_fTimer += fTimeDelta;
 
-		{
+		
 			if (!(m_fTimer >= fTimer))
 			{
 				return true;
@@ -43,10 +43,8 @@ public:
 				m_fTimer = { 0 };
 				return false;
 			}
-		}
+		
 	}
-
-	_bool Timer_Eable;
 
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_DevicefTimeDelta);

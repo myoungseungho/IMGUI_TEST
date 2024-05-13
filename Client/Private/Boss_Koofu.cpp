@@ -122,7 +122,7 @@ HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Update(fTimeDelta, 3.5f))
+	if (!m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
 		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fScaleTimer + 1));
 }
 
