@@ -29,6 +29,11 @@ public:
 			return false;
 	}
 
+	_bool Time_Check(_float fTimeDelta, _float _fTimer)
+	{
+
+	}
+
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_DevicefTimeDelta);
 	virtual CComponent* Clone(void* pArg) override;

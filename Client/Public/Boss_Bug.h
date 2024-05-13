@@ -7,12 +7,12 @@
 
 BEGIN(Client)
 
-class CBoss_Bug final:public CMonster
+class CBoss_Bug final :public CMonster
 {
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
-		CSkill_Bug_Bullet* pBullet = {nullptr};
+		CSkill_Bug_Bullet* pBullet = { nullptr };
 	}BOSS_BUG_DESC;
 
 private:
@@ -30,10 +30,17 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
-	HRESULT  KeyInput();
+	HRESULT  KeyInput(_float fTimeDelta);
+
+	void Dash(_float fTimeDelta);
+	void ScaleUp(_float fTimeDelta);
+	void ScaleDown(_float fTimeDelta);
 
 private:
 	CSkill_Bug_Bullet* m_pBullet = { nullptr };
+	bool	m_isDash = { false };
+	bool	m_isScale = { false };
+	_float fScaleTimer ={ 0.f };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

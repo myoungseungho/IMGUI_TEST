@@ -37,7 +37,7 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
-	KeyInput();
+	KeyInput(fTimeDelta);
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -99,9 +99,9 @@ HRESULT CBoss_Bug::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::KeyInput()
+HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('E'))
+	if (m_pKeyCom->Key_Down('1'))
 	{
 		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
 		SkillDesc.pTargetTransform = m_pTransformCom;
@@ -110,7 +110,45 @@ HRESULT CBoss_Bug::KeyInput()
 			return E_FAIL;
 	}
 
+	if (m_pKeyCom->Key_Down('2') || m_isDash)
+	{
+		Dash(fTimeDelta);
+	}
+
+	if (m_pKeyCom->Key_Down('3'))
+	{
+		ScaleUp(fTimeDelta);
+	}
+
+	if (m_pKeyCom->Key_Down('4'))
+	{
+		ScaleDown(fTimeDelta);
+	}
+	
+
 	return S_OK;
+}
+
+void CBoss_Bug::Dash(_float fTimeDelta)
+{
+	if (!m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+		m_isDash = true;
+	}
+	else {
+		m_isDash = false;
+	}
+}
+
+void CBoss_Bug::ScaleUp(_float fTimeDelta)
+{
+	m_pTransformCom->Set_Scaled(_float3( 2.f, 2.f,2.f ));
+}
+
+void CBoss_Bug::ScaleDown(_float fTimeDelta)
+{
+	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
