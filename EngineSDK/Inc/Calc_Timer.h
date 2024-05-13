@@ -23,12 +23,38 @@ public:
 		if (m_fTimer >= fTimer)
 		{
 			m_fTimer = { 0 };
+		
 			return true;
 		}
 		else
 			return false;
 	}
 
+	_bool Time_Limit(_float fTimeDelta, _float fStartTimer , _float fEndTimer)
+	{
+		m_fCurrTimer += fTimeDelta;
+		
+		if (Time_Limit(fTimeDelta, fStartTimer))
+		{
+			m_isTimeCheck = true;
+		}
+
+		if (m_isTimeCheck)
+		{
+			m_fPrevTimer += fTimeDelta;
+
+			if (m_fPrevTimer >= fEndTimer)
+			{
+				m_isTimeCheck = false;
+				m_fPrevTimer = { 0 };
+				m_fCurrTimer = { 0 };
+				return true;
+			}
+		}
+		else
+			return false;
+	}
+	
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_DevicefTimeDelta);
 	virtual CComponent* Clone(void* pArg) override;
