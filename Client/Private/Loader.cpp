@@ -109,7 +109,6 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 {
 	/* 게임플레이레벨용 자원을 로드하자. */
 
-
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
