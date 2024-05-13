@@ -7,6 +7,13 @@ BEGIN(Client)
 
 class CMon_Turtle  final:public CMonster
 {
+public:
+	typedef struct :public CMonster::MONSTER_DESC
+	{
+		_uint m_iColor = { 0 };
+		
+	}MON_TURTLE_DESC;
+
 private:
 	CMon_Turtle(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMon_Turtle(const CMon_Turtle& Prototype);
@@ -19,10 +26,14 @@ private:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Death();
+	void Death(_float fTimeDelta);
+
+private:
+	_uint m_iColor = { 0 };
 
 private:
 	virtual HRESULT Ready_Components();
+
 
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

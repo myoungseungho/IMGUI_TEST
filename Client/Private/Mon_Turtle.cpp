@@ -23,10 +23,12 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
+	MON_TURTLE_DESC* pDesc = static_cast<MON_TURTLE_DESC*>(pArg);
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
+	m_iColor = pDesc->m_iColor;
+	
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -50,8 +52,7 @@ void CMon_Turtle::Update(_float fTimeDelta)
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
-		Death();
+	Death(fTimeDelta);
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
@@ -60,7 +61,7 @@ HRESULT CMon_Turtle::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	if (FAILED(m_pTextureCom->Bind_Texture(m_iColor)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -74,17 +75,16 @@ HRESULT CMon_Turtle::Render()
 	return S_OK;
 }
 
-void CMon_Turtle::Death()
+void CMon_Turtle::Death(_float fTimeDelta)
 {
-
-	m_isDeath = true;
-	
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
+		m_isDeath = true;	
 }
 
 HRESULT CMon_Turtle::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster_Turtle"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

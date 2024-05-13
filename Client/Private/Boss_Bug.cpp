@@ -122,7 +122,7 @@ HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
 		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
 		SkillDesc.pTargetTransform = m_pTransformCom;
 		
-		for (int i = 1; i <=5; ++i)
+		for (int i = 1; i <= 5; ++i)
 		{
 			SkillDesc.iBulletCnt = i; 
 			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
@@ -156,7 +156,7 @@ HRESULT CBoss_Bug::Desh_Stop()
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
-	if (iter == nullptr)
+	if (iter != nullptr)
 		return E_FAIL;
 	else
 		return S_OK;
@@ -164,13 +164,18 @@ HRESULT CBoss_Bug::Desh_Stop()
 
 HRESULT CBoss_Bug::Turtle_Create()
 {
-	CMonster::MONSTER_DESC  MonsterDesc{};
+	CMon_Turtle::MON_TURTLE_DESC	 Desc{};
 
-	MonsterDesc.iHp = 10;
-	MonsterDesc.iAttack = 1;
+	Desc.iHp = 10;
+	Desc.iAttack = 1;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &MonsterDesc)))
-		return E_FAIL;
+	for (int i = 0; i < 3; ++i)
+	{
+		Desc.m_iColor = i;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &Desc)))
+			return E_FAIL;
+	}
 }
 
 CBoss_Bug* CBoss_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
