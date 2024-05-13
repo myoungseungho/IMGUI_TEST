@@ -34,6 +34,7 @@ private:
 
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
+	void Fly(_float fTimeDelta);
 	HRESULT Desh_Stop(_float fTimeDelta);
 	HRESULT Turtle_Create();
 

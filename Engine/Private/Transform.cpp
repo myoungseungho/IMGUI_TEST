@@ -156,6 +156,30 @@ HRESULT CTransform::Go_Backward_Right(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Go_Up(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vUp = Get_State(STATE_UP);
+
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_Down(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vUp = Get_State(STATE_UP);
+
+	vPosition -= *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
 void CTransform::Turn(const _float3 & vAxis, _float fTimeDelta)
 {
 	_float3		vRight = Get_State(STATE_RIGHT);

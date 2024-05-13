@@ -54,6 +54,8 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 	if(FAILED(Desh_Stop(fTimeDelta)))
 		Skill_Dash(fTimeDelta);
+
+	
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -152,6 +154,11 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 }
 
+void CBoss_Bug::Fly(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Up(fTimeDelta);
+}
+
 HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
@@ -162,8 +169,8 @@ HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta)
 	}
 	else
 	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
-			Turtle_Create();
+		if (!m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+			Fly(fTimeDelta); 
 
 		return S_OK;
 	}

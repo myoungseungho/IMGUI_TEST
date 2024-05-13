@@ -37,7 +37,6 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20, 0.f, rand() % 20));
 	
-
 	return S_OK;
 }
 

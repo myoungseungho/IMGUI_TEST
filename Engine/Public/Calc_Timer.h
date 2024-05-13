@@ -29,23 +29,6 @@ public:
 			return false;
 	}
 
-	_bool Time_Update(_float fTimeDelta, _float fTimer)
-	{
-		m_fTimer += fTimeDelta;
-
-		
-			if (!(m_fTimer >= fTimer))
-			{
-				return true;
-			}
-			else
-			{
-				m_fTimer = { 0 };
-				return false;
-			}
-		
-	}
-
 public:
 	static CCalc_Timer* Create(LPDIRECT3DDEVICE9 pGraphic_DevicefTimeDelta);
 	virtual CComponent* Clone(void* pArg) override;

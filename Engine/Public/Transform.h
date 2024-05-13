@@ -60,6 +60,8 @@ public:
 	HRESULT Go_Straight_Right(_float fTimeDelta);
 	HRESULT Go_Backward_Left(_float fTimeDelta);
 	HRESULT Go_Backward_Right(_float fTimeDelta);
+	HRESULT Go_Up(_float fTimeDelta);
+	HRESULT Go_Down(_float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 
