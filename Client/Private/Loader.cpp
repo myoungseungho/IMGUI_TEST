@@ -132,10 +132,13 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
+
+#pragma region  하이트맵 터레인
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Terrain/PlaneHeight.bmp")))))
 		return E_FAIL;*/
+#pragma endregion
 
 	/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
@@ -159,14 +162,16 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Tree"),
+		CTree::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
 	///* For.Prototype_GameObject_Monster */
 	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
 	//	CMonster::Create(m_pGraphic_Device))))
 	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Tree"),
-		CTree::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 

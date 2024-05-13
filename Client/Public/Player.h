@@ -34,6 +34,7 @@ private:
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CCollider*			m_pColliderCom = { nullptr };
 
 
 private:
