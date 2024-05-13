@@ -43,16 +43,18 @@ public:
 		{
 			m_fPrevTimer += fTimeDelta;
 
-			if (m_fPrevTimer >= fEndTimer)
+			if (m_fPrevTimer <= fEndTimer)
 			{
-				m_isTimeCheck = false;
-				m_fPrevTimer = { 0 };
-				m_fCurrTimer = { 0 };
 				return true;
 			}
 		}
 		else
+		{
+			m_isTimeCheck = false;
+			m_fPrevTimer = { 0 };
+			m_fCurrTimer = { 0 };
 			return false;
+		}
 	}
 	
 public:
