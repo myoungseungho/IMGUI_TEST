@@ -73,6 +73,9 @@
     <Filter Include="02.GameObjects\Monster\Boss\Koofu">
       <UniqueIdentifier>{b608a6ae-4194-4acf-928d-5d236733510e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Turtle">
+      <UniqueIdentifier>{f1a3aca4-38e1-4ebe-b789-6ee30cab4c70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -162,6 +165,9 @@
     <ClInclude Include="..\Public\Boss_Koofu.h">
       <Filter>02.GameObjects\Monster\Boss\Koofu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mon_Turtle.h">
+      <Filter>02.GameObjects\Monster\Turtle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -235,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Koofu.cpp">
       <Filter>02.GameObjects\Monster\Boss\Koofu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mon_Turtle.cpp">
+      <Filter>02.GameObjects\Monster\Turtle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

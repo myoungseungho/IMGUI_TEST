@@ -19,7 +19,7 @@ public:
 	_bool Time_Limit(_float fTimeDelta, _float fTimer)
 	{
 		m_fTimer += fTimeDelta;
-		
+
 		if (m_fTimer >= fTimer)
 		{
 			m_fTimer = { 0 };

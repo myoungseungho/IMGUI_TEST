@@ -178,6 +178,7 @@
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\public\Monster.h" />
     <ClInclude Include="..\Public\Mon_Pocket.h" />
+    <ClInclude Include="..\public\Mon_Turtle.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\public\Skill.h" />
     <ClInclude Include="..\public\Skill_Bug_Bullet.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
     <ClCompile Include="..\Private\Mon_Pocket.cpp" />
+    <ClCompile Include="..\private\Mon_Turtle.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\private\Skill.cpp" />
     <ClCompile Include="..\private\Skill_Bug_Bullet.cpp" />
