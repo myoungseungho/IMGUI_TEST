@@ -35,6 +35,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+
+
 	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
 

@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 #include "Component_Manager.h"
-
+#include "Collider_Manager.h"
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
