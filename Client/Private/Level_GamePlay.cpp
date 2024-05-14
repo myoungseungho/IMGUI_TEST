@@ -29,8 +29,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
-	/*if (FAILED(ParseInitialize()))
-		return E_FAIL;*/
+	if (FAILED(ParseInitialize()))
+		return E_FAIL;
 
 	/*for (size_t i = 0; i < 15; i++)
 	{
@@ -77,11 +77,7 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
 		return E_FAIL;
-	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"), Desc)))
-		return E_FAIL;*/
-
-
-
+	
 	return S_OK;
 }
 

@@ -22,8 +22,8 @@ HRESULT CCollider::Initialize(void* pArg)
 	COLLIDER_DESC* pDesc = static_cast<COLLIDER_DESC*>(pArg);
 
 	m_Center = pDesc->center;
-	m_Width = pDesc->width * 2.f;
-	m_Height = pDesc->height* 2.f;
+	m_Width = pDesc->width;
+	m_Height = pDesc->height;
 	m_Depth = pDesc->depth;
 
 	if (pDesc->MineGameObject != nullptr)
@@ -49,20 +49,27 @@ void CCollider::Render()
 	DWORD originalFillMode;
 	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &originalFillMode);
 
-	// 콜라이더의 8개 정점을 계산
-	D3DXVECTOR3 vertices[8];
+	// 로컬 스페이스에서 콜라이더의 8개 정점을 계산
+	_float3 localVertices[8];
 	float halfWidth = m_Width / 2.0f;
 	float halfHeight = m_Height / 2.0f;
 	float halfDepth = m_Depth / 2.0f;
 
-	vertices[0] = D3DXVECTOR3(m_Center.x - halfWidth, m_Center.y - halfHeight, m_Center.z - halfDepth);
-	vertices[1] = D3DXVECTOR3(m_Center.x + halfWidth, m_Center.y - halfHeight, m_Center.z - halfDepth);
-	vertices[2] = D3DXVECTOR3(m_Center.x + halfWidth, m_Center.y + halfHeight, m_Center.z - halfDepth);
-	vertices[3] = D3DXVECTOR3(m_Center.x - halfWidth, m_Center.y + halfHeight, m_Center.z - halfDepth);
-	vertices[4] = D3DXVECTOR3(m_Center.x - halfWidth, m_Center.y - halfHeight, m_Center.z + halfDepth);
-	vertices[5] = D3DXVECTOR3(m_Center.x + halfWidth, m_Center.y - halfHeight, m_Center.z + halfDepth);
-	vertices[6] = D3DXVECTOR3(m_Center.x + halfWidth, m_Center.y + halfHeight, m_Center.z + halfDepth);
-	vertices[7] = D3DXVECTOR3(m_Center.x - halfWidth, m_Center.y + halfHeight, m_Center.z + halfDepth);
+	localVertices[0] = _float3(-halfWidth, -halfHeight, -halfDepth);
+	localVertices[1] = _float3(halfWidth, -halfHeight, -halfDepth);
+	localVertices[2] = _float3(halfWidth, halfHeight, -halfDepth);
+	localVertices[3] = _float3(-halfWidth, halfHeight, -halfDepth);
+	localVertices[4] = _float3(-halfWidth, -halfHeight, halfDepth);
+	localVertices[5] = _float3(halfWidth, -halfHeight, halfDepth);
+	localVertices[6] = _float3(halfWidth, halfHeight, halfDepth);
+	localVertices[7] = _float3(-halfWidth, halfHeight, halfDepth);
+
+	// 월드 스페이스로 변환된 정점 배열
+	_float3 worldVertices[8];
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVec3TransformCoord(&worldVertices[i], &localVertices[i], &m_WorldMatrix);
+	}
 
 	// 인덱스 배열
 	short indices[] = {
@@ -78,11 +85,12 @@ void CCollider::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	// 정점과 인덱스를 사용하여 육면체 그리기
-	m_pGraphic_Device->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12, indices, D3DFMT_INDEX16, vertices, sizeof(D3DXVECTOR3));
+	m_pGraphic_Device->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12, indices, D3DFMT_INDEX16, worldVertices, sizeof(_float3));
 
 	// 렌더링 상태를 원래대로 복원
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, originalFillMode);
 }
+
 
 
 void CCollider::Update(_float fTimeDelta)
@@ -93,6 +101,8 @@ void CCollider::Update(_float fTimeDelta)
 	m_Center.x = transform->Get_State(CTransform::STATE_POSITION).x;
 	m_Center.y = transform->Get_State(CTransform::STATE_POSITION).y;
 	m_Center.z = transform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_WorldMatrix = transform->Get_WorldMatrix();
 }
 
 void CCollider::OnCollisionStay(CCollider*)

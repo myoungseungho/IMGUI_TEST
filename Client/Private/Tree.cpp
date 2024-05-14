@@ -29,28 +29,28 @@ HRESULT CTree::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+	//m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
 
-	//POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
-	//m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
+	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
+	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
 
-	///* For.Com_Transform */
-	//CCollider::COLLIDER_DESC			ColliderDesc{};
-	//ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
-	//ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	//ColliderDesc.depth = 0.05f;
-	//ColliderDesc.MineGameObject = this;
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 0.05f;
+	ColliderDesc.MineGameObject = this;
 
-	////콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
-	//	TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-	//	return E_FAIL;
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
 
-	////콜라이더오브젝트 추가
-	//m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
 	return S_OK;
 }

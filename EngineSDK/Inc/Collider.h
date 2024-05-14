@@ -37,6 +37,7 @@ public:
 	_float m_Depth = { 0.0f };  // ±Ì¿Ã
 	CGameObject* m_MineGameObject = { nullptr };
 	bool m_IsCollied = { false };
+	_float4x4				m_WorldMatrix;
 
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

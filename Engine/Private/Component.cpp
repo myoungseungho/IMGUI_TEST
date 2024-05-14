@@ -9,7 +9,7 @@ CComponent::CComponent(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CComponent::CComponent(const CComponent & Prototype)
 	: m_pGraphic_Device{ Prototype.m_pGraphic_Device }
-	, m_isCloned{ false }
+	, m_isCloned{ true }
 {
 	Safe_AddRef(m_pGraphic_Device);
 }
