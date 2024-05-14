@@ -24,7 +24,6 @@ private:
 	HRESULT Ready_Layer_Boss_Bug(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag);
 
-	HRESULT Ready_Layer_Skill_Player(const _wstring& strLayerTag);
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
