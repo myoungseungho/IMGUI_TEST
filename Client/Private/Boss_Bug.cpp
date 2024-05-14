@@ -38,6 +38,8 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
+	m_eMon_State = MON_STATE::IDLE;
+
 	return S_OK;
 }
 
@@ -53,35 +55,8 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	if (m_pKeyCom->Key_Down('1'))
-		Bullet_Create();
+	Mon_State(fTimeDelta);
 
-	if (m_pKeyCom->Key_Down('2') || m_isDesh)
-	{
-		m_isDesh = true;
-		Skill_Dash(fTimeDelta);
-	}
-	if (m_pKeyCom->Key_Down('3'))
-		Turtle_Create();
-
-	if (m_pKeyCom->Key_Down('4') || m_isUp)
-	{
-		m_isUp = true;
-		Fly(fTimeDelta);
-	}
-
-	if (m_pKeyCom->Key_Down('5') || m_iLand)
-	{
-		m_iLand = true;
-		Land(0, 0, fTimeDelta);
-	}
-
-	if(m_pKeyCom->Key_Down('6'))
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
-
-	Hp_State(fTimeDelta);
-
-	
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -156,7 +131,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	
-	if (iter)
+	if (iter || (!m_isTurtleDead))
 	{
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 		{
@@ -165,25 +140,26 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		else
 			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 	}
+	else
+		m_isTurtleDead = true;
 	
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f, 5.f))
+	{
 		m_pTransformCom->Go_Up(fTimeDelta);
-	
+	}
 }
 
 void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 {
-	if (!m_iCon)
-	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (&_float3(iPosX, 5.f, iPosZ)));
-		m_iCon = true;
-	}
-	if(m_pTimerCom->Time_Limit(fTimeDelta , 2.f, 5.f))
+	
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f, 2.f))
 		m_pTransformCom->Go_Down(fTimeDelta);
+	
 }
 
 HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta) 
@@ -210,7 +186,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 	Desc.iHp = 10;
 	Desc.iAttack = 1;
 
-	for (int i = 0; (i < 3) && !m_isTurtleDead ; ++i)
+	for (int i = 0; i < 3 ; ++i)
 	{
 		Desc.m_iColor = i;
 
@@ -236,21 +212,67 @@ HRESULT CBoss_Bug::Bullet_Create()
 	return S_OK;
 }
 
-void CBoss_Bug::Hp_State(_float fTimeDelta)
+void CBoss_Bug::State_Idle(float _fTimeDelta)
+{
+	m_eMon_State = MON_STATE::BULLET;
+}
+
+void CBoss_Bug::State_Dash(float _fTimeDelta)
+{
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+
+		Skill_Dash(_fTimeDelta);
+
+	if (!iter)
+	{
+		if (m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
+		{
+			Turtle_Create();
+			m_isTurtleDead = false;
+		}
+	}
+
+	if (!m_isTurtleDead)
+		m_eMon_State = MON_STATE::FLY;
+}
+
+void CBoss_Bug::State_Bullet(float _fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 2.f))
+	{
+		Bullet_Create();
+		m_iBulletCnt++;
+	}
+
+	if (m_iBulletCnt > 5)
+		m_eMon_State = MON_STATE::DASH;
+}
+
+void CBoss_Bug::State_Fly(float _fTimeDelta)
+{
+	int a = 10;
+}
+
+void CBoss_Bug::Mon_State(_float fTimeDelta)
 {
 	switch (m_eMon_State)
 	{
-	case MON_STATE::SKILL_STATEA:
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-			Bullet_Create();
+	case MON_STATE::IDLE:
+		State_Idle(fTimeDelta);
 		break;
 
-	case MON_STATE::SKILL_STATEB:
-		Skill_Dash(fTimeDelta);
+	case MON_STATE::DASH:
+		State_Dash(fTimeDelta);
 		break;
 
-	default:
+	case MON_STATE::BULLET:
+		State_Bullet(fTimeDelta);
 		break;
+
+	case MON_STATE::FLY:
+		State_Fly(fTimeDelta);
+		break;
+
 	}
 }
 

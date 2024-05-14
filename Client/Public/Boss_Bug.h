@@ -9,6 +9,8 @@ BEGIN(Client)
 
 class CBoss_Bug final :public CMonster
 {
+private:
+	
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
@@ -41,16 +43,19 @@ private:
 	HRESULT Bullet_Create();
 
 private:
-	void Hp_State(_float fTimeDelta);
+	void State_Idle(float _fTimeDelta);
+	void State_Dash(float _fTimeDelta);
+	void State_Bullet(float _fTimeDelta);
+	void State_Fly(float _fTimeDelta);
 
+private:
+	void Mon_State(_float fTimeDelta);
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };
-	_bool m_isTurtleDead = { false };
-	_bool m_isDesh = { false };
-	_bool m_isUp = { false };
-	_bool m_iLand = { false };
-	_bool m_iCon = { false };
+	_int m_iBulletCnt = { 0 };
+	_bool m_isTurtleDead = { true };
+
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

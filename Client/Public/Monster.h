@@ -18,7 +18,7 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, WALK, ATTACK , SKILL_STATEA, SKILL_STATEB, SKILL_STATEC, DEATH,  MON_END};
+	enum class MON_STATE { IDLE, WALK, ATTACK ,DASH , BULLET ,FLY ,STAN , DEATH,  MON_END};
 
 public:
 	typedef struct
