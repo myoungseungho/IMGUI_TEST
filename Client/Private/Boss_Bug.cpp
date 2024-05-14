@@ -131,7 +131,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	
-	if (iter || (!m_isTurtleDead))
+	if (iter)
 	{
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 		{
@@ -140,43 +140,37 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		else
 			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 	}
-	else
-		m_isTurtleDead = true;
+	
 	
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f, 5.f))
+	
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
-		m_pTransformCom->Go_Up(fTimeDelta);
+		m_isLand = false;
+		m_eMon_State = MON_STATE::LAND;
 	}
+	else
+		m_pTransformCom->Go_Up(fTimeDelta);
 }
 
 void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 {
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (&_float3(iPosX, 5.f, iPosZ)));
-	
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f, 2.f))
-		m_pTransformCom->Go_Down(fTimeDelta);
-	
-}
-
-HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta) 
-{
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
-
-	if (iter != nullptr)
+	if (!m_isLand)
 	{
-		return E_FAIL;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (&_float3(iPosX, 5.f, iPosZ)));
+		m_isLand = true;
+	}
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	{
+		m_eMon_State = MON_STATE::DASH;
 	}
 	else
-	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f,5.f))
-			Fly(fTimeDelta); 
-
-		return S_OK;
-	}
+		m_pTransformCom->Go_Down(fTimeDelta);
+	
 }
 
 HRESULT CBoss_Bug::Turtle_Create()
@@ -221,19 +215,19 @@ void CBoss_Bug::State_Dash(float _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
-		Skill_Dash(_fTimeDelta);
+	Skill_Dash(_fTimeDelta);
 
 	if (!iter)
 	{
+		if(m_isTurtle)
+			m_eMon_State = MON_STATE::FLY;
+
 		if (m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
 		{
 			Turtle_Create();
-			m_isTurtleDead = false;
+			m_isTurtle = true;
 		}
 	}
-
-	if (!m_isTurtleDead)
-		m_eMon_State = MON_STATE::FLY;
 }
 
 void CBoss_Bug::State_Bullet(float _fTimeDelta)
@@ -244,13 +238,19 @@ void CBoss_Bug::State_Bullet(float _fTimeDelta)
 		m_iBulletCnt++;
 	}
 
-	if (m_iBulletCnt > 5)
+	if (m_iBulletCnt > 2)
 		m_eMon_State = MON_STATE::DASH;
 }
 
 void CBoss_Bug::State_Fly(float _fTimeDelta)
 {
-	int a = 10;
+	m_isTurtle = false;
+	Fly(_fTimeDelta);	
+}
+
+void CBoss_Bug::State_Land(float _fTimeDelta)
+{
+	Land(0.f, 0.f, _fTimeDelta);
 }
 
 void CBoss_Bug::Mon_State(_float fTimeDelta)
@@ -273,6 +273,9 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 		State_Fly(fTimeDelta);
 		break;
 
+	case MON_STATE::LAND:
+		State_Land(fTimeDelta);
+		break;
 	}
 }
 

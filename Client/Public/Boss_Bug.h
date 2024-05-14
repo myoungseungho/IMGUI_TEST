@@ -38,7 +38,6 @@ private:
 	void Fly(_float fTimeDelta);
 	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
 
-	HRESULT Desh_Stop(_float fTimeDelta);
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
 
@@ -47,6 +46,7 @@ private:
 	void State_Dash(float _fTimeDelta);
 	void State_Bullet(float _fTimeDelta);
 	void State_Fly(float _fTimeDelta);
+	void State_Land(float _fTimeDelta);
 
 private:
 	void Mon_State(_float fTimeDelta);
@@ -54,7 +54,9 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };
 	_int m_iBulletCnt = { 0 };
-	_bool m_isTurtleDead = { true };
+	_bool m_isTurtle = { false };
+	_bool m_isFlyEnd = { false };
+	_bool m_isLand = { false };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
