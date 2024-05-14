@@ -67,9 +67,12 @@ void CPlayer::Update(_float fTimeDelta)
 			m_PlayerState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
 
+			fTimeAcc = 0.f;
 			break;
 		}
 	}
+
+
 
 	Key_Input(fTimeDelta);
 
@@ -104,40 +107,6 @@ HRESULT CPlayer::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
-}
-void CPlayer::Player_Attack(_float fTimeDelta)
-{
-	_float3		curScaled;
-	
-	// 평타
-	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
-	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
-	
-
-	curScaled.x = forScaled.x + 10.f;
-	curScaled.y = forScaled.y + 10.f;
-	curScaled.z = forScaled.z + 10.f;
-
-	m_pTransformCom->Set_Scaled(curScaled);
-
-}
-
-void CPlayer::Player_Skill(_float fTimeDelta)
-{
-	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
-	SkillDesc.pTargetTransform = m_pTransformCom;
-
-	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + 1.f;
-	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-
-	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
-
-	SkillDesc.pTargetTransform->Set_State(CTransform::STATE_POSITION, &vPosition);
-
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Playert"), TEXT("Layer_Skill_Player"), &SkillDesc);
-
 }
 
 
@@ -265,6 +234,44 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	
 
 	return S_OK;
+}
+
+void CPlayer::Player_Attack(_float fTimeDelta)
+{
+	_float3		curScaled;
+
+	// 평타
+	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
+	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
+
+
+	curScaled.x = forScaled.x + 10.f;
+	curScaled.y = forScaled.y + 10.f;
+	curScaled.z = forScaled.z + 10.f;
+
+	m_pTransformCom->Set_Scaled(curScaled);
+
+}
+
+void CPlayer::Player_Skill(_float fTimeDelta)
+{
+	_float fSkillLevel = { 0.f };
+
+	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
+	SkillDesc.pTargetTransform = m_pTransformCom;
+	m_pTransformCom->AddRef();
+
+	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
+	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f* fSkillLevel);
+
+	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
+
+	//SkillDesc.pTargetTransform->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
+
 }
 
 
