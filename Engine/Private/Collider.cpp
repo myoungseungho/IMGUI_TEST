@@ -7,11 +7,15 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CCollider::CCollider(const CCollider& Prototype)
 	: CComponent{ Prototype }
+	, m_WorldMatrix{ Prototype.m_WorldMatrix }
+
 {
 }
 
 HRESULT CCollider::Initialize_Prototype()
 {
+	D3DXMatrixIdentity(&m_WorldMatrix);
+
 	return S_OK;
 }
 
@@ -31,6 +35,13 @@ HRESULT CCollider::Initialize(void* pArg)
 		m_MineGameObject = pDesc->MineGameObject;
 		Safe_AddRef(m_MineGameObject);
 	}
+
+	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* transform = static_cast<CTransform*>(componet);
+
+	D3DXMatrixIdentity(&m_WorldMatrix);
+
+	//m_WorldMatrix = transform->Get_WorldMatrix();
 
 	return S_OK;
 }
@@ -95,14 +106,14 @@ void CCollider::Render()
 
 void CCollider::Update(_float fTimeDelta)
 {
-	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
+	/*CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componet);
 
 	m_Center.x = transform->Get_State(CTransform::STATE_POSITION).x;
 	m_Center.y = transform->Get_State(CTransform::STATE_POSITION).y;
 	m_Center.z = transform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_WorldMatrix = transform->Get_WorldMatrix();
+	m_WorldMatrix = transform->Get_WorldMatrix();*/
 }
 
 void CCollider::OnCollisionStay(CCollider*)

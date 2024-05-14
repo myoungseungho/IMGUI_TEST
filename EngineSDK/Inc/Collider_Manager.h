@@ -27,7 +27,9 @@ public:
 
 private:
 	list<class CCollider*>			m_Colliders[CG_END];
-	map<std::pair<CCollider*, CCollider*>, bool> m_CollisionHistory;
+	//m_CollisionHistory: 이전 프레임에서의 충돌 상태를 저장하는 맵입니다.
+	// 키는 두 콜라이더의 포인터를 담은 쌍(pair)이고, 값은 이 쌍이 충돌 중인지 여부를 나타내는 부울 값입니다.
+	map<pair<CCollider*, CCollider*>, bool> m_CollisionHistory;
 public:
 	static CCollider_Manager* Create();
 	virtual void Free() override;

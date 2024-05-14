@@ -45,7 +45,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	//SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	if (GetKeyState(VK_UP) & 0x8000)
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -119,7 +119,7 @@ HRESULT CPlayer::Ready_Components()
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 0.05f;
+	ColliderDesc.depth = 0.1f;
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.

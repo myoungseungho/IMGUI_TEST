@@ -29,8 +29,8 @@ HRESULT CTree::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+	/*m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));*/
 
 	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
 	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
@@ -150,4 +150,5 @@ void CTree::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 }

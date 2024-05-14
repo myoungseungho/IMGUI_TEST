@@ -226,7 +226,6 @@ HRESULT CMainApp::Show_LayerObjects()
 		CComponent* component = pSelectedGameObject->Get_Component(TEXT("Com_Transform"));
 		if (component != nullptr)
 		{
-			component->AddRef();
 			CTransform* transform = static_cast<CTransform*>(component);
 			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
 
@@ -357,8 +356,6 @@ HRESULT CMainApp::Show_LayerObjects()
 			//}
 
 			//lastEulerRotation = eulerRotation;
-
-			Safe_Release(component);
 		}
 	}
 	ImGui::EndChild();

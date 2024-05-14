@@ -25,18 +25,17 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
-	if (FAILED(ParseInitialize()))
-		return E_FAIL;
+	/*if (FAILED(ParseInitialize()))
+		return E_FAIL;*/
 
-	/*for (size_t i = 0; i < 15; i++)
-	{
-		if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"))))
-			return E_FAIL;
-	}*/
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"))))
+	//		return E_FAIL;
+	//}
 
 	return S_OK();
 }
@@ -77,7 +76,7 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 
@@ -91,7 +90,6 @@ HRESULT CLevel_GamePlay::ParseInitialize()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iter.levelIndex, iter.prototypeTag, iter.layerName, &postionAndScale)))
 			return E_FAIL;
 	}
-
 	return S_OK;
 }
 
