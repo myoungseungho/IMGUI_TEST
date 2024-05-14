@@ -29,12 +29,14 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
-
+	m_tMonsterDesc.iHp =  pDesc->iHp;
+	m_tMonsterDesc.iAttack= pDesc->iAttack;
 
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	Turtle_Create();
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	return S_OK;
 }
@@ -46,14 +48,28 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
-	KeyInput(fTimeDelta);
 	m_fAngle++;
 
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 
-	if(FAILED(Desh_Stop(fTimeDelta)))
-		Skill_Dash(fTimeDelta);
+	if (m_pKeyCom->Key_Down('1'))
+		m_tMonsterDesc.iHp--;
+
+	if (m_tMonsterDesc.iHp > 6)
+	{
+		m_eMon_State = MON_STATE::SKILL_STATEA;
+	}
+	else if (m_tMonsterDesc.iHp > 0)
+	{
+		m_eMon_State = MON_STATE::SKILL_STATEB;
+	}
+	else if(m_tMonsterDesc.iHp <= 0 )
+	{
+		m_eMon_State = MON_STATE::DEATH;
+	}
+		//m_eMon_State
+	Hp_State(fTimeDelta);
 
 	
 }
@@ -74,7 +90,7 @@ HRESULT CBoss_Bug::Render()
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
-
+	  
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
@@ -117,24 +133,6 @@ HRESULT CBoss_Bug::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::KeyInput(_float fTimeDelta)
-{
-	if (m_pKeyCom->Key_Down('1'))
-	{
-		CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
-		SkillDesc.pTargetTransform = m_pTransformCom;
-		
-		for (int i = 1; i <= 5; ++i)
-		{
-			SkillDesc.iBulletCnt = i; 
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
-				return E_FAIL;
-		}
-	}
-		
-	return S_OK;
-}
-
 void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fAngle)
 {
 	_float WarfPosX = iPosX +  fDistance * cos(fAngle * (D3DX_PI / 180.f));
@@ -146,11 +144,13 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
 		Warf(0, 0, 10.f, m_fAngle);
 	}
-	else 
+	else
 		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 }
 
@@ -159,7 +159,15 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 	m_pTransformCom->Go_Up(fTimeDelta);
 }
 
-HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta)
+void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION , (&_float3(iPosX, 10.f, iPosZ)));
+
+	if(m_pTimerCom->Time_Limit(fTimeDelta , 2.f, 5.f))
+		m_pTransformCom->Go_Down(fTimeDelta);
+}
+
+HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta) 
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
@@ -169,7 +177,7 @@ HRESULT CBoss_Bug::Desh_Stop(_float fTimeDelta)
 	}
 	else
 	{
-		if (!m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f,5.f))
 			Fly(fTimeDelta); 
 
 		return S_OK;
@@ -183,12 +191,47 @@ HRESULT CBoss_Bug::Turtle_Create()
 	Desc.iHp = 10;
 	Desc.iAttack = 1;
 
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; (i < 3) && !m_isTurtleDead ; ++i)
 	{
 		Desc.m_iColor = i;
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &Desc)))
 			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CBoss_Bug::Bullet_Create()
+{
+	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+	SkillDesc.pTargetTransform = m_pTransformCom;
+
+	for (int i = 1; i <= 5; ++i)
+	{
+		SkillDesc.iBulletCnt = i;
+		if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+void CBoss_Bug::Hp_State(_float fTimeDelta)
+{
+	switch (m_eMon_State)
+	{
+	case MON_STATE::SKILL_STATEA:
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+			Bullet_Create();
+		break;
+
+	case MON_STATE::SKILL_STATEB:
+		Skill_Dash(fTimeDelta);
+		break;
+
+	default:
+		break;
 	}
 }
 

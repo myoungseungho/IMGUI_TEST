@@ -30,18 +30,22 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
-	HRESULT  KeyInput(_float fTimeDelta);
 
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
 	void Fly(_float fTimeDelta);
+	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
 	HRESULT Desh_Stop(_float fTimeDelta);
 	HRESULT Turtle_Create();
+	HRESULT Bullet_Create();
+
+private:
+	void Hp_State(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };
-
+	_bool m_isTurtleDead = { false };
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
