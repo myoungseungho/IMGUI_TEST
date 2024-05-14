@@ -53,7 +53,7 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
-{
+{ 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -111,7 +111,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 
 HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('4') || m_isScale)
+	if (m_pKeyCom->Key_Down('7') || m_isScale)
 	{
 		m_isScale = true;
 		ScaleUp(fTimeDelta);

@@ -54,21 +54,31 @@ void CBoss_Bug::Update(_float fTimeDelta)
 		m_fAngle = 0.f;
 
 	if (m_pKeyCom->Key_Down('1'))
-		m_tMonsterDesc.iHp--;
+		Bullet_Create();
 
-	if (m_tMonsterDesc.iHp > 6)
+	if (m_pKeyCom->Key_Down('2') || m_isDesh)
 	{
-		m_eMon_State = MON_STATE::SKILL_STATEA;
+		m_isDesh = true;
+		Skill_Dash(fTimeDelta);
 	}
-	else if (m_tMonsterDesc.iHp > 0)
+	if (m_pKeyCom->Key_Down('3'))
+		Turtle_Create();
+
+	if (m_pKeyCom->Key_Down('4') || m_isUp)
 	{
-		m_eMon_State = MON_STATE::SKILL_STATEB;
+		m_isUp = true;
+		Fly(fTimeDelta);
 	}
-	else if(m_tMonsterDesc.iHp <= 0 )
+
+	if (m_pKeyCom->Key_Down('5') || m_iLand)
 	{
-		m_eMon_State = MON_STATE::DEATH;
+		m_iLand = true;
+		Land(0, 0, fTimeDelta);
 	}
-		//m_eMon_State
+
+	if(m_pKeyCom->Key_Down('6'))
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
+
 	Hp_State(fTimeDelta);
 
 	
@@ -145,24 +155,33 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fAngle)
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
-
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+	
+	if (iter)
 	{
-		Warf(0, 0, 10.f, m_fAngle);
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+		{
+			Warf(0, 0, 10.f, m_fAngle);
+		}
+		else
+			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
 	}
-	else
-		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+	
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Up(fTimeDelta);
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f, 5.f))
+		m_pTransformCom->Go_Up(fTimeDelta);
+	
 }
 
 void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION , (&_float3(iPosX, 10.f, iPosZ)));
-
+	if (!m_iCon)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (&_float3(iPosX, 5.f, iPosZ)));
+		m_iCon = true;
+	}
 	if(m_pTimerCom->Time_Limit(fTimeDelta , 2.f, 5.f))
 		m_pTransformCom->Go_Down(fTimeDelta);
 }

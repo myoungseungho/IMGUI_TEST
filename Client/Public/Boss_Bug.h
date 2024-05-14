@@ -35,6 +35,7 @@ private:
 	void Skill_Dash(_float fTimeDelta);
 	void Fly(_float fTimeDelta);
 	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
+
 	HRESULT Desh_Stop(_float fTimeDelta);
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
@@ -46,6 +47,10 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };
 	_bool m_isTurtleDead = { false };
+	_bool m_isDesh = { false };
+	_bool m_isUp = { false };
+	_bool m_iLand = { false };
+	_bool m_iCon = { false };
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
