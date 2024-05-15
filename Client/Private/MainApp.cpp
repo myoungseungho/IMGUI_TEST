@@ -138,7 +138,7 @@ HRESULT CMainApp::Render()
 		ImGui::End(); // "Settings" 창 종료
 
 		// 새로운 Collider 창 추가
-		static bool bColliderToggle = true;
+		static bool bColliderToggle = false;
 		ImGui::Begin("Collider", &bShowSettings);
 		if (ImGui::Checkbox("Toggle Collider", &bColliderToggle)) {
 			Click_Collider_Toggle(bColliderToggle);

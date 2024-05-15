@@ -14,7 +14,14 @@ void CCollider_Manager::Update(_float fTimeDelta)
 			collider->Update(fTimeDelta);
 	}
 
-	Check_Collison(fTimeDelta);
+	// 타이머를 업데이트
+	m_CollisionCheckTimer += fTimeDelta;
+
+	// 일정 시간 간격(0.5초)이 지났을 때만 콜라이더 검사를 수행
+	if (m_CollisionCheckTimer >= m_CollisionCheckInterval) {
+		Check_Collision(fTimeDelta);
+		m_CollisionCheckTimer = 0.0f; // 타이머를 초기화
+	}
 }
 
 HRESULT CCollider_Manager::Render()
@@ -51,7 +58,7 @@ HRESULT CCollider_Manager::Add_ColliderObject(COLLIDERGROUP eColliderGroup, CGam
 	return S_OK;
 }
 
-HRESULT CCollider_Manager::Check_Collison(_float fTimeDelta)
+HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 {
 	//currentCollisions: 현재 프레임에서의 충돌 상태를 저장하는 맵입니다.
 	// m_CollisionHistory와 같은 구조로 되어 있습니다.

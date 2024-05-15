@@ -22,7 +22,7 @@ public:
 
 public:
 	HRESULT Add_ColliderObject(COLLIDERGROUP eRenderGroup, class CGameObject* pRenderObject);
-	HRESULT Check_Collison(_float);
+	HRESULT Check_Collision(_float);
 	bool IsColliding(const CCollider* a, const CCollider* b);
 	HRESULT Show_Collider(bool _isOn)
 	{
@@ -37,6 +37,9 @@ private:
 	map<pair<CCollider*, CCollider*>, bool> m_CollisionHistory;
 
 	bool m_IsOn = { false };
+	_float m_CollisionCheckTimer = 0.0f;
+	const _float m_CollisionCheckInterval = 1.f; // 0.5초마다 검사
+
 public:
 	static CCollider_Manager* Create();
 	virtual void Free() override;
