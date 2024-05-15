@@ -158,9 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\Animator.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Calc_Timer.cpp" />
-    <ClCompile Include="..\private\Collider.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\Component_Manager.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
@@ -181,9 +181,9 @@
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\Animator.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\public\Calc_Timer.h" />
-    <ClInclude Include="..\public\Collider.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\Component_Manager.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />

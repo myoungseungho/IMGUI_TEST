@@ -9,7 +9,6 @@ class CTransform;
 class CComponent;
 class CVIBuffer_Rect;
 class CVIBuffer_Cube;
-class CCollider;
 END
 
 BEGIN(Client)
