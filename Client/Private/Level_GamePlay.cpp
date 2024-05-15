@@ -86,8 +86,7 @@ HRESULT CLevel_GamePlay::ParseInitialize()
 	size_t totalSize = pvecFileData->size() * sizeof(FILEDATA);
 	for (auto& iter : *pvecFileData)
 	{
-		POSITIONANDSCALE postionAndScale{ iter.position,iter.scale };
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iter.levelIndex, iter.prototypeTag, iter.layerName, &postionAndScale)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iter.levelIndex, iter.prototypeTag, iter.layerName, &iter)))
 			return E_FAIL;
 	}
 	return S_OK;

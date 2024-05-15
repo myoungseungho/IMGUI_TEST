@@ -18,11 +18,12 @@ namespace Engine
 		_uint levelIndex;
 		_float3 position;
 		_float3 scale;
+		bool isParsing;
 	}FILEDATA;
 
-	typedef struct  
-	{
-		_float3 position;
-		_float3 scale;
-	}POSITIONANDSCALE;
+	//typedef struct  
+	//{
+	//	_float3 position;
+	//	_float3 scale;
+	//}POSITIONANDSCALE;
 }

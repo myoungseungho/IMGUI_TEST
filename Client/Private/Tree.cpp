@@ -29,19 +29,25 @@ HRESULT CTree::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	/*m_pTransformCom->Set_Scaled(_float3(0.5f, 1.0f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));*/
+	if (m_IsPasingObject)
+	{
+		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
+		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
+	}
+	else
+	{
+		m_pTransformCom->Set_Scaled(_float3(1.0f, 1.0f, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+	}
 
-	POSITIONANDSCALE* positionandScale = static_cast<POSITIONANDSCALE*>(pArg);
-	m_pTransformCom->Set_Scaled(_float3(positionandScale->scale.x, positionandScale->scale.y, positionandScale->scale.z));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(positionandScale->position.x, positionandScale->position.y, positionandScale->position.z));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 0.05f;
+	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
@@ -143,10 +149,7 @@ void CTree::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
-
 	Safe_Release(m_pVIBufferCom);
-
 	Safe_Release(m_pTextureCom);
-
 	Safe_Release(m_pColliderCom);
 }

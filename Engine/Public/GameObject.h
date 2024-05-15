@@ -11,7 +11,7 @@ class ENGINE_DLL CGameObject abstract : public CBase
 public:
 	typedef struct
 	{
-		_uint		iGameObjectData = {};
+		bool isPasingObject;
 	}GAMEOBJECT_DESC;
 protected:
 	CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -42,7 +42,7 @@ protected:
 	class CGameInstance*		m_pGameInstance = { nullptr };
 
 	_uint						m_iGameObjectData = { 0 };
-
+	bool						m_IsPasingObject = { false };
 protected:
 	map<const _wstring, CComponent*>		m_Components;
 

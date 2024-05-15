@@ -417,7 +417,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 				wstring newPrefix = L"Prototype_GameObject_" + suffix;
 
 				// 이 새로운 문자열을 vecFileData에 추가
-				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled() });
+				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled(),true });
 			}
 		}
 	}

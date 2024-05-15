@@ -25,7 +25,8 @@ HRESULT CFile_Manager::SaveObjects(const wstring& filename, void* pArg)
 		file << L"PrototypeTag: " << data.prototypeTag << L"\n";
 		file << L"LevelIndex: " << data.levelIndex << L"\n";
 		file << L"Position: " << data.position.x << L" " << data.position.y << L" " << data.position.z << L"\n";
-		file << L"Scale: " << data.scale.x << L" " << data.scale.y << L" " << data.scale.z << L"\n\n";
+		file << L"Scale: " << data.scale.x << L" " << data.scale.y << L" " << data.scale.z << L"\n";
+		file << L"IsParsing: " << data.isParsing << L"\n\n";
 	}
 
 	file.close();
@@ -44,12 +45,13 @@ void* CFile_Manager::LoadObjects(const wstring& filename)
 	wstring line;
 	FILEDATA data;
 
-	//라인을 순차적으로 읽는다.
+	// 라인을 순차적으로 읽는다.
 	while (getline(file, line)) {
-		//빈 라인이 아니라면
+		// 빈 라인이 아니라면
 		if (!line.empty()) {
-			//각 라인 파싱하고 파싱 실패하면 실패 리턴
+			// 각 라인 파싱하고 파싱 실패하면 실패 리턴
 			if (ParseLine(line, data) == E_FAIL) {
+				file.close();
 				return nullptr;
 			}
 		}
@@ -62,7 +64,7 @@ void* CFile_Manager::LoadObjects(const wstring& filename)
 HRESULT CFile_Manager::ParseLine(const wstring& line, FILEDATA& obj) {
 	wistringstream iss(line);
 	wstring key;
-	// : 라는 콜론을 기준으로 키와 값으로 문자열 분리
+	// ':' 콜론을 기준으로 키와 값으로 문자열 분리
 	if (getline(iss, key, L':')) {
 		wstring value;
 		getline(iss, value);
@@ -79,23 +81,27 @@ HRESULT CFile_Manager::ParseLine(const wstring& line, FILEDATA& obj) {
 		else if (key == L"LevelIndex") {
 			obj.levelIndex = stoi(value);
 		}
-		else if (key == L"Position" || key == L"Scale") {
+		else if (key == L"Position") {
 			wistringstream vals(value);
 			float a, b, c;
 			vals >> a >> b >> c;
-			if (key == L"Position") {
-				obj.position.x = a;
-				obj.position.y = b;
-				obj.position.z = c;
-			}
-			else if (key == L"Scale") {
-				obj.scale.x = a;
-				obj.scale.y = b;
-				obj.scale.z = c;
-				// Scale을 처리한 후 객체를 저장해야 함
-				m_vecpFileData.push_back(obj);
-				obj = FILEDATA(); // 객체 초기화
-			}
+			obj.position.x = a;
+			obj.position.y = b;
+			obj.position.z = c;
+		}
+		else if (key == L"Scale") {
+			wistringstream vals(value);
+			float a, b, c;
+			vals >> a >> b >> c;
+			obj.scale.x = a;
+			obj.scale.y = b;
+			obj.scale.z = c;
+		}
+		else if (key == L"IsParsing") {
+			obj.isParsing = (value == L"true" || value == L"1");
+			// 모든 값을 읽은 후 객체를 저장
+			m_vecpFileData.push_back(obj);
+			obj = FILEDATA(); // 객체 초기화
 		}
 		return S_OK;
 	}
