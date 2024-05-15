@@ -43,7 +43,13 @@ HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, co
 
 HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fDeltaTime, _float fFrame)
 {
-	//Find_Texture(strTextureTag);
+	CTexture* pTexture = Find_Texture(strTextureTag);
+
+	m_fFrame += fDeltaTime;
+
+	if (m_fFrame >= fFrame);
+
+	pTexture->Bind_Texture(0);
 
 	return S_OK;
 }
@@ -87,4 +93,11 @@ CComponent* CAnimator::Clone(void* pArg)
 void CAnimator::Free()
 {
 	__super::Free();
+
+	for (auto& Pair : m_pTexture)
+		Safe_Release(Pair.second);
+
+	m_pTexture.clear();
+
+	Safe_Release(m_pGameInstance);
 }

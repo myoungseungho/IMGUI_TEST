@@ -26,6 +26,8 @@ private:
 	map<const _wstring, class CTexture*> m_pTexture;
 	class CGameInstance* m_pGameInstance = { nullptr };
 
+private:
+	_float m_fFrame = { 0.f };
 
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
