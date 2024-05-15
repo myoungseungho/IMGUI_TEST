@@ -48,7 +48,7 @@ HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
 	if (pTexture == nullptr)
 		return E_FAIL;
 
-	return 	pTexture->Bind_Texture(fFrame);
+	return 	pTexture->MoveFrame(fFrame);
 }
 
 CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)
