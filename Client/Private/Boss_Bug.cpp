@@ -60,6 +60,8 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 	Mon_State(fTimeDelta);
 
+
+	__super::MoveFrame(fTimeDelta);
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -71,8 +73,10 @@ HRESULT CBoss_Bug::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	/*if (FAILED(m_pTextureCom->Bind_Texture(0)))
+		return E_FAIL;*/
+
+
 
 	_float4x4		ViewMatrix, ProjMatrix;
 
@@ -89,14 +93,7 @@ HRESULT CBoss_Bug::Render()
 
 HRESULT CBoss_Bug::Ready_Components()
 {
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
-		TEXT("Com_Key"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
-		return E_FAIL;
-
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+	if(FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
 	/* For.Com_Texture */
@@ -107,11 +104,6 @@ HRESULT CBoss_Bug::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Amin */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
-		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -128,9 +120,9 @@ HRESULT CBoss_Bug::Ready_Components()
 
 HRESULT CBoss_Bug::Ready_Animation()
 {
-	//m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"), TEXT("BOSS_BUG_PHASE1_IDLE"));
-	//m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"), TEXT("BOSS_BUG_PHASE1_READY"));
-	//m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"), TEXT("BOSS_BUG_PHASE1_IDLE"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"), TEXT("BOSS_BUG_PHASE1_READY"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
 	return S_OK;
 }
@@ -225,7 +217,8 @@ HRESULT CBoss_Bug::Bullet_Create()
 
 void CBoss_Bug::State_Idle(float _fTimeDelta)
 {
-	m_eMon_State = MON_STATE::BULLET;
+	//m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"), _fTimeDelta, 0.2f);
+	//m_eMon_State = MON_STATE::BULLET;
 }
 
 void CBoss_Bug::State_Dash(float _fTimeDelta)
@@ -326,11 +319,8 @@ void CBoss_Bug::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pKeyCom);
-	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pAnimCom);
 }

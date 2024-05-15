@@ -23,15 +23,14 @@ public:
 
 public:
 	HRESULT Bind_Texture(_uint iTextureIndex);
-	HRESULT MoveFrame(_float fTimeDelta , _float fFrame);
+	HRESULT MoveFrame(_float fFrame);
 
 private:
 	/*IDirect3DCubeTexture9* == LPDIRECT3DCUBETEXTURE9
 	IDirect3DTexture9* == LPDIRECT3DTEXTURE9*/
 	_uint									m_iNumTextures = { 0 };
 	vector<LPDIRECT3DBASETEXTURE9>			m_Textures;
-	_float									m_fFrame = { 0.f };
-	_uint									m_iIndex = { 0 };
+
 public:
 	static CTexture* Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _wstring& strTextureFilePath, _uint iNumTextures = 1);
 	virtual CComponent* Clone(void* pArg) override;

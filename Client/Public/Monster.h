@@ -19,7 +19,7 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, WALK, ATTACK ,DASH , BULLET ,FLY,LAND ,STAN , DEATH,  MON_END};
+	enum class MON_STATE { IDLE, WALK, ATTACK, DASH, BULLET, FLY, LAND, STAN, DEATH, MON_END };
 
 public:
 	typedef struct
@@ -36,9 +36,11 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
+	virtual void Update(_float fTimeDelta);
 
 protected:
-	virtual HRESULT Ready_Component();
+	virtual HRESULT Ready_Components();
+	virtual void MoveFrame(_float fTimeDelta);
 
 protected:
 	CTexture* m_pTextureCom = { nullptr };
@@ -47,6 +49,10 @@ protected:
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
+
+private:
+	_float m_fFrame = { 0.f };
+	_float m_iAnimIndex = { 0 };
 
 protected:
 	MON_STATE m_eMon_State = {};

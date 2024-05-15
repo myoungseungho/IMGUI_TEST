@@ -41,15 +41,14 @@ HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, co
 	return S_OK;
 }
 
-HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fDeltaTime, _float fFrame)
+HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
 {
 	CTexture* pTexture = Find_Texture(strTextureTag);
 
-	m_fFrame += fDeltaTime;
+	if (pTexture == nullptr)
+		return E_FAIL;
 
-	if (m_fFrame >= fFrame);
-
-	pTexture->Bind_Texture(0);
+	pTexture->MoveFrame(fFrame);
 
 	return S_OK;
 }
