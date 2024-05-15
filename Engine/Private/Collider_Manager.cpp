@@ -8,13 +8,13 @@ CCollider_Manager::CCollider_Manager()
 
 void CCollider_Manager::Update(_float fTimeDelta)
 {
-	//// 먼저 모든 콜라이더를 업데이트
-	//for (size_t i = 0; i < CG_END; i++) {
-	//	for (auto& collider : m_Colliders[i])
-	//		collider->Update(fTimeDelta);
-	//}
+	// 먼저 모든 콜라이더를 업데이트
+	for (size_t i = 0; i < CG_END; i++) {
+		for (auto& collider : m_Colliders[i])
+			collider->Update(fTimeDelta);
+	}
 
-	/*Check_Collison(fTimeDelta);*/
+	Check_Collison(fTimeDelta);
 }
 
 HRESULT CCollider_Manager::Render()

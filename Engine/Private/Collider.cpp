@@ -39,9 +39,7 @@ HRESULT CCollider::Initialize(void* pArg)
 	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componet);
 
-	D3DXMatrixIdentity(&m_WorldMatrix);
-
-	//m_WorldMatrix = transform->Get_WorldMatrix();
+	m_WorldMatrix = transform->Get_WorldMatrix();
 
 	return S_OK;
 }
@@ -60,6 +58,8 @@ void CCollider::Render()
 	DWORD originalFillMode;
 	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &originalFillMode);
 
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
+
 	// 로컬 스페이스에서 콜라이더의 8개 정점을 계산
 	_float3 localVertices[8];
 	float halfWidth = m_Width / 2.0f;
@@ -74,14 +74,7 @@ void CCollider::Render()
 	localVertices[5] = _float3(halfWidth, -halfHeight, halfDepth);
 	localVertices[6] = _float3(halfWidth, halfHeight, halfDepth);
 	localVertices[7] = _float3(-halfWidth, halfHeight, halfDepth);
-
-	// 월드 스페이스로 변환된 정점 배열
-	_float3 worldVertices[8];
-	for (int i = 0; i < 8; ++i)
-	{
-		D3DXVec3TransformCoord(&worldVertices[i], &localVertices[i], &m_WorldMatrix);
-	}
-
+	
 	// 인덱스 배열
 	short indices[] = {
 		0, 1, 1, 2, 2, 3, 3, 0, // 아래 면
@@ -96,7 +89,7 @@ void CCollider::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	// 정점과 인덱스를 사용하여 육면체 그리기
-	m_pGraphic_Device->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12, indices, D3DFMT_INDEX16, worldVertices, sizeof(_float3));
+	m_pGraphic_Device->DrawIndexedPrimitiveUP(D3DPT_LINELIST, 0, 8, 12, indices, D3DFMT_INDEX16, localVertices, sizeof(_float3));
 
 	// 렌더링 상태를 원래대로 복원
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, originalFillMode);
@@ -106,19 +99,22 @@ void CCollider::Render()
 
 void CCollider::Update(_float fTimeDelta)
 {
-	/*CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
+	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componet);
 
 	m_Center.x = transform->Get_State(CTransform::STATE_POSITION).x;
 	m_Center.y = transform->Get_State(CTransform::STATE_POSITION).y;
 	m_Center.z = transform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_WorldMatrix = transform->Get_WorldMatrix();*/
+	m_WorldMatrix = transform->Get_WorldMatrix();
+
+	// 플레이어의 월드 행렬을 설정
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
 void CCollider::OnCollisionStay(CCollider*)
 {
-
+	int a = 3;
 }
 
 void CCollider::OnCollisionExit(CCollider*)

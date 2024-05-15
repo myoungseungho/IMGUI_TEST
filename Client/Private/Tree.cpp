@@ -76,9 +76,6 @@ HRESULT CTree::Render()
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
-	/* 로컬 정점을 변환하기위한 상태행렬(월드, 뷰, 투영)들을 셋팅한다. 가라!!!!!!! */
-	_float4x4		ViewMatrix, ProjMatrix;
-
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
@@ -110,8 +107,6 @@ HRESULT CTree::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
-	
 
 	return S_OK;
 }

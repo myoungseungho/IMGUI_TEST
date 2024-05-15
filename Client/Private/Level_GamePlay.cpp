@@ -28,14 +28,14 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
-	/*if (FAILED(ParseInitialize()))
-		return E_FAIL;*/
+	if (FAILED(ParseInitialize()))
+		return E_FAIL;
 
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"))))
-	//		return E_FAIL;
-	//}
+	/*for (size_t i = 0; i < 3; i++)
+	{
+		if (FAILED(Ready_Layer_Tree(TEXT("Layer_Tree"))))
+			return E_FAIL;
+	}*/
 
 	return S_OK();
 }
@@ -115,8 +115,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag, CLandO
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
 			return E_FAIL;
 	}
-
-
 
 	return S_OK;
 }

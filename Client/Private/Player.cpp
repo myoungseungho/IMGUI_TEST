@@ -58,15 +58,11 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (GetKeyState(VK_DOWN) & 0x8000)
 		m_pTransformCom->Go_Backward(fTimeDelta);
-
-
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	int a = 10;
 }
 
 HRESULT CPlayer::Render()
@@ -119,7 +115,7 @@ HRESULT CPlayer::Ready_Components()
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 0.1f;
+	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
@@ -129,6 +125,7 @@ HRESULT CPlayer::Ready_Components()
 
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+
 	return S_OK;
 }
 
