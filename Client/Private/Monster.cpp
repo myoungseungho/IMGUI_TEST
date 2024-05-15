@@ -50,10 +50,16 @@ HRESULT CMonster::Ready_Components()
 
 void CMonster::MoveFrame(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, m_fFrame))
+	m_fFrame += fTimeDelta;
+
+	if (m_fFrame >= m_tMonAnimInst.fFrame)
 	{
+		m_fFrame = { 0 };
 		m_iAnimIndex++;
 	}
+
+	if (m_tMonAnimInst.iFrameEnd <= m_iAnimIndex)
+		m_iAnimIndex = 0;
 }
 
 void CMonster::Free()

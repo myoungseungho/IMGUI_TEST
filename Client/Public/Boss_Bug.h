@@ -34,6 +34,9 @@ private:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_Animation();
 
+	virtual void Begin_State();
+	virtual void End_State();
+
 private:
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
@@ -47,6 +50,7 @@ private:
 	void Mon_State(_float fTimeDelta);
 	void State_Idle(float _fTimeDelta);
 	void State_Dash(float _fTimeDelta);
+	void State_Ready(float _fTimeDelta);
 	void State_Bullet(float _fTimeDelta);
 	void State_Fly(float _fTimeDelta);
 	void State_Land(float _fTimeDelta);
