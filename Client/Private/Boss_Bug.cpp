@@ -38,6 +38,8 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if(FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 2.f));
+
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
