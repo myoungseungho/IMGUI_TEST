@@ -57,6 +57,7 @@ void CBoss_Bug::Update(_float fTimeDelta)
 {
 	m_fAngle++;
 
+
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 	
