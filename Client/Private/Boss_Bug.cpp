@@ -70,10 +70,9 @@ void CBoss_Bug::Late_Update(_float fTimeDelta)
 
 HRESULT CBoss_Bug::Render()
 {
-	Begin_State();
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	if (FAILED(Begin_RenderState()))
+		return E_FAIL;
 
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -81,9 +80,9 @@ HRESULT CBoss_Bug::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-	End_State();
+	if (FAILED(End_RenderState()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -119,12 +118,24 @@ HRESULT CBoss_Bug::Ready_Animation()
 	return S_OK;
 }
 
-void CBoss_Bug::Begin_State()
-{
+HRESULT CBoss_Bug::Begin_RenderState()
+{	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	return S_OK;
 }
 
-void CBoss_Bug::End_State()
+HRESULT CBoss_Bug::End_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	return S_OK;
 }
 
 void CBoss_Bug::Warf(_int iPosX, _int iPosZ,_float fDistance, _float fAngle)

@@ -34,8 +34,8 @@ private:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_Animation();
 
-	virtual void Begin_State();
-	virtual void End_State();
+	virtual HRESULT Begin_RenderState();
+	virtual HRESULT End_RenderState();
 
 private:
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
