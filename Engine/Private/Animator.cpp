@@ -51,6 +51,14 @@ HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
 	return 	pTexture->MoveFrame(fFrame);
 }
 
+void CAnimator::Move_Frame(_float fFrame)
+{
+	_float fMoveFrame =  fFrame * 10.f;
+	_float fCurrFrame = 1.f / fMoveFrame;
+	_float m_fIndex = 0.f;
+	m_fIndex += fCurrFrame;
+}
+
 CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)
 {
 	auto	iter = m_pTexture.find(strTextureTag);
