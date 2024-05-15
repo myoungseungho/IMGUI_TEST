@@ -15,12 +15,17 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg) override;
 
-	virtual HRESULT Add_Animator(_uint iLevel,const wstring& strLayerTag, const wstring& strComponentTag);
+public:
+	HRESULT Add_Animator(_uint iLevel , const wstring& strComponentTag , const wstring& strTextureTag);
+	HRESULT Play_Animator(const wstring& strTextureTag,_float fDeltaTime , _float fFrame);
+
+private: 
+	class CTexture* Find_Texture(const wstring& strTextureTag);
 
 private:
 	map<const _wstring, class CTexture*> m_pTexture;
-
 	class CGameInstance* m_pGameInstance = { nullptr };
+
 
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

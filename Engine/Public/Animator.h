@@ -16,10 +16,11 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	HRESULT Add_Animator(_uint iLevel,const wstring& strLayerTag, const wstring& strComponentTag , const wstring& strAnimTag);
-	//HRESULT Play_Animator();
+	HRESULT Add_Animator(_uint iLevel , const wstring& strComponentTag , const wstring& strTextureTag);
+	HRESULT Play_Animator(const wstring& strTextureTag,_float fDeltaTime , _float fFrame);
+
 private: 
-	//void Set_Frame(_float fTimeDelta, _float fMoveTimer);
+	class CTexture* Find_Texture(const wstring& strTextureTag);
 
 private:
 	map<const _wstring, class CTexture*> m_pTexture;

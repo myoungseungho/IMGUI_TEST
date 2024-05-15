@@ -331,6 +331,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CKeyState::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		CAnimator::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 
 }

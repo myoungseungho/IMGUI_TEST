@@ -32,20 +32,6 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 	return (*iter);
 }
 
-_bool CLayer::Delete_GameObject()
-{
-	for (auto& iter = m_GameObjects.begin() ; iter != m_GameObjects.end() ; ++iter)
-	{
-		_bool isDeath  = (*iter)->Get_Death();
-
-		return true;
-
-	}
-
-	return false;
-}
-
-
 HRESULT CLayer::Add_GameObject(CGameObject* pGameObject)
 {
 	if (nullptr == pGameObject)

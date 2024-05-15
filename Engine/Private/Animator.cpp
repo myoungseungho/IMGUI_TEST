@@ -29,16 +29,33 @@ HRESULT CAnimator::Initialize(void* pArg)
 
 
 
-HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strLayerTag, const wstring& strComponentTag, const wstring& strAnimTag)
+HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, const wstring& strTextureTag)
 { 
-	CTexture* pTexture = dynamic_cast<CTexture*>(m_pGameInstance->Get_Component(iLevel, strLayerTag , strComponentTag));
+	CTexture* pTexture = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Component(iLevel, strComponentTag));
 	
 	if (pTexture == nullptr)
 		return E_FAIL;
 
-	m_pTexture.emplace(strAnimTag, pTexture);
+	m_pTexture.emplace(strTextureTag, pTexture);
 
 	return S_OK;
+}
+
+HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fDeltaTime, _float fFrame)
+{
+	//Find_Texture(strTextureTag);
+
+	return S_OK;
+}
+
+CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)
+{
+	auto	iter = m_pTexture.find(strTextureTag);
+
+	if(iter == m_pTexture.end())
+		return nullptr;
+
+	return iter->second;
 }
 
 CAnimator* CAnimator::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

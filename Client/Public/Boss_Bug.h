@@ -32,7 +32,9 @@ public:
 
 private:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_Animation();
 
+private:
 	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
 	void Fly(_float fTimeDelta);
@@ -42,14 +44,13 @@ private:
 	HRESULT Bullet_Create();
 
 private:
+	void Mon_State(_float fTimeDelta);
 	void State_Idle(float _fTimeDelta);
 	void State_Dash(float _fTimeDelta);
 	void State_Bullet(float _fTimeDelta);
 	void State_Fly(float _fTimeDelta);
 	void State_Land(float _fTimeDelta);
 
-private:
-	void Mon_State(_float fTimeDelta);
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle =	{ 0.f };

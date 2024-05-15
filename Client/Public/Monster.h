@@ -10,6 +10,7 @@ class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
 class CKeyState;
+class CAnimator;
 
 END
 
@@ -45,7 +46,9 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
+protected:
 	MON_STATE m_eMon_State = {};
 	MONSTER_DESC m_tMonsterDesc = {};
 
