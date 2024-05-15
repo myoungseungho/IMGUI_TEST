@@ -23,7 +23,7 @@ public:
 
 public:
 	HRESULT Bind_Texture(_uint iTextureIndex);
-	HRESULT MoveFrame(_float fFrame);
+	HRESULT Bind_Anim(_float& fFrame);
 
 private:
 	/*IDirect3DCubeTexture9* == LPDIRECT3DCUBETEXTURE9

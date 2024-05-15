@@ -56,12 +56,12 @@ HRESULT CTexture::Bind_Texture(_uint iTextureIndex)
  	return m_pGraphic_Device->SetTexture(0, m_Textures[iTextureIndex]);	
 }
 
-HRESULT CTexture::MoveFrame(_float fFrame)
+HRESULT CTexture::Bind_Anim(_float& fFrame)
 {
 	_uint iSize = m_Textures.size();
 
 	if (fFrame >= iSize)
-		return E_FAIL;
+		fFrame = 0.f;
 	
 	return m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
 }

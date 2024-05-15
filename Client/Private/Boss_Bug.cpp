@@ -50,7 +50,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
-	__super::MoveFrame(fTimeDelta);
+	
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
@@ -230,7 +230,7 @@ HRESULT CBoss_Bug::Bullet_Create()
 
 void CBoss_Bug::State_Idle(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"), m_iAnimIndex);
+	m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"),0.2f);
 
 	if(m_pTimerCom->Time_Limit(_fTimeDelta,3.f))
 		m_eMon_State = MON_STATE::READY;
@@ -257,7 +257,7 @@ void CBoss_Bug::State_Dash(float _fTimeDelta)
 
 void CBoss_Bug::State_Ready(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), m_iAnimIndex);
+	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 0.2f);
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 		m_eMon_State = MON_STATE::BULLET;
@@ -266,7 +266,7 @@ void CBoss_Bug::State_Ready(float _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), m_iAnimIndex);
+	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 0.2f);
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 	{
@@ -298,9 +298,6 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 	{
 	case MON_STATE::IDLE:
 		State_Idle(fTimeDelta);
-
-		m_tMonAnimInst.fFrame = 0.2f;
-		m_tMonAnimInst.iFrameEnd = 5;
 		break;
 
 	case MON_STATE::DASH:
@@ -310,14 +307,9 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 	case MON_STATE::READY:
 		State_Ready(fTimeDelta);
 
-		m_tMonAnimInst.fFrame = 0.2f;
-		m_tMonAnimInst.iFrameEnd = 5;
 		break;
 	case MON_STATE::BULLET:
 		State_Bullet(fTimeDelta);
-
-		m_tMonAnimInst.fFrame = 0.2f;
-		m_tMonAnimInst.iFrameEnd = 6;
 		break;
 
 	case MON_STATE::FLY:

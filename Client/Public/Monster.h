@@ -47,7 +47,6 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components();
-	virtual void MoveFrame(_float fTimeDelta);
 
 protected:
 	CTexture* m_pTextureCom = { nullptr };

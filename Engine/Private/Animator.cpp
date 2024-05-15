@@ -48,14 +48,15 @@ HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
 	if (pTexture == nullptr)
 		return E_FAIL;
 
-	return 	pTexture->MoveFrame(fFrame);
+	Move_Frame(fFrame);
+
+	return 	pTexture->Bind_Anim(m_fIndex);
 }
 
 void CAnimator::Move_Frame(_float fFrame)
 {
-	_float fMoveFrame =  fFrame * 10.f;
+	_float fMoveFrame =  fFrame  * 60.f;
 	_float fCurrFrame = 1.f / fMoveFrame;
-	_float m_fIndex = 0.f;
 	m_fIndex += fCurrFrame;
 }
 

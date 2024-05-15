@@ -18,6 +18,7 @@ public:
 public:
 	HRESULT Add_Animator(_uint iLevel , const wstring& strComponentTag , const wstring& strTextureTag);
 	HRESULT Play_Animator(const wstring& strTextureTag , _float fFrame);
+	void Move_Frame(_float fFrame);
 
 private: 
 	class CTexture* Find_Texture(const wstring& strTextureTag);
@@ -27,7 +28,7 @@ private:
 	class CGameInstance* m_pGameInstance = { nullptr };
 
 private:
-	_float m_fFrame = { 0.f };
+	_float m_fIndex = { 0.f };
 
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
