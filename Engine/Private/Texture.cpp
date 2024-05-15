@@ -56,6 +56,7 @@ HRESULT CTexture::Bind_Texture(_uint iTextureIndex)
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iTextureIndex]);	
 }
 
+
 CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _wstring & strTextureFilePath, _uint iNumTextures)
 {
 	CTexture*		pInstance = new CTexture(pGraphic_Device);

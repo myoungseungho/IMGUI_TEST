@@ -46,7 +46,6 @@ HRESULT CPlayer::Initialize(void * pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 void CPlayer::Update(_float fTimeDelta)

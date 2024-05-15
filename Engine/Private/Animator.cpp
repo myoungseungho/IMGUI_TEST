@@ -1,13 +1,20 @@
 #include "Animator.h"
 
+#include"Texture.h"
+#include"GameInstance.h"
+
 CAnimator::CAnimator(LPDIRECT3DDEVICE9 pGrpahic_Device)
 	:CComponent { pGrpahic_Device }
+	, m_pGameInstance{ CGameInstance::Get_Instance() }
 {
+	Safe_AddRef(m_pGameInstance);
 }
 
 CAnimator::CAnimator(const CAnimator& pPrototype)
 	:CComponent{ pPrototype }
+	, m_pGameInstance{ pPrototype.m_pGameInstance }
 {
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CAnimator::Initialize_Prototype()
@@ -17,6 +24,20 @@ HRESULT CAnimator::Initialize_Prototype()
 
 HRESULT CAnimator::Initialize(void* pArg)
 {
+	return S_OK;
+}
+
+
+
+HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strLayerTag, const wstring& strComponentTag, const wstring& strAnimTag)
+{ 
+	CTexture* pTexture = dynamic_cast<CTexture*>(m_pGameInstance->Get_Component(iLevel, strLayerTag , strComponentTag));
+	
+	if (pTexture == nullptr)
+		return E_FAIL;
+
+	m_pTexture.emplace(strAnimTag, pTexture);
+
 	return S_OK;
 }
 
