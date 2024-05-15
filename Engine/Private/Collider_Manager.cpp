@@ -19,6 +19,9 @@ void CCollider_Manager::Update(_float fTimeDelta)
 
 HRESULT CCollider_Manager::Render()
 {
+	if (!m_IsOn)
+		return E_FAIL;
+
 	for (size_t i = 0; i < CG_END; i++)
 	{
 		for (auto& collider : m_Colliders[i])

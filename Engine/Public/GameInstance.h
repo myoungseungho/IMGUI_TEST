@@ -52,6 +52,8 @@ public: /* For.FileManager */
 	void* LoadObjects(const wstring& filename);
 public: /* For.ColliderManager */
 	HRESULT Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, class CGameObject* pColliderObject);
+	HRESULT Show_Collider(bool);
+
 
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };

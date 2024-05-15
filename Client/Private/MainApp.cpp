@@ -136,6 +136,15 @@ HRESULT CMainApp::Render()
 		}
 
 		ImGui::End(); // "Settings" 창 종료
+
+		// 새로운 Collider 창 추가
+		static bool bColliderToggle = true;
+		ImGui::Begin("Collider", &bShowSettings);
+		if (ImGui::Checkbox("Toggle Collider", &bColliderToggle)) {
+			Click_Collider_Toggle(bColliderToggle);
+		}
+		ImGui::End();
+
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();
@@ -383,7 +392,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
 	// 여기에 스킵할 레이어 이름을 정의
-	unordered_set<wstring> skipLayers = 
+	unordered_set<wstring> skipLayers =
 	{ L"Layer_BackGround", L"Layer_Camera",  L"Layer_Player" };
 
 	for (auto& object : objectLayersVector)
@@ -413,13 +422,6 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 		}
 	}
 
-	//결국에 넘겨줘야 하는건 뭐야?
-	// '하나의 오브젝트'에 대해서
-	//1. 레이어 이름
-	//2. 프로토타입 태그
-	//3. 레벨정보
-	//4. 트랜스폼 정보 (위치, 회전, 스케일 FLOAT3)
-
 	//이걸 레벨당 사본객체 리스트를 넘겨줘야 한다.
 	HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"), &vecFileData);
 	if (result == S_OK) {
@@ -439,6 +441,12 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 HRESULT CMainApp::Load_Button_Pressed()
 {
 	return E_NOTIMPL;
+}
+
+HRESULT CMainApp::Click_Collider_Toggle(bool isChecked)
+{
+	m_pGameInstance->Show_Collider(isChecked);
+	return S_OK;
 }
 
 HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)

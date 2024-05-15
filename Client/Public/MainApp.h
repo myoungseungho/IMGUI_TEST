@@ -36,7 +36,7 @@ private:
 	HRESULT Show_LayerObjects();
 	HRESULT Save_Button_Pressed(bool*, bool*);
 	HRESULT Load_Button_Pressed();
-
+	HRESULT Click_Collider_Toggle(bool isChecked);
 
 public:
 	static CMainApp* Create();

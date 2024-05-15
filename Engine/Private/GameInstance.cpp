@@ -235,6 +235,14 @@ HRESULT CGameInstance::Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColl
 	return m_pColliderManager->Add_ColliderObject(eColliderGroup, pColliderObject);
 }
 
+HRESULT CGameInstance::Show_Collider(bool _isOn)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->Show_Collider(_isOn);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pRenderer);
