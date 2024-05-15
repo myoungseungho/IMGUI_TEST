@@ -33,7 +33,7 @@ HRESULT CCollider::Initialize(void* pArg)
 	if (pDesc->MineGameObject != nullptr)
 	{
 		m_MineGameObject = pDesc->MineGameObject;
-		Safe_AddRef(m_MineGameObject);
+		//Safe_AddRef(m_MineGameObject);
 	}
 
 	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
@@ -155,5 +155,5 @@ void CCollider::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_MineGameObject);
+	//Safe_Release(m_MineGameObject);
 }
