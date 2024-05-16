@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 #include "Component_Manager.h"
-
+#include "Collider_Manager.h"
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -38,6 +38,7 @@ public: /* For.Object_Manager */
 	HRESULT Delete_GaemObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex = 0);
 	HRESULT AddObjectPrototypesVector(vector<string>*);
 	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < string, list<CGameObject*>>>*);
+	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < wstring, list<CGameObject*>>>*);
 
 
 public: /* For.Component_Manager */
@@ -48,17 +49,28 @@ public: /* For.Component_Manager */
 public: /* For.Renderer */
 	HRESULT Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 
+public: /* For.FileManager */
+	HRESULT SaveObjects(const wstring& filename, void* pArg);
+	void* LoadObjects(const wstring& filename);
+public: /* For.ColliderManager */
+	HRESULT Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, class CGameObject* pColliderObject);
+	HRESULT Show_Collider(bool);
+	HRESULT OnCollisionCheckIntervalChanged(float);
+
+
 private:
-	class CGraphic_Device*				m_pGraphic_Device = { nullptr };
-	class CLevel_Manager*				m_pLevel_Manager = { nullptr };
-	class CTimer_Manager*				m_pTimer_Manager = { nullptr };
-	class CObject_Manager*				m_pObject_Manager = { nullptr };
-	class CComponent_Manager*			m_pComponent_Manager = { nullptr };
-	class CRenderer*					m_pRenderer = { nullptr };
+	class CGraphic_Device* m_pGraphic_Device = { nullptr };
+	class CLevel_Manager* m_pLevel_Manager = { nullptr };
+	class CTimer_Manager* m_pTimer_Manager = { nullptr };
+	class CObject_Manager* m_pObject_Manager = { nullptr };
+	class CComponent_Manager* m_pComponent_Manager = { nullptr };
+	class CRenderer* m_pRenderer = { nullptr };
+	class CFile_Manager* m_pFileManager = { nullptr };
+	class CCollider_Manager* m_pColliderManager = { nullptr };
 
 public:
 	void Release_Engine();
-	
+
 	virtual void Free() override;
 
 };

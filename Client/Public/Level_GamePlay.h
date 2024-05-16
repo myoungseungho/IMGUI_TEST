@@ -3,6 +3,8 @@
 #include "Client_Defines.h"
 #include "Level.h"
 
+#include "LandObject.h"
+
 BEGIN(Client)
 
 class CLevel_GamePlay final : public CLevel
@@ -18,12 +20,17 @@ public:
 private:
 	/* 내 게임내에 배경을 구성하는 객체들을 추가한다. */
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc);
+	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc);
+	HRESULT Ready_Layer_Tree(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Boss_Bug(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag);
 
+
+	HRESULT Ready_LandObjects();
+
+	HRESULT ParseInitialize();
 
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

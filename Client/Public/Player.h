@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "LandObject.h"
+
 
 
 BEGIN(Engine)
@@ -9,14 +10,13 @@ class CTexture;
 class CTransform;
 class CComponent;
 class CVIBuffer_Rect;
-class CVIBuffer_Cube;
+class CCollider;
 class CKeyState;
-class CCalc_Timer;
 END
 
 BEGIN(Client)
 
-class CPlayer final : public CGameObject
+class CPlayer final : public CLandObject
 {	
 private:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
@@ -35,13 +35,16 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*		m_pVIBufferRectCom = { nullptr };
-	CVIBuffer_Cube*		m_pVIBufferCubeCom = { nullptr };
+	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CCollider*			m_pColliderCom = { nullptr };
 	CKeyState*				m_pKeyCom = { nullptr };
-	CCalc_Timer*			m_pTimerCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

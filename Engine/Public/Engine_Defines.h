@@ -10,6 +10,9 @@
 #include <list>
 #include <map>
 #include <algorithm>
+#include <fstream>
+#include <unordered_set>
+
 using namespace std;
 
 #include "Engine_Macro.h"

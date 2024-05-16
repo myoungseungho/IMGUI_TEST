@@ -6,17 +6,18 @@
 
 
 #include "..\Public\Player.h"
+#include "..\Public\Tree.h"
 
 #include "GameInstance.h"
 #include "Skill_Player.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CLandObject{ pGraphic_Device }
 {
 }
 
-CPlayer::CPlayer(const CPlayer & Prototype)
-	: CGameObject{ Prototype }
+CPlayer::CPlayer(const CPlayer& Prototype)
+	: CLandObject{ Prototype }
 {
 }
 
@@ -28,7 +29,7 @@ HRESULT CPlayer::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CPlayer::Initialize(void * pArg)
+HRESULT CPlayer::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -36,9 +37,6 @@ HRESULT CPlayer::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 1.f));
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 0.f));
 
 	forScaled = m_pTransformCom->Get_Scaled();
 
@@ -51,6 +49,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	SetUp_OnTerrain(m_pTransformCom, 0.f);
+
 	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
 
 	_float		fTimeAcc = { 0.0f };
@@ -73,20 +73,18 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 
 
-
 	Key_Input(fTimeDelta);
-
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	int a = 10;
 }
 
 HRESULT CPlayer::Render()
 {
+	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -98,7 +96,7 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferRectCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 
@@ -107,6 +105,22 @@ HRESULT CPlayer::Render()
 	return S_OK;
 }
 
+void CPlayer::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+	if (dynamic_cast<CTree*>(otherObject)) {
+		int a = 3;
+	}
+}
+
+void CPlayer::OnCollisionStay(CCollider* other)
+{
+}
+
+void CPlayer::OnCollisionExit(CCollider* other)
+{
+
+}
 
 HRESULT CPlayer::Ready_Components()
 {
@@ -117,17 +131,13 @@ HRESULT CPlayer::Ready_Components()
 
 	/* For.Com_VIBuffer_Rect */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom))))
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -141,7 +151,25 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	
+	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 2.f, 0.f));
+
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 1.f;
+	ColliderDesc.MineGameObject = this;
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+
 	return S_OK;
 }
 
@@ -275,7 +303,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPlayer*		pInstance = new CPlayer(pGraphic_Device);
+	CPlayer* pInstance = new CPlayer(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -287,9 +315,9 @@ CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CPlayer::Clone(void * pArg)
+CGameObject* CPlayer::Clone(void* pArg)
 {
-	CPlayer*		pInstance = new CPlayer(*this);
+	CPlayer* pInstance = new CPlayer(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -306,13 +334,11 @@ void CPlayer::Free()
 
 	Safe_Release(m_pTransformCom);
 
-	Safe_Release(m_pVIBufferRectCom);
-
-	Safe_Release(m_pVIBufferCubeCom);
+	Safe_Release(m_pVIBufferCom);
 
 	Safe_Release(m_pTextureCom);
 
-	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pColliderCom);
 
 	Safe_Release(m_pKeyCom);
 }

@@ -31,12 +31,6 @@
     <Filter Include="02.GameObjects\BackGround">
       <UniqueIdentifier>{00b0977b-28d1-4d3e-8c7e-eaba26c2ab85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Player">
-      <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Monster">
-      <UniqueIdentifier>{b582b878-7d24-4112-912e-1f594742f5e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Imgui">
       <UniqueIdentifier>{54738d0b-dec9-4d92-945a-87529e336b85}</UniqueIdentifier>
     </Filter>
@@ -49,26 +43,41 @@
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{24d91bed-70bb-479e-a6ef-c6a774315506}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Boss">
-      <UniqueIdentifier>{2dc6f27d-adcc-40ff-857f-3983087d1ef1}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Terrain">
+      <UniqueIdentifier>{d301e9b2-490f-4931-8bc9-efd2be7291fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Pocket">
-      <UniqueIdentifier>{282b6d17-7e5e-44f3-be90-4f58a5f2abc5}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\LandObject">
+      <UniqueIdentifier>{4decf3b6-23c4-486f-8c1f-d51fe47bf50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster">
+      <UniqueIdentifier>{b582b878-7d24-4112-912e-1f594742f5e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Player">
+      <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\StaticObject">
+      <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\StaticObject\Grass">
+      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Skill">
-      <UniqueIdentifier>{d02dc42a-e261-4226-80a7-783558e6f6a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect">
-      <UniqueIdentifier>{d6946fef-3b6e-47c4-85fb-b41e85cf0856}</UniqueIdentifier>
+      <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster">
-      <UniqueIdentifier>{be37443a-932d-432e-8215-c161d8c74e72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
-      <UniqueIdentifier>{24ad1d1b-0a96-42c7-99c0-f668ff9b9e49}</UniqueIdentifier>
+      <UniqueIdentifier>{c520d356-9509-4de7-b278-b65adddad62f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Player">
-      <UniqueIdentifier>{5a8fd0c8-39f9-4cc7-acaf-de46166190f0}</UniqueIdentifier>
+      <UniqueIdentifier>{af2ce3aa-51c5-44fa-bac2-95171cb9fb4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
+      <UniqueIdentifier>{54895d1f-0bd4-4614-97ce-e7188ca1ea32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Boss">
+      <UniqueIdentifier>{8cf21d63-e930-4368-bea0-fc8f8e2e5e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Pocket">
+      <UniqueIdentifier>{a356024f-a36b-4196-a7c6-e424dfe950bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +118,10 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
-      <Filter>02.GameObjects\Player</Filter>
+      <Filter>02.GameObjects\LandObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Monster.h">
+      <Filter>02.GameObjects\LandObject\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\imstb_rectpack.h">
       <Filter>97. Imgui\h</Filter>
@@ -138,26 +150,32 @@
     <ClInclude Include="..\Public\Camera.h">
       <Filter>02.GameObjects\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Monster.h">
-      <Filter>02.GameObjects\Monster</Filter>
+    <ClInclude Include="..\Public\Terrain.h">
+      <Filter>02.GameObjects\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Mon_Pocket.h">
-      <Filter>02.GameObjects\Monster\Pocket</Filter>
+    <ClInclude Include="..\Public\LandObject.h">
+      <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Boss_Bug.h">
-      <Filter>02.GameObjects\Monster\Boss</Filter>
+    <ClInclude Include="..\Public\Tree.h">
+      <Filter>02.GameObjects\StaticObject\Grass</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Skill_Monster.h">
-      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Skill.h">
+    <ClInclude Include="..\Public\Skill.h">
       <Filter>02.GameObjects\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Skill_Bug_Bullet.h">
-      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_Player.h">
       <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Monster.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Bug_Bullet.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Bug.h">
+      <Filter>02.GameObjects\LandObject\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Pocket.h">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +204,10 @@
       <Filter>02.GameObjects\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
-      <Filter>02.GameObjects\Player</Filter>
+      <Filter>02.GameObjects\LandObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monster.cpp">
+      <Filter>02.GameObjects\LandObject\Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\imgui.cpp">
       <Filter>97. Imgui\cpp</Filter>
@@ -212,26 +233,32 @@
     <ClCompile Include="..\Private\Camera.cpp">
       <Filter>02.GameObjects\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Monster.cpp">
-      <Filter>02.GameObjects\Monster</Filter>
+    <ClCompile Include="..\Private\Terrain.cpp">
+      <Filter>02.GameObjects\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Mon_Pocket.cpp">
-      <Filter>02.GameObjects\Monster\Pocket</Filter>
+    <ClCompile Include="..\Private\LandObject.cpp">
+      <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Boss_Bug.cpp">
-      <Filter>02.GameObjects\Monster\Boss</Filter>
+    <ClCompile Include="..\Private\Tree.cpp">
+      <Filter>02.GameObjects\StaticObject\Grass</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Skill_Monster.cpp">
-      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Skill.cpp">
+    <ClCompile Include="..\Private\Skill.cpp">
       <Filter>02.GameObjects\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Skill_Bug_Bullet.cpp">
-      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Player.cpp">
       <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Monster.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

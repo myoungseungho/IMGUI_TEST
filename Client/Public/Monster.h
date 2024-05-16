@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "LandObject.h"
+
 
 BEGIN(Engine)
 
@@ -21,7 +22,7 @@ protected:
 	enum MON_STATE { IDLE, WALK, ATTACK };
 
 public:
-	typedef struct
+	typedef struct : public CLandObject::LANDOBJECT_DESC
 	{
 		_uint iHp = { 0 };
 		_uint iAttack = { 0 };

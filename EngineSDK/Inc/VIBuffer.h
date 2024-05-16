@@ -24,11 +24,20 @@ public:
 
 protected:
 	LPDIRECT3DVERTEXBUFFER9				m_pVB = { nullptr };
+	LPDIRECT3DINDEXBUFFER9				m_pIB = { nullptr };
+
 	_uint								m_iNumVertices = { 0 };
 	_uint								m_iVertexStride = { 0 };
 	_ulong								m_dwFVF = { 0 };
 	D3DPRIMITIVETYPE					m_PrimitiveType = {};
 	_uint								m_iNumPrimitive = {};
+
+	_uint								m_iIndexStride = { 0 };
+	_uint								m_iNumIndices = { 0 };
+	D3DFORMAT							m_eIndexFormat = {};
+
+	_float3* m_pVerticesPos = { nullptr };
+
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

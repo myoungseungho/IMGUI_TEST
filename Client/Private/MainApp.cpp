@@ -112,6 +112,55 @@ HRESULT CMainApp::Render()
 			ImGui::EndTabBar(); // 탭 바 종료
 		}
 		ImGui::End();
+
+
+		bool bShowSettings = true;
+
+
+		static bool bShowSaveSuccessMessage = false;
+		static bool bShowSaveFailMessage = false;
+
+		// 새로운 창 추가
+		ImGui::Begin("Settings", &bShowSettings); // "Settings" 창 시작
+		if (ImGui::Button("Save")) { // "Save" 버튼
+			Save_Button_Pressed(&bShowSaveSuccessMessage, &bShowSaveFailMessage);
+		}
+
+		if (bShowSaveSuccessMessage) {
+			ImGui::Text("File saved successfully!");
+		}
+
+		if (bShowSaveFailMessage) {
+			ImGui::Text("Failed to save file!");
+		}
+
+		if (ImGui::Button("Load")) { // "Load" 버튼
+			//LoadSettings();
+		}
+
+		ImGui::End(); // "Settings" 창 종료
+
+		
+		// 새로운 Collider 창 추가
+		static bool bColliderToggle = false;
+		ImGui::Begin("Collider", &bShowSettings);
+		if (ImGui::Checkbox("Toggle Collider", &bColliderToggle)) {
+			Click_Collider_Toggle(bColliderToggle);
+		}
+
+		// CollisionCheckInterval 변수 선언
+		static float CollisionCheckInterval = 0.1f;
+		// CollisionCheckInterval 입력란 추가
+		ImGui::Text("CollisionInterval:");
+		ImGui::SameLine(); // 같은 라인에 배치
+		ImGui::PushItemWidth(50); // 입력 필드 너비 조정
+		if (ImGui::InputFloat("##CollisionCheckInterval", &CollisionCheckInterval)) {
+			// 사용자가 숫자를 변경했을 때 호출될 함수
+			OnCollisionCheckIntervalChanged(CollisionCheckInterval);
+		}
+		ImGui::PopItemWidth();
+		ImGui::End();
+
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();
@@ -156,25 +205,24 @@ HRESULT CMainApp::Show_PrototypeObjects()
 	return S_OK;
 
 }
-
 HRESULT CMainApp::Show_LayerObjects()
 {
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
 	ImGui::Columns(2, NULL, true); // 두 개의 컬럼 생성
 
 	static int selectedItem = -1; // 초기 선택 항목 없음
-	static int selectedObject = -1;
-	static CGameObject* pSelectedGameObject = nullptr; // 선택된 객체의 포인터
+	static vector<int> selectedObjects; // 선택된 객체들의 인덱스 벡터
+	static vector<CGameObject*> selectedGameObjects; // 선택된 객체들의 포인터 벡터
 
-	vector<pair < string, list<CGameObject*>>> objectLayersVector;
+	vector<pair<string, list<CGameObject*>>> objectLayersVector;
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
 	ImGui::BeginChild("LeftPane", ImVec2(150, 0), true); // 왼쪽 창 생성
 	for (int i = 0; i < objectLayersVector.size(); i++) {
 		if (ImGui::Selectable(objectLayersVector[i].first.c_str(), selectedItem == i)) {
 			selectedItem = i;
-			selectedObject = -1; // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
-			pSelectedGameObject = nullptr;
+			selectedObjects.clear(); // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
+			selectedGameObjects.clear(); // 선택된 객체 초기화
 		}
 	}
 
@@ -187,67 +235,165 @@ HRESULT CMainApp::Show_LayerObjects()
 		const list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
 		int index = 0;  // 게임 오브젝트의 번호를 표시하기 위한 인덱스
 		for (CGameObject* gameObject : gameObjects) {
-			// 각 게임 오브젝트를 클릭 가능하게 만듬
-			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), selectedObject == index)) {
-				selectedObject = index; // 선택된 객체 인덱스 업데이트
-				pSelectedGameObject = gameObject; // 선택된 객체 저장
+			bool isSelected = std::find(selectedObjects.begin(), selectedObjects.end(), index) != selectedObjects.end();
+			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), isSelected)) {
+				if (ImGui::GetIO().KeyCtrl) { // Ctrl 키가 눌려있는 상태에서만 다중 선택
+					if (isSelected) {
+						selectedObjects.erase(std::remove(selectedObjects.begin(), selectedObjects.end(), index), selectedObjects.end());
+						selectedGameObjects.erase(std::remove(selectedGameObjects.begin(), selectedGameObjects.end(), gameObject), selectedGameObjects.end());
+					}
+					else {
+						selectedObjects.push_back(index);
+						selectedGameObjects.push_back(gameObject);
+					}
+				}
+				else {
+					selectedObjects.clear();
+					selectedGameObjects.clear();
+					selectedObjects.push_back(index);
+					selectedGameObjects.push_back(gameObject);
+				}
 			}
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
 	}
 
-	if (pSelectedGameObject)
+
+	if (!selectedGameObjects.empty())
 	{
 		// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
-		CComponent* component = pSelectedGameObject->Get_Component(TEXT("Com_Transform"));
-		if (component != nullptr)
-		{
-			component->AddRef();
-			CTransform* transform = static_cast<CTransform*>(component);
-			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
-			
-			// 위치 정보 표시 및 슬라이더 조작
-			ImGui::Text("Position: ");
-			ImGui::SliderFloat("X", &position.x, -100.0f, 100.0f);
-			ImGui::SliderFloat("Y", &position.y, -100.0f, 100.0f);
-			ImGui::SliderFloat("Z", &position.z, -100.0f, 100.0f);
-
-			transform->Set_State(CTransform::STATE_POSITION, &position);
-
-
-			// 스케일 조절 슬라이더
-			_float3 scale = transform->Get_Scaled();
-			ImGui::Text("Scale: ");
-			ImGui::SliderFloat("Scale X", &scale.x, 0.1f, 10.0f);
-			ImGui::SliderFloat("Scale Y", &scale.y, 0.1f, 10.0f);
-			ImGui::SliderFloat("Scale Z", &scale.z, 0.1f, 10.0f);
-			transform->Set_Scaled(scale); // 스케일 적용
-
-			//회전 적용
-			static _float3 lastEulerRotation = { 0.0f, 0.0f, 0.0f };
-			_float3 eulerRotation = lastEulerRotation;
-
-			ImGui::Text("Rotation: ");
-			bool changedX = ImGui::SliderFloat("Rotate X", &eulerRotation.x, -3.14159f, 3.14159f);
-			bool changedY = ImGui::SliderFloat("Rotate Y", &eulerRotation.y, -3.14159f, 3.14159f);
-			bool changedZ = ImGui::SliderFloat("Rotate Z", &eulerRotation.z, -3.14159f, 3.14159f);
-
-			if (changedX) {
-				_float3 deltaRotation = { _float3(1.0f, 0.0f, 0.0f) * (eulerRotation.x - lastEulerRotation.x) };
-				transform->Turn(_float3(1.0f, 0.0f, 0.0f), deltaRotation.x);
+		_float3 averagePosition = { 0.0f, 0.0f, 0.0f };
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				averagePosition += transform->Get_State(CTransform::STATE_POSITION);
 			}
-			if (changedY) {
-				_float3 deltaRotation = { _float3(0.0f, 1.0f, 0.0f) * (eulerRotation.y - lastEulerRotation.y) };
-				transform->Turn(_float3(0.0f, 1.0f, 0.0f), deltaRotation.y);
-			}
-			if (changedZ) {
-				_float3 deltaRotation = { _float3(0.0f, 0.0f, 1.0f) * (eulerRotation.z - lastEulerRotation.z) };
-				transform->Turn(_float3(0.0f, 0.0f, 1.0f), deltaRotation.z);
-			}
+		}
+		averagePosition /= static_cast<float>(selectedGameObjects.size());
 
-			lastEulerRotation = eulerRotation;
+		// ImGui 스타일 및 너비 설정
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 4)); // 요소 간 간격 조정
 
-			Safe_Release(component);
+		float sliderWidth = 150.0f; // 슬라이더의 너비
+		float inputWidth = 50.0f;   // 입력 필드의 너비
+		float sliderPower = 0.01f;  // 슬라이더 조정 민감도
+
+		// 슬라이더 범위 설정
+		float rangeX = 50.0f;
+		float rangeY = 50.0f;
+		float rangeZ = 50.0f;
+
+		ImGui::Text("Position: ");
+		ImGui::PushButtonRepeat(true); // 버튼 반복을 활성화
+
+		// X 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-X")) averagePosition.x -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosX", &averagePosition.x, 0, rangeX, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+X")) averagePosition.x += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosXInput", &averagePosition.x);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
+
+		// Y 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-Y")) averagePosition.y -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosY", &averagePosition.y, 0, rangeY, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+Y")) averagePosition.y += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosYInput", &averagePosition.y);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
+
+		// Z 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-Z")) averagePosition.z -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosZ", &averagePosition.z, 0, rangeZ, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+Z")) averagePosition.z += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosZInput", &averagePosition.z);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
+
+		ImGui::PopButtonRepeat(); // 버튼 반복을 비활성화
+
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				transform->Set_State(CTransform::STATE_POSITION, &averagePosition);
+			}
+		}
+
+		// 스케일 조절 슬라이더
+		_float3 averageScale = { 0.0f, 0.0f, 0.0f };
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				averageScale += transform->Get_Scaled();
+			}
+		}
+		averageScale /= static_cast<float>(selectedGameObjects.size());
+
+		ImGui::Text("Scale: ");
+		ImGui::PushButtonRepeat(true); // 버튼 반복을 다시 활성화
+		ImGui::PushItemWidth(sliderWidth);
+
+		// 스케일 X 축 조정
+		if (ImGui::Button("-SX")) averageScale.x -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleX", &averageScale.x, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SX")) averageScale.x += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleXInput", &averageScale.x);
+		ImGui::PopItemWidth();
+
+		// 스케일 Y 축 조정
+		if (ImGui::Button("-SY")) averageScale.y -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleY", &averageScale.y, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SY")) averageScale.y += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleYInput", &averageScale.y);
+		ImGui::PopItemWidth();
+
+		// 스케일 Z 축 조정
+		if (ImGui::Button("-SZ")) averageScale.z -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleZ", &averageScale.z, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SZ")) averageScale.z += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleZInput", &averageScale.z);
+		ImGui::PopItemWidth();
+
+		ImGui::PopItemWidth();
+		ImGui::PopButtonRepeat(); // 버튼 반복을 다시 비활성화
+		ImGui::PopStyleVar(); // 스타일 변수 복원
+
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				transform->Set_Scaled(averageScale); // 스케일 적용
+			}
 		}
 	}
 	ImGui::EndChild();
@@ -263,6 +409,80 @@ HRESULT CMainApp::Show_LayerObjects()
 	return S_OK;
 }
 
+HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
+{
+	//오브젝트마다의 정보
+	vector<FILEDATA> vecFileData;
+
+	//레벨 정보 
+	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
+
+	vector<pair < wstring, list<CGameObject*>>> objectLayersVector;
+	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
+
+	// 여기에 스킵할 레이어 이름을 정의
+	unordered_set<wstring> skipLayers =
+	{ L"Layer_BackGround", L"Layer_Camera",  L"Layer_Player" };
+
+	for (auto& object : objectLayersVector)
+	{
+		// 현재 레이어가 스킵할 리스트에 있는지 검사
+		if (skipLayers.find(object.first) != skipLayers.end()) {
+			continue;  // 스킵할 레이어면 다음 반복으로 넘어감
+		}
+
+		for (auto& iter : object.second)
+		{
+			CTransform* transform = dynamic_cast<CTransform*>(iter->Get_Component(TEXT("Com_Transform")));
+
+			// Layer_ 뒤의 문자열 추출
+			wstring layerName = object.first;
+			size_t pos = layerName.find(L"Layer_");
+			if (pos != wstring::npos) {
+				// "Layer_" 다음 문자열 시작 위치는 pos + 6
+				wstring suffix = layerName.substr(pos + 6);
+
+				// 새로운 prefix 생성
+				wstring newPrefix = L"Prototype_GameObject_" + suffix;
+
+				// 이 새로운 문자열을 vecFileData에 추가
+				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled(),true });
+			}
+		}
+	}
+
+	//이걸 레벨당 사본객체 리스트를 넘겨줘야 한다.
+	HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"), &vecFileData);
+	if (result == S_OK) {
+		*bShowSaveSuccessMessage = true;
+		*bShowSaveFailMessage = false;
+
+		return S_OK;
+	}
+	else {
+		*bShowSaveFailMessage = true;
+		*bShowSaveSuccessMessage = false;
+
+		return E_FAIL;
+	}
+}
+
+HRESULT CMainApp::Load_Button_Pressed()
+{
+	return E_NOTIMPL;
+}
+
+HRESULT CMainApp::Click_Collider_Toggle(bool isChecked)
+{
+	m_pGameInstance->Show_Collider(isChecked);
+	return S_OK;
+}
+
+HRESULT CMainApp::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval)
+{
+	m_pGameInstance->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
+	return S_OK;
+}
 
 HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 {
@@ -296,6 +516,10 @@ HRESULT CMainApp::SpawnObjectAtZero(const std::string& type)
 HRESULT CMainApp::SetUp_DefaultState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	return S_OK;
 }

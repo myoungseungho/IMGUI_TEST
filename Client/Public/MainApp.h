@@ -34,7 +34,10 @@ private:
 	HRESULT Show_PrototypeObjects();
 	HRESULT SpawnObjectAtZero(const std::string& type);
 	HRESULT Show_LayerObjects();
-
+	HRESULT Save_Button_Pressed(bool*, bool*);
+	HRESULT Load_Button_Pressed();
+	HRESULT Click_Collider_Toggle(bool isChecked);
+	HRESULT OnCollisionCheckIntervalChanged(float);
 public:
 	static CMainApp* Create();
 	virtual void Free() override;

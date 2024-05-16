@@ -40,6 +40,10 @@ private:
 	_float				m_fFar = {};
 
 private:
+	POINT				m_OldMousePos = {};
+	_float				m_fMouseSensor = {0.2f};
+
+private:
 	CTransform* m_pTargetTransform = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
 

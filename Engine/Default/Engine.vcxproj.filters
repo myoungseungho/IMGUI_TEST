@@ -67,17 +67,29 @@
     <Filter Include="01.Utility\04.Components\Transform">
       <UniqueIdentifier>{62fb4a18-0596-48b3-835d-a02ca77c067e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\04.Components\Calc_Timer">
-      <UniqueIdentifier>{f0dbe66a-6f8f-422d-99d7-50b58edc4ffe}</UniqueIdentifier>
+    <Filter Include="01.Utility\98.Files">
+      <UniqueIdentifier>{c6d5c352-6d11-422f-9ce1-c2bc4a3e5e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\98.Files\Manager">
+      <UniqueIdentifier>{dc92a54f-61a0-4580-ba51-05c4fc1eda31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\Terrain">
+      <UniqueIdentifier>{a6471453-7bbe-4c0e-bef0-2e6a066a1a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\Collider">
+      <UniqueIdentifier>{46f84713-0020-4305-a0f5-493b7f345e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\Collider\Manager">
+      <UniqueIdentifier>{226c378f-a838-41b9-969e-9f4c5132f70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\VIBuffer_Cube">
+      <UniqueIdentifier>{6a555455-0d96-4713-9d88-dd0443ee7138}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Utility\04.Components\KeyState">
-      <UniqueIdentifier>{cd586b71-f6cb-4856-8dc7-7540d558a437}</UniqueIdentifier>
+      <UniqueIdentifier>{2df62594-335d-47a0-b6c5-f513b9b5c5c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\04.Components\Collision">
-      <UniqueIdentifier>{69ce34b1-9fef-4d27-a128-ce2a149be3e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\04.Components\VIBuffer\Cube">
-      <UniqueIdentifier>{3d1f37b8-3e4e-483a-b5a6-24f03c5e5bef}</UniqueIdentifier>
+    <Filter Include="01.Utility\04.Components\Calc_Timer">
+      <UniqueIdentifier>{2423f9b8-c51d-4588-b090-a3d61520c55f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,17 +144,26 @@
     <ClCompile Include="..\private\Transform.cpp">
       <Filter>01.Utility\04.Components\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Calc_Timer.cpp">
-      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    <ClCompile Include="..\Private\FileManager.cpp">
+      <Filter>01.Utility\98.Files\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\KeyState.cpp">
-      <Filter>01.Utility\04.Components\KeyState</Filter>
+    <ClCompile Include="..\Private\VIBuffer_Terrain.cpp">
+      <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Collision.cpp">
-      <Filter>01.Utility\04.Components\Collision</Filter>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01.Utility\04.Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_Manager.cpp">
+      <Filter>01.Utility\04.Components\Collider\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
-      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
+      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KeyState.cpp">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Calc_Timer.cpp">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,17 +233,26 @@
     <ClInclude Include="..\public\Transform.h">
       <Filter>01.Utility\04.Components\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Calc_Timer.h">
-      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    <ClInclude Include="..\Public\FileManager.h">
+      <Filter>01.Utility\98.Files\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\KeyState.h">
-      <Filter>01.Utility\04.Components\KeyState</Filter>
+    <ClInclude Include="..\Public\VIBuffer_Terrain.h">
+      <Filter>01.Utility\04.Components\VIBuffer\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Collision.h">
-      <Filter>01.Utility\04.Components\Collision</Filter>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01.Utility\04.Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider_Manager.h">
+      <Filter>01.Utility\04.Components\Collider\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
-      <Filter>01.Utility\04.Components\VIBuffer\Cube</Filter>
+      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KeyState.h">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Calc_Timer.h">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

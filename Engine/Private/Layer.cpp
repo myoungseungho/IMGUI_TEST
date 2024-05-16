@@ -69,7 +69,7 @@ HRESULT CLayer::Add_List(list<CGameObject*>* pList)
 	
 	for (auto& iter : *pList)
 	{
-		iter->AddRef();
+		Safe_AddRef(iter);
 	}
 
 	return S_OK;

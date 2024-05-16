@@ -5,7 +5,8 @@
 #include "Object_Manager.h"
 #include "Level_Manager.h"
 #include "Timer_Manager.h"
-
+#include "FileManager.h"
+#include "Collider_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -40,6 +41,14 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
+	m_pFileManager = CFile_Manager::Create();
+	if (nullptr == m_pFileManager)
+		return E_FAIL;
+
+	m_pColliderManager = CCollider_Manager::Create();
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -55,6 +64,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pColliderManager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Render_Engine()
@@ -66,6 +77,9 @@ HRESULT CGameInstance::Render_Engine()
 		return E_FAIL;
 
 	if (FAILED(m_pLevel_Manager->Render()))
+		return E_FAIL;
+
+	if (FAILED(m_pColliderManager->Render()))
 		return E_FAIL;
 
 	return S_OK;
@@ -180,6 +194,14 @@ HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < st
 	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
 }
 
+HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < wstring, list<CGameObject*>>>* pVector)
+{
+	if (nullptr == m_pObject_Manager)
+		return E_FAIL;
+
+	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
+}
+
 
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CComponent* pPrototype)
 {
@@ -205,6 +227,46 @@ HRESULT CGameInstance::Add_RenderObject(CRenderer::RENDERGROUP eRenderGroup, CGa
 	return m_pRenderer->Add_RenderObject(eRenderGroup, pRenderObject);
 }
 
+HRESULT CGameInstance::SaveObjects(const wstring& filename, void* pArg)
+{
+	if (nullptr == m_pFileManager)
+		return E_FAIL;
+
+	return m_pFileManager->SaveObjects(filename, pArg);
+}
+
+void* CGameInstance::LoadObjects(const wstring& filename)
+{
+	if (nullptr == m_pFileManager)
+		return nullptr;
+
+	return m_pFileManager->LoadObjects(filename);
+}
+
+HRESULT CGameInstance::Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, CGameObject* pColliderObject)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->Add_ColliderObject(eColliderGroup, pColliderObject);
+}
+
+HRESULT CGameInstance::Show_Collider(bool _isOn)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->Show_Collider(_isOn);
+}
+
+HRESULT CGameInstance::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pRenderer);
@@ -212,14 +274,13 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pFileManager);
+	Safe_Release(m_pColliderManager);
 	Safe_Release(m_pGraphic_Device);
-
 	CGameInstance::Get_Instance()->Destroy_Instance();
 }
 
 void CGameInstance::Free()
 {
 	__super::Free();
-
-
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma warning (disable : 4251)
+#pragma error (disable : E0410)
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -9,6 +10,9 @@
 #include <list>
 #include <map>
 #include <algorithm>
+#include <fstream>
+#include <unordered_set>
+
 using namespace std;
 
 #include "Engine_Macro.h"

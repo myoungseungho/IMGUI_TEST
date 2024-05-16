@@ -8,7 +8,7 @@ CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CCamera::CCamera(const CCamera & Prototype)
+CCamera::CCamera(const CCamera& Prototype)
 	: CGameObject{ Prototype }
 {
 }
@@ -21,8 +21,8 @@ HRESULT CCamera::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCamera::Initialize(void * pArg)
-{	
+HRESULT CCamera::Initialize(void* pArg)
+{
 	CAMERA_DESC* pDesc = static_cast<CAMERA_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
@@ -35,8 +35,8 @@ HRESULT CCamera::Initialize(void * pArg)
 		return E_FAIL;
 
 	/* 카메라가 내 월드 공간에 어디에 존재하는지. */
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
-	//m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));	
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
+	m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));
 
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
@@ -50,6 +50,8 @@ HRESULT CCamera::Initialize(void * pArg)
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
 
+	GetCursorPos(&m_OldMousePos);
+
 	return S_OK;
 }
 
@@ -60,6 +62,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
+	//Key_Input(fTimeDelta);
 
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
@@ -68,6 +71,7 @@ void CCamera::Update(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
 
 	Bind_PipeLines();
+
 }
 
 void CCamera::Late_Update(_float fTimeDelta)
@@ -83,7 +87,40 @@ HRESULT CCamera::Render()
 
 HRESULT CCamera::Key_Input(_float fTimeDelta)
 {
-		
+	if (GetKeyState('W') & 0x8000)
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	if (GetKeyState('S') & 0x8000)
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	if (GetKeyState('A') & 0x8000)
+		m_pTransformCom->Go_Left(fTimeDelta);
+	if (GetKeyState('D') & 0x8000)
+		m_pTransformCom->Go_Right(fTimeDelta);
+	if (GetKeyState('E') & 0x8000)
+		m_pTransformCom->Go_Up(fTimeDelta);
+	if (GetKeyState('Q') & 0x8000)
+		m_pTransformCom->Go_Down(fTimeDelta);
+
+	POINT			ptMouse{};
+
+	GetCursorPos(&ptMouse);
+
+	long		MouseMoveX = {}, MouseMoveY = {};
+
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	{
+		if (MouseMoveX = ptMouse.x - m_OldMousePos.x)
+		{
+			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * MouseMoveX * m_fMouseSensor);
+		}
+
+		if (MouseMoveY = ptMouse.y - m_OldMousePos.y)
+		{
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMoveY * m_fMouseSensor);
+		}
+	}
+
+	m_OldMousePos = ptMouse;
+
 	return S_OK;
 }
 
@@ -91,8 +128,9 @@ HRESULT CCamera::Ready_Components()
 {
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec =	5.0f;
-	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+	TransformDesc.fSpeedPerSec = 10.0f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(60.0f);
+
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
@@ -112,9 +150,9 @@ HRESULT CCamera::Bind_PipeLines()
 	return S_OK;
 }
 
-CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CCamera*		pInstance = new CCamera(pGraphic_Device);
+	CCamera* pInstance = new CCamera(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -126,9 +164,9 @@ CCamera * CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CCamera::Clone(void * pArg)
+CGameObject* CCamera::Clone(void* pArg)
 {
-	CCamera*		pInstance = new CCamera(*this);
+	CCamera* pInstance = new CCamera(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -143,9 +181,6 @@ void CCamera::Free()
 {
 	__super::Free();
 
-	
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
-
-	
 }
