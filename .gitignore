@@ -25,7 +25,19 @@ Thumbs.db
 x64/
 build/
 bld/
-[Bb]in/
+# Ignore all files in the Bin directory
+[Bb]in/*
+
+# But do not ignore other files or directories inside Bin
+![Bb]in/
+
+# Specifically ignore the Resources directory inside Bin
+[Bb]in/Resources/
+
+# Allow all files inside Bin except Resources
+![Bb]in/*
+![Bb]in/**/*
+
 [Oo]bj/
 
 # Roslyn cache directories
