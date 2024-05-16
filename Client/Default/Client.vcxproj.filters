@@ -76,6 +76,9 @@
     <Filter Include="02.GameObjects\Monster\Turtle">
       <UniqueIdentifier>{f1a3aca4-38e1-4ebe-b789-6ee30cab4c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling">
+      <UniqueIdentifier>{b5fae651-084a-487c-ad97-6068bccff08d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -168,6 +171,9 @@
     <ClInclude Include="..\public\Mon_Turtle.h">
       <Filter>02.GameObjects\Monster\Turtle</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skill_Koofu_Rolling.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -244,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mon_Turtle.cpp">
       <Filter>02.GameObjects\Monster\Turtle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Koofu_Rolling.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

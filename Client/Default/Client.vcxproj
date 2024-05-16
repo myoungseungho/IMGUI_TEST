@@ -182,6 +182,7 @@
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\public\Skill.h" />
     <ClInclude Include="..\public\Skill_Bug_Bullet.h" />
+    <ClInclude Include="..\public\Skill_Koofu_Rolling.h" />
     <ClInclude Include="..\public\Skill_Monster.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\private\Skill.cpp" />
     <ClCompile Include="..\private\Skill_Bug_Bullet.cpp" />
+    <ClCompile Include="..\private\Skill_Koofu_Rolling.cpp" />
     <ClCompile Include="..\private\Skill_Monster.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">

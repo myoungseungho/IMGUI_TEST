@@ -17,8 +17,8 @@ public:
 
 public:
 	HRESULT Add_Animator(_uint iLevel, const wstring& strComponentTag, const wstring& strTextureTag);
-	HRESULT Play_Animator(const wstring& strTextureTag, _float fFrame, _float fTimeDelta);
-	void Move_Frame(_float fFrame, _uint iNumTextures, _float fTimeDelta);
+	HRESULT Play_Animator(const wstring& strTextureTag, _float fFrame, _float fTimeDelta , _bool isLoop);
+	void Move_Frame(_float fFrame, _uint iNumTextures, _float fTimeDelta, _bool isLoop);
 
 private:
 	class CTexture* Find_Texture(const wstring& strTextureTag);

@@ -32,6 +32,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
 
+	m_eMon_State = MON_STATE::WARF;
+
 	return S_OK;
 }
 
@@ -42,19 +44,7 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	KeyInput(fTimeDelta);
-	CBoss_Koofu* temp= this;
-
-	if(m_pKeyCom->Key_Down('1'))
-		Safe_Release(temp);
-
-	fScaleTimer += (fTimeDelta);
-
-	if (fScaleTimer > 2.f)
-	{
-		fScaleTimer = { 0.f };
-		m_isScale = false;
-	}
+	MonState(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -85,19 +75,40 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
+		State_Idle(fTimeDelta);
 		break;
 
-	case MON_STATE::DASH:
+	case MON_STATE::WARF:
+		State_Warf(fTimeDelta);
 		break;
-
-
 
 	case MON_STATE::READY:
+		State_Ready(fTimeDelta);
 		break;
 
 	case MON_STATE::BULLET:
+		State_Bullet(fTimeDelta);
 		break;
 	}
+}
+
+void CBoss_Koofu::State_Idle(_float fTimeDelta)
+{
+}
+
+void CBoss_Koofu::State_Warf(_float fTimeDelta)
+{
+	if(m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		Wafe(10,10 , 20,20);
+}
+
+void CBoss_Koofu::State_Ready(_float fTimeDelta)
+{
+}
+
+void CBoss_Koofu::State_Bullet(_float fTimeDelta)
+{
+
 }
 
 HRESULT CBoss_Koofu::Ready_Components()
@@ -127,21 +138,15 @@ HRESULT CBoss_Koofu::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CBoss_Koofu::KeyInput(_float fTimeDelta)
-{
-	if (m_pKeyCom->Key_Down('7') || m_isScale)
-	{
-		m_isScale = true;
-		ScaleUp(fTimeDelta);
-	}
-
-	return S_OK;
-}
-
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (!m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
-		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fScaleTimer + 1));
+	if (!m_pTimerCom->Time_Limit(fTimeDelta,1.f ,3.5f))
+		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fTimeDelta + 1));
+}
+
+void CBoss_Koofu::Wafe(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 0.f, rand() % fMaxPosZ - fMinPosZ));
 }
 
 

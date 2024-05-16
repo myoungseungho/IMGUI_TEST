@@ -29,14 +29,16 @@ public:
 private:
 	void MonState(_float fTimeDelta);
 
+	void State_Idle(_float fTimeDelta);
+	void State_Warf(_float fTimeDelta);
+	void State_Ready(_float fTimeDelta);
+	void State_Bullet(_float fTimeDelta);
+
 private:
 	virtual HRESULT Ready_Components();
-	HRESULT  KeyInput(_float fTimeDelta);
+
 	void ScaleUp(_float fTimeDelta);
-	
-private:
-	bool	m_isScale = { false };
-	_float fScaleTimer = { 0.f };
+	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

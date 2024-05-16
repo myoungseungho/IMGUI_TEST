@@ -41,19 +41,19 @@ HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, co
 	return S_OK;
 }
 
-HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame , _float fTimeDelta)
+HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame , _float fTimeDelta , _bool isLoop)
 {
 	CTexture* pTexture = Find_Texture(strTextureTag);
 	
 	if (pTexture == nullptr)
 		return E_FAIL;
 
-	Move_Frame(fFrame , pTexture->m_iNumTextures,fTimeDelta);
+	Move_Frame(fFrame , pTexture->m_iNumTextures,fTimeDelta , isLoop);
 
 	return	pTexture->Bind_Anim(m_iIndex);
 }
 
-void CAnimator::Move_Frame(_float fFrame, _uint iNumTextures , _float fTimeDelta)
+void CAnimator::Move_Frame(_float fFrame, _uint iNumTextures , _float fTimeDelta, _bool isLoop)
 {
 	m_fTimeAcc += fTimeDelta;
 
@@ -63,8 +63,12 @@ void CAnimator::Move_Frame(_float fFrame, _uint iNumTextures , _float fTimeDelta
 		m_iIndex++;
 	}
 
-	if (m_iIndex >= iNumTextures)
+	if (m_iIndex >= iNumTextures && isLoop)
 		m_iIndex = 0;
+	
+	else if (!isLoop)
+		m_iIndex = iNumTextures - 1;
+	
 }
 
 CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)

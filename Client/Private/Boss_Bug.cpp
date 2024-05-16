@@ -118,6 +118,12 @@ HRESULT CBoss_Bug::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"), TEXT("BOSS_BUG_PHASE1_READY"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"), TEXT("BOSS_BUG_PHASE2_DOWN"));
+
 	return S_OK;
 }
 
@@ -231,7 +237,7 @@ HRESULT CBoss_Bug::Bullet_Create()
 
 void CBoss_Bug::State_Idle(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f,_fTimeDelta);
+	m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f,_fTimeDelta,true);
 
 	if(m_pTimerCom->Time_Limit(_fTimeDelta,3.f))
 		m_eMon_State = MON_STATE::BULLET;
@@ -239,8 +245,10 @@ void CBoss_Bug::State_Idle(float _fTimeDelta)
 
 void CBoss_Bug::State_Dash(float _fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	
+	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
 
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	Skill_Dash(_fTimeDelta);
 
 	if (!iter)
@@ -258,7 +266,7 @@ void CBoss_Bug::State_Dash(float _fTimeDelta)
 
 void CBoss_Bug::State_Ready(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta);
+	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 		m_eMon_State = MON_STATE::BULLET;
@@ -267,7 +275,7 @@ void CBoss_Bug::State_Ready(float _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f,_fTimeDelta);
+	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f,_fTimeDelta, true);
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 	{
@@ -277,7 +285,7 @@ void CBoss_Bug::State_Bullet(float _fTimeDelta)
 
 	if (m_iBulletCnt > 2)
 	{
-		m_eMon_State = MON_STATE::FLY;
+		m_eMon_State = MON_STATE::DASH;
 		m_iBulletCnt = 0;
 	}
 }

@@ -31,7 +31,6 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_LOOK));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f),  ((pDesc->iBulletCnt * 15 )- 45 + 180) * D3DX_PI / 180.f);
 
