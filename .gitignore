@@ -30,6 +30,10 @@ Client/Bin/**
 # Specifically ignore the Resources directory inside Bin
 Client/Bin/Resources/**
 
+# Allow Orgu_144_Resource folder inside Resources
+!Client/Bin/Resources/Orgu_144_Resource/
+!Client/Bin/Resources/Orgu_144_Resource/**
+
 # Allow all other files inside Bin except Resources
 !Client/Bin/
 !Client/Bin/**/
