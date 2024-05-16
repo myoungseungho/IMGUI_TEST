@@ -243,6 +243,14 @@ HRESULT CGameInstance::Show_Collider(bool _isOn)
 	return m_pColliderManager->Show_Collider(_isOn);
 }
 
+HRESULT CGameInstance::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	return m_pColliderManager->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pRenderer);

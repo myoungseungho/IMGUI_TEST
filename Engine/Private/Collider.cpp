@@ -44,11 +44,6 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCollider::OnCollisionEnter(CCollider* other)
-{
-	if (!m_IsCollied)
-		m_IsCollied != m_IsCollied;
-}
 
 void CCollider::Render()
 {
@@ -112,17 +107,29 @@ void CCollider::Update(_float fTimeDelta)
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
-void CCollider::OnCollisionStay(CCollider*)
-{
-	int a = 3;
-}
-
-void CCollider::OnCollisionExit(CCollider*)
+void CCollider::OnCollisionEnter(CCollider* other)
 {
 	if (!m_IsCollied)
 		m_IsCollied != m_IsCollied;
 
+	m_MineGameObject->OnCollisionEnter(other);
+	other->m_MineGameObject->OnCollisionEnter(other);
+}
 
+
+void CCollider::OnCollisionStay(CCollider* other)
+{
+	m_MineGameObject->OnCollisionStay(other);
+	other->m_MineGameObject->OnCollisionStay(other);
+}
+
+void CCollider::OnCollisionExit(CCollider* other)
+{
+	if (!m_IsCollied)
+		m_IsCollied != m_IsCollied;
+
+	m_MineGameObject->OnCollisionExit(other);
+	other->m_MineGameObject->OnCollisionExit(other);
 }
 
 CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

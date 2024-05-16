@@ -50,6 +50,18 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+void CGameObject::OnCollisionEnter(CCollider* other)
+{
+}
+
+void CGameObject::OnCollisionStay(CCollider* other)
+{
+}
+
+void CGameObject::OnCollisionExit(CCollider* other)
+{
+}
+
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
 	/* 이미 strComponentTag키를 가진 컴포넌트가 있었다. */

@@ -53,6 +53,7 @@ public: /* For.FileManager */
 public: /* For.ColliderManager */
 	HRESULT Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, class CGameObject* pColliderObject);
 	HRESULT Show_Collider(bool);
+	HRESULT OnCollisionCheckIntervalChanged(float);
 
 
 private:

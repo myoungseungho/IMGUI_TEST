@@ -25,20 +25,21 @@ public:
 public:
 	void Update(_float fTimeDelta);
 	void Render();
+
 public:
 	void OnCollisionEnter(CCollider*);
 	void OnCollisionStay(CCollider*);
 	void OnCollisionExit(CCollider*);
 
 public:
+	CGameObject* m_MineGameObject = { nullptr };
 	_float3 m_Center = {};  // ¡ﬂΩ… ¡¬«•
 	_float m_Width = { 0.0f };  // ∆¯
 	_float m_Height = { 0.0f }; // ≥Ù¿Ã
 	_float m_Depth = { 0.0f };  // ±Ì¿Ã
-	CGameObject* m_MineGameObject = { nullptr };
-	bool m_IsCollied = { false };
 	_float4x4				m_WorldMatrix;
-
+private:
+	bool m_IsCollied = { false };
 public:
 	static CCollider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;

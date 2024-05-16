@@ -6,6 +6,7 @@
 
 
 #include "..\Public\Player.h"
+#include "..\Public\Tree.h"
 
 #include "GameInstance.h"
 
@@ -85,6 +86,25 @@ HRESULT CPlayer::Render()
 
 	return S_OK;
 }
+
+void CPlayer::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+	if (dynamic_cast<CTree*>(otherObject)) {
+		int a = 3;
+	}
+}
+
+void CPlayer::OnCollisionStay(CCollider* other)
+{
+}
+
+void CPlayer::OnCollisionExit(CCollider* other)
+{
+
+}
+
+
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */

@@ -137,12 +137,25 @@ HRESULT CMainApp::Render()
 
 		ImGui::End(); // "Settings" 창 종료
 
+		
 		// 새로운 Collider 창 추가
 		static bool bColliderToggle = false;
 		ImGui::Begin("Collider", &bShowSettings);
 		if (ImGui::Checkbox("Toggle Collider", &bColliderToggle)) {
 			Click_Collider_Toggle(bColliderToggle);
 		}
+
+		// CollisionCheckInterval 변수 선언
+		static float CollisionCheckInterval = 0.1f;
+		// CollisionCheckInterval 입력란 추가
+		ImGui::Text("CollisionInterval:");
+		ImGui::SameLine(); // 같은 라인에 배치
+		ImGui::PushItemWidth(50); // 입력 필드 너비 조정
+		if (ImGui::InputFloat("##CollisionCheckInterval", &CollisionCheckInterval)) {
+			// 사용자가 숫자를 변경했을 때 호출될 함수
+			OnCollisionCheckIntervalChanged(CollisionCheckInterval);
+		}
+		ImGui::PopItemWidth();
 		ImGui::End();
 
 	}
@@ -459,6 +472,12 @@ HRESULT CMainApp::Load_Button_Pressed()
 HRESULT CMainApp::Click_Collider_Toggle(bool isChecked)
 {
 	m_pGameInstance->Show_Collider(isChecked);
+	return S_OK;
+}
+
+HRESULT CMainApp::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval)
+{
+	m_pGameInstance->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
 	return S_OK;
 }
 

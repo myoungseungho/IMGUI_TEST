@@ -29,6 +29,8 @@ public:
 		m_IsOn = _isOn;
 		return S_OK;
 	};
+	HRESULT OnCollisionCheckIntervalChanged(float);
+
 
 private:
 	list<class CCollider*>			m_Colliders[CG_END];
@@ -38,7 +40,7 @@ private:
 
 	bool m_IsOn = { false };
 	_float m_CollisionCheckTimer = 0.0f;
-	const _float m_CollisionCheckInterval = 1.f; // 0.5초마다 검사
+	_float m_CollisionCheckInterval = 0.1f; // 0.5초마다 검사
 
 public:
 	static CCollider_Manager* Create();

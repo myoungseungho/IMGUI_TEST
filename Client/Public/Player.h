@@ -21,7 +21,10 @@ private:
 	CPlayer(const CPlayer& Prototype); /* 사본생성 시 */
 	virtual ~CPlayer() = default;
 
-
+//public:
+//	virtual ObjectType GetType() const override {
+//		return ObjectType::Player;
+//	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -31,6 +34,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
