@@ -175,7 +175,6 @@ HRESULT CPlayer::Ready_Components()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
-	
 	if (m_pKeyCom->Key_Pressing(VK_UP))
 	{
 		if (m_pKeyCom->Key_Pressing(VK_LEFT))

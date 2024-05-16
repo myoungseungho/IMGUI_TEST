@@ -11,7 +11,7 @@ BEGIN(Engine)
 class CCollider_Manager final : public CBase
 {
 public:
-	enum COLLIDERGROUP { CG_PLAYER, CG_MONSTER, CG_STATIC, CG_END };
+	enum COLLIDERGROUP { CG_PLAYER, CG_PLAYER_SKILL, CG_MONSTER, CG_STATIC, CG_END };
 private:
 	CCollider_Manager();
 	virtual ~CCollider_Manager() = default;

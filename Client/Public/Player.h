@@ -40,11 +40,11 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 private:	
-	CTexture*				m_pTextureCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider*			m_pColliderCom = { nullptr };
-	CKeyState*				m_pKeyCom = { nullptr };
+	CKeyState*			m_pKeyCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
