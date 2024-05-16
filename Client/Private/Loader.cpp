@@ -129,15 +129,15 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/BugBoss/Phase1/Idle/Bugboss_%d.png"), 5))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Monster/BugBoss/Phase1/Idle/Bugboss_%d.png"), 5))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/BugBoss/Phase1/Ready/Bugboss_%d.png"), 5))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Monster/BugBoss/Phase1/Ready/Bugboss_%d.png"), 5))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/BugBoss/Phase1/Attack/Bugboss_%d.png"), 6))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Monster/BugBoss/Phase1/Attack/Bugboss_%d.png"), 6))))
 		return E_FAIL;
 		
 
