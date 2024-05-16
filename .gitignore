@@ -10,8 +10,6 @@ Image/Single/MainMap.bmp
 Image/Single/MainMap.png
 Sound/
 
-
-
 # User-specific files
 *.suo
 *.user
@@ -25,7 +23,24 @@ Thumbs.db
 x64/
 build/
 bld/
-[Bb]in/
+
+# Ignore all files in the Bin directory
+Client/Bin/**
+
+# Specifically ignore the Resources directory inside Bin
+Client/Bin/Resources/**
+
+# Allow Orgu_144_Resource folder inside Resources
+!Client/Bin/Resources/Orgu_144_Resource/
+!Client/Bin/Resources/Orgu_144_Resource/**
+
+# Allow all other files inside Bin except Resources
+!Client/Bin/
+!Client/Bin/**/
+!Client/Bin/*/
+!Client/Bin/Resources/
+
+# Object files
 [Oo]bj/
 
 # Roslyn cache directories
@@ -35,7 +50,7 @@ bld/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-#NUNIT
+# NUnit
 *.VisualState.xml
 TestResult.xml
 
@@ -135,7 +150,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-## TODO: Comment the next line if you want to checkin your
+## TODO: Comment the next line if you want to check in your
 ## web deploy settings but do note that will include unencrypted
 ## passwords
 #*.pubxml
