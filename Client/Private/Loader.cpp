@@ -129,6 +129,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	//컴포넌트 로드한다.
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
 		CCollider::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Monster/Monster.png"), 1))))
@@ -225,6 +226,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	/* For.Prototype_GameObject_Skill_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Player"),
 		CSkill_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_Boss_Koofu */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Koofu"),
