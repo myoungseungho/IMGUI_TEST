@@ -25,17 +25,16 @@ build/
 bld/
 
 # Ignore all files in the Bin directory
-Client/Bin/*
-
-# But do not ignore other files or directories inside Bin
-!Client/Bin/
+Client/Bin/**
 
 # Specifically ignore the Resources directory inside Bin
-Client/Bin/Resources/
+Client/Bin/Resources/**
 
-# Allow all files inside Bin except Resources
-!Client/Bin/*
+# Allow all other files inside Bin except Resources
+!Client/Bin/
 !Client/Bin/**/
+!Client/Bin/*/
+!Client/Bin/Resources/
 
 # Object files
 [Oo]bj/
