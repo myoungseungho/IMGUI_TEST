@@ -41,7 +41,7 @@ void CSkill_Koofu_Rolling::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CSkill_Koofu_Rolling::Render()
+HRESULT CSkill_Koofu_Rolling::Render(_float fTimeDelta)
 {
 	return S_OK;
 }

@@ -57,7 +57,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 {
 	m_fAngle++;
 
-
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
 	
@@ -68,15 +67,17 @@ void CBoss_Bug::Update(_float fTimeDelta)
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	Mon_AnimState(fTimeDelta);
 
 }
 
-HRESULT CBoss_Bug::Render()
+HRESULT CBoss_Bug::Render(_float fTimeDelta)
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
-	//m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f, 2.f, true);
 
+	Mon_AnimState(fTimeDelta);
+	
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 	  
@@ -98,6 +99,10 @@ HRESULT CBoss_Bug::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -133,7 +138,7 @@ HRESULT CBoss_Bug::Begin_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	
 
 	return S_OK;
 }
@@ -237,17 +242,12 @@ HRESULT CBoss_Bug::Bullet_Create()
 
 void CBoss_Bug::State_Idle(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator( TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f,_fTimeDelta,true);
-
 	if(m_pTimerCom->Time_Limit(_fTimeDelta,3.f))
 		m_eMon_State = MON_STATE::BULLET;
 }
 
 void CBoss_Bug::State_Dash(float _fTimeDelta)
 {
-	
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
-
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	Skill_Dash(_fTimeDelta);
 
@@ -266,7 +266,6 @@ void CBoss_Bug::State_Dash(float _fTimeDelta)
 
 void CBoss_Bug::State_Ready(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 		m_eMon_State = MON_STATE::BULLET;
@@ -275,7 +274,7 @@ void CBoss_Bug::State_Ready(float _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f,_fTimeDelta, true);
+	
 
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 	{
@@ -299,6 +298,29 @@ void CBoss_Bug::State_Fly(float _fTimeDelta)
 void CBoss_Bug::State_Land(float _fTimeDelta)
 {
 	Land(0.f, 0.f, _fTimeDelta);
+}
+
+void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
+{
+	switch (m_eMon_State)
+	{
+	case MON_STATE::IDLE:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 5.f, _fTimeDelta, true);
+		break;
+
+	case MON_STATE::DASH:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
+		break;
+
+	case MON_STATE::READY:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 5.f, _fTimeDelta, true);
+
+		break;
+	case MON_STATE::BULLET:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 3.f, _fTimeDelta, true);
+		break;
+	}
+
 }
 
 void CBoss_Bug::Mon_State(_float fTimeDelta)

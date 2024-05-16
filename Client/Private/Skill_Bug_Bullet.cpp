@@ -53,7 +53,7 @@ void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CSkill_Bug_Bullet::Render()
+HRESULT CSkill_Bug_Bullet::Render(_float fTimeDelta)
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

@@ -89,11 +89,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		if (fTimeAcc >= 1.f / 60.0f)
 		{
+            float deltaTime = pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
 			/* 내 게임의 업데이트를 수행한다. (CMainApp)*/
-			pMainApp->Update(pGameInstance->Compute_TimeDelta(TEXT("Timer_60")));
+			pMainApp->Update(deltaTime);
 
 			/* 내 게임의 렌더를 수행한다.*/
-			pMainApp->Render();
+			pMainApp->Render(deltaTime);
 
 			fTimeAcc = 0.f;
 		}		

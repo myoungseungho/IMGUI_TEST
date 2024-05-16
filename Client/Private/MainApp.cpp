@@ -58,7 +58,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
-HRESULT CMainApp::Render()
+HRESULT CMainApp::Render(_float fTimeDelta)
 {
 #pragma region IMGUI
 	ImGui_ImplDX9_NewFrame();
@@ -163,7 +163,7 @@ HRESULT CMainApp::Render()
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();
-	m_pGameInstance->Render_Engine();
+	m_pGameInstance->Render_Engine(fTimeDelta);
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_End();

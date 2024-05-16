@@ -47,7 +47,7 @@ void CSkill_Player::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CSkill_Player::Render()
+HRESULT CSkill_Player::Render(_float fTimeDelta)
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

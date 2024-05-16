@@ -47,6 +47,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
