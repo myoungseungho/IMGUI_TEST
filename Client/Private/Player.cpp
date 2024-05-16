@@ -31,6 +31,7 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -244,7 +245,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);
 		
 	}
-	if (m_pKeyCom->Key_Pressing('E'))
+	if (m_pKeyCom->Key_Down('E'))
 	{
 		Set_State(STATE_SKILL);
 		Player_Skill(fTimeDelta);
@@ -273,15 +274,11 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 void CPlayer::Player_Skill(_float fTimeDelta)
 {
-	//회전해야 함 y축, z축
-	// transform 컴포넌트 안에 축 입력하면 90도씩 회전하는 함수 만들기
-	// 시간 값 따른 3단계
 
 	_float fSkillLevel = { 0.f };
 
 	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
-	m_pTransformCom->AddRef();
 
 	//SkillDesc.pTargetTransform->Rotation(_float3(0.f, 1.f, 0.f), 90.f);
 
@@ -292,7 +289,13 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
 
 	
-	if(m_pCal_Timercom->Time_Limit(fTimeDelta,0.5f ))
+	//if(m_pCal_Timercom->Time_Limit(fTimeDelta,1.0f ))
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
+
+	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 2.0f))
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
+
+	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 3.0f))
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
 
 }

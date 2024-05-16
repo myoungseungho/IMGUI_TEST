@@ -20,12 +20,17 @@ HRESULT CSkill_Player::Initialize_Prototype()
 
 HRESULT CSkill_Player::Initialize(void* pArg)
 {
+
 	SKILL_PLAYER_DESC* pDesc = static_cast<SKILL_PLAYER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
+
+
 
 	
 	return S_OK;
@@ -38,7 +43,11 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx+10.f * fTimeDelta, Targety, Targetz + 10.f * fTimeDelta));
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -82,6 +91,7 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 	int a = 3;
 }
 
+
 HRESULT CSkill_Player::Ready_Components()
 {
 	/* For.Com_Timer*/
@@ -97,6 +107,11 @@ HRESULT CSkill_Player::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Calc_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pCal_Timercom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */

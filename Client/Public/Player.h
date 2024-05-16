@@ -47,6 +47,7 @@ private:
 	CCollider*			m_pColliderCom = { nullptr };
 	CKeyState*			m_pKeyCom = { nullptr };
 	CCalc_Timer*		 m_pCal_Timercom = { nullptr };
+	class CSkill_Player*		m_pSkill_Player = { nullptr };
 
 private:
 	HRESULT Ready_Components();
