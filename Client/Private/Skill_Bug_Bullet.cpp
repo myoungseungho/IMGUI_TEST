@@ -52,11 +52,6 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.5f))
-	{
-		m_isDeath = true;
-	}
 }
 
 HRESULT CSkill_Bug_Bullet::Render()

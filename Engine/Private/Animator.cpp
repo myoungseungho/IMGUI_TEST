@@ -32,9 +32,9 @@ HRESULT CAnimator::Initialize(void* pArg)
 HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, const wstring& strTextureTag)
 { 
 	CTexture* pTexture = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Component(iLevel, strComponentTag));
-	
-	if (pTexture == nullptr)
-		return E_FAIL;
+	//pTexture->
+	/*if (pTexture == nullptr)
+		return E_FAIL;*/
 
 	m_pTexture.emplace(strTextureTag, pTexture);
 
@@ -55,9 +55,13 @@ HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
 
 void CAnimator::Move_Frame(_float fFrame)
 {
-	_float fMoveFrame =  fFrame  * 60.f;
-	_float fCurrFrame = 1.f / fMoveFrame;
-	m_fIndex += fCurrFrame;
+	//static _float chagingTime = 0;
+//	chagingTime += fFrame;
+
+	//if(chagingTime > 3/5)
+	//_float fMoveFrame =	  * 60.f;
+	//_float fCurrFrame = 1.f / fMoveFrame;
+	//m_fIndex += fCurrFrame;
 }
 
 CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)

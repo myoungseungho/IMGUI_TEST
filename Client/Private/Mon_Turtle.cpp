@@ -51,8 +51,6 @@ void CMon_Turtle::Update(_float fTimeDelta)
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
-	Death(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -76,8 +74,7 @@ HRESULT CMon_Turtle::Render()
 
 void CMon_Turtle::Death(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
-		m_isDeath = true;	
+
 }
 
 HRESULT CMon_Turtle::Ready_Components()

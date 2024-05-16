@@ -26,8 +26,6 @@ public:
 		return iter->second;
 	}
 
-	_bool	Get_Death() { return m_isDeath; }
-
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -47,9 +45,7 @@ protected:
 
 protected:
 	map<const _wstring, CComponent*>		m_Components;
-	_bool  m_isDeath = false;
-
-
+	
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;

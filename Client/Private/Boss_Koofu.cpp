@@ -43,6 +43,11 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
 	KeyInput(fTimeDelta);
+	CBoss_Koofu* temp= this;
+
+	if(m_pKeyCom->Key_Down('1'))
+		Safe_Release(temp);
+
 	fScaleTimer += (fTimeDelta);
 
 	if (fScaleTimer > 2.f)
@@ -77,6 +82,22 @@ HRESULT CBoss_Koofu::Render()
 
 void CBoss_Koofu::MonState(_float fTimeDelta)
 {
+	switch (m_eMon_State)
+	{
+	case MON_STATE::IDLE:
+		break;
+
+	case MON_STATE::DASH:
+		break;
+
+
+
+	case MON_STATE::READY:
+		break;
+
+	case MON_STATE::BULLET:
+		break;
+	}
 }
 
 HRESULT CBoss_Koofu::Ready_Components()
