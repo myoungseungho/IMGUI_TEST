@@ -25,18 +25,19 @@ Thumbs.db
 x64/
 build/
 bld/
+
 # Ignore all files in the Bin directory
-[Bb]in/*
+Client/Bin/*
 
 # But do not ignore other files or directories inside Bin
-![Bb]in/
+!Client/Bin/
 
 # Specifically ignore the Resources directory inside Bin
-[Bb]in/Resources/
+Client/Bin/Resources/
 
 # Allow all files inside Bin except Resources
-![Bb]in/*
-![Bb]in/**/*
+!Client/Bin/*
+!Client/Bin/**/*
 
 [Oo]bj/
 
