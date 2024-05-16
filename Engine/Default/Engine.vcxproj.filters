@@ -91,6 +91,12 @@
     <Filter Include="01.Utility\04.Components\Calc_Timer">
       <UniqueIdentifier>{2423f9b8-c51d-4588-b090-a3d61520c55f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\Animator">
+      <UniqueIdentifier>{e6b3c7b9-7dfe-4ba5-bd8d-9591a3cba6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="De">
+      <UniqueIdentifier>{c747a0cc-3469-4e86-8a12-6c59d51d812f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -156,14 +162,14 @@
     <ClCompile Include="..\Private\Collider_Manager.cpp">
       <Filter>01.Utility\04.Components\Collider\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
-      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\KeyState.cpp">
       <Filter>01.Utility\04.Components\KeyState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Calc_Timer.cpp">
       <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Animator.cpp">
+      <Filter>01.Utility\04.Components\Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,14 +251,14 @@
     <ClInclude Include="..\Public\Collider_Manager.h">
       <Filter>01.Utility\04.Components\Collider\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer_Cube.h">
-      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\KeyState.h">
       <Filter>01.Utility\04.Components\KeyState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Calc_Timer.h">
       <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Animator.h">
+      <Filter>01.Utility\04.Components\Animator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
