@@ -24,6 +24,9 @@ private:
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc);
 	HRESULT Ready_Layer_Tree(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Boss_Bug(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag);
+
 
 	HRESULT Ready_LandObjects();
 

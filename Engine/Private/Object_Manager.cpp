@@ -22,6 +22,32 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& st
 	return pLayer->Get_Component(strComponentTag, iIndex);
 }
 
+CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	if (nullptr == m_pLayers ||
+		iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+	
+	return pLayer->Get_GameObject(iIndex);
+}
+
+HRESULT CObject_Manager::Delete_GaemObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	if (nullptr == m_pLayers ||
+		iLevelIndex >= m_iNumLevels)
+		return E_FAIL;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return E_FAIL;
+
+	return pLayer->Delete_GameObject(iIndex);;
+}
+
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;
@@ -179,7 +205,6 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 	if (iLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
-
 	for (auto& Pair : m_pLayers[iLevelIndex])
 		Safe_Release(Pair.second);
 
@@ -187,6 +212,7 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 
 	return S_OK;
 }
+
 
 CGameObject* CObject_Manager::Find_Prototype(const wstring& strPrototypeTag)
 {

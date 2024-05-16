@@ -3,11 +3,15 @@
 
 #include "GameInstance.h"
 #include "BackGround.h"
-#include "Monster.h"
+#include "Mon_Pocket.h"
 #include "Player.h"
+#include "Skill_Player.h"
 #include "Camera.h"
 #include "Terrain.h"
 #include "Tree.h"
+#include "Boss_Bug.h"
+#include "Skill_Bug_Bullet.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -17,7 +21,6 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	Safe_AddRef(m_pGraphic_Device);
 }
 
-/* 이 함수를 호출한 스레드는 어떤 역활? 리소스를 로드한다. 어떤 레벨용? */
 _uint APIENTRY LoadingMain(void* pArg)
 {
 	CLoader*		pLoader = static_cast<CLoader*>(pArg);
@@ -30,13 +33,11 @@ _uint APIENTRY LoadingMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVELID eNextLevelID)
 {
-	/* 어떤 레벨에 대한 준비를 해야하는지 */
+
 	m_eLevelID = eNextLevelID;
 
 	InitializeCriticalSection(&m_Critical_Section);
 
-	/* 정해준 레벨에 자원(텍스쳐, 사운드, 모델 등등)을 준비한다. */
-	/* 새로운 스레드를 만들어서 준비한다. 기존 내 코드를 수행하던 메인스레드는 로딩 화면(Update, Render) 에 대한 처리를 한다. */
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -44,7 +45,6 @@ HRESULT CLoader::Initialize(LEVELID eNextLevelID)
 	return S_OK;
 }
 
-/* 추가적으로 생성한 스레드가 호출한 함수. */
 HRESULT CLoader::Loading()
 {
 	EnterCriticalSection(&m_Critical_Section);
@@ -113,7 +113,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Player/Player0.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Player/Player_Walk/Down/Player_Walk_0.png"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
@@ -127,6 +127,13 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	//컴포넌트 로드한다.
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
 		CCollider::Create(m_pGraphic_Device))))
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Monster/Monster.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Snow/Snow.png"), 1))))
 		return E_FAIL;
 
 
@@ -166,12 +173,25 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTree::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Monster */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
+		CMon_Pocket::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
-	///* For.Prototype_GameObject_Monster */
-	//if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
-	//	CMonster::Create(m_pGraphic_Device))))
-	//	return E_FAIL;
+	/* For.Prototype_GameObject_Boss_Bug */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Boss_Bug"),
+		CBoss_Bug::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	/* For.Prototype_GameObject_Skill_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Player"),
+		CSkill_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_Bug_Bullet*/
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Bug_Bullet"),
+		CSkill_Bug_Bullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 

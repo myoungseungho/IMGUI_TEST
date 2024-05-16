@@ -23,6 +23,11 @@ HRESULT CCamera::Initialize_Prototype()
 
 HRESULT CCamera::Initialize(void* pArg)
 {
+	CAMERA_DESC* pDesc = static_cast<CAMERA_DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -33,7 +38,14 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
 	m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));
 
-	m_fFovy = D3DXToRadian(90.0f);
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
+	m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
+
+	m_fFovy = D3DXToRadian(60.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
@@ -49,6 +61,31 @@ void CCamera::Priority_Update(_float fTimeDelta)
 }
 
 void CCamera::Update(_float fTimeDelta)
+{
+	//Key_Input(fTimeDelta);
+
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
+
+	Bind_PipeLines();
+
+}
+
+void CCamera::Late_Update(_float fTimeDelta)
+{
+
+}
+
+HRESULT CCamera::Render()
+{
+
+	return S_OK;
+}
+
+HRESULT CCamera::Key_Input(_float fTimeDelta)
 {
 	if (GetKeyState('W') & 0x8000)
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -82,20 +119,7 @@ void CCamera::Update(_float fTimeDelta)
 		}
 	}
 
-	Bind_PipeLines();
-
 	m_OldMousePos = ptMouse;
-}
-
-void CCamera::Late_Update(_float fTimeDelta)
-{
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	int a = 10;
-}
-
-HRESULT CCamera::Render()
-{
 
 	return S_OK;
 }
@@ -106,6 +130,7 @@ HRESULT CCamera::Ready_Components()
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 10.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(60.0f);
+
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
@@ -156,9 +181,6 @@ void CCamera::Free()
 {
 	__super::Free();
 
-
-
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
-
-
 }

@@ -12,9 +12,12 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "Transform.h"
+#include "Calc_Timer.h"
+#include "KeyState.h"
+
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -533,9 +536,24 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_VIBuffer_Cube*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Timer*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		CCalc_Timer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Key*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		CKeyState::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

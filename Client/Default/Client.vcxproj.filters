@@ -60,6 +60,26 @@
     </Filter>
     <Filter Include="02.GameObjects\StaticObject\Grass">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Monster\Boss">
+      <UniqueIdentifier>{2dc6f27d-adcc-40ff-857f-3983087d1ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Pocket">
+      <UniqueIdentifier>{282b6d17-7e5e-44f3-be90-4f58a5f2abc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{d02dc42a-e261-4226-80a7-783558e6f6a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{d6946fef-3b6e-47c4-85fb-b41e85cf0856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster">
+      <UniqueIdentifier>{be37443a-932d-432e-8215-c161d8c74e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
+      <UniqueIdentifier>{24ad1d1b-0a96-42c7-99c0-f668ff9b9e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Player">
+      <UniqueIdentifier>{5a8fd0c8-39f9-4cc7-acaf-de46166190f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +160,27 @@
     </ClInclude>
     <ClInclude Include="..\Public\Tree.h">
       <Filter>02.GameObjects\StaticObject\Grass</Filter>
+    <ClInclude Include="..\public\Monster.h">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Pocket.h">
+      <Filter>02.GameObjects\Monster\Pocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Boss_Bug.h">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Skill_Monster.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Skill.h">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Skill_Bug_Bullet.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Player.h">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+>>>>>>> e06cedb26f4c37d7421ab06868dacdc13e310b97
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +246,26 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
       <Filter>02.GameObjects\StaticObject\Grass</Filter>
+    <ClCompile Include="..\private\Monster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+      <Filter>02.GameObjects\Monster\Pocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Monster.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill.cpp">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Bug_Bullet.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Player.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

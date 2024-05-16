@@ -48,6 +48,9 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
+
+
+
 	m_pVB->Unlock();
 
 	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices

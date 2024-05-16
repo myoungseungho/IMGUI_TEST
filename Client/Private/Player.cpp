@@ -9,6 +9,7 @@
 #include "..\Public\Tree.h"
 
 #include "GameInstance.h"
+#include "Skill_Player.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
@@ -36,29 +37,44 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+
+	forScaled = m_pTransformCom->Get_Scaled();
+
 	return S_OK;
 }
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.f);
 
-	if (GetKeyState(VK_UP) & 0x8000)
-		m_pTransformCom->Go_Straight(fTimeDelta);
+	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
 
-	if (GetKeyState(VK_LEFT) & 0x8000)
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+	_float		fTimeAcc = { 0.0f };
+	_float		fCountTime = { 0.0f };
 
-	if (GetKeyState(VK_RIGHT) & 0x8000)
-		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+	while (m_PlayerState == STATE_ATTACK)
+	{
+		fCountTime = m_pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
 
-	if (GetKeyState(VK_DOWN) & 0x8000)
-		m_pTransformCom->Go_Backward(fTimeDelta);
+		fTimeAcc += fCountTime;
+
+		if (fTimeAcc >= 1.f)
+		{
+			m_PlayerState = STATE_IDLE;
+			m_pTransformCom->Set_Scaled(forScaled);
+
+			fTimeAcc = 0.f;
+			break;
+		}
+	}
+
+
+
+	Key_Input(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -72,6 +88,8 @@ HRESULT CPlayer::Render()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
@@ -79,8 +97,9 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferRectCom->Render()))
 		return E_FAIL;
+
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
@@ -104,7 +123,6 @@ void CPlayer::OnCollisionExit(CCollider* other)
 
 }
 
-
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -112,13 +130,25 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	/* For.Com_VIBuffer */
+	/* For.Com_VIBuffer_Rect */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom))))
+		return E_FAIL;
+
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
+
+
 	TransformDesc.fSpeedPerSec = 5.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
@@ -128,7 +158,6 @@ HRESULT CPlayer::Ready_Components()
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 2.f, 0.f));
-
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -149,7 +178,134 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
-CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+HRESULT CPlayer::Key_Input(_float fTimeDelta)
+{
+	
+	if (m_pKeyCom->Key_Pressing(VK_UP))
+	{
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			Set_Direction(DIR_LEFTUP);
+			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+		}
+			
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			Set_Direction(DIR_RIGHTUP);
+			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+		}
+			
+
+		else
+		{
+			Set_Direction(DIR_UP);
+			m_pTransformCom->Go_Straight(fTimeDelta);
+		}
+	}
+
+	if (m_pKeyCom->Key_Pressing(VK_DOWN))
+	{
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			Set_Direction(DIR_LEFTDOWN);
+			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+		}
+			
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			Set_Direction(DIR_RIGHTDOWN);
+			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+		}
+			
+
+		else
+		{
+			Set_Direction(DIR_DOWN);
+			m_pTransformCom->Go_Backward(fTimeDelta);
+		}
+			
+	}
+
+	if (m_pKeyCom->Key_Pressing(VK_LEFT))
+	{
+		Set_Direction(DIR_LEFT);
+		m_pTransformCom->Go_Left(fTimeDelta);
+	}
+		
+
+	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+	{
+		Set_Direction(DIR_RIGHT);
+		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+		
+
+	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+		m_pTransformCom->Set_Speed(10.f);
+	else
+		m_pTransformCom->Set_Speed(5.f);
+	
+	if (m_pKeyCom->Key_Down('A'))
+	{
+		Set_State(STATE_ATTACK);
+		Player_Attack(fTimeDelta);
+		
+	}
+	if (m_pKeyCom->Key_Down('E'))
+	{
+		Set_State(STATE_SKILL);
+		Player_Skill(fTimeDelta);
+	}
+	
+
+	return S_OK;
+}
+
+void CPlayer::Player_Attack(_float fTimeDelta)
+{
+	_float3		curScaled;
+
+	// 평타
+	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
+	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
+
+
+	curScaled.x = forScaled.x + 10.f;
+	curScaled.y = forScaled.y + 10.f;
+	curScaled.z = forScaled.z + 10.f;
+
+	m_pTransformCom->Set_Scaled(curScaled);
+
+}
+
+void CPlayer::Player_Skill(_float fTimeDelta)
+{
+	//회전해야 함 y축, z축
+	// transform 컴포넌트 안에 축 입력하면 90도씩 회전하는 함수 만들기
+	// 시간 값 따른 3단계
+
+	_float fSkillLevel = { 0.f };
+
+	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
+	SkillDesc.pTargetTransform = m_pTransformCom;
+	m_pTransformCom->AddRef();
+
+	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
+	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f* fSkillLevel);
+
+	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
+
+
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
+
+}
+
+
+CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPlayer* pInstance = new CPlayer(pGraphic_Device);
 
@@ -182,9 +338,13 @@ void CPlayer::Free()
 
 	Safe_Release(m_pTransformCom);
 
-	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pVIBufferRectCom);
+
+	Safe_Release(m_pVIBufferCubeCom);
 
 	Safe_Release(m_pTextureCom);
 
 	Safe_Release(m_pColliderCom);
+
+	Safe_Release(m_pKeyCom);
 }
