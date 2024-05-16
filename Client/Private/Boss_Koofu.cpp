@@ -77,14 +77,7 @@ HRESULT CBoss_Koofu::Render()
 
 HRESULT CBoss_Koofu::Ready_Components()
 {
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
-		TEXT("Com_Key"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
-		return E_FAIL;
-
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
 	/* For.Com_Texture */
@@ -158,8 +151,6 @@ void CBoss_Koofu::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pKeyCom);
-	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

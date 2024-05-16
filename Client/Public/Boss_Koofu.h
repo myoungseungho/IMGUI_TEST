@@ -27,9 +27,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	void MonState(_float fTimeDelta)
+
+private:
 	virtual HRESULT Ready_Components();
 	HRESULT  KeyInput(_float fTimeDelta);
 	void ScaleUp(_float fTimeDelta);
+	
 private:
 	bool	m_isScale = { false };
 	_float fScaleTimer = { 0.f };
