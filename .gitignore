@@ -10,8 +10,6 @@ Image/Single/MainMap.bmp
 Image/Single/MainMap.png
 Sound/
 
-
-
 # User-specific files
 *.suo
 *.user
@@ -37,8 +35,9 @@ Client/Bin/Resources/
 
 # Allow all files inside Bin except Resources
 !Client/Bin/*
-!Client/Bin/**/*
+!Client/Bin/**/
 
+# Object files
 [Oo]bj/
 
 # Roslyn cache directories
@@ -48,7 +47,7 @@ Client/Bin/Resources/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-#NUNIT
+# NUnit
 *.VisualState.xml
 TestResult.xml
 
@@ -148,7 +147,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-## TODO: Comment the next line if you want to checkin your
+## TODO: Comment the next line if you want to check in your
 ## web deploy settings but do note that will include unencrypted
 ## passwords
 #*.pubxml
