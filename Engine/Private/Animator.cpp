@@ -32,36 +32,39 @@ HRESULT CAnimator::Initialize(void* pArg)
 HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, const wstring& strTextureTag)
 { 
 	CTexture* pTexture = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Component(iLevel, strComponentTag));
-	//pTexture->
-	/*if (pTexture == nullptr)
-		return E_FAIL;*/
+
+	if (pTexture == nullptr)
+		return E_FAIL;
 
 	m_pTexture.emplace(strTextureTag, pTexture);
 
 	return S_OK;
 }
 
-HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame)
+HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame , _float fTimeDelta)
 {
 	CTexture* pTexture = Find_Texture(strTextureTag);
-
+	
 	if (pTexture == nullptr)
 		return E_FAIL;
 
-	Move_Frame(fFrame);
+	Move_Frame(fFrame , pTexture->m_iNumTextures,fTimeDelta);
 
-	return 	pTexture->Bind_Anim(m_fIndex);
+	return	pTexture->Bind_Anim(m_iIndex);
 }
 
-void CAnimator::Move_Frame(_float fFrame)
+void CAnimator::Move_Frame(_float fFrame, _uint iNumTextures , _float fTimeDelta)
 {
-	//static _float chagingTime = 0;
-//	chagingTime += fFrame;
+	m_fTimeAcc += fTimeDelta;
 
-	//if(chagingTime > 3/5)
-	//_float fMoveFrame =	  * 60.f;
-	//_float fCurrFrame = 1.f / fMoveFrame;
-	//m_fIndex += fCurrFrame;
+	if (m_fTimeAcc >= (_float)(fFrame / iNumTextures))
+	{
+		m_fTimeAcc = 0.f;
+		m_iIndex++;
+	}
+
+	if (m_iIndex >= iNumTextures)
+		m_iIndex = 0;
 }
 
 CTexture* CAnimator::Find_Texture(const wstring& strTextureTag)

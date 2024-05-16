@@ -23,10 +23,6 @@ HRESULT CMonster::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CMonster::Update(_float fTimeDelta)
-{
-
-}
 
 HRESULT CMonster::Ready_Components()
 {

@@ -22,11 +22,6 @@ protected:
 	enum class MON_STATE { IDLE, WALK, ATTACK, DASH , READY, BULLET, FLY, LAND, STAN, DEATH, MON_END };
 
 public:
-	typedef struct
-	{
-		_float fFrame = { 0 };
-		_uint iFrameEnd = { 0 };
-	}MON_ANIM_DESC;
 
 	typedef struct
 	{
@@ -42,8 +37,6 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
-	virtual void Update(_float fTimeDelta);
-
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -58,11 +51,8 @@ protected:
 
 protected:
 	MON_STATE m_eMon_State = {};
-	_float m_iAnimIndex = { 0 };
-	_float m_fFrame = { 0.f };
-
+	
 protected:
-	MON_ANIM_DESC	m_tMonAnimInst = {};
 	MONSTER_DESC m_tMonsterDesc = {};
 
 public:

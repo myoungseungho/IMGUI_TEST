@@ -4,7 +4,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CAnimator final:public CComponent
+class ENGINE_DLL CAnimator final :public CComponent
 {
 private:
 	CAnimator(LPDIRECT3DDEVICE9 pGrpahic_Device);
@@ -16,11 +16,11 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	HRESULT Add_Animator(_uint iLevel , const wstring& strComponentTag , const wstring& strTextureTag);
-	HRESULT Play_Animator(const wstring& strTextureTag , _float fFrame);
-	void Move_Frame(_float fFrame);
+	HRESULT Add_Animator(_uint iLevel, const wstring& strComponentTag, const wstring& strTextureTag);
+	HRESULT Play_Animator(const wstring& strTextureTag, _float fFrame, _float fTimeDelta);
+	void Move_Frame(_float fFrame, _uint iNumTextures, _float fTimeDelta);
 
-private: 
+private:
 	class CTexture* Find_Texture(const wstring& strTextureTag);
 
 private:
@@ -28,8 +28,9 @@ private:
 	class CGameInstance* m_pGameInstance = { nullptr };
 
 private:
-	_float m_fIndex = { 0.f };
-
+	_uint m_iIndex = { 0 };
+	_float m_fTimeAcc = { 0.f };
+	
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
