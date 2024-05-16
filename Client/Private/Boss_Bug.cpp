@@ -75,7 +75,7 @@ HRESULT CBoss_Bug::Render()
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
-
+	//m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f, 2.f, true);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;

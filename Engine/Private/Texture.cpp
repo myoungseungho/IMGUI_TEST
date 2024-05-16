@@ -59,7 +59,7 @@ HRESULT CTexture::Bind_Texture(_uint iTextureIndex)
 HRESULT CTexture::Bind_Anim(_uint fFrame)
 {
 	if (fFrame >= m_iNumTextures)
-		fFrame = 0.f;
+		fFrame = 0;
 	
 	return m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
 }

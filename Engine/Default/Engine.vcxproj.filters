@@ -94,9 +94,6 @@
     <Filter Include="01.Utility\04.Components\Animator">
       <UniqueIdentifier>{e6b3c7b9-7dfe-4ba5-bd8d-9591a3cba6dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="De">
-      <UniqueIdentifier>{c747a0cc-3469-4e86-8a12-6c59d51d812f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
