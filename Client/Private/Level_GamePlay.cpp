@@ -121,12 +121,7 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
 {
-	CLandObject::LANDOBJECT_DESC	pDesc{};
-
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, Desc)))
 		return E_FAIL;
 
 	return S_OK;
