@@ -25,29 +25,29 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
 
-
-
-	
 	return S_OK;
 }
 
 void CSkill_Player::Priority_Update(_float fTimeDelta)
 {
-
+	
 }
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx+10.f * fTimeDelta, Targety, Targetz + 10.f * fTimeDelta));
+	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 2.f);
+	//m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), 1.f);
+
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -91,14 +91,14 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 	int a = 3;
 }
 
+void CSkill_Player::Skill_Player_Headbutt(_float fTimeDelta)
+{
+
+}
+
 
 HRESULT CSkill_Player::Ready_Components()
 {
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
-		return E_FAIL;
-
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -111,7 +111,7 @@ HRESULT CSkill_Player::Ready_Components()
 
 	/* For.Com_Calc_Timer*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pCal_Timercom))))
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */

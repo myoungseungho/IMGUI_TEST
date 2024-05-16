@@ -40,8 +40,8 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
-public:
-
+private:
+	void Skill_Player_Headbutt(_float fTimeDelta);
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -53,7 +53,6 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
-	CCalc_Timer* m_pCal_Timercom = { nullptr };
 
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
