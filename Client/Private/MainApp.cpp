@@ -189,25 +189,24 @@ HRESULT CMainApp::Show_PrototypeObjects()
 	return S_OK;
 
 }
-
 HRESULT CMainApp::Show_LayerObjects()
 {
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
 	ImGui::Columns(2, NULL, true); // 두 개의 컬럼 생성
 
 	static int selectedItem = -1; // 초기 선택 항목 없음
-	static int selectedObject = -1;
-	static CGameObject* pSelectedGameObject = nullptr; // 선택된 객체의 포인터
+	static vector<int> selectedObjects; // 선택된 객체들의 인덱스 벡터
+	static vector<CGameObject*> selectedGameObjects; // 선택된 객체들의 포인터 벡터
 
-	vector<pair < string, list<CGameObject*>>> objectLayersVector;
+	vector<pair<string, list<CGameObject*>>> objectLayersVector;
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
 	ImGui::BeginChild("LeftPane", ImVec2(150, 0), true); // 왼쪽 창 생성
 	for (int i = 0; i < objectLayersVector.size(); i++) {
 		if (ImGui::Selectable(objectLayersVector[i].first.c_str(), selectedItem == i)) {
 			selectedItem = i;
-			selectedObject = -1; // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
-			pSelectedGameObject = nullptr;
+			selectedObjects.clear(); // 새 레이어를 선택하면 오른쪽 창의 선택 초기화
+			selectedGameObjects.clear(); // 선택된 객체 초기화
 		}
 	}
 
@@ -220,151 +219,165 @@ HRESULT CMainApp::Show_LayerObjects()
 		const list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
 		int index = 0;  // 게임 오브젝트의 번호를 표시하기 위한 인덱스
 		for (CGameObject* gameObject : gameObjects) {
-			// 각 게임 오브젝트를 클릭 가능하게 만듬
-			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), selectedObject == index)) {
-				selectedObject = index; // 선택된 객체 인덱스 업데이트
-				pSelectedGameObject = gameObject; // 선택된 객체 저장
+			bool isSelected = std::find(selectedObjects.begin(), selectedObjects.end(), index) != selectedObjects.end();
+			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), isSelected)) {
+				if (ImGui::GetIO().KeyCtrl) { // Ctrl 키가 눌려있는 상태에서만 다중 선택
+					if (isSelected) {
+						selectedObjects.erase(std::remove(selectedObjects.begin(), selectedObjects.end(), index), selectedObjects.end());
+						selectedGameObjects.erase(std::remove(selectedGameObjects.begin(), selectedGameObjects.end(), gameObject), selectedGameObjects.end());
+					}
+					else {
+						selectedObjects.push_back(index);
+						selectedGameObjects.push_back(gameObject);
+					}
+				}
+				else {
+					selectedObjects.clear();
+					selectedGameObjects.clear();
+					selectedObjects.push_back(index);
+					selectedGameObjects.push_back(gameObject);
+				}
 			}
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
 	}
 
-	if (pSelectedGameObject)
+
+	if (!selectedGameObjects.empty())
 	{
 		// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
-		CComponent* component = pSelectedGameObject->Get_Component(TEXT("Com_Transform"));
-		if (component != nullptr)
-		{
-			CTransform* transform = static_cast<CTransform*>(component);
-			_float3 position = transform->Get_State(CTransform::STATE_POSITION);
+		_float3 averagePosition = { 0.0f, 0.0f, 0.0f };
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				averagePosition += transform->Get_State(CTransform::STATE_POSITION);
+			}
+		}
+		averagePosition /= static_cast<float>(selectedGameObjects.size());
 
-			// ImGui 스타일 및 너비 설정
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 4)); // 요소 간 간격 조정
+		// ImGui 스타일 및 너비 설정
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 4)); // 요소 간 간격 조정
 
-			float sliderWidth = 150.0f; // 슬라이더의 너비
-			float inputWidth = 50.0f;   // 입력 필드의 너비
-			float sliderPower = 0.01f;  // 슬라이더 조정 민감도
+		float sliderWidth = 150.0f; // 슬라이더의 너비
+		float inputWidth = 50.0f;   // 입력 필드의 너비
+		float sliderPower = 0.01f;  // 슬라이더 조정 민감도
 
-			// 슬라이더 범위 설정
-			float rangeX = 50.0f;
-			float rangeY = 50.0f;
-			float rangeZ = 50.0f;
+		// 슬라이더 범위 설정
+		float rangeX = 50.0f;
+		float rangeY = 50.0f;
+		float rangeZ = 50.0f;
 
-			ImGui::Text("Position: ");
-			ImGui::PushButtonRepeat(true); // 버튼 반복을 활성화
+		ImGui::Text("Position: ");
+		ImGui::PushButtonRepeat(true); // 버튼 반복을 활성화
 
-			// X 축 조정
-			ImGui::PushItemWidth(sliderWidth);
-			if (ImGui::Button("-X")) position.x -= 0.1f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##PosX", &position.x, 0, rangeX, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+X")) position.x += 0.1f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##PosXInput", &position.x);
-			ImGui::PopItemWidth();
-			ImGui::PopItemWidth();
+		// X 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-X")) averagePosition.x -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosX", &averagePosition.x, 0, rangeX, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+X")) averagePosition.x += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosXInput", &averagePosition.x);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
 
-			// Y 축 조정
-			ImGui::PushItemWidth(sliderWidth);
-			if (ImGui::Button("-Y")) position.y -= 0.1f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##PosY", &position.y, 0, rangeY, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+Y")) position.y += 0.1f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##PosYInput", &position.y);
-			ImGui::PopItemWidth();
-			ImGui::PopItemWidth();
+		// Y 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-Y")) averagePosition.y -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosY", &averagePosition.y, 0, rangeY, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+Y")) averagePosition.y += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosYInput", &averagePosition.y);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
 
-			// Z 축 조정
-			ImGui::PushItemWidth(sliderWidth);
-			if (ImGui::Button("-Z")) position.z -= 0.1f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##PosZ", &position.z, 0, rangeZ, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+Z")) position.z += 0.1f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##PosZInput", &position.z);
-			ImGui::PopItemWidth();
-			ImGui::PopItemWidth();
+		// Z 축 조정
+		ImGui::PushItemWidth(sliderWidth);
+		if (ImGui::Button("-Z")) averagePosition.z -= 0.1f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##PosZ", &averagePosition.z, 0, rangeZ, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+Z")) averagePosition.z += 0.1f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##PosZInput", &averagePosition.z);
+		ImGui::PopItemWidth();
+		ImGui::PopItemWidth();
 
-			ImGui::PopButtonRepeat(); // 버튼 반복을 비활성화
-			transform->Set_State(CTransform::STATE_POSITION, &position);
+		ImGui::PopButtonRepeat(); // 버튼 반복을 비활성화
 
-			// 스케일 조절 슬라이더
-			_float3 scale = transform->Get_Scaled();
-			ImGui::Text("Scale: ");
-			ImGui::PushButtonRepeat(true); // 버튼 반복을 다시 활성화
-			ImGui::PushItemWidth(sliderWidth);
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				transform->Set_State(CTransform::STATE_POSITION, &averagePosition);
+			}
+		}
 
-			// 스케일 X 축 조정
-			if (ImGui::Button("-SX")) scale.x -= 0.01f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##ScaleX", &scale.x, 0.1f, 10.0f, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+SX")) scale.x += 0.01f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##ScaleXInput", &scale.x);
-			ImGui::PopItemWidth();
+		// 스케일 조절 슬라이더
+		_float3 averageScale = { 0.0f, 0.0f, 0.0f };
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				averageScale += transform->Get_Scaled();
+			}
+		}
+		averageScale /= static_cast<float>(selectedGameObjects.size());
 
-			// 스케일 Y 축 조정
-			if (ImGui::Button("-SY")) scale.y -= 0.01f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##ScaleY", &scale.y, 0.1f, 10.0f, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+SY")) scale.y += 0.01f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##ScaleYInput", &scale.y);
-			ImGui::PopItemWidth();
+		ImGui::Text("Scale: ");
+		ImGui::PushButtonRepeat(true); // 버튼 반복을 다시 활성화
+		ImGui::PushItemWidth(sliderWidth);
 
-			// 스케일 Z 축 조정
-			if (ImGui::Button("-SZ")) scale.z -= 0.01f;
-			ImGui::SameLine();
-			ImGui::SliderFloat("##ScaleZ", &scale.z, 0.1f, 10.0f, "%.3f", sliderPower);
-			ImGui::SameLine();
-			if (ImGui::Button("+SZ")) scale.z += 0.01f;
-			ImGui::SameLine();
-			ImGui::PushItemWidth(inputWidth);
-			ImGui::InputFloat("##ScaleZInput", &scale.z);
-			ImGui::PopItemWidth();
+		// 스케일 X 축 조정
+		if (ImGui::Button("-SX")) averageScale.x -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleX", &averageScale.x, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SX")) averageScale.x += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleXInput", &averageScale.x);
+		ImGui::PopItemWidth();
 
-			ImGui::PopItemWidth();
-			ImGui::PopButtonRepeat(); // 버튼 반복을 다시 비활성화
-			ImGui::PopStyleVar(); // 스타일 변수 복원
+		// 스케일 Y 축 조정
+		if (ImGui::Button("-SY")) averageScale.y -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleY", &averageScale.y, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SY")) averageScale.y += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleYInput", &averageScale.y);
+		ImGui::PopItemWidth();
 
-			transform->Set_Scaled(scale); // 스케일 적용
+		// 스케일 Z 축 조정
+		if (ImGui::Button("-SZ")) averageScale.z -= 0.01f;
+		ImGui::SameLine();
+		ImGui::SliderFloat("##ScaleZ", &averageScale.z, 0.1f, 10.0f, "%.3f", sliderPower);
+		ImGui::SameLine();
+		if (ImGui::Button("+SZ")) averageScale.z += 0.01f;
+		ImGui::SameLine();
+		ImGui::PushItemWidth(inputWidth);
+		ImGui::InputFloat("##ScaleZInput", &averageScale.z);
+		ImGui::PopItemWidth();
 
-			////회전 적용
-			//static _float3 lastEulerRotation = { 0.0f, 0.0f, 0.0f };
-			//_float3 eulerRotation = lastEulerRotation;
-			//ImGui::Text("Rotation: ");
-			//bool changedX = ImGui::SliderFloat("Rotate X", &eulerRotation.x, -3.14159f, 3.14159f);
-			//ImGui::InputFloat("Rotate X Input", &eulerRotation.x);
-			//bool changedY = ImGui::SliderFloat("Rotate Y", &eulerRotation.y, -3.14159f, 3.14159f);
-			//ImGui::InputFloat("Rotate Y Input", &eulerRotation.y);
-			//bool changedZ = ImGui::SliderFloat("Rotate Z", &eulerRotation.z, -3.14159f, 3.14159f);
-			//ImGui::InputFloat("Rotate Z Input", &eulerRotation.z);
+		ImGui::PopItemWidth();
+		ImGui::PopButtonRepeat(); // 버튼 반복을 다시 비활성화
+		ImGui::PopStyleVar(); // 스타일 변수 복원
 
-			//if (changedX) {
-			//	_float3 deltaRotation = { _float3(1.0f, 0.0f, 0.0f) * (eulerRotation.x - lastEulerRotation.x) };
-			//	transform->Turn(_float3(1.0f, 0.0f, 0.0f), deltaRotation.x);
-			//}
-			//if (changedY) {
-			//	_float3 deltaRotation = { _float3(0.0f, 1.0f, 0.0f) * (eulerRotation.y - lastEulerRotation.y) };
-			//	transform->Turn(_float3(0.0f, 1.0f, 0.0f), deltaRotation.y);
-			//}
-			//if (changedZ) {
-			//	_float3 deltaRotation = { _float3(0.0f, 0.0f, 1.0f) * (eulerRotation.z - lastEulerRotation.z) };
-			//	transform->Turn(_float3(0.0f, 0.0f, 1.0f), deltaRotation.z);
-			//}
-
-			//lastEulerRotation = eulerRotation;
+		for (CGameObject* gameObject : selectedGameObjects) {
+			CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+			if (component != nullptr) {
+				CTransform* transform = static_cast<CTransform*>(component);
+				transform->Set_Scaled(averageScale); // 스케일 적용
+			}
 		}
 	}
 	ImGui::EndChild();
