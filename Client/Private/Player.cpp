@@ -259,6 +259,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 	SkillDesc.pTargetTransform = m_pTransformCom;
 	m_pTransformCom->AddRef();
 
+
 	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
 	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f* fSkillLevel);
