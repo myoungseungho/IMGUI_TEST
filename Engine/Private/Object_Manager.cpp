@@ -35,19 +35,6 @@ CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& 
 	return pLayer->Get_GameObject(iIndex);
 }
 
-HRESULT CObject_Manager::Delete_GaemObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
-{
-	if (nullptr == m_pLayers ||
-		iLevelIndex >= m_iNumLevels)
-		return E_FAIL;
-
-	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
-	if (nullptr == pLayer)
-		return E_FAIL;
-
-	return pLayer->Delete_GameObject(iIndex);;
-}
-
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;
@@ -193,10 +180,11 @@ void CObject_Manager::Update(_float fTimeDelta)
 
 void CObject_Manager::Late_Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+ 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Late_Update(fTimeDelta);
+		
 	}
 }
 

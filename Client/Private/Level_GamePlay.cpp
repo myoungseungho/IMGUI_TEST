@@ -12,6 +12,7 @@
 #include "Monster.h"
 #include "Mon_Pocket.h"
 #include "Boss_Bug.h"
+#include "Boss_Koofu.h"
 
 #include "Skill_Player.h"
 #include "Skill_Bug_Bullet.h"
@@ -29,12 +30,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
-
-	/*if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
-		return E_FAIL;*/
-
-	/*if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
-		return E_FAIL;*/
+	
 
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
@@ -43,6 +39,12 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -85,7 +87,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 
 	BossBug.iHp = 10;
 	BossBug.iAttack = 1;
-	BossBug.pBullet = dynamic_cast<CSkill_Bug_Bullet*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")));
+	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag , &BossBug)))
 		return E_FAIL;
@@ -93,18 +95,26 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Skill_Bug_Bullet(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
-	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	SkillDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Bug"), TEXT("Com_Transform")));
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), strLayerTag, &SkillDesc)))
+	Bosskoofu.iHp = 10;
+	Bosskoofu.iAttack = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag , &Bosskoofu)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_LandObjects()
+{
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+		return E_FAIL;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring & strLayerTag)
 {
 	CLandObject::LANDOBJECT_DESC	Desc{};
 
@@ -163,8 +173,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Tree(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-
-CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLevel_GamePlay * CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pGraphic_Device);
 
@@ -173,7 +182,6 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 		MSG_BOX(TEXT("Failed to Created : CLevel_GamePlay"));
 		Safe_Release(pInstance);
 	}
-
 	return pInstance;
 }
 

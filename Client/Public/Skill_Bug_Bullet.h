@@ -10,6 +10,7 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr };
+		_int  iBulletCnt = { 0 };
 	}SKILL_BUG_BULLET_DESC;
 
 private:
@@ -27,8 +28,6 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components() override;
-private:
-	HRESULT	 DeleteBullet(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };

@@ -11,9 +11,6 @@
 #include "Level_Loading.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "Transform.h"
-#include "Calc_Timer.h"
-#include "KeyState.h"
 
 #include <codecvt>
 
@@ -28,6 +25,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	srand((_uint)time(NULL));
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -554,6 +553,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	/* For.Prototype_Component_Key*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		CKeyState::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		CAnimator::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

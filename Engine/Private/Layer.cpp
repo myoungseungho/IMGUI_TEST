@@ -32,23 +32,6 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 	return (*iter);
 }
 
-HRESULT CLayer::Delete_GameObject(_uint iIndex)
-{
-	auto&	iter = m_GameObjects.begin();
-
-	for (size_t i = 0; i < iIndex; i++)
-		++iter;
-
-	if (iter == m_GameObjects.end())
-		return E_FAIL;
-
-	Safe_Release(*iter);
-	m_GameObjects.erase(iter);
-
-	return S_OK;
-}
-
-
 HRESULT CLayer::Add_GameObject(CGameObject* pGameObject)
 {
 	if (nullptr == pGameObject)
@@ -83,7 +66,7 @@ void CLayer::Priority_Update(_float fTimeDelta)
 
 void CLayer::Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
+	for(auto & pGameObject : m_GameObjects)
 		pGameObject->Update(fTimeDelta);
 }
 

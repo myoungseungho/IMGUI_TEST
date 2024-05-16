@@ -53,8 +53,17 @@ HRESULT CTexture::Bind_Texture(_uint iTextureIndex)
 	if (iTextureIndex >= m_iNumTextures)
 		return E_FAIL;
 
-	return m_pGraphic_Device->SetTexture(0, m_Textures[iTextureIndex]);	
+ 	return m_pGraphic_Device->SetTexture(0, m_Textures[iTextureIndex]);	
 }
+
+HRESULT CTexture::Bind_Anim(_uint fFrame)
+{
+	if (fFrame >= m_iNumTextures)
+		fFrame = 0.f;
+	
+	return m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
+}
+
 
 CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _wstring & strTextureFilePath, _uint iNumTextures)
 {
