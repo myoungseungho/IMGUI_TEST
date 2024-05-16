@@ -27,7 +27,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	void MonState(_float fTimeDelta)
+	void MonState(_float fTimeDelta);
 
 private:
 	virtual HRESULT Ready_Components();

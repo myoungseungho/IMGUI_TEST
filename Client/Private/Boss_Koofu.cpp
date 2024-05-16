@@ -75,6 +75,10 @@ HRESULT CBoss_Koofu::Render()
 	return S_OK;
 }
 
+void CBoss_Koofu::MonState(_float fTimeDelta)
+{
+}
+
 HRESULT CBoss_Koofu::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
