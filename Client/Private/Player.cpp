@@ -51,18 +51,11 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.f);
 
-	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
-
-	_float		fTimeAcc = { 0.0f };
-	_float		fCountTime = { 0.0f };
-
 	while (m_PlayerState == STATE_ATTACK)
 	{
-		fCountTime = m_pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
+		fTimeAcc += fTimeDelta;
 
-		fTimeAcc += fCountTime;
-
-		if (fTimeAcc >= 1.f)
+		if (fTimeAcc >= 100000.f)
 		{
 			m_PlayerState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
@@ -71,7 +64,6 @@ void CPlayer::Update(_float fTimeDelta)
 			break;
 		}
 	}
-
 
 	Key_Input(fTimeDelta);
 }
@@ -138,6 +130,11 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	/* For.Com_Calc_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pCal_Timercom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -247,7 +244,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);
 		
 	}
-	if (m_pKeyCom->Key_Down('E'))
+	if (m_pKeyCom->Key_Pressing('E'))
 	{
 		Set_State(STATE_SKILL);
 		Player_Skill(fTimeDelta);
@@ -286,6 +283,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 	SkillDesc.pTargetTransform = m_pTransformCom;
 	m_pTransformCom->AddRef();
 
+	//SkillDesc.pTargetTransform->Rotation(_float3(0.f, 1.f, 0.f), 90.f);
 
 	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
 	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
@@ -293,9 +291,9 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 
 	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
 
-
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
+	
+	if(m_pCal_Timercom->Time_Limit(fTimeDelta,0.5f ))
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
 
 }
 
@@ -336,6 +334,8 @@ void CPlayer::Free()
 	Safe_Release(m_pVIBufferCom);
 
 	Safe_Release(m_pTextureCom);
+
+	Safe_Release(m_pCal_Timercom);
 
 	Safe_Release(m_pColliderCom);
 

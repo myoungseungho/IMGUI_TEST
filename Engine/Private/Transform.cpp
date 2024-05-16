@@ -95,6 +95,9 @@ HRESULT CTransform::Go_Straight_Left(_float fTimeDelta)
 	_float3		vLook = Get_State(STATE_LOOK);
 	_float3		vRight = Get_State(STATE_RIGHT);
 
+
+
+
 	vPosition += *D3DXVec3Normalize(&vLook, &vLook) * sqrt(m_fSpeedPerSec) * fTimeDelta;
 
 	Set_State(STATE_POSITION, &vPosition);

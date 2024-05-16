@@ -12,6 +12,7 @@ class CComponent;
 class CVIBuffer_Rect;
 class CCollider;
 class CKeyState;
+class CCalc_Timer;
 END
 
 BEGIN(Client)
@@ -45,6 +46,7 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider*			m_pColliderCom = { nullptr };
 	CKeyState*			m_pKeyCom = { nullptr };
+	CCalc_Timer*		 m_pCal_Timercom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
@@ -65,7 +67,7 @@ private:
 	DIRECTION	m_PlayerDir = { DIR_END };
 	STATE			m_PlayerState = { STATE_END };
 
-
+	_float		fTimeAcc = { 0.0f };
 public:
 	/* 원형객체를 생성한다. */
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
