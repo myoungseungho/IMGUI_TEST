@@ -82,9 +82,6 @@
     <Filter Include="dd">
       <UniqueIdentifier>{6fc0f97a-ac6c-47c7-a31c-17de5a8efbde}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_Monster\NewFilter1">
-      <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
