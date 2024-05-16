@@ -69,7 +69,6 @@ public:
 	HRESULT Go_Straight_Right(_float fTimeDelta);
 	HRESULT Go_Backward_Left(_float fTimeDelta);
 	HRESULT Go_Backward_Right(_float fTimeDelta);
->>>>>>> e06cedb26f4c37d7421ab06868dacdc13e310b97
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void LookAt(const _float3& vTargetPos);	

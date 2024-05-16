@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma warning (disable : 4251)
+#pragma error (disable : E0410)
 
 #include <d3d9.h>
 #include <d3dx9.h>

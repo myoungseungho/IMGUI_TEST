@@ -73,7 +73,6 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 
 
-
 	Key_Input(fTimeDelta);
 }
 
@@ -97,7 +96,7 @@ HRESULT CPlayer::Render()
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferRectCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
 
@@ -132,17 +131,13 @@ HRESULT CPlayer::Ready_Components()
 
 	/* For.Com_VIBuffer_Rect */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferRectCom))))
+		TEXT("Com_VIBuffer_Rect"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
 
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -338,9 +333,7 @@ void CPlayer::Free()
 
 	Safe_Release(m_pTransformCom);
 
-	Safe_Release(m_pVIBufferRectCom);
-
-	Safe_Release(m_pVIBufferCubeCom);
+	Safe_Release(m_pVIBufferCom);
 
 	Safe_Release(m_pTextureCom);
 

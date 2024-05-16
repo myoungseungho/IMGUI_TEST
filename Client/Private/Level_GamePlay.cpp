@@ -30,19 +30,16 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+		return E_FAIL;*/
 
 	/*if (FAILED(Ready_Layer_Skill_Bug_Bullet(TEXT("Layer_Skill_Bug_Bullet"))))
 		return E_FAIL;*/
 
 	if (FAILED(Ready_LandObjects()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
@@ -75,7 +72,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	CCamera::CAMERA_DESC			CameraDesc{};
 
-	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+ 	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
 		return E_FAIL;
 

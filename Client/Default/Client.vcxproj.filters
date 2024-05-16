@@ -61,6 +61,24 @@
     <Filter Include="02.GameObjects\StaticObject\Grass">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster">
+      <UniqueIdentifier>{c520d356-9509-4de7-b278-b65adddad62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Player">
+      <UniqueIdentifier>{af2ce3aa-51c5-44fa-bac2-95171cb9fb4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
+      <UniqueIdentifier>{54895d1f-0bd4-4614-97ce-e7188ca1ea32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Boss">
+      <UniqueIdentifier>{8cf21d63-e930-4368-bea0-fc8f8e2e5e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Pocket">
+      <UniqueIdentifier>{a356024f-a36b-4196-a7c6-e424dfe950bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -141,6 +159,24 @@
     <ClInclude Include="..\Public\Tree.h">
       <Filter>02.GameObjects\StaticObject\Grass</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Player.h">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Monster.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Bug_Bullet.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Bug.h">
+      <Filter>02.GameObjects\LandObject\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Pocket.h">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -205,6 +241,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
       <Filter>02.GameObjects\StaticObject\Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Player.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Monster.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
