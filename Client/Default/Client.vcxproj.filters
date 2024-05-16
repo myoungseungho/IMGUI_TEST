@@ -67,6 +67,9 @@
     <Filter Include="02.GameObjects\Enviorment\Monkey_Statue">
       <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\RockBreakable">
+      <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -153,6 +156,9 @@
     <ClInclude Include="..\Public\Monkey_Statue.h">
       <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RockBreakable.h">
+      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -223,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Monkey_Statue.cpp">
       <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RockBreakable.cpp">
+      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
