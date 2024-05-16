@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Terrain.h"
 #include "Tree.h"
+#include "Push_Stone.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -121,7 +122,11 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Tree"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Enviorment/Tree_69.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Tree_69.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_StonePushable.png"), 1))))
 		return E_FAIL;
 
 	//컴포넌트 로드한다.
@@ -164,6 +169,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Tree"),
 		CTree::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sprite_StonePushable"),
+		CPush_Stone::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 

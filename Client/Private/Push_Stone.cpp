@@ -96,7 +96,7 @@ HRESULT CPush_Stone::Render()
 HRESULT CPush_Stone::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

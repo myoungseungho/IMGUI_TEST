@@ -55,11 +55,14 @@
     <Filter Include="02.GameObjects\LandObject\Player">
       <UniqueIdentifier>{c8adca8e-cb98-4749-9922-3f12942b28de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\StaticObject">
+    <Filter Include="02.GameObjects\Enviorment">
       <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\StaticObject\Grass">
+    <Filter Include="02.GameObjects\Enviorment\Tree">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\Push_Stone">
+      <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +142,10 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Tree.h">
-      <Filter>02.GameObjects\StaticObject\Grass</Filter>
+      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Push_Stone.h">
+      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +210,10 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
-      <Filter>02.GameObjects\StaticObject\Grass</Filter>
+      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Push_Stone.cpp">
+      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
