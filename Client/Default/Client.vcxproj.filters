@@ -64,6 +64,9 @@
     <Filter Include="02.GameObjects\Enviorment\Push_Stone">
       <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\Monkey_Statue">
+      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -147,6 +150,9 @@
     <ClInclude Include="..\Public\Push_Stone.h">
       <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Monkey_Statue.h">
+      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -214,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Push_Stone.cpp">
       <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Monkey_Statue.cpp">
+      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
