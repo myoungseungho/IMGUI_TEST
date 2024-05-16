@@ -110,7 +110,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_LandObjects()
 {
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	CLandObject::LANDOBJECT_DESC   Desc{};
+
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"),Desc)))
 		return E_FAIL;
 }
 
@@ -136,15 +141,6 @@ HRESULT CLevel_GamePlay::ParseInitialize()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iter.levelIndex, iter.prototypeTag, iter.layerName, &iter)))
 			return E_FAIL;
 	}
-	return S_OK;
-}
-
-
-HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
-{
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
