@@ -62,7 +62,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
@@ -87,27 +87,27 @@ HRESULT CCamera::Render()
 
 HRESULT CCamera::Key_Input(_float fTimeDelta)
 {
-	if (GetKeyState('W') & 0x8000)
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	if (GetKeyState('S') & 0x8000)
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	if (GetKeyState('A') & 0x8000)
-		m_pTransformCom->Go_Left(fTimeDelta);
-	if (GetKeyState('D') & 0x8000)
-		m_pTransformCom->Go_Right(fTimeDelta);
-	if (GetKeyState('E') & 0x8000)
-		m_pTransformCom->Go_Up(fTimeDelta);
-	if (GetKeyState('Q') & 0x8000)
-		m_pTransformCom->Go_Down(fTimeDelta);
-
-	POINT			ptMouse{};
-
-	GetCursorPos(&ptMouse);
-
-	long		MouseMoveX = {}, MouseMoveY = {};
 
 	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 	{
+		if (GetKeyState('W') & 0x8000)
+			m_pTransformCom->Go_Straight(fTimeDelta);
+		if (GetKeyState('S') & 0x8000)
+			m_pTransformCom->Go_Backward(fTimeDelta);
+		if (GetKeyState('A') & 0x8000)
+			m_pTransformCom->Go_Left(fTimeDelta);
+		if (GetKeyState('D') & 0x8000)
+			m_pTransformCom->Go_Right(fTimeDelta);
+		if (GetKeyState('E') & 0x8000)
+			m_pTransformCom->Go_Up(fTimeDelta);
+		if (GetKeyState('Q') & 0x8000)
+			m_pTransformCom->Go_Down(fTimeDelta);
+
+		POINT			ptMouse{};
+
+		GetCursorPos(&ptMouse);
+
+		long		MouseMoveX = {}, MouseMoveY = {};
 		if (MouseMoveX = ptMouse.x - m_OldMousePos.x)
 		{
 			m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * MouseMoveX * m_fMouseSensor);
@@ -117,9 +117,10 @@ HRESULT CCamera::Key_Input(_float fTimeDelta)
 		{
 			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMoveY * m_fMouseSensor);
 		}
+
+		m_OldMousePos = ptMouse;
 	}
 
-	m_OldMousePos = ptMouse;
 
 	return S_OK;
 }

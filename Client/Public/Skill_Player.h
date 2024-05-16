@@ -8,6 +8,7 @@ class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
+class CCollider;
 
 END
 
@@ -34,17 +35,22 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 protected:
 	virtual HRESULT Ready_Components();
-private:
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
-
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

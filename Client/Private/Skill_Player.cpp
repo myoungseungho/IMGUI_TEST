@@ -27,7 +27,6 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	
 	return S_OK;
 }
@@ -68,6 +67,21 @@ HRESULT CSkill_Player::Render()
 	return S_OK;
 }
 
+void CSkill_Player::OnCollisionEnter(CCollider* other)
+{
+	int a = 3;
+}
+
+void CSkill_Player::OnCollisionStay(CCollider* other)
+{
+	int a = 3;
+}
+
+void CSkill_Player::OnCollisionExit(CCollider* other)
+{
+	int a = 3;
+}
+
 HRESULT CSkill_Player::Ready_Components()
 {
 	/* For.Com_Timer*/
@@ -93,6 +107,24 @@ HRESULT CSkill_Player::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 1.f;
+	ColliderDesc.MineGameObject = this;
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER_SKILL, this);
 
 	return S_OK;
 }
