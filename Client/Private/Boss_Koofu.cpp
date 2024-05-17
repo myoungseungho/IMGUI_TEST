@@ -129,6 +129,8 @@ void CBoss_Koofu::Key_Input(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down('3'))
 		FuitCreate();
+	if (m_pKeyCom->Key_Down('4'))
+		FuitClone();
 }
 
 HRESULT CBoss_Koofu::Ready_Components()
@@ -197,6 +199,28 @@ HRESULT CBoss_Koofu::FuitCreate()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CBoss_Koofu::FuitClone()
+{
+	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
+
+	Bosskoofu.iHp = 1;
+	Bosskoofu.iAttack = 1;
+
+	if (m_iCloneCnt >= 2)
+		m_iCloneCnt = 2;
+
+	for (int i = 2; i <= i  + m_iCloneCnt; ++i)
+	{
+		m_iCloneCnt++;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu"), &Bosskoofu)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+	
 }
 
 

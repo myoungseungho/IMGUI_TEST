@@ -45,6 +45,10 @@ private:
 	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 	HRESULT RollingCreate();
 	HRESULT FuitCreate();
+	HRESULT FuitClone();
+
+private:
+	int m_iCloneCnt = { 0 };
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
