@@ -245,16 +245,22 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);
 		
 	}
-	if (m_pKeyCom->Key_Down('E'))
+
+	if (m_pKeyCom->Key_Pressing('E'))
 	{
-		Set_State(STATE_SKILL);
-		Player_Skill(fTimeDelta);
+		fTimeAcc += fTimeDelta;
+
+		if (fTimeAcc >= 3.f && m_iCurrentSkillCount < 3)
+		{
+			Player_Skill(fTimeDelta);
+			++m_iCurrentSkillCount;
+		}
 	}
-	
 
 	return S_OK;
 }
 
+	
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
 	_float3		curScaled;
@@ -289,7 +295,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
 
 	
-	//if(m_pCal_Timercom->Time_Limit(fTimeDelta,1.0f ))
+	if(m_pCal_Timercom->Time_Limit(fTimeDelta,1.0f ))
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
 
 	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 2.0f))
@@ -298,6 +304,12 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 3.0f))
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
 
+}
+
+void CPlayer::Create_Skill()
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"),  TEXT("Layer_Skill_Player"), &m_pTransformCom)))
+		return;
 }
 
 

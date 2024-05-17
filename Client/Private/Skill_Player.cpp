@@ -42,7 +42,7 @@ void CSkill_Player::Update(_float fTimeDelta)
 {
 
 	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 2.f);
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 2.f);
 	//m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), 1.f);
 
 }

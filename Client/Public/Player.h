@@ -61,7 +61,7 @@ private:
 	void					Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
 	void					Set_State(STATE _STATE) { m_PlayerState = _STATE; }
 	
-
+	void					Create_Skill();
 private:
 	_float3		forScaled;
 
@@ -69,6 +69,12 @@ private:
 	STATE			m_PlayerState = { STATE_END };
 
 	_float		fTimeAcc = { 0.0f };
+
+private:
+	_float m_fSkill_Cooldown = { 0.0f }; // 스킬 생성 간격
+	_float m_fSkillTimer = { 0.0f }; // 스킬 타이머
+	int		m_iCurrentSkillCount = { 0 }; // 현재 생성된 스킬 개수
+
 public:
 	/* 원형객체를 생성한다. */
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
