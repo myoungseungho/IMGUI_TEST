@@ -11,6 +11,7 @@
 #include "Push_Stone.h"
 #include "Monkey_Statue.h"
 #include "RockBreakable.h"
+#include "Block.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -139,6 +140,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_RockBreakable.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_Block"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Block_States/Block_Blocking/Sprite_StoneBlockBlocking.png"), 1))))
+		return E_FAIL;
+
 
 	//컴포넌트 로드한다.
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
@@ -192,6 +197,10 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RockBreakable"),
 		CRockBreakable::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Block"),
+		CBlock::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	///* For.Prototype_GameObject_Monster */

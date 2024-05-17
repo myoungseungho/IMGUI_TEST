@@ -70,6 +70,9 @@
     <Filter Include="02.GameObjects\Enviorment\RockBreakable">
       <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\Block">
+      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -159,6 +162,9 @@
     <ClInclude Include="..\Public\RockBreakable.h">
       <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Block.h">
+      <Filter>02.GameObjects\Enviorment\Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -232,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RockBreakable.cpp">
       <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Block.cpp">
+      <Filter>02.GameObjects\Enviorment\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
