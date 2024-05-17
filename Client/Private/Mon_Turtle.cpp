@@ -51,6 +51,8 @@ void CMon_Turtle::Update(_float fTimeDelta)
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
+	Distory(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -72,9 +74,14 @@ HRESULT CMon_Turtle::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CMon_Turtle::Death(_float fTimeDelta)
+void CMon_Turtle::Distory(_float fTimeDelta)
 {
+	CMon_Turtle* pThis = this;
 
+	//if(m_pTimerCom->Time_Limit(fTimeDelta,1.f))
+
+	//if(m_pKeyCom->Key_Down('3'))
+	//	Safe_Release(pThis);
 }
 
 HRESULT CMon_Turtle::Ready_Components()
@@ -96,7 +103,7 @@ HRESULT CMon_Turtle::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 3.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),

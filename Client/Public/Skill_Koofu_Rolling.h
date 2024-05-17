@@ -23,7 +23,8 @@ protected:
 	virtual HRESULT Ready_Components() override;
 
 private:
-	
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
 
 public:
 	static CSkill_Koofu_Rolling* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

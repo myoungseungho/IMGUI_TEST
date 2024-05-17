@@ -19,11 +19,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
-protected:
-	virtual HRESULT Ready_Components() override;
-
 private:
-	CTransform* m_pTargetTransform = { nullptr };
+	virtual HRESULT Ready_Components() override;
+	void Distroy(_float fTimeDelta);
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

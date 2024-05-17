@@ -19,6 +19,23 @@ HRESULT CSkill_Koofu_Fuit::Initialize_Prototype()
 
 HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 {
+	if (nullptr == pArg)
+		return E_FAIL;
+
+	SKILL_MONSTER__DESC* pDesc = static_cast<SKILL_MONSTER__DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
+
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 2);
+	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (-1.f);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+
 	return S_OK;
 }
 
@@ -28,20 +45,76 @@ void CSkill_Koofu_Fuit::Priority_Update(_float fTimeDelta)
 
 void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
+	m_pTransformCom->Go_Straight(fTimeDelta);
+
 }
 
 void CSkill_Koofu_Fuit::Late_Update(_float fTimeDelta)
 {
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CSkill_Koofu_Fuit::Render(_float fTimeDelta)
 {
-	return E_NOTIMPL;
+	if (FAILED(Begin_RenderState()))
+		E_FAIL;
+
+	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
+		E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+		E_FAIL;
+
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+
+	if (FAILED(End_RenderState()))
+		E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CSkill_Koofu_Fuit::Ready_Components()
 {
-	return E_NOTIMPL;
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC			TransformDesc{};
+	TransformDesc.fSpeedPerSec = 5.0f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CSkill_Koofu_Fuit::Begin_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	return S_OK;
+}
+
+HRESULT CSkill_Koofu_Fuit::End_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	return S_OK;
 }
 
 CSkill_Koofu_Fuit* CSkill_Koofu_Fuit::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -72,4 +145,5 @@ CGameObject* CSkill_Koofu_Fuit::Clone(void* pArg)
 
 void CSkill_Koofu_Fuit::Free()
 {
+	__super::Free();
 }

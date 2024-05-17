@@ -26,7 +26,7 @@ private:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
-	void Death(_float fTimeDelta);
+	void Distory(_float fTimeDelta);
 
 private:
 	_uint m_iColor = { 0 };

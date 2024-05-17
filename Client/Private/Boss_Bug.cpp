@@ -67,7 +67,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	Mon_AnimState(fTimeDelta);
 
 }
 
@@ -133,12 +132,11 @@ HRESULT CBoss_Bug::Ready_Animation()
 }
 
 HRESULT CBoss_Bug::Begin_RenderState()
-{	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+{	
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	
 
 	return S_OK;
 }
@@ -305,19 +303,19 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 5.f, _fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f, _fTimeDelta, true);
 		break;
 
 	case MON_STATE::DASH:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 1.f, _fTimeDelta, false);
 		break;
 
 	case MON_STATE::READY:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 5.f, _fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
 
 		break;
 	case MON_STATE::BULLET:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 3.f, _fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f, _fTimeDelta, true);
 		break;
 	}
 
@@ -383,8 +381,8 @@ void CBoss_Bug::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 }

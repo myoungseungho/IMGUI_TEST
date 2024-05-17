@@ -70,6 +70,8 @@ public:
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
 
+	HRESULT Gravity(_float fPower , _float fLandPosY,  _float fTimeDelta);
+
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 
 	void Rotation(const _float3& vAxis, _float fRadian);

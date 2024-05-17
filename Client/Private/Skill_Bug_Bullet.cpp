@@ -28,7 +28,7 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
-
+	
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -40,6 +40,13 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
+	
+	//Distroy(fTimeDelta);
+
+	//CSkill_Bug_Bullet* pThis = this;
+
+	/*if (m_pKey->Key(fTimeDelta, 1.f))
+		Safe_Release(pThis);*/
 
 }
 
@@ -50,6 +57,8 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
+	
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -76,7 +85,6 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
-
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -92,6 +100,14 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CSkill_Bug_Bullet::Distroy(_float fTimeDelta)
+{
+	CSkill_Bug_Bullet* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+		Safe_Release(pThis);
 }
 
 CSkill_Bug_Bullet* CSkill_Bug_Bullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -125,5 +141,6 @@ void CSkill_Bug_Bullet::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+
 	__super::Free();
 }

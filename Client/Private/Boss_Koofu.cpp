@@ -32,12 +32,13 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 2.f, 20.f));
 
 	m_eMon_State = MON_STATE::WARF;
 
 	return S_OK;
 }
+
 
 void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
@@ -46,13 +47,17 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	//MonState(fTimeDelta);
-
 	Key_Input(fTimeDelta);
+
+	
+	//m_pTransformCom->(0.2f,2.f ,fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
+
+
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -118,9 +123,9 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
 	if(m_pKeyCom->Key_Down('1'))
-		Wafe(10, 10, 20, 20);
+		Wafe(-10, -10, 20, 20);
 
-	if (m_pKeyCom->Key_Down(2))
+	if (m_pKeyCom->Key_Down('2'))
 		RollingCreate();
 }
 
@@ -172,9 +177,9 @@ HRESULT CBoss_Koofu::RollingCreate()
 
 	for (int i = 1; i <= 5; ++i)
 	{
-		Desc.iBulletCnt++;
+		Desc.iBulletCnt = i;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), TEXT("Layer_Rolling") ,&Desc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Rolling"), TEXT("Layer_Rolling") ,&Desc)))
 			return E_FAIL;
 	}
 }

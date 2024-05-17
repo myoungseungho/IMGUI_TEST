@@ -7,6 +7,12 @@ BEGIN(Client)
 
 class CBoss_Koofu final :public CMonster
 {
+public:
+	typedef struct:public MONSTER_DESC
+	{
+	
+	}BOSS_KOOFU_DESC;
+
 private:
 	CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBoss_Koofu(const CBoss_Koofu& Prototype);
