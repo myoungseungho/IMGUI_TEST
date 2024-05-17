@@ -74,7 +74,7 @@ void CPush_Stone::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CPush_Stone::Render()
+HRESULT CPush_Stone::Render(_float fTimeDelta)
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 

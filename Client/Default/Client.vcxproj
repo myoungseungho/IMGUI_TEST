@@ -210,7 +210,6 @@
     <ClCompile Include="..\Private\RockBreakable.cpp" />
     <ClCompile Include="..\Private\Boss_Bug.cpp" />
     <ClCompile Include="..\Private\Boss_Koofu.cpp" />
-    <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\Mon_Pocket.cpp" />
     <ClCompile Include="..\Private\Mon_Turtle.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />

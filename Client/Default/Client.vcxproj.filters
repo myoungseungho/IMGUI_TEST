@@ -78,6 +78,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\Bush">
       <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Skill">
       <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
     </Filter>
