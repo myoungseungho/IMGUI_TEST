@@ -28,7 +28,15 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
+	_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 1.f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
+
+	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
+
 
 	return S_OK;
 }

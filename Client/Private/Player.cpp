@@ -11,6 +11,7 @@
 #include "GameInstance.h"
 #include "Skill_Player.h"
 
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
 {
@@ -190,73 +191,6 @@ HRESULT CPlayer::Ready_Components()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Pressing(VK_UP))
-	{
-		m_PlayerCurState = STATE_WALK;
-
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		{
-			m_PlayerDir = DIR_LEFTUP;
-			m_pTransformCom->Go_Straight_Left(fTimeDelta);
-		}
-			
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		{
-			m_PlayerDir = DIR_RIGHTUP;
-			m_pTransformCom->Go_Straight_Right(fTimeDelta);
-		}
-			
-
-		else
-		{
-			m_PlayerDir = (DIR_UP);
-			m_pTransformCom->Go_Straight(fTimeDelta);
-		}
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_DOWN))
-	{
-		m_PlayerCurState = STATE_WALK;
-
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		{
-			m_PlayerDir = (DIR_LEFTDOWN);
-			m_pTransformCom->Go_Backward_Left(fTimeDelta);
-		}
-			
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		{
-			m_PlayerDir = (DIR_RIGHTDOWN);
-			m_pTransformCom->Go_Backward_Right(fTimeDelta);
-		}
-			
-
-		else
-		{
-			m_PlayerDir = (DIR_DOWN);
-			m_pTransformCom->Go_Backward(fTimeDelta);
-		}
-			
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_LEFT))
-	{
-		m_PlayerCurState = STATE_WALK;
-		m_PlayerDir = (DIR_LEFT);
-		m_pTransformCom->Go_Left(fTimeDelta);
-	}
-		
-
-	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-	{
-		m_PlayerCurState = STATE_WALK;
-		m_PlayerDir = (DIR_RIGHT);
-		m_pTransformCom->Go_Right(fTimeDelta);
-	}
-		
-
 	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
 		m_pTransformCom->Set_Speed(10.f);
 	else
@@ -272,7 +206,125 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	if (m_pKeyCom->Key_Pressing('E'))
 	{
 		m_PlayerCurState = STATE_SKILL;
+
+		if (m_pKeyCom->Key_Pressing(VK_UP))
+		{
+			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_PlayerDir = DIR_LEFTUP;
+			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			{
+				m_PlayerDir = DIR_RIGHTUP;
+			}
+
+			else
+			{
+				m_PlayerDir = (DIR_UP);
+		    }
+		}
+
+		if (m_pKeyCom->Key_Pressing(VK_DOWN))
+		{
+
+			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_PlayerDir = (DIR_LEFTDOWN);
+			}
+
+
+			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			{
+				m_PlayerDir = (DIR_RIGHTDOWN);
+			}
+
+
+			else
+			{
+				m_PlayerDir = (DIR_DOWN);
+			}
+
+		}
+
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = (DIR_LEFT);
+		}
+
+
+		if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = (DIR_RIGHT);
+		}
 	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_UP))
+	{
+		m_PlayerCurState = STATE_WALK;
+
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = DIR_LEFTUP;
+			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+		}
+
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = DIR_RIGHTUP;
+			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+		}
+
+
+		else
+		{
+			m_PlayerDir = (DIR_UP);
+			m_pTransformCom->Go_Straight(fTimeDelta);
+		}
+	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+	{
+		m_PlayerCurState = STATE_WALK;
+
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = (DIR_LEFTDOWN);
+			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+		}
+
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = (DIR_RIGHTDOWN);
+			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+		}
+
+
+		else
+		{
+			m_PlayerDir = (DIR_DOWN);
+			m_pTransformCom->Go_Backward(fTimeDelta);
+		}
+
+	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+	{
+		m_PlayerCurState = STATE_WALK;
+		m_PlayerDir = (DIR_LEFT);
+		m_pTransformCom->Go_Left(fTimeDelta);
+	}
+
+
+	else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+	{
+		m_PlayerCurState = STATE_WALK;
+		m_PlayerDir = (DIR_RIGHT);
+		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+
 
 	m_PlayerPreState = m_PlayerCurState;
 

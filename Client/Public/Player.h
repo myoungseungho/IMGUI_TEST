@@ -40,6 +40,11 @@ public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
+
+public:
+	STATE		Get_Player_Dir() {
+		return m_PlayerCurState;
+	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
