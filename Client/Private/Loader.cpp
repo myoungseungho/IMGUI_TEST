@@ -17,7 +17,7 @@
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
-	, m_pGameInstance{ CGameInstance::Get_Instance()}
+	, m_pGameInstance{ CGameInstance::Get_Instance() }
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pGraphic_Device);
@@ -25,7 +25,7 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 _uint APIENTRY LoadingMain(void* pArg)
 {
-	CLoader*		pLoader = static_cast<CLoader*>(pArg);
+	CLoader* pLoader = static_cast<CLoader*>(pArg);
 
 	if (FAILED(pLoader->Loading()))
 		return 1;
@@ -43,7 +43,7 @@ HRESULT CLoader::Initialize(LEVELID eNextLevelID)
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, LoadingMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 
@@ -84,13 +84,13 @@ HRESULT CLoader::Loading_For_LogoLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Default%d.jpg"), 2))))
 		return E_FAIL;
-	
+
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
-	
-	
+
+
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
 
@@ -103,7 +103,7 @@ HRESULT CLoader::Loading_For_LogoLevel()
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 
 	m_isFinished = true;
-	
+
 	return S_OK;
 }
 
@@ -118,7 +118,9 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Walk/Down/Player_Walk_%d.png"), 10))))
 		return E_FAIL;
 
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+<<<<<<< HEAD
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Terrain/Grass_0.png"), 1))))
 		return E_FAIL;
 
@@ -145,7 +147,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster_Turtle"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Beatle_%d.png"), 4))))
 		return E_FAIL;
-	
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/BugBoss/Phase1/Idle/Bugboss_%d.png"), 5))))
@@ -195,9 +197,9 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		return E_FAIL;*/
 #pragma endregion
 
-	/* For.Prototype_Component_VIBuffer_Terrain */
+		/* For.Prototype_Component_VIBuffer_Terrain */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
-		CVIBuffer_Terrain::Create(m_pGraphic_Device, 100,100))))
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 100, 100))))
 		return E_FAIL;
 
 
@@ -205,7 +207,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
-		return E_FAIL;	
+		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera"),
@@ -257,9 +259,9 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	return S_OK;
 }
 
-CLoader * CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID)
+CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID)
 {
-	CLoader*		pInstance = new CLoader(pGraphic_Device);
+	CLoader* pInstance = new CLoader(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize(eNextLevelID)))
 	{
