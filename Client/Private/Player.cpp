@@ -53,39 +53,29 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.5f);
 
-	while (m_PlayerCurState == STATE_ATTACK)
+	if (m_PlayerCurState == STATE_ATTACK)
 	{
-		//fTimeAcc += fTimeDelta;
-
-		//if (fTimeAcc > 10000.f)
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 3.f))
 		{
 			m_PlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
 
-			//fTimeAcc = 0.f;
-			break;
 		}
 	}
 
-		while (m_PlayerCurState == STATE_SKILL)
-		{
-				fTimeAcc += fTimeDelta;
 
-				if (fTimeAcc >= 1000.0f) // E 키를 누른 시간 (1초마다)
-				{
-					m_iCurrentSkillCount += 1;
-					Create_Skill();
-					fTimeAcc = 0.0f;
-					
-					if (m_iCurrentSkillCount > 3)
-					{
-						m_PlayerCurState = STATE_IDLE;
-						m_iCurrentSkillCount = 0;
-						break;
-					}
-				}
+	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f)) // E 키를 누른 시간 (1초마다)
+	{
+		m_iCurrentSkillCount += 1;
+		Create_Skill();
+
+		if (m_iCurrentSkillCount > 3)
+		{
+			m_PlayerCurState = STATE_IDLE;
+			m_iCurrentSkillCount = 0;
 		}
+	}
+
 
 		Key_Input(fTimeDelta);
 	
@@ -330,8 +320,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-	else
-		m_PlayerCurState = STATE_IDLE;
+	/*else
+		m_PlayerCurState = STATE_IDLE;*/
 
 	m_PlayerPreState = m_PlayerCurState;
 
