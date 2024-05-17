@@ -76,6 +76,9 @@
     <Filter Include="02.GameObjects\Enviorment\Hole">
       <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\Bush">
+      <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -171,6 +174,9 @@
     <ClInclude Include="..\Public\Hole.h">
       <Filter>02.GameObjects\Enviorment\Hole</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Bush.h">
+      <Filter>02.GameObjects\Enviorment\Bush</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -250,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>02.GameObjects\Enviorment\Hole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bush.cpp">
+      <Filter>02.GameObjects\Enviorment\Bush</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
