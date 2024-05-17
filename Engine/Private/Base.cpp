@@ -20,6 +20,8 @@ _uint CBase::Release()
 		/* 삭제한다. */
 		delete this;
 
+		m_Died = true;
+
 		return 0;
 	}
 	else

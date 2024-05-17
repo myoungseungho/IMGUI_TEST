@@ -10,8 +10,19 @@ void CCollider_Manager::Update(_float fTimeDelta)
 {
 	// 먼저 모든 콜라이더를 업데이트
 	for (size_t i = 0; i < CG_END; i++) {
-		for (auto& collider : m_Colliders[i])
-			collider->Update(fTimeDelta);
+		for (auto it = m_Colliders[i].begin(); it != m_Colliders[i].end(); )
+		{
+			if ((*it)->m_MineGameObject->m_Died)
+			{
+				it = m_Colliders[i].erase(it); // 안전하게 요소 제거 및 반복기 업데이트
+				continue; // 다음 반복으로 이동
+			}
+			else
+			{
+				(*it)->Update(fTimeDelta);
+				++it; // 다음 요소로 이동
+			}
+		}
 	}
 
 	// 타이머를 업데이트

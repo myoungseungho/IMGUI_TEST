@@ -38,7 +38,8 @@ private:
 	HRESULT Load_Button_Pressed();
 	HRESULT Click_Collider_Toggle(bool isChecked);
 	HRESULT OnCollisionCheckIntervalChanged(float);
-	HRESULT Click_Button_Release(list<CGameObject*>& gameObjects, list<CGameObject*>::iterator& it);
+	HRESULT Click_Button_Release(std::vector<CGameObject*>& selectedGameObjects);
+
 public:
 	static CMainApp* Create();
 	virtual void Free() override;

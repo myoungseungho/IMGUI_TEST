@@ -401,12 +401,7 @@ HRESULT CMainApp::Show_LayerObjects()
 		// 삭제 버튼 추가
 		ImGui::Separator(); // 구분선 추가
 		if (ImGui::Button("Delete Selected Object")) {
-			for (auto it = selectedGameObjects.begin(); it != selectedGameObjects.end(); /* 빈 상태 */) {
-				CGameObject* gameObject = *it;
-				// 삭제 로직 호출
-				Safe_Release(gameObject); // 오브젝트 릴리즈
-				it = selectedGameObjects.erase(it); // 리스트에서 오브젝트 제거
-			}
+			Click_Button_Release(selectedGameObjects);
 		}
 	}
 	ImGui::EndChild();
@@ -497,10 +492,14 @@ HRESULT CMainApp::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval
 	return S_OK;
 }
 
-HRESULT CMainApp::Click_Button_Release(std::list<CGameObject*>& gameObjects, std::list<CGameObject*>::iterator& it)
+HRESULT CMainApp::Click_Button_Release(std::vector<CGameObject*>& selectedGameObjects)
 {
-	Safe_Release(*it); // 오브젝트 릴리즈
-	it = gameObjects.erase(it); // 리스트에서 오브젝트 제거
+	for (auto it = selectedGameObjects.begin(); it != selectedGameObjects.end(); /* 빈 상태 */) {
+		CGameObject* gameObject = *it;
+		// 삭제 로직 호출
+		Safe_Release(gameObject); // 오브젝트 릴리즈
+		it = selectedGameObjects.erase(it); // 리스트에서 오브젝트 제거
+	}
 	return S_OK;
 }
 

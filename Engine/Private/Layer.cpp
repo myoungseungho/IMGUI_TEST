@@ -49,7 +49,7 @@ HRESULT CLayer::Add_List(list<CGameObject*>* pList)
 
 	//얕은복사
 	*pList = m_GameObjects;
-	
+
 	for (auto& iter : *pList)
 	{
 		Safe_AddRef(iter);
@@ -60,20 +60,53 @@ HRESULT CLayer::Add_List(list<CGameObject*>* pList)
 
 void CLayer::Priority_Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
-		pGameObject->Priority_Update(fTimeDelta);
+	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); )
+	{
+		if ((*it)->m_Died)
+		{
+			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
+			continue; // 다음 반복으로 이동
+		}
+		else
+		{
+			(*it)->Priority_Update(fTimeDelta);
+			++it; // 다음 요소로 이동
+		}
+	}
 }
 
 void CLayer::Update(_float fTimeDelta)
 {
-	for(auto & pGameObject : m_GameObjects)
-		pGameObject->Update(fTimeDelta);
+	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); )
+	{
+		if ((*it)->m_Died)
+		{
+			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
+			continue; // 다음 반복으로 이동
+		}
+		else
+		{
+			(*it)->Update(fTimeDelta);
+			++it; // 다음 요소로 이동
+		}
+	}
 }
 
 void CLayer::Late_Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
-		pGameObject->Late_Update(fTimeDelta);
+	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); )
+	{
+		if ((*it)->m_Died)
+		{
+			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
+			continue; // 다음 반복으로 이동
+		}
+		else
+		{
+			(*it)->Late_Update(fTimeDelta);
+			++it; // 다음 요소로 이동
+		}
+	}
 }
 
 CLayer* CLayer::Create()
