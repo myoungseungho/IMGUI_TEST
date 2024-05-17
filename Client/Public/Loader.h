@@ -45,6 +45,7 @@ private:
 private:
 	HRESULT Loading_For_LogoLevel();	
 	HRESULT Loading_For_GamePlayLevel();
+	HRESULT Loading_For_Edit();
 
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID);

@@ -4,7 +4,7 @@
 #include "Loader.h"
 #include "Level_Logo.h"
 #include "Level_GamePlay.h"
-
+#include "Level_Edit.h"
 #include "GameInstance.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -38,6 +38,10 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL_GAMEPLAY:
 			pNextLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
+			break;
+
+		case LEVEL_EDIT:
+			pNextLevel = CLevel_Edit::Create(m_pGraphic_Device);
 			break;
 		}
 

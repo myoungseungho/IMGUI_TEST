@@ -47,7 +47,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_GAMEPLAY)))
+	if (FAILED(Open_Level(LEVEL_EDIT)))
 		return E_FAIL;
 
 
@@ -176,6 +176,7 @@ HRESULT CMainApp::ShowLevels()
 	vector<pair<string, LEVELID>> levels = {
 		{"Logo", LEVEL_LOGO},
 		{"Game", LEVEL_GAMEPLAY},
+		{"Edit", LEVEL_EDIT},
 	};
 
 	for (auto& level : levels) {

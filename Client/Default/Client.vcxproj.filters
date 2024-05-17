@@ -115,6 +115,9 @@
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{d8524c7f-640c-4dff-a2c1-1d81795eb2b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Edit">
+      <UniqueIdentifier>{4b0bfb52-fb05-406a-bdc2-c3120bd62ec4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -243,6 +246,9 @@
     <ClInclude Include="..\Private\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Edit.h">
+      <Filter>01.Levels\Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -355,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sky.cpp">
       <Filter>02.GameObjects\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Edit.cpp">
+      <Filter>01.Levels\Edit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
