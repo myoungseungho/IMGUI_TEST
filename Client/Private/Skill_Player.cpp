@@ -25,9 +25,6 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
