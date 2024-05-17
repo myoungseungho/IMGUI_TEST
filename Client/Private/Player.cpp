@@ -52,12 +52,12 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.5f);
-
+	
 	while (m_PlayerCurState == STATE_ATTACK)
 	{
 		fTimeAcc += fTimeDelta;
 
-		if (fTimeAcc >= 100000.f)
+		if (fTimeAcc > 10000.f)
 		{
 			m_PlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
@@ -67,25 +67,31 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 	}
 
-	if (m_PlayerCurState == STATE_SKILL)
-	{
-		fTimeAcc += fTimeDelta;
+	
 
-		if (fTimeAcc >= 1.0f) // E 키를 누른 시간 (1초마다)
+		while (m_PlayerCurState == STATE_SKILL)
 		{
-			Create_Skill();
-			fTimeAcc = 0.0f;
+				fTimeAcc += fTimeDelta;
 
-			if (m_iCurrentSkillCount >= 3)
-			{
-				m_PlayerCurState = STATE_IDLE;
-				m_iCurrentSkillCount = 0;
-			}
+				if (fTimeAcc >= 1000.0f) // E 키를 누른 시간 (1초마다)
+				{
+					m_iCurrentSkillCount += 1;
+					Create_Skill();
+					fTimeAcc = 0.0f;
+					
+					if (m_iCurrentSkillCount > 3)
+					{
+						m_PlayerCurState = STATE_IDLE;
+						m_iCurrentSkillCount = 0;
+						break;
+					}
+				}
 		}
-	}
 
-	Key_Input(fTimeDelta);
+		Key_Input(fTimeDelta);
+	
 }
+
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
@@ -350,17 +356,17 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 HRESULT CPlayer::Create_Skill()
 {
-	if (m_iCurrentSkillCount >= 3)
+	if (m_iCurrentSkillCount > 3)
 		return S_OK;
 
 	CSkill_Player::SKILL_PLAYER_DESC SkillPlayerDesc = {};
 
 	SkillPlayerDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	SkillPlayerDesc.m_iCurrentSkillCount = m_iCurrentSkillCount;
 
 	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
 		return E_FAIL;
 
-	++m_iCurrentSkillCount;
 
 	return S_OK;
 }

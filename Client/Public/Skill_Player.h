@@ -20,6 +20,7 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr};
+		_uint m_iCurrentSkillCount = { 0 };
 	}SKILL_PLAYER_DESC;
 
 private:
@@ -42,6 +43,9 @@ public:
 
 private:
 	void Skill_Player_Headbutt(_float fTimeDelta);
+
+private:
+	_uint		m_iSkillCount = { 0 };
 
 protected:
 	virtual HRESULT Ready_Components();

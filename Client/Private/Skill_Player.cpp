@@ -20,10 +20,12 @@ HRESULT CSkill_Player::Initialize_Prototype()
 
 HRESULT CSkill_Player::Initialize(void* pArg)
 {
+	int a = 0;
 
 	SKILL_PLAYER_DESC* pDesc = static_cast<SKILL_PLAYER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_iSkillCount = pDesc->m_iCurrentSkillCount;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -31,9 +33,13 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
 	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 2.f;
+
+	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 2.f * (1.f * m_iSkillCount);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
+
+	
+
 
 	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
 
@@ -48,14 +54,14 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
+	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
 
-	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 vTargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+	//_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//_float3 vTargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
 
-	vPos += *D3DXVec3Normalize(&vTargetLook, &vTargetLook) * 10.f * fTimeDelta;
+	//vPos += *D3DXVec3Normalize(&vTargetLook, &vTargetLook) * 10.f * fTimeDelta;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)

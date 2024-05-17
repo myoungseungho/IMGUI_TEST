@@ -73,7 +73,6 @@ private:
 
 private:
 	_uint m_iCurrentSkillCount = { 0 };
-	vector<CSkill_Player*> m_Skills;
 
 public:
 	/* 원형객체를 생성한다. */
