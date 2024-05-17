@@ -73,6 +73,9 @@
     <Filter Include="02.GameObjects\Enviorment\Block">
       <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\Hole">
+      <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -165,6 +168,9 @@
     <ClInclude Include="..\Public\Block.h">
       <Filter>02.GameObjects\Enviorment\Block</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Hole.h">
+      <Filter>02.GameObjects\Enviorment\Hole</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -241,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
       <Filter>02.GameObjects\Enviorment\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hole.cpp">
+      <Filter>02.GameObjects\Enviorment\Hole</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

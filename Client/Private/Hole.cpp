@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Push_Stone.h"
+#include "..\Public\Hole.h"
 
 #include "GameInstance.h"
 
-CPush_Stone::CPush_Stone(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHole::CHole(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
 }
 
-CPush_Stone::CPush_Stone(const CPush_Stone& Prototype)
+CHole::CHole(const CHole& Prototype)
 	: CGameObject{ Prototype }
 {
 }
 
-HRESULT CPush_Stone::Initialize_Prototype()
+HRESULT CHole::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CPush_Stone::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CPush_Stone::Initialize(void* pArg)
+HRESULT CHole::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -61,20 +61,20 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CPush_Stone::Priority_Update(_float fTimeDelta)
+void CHole::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPush_Stone::Update(_float fTimeDelta)
+void CHole::Update(_float fTimeDelta)
 {
 }
 
-void CPush_Stone::Late_Update(_float fTimeDelta)
+void CHole::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CPush_Stone::Render()
+HRESULT CHole::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
@@ -93,10 +93,10 @@ HRESULT CPush_Stone::Render()
 	return S_OK;
 }
 
-HRESULT CPush_Stone::Ready_Components()
+HRESULT CHole::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_Hole"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -117,13 +117,13 @@ HRESULT CPush_Stone::Ready_Components()
 	return S_OK;
 }
 
-CPush_Stone* CPush_Stone::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CHole* CHole::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CPush_Stone* pInstance = new CPush_Stone(pGraphic_Device);
+	CHole* pInstance = new CHole(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CPush_Stone"));
+		MSG_BOX(TEXT("Failed to Created : CHole"));
 		Safe_Release(pInstance);
 	}
 
@@ -131,20 +131,20 @@ CPush_Stone* CPush_Stone::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CPush_Stone::Clone(void* pArg)
+CGameObject* CHole::Clone(void* pArg)
 {
-	CPush_Stone* pInstance = new CPush_Stone(*this);
+	CHole* pInstance = new CHole(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CPush_Stone"));
+		MSG_BOX(TEXT("Failed to Cloned : CHole"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CPush_Stone::Free()
+void CHole::Free()
 {
 	__super::Free();
 

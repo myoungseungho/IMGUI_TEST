@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
     <ClInclude Include="..\Public\Push_Stone.h" />
     <ClInclude Include="..\Public\RockBreakable.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
     <ClCompile Include="..\Private\Push_Stone.cpp" />
     <ClCompile Include="..\Private\RockBreakable.cpp" />

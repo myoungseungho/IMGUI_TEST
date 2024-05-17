@@ -123,7 +123,7 @@ CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CTree"));
+		MSG_BOX(TEXT("Failed to Created : CMonkey_Statue"));
 		Safe_Release(pInstance);
 	}
 
