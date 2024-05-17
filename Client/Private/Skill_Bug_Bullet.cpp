@@ -20,15 +20,21 @@ HRESULT CSkill_Bug_Bullet::Initialize_Prototype()
 
 HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 {
+	if (nullptr == pArg)
+		return E_FAIL;
+
 	SKILL_BUG_BULLET_DESC* pDesc = static_cast<SKILL_BUG_BULLET_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
-	
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f),  ((pDesc->iBulletCnt * 15 )- 45 + 180) * D3DX_PI / 180.f);
+
+	/*float(pDesc->iBulletCnt /10.f) - 0.3f*/
 	return S_OK;
 }
 
@@ -44,23 +50,15 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
-		m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	if (m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet")) != nullptr)
-	{
-		DeleteBullet(fTimeDelta);
-	}
-
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CSkill_Bug_Bullet::Render()
+HRESULT CSkill_Bug_Bullet::Render(_float fTimeDelta)
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
-
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -92,22 +90,12 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 5.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CSkill_Bug_Bullet::DeleteBullet(_float fTimeDelta)
-{
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-	{
-		m_pGameInstance->Delete_GaemObject(LEVEL_GAMEPLAY, TEXT("Layer_Skill_Bug_Bullet"));
-	}
 
 	return S_OK;
 }

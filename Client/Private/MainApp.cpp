@@ -11,9 +11,6 @@
 #include "Level_Loading.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "Transform.h"
-#include "Calc_Timer.h"
-#include "KeyState.h"
 
 #include <codecvt>
 
@@ -28,6 +25,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	srand((_uint)time(NULL));
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -48,7 +47,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_GAMEPLAY)))
 		return E_FAIL;
 
 
@@ -59,7 +58,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
-HRESULT CMainApp::Render()
+HRESULT CMainApp::Render(_float fTimeDelta)
 {
 #pragma region IMGUI
 	ImGui_ImplDX9_NewFrame();
@@ -164,7 +163,7 @@ HRESULT CMainApp::Render()
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();
-	m_pGameInstance->Render_Engine();
+	m_pGameInstance->Render_Engine(fTimeDelta);
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_End();
@@ -536,11 +535,6 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CVIBuffer_Rect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_Component_VIBuffer_Cube*/
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
-		CVIBuffer_Cube::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
@@ -554,6 +548,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	/* For.Prototype_Component_Key*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		CKeyState::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		CAnimator::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

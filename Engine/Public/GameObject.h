@@ -41,7 +41,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
-	virtual HRESULT Render();
+	virtual HRESULT Render(_float fTimeDelta);
 
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
@@ -58,9 +58,7 @@ protected:
 	bool						m_IsPasingObject = { false };
 protected:
 	map<const _wstring, CComponent*>		m_Components;
-
-
-
+	
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;

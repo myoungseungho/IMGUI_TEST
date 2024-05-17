@@ -11,6 +11,7 @@ class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
 class CKeyState;
+class CAnimator;
 
 END
 
@@ -19,7 +20,7 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum MON_STATE { IDLE, WALK, ATTACK };
+	enum class MON_STATE { IDLE, WALK, ATTACK, DASH , READY, BULLET, FLY, LAND, STAN, DEATH, WARF,MON_END };
 
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
@@ -38,7 +39,7 @@ public:
 	virtual HRESULT Initialize(void* pArg)					override;
 
 protected:
-	virtual HRESULT Ready_Component();
+	virtual HRESULT Ready_Components();
 
 protected:
 	CTexture* m_pTextureCom = { nullptr };
@@ -46,8 +47,13 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
-	MON_STATE m_eMon_State;
+protected:
+	MON_STATE m_eMon_State = {};
+	
+protected:
+	MONSTER_DESC m_tMonsterDesc = {};
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;

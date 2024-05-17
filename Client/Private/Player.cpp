@@ -74,7 +74,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CPlayer::Render()
+HRESULT CPlayer::Render(_float fTimeDelta)
 {
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
@@ -335,7 +335,6 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 
 	Safe_Release(m_pVIBufferCom);
-
 	Safe_Release(m_pTextureCom);
 
 	Safe_Release(m_pCal_Timercom);

@@ -7,7 +7,7 @@ namespace Engine
 	typedef struct
 	{
 		D3DXVECTOR3		vPosition;
-		D3DXVECTOR2		vTexcoord;		
+		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 
 	//오브젝트 당 넘겨줄 정보 구조체
@@ -21,9 +21,4 @@ namespace Engine
 		bool isParsing;
 	}FILEDATA;
 
-	//typedef struct  
-	//{
-	//	_float3 position;
-	//	_float3 scale;
-	//}POSITIONANDSCALE;
 }

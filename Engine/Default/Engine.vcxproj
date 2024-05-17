@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Animator.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\Calc_Timer.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
@@ -179,11 +180,11 @@
     <ClCompile Include="..\private\Timer_Manager.cpp" />
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
-    <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Animator.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\Calc_Timer.h" />
     <ClInclude Include="..\Public\Collider.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="..\public\Timer_Manager.h" />
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
-    <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
   </ItemGroup>
