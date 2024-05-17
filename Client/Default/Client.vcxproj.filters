@@ -78,6 +78,38 @@
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\Bush">
       <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Skill">
+      <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster">
+      <UniqueIdentifier>{c520d356-9509-4de7-b278-b65adddad62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Player">
+      <UniqueIdentifier>{af2ce3aa-51c5-44fa-bac2-95171cb9fb4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet">
+      <UniqueIdentifier>{54895d1f-0bd4-4614-97ce-e7188ca1ea32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Boss">
+      <UniqueIdentifier>{8cf21d63-e930-4368-bea0-fc8f8e2e5e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Pocket">
+      <UniqueIdentifier>{a356024f-a36b-4196-a7c6-e424dfe950bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dd">
+      <UniqueIdentifier>{6fc0f97a-ac6c-47c7-a31c-17de5a8efbde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling">
+      <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Boss\Bug">
+      <UniqueIdentifier>{fb64bdd0-662c-4cf0-a03f-015fed56f709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Boss\Koofu">
+      <UniqueIdentifier>{599b2527-e25e-4aeb-8da4-91ef963ffa75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Turtle">
+      <UniqueIdentifier>{451c3670-d5f4-44f6-9018-8657401beeaf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +209,33 @@
     <ClInclude Include="..\Public\Bush.h">
       <Filter>02.GameObjects\Enviorment\Bush</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill.h">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Player.h">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Monster.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Bug_Bullet.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Pocket.h">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill_Koofu_Rolling.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Bug.h">
+      <Filter>02.GameObjects\LandObject\Monster\Boss\Bug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Boss_Koofu.h">
+      <Filter>02.GameObjects\LandObject\Monster\Boss\Koofu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mon_Turtle.h">
+      <Filter>02.GameObjects\LandObject\Monster\Turtle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -259,6 +318,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Bush.cpp">
       <Filter>02.GameObjects\Enviorment\Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill.cpp">
+      <Filter>02.GameObjects\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Player.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Monster.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Pocket.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill_Koofu_Rolling.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Bug.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Boss\Bug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Boss_Koofu.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Boss\Koofu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mon_Turtle.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Turtle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

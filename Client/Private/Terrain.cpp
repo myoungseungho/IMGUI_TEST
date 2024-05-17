@@ -49,7 +49,7 @@ void CTerrain::Late_Update(_float fTimeDelta)
 	
 }
 
-HRESULT CTerrain::Render()
+HRESULT CTerrain::Render(_float fTimeDelta)
 {
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 

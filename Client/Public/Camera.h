@@ -5,12 +5,19 @@
 
 BEGIN(Engine)
 class CTransform;
+class CKeyState;
 END
 
 BEGIN(Client)
 
 class CCamera final : public CGameObject
 {	
+public:
+	typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}CAMERA_DESC;
+
 private:
 	CCamera(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CCamera(const CCamera& Prototype); /* 사본생성 시 */
@@ -22,7 +29,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual HRESULT Render(_float fTimeDelta) override;
 
 private:		
 	/* 뷰변환행렬 = 월드행렬의 역행렬 */
@@ -37,6 +44,11 @@ private:
 	_float				m_fMouseSensor = {0.2f};
 
 private:
+	CTransform* m_pTargetTransform = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
+
+private:
+	HRESULT Key_Input(_float fTimeDelta);
 	HRESULT Ready_Components();
 
 private:
@@ -44,6 +56,8 @@ private:
 	/* 투영변환 : / w */
 	/* 렌더링 파이프라인에 필요한 뷰변환행렬 + 투영행렬 */
 	HRESULT Bind_PipeLines();
+
+public:
 
 public:
 	/* 원형객체를 생성한다. */

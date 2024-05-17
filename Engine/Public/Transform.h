@@ -49,6 +49,10 @@ public:
 		return *D3DXMatrixInverse(&WorldMatrixInv, nullptr, &m_WorldMatrix);
 	}
 
+	void Set_Speed(_float fSpeed) {
+		m_fSpeedPerSec = fSpeed;
+	}
+
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -59,14 +63,21 @@ public:
 	HRESULT Go_Left(_float fTimeDelta);
 	HRESULT Go_Right(_float fTimeDelta);
 	HRESULT Go_Backward(_float fTimeDelta);
+	HRESULT Go_Straight_Left(_float fTimeDelta);
+	HRESULT Go_Straight_Right(_float fTimeDelta);
+	HRESULT Go_Backward_Left(_float fTimeDelta);
+	HRESULT Go_Backward_Right(_float fTimeDelta);
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
 
-
 	void Turn(const _float3& vAxis, _float fTimeDelta);
+
+	void Rotation(const _float3& vAxis, _float fRadian);
+
 	void LookAt(const _float3& vTargetPos);	
 	void LookAt_ForLandObject(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
+
 
 public:
 	HRESULT Bind_WorldMatrix();

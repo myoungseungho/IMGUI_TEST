@@ -43,7 +43,7 @@ void CLandObject::Late_Update(_float fTimeDelta)
 {
 }
 
-HRESULT CLandObject::Render()
+HRESULT CLandObject::Render(_float fTimeDelta)
 {
 	return S_OK;
 }

@@ -29,8 +29,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 {
 	if (true == m_pLoader->isFinished())
 	{
-		/*if (GetKeyState(VK_SPACE) & 0x8000)
-		{*/
 		CLevel* pNextLevel = { nullptr };
 
 		switch (m_eNextLevelID)
@@ -46,7 +44,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Change_Level(pNextLevel)))
 			return;
 	}
-	//}
 }
 
 HRESULT CLevel_Loading::Render()

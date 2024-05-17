@@ -23,11 +23,13 @@ public:
 
 public:
 	HRESULT Bind_Texture(_uint iTextureIndex);
+	HRESULT Bind_Anim(_uint fFrame);
 
+public:
+	_uint									m_iNumTextures = { 0 };
 private:
 	/*IDirect3DCubeTexture9* == LPDIRECT3DCUBETEXTURE9
 	IDirect3DTexture9* == LPDIRECT3DTEXTURE9*/
-	_uint									m_iNumTextures = { 0 };
 	vector<LPDIRECT3DBASETEXTURE9>			m_Textures;
 
 public:

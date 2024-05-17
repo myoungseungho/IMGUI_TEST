@@ -82,6 +82,18 @@
     <Filter Include="01.Utility\04.Components\Collider\Manager">
       <UniqueIdentifier>{226c378f-a838-41b9-969e-9f4c5132f70b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\04.Components\VIBuffer\VIBuffer_Cube">
+      <UniqueIdentifier>{6a555455-0d96-4713-9d88-dd0443ee7138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\KeyState">
+      <UniqueIdentifier>{2df62594-335d-47a0-b6c5-f513b9b5c5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\Calc_Timer">
+      <UniqueIdentifier>{2423f9b8-c51d-4588-b090-a3d61520c55f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\Animator">
+      <UniqueIdentifier>{e6b3c7b9-7dfe-4ba5-bd8d-9591a3cba6dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -146,6 +158,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Collider_Manager.cpp">
       <Filter>01.Utility\04.Components\Collider\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KeyState.cpp">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Calc_Timer.cpp">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Animator.cpp">
+      <Filter>01.Utility\04.Components\Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +247,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Collider_Manager.h">
       <Filter>01.Utility\04.Components\Collider\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KeyState.h">
+      <Filter>01.Utility\04.Components\KeyState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Calc_Timer.h">
+      <Filter>01.Utility\04.Components\Calc_Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Animator.h">
+      <Filter>01.Utility\04.Components\Animator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,10 +11,10 @@
 #include "Level_Loading.h"
 #include "GameObject.h"
 #include "Component.h"
-#include "Transform.h"
+
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -25,6 +25,8 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
+	srand((_uint)time(NULL));
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -45,7 +47,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_GAMEPLAY)))
 		return E_FAIL;
 
 
@@ -56,7 +58,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
-HRESULT CMainApp::Render()
+HRESULT CMainApp::Render(_float fTimeDelta)
 {
 #pragma region IMGUI
 	ImGui_ImplDX9_NewFrame();
@@ -161,7 +163,7 @@ HRESULT CMainApp::Render()
 	}
 #pragma endregion
 	m_pGameInstance->Render_Begin();
-	m_pGameInstance->Render_Engine();
+	m_pGameInstance->Render_Engine(fTimeDelta);
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_End();
@@ -536,6 +538,20 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	/* For.Prototype_Component_Transform */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Timer*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		CCalc_Timer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Key*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		CKeyState::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		CAnimator::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

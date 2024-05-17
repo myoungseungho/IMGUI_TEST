@@ -22,6 +22,19 @@ CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& st
 	return pLayer->Get_Component(strComponentTag, iIndex);
 }
 
+CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex)
+{
+	if (nullptr == m_pLayers ||
+		iLevelIndex >= m_iNumLevels)
+		return nullptr;
+
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+	
+	return pLayer->Get_GameObject(iIndex);
+}
+
 HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;
@@ -167,10 +180,11 @@ void CObject_Manager::Update(_float fTimeDelta)
 
 void CObject_Manager::Late_Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+ 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Late_Update(fTimeDelta);
+		
 	}
 }
 
@@ -179,7 +193,6 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 	if (iLevelIndex >= m_iNumLevels)
 		return E_FAIL;
 
-
 	for (auto& Pair : m_pLayers[iLevelIndex])
 		Safe_Release(Pair.second);
 
@@ -187,6 +200,7 @@ HRESULT CObject_Manager::Clear_Resources(_uint iLevelIndex)
 
 	return S_OK;
 }
+
 
 CGameObject* CObject_Manager::Find_Prototype(const wstring& strPrototypeTag)
 {

@@ -113,14 +113,12 @@ void CCollider::OnCollisionEnter(CCollider* other)
 		m_IsCollied != m_IsCollied;
 
 	m_MineGameObject->OnCollisionEnter(other);
-	other->m_MineGameObject->OnCollisionEnter(other);
 }
 
 
 void CCollider::OnCollisionStay(CCollider* other)
 {
 	m_MineGameObject->OnCollisionStay(other);
-	other->m_MineGameObject->OnCollisionStay(other);
 }
 
 void CCollider::OnCollisionExit(CCollider* other)
@@ -129,7 +127,6 @@ void CCollider::OnCollisionExit(CCollider* other)
 		m_IsCollied != m_IsCollied;
 
 	m_MineGameObject->OnCollisionExit(other);
-	other->m_MineGameObject->OnCollisionExit(other);
 }
 
 CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
