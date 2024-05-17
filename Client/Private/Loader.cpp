@@ -115,7 +115,6 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-<<<<<<< HEAD
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Walk/Down/Player_Walk_%d.png"), 10))))
 		return E_FAIL;
 
@@ -125,7 +124,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Tree"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Textures/Terrain/grass_1.png"), 1))))
-=======
+
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player0.png"), 1))))
 		return E_FAIL;
 
@@ -182,7 +181,6 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/BugBoss/Phase2/Down/Bugboss_%d.png"), 7))))
->>>>>>> 01ae1bfb439cd9f1e2e39bf08ca43ebf4a74cea0
 		return E_FAIL;
 
 	//컴포넌트 로드한다.
