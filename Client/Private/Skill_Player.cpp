@@ -37,9 +37,7 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 2.f * (1.f * m_iSkillCount);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
-
-	
-
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1);
 
 	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
 
@@ -54,14 +52,6 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
-
-	//_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//_float3 vTargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
-
-	//vPos += *D3DXVec3Normalize(&vTargetLook, &vTargetLook) * 10.f * fTimeDelta;
-
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -105,11 +95,9 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 	int a = 3;
 }
 
-void CSkill_Player::Skill_Player_Headbutt(_float fTimeDelta)
+void CSkill_Player::Delete_Skill()
 {
-
 }
-
 
 HRESULT CSkill_Player::Ready_Components()
 {

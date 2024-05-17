@@ -52,22 +52,21 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.5f);
-	
+
 	while (m_PlayerCurState == STATE_ATTACK)
 	{
-		fTimeAcc += fTimeDelta;
+		//fTimeAcc += fTimeDelta;
 
-		if (fTimeAcc > 10000.f)
+		//if (fTimeAcc > 10000.f)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
 		{
 			m_PlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
 
-			fTimeAcc = 0.f;
+			//fTimeAcc = 0.f;
 			break;
 		}
 	}
-
-	
 
 		while (m_PlayerCurState == STATE_SKILL)
 		{
@@ -209,7 +208,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);	
 	}
 
-	if (m_pKeyCom->Key_Pressing('E'))
+	else if (m_pKeyCom->Key_Pressing('E'))
 	{
 		m_PlayerCurState = STATE_SKILL;
 
@@ -331,6 +330,9 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
+	else
+		m_PlayerCurState = STATE_IDLE;
+
 	m_PlayerPreState = m_PlayerCurState;
 
 	return S_OK;
@@ -406,6 +408,7 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 
 	Safe_Release(m_pVIBufferCom);
+
 	Safe_Release(m_pTextureCom);
 
 	Safe_Release(m_pCal_Timercom);

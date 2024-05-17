@@ -41,8 +41,8 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
-private:
-	void Skill_Player_Headbutt(_float fTimeDelta);
+public:
+	void		Delete_Skill();
 
 private:
 	_uint		m_iSkillCount = { 0 };
