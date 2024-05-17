@@ -232,9 +232,10 @@ HRESULT CMainApp::Show_LayerObjects()
 	ImGui::BeginChild("RightPane", ImVec2(0, 0), true); // 오른쪽 창 생성
 	if (selectedItem != -1) { // 유효한 레이어가 선택된 경우
 		const string& layerName = objectLayersVector[selectedItem].first;
-		const list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
+		list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
 		int index = 0;  // 게임 오브젝트의 번호를 표시하기 위한 인덱스
-		for (CGameObject* gameObject : gameObjects) {
+		for (auto it = gameObjects.begin(); it != gameObjects.end(); /* 빈 상태 */) {
+			CGameObject* gameObject = *it;
 			bool isSelected = std::find(selectedObjects.begin(), selectedObjects.end(), index) != selectedObjects.end();
 			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), isSelected)) {
 				if (ImGui::GetIO().KeyCtrl) { // Ctrl 키가 눌려있는 상태에서만 다중 선택
@@ -254,10 +255,11 @@ HRESULT CMainApp::Show_LayerObjects()
 					selectedGameObjects.push_back(gameObject);
 				}
 			}
+
+			++it; // 삭제하지 않으면 다음 오브젝트로 이동
 			index++;  // 다음 오브젝트에 대해 인덱스 증가
 		}
 	}
-
 
 	if (!selectedGameObjects.empty())
 	{
@@ -395,6 +397,17 @@ HRESULT CMainApp::Show_LayerObjects()
 				transform->Set_Scaled(averageScale); // 스케일 적용
 			}
 		}
+
+		// 삭제 버튼 추가
+		ImGui::Separator(); // 구분선 추가
+		if (ImGui::Button("Delete Selected Object")) {
+			for (auto it = selectedGameObjects.begin(); it != selectedGameObjects.end(); /* 빈 상태 */) {
+				CGameObject* gameObject = *it;
+				// 삭제 로직 호출
+				Safe_Release(gameObject); // 오브젝트 릴리즈
+				it = selectedGameObjects.erase(it); // 리스트에서 오브젝트 제거
+			}
+		}
 	}
 	ImGui::EndChild();
 
@@ -481,6 +494,13 @@ HRESULT CMainApp::Click_Collider_Toggle(bool isChecked)
 HRESULT CMainApp::OnCollisionCheckIntervalChanged(float _fCollisionCheckInterval)
 {
 	m_pGameInstance->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
+	return S_OK;
+}
+
+HRESULT CMainApp::Click_Button_Release(std::list<CGameObject*>& gameObjects, std::list<CGameObject*>::iterator& it)
+{
+	Safe_Release(*it); // 오브젝트 릴리즈
+	it = gameObjects.erase(it); // 리스트에서 오브젝트 제거
 	return S_OK;
 }
 

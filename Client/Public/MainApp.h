@@ -2,7 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
-
+#include "GameObject.h"
 BEGIN(Engine)
 class CGameInstance;
 END
@@ -38,6 +38,7 @@ private:
 	HRESULT Load_Button_Pressed();
 	HRESULT Click_Collider_Toggle(bool isChecked);
 	HRESULT OnCollisionCheckIntervalChanged(float);
+	HRESULT Click_Button_Release(list<CGameObject*>& gameObjects, list<CGameObject*>::iterator& it);
 public:
 	static CMainApp* Create();
 	virtual void Free() override;
