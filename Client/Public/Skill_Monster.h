@@ -16,6 +16,13 @@ BEGIN(Client)
 
 class CSkill_Monster abstract:public CSkill
 {
+public:
+	typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+		_int  iBulletCnt = { 0 };
+	}SKILL_MONSTER__DESC;
+
 protected:
 	CSkill_Monster(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSkill_Monster(const CSkill_Monster& Prototype);
@@ -27,6 +34,10 @@ public:
 
 public:
 	virtual HRESULT Ready_Components();
+
+protected:
+	SKILL_MONSTER__DESC m_tSkill_Desc = {};
+
 	
 protected:
 	CTexture* m_pTextureCom = { nullptr };

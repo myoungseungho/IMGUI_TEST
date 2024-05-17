@@ -2,14 +2,13 @@
 
 #include "Skill_Monster.h"
 
-BEGIN(Client)
-
-class CSkill_Bug_Bullet final:public CSkill_Monster
+class CSkill_Koofu_Fuit final: public CSkill_Monster
 {
 private:
-	CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSkill_Bug_Bullet(const CSkill_Bug_Bullet& Prototype);
-	virtual ~CSkill_Bug_Bullet() = default;
+	CSkill_Koofu_Fuit(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Koofu_Fuit(const CSkill_Koofu_Fuit& Prototype);
+	virtual ~CSkill_Koofu_Fuit() = default;
+
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -22,14 +21,10 @@ public:
 protected:
 	virtual HRESULT Ready_Components() override;
 
-private:
-	CTransform* m_pTargetTransform = { nullptr };
-	
 public:
-	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 
-END

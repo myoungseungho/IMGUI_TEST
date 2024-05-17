@@ -3,6 +3,8 @@
 #include "Boss_Koofu.h"
 #include "GameInstance.h"
 
+#include "Skill_Monster.h"
+
 
 CBoss_Koofu::CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -44,7 +46,9 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	MonState(fTimeDelta);
+	//MonState(fTimeDelta);
+
+	Key_Input(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -98,8 +102,8 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 
 void CBoss_Koofu::State_Warf(_float fTimeDelta)
 {
-	if(m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-		Wafe(10,10 , 20,20);
+	//if(m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		//Wafe(10,10 , 20,20);
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
@@ -109,6 +113,15 @@ void CBoss_Koofu::State_Ready(_float fTimeDelta)
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 {
 
+}
+
+void CBoss_Koofu::Key_Input(_float fTimeDelta)
+{
+	if(m_pKeyCom->Key_Down('1'))
+		Wafe(10, 10, 20, 20);
+
+	if (m_pKeyCom->Key_Down(2))
+		RollingCreate();
 }
 
 HRESULT CBoss_Koofu::Ready_Components()
@@ -147,6 +160,23 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 void CBoss_Koofu::Wafe(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 0.f, rand() % fMaxPosZ - fMinPosZ));
+}
+
+HRESULT CBoss_Koofu::RollingCreate()
+{
+	 
+	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
+
+	Desc.iBulletCnt = 0; 
+	Desc.pTargetTransform = m_pTransformCom;
+
+	for (int i = 1; i <= 5; ++i)
+	{
+		Desc.iBulletCnt++;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), TEXT("Layer_Rolling") ,&Desc)))
+			return E_FAIL;
+	}
 }
 
 

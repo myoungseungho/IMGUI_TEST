@@ -7,12 +7,6 @@ BEGIN(Client)
 
 class CBoss_Koofu final :public CMonster
 {
-public:
-	typedef struct :public CMonster::MONSTER_DESC
-	{
-		
-	}BOSS_KOOFU_DESC;
-
 private:
 	CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBoss_Koofu(const CBoss_Koofu& Prototype);
@@ -35,10 +29,15 @@ private:
 	void State_Bullet(_float fTimeDelta);
 
 private:
+	void Key_Input(_float fTimeDelta);
+
+
+private:
 	virtual HRESULT Ready_Components();
 
 	void ScaleUp(_float fTimeDelta);
 	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
+	HRESULT RollingCreate();
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

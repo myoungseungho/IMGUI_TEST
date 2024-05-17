@@ -167,6 +167,7 @@
     <ClInclude Include="..\Public\Mon_Turtle.h" />
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Bug_Bullet.h" />
+    <ClInclude Include="..\public\Skill_Koofu_Fuit.h" />
     <ClInclude Include="..\Public\Skill_Koofu_Rolling.h" />
     <ClInclude Include="..\Public\Skill_Monster.h" />
     <ClInclude Include="..\Public\Skill_Player.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\Private\Mon_Turtle.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp" />
+    <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp" />
     <ClCompile Include="..\Private\Skill_Koofu_Rolling.cpp" />
     <ClCompile Include="..\Private\Skill_Monster.cpp" />
     <ClCompile Include="..\Private\Skill_Player.cpp" />

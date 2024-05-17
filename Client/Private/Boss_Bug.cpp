@@ -227,7 +227,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 HRESULT CBoss_Bug::Bullet_Create()
 {
-	CSkill_Bug_Bullet::SKILL_BUG_BULLET_DESC	SkillDesc{};
+	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
 
 	for (int i = 1; i <= 5; ++i)

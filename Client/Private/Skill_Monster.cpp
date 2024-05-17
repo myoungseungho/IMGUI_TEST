@@ -24,10 +24,23 @@ HRESULT CSkill_Monster::Initialize(void* pArg)
 
 HRESULT CSkill_Monster::Ready_Components()
 {
-	return E_NOTIMPL;
+	/* For.Com_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CSkill_Monster::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pVIBufferCom);
 }
