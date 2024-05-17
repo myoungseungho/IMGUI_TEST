@@ -17,17 +17,17 @@ private:
 
 public:
 	HRESULT Add_RenderObject(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
-	HRESULT Draw();
+	HRESULT Draw(_float fTimeDelta);
 
 private:
 	LPDIRECT3DDEVICE9					m_pGraphic_Device = { nullptr };
 	list<class CGameObject*>			m_RenderObjects[RG_END];
 
 private:
-	HRESULT Render_Priority();
-	HRESULT Render_NonBlend();
-	HRESULT Render_Blend();
-	HRESULT Render_UI();
+	HRESULT Render_Priority(_float DeltaTime);
+	HRESULT Render_NonBlend(_float DeltaTime);
+	HRESULT Render_Blend(_float DeltaTime);
+	HRESULT Render_UI(_float DeltaTime);
 
 public:
 	static CRenderer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -29,7 +29,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual HRESULT Render(_float fTimeDelta) override;
 
 private:		
 	/* 뷰변환행렬 = 월드행렬의 역행렬 */

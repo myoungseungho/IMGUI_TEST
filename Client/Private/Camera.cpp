@@ -79,7 +79,7 @@ void CCamera::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CCamera::Render()
+HRESULT CCamera::Render(_float fTimeDelta)
 {
 
 	return S_OK;

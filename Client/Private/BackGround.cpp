@@ -57,7 +57,7 @@ void CBackGround::Late_Update(_float fTimeDelta)
 	int a = 10;
 }
 
-HRESULT CBackGround::Render()
+HRESULT CBackGround::Render(_float fTimeDelta)
 {
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))

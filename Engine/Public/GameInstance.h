@@ -16,7 +16,7 @@ public:
 	/* 엔진을 초기화한다. */
 	HRESULT Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9* ppOut);
 	void Update_Engine(_float fTimeDelta);
-	HRESULT Render_Engine();
+	HRESULT Render_Engine(_float deltaTime);
 	HRESULT Clear_LevelResources(_uint iLevelIndex);
 
 public: /* For.Graphic_Device */

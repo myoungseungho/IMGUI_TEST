@@ -68,12 +68,12 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pColliderManager->Update(fTimeDelta);
 }
 
-HRESULT CGameInstance::Render_Engine()
+HRESULT CGameInstance::Render_Engine(_float deltaTime)
 {
 	/* 엔진에서 관리하는 객체들 중, 반복적인 렌더가 필요한 객체들이 있다면. */
 	/* 여기에서 렌더를 수행해준다. */
 
-	if (FAILED(m_pRenderer->Draw()))
+	if (FAILED(m_pRenderer->Draw(deltaTime)))
 		return E_FAIL;
 
 	if (FAILED(m_pLevel_Manager->Render()))

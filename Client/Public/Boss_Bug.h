@@ -28,7 +28,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+	virtual HRESULT Render(_float fTimeDelta) override;
 
 private:
 	virtual HRESULT Ready_Components();
@@ -43,6 +43,7 @@ private:
 	void Fly(_float fTimeDelta);
 	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
 
+private:
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
 	_int  fTimer = { 0};
@@ -54,6 +55,9 @@ private:
 	void State_Bullet(float _fTimeDelta);
 	void State_Fly(float _fTimeDelta);
 	void State_Land(float _fTimeDelta);
+
+private:
+	void Mon_AnimState(_float _fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
