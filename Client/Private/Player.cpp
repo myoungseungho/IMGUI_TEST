@@ -325,7 +325,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-
 	m_PlayerPreState = m_PlayerCurState;
 
 	return S_OK;

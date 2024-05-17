@@ -31,7 +31,7 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
 	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 1.f;
+	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 2.f;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
 
@@ -48,11 +48,14 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-
-	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
-	//m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), 1.f);
 
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vTargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+
+	vPos += *D3DXVec3Normalize(&vTargetLook, &vTargetLook) * 10.f * fTimeDelta;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
