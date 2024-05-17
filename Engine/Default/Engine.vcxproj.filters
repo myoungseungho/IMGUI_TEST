@@ -168,6 +168,9 @@
     <ClCompile Include="..\Private\Animator.cpp">
       <Filter>01.Utility\04.Components\Animator</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Animator.h">
       <Filter>01.Utility\04.Components\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Transform.h"
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Terrain.h"
+#include "VIBuffer_Cube.h"
 #include "Collider.h"
 #include "Calc_Timer.h"
 #include "KeyState.h"
