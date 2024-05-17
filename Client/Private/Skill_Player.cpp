@@ -42,7 +42,7 @@ void CSkill_Player::Update(_float fTimeDelta)
 {
 
 	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
-	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 2.f);
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1.f);
 	//m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), 1.f);
 
 }
@@ -97,7 +97,7 @@ void CSkill_Player::Skill_Player_Headbutt(_float fTimeDelta)
 HRESULT CSkill_Player::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Skill"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

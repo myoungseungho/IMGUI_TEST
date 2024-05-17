@@ -21,7 +21,7 @@ class CPlayer final : public CLandObject
 {	
 private:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
-enum STATE {STATE_IDLE, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END};
+enum STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -56,24 +56,19 @@ private:
 	HRESULT			Key_Input(_float fTimeDelta);
 
 	void					Player_Attack(_float fTimeDelta);
-	void					Player_Skill(_float fTimeDelta);
-	
-	void					Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
-	void					Set_State(STATE _STATE) { m_PlayerState = _STATE; }
-	
-	void					Create_Skill();
+	HRESULT					Create_Skill();
 private:
 	_float3		forScaled;
 
 	DIRECTION	m_PlayerDir = { DIR_END };
-	STATE			m_PlayerState = { STATE_END };
+	STATE			m_PlayerCurState = { STATE_END };
+	STATE			m_PlayerPreState = { STATE_END };
 
 	_float		fTimeAcc = { 0.0f };
 
 private:
-	_float m_fSkill_Cooldown = { 0.0f }; // 스킬 생성 간격
-	_float m_fSkillTimer = { 0.0f }; // 스킬 타이머
-	int		m_iCurrentSkillCount = { 0 }; // 현재 생성된 스킬 개수
+	_uint m_iCurrentSkillCount = { 0 };
+	vector<CSkill_Player*> m_Skills;
 
 public:
 	/* 원형객체를 생성한다. */
