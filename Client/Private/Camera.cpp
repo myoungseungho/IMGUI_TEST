@@ -30,7 +30,7 @@ HRESULT CCamera::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 카메라가 내 월드 공간에 어디에 존재하는지. */
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 3.f, -3.f));
 	m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));
 
 	m_fFovy = D3DXToRadian(90.0f);

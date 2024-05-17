@@ -73,7 +73,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 
 
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)

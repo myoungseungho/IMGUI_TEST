@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
-
+#include "EnviormentObject.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -13,7 +12,7 @@ END
 
 BEGIN(Client)
 
-class CBush final : public CGameObject
+class CBush final : public CEnviormentObject
 {	
 private:
 	CBush(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */

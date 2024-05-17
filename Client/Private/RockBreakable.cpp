@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CRockBreakable::CRockBreakable(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
 CRockBreakable::CRockBreakable(const CRockBreakable& Prototype)
-	: CGameObject{ Prototype }
+	: CEnviormentObject{ Prototype }
 {
 }
 
@@ -51,7 +51,7 @@ HRESULT CRockBreakable::Initialize(void* pArg)
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
@@ -76,7 +76,7 @@ void CRockBreakable::Late_Update(_float fTimeDelta)
 
 HRESULT CRockBreakable::Render(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -88,7 +88,7 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	__super::End_RenderState();
 
 	return S_OK;
 }
@@ -96,7 +96,7 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 HRESULT CRockBreakable::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_RockBreakable"),
+	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_RockBreakable"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

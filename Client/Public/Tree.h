@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "EnviormentObject.h"
 
 
 BEGIN(Engine)
@@ -13,7 +13,7 @@ END
 
 BEGIN(Client)
 
-class CTree final : public CGameObject
+class CTree final : public CEnviormentObject
 {	
 private:
 	CTree(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
