@@ -45,6 +45,8 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 
+	CTransform* m_pTargetTransCom= { nullptr };
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;
