@@ -71,13 +71,8 @@ public:
 	HRESULT Go_Down(_float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
-<<<<<<< HEAD
-	void Rotation(const _float3& vAxis, _float fRadian);
-=======
-
 	void Rotation(const _float3& vAxis, _float fRadian);
 
->>>>>>> 01ae1bfb439cd9f1e2e39bf08ca43ebf4a74cea0
 	void LookAt(const _float3& vTargetPos);	
 	void LookAt_ForLandObject(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
