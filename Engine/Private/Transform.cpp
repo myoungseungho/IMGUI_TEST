@@ -181,24 +181,22 @@ HRESULT CTransform::Go_Down(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CTransform::Gravity(_float fPower ,_float fLandPosY, _float fTimeDelta)
+HRESULT CTransform::Gravity(_float fWeight, _float fLandPosY, _float fTimeDelta)
 {
-	if (fLandPosY <= fLandPosY)
+	_float3 vPosition = Get_State(STATE_POSITION);
+	_float3 vDirection = _float3(0.f, -1.f, 0.f);
+
+	m_fGravity_Weight += fWeight;
+
+	vPosition += vDirection * m_fGravity_Weight * fTimeDelta;
+
+	if (vPosition.y <= fLandPosY)
 	{
-		_float fGravity = fPower -  fTimeDelta * 0.5f;
-
-		_float3 vPosition = Get_State(STATE_POSITION);
-		_float3 vDirection = _float3(0.f, -1.f, 0.f);
-
-		vPosition += vDirection * m_fSpeedPerSec * fGravity;
-
-		Set_State(STATE_POSITION, &vPosition);
-		return S_OK;
+		vPosition.y = fLandPosY;
+		m_fGravity_Weight = { 0.f };
 	}
-	else
-	{
-		return S_OK;
-	}
+
+	Set_State(STATE_POSITION, &vPosition);
 
 	return S_OK;
 }

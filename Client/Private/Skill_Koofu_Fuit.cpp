@@ -46,7 +46,8 @@ void CSkill_Koofu_Fuit::Priority_Update(_float fTimeDelta)
 void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
-
+	m_pTransformCom->Go_Up(fTimeDelta);
+	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
 }
 
 void CSkill_Koofu_Fuit::Late_Update(_float fTimeDelta)
@@ -82,7 +83,7 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_FuitBounce"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -146,4 +147,8 @@ CGameObject* CSkill_Koofu_Fuit::Clone(void* pArg)
 void CSkill_Koofu_Fuit::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pTransformCom);
 }

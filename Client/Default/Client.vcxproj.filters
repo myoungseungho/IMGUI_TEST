@@ -79,9 +79,6 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Pocket">
       <UniqueIdentifier>{a356024f-a36b-4196-a7c6-e424dfe950bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dd">
-      <UniqueIdentifier>{6fc0f97a-ac6c-47c7-a31c-17de5a8efbde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\LandObject\Monster\Boss\Bug">
       <UniqueIdentifier>{fb64bdd0-662c-4cf0-a03f-015fed56f709}</UniqueIdentifier>
     </Filter>

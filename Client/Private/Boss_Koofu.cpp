@@ -32,7 +32,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 2.f, 20.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 6.f, 20.f));
 
 	m_eMon_State = MON_STATE::WARF;
 
@@ -47,9 +47,8 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
 
-	
+	Key_Input(fTimeDelta);	
 	//m_pTransformCom->(0.2f,2.f ,fTimeDelta);
 }
 
@@ -127,6 +126,9 @@ void CBoss_Koofu::Key_Input(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down('2'))
 		RollingCreate();
+
+	if (m_pKeyCom->Key_Down('3'))
+		FuitCreate();
 }
 
 HRESULT CBoss_Koofu::Ready_Components()
@@ -182,6 +184,19 @@ HRESULT CBoss_Koofu::RollingCreate()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Rolling"), TEXT("Layer_Rolling") ,&Desc)))
 			return E_FAIL;
 	}
+}
+
+HRESULT CBoss_Koofu::FuitCreate()
+{
+	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
+
+	Desc.iBulletCnt = 1;
+	Desc.pTargetTransform = m_pTransformCom;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Fuit"), TEXT("Layer_Fuit"), &Desc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 

@@ -44,6 +44,7 @@ private:
 	void ScaleUp(_float fTimeDelta);
 	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 	HRESULT RollingCreate();
+	HRESULT FuitCreate();
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

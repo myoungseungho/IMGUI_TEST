@@ -73,7 +73,13 @@ void CLayer::Update(_float fTimeDelta)
 void CLayer::Late_Update(_float fTimeDelta)
 {
 	for (auto& pGameObject : m_GameObjects)
+	{
+		if (pGameObject == nullptr)
+			int a = 10;
+
+
 		pGameObject->Late_Update(fTimeDelta);
+	}
 }
 
 CLayer* CLayer::Create()

@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Initialize(void* pArg)					override;
 
 public:
-	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_Components();	
 
 protected:
 	SKILL_MONSTER__DESC m_tSkill_Desc = {};

@@ -43,9 +43,9 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 	
 	//Distroy(fTimeDelta);
 
-	//CSkill_Bug_Bullet* pThis = this;
+	/*CSkill_Bug_Bullet* pThis = this;
 
-	/*if (m_pKey->Key(fTimeDelta, 1.f))
+	if (m_pKey->Key(fTimeDelta, 1.f))
 		Safe_Release(pThis);*/
 
 }
