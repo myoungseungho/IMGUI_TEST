@@ -9,7 +9,7 @@ class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
-
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -41,6 +41,7 @@ protected:
 	
 protected:
 	CTexture* m_pTextureCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };

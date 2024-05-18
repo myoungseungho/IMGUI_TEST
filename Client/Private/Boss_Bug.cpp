@@ -40,7 +40,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 2.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 3.f, 10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 3.f, 20.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	m_eMon_State = MON_STATE::IDLE;
@@ -228,7 +228,7 @@ HRESULT CBoss_Bug::Bullet_Create()
 	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
 
-	for (int i = 1; i <= 5; ++i)
+	for (int i = 1; i <= 12; ++i)
 	{
 		SkillDesc.iBulletCnt = i;
 		if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))

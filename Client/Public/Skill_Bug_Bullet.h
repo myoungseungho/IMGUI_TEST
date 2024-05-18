@@ -21,6 +21,11 @@ public:
 
 private:
 	virtual HRESULT Ready_Components() override;
+	virtual HRESULT Ready_Animation();
+
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
+
 	void Distroy(_float fTimeDelta);
 	
 public:

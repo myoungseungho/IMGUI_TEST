@@ -46,7 +46,7 @@ private:
 private:
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
-	_int  fTimer = { 0};
+	_int  fTimer = { 0 };
 private:
 	void Mon_State(_float fTimeDelta);
 	void State_Idle(float _fTimeDelta);
