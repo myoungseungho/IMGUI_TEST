@@ -73,7 +73,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 
 
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -152,7 +152,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.0f, 2.f, 0.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(42.f, 0.3f, 29.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
