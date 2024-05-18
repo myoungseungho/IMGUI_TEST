@@ -43,6 +43,9 @@ Client/Bin/Resources/**
 !Client/Bin/*/
 !Client/Bin/Resources/
 
+# Allow txt files in the Bin directory (but not in Resources)
+!Client/Bin/*.txt
+
 # Object files
 [Oo]bj/
 
