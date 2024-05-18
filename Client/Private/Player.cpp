@@ -108,8 +108,27 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
-	if (dynamic_cast<CTree*>(otherObject)) {
-		int a = 3;
+
+	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+	// 플레이어와 다른 객체의 위치를 가져옴
+	_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+	// 충돌 방향 감지
+	if (playerPosition.x < otherPosition.x) {
+		m_bCanMoveRight = false;
+	}
+	else if (playerPosition.x > otherPosition.x) {
+		m_bCanMoveLeft = false;
+	}
+
+	if (playerPosition.z < otherPosition.z) {
+		m_bCanMoveForward = false;
+	}
+	else if (playerPosition.z > otherPosition.z) {
+		m_bCanMoveBackward = false;
 	}
 }
 
@@ -119,7 +138,30 @@ void CPlayer::OnCollisionStay(CCollider* other)
 
 void CPlayer::OnCollisionExit(CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	// Transform 컴포넌트를 가져옴
+	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+	// 플레이어와 다른 객체의 위치를 가져옴
+	_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+	// 충돌 방향 해제
+	if (playerPosition.x < otherPosition.x) {
+		m_bCanMoveRight = true;
+	}
+	else if (playerPosition.x > otherPosition.x) {
+		m_bCanMoveLeft = true;
+	}
+
+	if (playerPosition.z < otherPosition.z) {
+		m_bCanMoveForward = true;
+	}
+	else if (playerPosition.z > otherPosition.z) {
+		m_bCanMoveBackward = true;
+	}
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -152,7 +194,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(42.f, 0.3f, 29.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.3f, 31.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -173,86 +215,59 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CPlayer::Key_Input(_float fTimeDelta)
-{
-	if (m_pKeyCom->Key_Pressing(VK_UP))
-	{
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		{
+HRESULT CPlayer::Key_Input(_float fTimeDelta) {
+	if (m_pKeyCom->Key_Pressing(VK_UP)) {
+		if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
 			Set_Direction(DIR_LEFTUP);
-			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+			if (m_bCanMoveForward && m_bCanMoveLeft)
+				m_pTransformCom->Go_Straight_Left(fTimeDelta);
 		}
-			
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		{
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
 			Set_Direction(DIR_RIGHTUP);
-			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+			if (m_bCanMoveForward && m_bCanMoveRight)
+				m_pTransformCom->Go_Straight_Right(fTimeDelta);
 		}
-			
-
-		else
-		{
+		else {
 			Set_Direction(DIR_UP);
-			m_pTransformCom->Go_Straight(fTimeDelta);
+			if (m_bCanMoveForward)
+				m_pTransformCom->Go_Straight(fTimeDelta);
 		}
 	}
 
-	if (m_pKeyCom->Key_Pressing(VK_DOWN))
-	{
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		{
+	if (m_pKeyCom->Key_Pressing(VK_DOWN)) {
+		if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
 			Set_Direction(DIR_LEFTDOWN);
-			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+			if (m_bCanMoveBackward && m_bCanMoveLeft)
+				m_pTransformCom->Go_Backward_Left(fTimeDelta);
 		}
-			
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		{
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
 			Set_Direction(DIR_RIGHTDOWN);
-			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+			if (m_bCanMoveBackward && m_bCanMoveRight)
+				m_pTransformCom->Go_Backward_Right(fTimeDelta);
 		}
-			
-
-		else
-		{
+		else {
 			Set_Direction(DIR_DOWN);
-			m_pTransformCom->Go_Backward(fTimeDelta);
+			if (m_bCanMoveBackward)
+				m_pTransformCom->Go_Backward(fTimeDelta);
 		}
-			
 	}
 
-	if (m_pKeyCom->Key_Pressing(VK_LEFT))
-	{
+	if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
 		Set_Direction(DIR_LEFT);
-		m_pTransformCom->Go_Left(fTimeDelta);
+		if (m_bCanMoveLeft)
+			m_pTransformCom->Go_Left(fTimeDelta);
 	}
-		
 
-	if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-	{
+	if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
 		Set_Direction(DIR_RIGHT);
-		m_pTransformCom->Go_Right(fTimeDelta);
+		if (m_bCanMoveRight)
+			m_pTransformCom->Go_Right(fTimeDelta);
 	}
-		
 
 	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
 		m_pTransformCom->Set_Speed(10.f);
 	else
 		m_pTransformCom->Set_Speed(5.f);
-	
-	if (m_pKeyCom->Key_Down('A'))
-	{
-		Set_State(STATE_ATTACK);
-		Player_Attack(fTimeDelta);
-		
-	}
-	if (m_pKeyCom->Key_Down('E'))
-	{
-		Set_State(STATE_SKILL);
-		Player_Skill(fTimeDelta);
-	}
-	
 
 	return S_OK;
 }
@@ -288,7 +303,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 
 	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
 	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f* fSkillLevel);
+	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f * fSkillLevel);
 
 	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
 
@@ -299,7 +314,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 }
 
 
-CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPlayer* pInstance = new CPlayer(pGraphic_Device);
 
