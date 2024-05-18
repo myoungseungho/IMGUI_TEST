@@ -148,7 +148,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 		}
 
 		// CollisionCheckInterval 변수 선언
-		static float CollisionCheckInterval = 0.1f;
+		static float CollisionCheckInterval = 0.f;
 		// CollisionCheckInterval 입력란 추가
 		ImGui::Text("CollisionInterval:");
 		ImGui::SameLine(); // 같은 라인에 배치

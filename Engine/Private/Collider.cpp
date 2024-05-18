@@ -29,7 +29,7 @@ HRESULT CCollider::Initialize(void* pArg)
 	m_Width = pDesc->width;
 	m_Height = pDesc->height;
 	m_Depth = pDesc->depth;
-	m_Depth = 0.5f;
+	m_Depth = 0.8f;
 
 
 	if (pDesc->MineGameObject != nullptr)

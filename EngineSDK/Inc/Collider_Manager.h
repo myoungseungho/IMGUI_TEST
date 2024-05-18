@@ -40,7 +40,7 @@ private:
 
 	bool m_IsOn = { false };
 	_float m_CollisionCheckTimer = 0.0f;
-	_float m_CollisionCheckInterval = 0.1f; // 0.5초마다 검사
+	_float m_CollisionCheckInterval = 0.0f; // 0.5초마다 검사
 
 public:
 	static CCollider_Manager* Create();
