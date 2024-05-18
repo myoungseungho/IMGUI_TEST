@@ -49,7 +49,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	SetUp_OnTerrain(m_pTransformCom, 0.f);
+	//SetUp_OnTerrain(m_pTransformCom, 0.f);
 
 	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
 
