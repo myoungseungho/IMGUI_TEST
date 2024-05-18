@@ -109,6 +109,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
 
@@ -116,18 +117,17 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
 
-	// 충돌 방향 감지
-	if (playerPosition.x < otherPosition.x) {
+	// 충돌 방향 감지 및 이동 제한
+	if (m_bMoveRight && playerPosition.x < otherPosition.x) {
 		m_bCanMoveRight = false;
 	}
-	else if (playerPosition.x > otherPosition.x) {
+	if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
 		m_bCanMoveLeft = false;
 	}
-
-	if (playerPosition.z < otherPosition.z) {
+	if (m_bMoveUp && playerPosition.z < otherPosition.z) {
 		m_bCanMoveForward = false;
 	}
-	else if (playerPosition.z > otherPosition.z) {
+	if (m_bMoveDown && playerPosition.z > otherPosition.z) {
 		m_bCanMoveBackward = false;
 	}
 }
@@ -138,6 +138,7 @@ void CPlayer::OnCollisionStay(CCollider* other)
 
 void CPlayer::OnCollisionExit(CCollider* other)
 {
+	// 충돌 해제 시 해당 방향 이동 가능으로 설정
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	// Transform 컴포넌트를 가져옴
@@ -148,18 +149,16 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
 
-	// 충돌 방향 해제
 	if (playerPosition.x < otherPosition.x) {
 		m_bCanMoveRight = true;
 	}
-	else if (playerPosition.x > otherPosition.x) {
+	if (playerPosition.x > otherPosition.x) {
 		m_bCanMoveLeft = true;
 	}
-
 	if (playerPosition.z < otherPosition.z) {
 		m_bCanMoveForward = true;
 	}
-	else if (playerPosition.z > otherPosition.z) {
+	if (playerPosition.z > otherPosition.z) {
 		m_bCanMoveBackward = true;
 	}
 }
@@ -216,13 +215,18 @@ HRESULT CPlayer::Ready_Components()
 }
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta) {
-	if (m_pKeyCom->Key_Pressing(VK_UP)) {
-		if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
+	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
+	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
+	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
+	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
+
+	if (m_bMoveUp) {
+		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTUP);
 			if (m_bCanMoveForward && m_bCanMoveLeft)
 				m_pTransformCom->Go_Straight_Left(fTimeDelta);
 		}
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
+		else if (m_bMoveRight) {
 			Set_Direction(DIR_RIGHTUP);
 			if (m_bCanMoveForward && m_bCanMoveRight)
 				m_pTransformCom->Go_Straight_Right(fTimeDelta);
@@ -234,13 +238,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		}
 	}
 
-	if (m_pKeyCom->Key_Pressing(VK_DOWN)) {
-		if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
+	if (m_bMoveDown) {
+		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTDOWN);
 			if (m_bCanMoveBackward && m_bCanMoveLeft)
 				m_pTransformCom->Go_Backward_Left(fTimeDelta);
 		}
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
+		else if (m_bMoveRight) {
 			Set_Direction(DIR_RIGHTDOWN);
 			if (m_bCanMoveBackward && m_bCanMoveRight)
 				m_pTransformCom->Go_Backward_Right(fTimeDelta);
@@ -252,13 +256,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		}
 	}
 
-	if (m_pKeyCom->Key_Pressing(VK_LEFT)) {
+	if (m_bMoveLeft) {
 		Set_Direction(DIR_LEFT);
 		if (m_bCanMoveLeft)
 			m_pTransformCom->Go_Left(fTimeDelta);
 	}
 
-	if (m_pKeyCom->Key_Pressing(VK_RIGHT)) {
+	if (m_bMoveRight) {
 		Set_Direction(DIR_RIGHT);
 		if (m_bCanMoveRight)
 			m_pTransformCom->Go_Right(fTimeDelta);

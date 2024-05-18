@@ -65,10 +65,16 @@ private:
 	DIRECTION	m_PlayerDir = { DIR_END };
 	STATE			m_PlayerState = { STATE_END };
 
-	_bool m_bCanMoveRight = { true };
-	_bool m_bCanMoveLeft = { true };
-	_bool m_bCanMoveForward = { true };
-	_bool m_bCanMoveBackward = { true };
+private:
+	_bool m_bMoveRight = false;
+	_bool m_bMoveLeft = false;
+	_bool m_bMoveUp = false;
+	_bool m_bMoveDown = false;
+
+	_bool m_bCanMoveRight = true;
+	_bool m_bCanMoveLeft = true;
+	_bool m_bCanMoveForward = true;
+	_bool m_bCanMoveBackward = true;
 
 public:
 	/* 원형객체를 생성한다. */
