@@ -60,7 +60,7 @@ private:
 	
 
 private:
-	_float3		forScaled;
+	_float3		m_forScaled;
 
 	DIRECTION	m_PlayerDir = { DIR_END };
 	STATE			m_PlayerState = { STATE_END };

@@ -60,15 +60,17 @@ HRESULT CLevel_Edit::Ready_Layer_BackGround(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_EDIT, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CLevel_Edit::Ready_Layer_Sky(const _wstring& strLayerTag)
+{
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_EDIT, TEXT("Prototype_GameObject_Sky"), strLayerTag)))
 		return E_FAIL;
-
-	return S_OK;
 }
 
 HRESULT CLevel_Edit::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-
 	CCamera::CAMERA_DESC			CameraDesc{};
 
 	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_EDIT, TEXT("Layer_Player"), TEXT("Com_Transform")));

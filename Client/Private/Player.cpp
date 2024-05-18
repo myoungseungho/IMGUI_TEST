@@ -38,7 +38,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	forScaled = m_pTransformCom->Get_Scaled();
+	m_forScaled = m_pTransformCom->Get_Scaled();
 
 	return S_OK;
 }
@@ -65,7 +65,7 @@ void CPlayer::Update(_float fTimeDelta)
 		if (fTimeAcc >= 1.f)
 		{
 			m_PlayerState = STATE_IDLE;
-			m_pTransformCom->Set_Scaled(forScaled);
+			m_pTransformCom->Set_Scaled(m_forScaled);
 
 			fTimeAcc = 0.f;
 			break;
@@ -266,9 +266,9 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
 
 
-	curScaled.x = forScaled.x + 10.f;
-	curScaled.y = forScaled.y + 10.f;
-	curScaled.z = forScaled.z + 10.f;
+	curScaled.x = m_forScaled.x + 10.f;
+	curScaled.y = m_forScaled.y + 10.f;
+	curScaled.z = m_forScaled.z + 10.f;
 
 	m_pTransformCom->Set_Scaled(curScaled);
 

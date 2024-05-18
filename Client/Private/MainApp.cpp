@@ -139,7 +139,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 
 		ImGui::End(); // "Settings" 창 종료
 
-		
+
 		// 새로운 Collider 창 추가
 		static bool bColliderToggle = false;
 		ImGui::Begin("Collider", &bShowSettings);

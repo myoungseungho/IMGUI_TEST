@@ -129,7 +129,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_0.png"), 1))))		
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_0.png"), 1))))
 		return E_FAIL;
 
 	/* For.Prototype_Component_Texture_Sky */
@@ -280,7 +280,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bush"),
 		CBush::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	/* For.Prototype_GameObject_Monster */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster"),
 		CMon_Pocket::Create(m_pGraphic_Device))))

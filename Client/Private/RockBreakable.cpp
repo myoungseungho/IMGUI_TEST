@@ -23,10 +23,10 @@ HRESULT CRockBreakable::Initialize_Prototype()
 
 HRESULT CRockBreakable::Initialize(void* pArg)
 {
-	if (FAILED(__super::Initialize(pArg)))
+	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (m_IsPasingObject)
@@ -35,12 +35,6 @@ HRESULT CRockBreakable::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
-	else
-	{
-		m_pTransformCom->Set_Scaled(_float3(1.0f, 1.0f, 1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(3.0f, 0.f, 0.f));
-	}
-
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
