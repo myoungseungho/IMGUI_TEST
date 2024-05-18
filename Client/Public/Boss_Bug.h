@@ -66,6 +66,7 @@ private:
 	_bool m_isTurtle = { false };
 	_bool m_isFlyEnd = { false };
 	_bool m_isLand = { false };
+	_int m_iPhaseCnt = { 1 };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

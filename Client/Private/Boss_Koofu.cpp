@@ -34,7 +34,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 6.f, 20.f));
 
-	m_eMon_State = MON_STATE::WARF;
+	m_eMon_State = MON_STATE::DASH;
 
 	return S_OK;
 }

@@ -66,7 +66,7 @@ void CAnimator::Move_Frame(_float fFrame, _uint iNumTextures , _float fTimeDelta
 	if (m_iIndex >= iNumTextures && isLoop)
 		m_iIndex = 0;
 	
-	else if (!isLoop)
+	else if (m_iIndex >= iNumTextures && !isLoop)
 		m_iIndex = iNumTextures - 1;
 	
 }
