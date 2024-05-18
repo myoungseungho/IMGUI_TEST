@@ -20,8 +20,8 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, WALK, ATTACK, DASH , READY, BULLET, FLY, LAND, STAN, DEATH, WARF,MON_END };
-
+	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET, FLY, LAND, STAN, DEATH,MON_END };
+	
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
 	{

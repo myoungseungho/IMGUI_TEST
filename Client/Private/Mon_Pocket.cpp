@@ -49,6 +49,8 @@ void CMon_Pocket::Priority_Update(_float fTimeDelta)
 
 void CMon_Pocket::Update(_float fTimeDelta)
 {
+
+
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	m_pTransformCom->Chase(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 1.f);
 }

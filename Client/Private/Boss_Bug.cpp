@@ -50,15 +50,16 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
-	
-}
-
-void CBoss_Bug::Update(_float fTimeDelta)
-{
 	m_fAngle++;
 
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
+}
+
+void CBoss_Bug::Update(_float fTimeDelta)
+{
+	if (m_pKeyCom->Key_Down('1'))
+		m_tMonsterDesc.iHp--;
 	
 	Mon_State(fTimeDelta);
 
@@ -238,13 +239,13 @@ HRESULT CBoss_Bug::Bullet_Create()
 	return S_OK;
 }
 
-void CBoss_Bug::State_Idle(float _fTimeDelta)
+void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 {
 	if(m_pTimerCom->Time_Limit(_fTimeDelta,3.f))
 		m_eMon_State = MON_STATE::BULLET;
 }
 
-void CBoss_Bug::State_Dash(float _fTimeDelta)
+void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	Skill_Dash(_fTimeDelta);
@@ -262,38 +263,38 @@ void CBoss_Bug::State_Dash(float _fTimeDelta)
 	}
 }
 
-void CBoss_Bug::State_Ready(float _fTimeDelta)
+void CBoss_Bug::State_Ready(_float _fTimeDelta)
 {
-
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
 		m_eMon_State = MON_STATE::BULLET;
 	
 }
 
-void CBoss_Bug::State_Bullet(float _fTimeDelta)
+void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
-	
-
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 	{
 		Bullet_Create();
 		m_iBulletCnt++;
-	}
+	} 
 
-	if (m_iBulletCnt > 2)
+	if(m_iBulletCnt >= 3)
 	{
-		m_eMon_State = MON_STATE::DASH;
+		m_eMon_State = MON_STATE::IDLE;
 		m_iBulletCnt = 0;
 	}
+
+	if (m_tMonsterDesc.iHp <= 40)
+		m_eMon_State = MON_STATE::DASH;
 }
 
-void CBoss_Bug::State_Fly(float _fTimeDelta)
+void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 {
 	m_isTurtle = false;
 	Fly(_fTimeDelta);	
 }
 
-void CBoss_Bug::State_Land(float _fTimeDelta)
+void CBoss_Bug::State_Land(_float  _fTimeDelta)
 {
 	Land(0.f, 0.f, _fTimeDelta);
 }
@@ -306,23 +307,28 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_IDLE"), 1.f, _fTimeDelta, true);
 		break;
 
+	case MON_STATE::BULLET:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f, _fTimeDelta, true);
+		break;	
+
+	case MON_STATE::READY:
+		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
+		break;
+
 	case MON_STATE::DASH:
 		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 1.f, _fTimeDelta, false);
 		break;
 
-	case MON_STATE::READY:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
 
-		break;
-	case MON_STATE::BULLET:
-		m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f, _fTimeDelta, true);
-		break;
 	}
 
 }
 
 void CBoss_Bug::Mon_State(_float fTimeDelta)
 {
+	if (m_tMonsterDesc.iHp <= 0)
+		m_eMon_State = MON_STATE::DEATH;
+
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -335,8 +341,8 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::READY:
 		State_Ready(fTimeDelta);
-
 		break;
+
 	case MON_STATE::BULLET:
 		State_Bullet(fTimeDelta);
 		break;
@@ -347,7 +353,6 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::LAND:
 		State_Land(fTimeDelta);
-		break;
 	}
 }
 

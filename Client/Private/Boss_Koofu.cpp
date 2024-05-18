@@ -48,7 +48,8 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
 
-	Key_Input(fTimeDelta);	
+
+	//Key_Input(fTimeDelta);	
 	//m_pTransformCom->(0.2f,2.f ,fTimeDelta);
 }
 
@@ -86,7 +87,7 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Idle(fTimeDelta);
 		break;
 
-	case MON_STATE::WARF:
+	case MON_STATE::DASH:
 		State_Warf(fTimeDelta);
 		break;
 

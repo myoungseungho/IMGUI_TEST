@@ -46,18 +46,18 @@ private:
 private:
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
-	_int  fTimer = { 0 };
-private:
-	void Mon_State(_float fTimeDelta);
-	void State_Idle(float _fTimeDelta);
-	void State_Dash(float _fTimeDelta);
-	void State_Ready(float _fTimeDelta);
-	void State_Bullet(float _fTimeDelta);
-	void State_Fly(float _fTimeDelta);
-	void State_Land(float _fTimeDelta);
 
 private:
-	void Mon_AnimState(_float _fTimeDelta);
+	void Mon_State(_float fTimeDelta);
+	void State_Idle(_float _fTimeDelta);
+	void State_Dash(_float _fTimeDelta);
+	void State_Ready(_float _fTimeDelta);
+	void State_Bullet(_float _fTimeDelta);
+	void State_Fly(_float _fTimeDelta);
+	void State_Land(_float _fTimeDelta);
+
+private:
+	virtual void Mon_AnimState(_float _fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
