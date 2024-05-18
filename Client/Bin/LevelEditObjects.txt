@@ -12,6 +12,13 @@ Position: 37 0 31
 Scale: 1 1 1
 IsParsing: 1
 
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 4
+Position: 25.1935 0.8 29.4643
+Scale: 1 1 1
+IsParsing: 1
+
 LayerName: Layer_Hole
 PrototypeTag: Prototype_GameObject_Hole
 LevelIndex: 4
@@ -36,7 +43,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 4
-Position: 34.4158 18.7707 19.7769
+Position: 25.5084 3.70088 26.365
 Scale: 1 1 1
 IsParsing: 1
 
