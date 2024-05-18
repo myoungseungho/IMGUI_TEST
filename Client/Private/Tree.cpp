@@ -35,6 +35,10 @@ HRESULT CTree::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
+	else
+	{
+		m_pTransformCom->Set_Scaled(_float3(1.f, 3.f, 1.f));
+	}
 
 
 	/* For.Com_Transform */

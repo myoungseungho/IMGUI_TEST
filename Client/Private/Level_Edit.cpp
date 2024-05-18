@@ -31,7 +31,6 @@ HRESULT CLevel_Edit::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
 
