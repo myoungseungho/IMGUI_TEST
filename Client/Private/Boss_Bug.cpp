@@ -219,6 +219,8 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 	Desc.iHp = 10;
 	Desc.iAttack = 1;
+	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
 	const wstring A[3] = { L"Prototype_Component_Texture_Monster_Red_Turtle" , L"Prototype_Component_Texture_Monster_Green_Turtle" , L"Prototype_Component_Texture_Monster_Blue_Turtle" };
 	
 

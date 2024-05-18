@@ -27,6 +27,9 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
+	m_pTargetTransform = pDesc->pTargetTransform;
+
+	Safe_AddRef(m_pTargetTransform);
 
 	m_ColorTexTag = pDesc->ColorTexTag;
 	
@@ -50,7 +53,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 
 void CMon_Turtle::Update(_float fTimeDelta)
 {
-	
+	Mon_State(fTimeDelta);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -81,6 +84,15 @@ HRESULT CMon_Turtle::Render(_float fTimeDelta)
 
 void CMon_Turtle::Mon_State(_float fTimeDelta)
 {
+	if (rand() % 10 > 2)
+	{
+		m_eMon_State = MON_STATE::MOVE;
+	}
+	else
+	{
+		m_eMon_State = MON_STATE::MOVE;
+	}
+
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -100,7 +112,7 @@ void CMon_Turtle::Idle_Update(_float fTimeDelta)
 
 void CMon_Turtle::Move_Update(_float fTimeDelta)
 {
-
+	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
 void CMon_Turtle::Distory(_float fTimeDelta)
@@ -156,7 +168,6 @@ HRESULT CMon_Turtle::Begin_RenderState()
 HRESULT CMon_Turtle::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
@@ -193,7 +204,8 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pTimerCom); 
+	Safe_Release(m_pTargetTransform);
 
 	__super::Free();
 }

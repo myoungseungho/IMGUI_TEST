@@ -11,6 +11,7 @@ public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
 		wstring ColorTexTag = {};
+		CTransform* pTargetTransform = {};
 		
 	}MON_TURTLE_DESC;
 
@@ -37,6 +38,7 @@ private:
 
 private:
 	wstring m_ColorTexTag = {};
+	CTransform* m_pTargetTransform = { nullptr };
 
 private:
 	virtual HRESULT Ready_Components();

@@ -289,6 +289,22 @@ void CTransform::Chase(const _float3 & vTargetPos, _float fTimeDelta, _float fMi
 	}	
 }
 
+void CTransform::Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance)
+{
+	_float3			vPosition = Get_State(STATE_POSITION);
+
+	_float3			vMoveDir = vPosition - vTargetPos ;
+
+	_float			fDistance = D3DXVec3Length(&vMoveDir);
+
+	if (fDistance > fMinDistance)
+	{
+		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+
+		Set_State(STATE_POSITION, &vPosition);
+	}
+}
+
 
 HRESULT CTransform::Bind_WorldMatrix()
 {
