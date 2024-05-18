@@ -7,7 +7,7 @@
 
 #include "..\Public\Player.h"
 #include "..\Public\Tree.h"
-
+#include "Bush.h"
 #include "GameInstance.h"
 #include "Skill_Player.h"
 
@@ -108,6 +108,9 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CBush*>(otherObject))
+		return;
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
