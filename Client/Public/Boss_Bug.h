@@ -10,7 +10,7 @@ BEGIN(Client)
 class CBoss_Bug final :public CMonster
 {
 private:
-	
+
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
@@ -38,10 +38,10 @@ private:
 	virtual HRESULT End_RenderState();
 
 private:
-	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
+	void Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
 	void Fly(_float fTimeDelta);
-	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
+	void Land(_int iPosX, _int iPosZ, _float fTimeDelta);
 
 private:
 	HRESULT Turtle_Create();
@@ -55,17 +55,19 @@ private:
 	void State_Bullet(_float _fTimeDelta);
 	void State_Fly(_float _fTimeDelta);
 	void State_Land(_float _fTimeDelta);
+	void State_Regen(_float _fTimeDelta);
 
 private:
 	virtual void Mon_AnimState(_float _fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
-	_float m_fAngle =	{ 0.f };
+	_float m_fAngle = { 0.f };
 	_int m_iBulletCnt = { 0 };
 	_bool m_isTurtle = { false };
 	_bool m_isFlyEnd = { false };
 	_bool m_isLand = { false };
+	_bool m_isReady = { false };
 	_int m_iPhaseCnt = { 1 };
 
 public:

@@ -76,8 +76,8 @@ HRESULT CBoss_Bug::Render(_float fTimeDelta)
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	//Mon_AnimState(fTimeDelta);
-	m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 8.f, fTimeDelta,false);
+	Mon_AnimState(fTimeDelta);
+	//m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, fTimeDelta, false);
 	
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -253,8 +253,8 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 	if (!iter)
 	{
-		if(m_isTurtle)
-			m_eMon_State = MON_STATE::FLY;
+		/*if(m_isTurtle)
+			m_eMon_State = MON_STATE::FLY;*/
 
 		if (m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
 		{
@@ -266,8 +266,10 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Ready(_float _fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
+	if (m_iPhaseCnt == 1 && m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
 		m_eMon_State = MON_STATE::BULLET;
+	else if(m_iPhaseCnt == 2 && m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+		m_eMon_State = MON_STATE::DASH;
 	
 }
 
@@ -303,6 +305,14 @@ void CBoss_Bug::State_Land(_float  _fTimeDelta)
 	Land(0.f, 0.f, _fTimeDelta);
 }
 
+void CBoss_Bug::State_Regen(_float _fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 2.f))
+	{
+		m_eMon_State = MON_STATE::READY;
+	} 
+}
+
 void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 {
 	switch (m_eMon_State)
@@ -321,16 +331,17 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 		if (m_iPhaseCnt == 1)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_READY"), 1.f, _fTimeDelta, true);
 		else if(m_iPhaseCnt == 2)
-			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_READY"), 1.f, _fTimeDelta, true);
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_READY"), 1.f, _fTimeDelta, false);
 		break;
 
 	case MON_STATE::DASH:
 		if (m_iPhaseCnt == 2)
-			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 1.f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
 		break;
 
 	case MON_STATE::REGEN:
-			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 8.f, _fTimeDelta, false);
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
 		break;
 
 	}
@@ -366,6 +377,11 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::LAND:
 		State_Land(fTimeDelta);
+		break;
+
+	case MON_STATE::REGEN:
+		State_Regen(fTimeDelta);
+		break;
 	}
 }
 

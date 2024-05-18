@@ -44,7 +44,13 @@ HRESULT CAnimator::Add_Animator(_uint iLevel, const wstring& strComponentTag, co
 HRESULT CAnimator::Play_Animator(const wstring& strTextureTag, _float fFrame , _float fTimeDelta , _bool isLoop)
 {
 	CTexture* pTexture = Find_Texture(strTextureTag);
-	
+
+	if (PrevTexture != pTexture)
+		m_iIndex = 0;
+
+	PrevTexture = pTexture;
+
+
 	if (pTexture == nullptr)
 		return E_FAIL;
 
@@ -116,5 +122,6 @@ void CAnimator::Free()
 
 	m_pTexture.clear();
 
+	Safe_Release(PrevTexture);
 	Safe_Release(m_pGameInstance);
 }
