@@ -10,7 +10,7 @@ class CMon_Turtle  final:public CMonster
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
-		_uint m_iColor = { 0 };
+		wstring ColorTexTag = {};
 		
 	}MON_TURTLE_DESC;
 
@@ -26,14 +26,24 @@ private:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+
+private:
+	void Mon_State(_float fTimeDelta);
+	void Idle_Update(_float fTimeDelta);
+	void Move_Update(_float fTimeDelta);
+
+private:
 	void Distory(_float fTimeDelta);
 
 private:
-	_uint m_iColor = { 0 };
+	wstring m_ColorTexTag = {};
 
 private:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_Animation();
 
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
 
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

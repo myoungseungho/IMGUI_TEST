@@ -34,8 +34,6 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 6.f, 20.f));
 
-	m_eMon_State = MON_STATE::DASH;
-
 	return S_OK;
 }
 
@@ -48,9 +46,6 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
 
-
-	//Key_Input(fTimeDelta);	
-	//m_pTransformCom->(0.2f,2.f ,fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)

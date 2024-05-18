@@ -38,9 +38,9 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if(FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 3.f));
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 5.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(20.0f, 3.f, 20.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	m_eMon_State = MON_STATE::IDLE;
@@ -77,7 +77,6 @@ HRESULT CBoss_Bug::Render(_float fTimeDelta)
 		return E_FAIL;
 
 	Mon_AnimState(fTimeDelta);
-	//m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, fTimeDelta, false);
 	
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -108,7 +107,7 @@ HRESULT CBoss_Bug::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 2.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -167,12 +166,19 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	
 	if (iter)
 	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 		{
-			Warf(0, 0, 10.f, m_fAngle);
+			Warf(30, 20, 50.f, m_fAngle);
 		}
 		else
+		{
+			m_pTransformCom->Set_Speed(10.f);
 			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+		}
+	}
+	else
+	{
+		m_pTransformCom->Set_Speed(2.f);
 	}
 	
 	
@@ -213,10 +219,12 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 	Desc.iHp = 10;
 	Desc.iAttack = 1;
+	const wstring A[3] = { L"Prototype_Component_Texture_Monster_Red_Turtle" , L"Prototype_Component_Texture_Monster_Green_Turtle" , L"Prototype_Component_Texture_Monster_Blue_Turtle" };
+	
 
 	for (int i = 0; i < 3 ; ++i)
 	{
-		Desc.m_iColor = i;
+		Desc.ColorTexTag = A[i];
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &Desc)))
 			return E_FAIL;
@@ -253,10 +261,10 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 	if (!iter)
 	{
-		/*if(m_isTurtle)
-			m_eMon_State = MON_STATE::FLY;*/
+		if(m_isTurtle)
+			m_eMon_State = MON_STATE::FLY;
 
-		if (m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
+		if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
 		{
 			Turtle_Create();
 			m_isTurtle = true;
@@ -324,7 +332,7 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 
 	case MON_STATE::BULLET:
 		if (m_iPhaseCnt == 1)
-			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.f, _fTimeDelta, true);
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE1_ATTACK"), 1.1f, _fTimeDelta, true);
 		break;	
 
 	case MON_STATE::READY:
@@ -336,7 +344,7 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 
 	case MON_STATE::DASH:
 		if (m_iPhaseCnt == 2)
-			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 5.f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_ATTACK"), 1.f, _fTimeDelta, false);
 		break;
 
 	case MON_STATE::REGEN:
