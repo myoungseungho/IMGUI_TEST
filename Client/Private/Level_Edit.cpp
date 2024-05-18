@@ -104,14 +104,8 @@ HRESULT CLevel_Edit::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject
 
 HRESULT CLevel_Edit::ParseInitialize()
 {
-	vector<FILEDATA>* pvecFileData = static_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
-	size_t totalSize = pvecFileData->size() * sizeof(FILEDATA);
-	for (auto& iter : *pvecFileData)
-	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(iter.levelIndex, iter.prototypeTag, iter.layerName, &iter)))
-			return E_FAIL;
-	}
-	return S_OK;
+	if (FAILED(__super::ParseInitialize()))
+		return E_FAIL;
 }
 
 

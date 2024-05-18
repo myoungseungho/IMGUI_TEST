@@ -18,6 +18,8 @@ public:
 public:
 	HRESULT Clear_Resources();
 	_uint GetLevelIndex() { return m_iLevelIndex; };
+	HRESULT ParseInitialize();
+
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance* m_pGameInstance = { nullptr };

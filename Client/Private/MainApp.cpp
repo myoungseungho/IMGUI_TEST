@@ -458,18 +458,18 @@ HRESULT CMainApp::Show_LayerObjects()
 
 HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
 {
-	//오브젝트마다의 정보
+	// 오브젝트마다의 정보
 	vector<FILEDATA> vecFileData;
 
-	//레벨 정보 
+	// 레벨 정보 
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
 
-	vector<pair < wstring, list<CGameObject*>>> objectLayersVector;
+	vector<pair<wstring, list<CGameObject*>>> objectLayersVector;
 	m_pGameInstance->AddObjectLayersVector(currentLevel, &objectLayersVector);
 
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
-	{ L"Layer_BackGround", L"Layer_Camera",  L"Layer_Player" };
+	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player" };
 
 	for (auto& object : objectLayersVector)
 	{
@@ -493,13 +493,38 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 				wstring newPrefix = L"Prototype_GameObject_" + suffix;
 
 				// 이 새로운 문자열을 vecFileData에 추가
-				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled(),true });
+				vecFileData.emplace_back<FILEDATA>({ newPrefix, object.first, currentLevel, transform->Get_State(CTransform::STATE_POSITION), transform->Get_Scaled(), true });
 			}
 		}
 	}
 
-	//이걸 레벨당 사본객체 리스트를 넘겨줘야 한다.
-	HRESULT result = m_pGameInstance->SaveObjects(TEXT("../Bin/ObjectData.txt"), &vecFileData);
+	// currentLevel에 따라 파일 이름 지정
+	wstring filePath;
+	switch (currentLevel)
+	{
+	case LEVEL_STATIC:
+		filePath = L"../Bin/LevelStaticObjects.txt";
+		break;
+	case LEVEL_LOADING:
+		filePath = L"../Bin/LevelLoadingObjects.txt";
+		break;
+	case LEVEL_LOGO:
+		filePath = L"../Bin/LevelLogoObjects.txt";
+		break;
+	case LEVEL_GAMEPLAY:
+		filePath = L"../Bin/LevelGameplayObjects.txt";
+		break;
+	case LEVEL_EDIT:
+		filePath = L"../Bin/LevelEditObjects.txt";
+		break;
+	default:
+		filePath = L"../Bin/DefaultLevelObjects.txt"; // default 이름
+		break;
+	}
+
+
+	// 이걸 레벨당 사본 객체 리스트를 넘겨줘야 한다.
+	HRESULT result = m_pGameInstance->SaveObjects(filePath.c_str(), &vecFileData);
 	if (result == S_OK) {
 		*bShowSaveSuccessMessage = true;
 		*bShowSaveFailMessage = false;
@@ -513,6 +538,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 		return E_FAIL;
 	}
 }
+
 
 HRESULT CMainApp::Load_Button_Pressed()
 {
