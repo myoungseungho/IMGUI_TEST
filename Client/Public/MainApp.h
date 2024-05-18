@@ -40,6 +40,8 @@ private:
 	HRESULT OnCollisionCheckIntervalChanged(float);
 	HRESULT Click_Button_Release(std::vector<CGameObject*>& selectedGameObjects);
 
+private:
+	_bool bMovementEnabled = { false };
 public:
 	static CMainApp* Create();
 	virtual void Free() override;

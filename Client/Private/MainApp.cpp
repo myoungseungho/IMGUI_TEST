@@ -158,6 +158,10 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 			OnCollisionCheckIntervalChanged(CollisionCheckInterval);
 		}
 		ImGui::PopItemWidth();
+
+		// WASDQE 활성화 토글 추가
+		ImGui::Checkbox("Enable WASDQE Movement", &bMovementEnabled);
+
 		ImGui::End();
 
 	}
@@ -263,6 +267,41 @@ HRESULT CMainApp::Show_LayerObjects()
 
 	if (!selectedGameObjects.empty())
 	{
+		// 키 입력을 처리하여 포지션 이동
+		_float3 deltaPosition = { 0.0f, 0.0f, 0.0f };
+		if (bMovementEnabled) {
+			_float offset = 0.1f;
+			if (ImGui::IsKeyDown(ImGuiKey_W)) {
+				deltaPosition.z += offset;
+			}
+			if (ImGui::IsKeyDown(ImGuiKey_S)) {
+				deltaPosition.z -= offset;
+			}
+			if (ImGui::IsKeyDown(ImGuiKey_A)) {
+				deltaPosition.x -= offset;
+			}
+			if (ImGui::IsKeyDown(ImGuiKey_D)) {
+				deltaPosition.x += offset;
+			}
+			if (ImGui::IsKeyDown(ImGuiKey_Q)) {
+				deltaPosition.y -= offset;
+			}
+			if (ImGui::IsKeyDown(ImGuiKey_E)) {
+				deltaPosition.y += offset;
+			}
+
+			// 오브젝트 포지션 업데이트
+			for (CGameObject* gameObject : selectedGameObjects) {
+				CComponent* component = gameObject->Get_Component(TEXT("Com_Transform"));
+				if (component != nullptr) {
+					CTransform* transform = static_cast<CTransform*>(component);
+					_float3 currentPosition = transform->Get_State(CTransform::STATE_POSITION);
+					currentPosition += deltaPosition;
+					transform->Set_State(CTransform::STATE_POSITION, &currentPosition);
+				}
+			}
+		}
+
 		// 여기서 추가 동작을 수행할 수 있음 (예: 상세 정보 표시)
 		_float3 averagePosition = { 0.0f, 0.0f, 0.0f };
 		for (CGameObject* gameObject : selectedGameObjects) {
