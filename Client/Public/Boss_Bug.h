@@ -48,7 +48,9 @@ private:
 	HRESULT Bullet_Create();
 
 private:
-	void Mon_State(_float fTimeDelta);
+	virtual void Mon_State(_float fTimeDelta);
+	virtual void Mon_AnimState(_float _fTimeDelta);
+
 	void State_Idle(_float _fTimeDelta);
 	void State_Dash(_float _fTimeDelta);
 	void State_Ready(_float _fTimeDelta);
@@ -56,9 +58,7 @@ private:
 	void State_Fly(_float _fTimeDelta);
 	void State_Land(_float _fTimeDelta);
 	void State_Regen(_float _fTimeDelta);
-
-private:
-	virtual void Mon_AnimState(_float _fTimeDelta);
+	void State_Stan(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
@@ -69,6 +69,10 @@ private:
 	_bool m_isLand = { false };
 	_bool m_isReady = { false };
 	_int m_iPhaseCnt = { 1 };
+
+	_bool m_isTmp = { false };
+
+	MON_STATE m_ePrev_State = {};
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

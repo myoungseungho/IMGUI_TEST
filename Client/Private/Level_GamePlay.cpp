@@ -41,11 +41,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
-		return E_FAIL;
-
-	/*if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+	/*if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;*/
+
+	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -102,6 +102,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 
 	Bosskoofu.iHp = 10;
 	Bosskoofu.iAttack = 1;
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
 		return E_FAIL;

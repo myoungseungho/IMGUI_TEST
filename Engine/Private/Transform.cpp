@@ -305,6 +305,22 @@ void CTransform::Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinD
 	}
 }
 
+_float CTransform::Dir_Degree()
+{
+	_float3		vLook = Get_State(STATE_LOOK);
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	_float3		vAxis(0.f, 0.f, 1.f);
+
+	_float fAngle = D3DXVec3Dot(&vLook, &vAxis);
+
+	fAngle = acos(fAngle);
+
+	fAngle = D3DXToDegree(fAngle);
+
+	return fAngle;
+}
+
 
 HRESULT CTransform::Bind_WorldMatrix()
 {

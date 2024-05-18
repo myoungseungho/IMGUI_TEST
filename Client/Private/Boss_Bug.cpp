@@ -63,6 +63,13 @@ void CBoss_Bug::Update(_float fTimeDelta)
 	
 	Mon_State(fTimeDelta);
 
+	if (m_pKeyCom->Key_Down('5'))
+	{
+		m_isTmp = true;
+	}
+	else if (m_pKeyCom->Key_Down('6'))
+		m_isTmp = false;
+
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -180,8 +187,6 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Speed(2.f);
 	}
-	
-	
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
@@ -256,33 +261,6 @@ void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 		m_eMon_State = MON_STATE::BULLET;
 }
 
-void CBoss_Bug::State_Dash(_float  _fTimeDelta)
-{
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
-	Skill_Dash(_fTimeDelta);
-
-	if (!iter)
-	{
-		if(m_isTurtle)
-			m_eMon_State = MON_STATE::FLY;
-
-		if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
-		{
-			Turtle_Create();
-			m_isTurtle = true;
-		}
-	}
-}
-
-void CBoss_Bug::State_Ready(_float _fTimeDelta)
-{
-	if (m_iPhaseCnt == 1 && m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
-		m_eMon_State = MON_STATE::BULLET;
-	else if(m_iPhaseCnt == 2 && m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
-		m_eMon_State = MON_STATE::DASH;
-	
-}
-
 void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
@@ -300,9 +278,65 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 	if (m_tMonsterDesc.iHp <= 40)
 	{
 		m_iPhaseCnt = 2;
+		m_ePrev_State = MON_STATE::BULLET;
 		m_eMon_State = MON_STATE::REGEN;
 	}
 }
+
+void CBoss_Bug::State_Regen(_float _fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 2.f) && m_ePrev_State == MON_STATE::BULLET)
+	{
+		m_eMon_State = MON_STATE::READY;
+	}
+
+	if (m_ePrev_State == MON_STATE::STAN && m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
+	{
+		m_eMon_State = MON_STATE::FLY;
+	}
+
+}
+
+void CBoss_Bug::State_Stan(_float fTimeDelta)
+{
+	m_pTransformCom->Gravity( 0.1f,3.f, fTimeDelta);
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+	{
+		m_ePrev_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::REGEN;
+	}
+}
+
+void CBoss_Bug::State_Ready(_float _fTimeDelta)
+{
+	if (m_iPhaseCnt == 1 && m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
+		m_eMon_State = MON_STATE::BULLET;
+	else if(m_iPhaseCnt == 2 && m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+		m_eMon_State = MON_STATE::DASH;
+	
+}
+
+void CBoss_Bug::State_Dash(_float  _fTimeDelta)
+{
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	Skill_Dash(_fTimeDelta);
+
+	if (m_isTmp)
+	{
+		if (m_isTurtle)
+		{
+			m_ePrev_State == MON_STATE::DASH;
+			m_eMon_State = MON_STATE::STAN;
+		}
+		if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
+		{
+			Turtle_Create();
+			m_isTurtle = true;
+		}
+	}
+}
+
 
 void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 {
@@ -315,13 +349,6 @@ void CBoss_Bug::State_Land(_float  _fTimeDelta)
 	Land(0.f, 0.f, _fTimeDelta);
 }
 
-void CBoss_Bug::State_Regen(_float _fTimeDelta)
-{
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 2.f))
-	{
-		m_eMon_State = MON_STATE::READY;
-	} 
-}
 
 void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 {
@@ -352,6 +379,11 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 	case MON_STATE::REGEN:
 		if (m_iPhaseCnt == 2)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
+		break;
+
+	case MON_STATE::STAN:
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_DOWN"), 1.f, _fTimeDelta, false);
 		break;
 
 	}
@@ -391,6 +423,10 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::REGEN:
 		State_Regen(fTimeDelta);
+		break;
+
+	case MON_STATE::STAN:
+		State_Stan(fTimeDelta);
 		break;
 	}
 }

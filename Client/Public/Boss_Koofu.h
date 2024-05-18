@@ -7,10 +7,12 @@ BEGIN(Client)
 
 class CBoss_Koofu final :public CMonster
 {
+private:
+	enum class ANIM_STATE {IDLE ,WALK , CAST , READY , STUN ,THROW , DEADTH ,ANIM_END };
 public:
 	typedef struct:public MONSTER_DESC
 	{
-	
+		CTransform* m_pTargetTransform = {nullptr};
 	}BOSS_KOOFU_DESC;
 
 private:
@@ -28,6 +30,7 @@ public:
 
 private:
 	void MonState(_float fTimeDelta);
+	void AnimState(_float fTimeDelta);
 
 	void State_Idle(_float fTimeDelta);
 	void State_Warf(_float fTimeDelta);
@@ -35,11 +38,19 @@ private:
 	void State_Bullet(_float fTimeDelta);
 
 private:
-	void Key_Input(_float fTimeDelta);
+	void Move_Dir();
 
+	void Key_Input(_float fTimeDelta);
+	void BillBoarding();
 
 private:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_Animation();
+
+	virtual HRESULT Begin_RenderState();
+	virtual HRESULT End_RenderState();
+
+private:
 
 	void ScaleUp(_float fTimeDelta);
 	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
@@ -48,7 +59,10 @@ private:
 	HRESULT FuitClone();
 
 private:
+	ANIM_STATE m_eAnim_State = {};
+	CTransform* m_pTargetTransform = { nullptr };
 	int m_iCloneCnt = { 0 };
+
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

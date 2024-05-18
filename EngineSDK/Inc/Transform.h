@@ -81,6 +81,8 @@ public:
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 	void Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 
+	_float Dir_Degree();
+
 public:
 	HRESULT Bind_WorldMatrix();
 
