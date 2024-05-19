@@ -78,7 +78,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
 }
 
 HRESULT CBoss_Bug::Render(_float fTimeDelta)

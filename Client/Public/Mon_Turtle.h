@@ -49,6 +49,11 @@ private:
 	HRESULT End_RenderState();
 
 public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
+public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

@@ -2,6 +2,7 @@
 #include "Mon_Turtle.h"
 
 #include "GameInstance.h"
+#include "Player.h"
 
 CMon_Turtle::CMon_Turtle(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -110,7 +111,12 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 
 void CMon_Turtle::Distory(_float fTimeDelta)
 {
+	CMon_Turtle* pTurtle = this;
 
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+		Safe_Release(pTurtle);
+	}
 }
 
 void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)
@@ -187,6 +193,25 @@ HRESULT CMon_Turtle::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
+}
+
+void CMon_Turtle::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		--m_tMonsterDesc.iHp;
+	}
+}
+
+void CMon_Turtle::OnCollisionStay(CCollider* other)
+{
+
+}
+
+void CMon_Turtle::OnCollisionExit(CCollider* other)
+{
 }
 
 CMon_Turtle* CMon_Turtle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
