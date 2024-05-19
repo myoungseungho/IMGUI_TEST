@@ -50,15 +50,20 @@ public:
 public:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, class CComponent** ppOut, void* pArg = nullptr);
 
+public:
+	void SetPicking(_bool _picking) { m_bIsPicking = _picking; };
+	_bool GetIsPicking() { return m_bIsPicking; };
+
 protected:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	class CGameInstance* m_pGameInstance = { nullptr };
 
 	_uint						m_iGameObjectData = { 0 };
-	bool						m_IsPasingObject = { false };
+	_bool						m_bIsPasingObject = { false };
+	_bool						m_bIsPicking = { false };
 protected:
 	map<const _wstring, CComponent*>		m_Components;
-	
+
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;

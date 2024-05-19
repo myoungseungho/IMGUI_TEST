@@ -28,7 +28,7 @@ HRESULT CGameObject::Initialize(void* pArg)
 		return S_OK;
 
 	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	m_IsPasingObject = fileData->isParsing;
+	m_bIsPasingObject = fileData->isParsing;
 
 	return S_OK;
 }

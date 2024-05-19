@@ -80,7 +80,7 @@ void CEnviormentObject::Update(_float fTimeDelta)
 		_bool isPicked = bufferRectCom->Picked(transform, &vPickedPos);
 
 		if (isPicked)
-			int a = 10;
+			m_bIsPicking = true;
 	}
 }
 

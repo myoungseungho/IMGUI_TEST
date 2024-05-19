@@ -29,7 +29,7 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (m_IsPasingObject)
+	if (m_bIsPasingObject)
 	{
 		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));

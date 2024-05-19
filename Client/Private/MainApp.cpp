@@ -209,6 +209,7 @@ HRESULT CMainApp::Show_PrototypeObjects()
 	return S_OK;
 
 }
+
 HRESULT CMainApp::Show_LayerObjects()
 {
 	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
@@ -241,6 +242,20 @@ HRESULT CMainApp::Show_LayerObjects()
 		for (auto it = gameObjects.begin(); it != gameObjects.end(); /* 빈 상태 */) {
 			CGameObject* gameObject = *it;
 			bool isSelected = std::find(selectedObjects.begin(), selectedObjects.end(), index) != selectedObjects.end();
+
+			// 게임 오브젝트가 클릭되었는지 확인하고, 클릭된 경우 IMGUI의 선택 상태를 업데이트합니다.
+			if (gameObject->GetIsPicking()) {
+				// 기존 선택 상태를 초기화
+				selectedObjects.clear();
+				selectedGameObjects.clear();
+
+				// 새로운 선택 상태를 설정
+				selectedObjects.push_back(index);
+				selectedGameObjects.push_back(gameObject);
+				gameObject->SetPicking(false); // 클릭 상태 초기화
+			}
+
+
 			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), isSelected)) {
 				if (ImGui::GetIO().KeyCtrl) { // Ctrl 키가 눌려있는 상태에서만 다중 선택
 					if (isSelected) {
