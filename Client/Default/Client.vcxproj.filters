@@ -243,17 +243,17 @@
     <ClInclude Include="..\Public\Mon_Turtle.h">
       <Filter>02.GameObjects\LandObject\Monster\Turtle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Private\Sky.h">
-      <Filter>02.GameObjects\Sky</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Level_Edit.h">
       <Filter>01.Levels\Edit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\EnviormentObject.h">
       <Filter>02.GameObjects\Enviorment</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Skill_Koofu_Fuit.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sky.h">
+      <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

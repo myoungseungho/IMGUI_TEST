@@ -137,7 +137,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag, CLandOb
 
 HRESULT CLevel_GamePlay::ParseInitialize()
 {
-	vector<FILEDATA>* pvecFileData = static_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/ObjectData.txt")));
+	vector<FILEDATA>* pvecFileData = static_cast<vector<FILEDATA>*>(m_pGameInstance->LoadObjects(TEXT("../Bin/LevelGameplayObjects.txt")));
 	size_t totalSize = pvecFileData->size() * sizeof(FILEDATA);
 	for (auto& iter : *pvecFileData)
 	{

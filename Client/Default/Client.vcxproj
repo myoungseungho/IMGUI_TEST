@@ -158,7 +158,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Private\Sky.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Bush.h" />
@@ -180,6 +179,7 @@
     <ClInclude Include="..\Public\Skill_Koofu_Rolling.h" />
     <ClInclude Include="..\Public\Skill_Monster.h" />
     <ClInclude Include="..\Public\Skill_Player.h" />
+    <ClInclude Include="..\Public\Sky.h" />
     <ClInclude Include="..\Public\Tree.h" />
     <ClInclude Include="..\Public\imconfig.h" />
     <ClInclude Include="..\Public\imgui.h" />

@@ -17,10 +17,11 @@ _uint CBase::Release()
 
 		int a = 10;
 
+		m_Died = true;
+
 		/* 삭제한다. */
 		delete this;
 
-		m_Died = true;
 
 		return 0;
 	}
