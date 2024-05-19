@@ -293,7 +293,7 @@ void CTransform::Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinD
 
 	_float			fDistance = D3DXVec3Length(&vMoveDir);
 
-	if (fDistance > fMinDistance)
+	if (fDistance < fMinDistance)
 	{
 		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
 

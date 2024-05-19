@@ -40,7 +40,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 5.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 1.5f, 20.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	m_eMon_State = MON_STATE::IDLE;
@@ -138,7 +138,7 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
@@ -196,8 +196,15 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 {
 	_float WarfPosX = iPosX + fDistance * cos(fAngle * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(fAngle * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 3.f, WarfPosZ));
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
+
+	_float3 PlayerPos;
+
+	PlayerPos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 1.5f;
+	PlayerPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->LookAt(PlayerPos);
 
 }
 

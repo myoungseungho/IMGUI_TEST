@@ -41,8 +41,9 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 3.f, rand() % 20 + 10));
+	
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.3, rand() % 20 + 10));
+	m_eMon_State = MON_STATE::IDLE;
 	
 	return S_OK;
 }
@@ -54,7 +55,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
-	Move_Range(10.f, 10.f, 30.f, 30.f);
+	Move_Range(0.f, 0.f, 50.f, 50.f);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -85,15 +86,6 @@ HRESULT CMon_Turtle::Render(_float fTimeDelta)
 
 void CMon_Turtle::Mon_State(_float fTimeDelta)
 {
-	if (rand() % 10 > 2)
-	{
-		m_eMon_State = MON_STATE::MOVE;
-	}
-	else
-	{
-		m_eMon_State = MON_STATE::MOVE;
-	}
-
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -108,7 +100,7 @@ void CMon_Turtle::Mon_State(_float fTimeDelta)
 
 void CMon_Turtle::Idle_Update(_float fTimeDelta)
 {
-
+		m_eMon_State = MON_STATE::MOVE;
 }
 
 void CMon_Turtle::Move_Update(_float fTimeDelta)
@@ -147,12 +139,26 @@ HRESULT CMon_Turtle::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 3.0f;
+	TransformDesc.fSpeedPerSec = 1.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x / 2.f;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y / 2.f;
+	ColliderDesc.depth = 0.5f;
+	ColliderDesc.MineGameObject = this;
+
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
@@ -216,6 +222,7 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTimerCom); 
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pColliderCom);
 
 	__super::Free();
 }
