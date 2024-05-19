@@ -58,9 +58,15 @@ HRESULT CTexture::Bind_Texture(_uint iTextureIndex)
 
 HRESULT CTexture::Bind_Anim(_uint fFrame)
 {
+	//어떤 하나의 애니메이션의 텍스쳐
+	//애니메이션 텍스쳐 전체 장보다 현재 재생되고 있는
+	//프레임이 더 크면, 현재 재생하고 있는 프레임 단계를
+	//0으로 초기화.
+	
 	if (fFrame >= m_iNumTextures)
 		fFrame = 0;
 	
+	//현재 재생하고 있는 프레임의 텍스쳐를 장치에 바인딩
 	return m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
 }
 

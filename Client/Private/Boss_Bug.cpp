@@ -63,12 +63,15 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 	Mon_State(fTimeDelta);
 
+	CBoss_Bug* boss = this;
 	if (m_pKeyCom->Key_Down('5'))
 	{
 		m_isTmp = true;
 	}
 	else if (m_pKeyCom->Key_Down('6'))
 		m_isTmp = false;
+	else if (m_pKeyCom->Key_Down('7'))
+		Safe_Release(boss);
 
 }
 
