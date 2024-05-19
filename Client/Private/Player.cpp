@@ -53,9 +53,11 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	SetUp_OnTerrain(m_pTransformCom, 0.5f);
 
+	Key_Input(fTimeDelta);
+
 	if (m_PlayerCurState == STATE_ATTACK)
 	{
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 3.f))
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
 		{
 			m_PlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(forScaled);
@@ -63,22 +65,23 @@ void CPlayer::Update(_float fTimeDelta)
 		}
 	}
 
-
-	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f)) // E 키를 누른 시간 (1초마다)
+	if (m_PlayerCurState == STATE_SKILL)
 	{
-		m_iCurrentSkillCount += 1;
-		Create_Skill();
-
-		if (m_iCurrentSkillCount > 3)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f)) // E 키를 누른 시간 (1초마다)
 		{
-			m_PlayerCurState = STATE_IDLE;
-			m_iCurrentSkillCount = 0;
+			m_iCurrentSkillCount += 1;
+			Create_Skill();
+
+			if (m_iCurrentSkillCount > 3)
+			{
+				m_PlayerCurState = STATE_IDLE;
+				m_iCurrentSkillCount = 0;
+			}
 		}
 	}
+	else
+		m_iCurrentSkillCount = 0;
 
-
-		Key_Input(fTimeDelta);
-	
 }
 
 
