@@ -229,7 +229,6 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
-<<<<<<< HEAD
 HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
