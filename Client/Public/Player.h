@@ -80,7 +80,7 @@ private:
 
 	DIRECTION	m_PlayerDir = { DIR_END };
 	STATE			m_PlayerCurState = { STATE_END };
-	STATE			m_PlayerPreState = { STATE_END };
+	STATE			m_PlayerPreState = { STATE_IDLE };
 
 private:
 	_bool m_bMoveRight = false;

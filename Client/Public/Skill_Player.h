@@ -41,6 +41,8 @@ public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
 
 public:
 	void		Delete_Skill();
@@ -58,9 +60,9 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
-	CKeyState* m_pKeyCom = { nullptr };
 
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

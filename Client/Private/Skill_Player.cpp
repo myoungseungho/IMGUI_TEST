@@ -53,7 +53,8 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	Delete_Skill();
+	if (m_pKeyCom->Key_Down('1'))
+			Delete_Skill();
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -64,12 +65,11 @@ void CSkill_Player::Late_Update(_float fTimeDelta)
 
 HRESULT CSkill_Player::Render(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	if (FAILED(Begin_RenderState()))
+		return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
-
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -77,7 +77,8 @@ HRESULT CSkill_Player::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	if (FAILED(End_RenderState()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -96,12 +97,29 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 {
 	int a = 3;
 }
+HRESULT CSkill_Player::Begin_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	return S_OK;
+}
+
+HRESULT CSkill_Player::End_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	return S_OK;
+}
 
 void CSkill_Player::Delete_Skill()
 {
 	CSkill_Player* pThis = this;
-	if (m_pKeyCom->Key_Down('1'))
-		Safe_Release(pThis);
+
+	Safe_Release(pThis);
 }
 
 HRESULT CSkill_Player::Ready_Components()
