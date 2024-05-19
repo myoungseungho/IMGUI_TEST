@@ -13,6 +13,7 @@ class CVIBuffer_Rect;
 class CCollider;
 class CKeyState;
 class CCalc_Timer;
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -53,24 +54,33 @@ private:
 	CKeyState*			m_pKeyCom = { nullptr };
 	CCalc_Timer*		 m_pCal_Timercom = { nullptr };
 	class CSkill_Player*		m_pSkill_Player = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Animation();
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
 
 private:
 	HRESULT			Key_Input(_float fTimeDelta);
 
 	void					Player_Attack(_float fTimeDelta);
-	HRESULT					Create_Skill();
+	HRESULT			Create_Skill();
 
-	void               Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
-	void               Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }
+	void              Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
+	void              Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }
+
+	void				BillBoarding();
+
+	void				 Player_AnimState(_float _fTimeDelta);
 
 private:
 	_float3		m_forScaled;
 
 	DIRECTION	m_PlayerDir = { DIR_END };
 	STATE			m_PlayerCurState = { STATE_END };
+	STATE			m_PlayerPreState = { STATE_END };
 
 private:
 	_bool m_bMoveRight = false;
@@ -90,6 +100,7 @@ private:
 	_uint m_iCurrentSkillCount = { 0 };
 
 public:
+	
 	/* 원형객체를 생성한다. */
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
