@@ -144,6 +144,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 
 void CPlayer::OnCollisionStay(CCollider* other)
 {
+	int a = 10;
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)

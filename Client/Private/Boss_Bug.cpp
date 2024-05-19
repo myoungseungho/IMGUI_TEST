@@ -3,6 +3,7 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 #include "Mon_Turtle.h"
+#include <Player.h>
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -178,17 +179,16 @@ HRESULT CBoss_Bug::End_RenderState()
 
 void CBoss_Bug::OnCollisionEnter(CCollider* other)
 {
-	int a = 3;
+
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other)
 {
-	int a = 3;
 }
 
 void CBoss_Bug::OnCollisionExit(CCollider* other)
 {
-	int a = 3;
+	
 }
 
 void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
