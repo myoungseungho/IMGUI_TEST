@@ -53,6 +53,7 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
+	Delete_Skill();
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -98,6 +99,9 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 
 void CSkill_Player::Delete_Skill()
 {
+	CSkill_Player* pThis = this;
+	if (m_pKeyCom->Key_Down('1'))
+		Safe_Release(pThis);
 }
 
 HRESULT CSkill_Player::Ready_Components()
@@ -115,6 +119,11 @@ HRESULT CSkill_Player::Ready_Components()
 	/* For.Com_Calc_Timer*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
 		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -181,5 +190,6 @@ void CSkill_Player::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pKeyCom);
 	__super::Free();
 }

@@ -193,15 +193,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Set_Speed(10.f);
 	else
 		m_pTransformCom->Set_Speed(5.f);
-	
-	
-	if (m_pKeyCom->Key_Down('A'))
-	{
-		m_PlayerCurState = (STATE_ATTACK);
-		Player_Attack(fTimeDelta);	
-	}
 
-	else if (m_pKeyCom->Key_Pressing('E'))
+	if (m_pKeyCom->Key_Pressing('E'))
 	{
 		m_PlayerCurState = STATE_SKILL;
 
@@ -374,10 +367,11 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-	/*else
-		m_PlayerCurState = STATE_IDLE;*/
-
-	m_PlayerPreState = m_PlayerCurState;
+	else if (m_pKeyCom->Key_Down('A'))
+	{
+		m_PlayerCurState = (STATE_ATTACK);
+		Player_Attack(fTimeDelta);
+	}
 
 	return S_OK;
 }

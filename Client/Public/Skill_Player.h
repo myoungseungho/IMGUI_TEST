@@ -9,7 +9,7 @@ class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
 class CCollider;
-
+class CKeyState;
 END
 
 BEGIN(Client)
@@ -49,6 +49,7 @@ private:
 	_uint		m_iSkillCount = { 0 };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
+
 protected:
 	virtual HRESULT Ready_Components();
 
@@ -59,6 +60,7 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
