@@ -30,12 +30,15 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 2);
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 5); 
 	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (- 1.f);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (vPositionX , vPositionY , vPositionZ));
-
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 
 	return S_OK;
 }
@@ -62,9 +65,7 @@ HRESULT CSkill_Koofu_Rolling::Render(_float fTimeDelta)
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		E_FAIL;
-
+	m_pAnimCom->Play_Animator(TEXT("SKILL_ROLLING"), 0.5f, fTimeDelta, true);
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
@@ -88,12 +89,19 @@ HRESULT CSkill_Koofu_Rolling::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 5.0f;
+	TransformDesc.fSpeedPerSec = 10.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CSkill_Koofu_Rolling::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"), TEXT("SKILL_ROLLING"));
 
 	return S_OK;
 }

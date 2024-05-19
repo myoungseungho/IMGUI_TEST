@@ -334,7 +334,7 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	/*if(m_pKeyCom->Key_Down('1'))
+	if(m_pKeyCom->Key_Down('1'))
 		Warf(-10, -10, 20, 20);
 
 	if (m_pKeyCom->Key_Down('2'))
@@ -343,11 +343,6 @@ void CBoss_Koofu::Key_Input(_float fTimeDelta)
 	if (m_pKeyCom->Key_Down('3'))
 		FuitCreate();
 
-	if (m_pKeyCom->Key_Down('4'))
-	{
-		CloneCreate();
-		
-	}*/
 }
 
 void CBoss_Koofu::BillBoarding()

@@ -26,14 +26,19 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components() override;
+	virtual HRESULT Ready_Animation();
 
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
 private:
+	void Bounce(_float _LandPosY);
+
+private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
+	_uint m_iBounceCnt = { 0 };
 public:
 	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

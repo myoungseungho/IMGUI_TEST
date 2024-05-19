@@ -21,6 +21,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components() override;
+	virtual HRESULT Ready_Animation();
 
 private:
 	HRESULT Begin_RenderState();

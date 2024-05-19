@@ -33,11 +33,16 @@ HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
 	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 2);
 	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (-1.f);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+
+	m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 
 	return S_OK;
 }
@@ -51,6 +56,8 @@ void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 	m_pTransformCom->Go_Straight(fTimeDelta);
 	m_pTransformCom->Go_Up(fTimeDelta);
 	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
+	Bounce(2.f);
+	
 }
 
 void CSkill_Koofu_Fuit::Late_Update(_float fTimeDelta)
@@ -66,8 +73,7 @@ HRESULT CSkill_Koofu_Fuit::Render(_float fTimeDelta)
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		E_FAIL;
+	m_pAnimCom->Play_Animator(TEXT("SKILL_FUIT"), 0.5f, fTimeDelta, true);
 
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -102,6 +108,13 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 	return S_OK;
 }
 
+HRESULT CSkill_Koofu_Fuit::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY,TEXT("Prototype_Component_Texture_FuitBounce"), TEXT("SKILL_FUIT"));
+
+	return S_OK;
+}
+
 HRESULT CSkill_Koofu_Fuit::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -119,6 +132,12 @@ HRESULT CSkill_Koofu_Fuit::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
+}
+
+void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
+{
+	if(m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
+		m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 }
 
 CSkill_Koofu_Fuit* CSkill_Koofu_Fuit::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
