@@ -110,8 +110,8 @@ void CCollider::Update(_float fTimeDelta)
 
 void CCollider::OnCollisionEnter(CCollider* other)
 {
-	if (!m_IsCollied)
-		m_IsCollied != m_IsCollied;
+	if (!m_bIsCollied)
+		m_bIsCollied != m_bIsCollied;
 
 	m_MineGameObject->OnCollisionEnter(other);
 }
@@ -124,8 +124,8 @@ void CCollider::OnCollisionStay(CCollider* other)
 
 void CCollider::OnCollisionExit(CCollider* other)
 {
-	if (!m_IsCollied)
-		m_IsCollied != m_IsCollied;
+	if (!m_bIsCollied)
+		m_bIsCollied != m_bIsCollied;
 
 	m_MineGameObject->OnCollisionExit(other);
 }

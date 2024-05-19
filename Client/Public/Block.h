@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -33,9 +34,11 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Animation();
 
 public:
 	/* 원형객체를 생성한다. */

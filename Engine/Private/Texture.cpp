@@ -66,8 +66,9 @@ HRESULT CTexture::Bind_Anim(_uint fFrame)
 	if (fFrame >= m_iNumTextures)
 		fFrame = 0;
 	
+	HRESULT hr = m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
 	//현재 재생하고 있는 프레임의 텍스쳐를 장치에 바인딩
-	return m_pGraphic_Device->SetTexture(0, m_Textures[fFrame]);
+	return hr;
 }
 
 
