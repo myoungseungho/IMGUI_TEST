@@ -474,11 +474,14 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 			m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-	else if (m_pKeyCom->Key_Down('A'))
+	else if (m_pKeyCom->Key_Pressing('A'))
 	{
 		m_PlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 	}
+
+	else
+		m_PlayerCurState = (STATE_IDLE);
 
 	return S_OK;
 }
