@@ -21,6 +21,7 @@ public:
 	{
 		CTransform* pTargetTransform = { nullptr};
 		_uint m_iCurrentSkillCount = { 0 };
+		_float3  m_SkillDir = { 0.f, 0.f, 0.f };
 	}SKILL_PLAYER_DESC;
 
 private:
@@ -46,6 +47,7 @@ public:
 
 private:
 	_uint		m_iSkillCount = { 0 };
+	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
 protected:
 	virtual HRESULT Ready_Components();

@@ -26,15 +26,16 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_iSkillCount = pDesc->m_iCurrentSkillCount;
+	m_SkillDir = pDesc->m_SkillDir;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+	//_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
 	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 
-	TargetPos += *D3DXVec3Normalize(&TargetLook, &TargetLook) * 2.f * (1.f * m_iSkillCount);
+	TargetPos += *D3DXVec3Normalize(&m_SkillDir, &m_SkillDir) * (1.f * m_iSkillCount);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1);

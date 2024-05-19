@@ -210,50 +210,101 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			{
 				m_PlayerDir = DIR_LEFTUP;
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook + vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = -vDir;
+
+
 			}
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
 				m_PlayerDir = DIR_RIGHTUP;
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook - vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = -vDir;
 			}
 
 			else
 			{
 				m_PlayerDir = (DIR_UP);
+				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+				D3DXVec3Normalize(&vLook, &vLook);
+
+				m_SkillDir = vLook;
 		    }
 		}
 
-		if (m_pKeyCom->Key_Pressing(VK_DOWN))
+		else if (m_pKeyCom->Key_Pressing(VK_DOWN))
 		{
 
 			if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			{
 				m_PlayerDir = (DIR_LEFTDOWN);
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook - vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = vDir;
 			}
 
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
 				m_PlayerDir = (DIR_RIGHTDOWN);
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook + vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = vDir;
 			}
 
 
 			else
 			{
 				m_PlayerDir = (DIR_DOWN);
+				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+				m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
+
+				m_SkillDir = -vLook;
+
 			}
 
 		}
 
-		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
 		{
 			m_PlayerDir = (DIR_LEFT);
+			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+			m_SkillDir = -vRight;
 		}
 
 
-		if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 		{
 			m_PlayerDir = (DIR_RIGHT);
+			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+			m_SkillDir = vRight;
 		}
 	}
 
@@ -358,6 +409,7 @@ HRESULT CPlayer::Create_Skill()
 
 	SkillPlayerDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	SkillPlayerDesc.m_iCurrentSkillCount = m_iCurrentSkillCount;
+	SkillPlayerDesc.m_SkillDir = m_SkillDir;
 
 	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
 		return E_FAIL;

@@ -70,6 +70,7 @@ private:
 	STATE			m_PlayerPreState = { STATE_END };
 
 	_float		fTimeAcc = { 0.0f };
+	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
 private:
 	_uint m_iCurrentSkillCount = { 0 };
