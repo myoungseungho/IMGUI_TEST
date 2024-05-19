@@ -54,6 +54,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
+	Move_Range(10.f, 10.f, 30.f, 30.f);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -118,6 +119,15 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 void CMon_Turtle::Distory(_float fTimeDelta)
 {
 
+}
+
+void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)
+{
+	_float fPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+	_float fPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+	if ((fPosX <= fMinPosX || fPosX >= fMaxPosX) || (fPosZ <= fMinPosZ || fPosZ >= fMaxPosZ))
+		m_pTransformCom->Set_Speed(0.f);
 }
 
 HRESULT CMon_Turtle::Ready_Components()

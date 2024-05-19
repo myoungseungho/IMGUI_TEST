@@ -35,6 +35,7 @@ private:
 
 private:
 	void Distory(_float fTimeDelta);
+	void Move_Range(_float fMinPosX , _float fMinPosZ , _float fMaxPosX, _float fMaxPosZ);
 
 private:
 	wstring m_ColorTexTag = {};

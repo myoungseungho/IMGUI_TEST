@@ -278,8 +278,9 @@ HRESULT CBoss_Bug::Bullet_Create()
 {
 	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
+	SkillDesc.iTotalBullet = 12;
 
-	for (int i = 1; i <= 12; ++i)
+	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
 		SkillDesc.iBulletCnt = i;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
