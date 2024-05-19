@@ -31,7 +31,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
 	m_isClone = pDesc->isClone;
-
+	m_isCheck = pDesc->isCheck;
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -52,8 +52,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (m_isClone)
 	{
 		Warf(20.f, 30.f, 10.f);
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
 		m_eMon_State = MON_STATE::BULLET;
+		
 	}
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 3.f, 20));
@@ -376,6 +376,8 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
+	CBoss_Koofu* pKoofu = this;
+
 	if(m_pKeyCom->Key_Down('1'))
 		Warf(-10, -10, 20, 20);
 
@@ -384,6 +386,9 @@ void CBoss_Koofu::Key_Input(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down('3'))
 		FuitCreate();
+
+	if (m_pKeyCom->Key_Down('4') && m_isCheck)
+		Safe_Release(pKoofu);
 
 }
 
@@ -545,6 +550,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 	Bosskoofu.iHp = 1;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.isClone = true;
+	Bosskoofu.isCheck = true;
 
 	for (int i = 1; i <= 3; ++i)
 	{

@@ -43,7 +43,7 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.3, rand() % 20 + 10));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.f, rand() % 20 + 10));
 	m_eMon_State = MON_STATE::IDLE;
 	
 	return S_OK;
@@ -57,12 +57,11 @@ void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
 	Move_Range(0.f, 0.f, 50.f, 50.f);
+	Distory(fTimeDelta); 
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
-	Distory(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -106,6 +105,12 @@ void CMon_Turtle::Idle_Update(_float fTimeDelta)
 
 void CMon_Turtle::Move_Update(_float fTimeDelta)
 {
+	_float3 fPos;
+	fPos.x = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+	fPos.y = 0.f;
+	fPos.z = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &fPos);
 	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
@@ -113,7 +118,7 @@ void CMon_Turtle::Distory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_pKeyCom->Key_Down('0'))
 	{
 		Safe_Release(pTurtle);
 	}
@@ -155,8 +160,8 @@ HRESULT CMon_Turtle::Ready_Components()
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x / 2.f;
-	ColliderDesc.height = m_pTransformCom->Get_Scaled().y / 2.f;
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
 
@@ -202,7 +207,9 @@ void CMon_Turtle::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		--m_tMonsterDesc.iHp;
+		
 	}
+	
 }
 
 void CMon_Turtle::OnCollisionStay(CCollider* other)
@@ -212,6 +219,7 @@ void CMon_Turtle::OnCollisionStay(CCollider* other)
 
 void CMon_Turtle::OnCollisionExit(CCollider* other)
 {
+	
 }
 
 CMon_Turtle* CMon_Turtle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -242,6 +250,8 @@ CGameObject* CMon_Turtle::Clone(void* pArg)
 
 void CMon_Turtle::Free()
 {
+	__super::Free();
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
@@ -249,5 +259,4 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
 
-	__super::Free();
 }
