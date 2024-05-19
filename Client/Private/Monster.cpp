@@ -43,6 +43,18 @@ HRESULT CMonster::Ready_Components()
 	return S_OK;
 }
 
+void CMonster::OnCollisionEnter(CCollider* other)
+{
+}
+
+void CMonster::OnCollisionStay(CCollider* other)
+{
+}
+
+void CMonster::OnCollisionExit(CCollider* other)
+{
+}
+
 void CMonster::Free()
 {
 	__super::Free();

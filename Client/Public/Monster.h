@@ -12,6 +12,7 @@ class CTransform;
 class CCalc_Timer;
 class CKeyState;
 class CAnimator;
+class CCollider;
 
 END
 
@@ -48,6 +49,12 @@ protected:
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
 
 protected:
 	MON_STATE m_eMon_State = {};

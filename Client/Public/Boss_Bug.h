@@ -37,6 +37,11 @@ private:
 	virtual HRESULT Begin_RenderState();
 	virtual HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	void Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
