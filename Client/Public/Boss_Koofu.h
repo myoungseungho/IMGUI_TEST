@@ -36,6 +36,7 @@ private:
 	void State_Idle(_float fTimeDelta);
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
+	void State_Bullet_B(_float fTimeDelta);
 	void State_Cast(_float fTimeDelta);
 
 private:

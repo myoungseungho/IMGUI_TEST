@@ -45,14 +45,18 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
-	if(m_isClone )
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
-	else
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 3.f, 20));
-
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
+
+	if (m_isClone)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
+		m_eMon_State = MON_STATE::BULLET;
+	}
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 3.f, 20));
+
 
 	return S_OK;
 }
@@ -113,6 +117,10 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		break;
 
 	case MON_STATE::BULLET:
+		State_Bullet(fTimeDelta);
+		break;
+
+	case MON_STATE::BULLET_B:
 		State_Bullet(fTimeDelta);
 		break;
 
@@ -238,7 +246,7 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		break;
 
 	case ANIM_STATE::CAST:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_CAST"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_CAST"), 1.f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::STUN:
@@ -258,11 +266,10 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 
 void CBoss_Koofu::State_Idle(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::IDLE;
-
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-		m_eMon_State = MON_STATE::BULLET;
+		m_eMon_State = MON_STATE::CAST;
 
+	m_ePrev_State = MON_STATE::IDLE;
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
@@ -283,11 +290,45 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 			Warf(-10, -10, 10, 10);
 	}
 
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f, 1.f))
+	{
+		m_eAnim_State = ANIM_STATE::THROW;
+
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+			FuitCreate();
+	}
+	else
+	{
+		m_eAnim_State = ANIM_STATE::IDLE;
+	}
+
+}
+
+void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
+{
+	m_ePrev_State = MON_STATE::BULLET_B;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	{
+		RollingCreate();
+	}
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::CAST;
+	m_eAnim_State = ANIM_STATE::CAST;
+
+	if (m_ePrev_State == MON_STATE::IDLE && m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	{
+		m_ePrev_State = MON_STATE::CAST;
+		m_eMon_State = MON_STATE::BULLET;
+
+	}
+	else if (m_ePrev_State == MON_STATE::BULLET)
+	{
+		m_ePrev_State = MON_STATE::CAST;
+		m_eMon_State = MON_STATE::BULLET_B;
+	}
 }
 
 void CBoss_Koofu::Move_Dir()

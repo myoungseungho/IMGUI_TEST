@@ -30,10 +30,8 @@ public:
 			return false;
 	}
 
-	_bool Time_Limit(_float fTimeDelta, _float fStartTimer , _float fEndTimer)
+	_bool Time_Limit(_float fTimeDelta, _float fStartTimer, _float fEndTimer)
 	{
-		m_fCurrTimer += fTimeDelta;
-		
 		if (Time_Limit(fTimeDelta, fStartTimer))
 		{
 			m_isTimeCheck = true;
@@ -47,14 +45,14 @@ public:
 			{
 				return true;
 			}
+			else
+			{
+				m_isTimeCheck = false;
+				m_fPrevTimer = { 0 };
+				return false;
+			}
 		}
-		else
-		{
-			m_isTimeCheck = false;
-			m_fPrevTimer = { 0 };
-			m_fCurrTimer = { 0 };
-			return false;
-		}
+		return false;
 	}
 	
 public:
