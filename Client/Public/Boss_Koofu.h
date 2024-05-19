@@ -7,10 +7,13 @@ BEGIN(Client)
 
 class CBoss_Koofu final :public CMonster
 {
+private:
+	enum class ANIM_STATE {IDLE ,WALK , CAST , READY , STUN ,THROW , DEADTH ,ANIM_END };
 public:
-	typedef struct :public CMonster::MONSTER_DESC
+	typedef struct:public MONSTER_DESC
 	{
-		
+		CTransform* m_pTargetTransform = {nullptr};
+		_bool isClone = { false };
 	}BOSS_KOOFU_DESC;
 
 private:
@@ -28,17 +31,45 @@ public:
 
 private:
 	void MonState(_float fTimeDelta);
+	void AnimState(_float fTimeDelta);
 
 	void State_Idle(_float fTimeDelta);
-	void State_Warf(_float fTimeDelta);
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
+	void State_Bullet_B(_float fTimeDelta);
+	void State_Cast(_float fTimeDelta);
+
+private:
+	void Move_Dir();
+
+	void Key_Input(_float fTimeDelta);
+	void BillBoarding();
 
 private:
 	virtual HRESULT Ready_Components();
+	virtual HRESULT Ready_Animation();
+
+	virtual HRESULT Begin_RenderState();
+	virtual HRESULT End_RenderState();
+
+private:
 
 	void ScaleUp(_float fTimeDelta);
-	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
+	void Warf(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
+	void Warf(_int iPosX, _int iPosZ, _float fDistance);
+
+	HRESULT RollingCreate();
+	HRESULT FuitCreate();
+	HRESULT CloneCreate();
+
+private:
+	ANIM_STATE m_eAnim_State = {};
+	MON_STATE m_ePrev_State = {};
+	CTransform* m_pTargetTransform = { nullptr };
+
+private:
+	_bool m_isClone = { false };
+	
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

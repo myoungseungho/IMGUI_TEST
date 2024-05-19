@@ -181,6 +181,26 @@ HRESULT CTransform::Go_Down(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Gravity(_float fWeight, _float fLandPosY, _float fTimeDelta)
+{
+	_float3 vPosition = Get_State(STATE_POSITION);
+	_float3 vDirection = _float3(0.f, -1.f, 0.f);
+
+	m_fGravity_Weight += fWeight;
+
+	vPosition += vDirection * m_fGravity_Weight * fTimeDelta;
+
+	if (vPosition.y <= fLandPosY)
+	{
+		vPosition.y = fLandPosY;
+		m_fGravity_Weight = { 0.f };
+	}
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
 void CTransform::Turn(const _float3 & vAxis, _float fTimeDelta)
 {
 	_float3		vRight = Get_State(STATE_RIGHT);
@@ -267,6 +287,38 @@ void CTransform::Chase(const _float3 & vTargetPos, _float fTimeDelta, _float fMi
 
 		Set_State(STATE_POSITION, &vPosition);
 	}	
+}
+
+void CTransform::Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance)
+{
+	_float3			vPosition = Get_State(STATE_POSITION);
+
+	_float3			vMoveDir = vPosition - vTargetPos ;
+
+	_float			fDistance = D3DXVec3Length(&vMoveDir);
+
+	if (fDistance > fMinDistance)
+	{
+		vPosition += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * m_fSpeedPerSec * fTimeDelta;
+
+		Set_State(STATE_POSITION, &vPosition);
+	}
+}
+
+_float CTransform::Dir_Degree()
+{
+	_float3		vLook = Get_State(STATE_LOOK);
+	D3DXVec3Normalize(&vLook, &vLook);
+
+	_float3		vAxis(0.f, 0.f, 1.f);
+
+	_float fAngle = D3DXVec3Dot(&vLook, &vAxis);
+
+	fAngle = acos(fAngle);
+
+	fAngle = D3DXToDegree(fAngle);
+
+	return fAngle;
 }
 
 

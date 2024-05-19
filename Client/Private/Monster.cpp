@@ -23,7 +23,6 @@ HRESULT CMonster::Initialize(void* pArg)
 	return S_OK;
 }
 
-
 HRESULT CMonster::Ready_Components()
 {
 	/* For.Com_Amin */

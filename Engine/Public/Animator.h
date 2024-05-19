@@ -30,6 +30,7 @@ private:
 private:
 	_uint m_iIndex = { 0 };
 	_float m_fTimeAcc = { 0.f };
+	class CTexture* PrevTexture = {};
 	
 public:
 	static CAnimator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

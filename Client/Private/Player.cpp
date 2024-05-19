@@ -37,7 +37,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
 	return S_OK;
@@ -49,7 +48,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	//SetUp_OnTerrain(m_pTransformCom, 0.f);
+	SetUp_OnTerrain(m_pTransformCom, 3.f);
 
 	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
 

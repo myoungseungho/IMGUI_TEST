@@ -19,6 +19,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+protected:
+	virtual HRESULT Ready_Components() override;
+	virtual HRESULT Ready_Animation();
+
+private:
+	HRESULT Begin_RenderState();
+	HRESULT End_RenderState();
+
 public:
 	static CSkill_Koofu_Rolling* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

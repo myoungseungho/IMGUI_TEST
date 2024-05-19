@@ -70,6 +70,8 @@ public:
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
 
+	HRESULT Gravity(_float  fWeight, _float fLandPosY, _float fTimeDelta);
+
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 
 	void Rotation(const _float3& vAxis, _float fRadian);
@@ -77,7 +79,9 @@ public:
 	void LookAt(const _float3& vTargetPos);	
 	void LookAt_ForLandObject(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
+	void Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 
+	_float Dir_Degree();
 
 public:
 	HRESULT Bind_WorldMatrix();
@@ -88,6 +92,7 @@ private:
 	_float4x4				m_WorldMatrix;
 	_float					m_fSpeedPerSec = { 0.0f };
 	_float					m_fRotationPerSec = { 0.0f };
+	_float					m_fGravity_Weight = { 0.f };
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

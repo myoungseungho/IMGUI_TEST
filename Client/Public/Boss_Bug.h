@@ -10,7 +10,7 @@ BEGIN(Client)
 class CBoss_Bug final :public CMonster
 {
 private:
-	
+
 public:
 	typedef struct :public CMonster::MONSTER_DESC
 	{
@@ -38,34 +38,41 @@ private:
 	virtual HRESULT End_RenderState();
 
 private:
-	void Warf(_int iPosX , _int iPosZ, _float fDistance, _float fAngle);
+	void Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
 	void Skill_Dash(_float fTimeDelta);
 	void Fly(_float fTimeDelta);
-	void Land(_int iPosX , _int iPosZ, _float fTimeDelta);
+	void Land(_int iPosX, _int iPosZ, _float fTimeDelta);
 
 private:
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create();
-	_int  fTimer = { 0};
-private:
-	void Mon_State(_float fTimeDelta);
-	void State_Idle(float _fTimeDelta);
-	void State_Dash(float _fTimeDelta);
-	void State_Ready(float _fTimeDelta);
-	void State_Bullet(float _fTimeDelta);
-	void State_Fly(float _fTimeDelta);
-	void State_Land(float _fTimeDelta);
 
 private:
-	void Mon_AnimState(_float _fTimeDelta);
+	virtual void Mon_State(_float fTimeDelta);
+	virtual void Mon_AnimState(_float _fTimeDelta);
+
+	void State_Idle(_float _fTimeDelta);
+	void State_Dash(_float _fTimeDelta);
+	void State_Ready(_float _fTimeDelta);
+	void State_Bullet(_float _fTimeDelta);
+	void State_Fly(_float _fTimeDelta);
+	void State_Land(_float _fTimeDelta);
+	void State_Regen(_float _fTimeDelta);
+	void State_Stan(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
-	_float m_fAngle =	{ 0.f };
+	_float m_fAngle = { 0.f };
 	_int m_iBulletCnt = { 0 };
 	_bool m_isTurtle = { false };
 	_bool m_isFlyEnd = { false };
 	_bool m_isLand = { false };
+	_bool m_isReady = { false };
+	_int m_iPhaseCnt = { 1 };
+
+	_bool m_isTmp = { false };
+
+	MON_STATE m_ePrev_State = {};
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

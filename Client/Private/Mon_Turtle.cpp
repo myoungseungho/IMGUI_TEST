@@ -27,7 +27,11 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
-	m_iColor = pDesc->m_iColor;
+	m_pTargetTransform = pDesc->pTargetTransform;
+
+	Safe_AddRef(m_pTargetTransform);
+
+	m_ColorTexTag = pDesc->ColorTexTag;
 	
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -35,7 +39,10 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20, 0.f, rand() % 20));
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 3.f, rand() % 20 + 10));
 	
 	return S_OK;
 }
@@ -46,20 +53,22 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 
 void CMon_Turtle::Update(_float fTimeDelta)
 {
-
+	Mon_State(fTimeDelta);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
+	Distory(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CMon_Turtle::Render(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	if (FAILED(m_pTextureCom->Bind_Texture(m_iColor)))
+	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
+
+	m_pAnimCom->Play_Animator(TEXT("MON_TURTLE_MOVE"), 0.5f, fTimeDelta, true);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -67,20 +76,57 @@ HRESULT CMon_Turtle::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	if (FAILED(End_RenderState()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
-void CMon_Turtle::Death(_float fTimeDelta)
+void CMon_Turtle::Mon_State(_float fTimeDelta)
+{
+	if (rand() % 10 > 2)
+	{
+		m_eMon_State = MON_STATE::MOVE;
+	}
+	else
+	{
+		m_eMon_State = MON_STATE::MOVE;
+	}
+
+	switch (m_eMon_State)
+	{
+	case MON_STATE::IDLE:
+		Idle_Update(fTimeDelta);
+		break;
+
+	case MON_STATE::MOVE:
+		Move_Update(fTimeDelta);
+		break;
+	}
+}
+
+void CMon_Turtle::Idle_Update(_float fTimeDelta)
+{
+
+}
+
+void CMon_Turtle::Move_Update(_float fTimeDelta)
+{
+	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
+}
+
+void CMon_Turtle::Distory(_float fTimeDelta)
 {
 
 }
 
 HRESULT CMon_Turtle::Ready_Components()
 {
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;
+
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Monster_Turtle"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_ColorTexTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -89,19 +135,40 @@ HRESULT CMon_Turtle::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
-		return E_FAIL;
-
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 3.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMon_Turtle::Ready_Animation()
+{
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, m_ColorTexTag, TEXT("MON_TURTLE_MOVE"))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMon_Turtle::Begin_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	return S_OK;
+}
+
+HRESULT CMon_Turtle::End_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
 }
@@ -137,7 +204,8 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pTimerCom); 
+	Safe_Release(m_pTargetTransform);
 
 	__super::Free();
 }

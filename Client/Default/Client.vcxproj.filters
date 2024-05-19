@@ -97,12 +97,6 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Pocket">
       <UniqueIdentifier>{a356024f-a36b-4196-a7c6-e424dfe950bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dd">
-      <UniqueIdentifier>{6fc0f97a-ac6c-47c7-a31c-17de5a8efbde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling">
-      <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\LandObject\Monster\Boss\Bug">
       <UniqueIdentifier>{fb64bdd0-662c-4cf0-a03f-015fed56f709}</UniqueIdentifier>
     </Filter>
@@ -117,6 +111,12 @@
     </Filter>
     <Filter Include="01.Levels\Edit">
       <UniqueIdentifier>{4b0bfb52-fb05-406a-bdc2-c3120bd62ec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit">
+      <UniqueIdentifier>{bda7abb2-6d2a-40f9-991f-97f218a9e220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling">
+      <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -232,7 +232,7 @@
       <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill_Koofu_Rolling.h">
-      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling</Filter>
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Boss_Bug.h">
       <Filter>02.GameObjects\LandObject\Monster\Boss\Bug</Filter>
@@ -251,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\EnviormentObject.h">
       <Filter>02.GameObjects\Enviorment</Filter>
+   </ClInclude>
+    <ClInclude Include="..\public\Skill_Koofu_Fuit.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +354,7 @@
       <Filter>02.GameObjects\LandObject\Monster\Pocket</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill_Koofu_Rolling.cpp">
-      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Roling</Filter>
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Boss_Bug.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Boss\Bug</Filter>
@@ -370,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnviormentObject.cpp">
       <Filter>02.GameObjects\Enviorment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
