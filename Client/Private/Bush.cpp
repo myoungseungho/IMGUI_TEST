@@ -62,6 +62,7 @@ void CBush::Priority_Update(_float fTimeDelta)
 
 void CBush::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CBush::Late_Update(_float fTimeDelta)

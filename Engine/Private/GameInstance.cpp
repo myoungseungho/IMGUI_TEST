@@ -7,6 +7,7 @@
 #include "Timer_Manager.h"
 #include "FileManager.h"
 #include "Collider_Manager.h"
+#include "Picking.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -49,6 +50,10 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 	if (nullptr == m_pColliderManager)
 		return E_FAIL;
 
+	m_pPicking = CPicking::Create(*ppOut, hWnd);
+	if (nullptr == m_pPicking)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -56,6 +61,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	/* 엔진에서 관리하는 객체들 중, 반복적인 갱신이 필요한 객체들이 있다면. */
 	/* 여기에서 갱신을 수행해준다. */
+
+	m_pPicking->Update();
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
@@ -259,8 +266,24 @@ HRESULT CGameInstance::OnCollisionCheckIntervalChanged(float _fCollisionCheckInt
 	return m_pColliderManager->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
 }
 
+void CGameInstance::Transform_ForPicking_ToLocalSpace(const _float4x4* pWorldMatrix)
+{
+	return m_pPicking->Transform_ToLocalSpace(pWorldMatrix);
+}
+
+_bool CGameInstance::Picked_InLocalSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos)
+{
+	return m_pPicking->Picked_InLocalSpace(pPointA, pPointB, pPointC, pPickPos);
+}
+
+_bool CGameInstance::Picked_InWorldSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos)
+{
+	return m_pPicking->Picked_InWorldSpace(pPointA, pPointB, pPointC, pPickPos);
+}
+
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pPicking);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pComponent_Manager);
 	Safe_Release(m_pObject_Manager);

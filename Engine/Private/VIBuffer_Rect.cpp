@@ -1,12 +1,17 @@
 #include "..\Public\VIBuffer_Rect.h"
 
+#include "GameInstance.h"
+#include "Transform.h"
+
 CVIBuffer_Rect::CVIBuffer_Rect(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CVIBuffer{ pGraphic_Device }
 {
 }
 
-CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect & Prototype)
+CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer_Rect& Prototype)
 	: CVIBuffer{ Prototype }
+	, m_iNumVerticesX{ Prototype.m_iNumVerticesX }
+	, m_iNumVerticesY{ Prototype.m_iNumVerticesY }
 {
 }
 
@@ -24,6 +29,12 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	m_iNumIndices = 6;
 	m_eIndexFormat = D3DFMT_INDEX16;
 
+	m_iNumVerticesX = 2;
+	m_iNumVerticesY = 2;
+
+	m_pVerticesPos = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVerticesPos, sizeof(_float3) * m_iNumVertices);
+
 	/* 정점배열에 대한 공간을 모두 생성했다. */
 	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_dwFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
 		return E_FAIL;
@@ -38,15 +49,19 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.0f, 0.f);
+	m_pVerticesPos[0] = _float3(-0.5f, 0.5f, 0.f);
 
 	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
+	m_pVerticesPos[1] = _float3(0.5f, 0.5f, 0.f);
 
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
+	m_pVerticesPos[2] = _float3(0.5f, -0.5f, 0.f);
 
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+	m_pVerticesPos[3] = _float3(-0.5f, -0.5f, 0.f);
 
 	m_pVB->Unlock();
 
@@ -71,14 +86,62 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Rect::Initialize(void * pArg)
+HRESULT CVIBuffer_Rect::Initialize(void* pArg)
 {
 	return S_OK;
 }
 
-CVIBuffer_Rect * CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+_bool CVIBuffer_Rect::Picked(CTransform* pTransformCom, _float3* pPickedPos)
 {
-	CVIBuffer_Rect*		pInstance = new CVIBuffer_Rect(pGraphic_Device);
+	/* 피킹을 위한 정보를 로컬로 변환한다. */
+	//월드스페이스 공간에 존재하는 RayPos, RayDir를 EnviormentObject의 정점들이 모여있는 로컬스페이스 공간으로 위치시킨다.
+	m_pGameInstance->Transform_ForPicking_ToLocalSpace(&pTransformCom->Get_WorldMatrix());
+
+	for (size_t i = 0; i < m_iNumVerticesY - 1; i++)
+	{
+		for (size_t j = 0; j < m_iNumVerticesX - 1; j++)
+		{
+			_uint		iIndex = i * m_iNumVerticesX + j;
+
+			_uint		iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			//129개와 129개의 정점이 이루는 사각형 중 하나의 폴리곤을 만드는 인덱스의 정점 3개를 매개변수에 넣는다.
+
+			if (true == m_pGameInstance->Picked_InLocalSpace(
+				&m_pVerticesPos[iIndices[0]],
+				&m_pVerticesPos[iIndices[1]],
+				&m_pVerticesPos[iIndices[2]],
+				pPickedPos))
+			{
+				//터레인의 로컬스페이스에서 찍힌 Pos를 다시 월드행렬을 곱해 월드스페이스로 변환하는 과정
+				D3DXVec3TransformCoord(pPickedPos, pPickedPos, &pTransformCom->Get_WorldMatrix());
+				return true;
+			}
+
+			if (true == m_pGameInstance->Picked_InLocalSpace(
+				&m_pVerticesPos[iIndices[0]],
+				&m_pVerticesPos[iIndices[2]],
+				&m_pVerticesPos[iIndices[3]],
+				pPickedPos))
+			{
+				D3DXVec3TransformCoord(pPickedPos, pPickedPos, &pTransformCom->Get_WorldMatrix());
+				return true;
+			}
+		}
+	}
+
+
+	return false;
+}
+
+CVIBuffer_Rect* CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -90,9 +153,9 @@ CVIBuffer_Rect * CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CComponent * CVIBuffer_Rect::Clone(void * pArg)
+CComponent* CVIBuffer_Rect::Clone(void* pArg)
 {
-	CVIBuffer_Rect*		pInstance = new CVIBuffer_Rect(*this);
+	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

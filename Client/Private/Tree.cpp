@@ -66,6 +66,7 @@ void CTree::Priority_Update(_float fTimeDelta)
 
 void CTree::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CTree::Late_Update(_float fTimeDelta)

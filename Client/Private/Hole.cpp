@@ -62,6 +62,7 @@ void CHole::Priority_Update(_float fTimeDelta)
 
 void CHole::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CHole::Late_Update(_float fTimeDelta)

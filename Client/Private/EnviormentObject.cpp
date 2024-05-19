@@ -4,11 +4,11 @@
 #include "GameInstance.h"
 
 CEnviormentObject::CEnviormentObject(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject { pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
-CEnviormentObject::CEnviormentObject(const CEnviormentObject & rhs)
+CEnviormentObject::CEnviormentObject(const CEnviormentObject& rhs)
 	: CGameObject{ rhs }
 {
 }
@@ -36,7 +36,7 @@ HRESULT CEnviormentObject::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CEnviormentObject::Initialize(void * pArg)
+HRESULT CEnviormentObject::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
@@ -68,6 +68,20 @@ void CEnviormentObject::Priority_Update(_float fTimeDelta)
 
 void CEnviormentObject::Update(_float fTimeDelta)
 {
+	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	{
+		_float3		vPickedPos{};
+		CComponent* component_Rect = Get_Component(TEXT("Com_VIBuffer"));
+		CVIBuffer_Rect* bufferRectCom = static_cast<CVIBuffer_Rect*>(component_Rect);
+
+		CComponent* componenet_Transform = Get_Component(TEXT("Com_Transform"));
+		CTransform* transform = static_cast<CTransform*>(componenet_Transform);
+
+		_bool isPicked = bufferRectCom->Picked(transform, &vPickedPos);
+
+		if (isPicked)
+			int a = 10;
+	}
 }
 
 void CEnviormentObject::Late_Update(_float fTimeDelta)

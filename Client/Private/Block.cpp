@@ -62,6 +62,7 @@ void CBlock::Priority_Update(_float fTimeDelta)
 
 void CBlock::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CBlock::Late_Update(_float fTimeDelta)

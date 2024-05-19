@@ -62,6 +62,7 @@ void CPush_Stone::Priority_Update(_float fTimeDelta)
 
 void CPush_Stone::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CPush_Stone::Late_Update(_float fTimeDelta)

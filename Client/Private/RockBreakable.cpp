@@ -61,6 +61,7 @@ void CRockBreakable::Priority_Update(_float fTimeDelta)
 
 void CRockBreakable::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CRockBreakable::Late_Update(_float fTimeDelta)

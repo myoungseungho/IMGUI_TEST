@@ -18,6 +18,13 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
+	_bool Picked(class CTransform* pTransformCom, _float3* pPickedPos);
+
+private:
+	_uint				m_iNumVerticesX = { 0 };
+	_uint				m_iNumVerticesY = { 0 };
+
+public:
 	static CVIBuffer_Rect* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;

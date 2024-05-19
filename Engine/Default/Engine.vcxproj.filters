@@ -94,6 +94,9 @@
     <Filter Include="01.Utility\04.Components\Animator">
       <UniqueIdentifier>{e6b3c7b9-7dfe-4ba5-bd8d-9591a3cba6dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Picking">
+      <UniqueIdentifier>{c992f05c-3a78-465f-93e9-c9193ca07eb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
       <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Picking.cpp">
+      <Filter>01.Utility\05.Picking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cube.h">
       <Filter>01.Utility\04.Components\VIBuffer\VIBuffer_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Picking.h">
+      <Filter>01.Utility\05.Picking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

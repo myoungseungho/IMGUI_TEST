@@ -62,6 +62,7 @@ void CMonkey_Statue::Priority_Update(_float fTimeDelta)
 
 void CMonkey_Statue::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CMonkey_Statue::Late_Update(_float fTimeDelta)
