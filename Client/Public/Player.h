@@ -62,6 +62,10 @@ private:
 
 	void					Player_Attack(_float fTimeDelta);
 	HRESULT					Create_Skill();
+
+	void               Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
+	void               Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }
+
 private:
 	_float3		m_forScaled;
 
