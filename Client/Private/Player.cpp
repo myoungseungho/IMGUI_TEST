@@ -11,6 +11,7 @@
 #include "GameInstance.h"
 #include "Skill_Player.h"
 
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLandObject{ pGraphic_Device }
 {
@@ -31,6 +32,7 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -50,30 +52,36 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	//SetUp_OnTerrain(m_pTransformCom, 3.f);
 
-	m_pGameInstance->Add_Timer(TEXT("Timer_60"));
+	Key_Input(fTimeDelta);
 
-	_float		fTimeAcc = { 0.0f };
-	_float		fCountTime = { 0.0f };
-
-	while (m_PlayerState == STATE_ATTACK)
+	if (m_PlayerCurState == STATE_ATTACK)
 	{
-		fCountTime = m_pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
-
-		fTimeAcc += fCountTime;
-
-		if (fTimeAcc >= 1.f)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
 		{
-			m_PlayerState = STATE_IDLE;
+			m_PlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(m_forScaled);
-
-			fTimeAcc = 0.f;
-			break;
 		}
 	}
 
+	if (m_PlayerCurState == STATE_SKILL)
+	{
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f)) // E 키를 누른 시간 (1초마다)
+		{
+			m_iCurrentSkillCount += 1;
+			Create_Skill();
 
-	Key_Input(fTimeDelta);
+			if (m_iCurrentSkillCount > 3)
+			{
+				m_PlayerCurState = STATE_IDLE;
+				m_iCurrentSkillCount = 0;
+			}
+		}
+	}
+	else
+		m_iCurrentSkillCount = 0;
+
 }
+
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
@@ -183,6 +191,11 @@ HRESULT CPlayer::Ready_Components()
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
+	/* For.Com_Calc_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pCal_Timercom))))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 
@@ -216,6 +229,7 @@ HRESULT CPlayer::Ready_Components()
 	return S_OK;
 }
 
+<<<<<<< HEAD
 HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
@@ -275,9 +289,189 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	else
 		m_pTransformCom->Set_Speed(5.f);
 
+	if (m_pKeyCom->Key_Pressing('E'))
+	{
+		m_PlayerCurState = STATE_SKILL;
+
+		if (m_pKeyCom->Key_Pressing(VK_UP))
+		{
+			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_PlayerDir = DIR_LEFTUP;
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook + vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = -vDir;
+
+
+			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			{
+				m_PlayerDir = DIR_RIGHTUP;
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook - vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = -vDir;
+			}
+
+			else
+			{
+				m_PlayerDir = (DIR_UP);
+				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+				D3DXVec3Normalize(&vLook, &vLook);
+
+				m_SkillDir = vLook;
+		    }
+		}
+
+		else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+		{
+
+			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_PlayerDir = (DIR_LEFTDOWN);
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook - vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = vDir;
+			}
+
+
+			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+			{
+				m_PlayerDir = (DIR_RIGHTDOWN);
+				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				_float3 vDir = -vLook + vRight;
+				D3DXVec3Normalize(&vDir, &vDir);
+
+				m_SkillDir = vDir;
+			}
+
+
+			else
+			{
+				m_PlayerDir = (DIR_DOWN);
+				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+				m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
+
+				m_SkillDir = -vLook;
+
+			}
+
+		}
+
+		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = (DIR_LEFT);
+			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+			m_SkillDir = -vRight;
+		}
+
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = (DIR_RIGHT);
+			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+			m_SkillDir = vRight;
+		}
+	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_UP))
+	{
+		m_PlayerCurState = STATE_WALK;
+
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = DIR_LEFTUP;
+			m_pTransformCom->Go_Straight_Left(fTimeDelta);
+		}
+
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = DIR_RIGHTUP;
+			m_pTransformCom->Go_Straight_Right(fTimeDelta);
+		}
+
+
+		else
+		{
+			m_PlayerDir = (DIR_UP);
+			m_pTransformCom->Go_Straight(fTimeDelta);
+		}
+	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+	{
+		m_PlayerCurState = STATE_WALK;
+
+		if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		{
+			m_PlayerDir = (DIR_LEFTDOWN);
+			m_pTransformCom->Go_Backward_Left(fTimeDelta);
+		}
+
+
+		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		{
+			m_PlayerDir = (DIR_RIGHTDOWN);
+			m_pTransformCom->Go_Backward_Right(fTimeDelta);
+		}
+
+
+		else
+		{
+			m_PlayerDir = (DIR_DOWN);
+			m_pTransformCom->Go_Backward(fTimeDelta);
+		}
+
+	}
+
+	else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+	{
+		m_PlayerCurState = STATE_WALK;
+		m_PlayerDir = (DIR_LEFT);
+		m_pTransformCom->Go_Left(fTimeDelta);
+	}
+
+
+	else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+	{
+		m_PlayerCurState = STATE_WALK;
+		m_PlayerDir = (DIR_RIGHT);
+		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+
+	else if (m_pKeyCom->Key_Down('A'))
+	{
+		m_PlayerCurState = (STATE_ATTACK);
+		Player_Attack(fTimeDelta);
+	}
+
 	return S_OK;
 }
 
+	
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
 	_float3		curScaled;
@@ -295,28 +489,21 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 }
 
-void CPlayer::Player_Skill(_float fTimeDelta)
+HRESULT CPlayer::Create_Skill()
 {
-	//회전해야 함 y축, z축
-	// transform 컴포넌트 안에 축 입력하면 90도씩 회전하는 함수 만들기
-	// 시간 값 따른 3단계
+	if (m_iCurrentSkillCount > 3)
+		return S_OK;
 
-	_float fSkillLevel = { 0.f };
+	CSkill_Player::SKILL_PLAYER_DESC SkillPlayerDesc = {};
 
-	CSkill_Player::SKILL_PLAYER_DESC	SkillDesc{};
-	SkillDesc.pTargetTransform = m_pTransformCom;
-	m_pTransformCom->AddRef();
+	SkillPlayerDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	SkillPlayerDesc.m_iCurrentSkillCount = m_iCurrentSkillCount;
+	SkillPlayerDesc.m_SkillDir = m_SkillDir;
 
-	_float vPositionX = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (2.f * fSkillLevel);
-	_float vPositionY = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float vPositionZ = SkillDesc.pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (2.f * fSkillLevel);
+	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
+		return E_FAIL;
 
-	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
-
-
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
-
+	return S_OK;
 }
 
 
@@ -354,7 +541,10 @@ void CPlayer::Free()
 	Safe_Release(m_pTransformCom);
 
 	Safe_Release(m_pVIBufferCom);
+
 	Safe_Release(m_pTextureCom);
+
+	Safe_Release(m_pCal_Timercom);
 
 	Safe_Release(m_pColliderCom);
 

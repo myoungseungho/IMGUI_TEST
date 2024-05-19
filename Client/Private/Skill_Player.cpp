@@ -20,25 +20,40 @@ HRESULT CSkill_Player::Initialize_Prototype()
 
 HRESULT CSkill_Player::Initialize(void* pArg)
 {
+	int a = 0;
+
 	SKILL_PLAYER_DESC* pDesc = static_cast<SKILL_PLAYER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_iSkillCount = pDesc->m_iCurrentSkillCount;
+	m_SkillDir = pDesc->m_SkillDir;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	
+	//_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+
+	TargetPos += *D3DXVec3Normalize(&m_SkillDir, &m_SkillDir) * (1.f * m_iSkillCount);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1);
+
+	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
+
+
 	return S_OK;
 }
 
 void CSkill_Player::Priority_Update(_float fTimeDelta)
 {
-
+	
 }
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	Delete_Skill();
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -82,21 +97,33 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 	int a = 3;
 }
 
+void CSkill_Player::Delete_Skill()
+{
+	CSkill_Player* pThis = this;
+	if (m_pKeyCom->Key_Down('1'))
+		Safe_Release(pThis);
+}
+
 HRESULT CSkill_Player::Ready_Components()
 {
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
-		return E_FAIL;
-
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Skill"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Calc_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -163,5 +190,6 @@ void CSkill_Player::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pKeyCom);
 	__super::Free();
 }

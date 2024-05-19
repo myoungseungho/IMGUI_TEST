@@ -9,7 +9,7 @@ class CVIBuffer_Rect;
 class CTransform;
 class CCalc_Timer;
 class CCollider;
-
+class CKeyState;
 END
 
 BEGIN(Client)
@@ -20,6 +20,8 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr};
+		_uint m_iCurrentSkillCount = { 0 };
+		_float3  m_SkillDir = { 0.f, 0.f, 0.f };
 	}SKILL_PLAYER_DESC;
 
 private:
@@ -29,7 +31,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -39,6 +41,14 @@ public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
+
+public:
+	void		Delete_Skill();
+
+private:
+	_uint		m_iSkillCount = { 0 };
+	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
+
 
 protected:
 	virtual HRESULT Ready_Components();
@@ -50,6 +60,7 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

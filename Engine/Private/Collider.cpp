@@ -160,5 +160,5 @@ void CCollider::Free()
 {
 	__super::Free();
 
-	//Safe_Release(m_MineGameObject);
+	Safe_Release(m_MineGameObject);
 }

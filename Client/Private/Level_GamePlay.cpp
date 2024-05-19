@@ -13,7 +13,7 @@
 #include "Mon_Pocket.h"
 #include "Boss_Bug.h"
 #include "Boss_Koofu.h"
-
+#include "Player.h"
 #include "Skill_Player.h"
 #include "Skill_Bug_Bullet.h"
 
@@ -30,7 +30,6 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
-
 
 	if (FAILED(Ready_LandObjects()))
 		return E_FAIL;
