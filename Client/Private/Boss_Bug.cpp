@@ -322,7 +322,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 	Skill_Dash(_fTimeDelta);
 
-	if (m_isTmp)
+	if (!iter)
 	{
 		if (m_isTurtle)
 		{

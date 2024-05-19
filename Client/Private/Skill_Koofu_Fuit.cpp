@@ -57,6 +57,7 @@ void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 	m_pTransformCom->Go_Up(fTimeDelta);
 	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
 	Bounce(2.f);
+	BillBoarding();
 	
 }
 
@@ -138,6 +139,17 @@ void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 {
 	if(m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
 		m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+}
+
+void CSkill_Koofu_Fuit::BillBoarding()
+{
+	_float4x4		ViewMatrix{};
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
 }
 
 CSkill_Koofu_Fuit* CSkill_Koofu_Fuit::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

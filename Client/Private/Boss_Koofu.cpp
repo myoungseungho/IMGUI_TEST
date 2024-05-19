@@ -51,7 +51,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	if (m_isClone)
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
+		Warf(20.f, 30.f, 10.f);
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
 		m_eMon_State = MON_STATE::BULLET;
 	}
 	else
@@ -394,7 +395,6 @@ void CBoss_Koofu::BillBoarding()
 	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
-	// m_pTransformCom->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
 }
 
@@ -499,12 +499,11 @@ void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxP
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 3.f, rand() % fMaxPosZ - fMinPosZ));
 }
 
-void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
+void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 {
-	_float WarfPosX = iPosX + fDistance * cos(fAngle * (D3DX_PI / 180.f));
-	_float WarfPosZ = iPosZ - fDistance * sin(fAngle * (D3DX_PI / 180.f));
+	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 3.f, WarfPosZ));
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 }
 
