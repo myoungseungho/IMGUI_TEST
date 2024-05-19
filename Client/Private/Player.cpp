@@ -489,13 +489,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
-	//_float3		curScaled;
 
-	//curScaled.x = m_forScaled.x + 10.f;
-	//curScaled.y = m_forScaled.y + 10.f;
-	//curScaled.z = m_forScaled.z + 10.f;
-
-	//m_pTransformCom->Set_Scaled(curScaled);
 
 }
 
