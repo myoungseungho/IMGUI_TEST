@@ -4,6 +4,12 @@
 
 class CSkill_Koofu_Fuit final: public CSkill_Monster
 {
+public:
+	typedef struct :public SKILL_MONSTER__DESC
+	{
+		CTransform* pPlayerTransform = { nullptr };
+	}SKILL_FUIT_DESC;
+
 private:
 	CSkill_Koofu_Fuit(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSkill_Koofu_Fuit(const CSkill_Koofu_Fuit& Prototype);
@@ -24,6 +30,9 @@ protected:
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+
+private:
+	CTransform* m_pPlayerTransform = { nullptr };
 
 public:
 	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Skill_Monster.h"
+#include "Skill_Koofu_Fuit.h"
 
 
 CBoss_Koofu::CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -29,6 +30,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
+	m_isClone = pDesc->isClone;
+
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -41,10 +44,16 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
 
+	if(m_isClone )
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 3.f, 20));
+
+	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
+
 	return S_OK;
 }
 
@@ -60,6 +69,9 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 	//BillBoarding();
 
 	Move_Dir();
+	MonState(fTimeDelta);
+
+	Key_Input(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -96,16 +108,16 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Idle(fTimeDelta);
 		break;
 
-	case MON_STATE::DASH:
-		State_Warf(fTimeDelta);
-		break;
-
 	case MON_STATE::READY:
 		State_Ready(fTimeDelta);
 		break;
 
 	case MON_STATE::BULLET:
 		State_Bullet(fTimeDelta);
+		break;
+
+	case MON_STATE::CAST:
+		State_Cast(fTimeDelta);
 		break;
 	}
 }
@@ -246,22 +258,36 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 
 void CBoss_Koofu::State_Idle(_float fTimeDelta)
 {
+	m_ePrev_State = MON_STATE::IDLE;
 
-}
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+		m_eMon_State = MON_STATE::BULLET;
 
-void CBoss_Koofu::State_Warf(_float fTimeDelta)
-{
-	//if(m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-		//Wafe(10,10 , 20,20);
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
+	m_ePrev_State = MON_STATE::READY;
 }
 
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 {
+	m_ePrev_State = MON_STATE::BULLET;
 
+	if (!m_isClone)
+	{
+		CloneCreate();
+		m_isClone = true;
+
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+			Warf(-10, -10, 10, 10);
+	}
+
+}
+
+void CBoss_Koofu::State_Cast(_float fTimeDelta)
+{
+	m_ePrev_State = MON_STATE::CAST;
 }
 
 void CBoss_Koofu::Move_Dir()
@@ -308,16 +334,20 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if(m_pKeyCom->Key_Down('1'))
-		Wafe(-10, -10, 20, 20);
+	/*if(m_pKeyCom->Key_Down('1'))
+		Warf(-10, -10, 20, 20);
 
 	if (m_pKeyCom->Key_Down('2'))
 		RollingCreate();
 
 	if (m_pKeyCom->Key_Down('3'))
 		FuitCreate();
+
 	if (m_pKeyCom->Key_Down('4'))
-		FuitClone();
+	{
+		CloneCreate();
+		
+	}*/
 }
 
 void CBoss_Koofu::BillBoarding()
@@ -428,9 +458,18 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fTimeDelta + 1));
 }
 
-void CBoss_Koofu::Wafe(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
+void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 0.f, rand() % fMaxPosZ - fMinPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 3.f, rand() % fMaxPosZ - fMinPosZ));
+}
+
+void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
+{
+	_float WarfPosX = iPosX + fDistance * cos(fAngle * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ - fDistance * sin(fAngle * (D3DX_PI / 180.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 3.f, WarfPosZ));
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
@@ -452,10 +491,11 @@ HRESULT CBoss_Koofu::RollingCreate()
 
 HRESULT CBoss_Koofu::FuitCreate()
 {
-	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
+	CSkill_Koofu_Fuit::SKILL_FUIT_DESC Desc = {};
 
 	Desc.iBulletCnt = 1;
 	Desc.pTargetTransform = m_pTransformCom;
+	Desc.pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Fuit"), TEXT("Layer_Fuit"), &Desc)))
 		return E_FAIL;
@@ -463,22 +503,20 @@ HRESULT CBoss_Koofu::FuitCreate()
 	return S_OK;
 }
 
-HRESULT CBoss_Koofu::FuitClone()
+HRESULT CBoss_Koofu::CloneCreate()
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
 	Bosskoofu.iHp = 1;
 	Bosskoofu.iAttack = 1;
+	Bosskoofu.isClone = true;
 
-	if (m_iCloneCnt >= 2)
-		m_iCloneCnt = 2;
-
-	for (int i = 2; i <= i  + m_iCloneCnt; ++i)
+	for (int i = 1; i <= 3; ++i)
 	{
-		m_iCloneCnt++;
-
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu"), &Bosskoofu)))
 			return E_FAIL;
+		
+		Warf(-10, -10, 10, 10);
 	}
 
 	return S_OK;

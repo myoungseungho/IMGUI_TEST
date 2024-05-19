@@ -22,10 +22,13 @@ HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	SKILL_MONSTER__DESC* pDesc = static_cast<SKILL_MONSTER__DESC*>(pArg);
+	SKILL_FUIT_DESC* pDesc = static_cast<SKILL_FUIT_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pPlayerTransform = pDesc->pPlayerTransform;
+
 	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -150,5 +153,6 @@ void CSkill_Koofu_Fuit::Free()
 
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTargetTransform);
-	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTransformCom); 
+	Safe_Release(m_pPlayerTransform);
 }

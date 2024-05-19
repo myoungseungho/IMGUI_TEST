@@ -13,6 +13,7 @@ public:
 	typedef struct:public MONSTER_DESC
 	{
 		CTransform* m_pTargetTransform = {nullptr};
+		_bool isClone = { false };
 	}BOSS_KOOFU_DESC;
 
 private:
@@ -33,9 +34,9 @@ private:
 	void AnimState(_float fTimeDelta);
 
 	void State_Idle(_float fTimeDelta);
-	void State_Warf(_float fTimeDelta);
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
+	void State_Cast(_float fTimeDelta);
 
 private:
 	void Move_Dir();
@@ -53,16 +54,21 @@ private:
 private:
 
 	void ScaleUp(_float fTimeDelta);
-	void Wafe(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
+	void Warf(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
+	void Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
+
 	HRESULT RollingCreate();
 	HRESULT FuitCreate();
-	HRESULT FuitClone();
+	HRESULT CloneCreate();
 
 private:
 	ANIM_STATE m_eAnim_State = {};
+	MON_STATE m_ePrev_State = {};
 	CTransform* m_pTargetTransform = { nullptr };
-	int m_iCloneCnt = { 0 };
 
+private:
+	_bool m_isClone = { false };
+	
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
