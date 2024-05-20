@@ -42,9 +42,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_forScaled = m_pTransformCom->Get_Scaled();
-
 	m_PlayerCurState = STATE_IDLE;
+
+	m_forScaled = m_pTransformCom->Get_Scaled();
 
 	return S_OK;
 }
