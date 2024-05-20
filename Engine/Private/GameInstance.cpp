@@ -266,6 +266,14 @@ HRESULT CGameInstance::OnCollisionCheckIntervalChanged(float _fCollisionCheckInt
 	return m_pColliderManager->OnCollisionCheckIntervalChanged(_fCollisionCheckInterval);
 }
 
+HRESULT CGameInstance::Release_Collider(const CCollider* targetCollider)
+{
+	if (nullptr == m_pColliderManager)
+		return E_FAIL;
+
+	m_pColliderManager->Release_Collider(targetCollider);
+}
+
 void CGameInstance::Transform_ForPicking_ToLocalSpace(const _float4x4* pWorldMatrix)
 {
 	return m_pPicking->Transform_ToLocalSpace(pWorldMatrix);

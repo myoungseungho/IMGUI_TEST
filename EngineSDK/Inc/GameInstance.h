@@ -54,6 +54,7 @@ public: /* For.ColliderManager */
 	HRESULT Add_ColliderObject(CCollider_Manager::COLLIDERGROUP eColliderGroup, class CGameObject* pColliderObject);
 	HRESULT Show_Collider(bool);
 	HRESULT OnCollisionCheckIntervalChanged(float);
+	HRESULT Release_Collider(const CCollider*);
 
 public: /* For.Picking */
 	void Transform_ForPicking_ToLocalSpace(const _float4x4* pWorldMatrix);

@@ -30,7 +30,7 @@ public:
 		return S_OK;
 	};
 	HRESULT OnCollisionCheckIntervalChanged(float);
-
+	HRESULT Release_Collider(const CCollider*);
 
 private:
 	list<class CCollider*>			m_Colliders[CG_END];
