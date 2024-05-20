@@ -244,6 +244,7 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_eMon_State = MON_STATE::DASH;
+		Bullet_Create();
 	}
 	else
 		m_pTransformCom->Go_Down(fTimeDelta);
@@ -427,6 +428,10 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 	case MON_STATE::LAND:
 		if (m_iPhaseCnt == 2)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
+		break;
+	case MON_STATE::DEATH:
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_DEATH"), 1.f, _fTimeDelta, false);
 		break;
 	}
 

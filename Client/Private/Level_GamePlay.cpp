@@ -40,12 +40,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
-		return E_FAIL;
-
-	/*if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+	/*if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;*/
 
+	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+		return E_FAIL;
 
 	return S_OK;
 }
