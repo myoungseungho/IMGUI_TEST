@@ -14,7 +14,7 @@ public:
 	{
 		CTransform* m_pTargetTransform = {nullptr};
 		_bool isClone = { false };
-		_bool isCheck  = { false };
+	
 	}BOSS_KOOFU_DESC;
 
 private:
@@ -77,7 +77,7 @@ private:
 
 private:
 	_bool m_isClone = { false };
-	_bool m_isCheck = { false };
+	_bool m_isClone_Create = { false };
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

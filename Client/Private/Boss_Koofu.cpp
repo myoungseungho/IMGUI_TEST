@@ -32,8 +32,10 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
+
+	//m_isCheck == 분신 / m_isCheck != 본신 
 	m_isClone = pDesc->isClone;
-	m_isCheck = pDesc->isCheck;
+
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	Safe_AddRef(m_pTargetTransform);
 
@@ -289,19 +291,18 @@ void CBoss_Koofu::State_Ready(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::BULLET;
-
-	if (!m_isClone)
+	if (!m_isClone && !m_isClone_Create)
 	{
+		m_isClone_Create = true;
 		CloneCreate();
-		m_isClone = true;
-
+		
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-			Warf(10, 10, 30, 30);
+			Warf(35.f, 31.f, 20.f);
 	}
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f, 1.f))
 	{
+		m_ePrev_State = MON_STATE::BULLET;
 		m_eAnim_State = ANIM_STATE::THROW;
 
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
@@ -309,6 +310,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	}
 	else
 	{
+		m_ePrev_State = MON_STATE::BULLET;
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
 
@@ -316,12 +318,12 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down('4'))
 	{
-		if(m_isCheck)
+		if(m_isClone)
 			Safe_Release(pKoofu);
-		if (!m_isCheck)
+		if (!m_isClone)
 		{
-			m_isClone = false;
 			m_eMon_State = MON_STATE::BULLET_B;
+			m_isClone_Create = false;
 		}
 	}
 }
@@ -403,7 +405,7 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('2') && m_isCheck)
+	if (m_pKeyCom->Key_Down('2') && m_isClone)
 		Distory();
 
 }
@@ -607,7 +609,6 @@ HRESULT CBoss_Koofu::CloneCreate()
 	Bosskoofu.iHp = 1;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.isClone = true;
-	Bosskoofu.isCheck = true;
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 1; i <= 3; ++i)
