@@ -58,27 +58,6 @@
     <Filter Include="02.GameObjects\Enviorment">
       <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Tree">
-      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Push_Stone">
-      <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Monkey_Statue">
-      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\RockBreakable">
-      <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Block">
-      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Hole">
-      <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Bush">
-      <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Skill">
       <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
     </Filter>
@@ -117,6 +96,30 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling">
       <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle">
+      <UniqueIdentifier>{1c914190-cdd5-4cc4-b5dd-a9f309c01b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Block">
+      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Bush">
+      <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Hole">
+      <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Monkey_Statue">
+      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Push_Stone">
+      <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\RockBreakable">
+      <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree">
+      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,25 +199,25 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Tree.h">
-      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Push_Stone.h">
-      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monkey_Statue.h">
-      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RockBreakable.h">
-      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block.h">
-      <Filter>02.GameObjects\Enviorment\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
-      <Filter>02.GameObjects\Enviorment\Hole</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Bush.h">
-      <Filter>02.GameObjects\Enviorment\Bush</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Bush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
       <Filter>02.GameObjects\Skill</Filter>
@@ -318,25 +321,25 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
-      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Push_Stone.cpp">
-      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monkey_Statue.cpp">
-      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RockBreakable.cpp">
-      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
-      <Filter>02.GameObjects\Enviorment\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
-      <Filter>02.GameObjects\Enviorment\Hole</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Bush.cpp">
-      <Filter>02.GameObjects\Enviorment\Bush</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Bush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill.cpp">
       <Filter>02.GameObjects\Skill</Filter>
