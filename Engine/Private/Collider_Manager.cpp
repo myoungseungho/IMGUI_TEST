@@ -64,8 +64,6 @@ HRESULT CCollider_Manager::Add_ColliderObject(COLLIDERGROUP eColliderGroup, CGam
 
 	CCollider* collider = static_cast<CCollider*>(com);
 
-	Safe_Release(com);
-
 	m_Colliders[eColliderGroup].emplace_back(collider);
 
 	return S_OK;
