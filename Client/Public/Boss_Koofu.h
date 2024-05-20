@@ -53,11 +53,18 @@ private:
 	virtual HRESULT Begin_RenderState();
 	virtual HRESULT End_RenderState();
 
+
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 
 	void ScaleUp(_float fTimeDelta);
 	void Warf(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 	void Warf(_int iPosX, _int iPosZ, _float fDistance);
+	void Distory();
 
 	HRESULT RollingCreate();
 	HRESULT FuitCreate();

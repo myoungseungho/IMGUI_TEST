@@ -169,17 +169,17 @@ HRESULT CBoss_Bug::End_RenderState()
 
 void CBoss_Bug::OnCollisionEnter(CCollider* other)
 {
-	int a = 10;
+
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other)
 {
-	int a = 10;
+	
 }
 
 void CBoss_Bug::OnCollisionExit(CCollider* other)
 {
-	int a = 10;
+
 }
 
 void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)

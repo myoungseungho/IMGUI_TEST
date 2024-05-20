@@ -34,6 +34,7 @@ private:
 
 private:
 	void Bounce(_float _LandPosY);
+	void Distroy();
 	void BillBoarding();
 
 private:
