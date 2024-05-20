@@ -291,7 +291,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	if (m_pKeyCom->Key_Pressing('E'))
 	{
-		m_PlayerCurState = STATE_SKILL;
+		//m_PlayerCurState = STATE_SKILL;
 
 		if (m_pKeyCom->Key_Pressing(VK_UP))
 		{

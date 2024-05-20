@@ -40,13 +40,13 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -80,13 +80,17 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);
-	//Distory();
+	
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
+	/*CBoss_Koofu* pKoofu = this;
+
+	if (m_pKeyCom->Key_Down('2'))
+		Safe_Release(pKoofu);*/
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -307,16 +311,35 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	{
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
+
+	CBoss_Koofu* pKoofu = this;
+
+	if (m_pKeyCom->Key_Down('4'))
+	{
+		if(m_isCheck)
+			Safe_Release(pKoofu);
+		if (!m_isCheck)
+		{
+			m_isClone = false;
+			m_eMon_State = MON_STATE::BULLET_B;
+		}
+	}
 }
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
+
 	m_ePrev_State = MON_STATE::BULLET_B;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 	{
 		RollingCreate();
 	}
+	else
+		m_eAnim_State = ANIM_STATE::IDLE;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+		m_eMon_State = MON_STATE::BULLET;
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)
@@ -380,21 +403,8 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	CBoss_Koofu* pKoofu = this;
-
-	if(m_pKeyCom->Key_Down('1'))
-		Warf(-10, -10, 20, 20);
-
-	if (m_pKeyCom->Key_Down('2'))
-		RollingCreate();
-
-	if (m_pKeyCom->Key_Down('3'))
-		FuitCreate();
-
-	if (m_pKeyCom->Key_Down('4') && m_isCheck)
-	{
-		Safe_Release(pKoofu);
-	}
+	if (m_pKeyCom->Key_Down('2') && m_isCheck)
+		Distory();
 
 }
 
@@ -432,6 +442,9 @@ HRESULT CBoss_Koofu::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
+
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -517,7 +530,7 @@ HRESULT CBoss_Koofu::End_RenderState()
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 {
-
+	int a = 10;
 }
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other)
@@ -552,6 +565,8 @@ void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 void CBoss_Koofu::Distory()
 {
 	CBoss_Koofu* pKoofu = this;
+
+	Safe_Release(pKoofu);
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
@@ -644,4 +659,5 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTargetTransform); 
 	Safe_Release(m_pColliderCom);
+	int a = 10;
 }
