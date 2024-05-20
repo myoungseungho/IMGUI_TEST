@@ -277,16 +277,15 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 		m_eMon_State = MON_STATE::CAST;
 
-	m_ePrev_State = MON_STATE::IDLE;
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_ePrev_State = MON_STATE::READY;
 		m_eAnim_State = ANIM_STATE::READY;
-		m_eMon_State = MON_STATE::IDLE;
+		m_eMon_State = MON_STATE:: CAST;
 	}
 
 }
@@ -336,25 +335,27 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
+	m_eAnim_State = ANIM_STATE::IDLE;
 
-	m_ePrev_State = MON_STATE::BULLET_B;
-
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
 	{
 		RollingCreate();
+		m_isBullet = true;
 	}
-	/*else
-		m_eAnim_State = ANIM_STATE::IDLE;*/
 
-	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-		m_eMon_State = MON_STATE::BULLET;*/
+	if (m_isBullet)
+	{
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+		{	m_ePrev_State = MON_STATE::BULLET_B;
+			m_eMon_State = MON_STATE::IDLE;
+		}
+	}
 }
 
 void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.5f))
 	{
-		m_ePrev_State = MON_STATE::STAN;
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
 	}
@@ -364,13 +365,13 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::CAST;
 
-	if (m_ePrev_State == MON_STATE::IDLE && m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	if ( (m_ePrev_State == MON_STATE::IDLE || m_ePrev_State == MON_STATE::BULLET_B)&& m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
 
 	}
-	else if (m_ePrev_State == MON_STATE::BULLET)
+	else if (m_ePrev_State == MON_STATE::READY)
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET_B;

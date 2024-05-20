@@ -81,6 +81,7 @@ private:
 	_bool m_isClone_Create = { false };
 
 	_bool m_isAttack = { false };
+	_bool m_isBullet = { false };
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
