@@ -151,6 +151,9 @@
     <Filter Include="02.GameObjects\Tile\Tacho">
       <UniqueIdentifier>{d55bd872-9ba7-436f-8b22-003056834cbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_Fence">
+      <UniqueIdentifier>{528bee7b-50ed-4637-97ad-7ef222668a15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -312,6 +315,9 @@
     <ClInclude Include="..\Public\TachoShop_Tile.h">
       <Filter>02.GameObjects\Tile\Tacho</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Outside_Fence.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Fence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -457,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TachoShop_Tile.cpp">
       <Filter>02.GameObjects\Tile\Tacho</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_Fence.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Fence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

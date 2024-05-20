@@ -169,6 +169,7 @@
     <ClInclude Include="..\Public\Level_Tacho.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
     <ClInclude Include="..\Public\Outside_BreadShop.h" />
+    <ClInclude Include="..\Public\Outside_Fence.h" />
     <ClInclude Include="..\Public\Outside_PotHorizontal1.h" />
     <ClInclude Include="..\Public\Outside_PotHorizontal2.h" />
     <ClInclude Include="..\Public\Outside_Shop.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
     <ClCompile Include="..\Private\Outside_BreadShop.cpp" />
+    <ClCompile Include="..\Private\Outside_Fence.cpp" />
     <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp" />
     <ClCompile Include="..\Private\Outside_PotHorizontal2.cpp" />
     <ClCompile Include="..\Private\Outside_Shop.cpp" />
