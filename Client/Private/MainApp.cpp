@@ -47,7 +47,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_EDIT)))
+	if (FAILED(Open_Level(LEVEL_TACHO)))
 		return E_FAIL;
 
 
@@ -652,6 +652,16 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
 		CAnimator::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 100, 100))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;
