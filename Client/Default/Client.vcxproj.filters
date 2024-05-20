@@ -124,6 +124,24 @@
     <Filter Include="01.Levels\Tacho">
       <UniqueIdentifier>{2931dd44-5e4e-4577-acb1-67d668d2ee18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho">
+      <UniqueIdentifier>{8d7973c2-79e0-4cc6-8465-40663dbcb0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_Shop">
+      <UniqueIdentifier>{fc930d93-3bf1-4aaf-acea-bf37ec68cdf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop">
+      <UniqueIdentifier>{7866f6d4-9b34-4a38-9b60-16e14885dcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank">
+      <UniqueIdentifier>{5b3c1672-08de-4b6b-b072-49cdfb1d857d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1">
+      <UniqueIdentifier>{238cb56a-8376-4762-a173-3b0c2d8eda1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2">
+      <UniqueIdentifier>{ace35c44-c217-4c60-9c09-b641ab2eca90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -264,6 +282,21 @@
     <ClInclude Include="..\Public\Level_Tacho.h">
       <Filter>01.Levels\Tacho</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Outside_Shop.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_BreadShop.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_WaterTank.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_PotHorizontal1.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_PotHorizontal2.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -388,6 +421,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Tacho.cpp">
       <Filter>01.Levels\Tacho</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_Shop.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_BreadShop.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_WaterTank.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_PotHorizontal2.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

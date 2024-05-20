@@ -1,6 +1,77 @@
-LayerName: Layer_Sky
-PrototypeTag: Prototype_GameObject_Sky
-LevelIndex: 4
-Position: 35.9652 3.19122 25.0845
+LayerName: Layer_Outside_BreadShop
+PrototypeTag: Prototype_GameObject_Outside_BreadShop
+LevelIndex: 5
+Position: 37 1.6 31
+Scale: 3 3 1
+IsParsing: 1
+
+LayerName: Layer_Outside_PotHorizontal1
+PrototypeTag: Prototype_GameObject_Outside_PotHorizontal1
+LevelIndex: 5
+Position: 37.1033 0.6 29.4183
 Scale: 1 1 1
 IsParsing: 1
+
+LayerName: Layer_Outside_PotHorizontal2
+PrototypeTag: Prototype_GameObject_Outside_PotHorizontal2
+LevelIndex: 5
+Position: 35.9065 0.6 29.418
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Shop
+PrototypeTag: Prototype_GameObject_Outside_Shop
+LevelIndex: 5
+Position: 40.1 1.6 31
+Scale: 3 3 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 44.3009 0.6 32.1912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 42.6009 0.6 31.5912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 43.8009 0.6 31.6912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 45.6009 0.6 32.1912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 45.0009 0.6 31.6912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 46.2009 0.6 31.6912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_WaterTank
+PrototypeTag: Prototype_GameObject_Outside_WaterTank
+LevelIndex: 5
+Position: 42.8009 0.6 32.0912
+Scale: 1 1 1
+IsParsing: 1
+

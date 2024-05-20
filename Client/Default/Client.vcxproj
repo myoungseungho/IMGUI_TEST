@@ -168,6 +168,11 @@
     <ClInclude Include="..\Public\Level_Edit.h" />
     <ClInclude Include="..\Public\Level_Tacho.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
+    <ClInclude Include="..\Public\Outside_BreadShop.h" />
+    <ClInclude Include="..\Public\Outside_PotHorizontal1.h" />
+    <ClInclude Include="..\Public\Outside_PotHorizontal2.h" />
+    <ClInclude Include="..\Public\Outside_Shop.h" />
+    <ClInclude Include="..\Public\Outside_WaterTank.h" />
     <ClInclude Include="..\Public\Push_Stone.h" />
     <ClInclude Include="..\Public\RockBreakable.h" />
     <ClInclude Include="..\Public\Boss_Bug.h" />
@@ -214,6 +219,11 @@
     <ClCompile Include="..\Private\Level_Edit.cpp" />
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
+    <ClCompile Include="..\Private\Outside_BreadShop.cpp" />
+    <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp" />
+    <ClCompile Include="..\Private\Outside_PotHorizontal2.cpp" />
+    <ClCompile Include="..\Private\Outside_Shop.cpp" />
+    <ClCompile Include="..\Private\Outside_WaterTank.cpp" />
     <ClCompile Include="..\Private\Push_Stone.cpp" />
     <ClCompile Include="..\Private\RockBreakable.cpp" />
     <ClCompile Include="..\Private\Boss_Bug.cpp" />

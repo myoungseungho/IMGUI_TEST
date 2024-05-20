@@ -532,6 +532,9 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	case LEVEL_EDIT:
 		filePath = L"../Bin/LevelEditObjects.txt";
 		break;
+	case LEVEL_TACHO:
+		filePath = L"../Bin/LevelTachoObjects.txt";
+		break;
 	default:
 		filePath = L"../Bin/DefaultLevelObjects.txt"; // default ¿Ã∏ß
 		break;

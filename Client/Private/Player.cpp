@@ -313,10 +313,7 @@ void CPlayer::Player_Skill(_float fTimeDelta)
 
 	_float3 vPosition = { vPositionX , vPositionY, vPositionZ };
 
-
-
 	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Skill_Player"), &SkillDesc);
-
 }
 
 
