@@ -79,6 +79,8 @@ private:
 	_bool m_isClone = { false };
 	_bool m_isClone_Create = { false };
 
+	_bool m_isAttack = { false };
+
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

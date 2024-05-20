@@ -316,13 +316,14 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	CBoss_Koofu* pKoofu = this;
 
-	if (m_pKeyCom->Key_Down('4'))
+	if (m_isAttack)
 	{
 		if(m_isClone)
 			Safe_Release(pKoofu);
 		if (!m_isClone)
 		{
 			m_eMon_State = MON_STATE::BULLET_B;
+			m_isAttack = false;
 			m_isClone_Create = false;
 		}
 	}
@@ -532,7 +533,7 @@ HRESULT CBoss_Koofu::End_RenderState()
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 {
-	int a = 10;
+	m_isAttack = true;
 }
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other)
