@@ -144,6 +144,9 @@ void CPlayer::OnCollisionStay(CCollider* other)
 
 void CPlayer::OnCollisionExit(CCollider* other)
 {
+	if (other->m_Died)
+		return;
+
 	// 충돌 해제 시 해당 방향 이동 가능으로 설정
 	CGameObject* otherObject = other->m_MineGameObject;
 
@@ -155,14 +158,11 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		m_bCanMoveBackward = true;
 		return;
 	}
-		
-	
-		
+
 	// Transform 컴포넌트를 가져옴
 
-		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
-		CTransform* other_transform = static_cast<CTransform*>(other_component);
-	
+	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* other_transform = static_cast<CTransform*>(other_component);
 
 
 	// 플레이어와 다른 객체의 위치를 가져옴
@@ -728,14 +728,15 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
+	__super::Free();
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pCal_Timercom);
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pAnimCom);
+	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 
-	__super::Free();
 }

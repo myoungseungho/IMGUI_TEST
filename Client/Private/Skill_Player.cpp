@@ -28,7 +28,7 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	m_iSkillCount = pDesc->m_iCurrentSkillCount;
 	m_SkillDir = pDesc->m_SkillDir;
 
-	m_pTargetTransform->AddRef();
+	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -209,6 +209,7 @@ void CSkill_Player::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pKeyCom);
+	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 
