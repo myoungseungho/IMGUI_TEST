@@ -88,11 +88,6 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
-	/*CBoss_Koofu* pKoofu = this;
-
-	if (m_pKeyCom->Key_Down('2'))
-		Safe_Release(pKoofu);*/
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -314,21 +309,17 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
 
-	//CBoss_Koofu* pKoofu = this;
+	CBoss_Koofu* pKoofu = this;
+	CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone")));
 
-	/*if (m_isAttack)
+	if (m_isAttack && !m_isClone)
 	{
+		m_eMon_State = MON_STATE::STAN;
+		m_isAttack = false;
+		m_isClone_Create = false;
 	
-		if (m_isClone)
-			Safe_Release(pKoofu);
-		if (!m_isClone)
-		{
-			m_eMon_State = MON_STATE::BULLET_B;
-			m_isAttack = false;
-			m_isClone_Create = false;
-		}
-
-	}*/
+		Safe_Release(pClone);
+	}
 	
 }
 
@@ -439,7 +430,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
-
+	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 1.0f;
@@ -460,6 +451,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
 
+
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
@@ -467,6 +459,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+	
 
 	return S_OK;
 }
@@ -536,8 +529,12 @@ HRESULT CBoss_Koofu::End_RenderState()
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 {
-	if(!m_isClone)
+	if (!m_isClone)
+	{
+		m_tMonsterDesc.iHp--;
 		m_isAttack = true;
+	}
+		
 }
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other)
@@ -546,6 +543,10 @@ void CBoss_Koofu::OnCollisionStay(CCollider* other)
 
 void CBoss_Koofu::OnCollisionExit(CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (otherObject->m_Died)
+		return;
 }
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
@@ -616,7 +617,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	for (int i = 1; i <= 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu"), &Bosskoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
 		
 		Warf(-10, -10, 10, 10);
@@ -664,5 +665,5 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pTargetTransform); 
 	Safe_Release(m_pColliderCom);
 
-	//m_pGameInstance->Release_Collider(m_pColliderCom);
+	m_pGameInstance->Release_Collider(this->m_pColliderCom);
 }

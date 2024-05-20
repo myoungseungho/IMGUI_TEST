@@ -34,7 +34,6 @@ HRESULT CCollider::Initialize(void* pArg)
 	if (pDesc->MineGameObject != nullptr)
 	{
 		m_MineGameObject = pDesc->MineGameObject;
-		//Safe_AddRef(m_MineGameObject);
 	}
 
 	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
@@ -140,7 +139,7 @@ CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX(TEXT("Failed to Created : CCollider"));
-		Safe_Release(pInstance);
+		Safe_Release(pInstance); 
 	}
 
 	return pInstance;
@@ -162,6 +161,4 @@ CComponent* CCollider::Clone(void* pArg)
 void CCollider::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_MineGameObject);
 }

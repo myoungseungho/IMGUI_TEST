@@ -184,6 +184,8 @@ CGameObject* CSkill_Player::Clone(void* pArg)
 
 void CSkill_Player::Free()
 {
+	__super::Free();
+
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
@@ -192,7 +194,6 @@ void CSkill_Player::Free()
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pKeyCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
+	//m_pGameInstance->Release_Collider(m_pColliderCom);
 
-	__super::Free();
 }

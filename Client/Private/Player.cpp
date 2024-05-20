@@ -152,6 +152,9 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	// 충돌 해제 시 해당 방향 이동 가능으로 설정
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (otherObject->m_Died)
+		return;
+
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -206,7 +209,7 @@ HRESULT CPlayer::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
+		return E_FAIL; 
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.3f, 31.f));

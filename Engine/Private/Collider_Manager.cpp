@@ -156,7 +156,7 @@ HRESULT CCollider_Manager::Release_Collider(const CCollider* targetCollider)
 			CCollider* collider = *it;
 			Safe_Release(collider);
 			m_Colliders[i].erase(it);
-			return S_OK; // 성공적으로 해제 및 삭제
+			return S_OK; // 성공적으로 해제 및 삭제m_Colliders
 		}
 	}
 
