@@ -59,11 +59,9 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 		Warf(20.f, 30.f, 10.f);
 		m_eMon_State = MON_STATE::BULLET;
 		m_tMonsterDesc.iHp = pDesc->iHp;
-
 	}
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
-
 
 	return S_OK;
 }
@@ -77,17 +75,16 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
-	//BillBoarding();
-
+	
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);
-	
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	Distory();
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -257,15 +254,15 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		break;
 
 	case ANIM_STATE::STUN:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::READY:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_READY"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_READY"), 1.f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::DEADTH:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_DEATH"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_DEATH"), 1.f, fTimeDelta, false);
 		break;
 	}
 
@@ -310,15 +307,19 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	}
 
 	CBoss_Koofu* pKoofu = this;
-	CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone")));
 
 	if (m_isAttack && !m_isClone)
 	{
+		m_eAnim_State = ANIM_STATE::STUN;
 		m_eMon_State = MON_STATE::STAN;
 		m_isAttack = false;
 		m_isClone_Create = false;
 	
-		Safe_Release(pClone);
+		for (int i = 0; i < 3; ++i)
+		{
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			Safe_Release(pClone);
+		}
 	}
 	
 }
@@ -400,8 +401,7 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('2') && m_isClone)
-		Distory();
+	
 
 }
 
@@ -479,6 +479,9 @@ HRESULT CBoss_Koofu::Ready_Animation()
 	//Death
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Death"), TEXT("KOOFU_DEATH"));
 
+	//Stun
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Stun"), TEXT("KOOFU_STUN"));
+
 	//Ready
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Ready"), TEXT("KOOFU_READY"));
 
@@ -534,6 +537,11 @@ void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 		m_tMonsterDesc.iHp--;
 		m_isAttack = true;
 	}
+
+	if (m_isClone)
+	{
+		m_tMonsterDesc.iHp--;
+	}
 		
 }
 
@@ -570,9 +578,10 @@ void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 
 void CBoss_Koofu::Distory()
 {
-	CBoss_Koofu* pKoofu = this;
+	CBoss_Koofu* pthis = this;
 
-	Safe_Release(pKoofu);
+	if (m_isClone && m_tMonsterDesc.iHp <= 0)
+		Safe_Release(pthis);
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
