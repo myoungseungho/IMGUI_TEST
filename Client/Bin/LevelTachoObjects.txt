@@ -393,7 +393,189 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 5
-Position: 22.5229 5.2241 25.4531
+Position: 34.4952 2.92771 27.1368
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 17.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 18.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 19.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 20.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 21.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 22.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 23.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 24.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 25.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 26.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 27.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 28.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 29.64 0.006 29.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 17.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 18.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 19.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 20.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 21.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 22.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 23.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 24.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 25.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 26.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 27.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 28.64 0.006 30.51
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoGround_Tile
+PrototypeTag: Prototype_GameObject_TachoGround_Tile
+LevelIndex: 5
+Position: 29.64 0.006 30.51
 Scale: 1 1 1
 IsParsing: 1
 

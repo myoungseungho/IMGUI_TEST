@@ -29,11 +29,11 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	//int horizontalTiles = 8; // 예시로 가로 13 타일
-	//int verticalTiles = 5; // 예시로 세로 5 타일
+	int horizontalTiles = 14; // 예시로 가로 13 타일
+	int verticalTiles = 2; // 예시로 세로 5 타일
 
-	//if (FAILED(Ready_Layer_Bush(TEXT("Layer_Bush"), horizontalTiles, verticalTiles)))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
+		return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
@@ -81,9 +81,9 @@ HRESULT CLevel_Tacho::Ready_Layer_Tile(const _wstring& strLayerTag, int horizont
 {
 	CTachoShop_Tile::TILEDESC tileDesc{};
 
-	float startX = 32.8f;
+	float startX = 17.64f;
 	float startY = 0.006f;
-	float startZ = 28.961f;
+	float startZ = 29.510f;
 	float spacing = 1.0f; // 각 타일 사이의 간격
 
 	for (int z = 0; z < verticalTiles; ++z)
@@ -91,7 +91,7 @@ HRESULT CLevel_Tacho::Ready_Layer_Tile(const _wstring& strLayerTag, int horizont
 		for (int x = 0; x < horizontalTiles; ++x)
 		{
 			tileDesc.startPosition = _float3(startX + x * spacing, startY, startZ + z * spacing);
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TachoShop_Tile"), strLayerTag, &tileDesc)))
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TachoGround_Tile"), strLayerTag, &tileDesc)))
 				return E_FAIL;
 		}
 	}
