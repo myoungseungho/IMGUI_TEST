@@ -66,7 +66,8 @@ private:
 	HRESULT			Key_Input(_float fTimeDelta);
 
 	void					Player_Attack(_float fTimeDelta);
-	HRESULT			Create_Skill();
+	HRESULT			Player_Skill();
+	void					Player_Push(_float fTimeDelta);
 
 	void              Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
 	void              Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }

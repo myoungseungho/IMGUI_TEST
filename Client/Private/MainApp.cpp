@@ -14,7 +14,7 @@
 
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }

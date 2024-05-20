@@ -65,7 +65,7 @@ void CPlayer::Update(_float fTimeDelta)
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f)) // E 키를 누른 시간 (1초마다)
 		{
 			m_iCurrentSkillCount += 1;
-			Create_Skill();
+			Player_Skill();
 
 			if (m_iCurrentSkillCount > 3)
 			{
@@ -226,55 +226,55 @@ HRESULT CPlayer::Ready_Components()
 HRESULT CPlayer::Ready_Animation()
 {
 	// Idle
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_Up"), TEXT("Player_Idle_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_Right"), TEXT("Player_Idle_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_Down"), TEXT("Player_Idle_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_Left"), TEXT("Player_Idle_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_Up"), TEXT("Player_Idle_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_Right"), TEXT("Player_Idle_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_Down"), TEXT("Player_Idle_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_Left"), TEXT("Player_Idle_Left"));
 
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_LeftUp"), TEXT("Player_Idle_LeftUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_RightUp"), TEXT("Player_Idle_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_RightDown"), TEXT("Player_Idle_RightDown"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Idle_LeftDown"), TEXT("Player_Idle_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_LeftUp"), TEXT("Player_Idle_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_RightUp"), TEXT("Player_Idle_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_RightDown"), TEXT("Player_Idle_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Idle_LeftDown"), TEXT("Player_Idle_LeftDown"));
 
 
 	// Walk
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_Up"), TEXT("Player_Walk_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_Right"), TEXT("Player_Walk_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_Down"), TEXT("Player_Walk_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_Left"), TEXT("Player_Walk_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_Up"), TEXT("Player_Walk_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_Right"), TEXT("Player_Walk_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_Down"), TEXT("Player_Walk_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_Left"), TEXT("Player_Walk_Left"));
 
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_LeftUp"), TEXT("Player_Walk_LeftUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_RightUp"), TEXT("Player_Walk_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_RightDown"), TEXT("Player_Walk_RightDown"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Walk_LeftDown"), TEXT("Player_Walk_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_LeftUp"), TEXT("Player_Walk_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_RightUp"), TEXT("Player_Walk_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_RightDown"), TEXT("Player_Walk_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Walk_LeftDown"), TEXT("Player_Walk_LeftDown"));
 
 	// Attack
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_Up"), TEXT("Player_Attack_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_Right"), TEXT("Player_Attack_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_Down"), TEXT("Player_Attack_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_Left"), TEXT("Player_Attack_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_Up"), TEXT("Player_Attack_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_Right"), TEXT("Player_Attack_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_Down"), TEXT("Player_Attack_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_Left"), TEXT("Player_Attack_Left"));
 
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_LeftUp"), TEXT("Player_Attack_LeftUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_RightUp"), TEXT("Player_Attack_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_RightDown"), TEXT("Player_Attack_RightDown"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Attack_LeftDown"), TEXT("Player_Attack_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_LeftUp"), TEXT("Player_Attack_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_RightUp"), TEXT("Player_Attack_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_RightDown"), TEXT("Player_Attack_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Attack_LeftDown"), TEXT("Player_Attack_LeftDown"));
 
 	// Skill
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_Up"), TEXT("Player_Skill_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_Right"), TEXT("Player_Skill_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_Down"), TEXT("Player_Skill_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_Left"), TEXT("Player_Skill_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_Up"), TEXT("Player_Skill_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_Right"), TEXT("Player_Skill_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_Down"), TEXT("Player_Skill_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_Left"), TEXT("Player_Skill_Left"));
 
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_LeftUp"), TEXT("Player_Skill_LeftUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_RightUp"), TEXT("Player_Skill_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_RightDown"), TEXT("Player_Skill_RightDown"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Skill_LeftDown"), TEXT("Player_Skill_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftUp"), TEXT("Player_Skill_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_RightUp"), TEXT("Player_Skill_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_RightDown"), TEXT("Player_Skill_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftDown"), TEXT("Player_Skill_LeftDown"));
 
 	// Push
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Push_Up"), TEXT("Player_Push_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Push_Right"), TEXT("Player_Push_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Push_Down"), TEXT("Player_Push_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Animation_Texture_Player_Push_Left"), TEXT("Player_Push_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Push_Up"), TEXT("Player_Push_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Push_Right"), TEXT("Player_Push_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Push_Down"), TEXT("Player_Push_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Player_Push_Left"), TEXT("Player_Push_Left"));
 
 	return S_OK;
 }
@@ -479,6 +479,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		m_PlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 	}
+	
+	else if (m_pKeyCom->Key_Pressing('2'))
+	{
+		m_PlayerCurState = (STATE_PUSH);
+		Player_Push(fTimeDelta);
+	}
+		
 
 	else
 		m_PlayerCurState = (STATE_IDLE);
@@ -493,7 +500,7 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 }
 
-HRESULT CPlayer::Create_Skill()
+HRESULT CPlayer::Player_Skill()
 {
 	if (m_iCurrentSkillCount > 3)
 		return S_OK;
@@ -508,6 +515,10 @@ HRESULT CPlayer::Create_Skill()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CPlayer::Player_Push(_float fTimeDelta)
+{
 }
 
 void CPlayer::BillBoarding()
