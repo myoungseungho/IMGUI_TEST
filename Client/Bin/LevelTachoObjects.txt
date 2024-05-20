@@ -1,3 +1,283 @@
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 23.944 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 24.744 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 25.544 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 26.344 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.144 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.944 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 28.744 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 29.544 0.6 25.468
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 23.944 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 24.744 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 25.544 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 26.344 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.144 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.944 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 28.744 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 29.544 0.6 26.268
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 23.944 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 24.744 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 25.544 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 26.344 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.144 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.944 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 28.744 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 29.544 0.6 27.068
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 23.944 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 24.744 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 25.544 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 26.344 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.144 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.944 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 28.744 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 29.544 0.6 27.868
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 23.944 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 24.744 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 25.544 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 26.344 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.144 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 27.944 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 28.744 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Bush
+PrototypeTag: Prototype_GameObject_Bush
+LevelIndex: 5
+Position: 29.544 0.6 28.668
+Scale: 1 1 1
+IsParsing: 1
+
 LayerName: Layer_Outside_BreadShop
 PrototypeTag: Prototype_GameObject_Outside_BreadShop
 LevelIndex: 5
@@ -26,52 +306,521 @@ Position: 40.1 1.6 31
 Scale: 3 3 1
 IsParsing: 1
 
+LayerName: Layer_Outside_SuperMarket
+PrototypeTag: Prototype_GameObject_Outside_SuperMarket
+LevelIndex: 5
+Position: 33.6001 1.6 32.5
+Scale: 3 3 1
+IsParsing: 1
+
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 44.3009 0.6 32.1912
+Position: 44.2009 0.6 31.8912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 42.6009 0.6 31.5912
+Position: 41.9009 0.6 31.5912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 43.8009 0.6 31.6912
+Position: 42.8009 0.6 31.5912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 45.6009 0.6 32.1912
+Position: 43.8009 0.6 31.5912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 45.0009 0.6 31.6912
+Position: 44.7009 0.6 31.4912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 46.2009 0.6 31.6912
+Position: 43.3009 0.6 31.9912
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Outside_WaterTank
 PrototypeTag: Prototype_GameObject_Outside_WaterTank
 LevelIndex: 5
-Position: 42.8009 0.6 32.0912
+Position: 42.5009 0.6 32.0912
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 5
+Position: 25.6064 4.28953 22.7461
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 32.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 33.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 34.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 35.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 36.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 37.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 38.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 39.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 40.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 41.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 42.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 43.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 44.8 0.006 28.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 32.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 33.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 34.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 35.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 36.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 37.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 38.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 39.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 40.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 41.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 42.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 43.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 44.8 0.006 29.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 32.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 33.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 34.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 35.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 36.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 37.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 38.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 39.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 40.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 41.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 42.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 43.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 44.8 0.006 30.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 32.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 33.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 34.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 35.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 36.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 37.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 38.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 39.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 40.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 41.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 42.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 43.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 44.8 0.006 31.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 32.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 33.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 34.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 35.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 36.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 37.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 38.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 39.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 40.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 41.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 42.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 43.8 0.006 32.961
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_TachoShop_Tile
+PrototypeTag: Prototype_GameObject_TachoShop_Tile
+LevelIndex: 5
+Position: 44.8 0.006 32.961
 Scale: 1 1 1
 IsParsing: 1
 

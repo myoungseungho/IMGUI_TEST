@@ -8,9 +8,9 @@
 
 #include "GameInstance.h"
 #include "LandObject.h"
-
 #include <Camera.h>
-
+#include "TachoShop_Tile.h"
+#include "Bush.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -28,6 +28,12 @@ HRESULT CLevel_Tacho::Initialize()
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
+	//int horizontalTiles = 8; // 예시로 가로 13 타일
+	//int verticalTiles = 5; // 예시로 세로 5 타일
+
+	//if (FAILED(Ready_Layer_Bush(TEXT("Layer_Bush"), horizontalTiles, verticalTiles)))
+	//	return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
@@ -70,6 +76,51 @@ HRESULT CLevel_Tacho::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+
+HRESULT CLevel_Tacho::Ready_Layer_Tile(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles)
+{
+	CTachoShop_Tile::TILEDESC tileDesc{};
+
+	float startX = 32.8f;
+	float startY = 0.006f;
+	float startZ = 28.961f;
+	float spacing = 1.0f; // 각 타일 사이의 간격
+
+	for (int z = 0; z < verticalTiles; ++z)
+	{
+		for (int x = 0; x < horizontalTiles; ++x)
+		{
+			tileDesc.startPosition = _float3(startX + x * spacing, startY, startZ + z * spacing);
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TachoShop_Tile"), strLayerTag, &tileDesc)))
+				return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tacho::Ready_Layer_Bush(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles)
+{
+	CBush::BUSHDESC bushDecs{};
+
+	float startX = 23.944f;
+	float startY = 0.600f;
+	float startZ = 25.468f;
+	float spacing = 0.8f; // 각 타일 사이의 간격
+
+	for (int z = 0; z < verticalTiles; ++z)
+	{
+		for (int x = 0; x < horizontalTiles; ++x)
+		{
+			bushDecs.startPosition = _float3(startX + x * spacing, startY, startZ + z * spacing);
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Bush"), strLayerTag, &bushDecs)))
+				return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
 
 HRESULT CLevel_Tacho::Ready_LandObjects()
 {

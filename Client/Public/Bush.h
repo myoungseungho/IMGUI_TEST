@@ -14,6 +14,12 @@ BEGIN(Client)
 
 class CBush final : public CEnviormentObject
 {	
+public:
+	typedef struct
+	{
+		_float3 startPosition;
+	}BUSHDESC;
+
 private:
 	CBush(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CBush(const CBush& Prototype); /* 사본생성 시 */

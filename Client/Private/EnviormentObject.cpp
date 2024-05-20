@@ -51,7 +51,7 @@ HRESULT CEnviormentObject::Initialize(void* pArg)
 	float zOffset = 5.0f;
 	_float3 newPosition = cameraPosition;
 	newPosition.z += zOffset;
-	newPosition.y = 0.0f;
+	newPosition.y = 0.006f;
 
 	CComponent* componenet = Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componenet);
