@@ -318,7 +318,8 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	if (m_isAttack)
 	{
-		if(m_isClone)
+	
+		if (m_isClone)
 			Safe_Release(pKoofu);
 		if (!m_isClone)
 		{
@@ -326,7 +327,9 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 			m_isAttack = false;
 			m_isClone_Create = false;
 		}
+
 	}
+	
 }
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
@@ -338,11 +341,11 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	{
 		RollingCreate();
 	}
-	else
-		m_eAnim_State = ANIM_STATE::IDLE;
+	/*else
+		m_eAnim_State = ANIM_STATE::IDLE;*/
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
-		m_eMon_State = MON_STATE::BULLET;
+	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
+		m_eMon_State = MON_STATE::BULLET;*/
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)
@@ -533,7 +536,10 @@ HRESULT CBoss_Koofu::End_RenderState()
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 {
-	m_isAttack = true;
+	if(!m_isClone)
+		m_isAttack = true;
+
+
 }
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other)
