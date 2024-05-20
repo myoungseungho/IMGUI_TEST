@@ -36,7 +36,6 @@ HRESULT CCamera::Initialize(void* pArg)
 
 	/* 카메라가 내 월드 공간에 어디에 존재하는지. */
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
-	//m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));   
 
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;

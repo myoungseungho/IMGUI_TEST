@@ -170,6 +170,5 @@ void CSkill_Bug_Bullet::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 
-
 	__super::Free();
 }

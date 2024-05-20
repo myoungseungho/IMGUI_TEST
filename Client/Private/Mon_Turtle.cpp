@@ -258,5 +258,6 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTimerCom); 
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
-
+	
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 }

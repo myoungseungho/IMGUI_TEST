@@ -513,4 +513,6 @@ void CBoss_Bug::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
+	//m_pGameInstance->Release_Collider(m_pColliderCom);
 }

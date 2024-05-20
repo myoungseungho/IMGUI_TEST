@@ -549,4 +549,6 @@ void CPlayer::Free()
 	Safe_Release(m_pColliderCom);
 
 	Safe_Release(m_pKeyCom);
+
+	//m_pGameInstance->Release_Collider(m_pColliderCom);
 }

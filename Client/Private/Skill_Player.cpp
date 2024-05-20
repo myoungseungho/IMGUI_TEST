@@ -191,5 +191,8 @@ void CSkill_Player::Free()
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pKeyCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+
 	__super::Free();
 }
