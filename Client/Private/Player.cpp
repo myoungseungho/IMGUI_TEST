@@ -63,7 +63,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_PlayerCurState == STATE_SKILL)
 	{
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.7f)) // E 키를 누른 시간 (1초마다)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.6f)) // E 키를 누른 시간 (1초마다)
 		{
 			m_iCurrentSkillCount += 1;
 			Player_Skill();
@@ -148,7 +148,16 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (otherObject->m_Died)
+	{
+		m_bCanMoveRight = true;
+		m_bCanMoveLeft = true;
+		m_bCanMoveForward = true;
+		m_bCanMoveBackward = true;
 		return;
+	}
+		
+	
+		
 	// Transform 컴포넌트를 가져옴
 
 		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -720,15 +729,10 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
 	Safe_Release(m_pTransformCom);
-
 	Safe_Release(m_pVIBufferCom);
-
 	Safe_Release(m_pTextureCom);
-
 	Safe_Release(m_pCal_Timercom);
-
 	Safe_Release(m_pKeyCom);
-
 	Safe_Release(m_pAnimCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);

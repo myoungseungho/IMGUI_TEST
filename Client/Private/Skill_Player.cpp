@@ -28,6 +28,8 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 	m_iSkillCount = pDesc->m_iCurrentSkillCount;
 	m_SkillDir = pDesc->m_SkillDir;
 
+	m_pTargetTransform->AddRef();
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

@@ -63,4 +63,5 @@ void CMonster::Free()
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pAnimCom);
 
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 }
