@@ -63,6 +63,10 @@ void CMonkey_Statue::Priority_Update(_float fTimeDelta)
 void CMonkey_Statue::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	CMonkey_Statue* monkey = this;
+	if (GetAsyncKeyState('G') & 0x8000)
+		Safe_Release(monkey);
 }
 
 void CMonkey_Statue::Late_Update(_float fTimeDelta)

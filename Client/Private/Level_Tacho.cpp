@@ -4,21 +4,21 @@
 #include "imgui_impl_dx9.h"
 #include "imgui_impl_win32.h"
 
-#include "..\Public\Level_Edit.h"
+#include "..\Public\Level_Tacho.h"
 
 #include "GameInstance.h"
 #include "LandObject.h"
 
 #include <Camera.h>
 
-CLevel_Edit::CLevel_Edit(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
 }
 
-HRESULT CLevel_Edit::Initialize()
+HRESULT CLevel_Tacho::Initialize()
 {
-	m_iLevelIndex = LEVEL_EDIT;
+	m_iLevelIndex = LEVEL_TACHO;
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -35,18 +35,18 @@ HRESULT CLevel_Edit::Initialize()
 	return S_OK;
 }
 
-void CLevel_Edit::Update(_float fTimeDelta)
+void CLevel_Tacho::Update(_float fTimeDelta)
 {
 }
 
-HRESULT CLevel_Edit::Render()
+HRESULT CLevel_Tacho::Render()
 {
 	SetWindowText(g_hWnd, TEXT("게임플레이레벨"));
 
 	return S_OK;
 }
 
-HRESULT CLevel_Edit::Ready_Layer_BackGround(const _wstring& strLayerTag)
+HRESULT CLevel_Tacho::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_EDIT, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
 		return E_FAIL;
@@ -54,13 +54,13 @@ HRESULT CLevel_Edit::Ready_Layer_BackGround(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_Edit::Ready_Layer_Sky(const _wstring& strLayerTag)
+HRESULT CLevel_Tacho::Ready_Layer_Sky(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_EDIT, TEXT("Prototype_GameObject_Sky"), strLayerTag)))
 		return E_FAIL;
 }
 
-HRESULT CLevel_Edit::Ready_Layer_Camera(const _wstring& strLayerTag)
+HRESULT CLevel_Tacho::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CCamera::CAMERA_DESC			CameraDesc{};
 
@@ -71,7 +71,7 @@ HRESULT CLevel_Edit::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_Edit::Ready_LandObjects()
+HRESULT CLevel_Tacho::Ready_LandObjects()
 {
 	CLandObject::LANDOBJECT_DESC	Desc{};
 
@@ -84,7 +84,7 @@ HRESULT CLevel_Edit::Ready_LandObjects()
 	return S_OK;
 }
 
-HRESULT CLevel_Edit::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_Tacho::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_EDIT, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
 		return E_FAIL;
@@ -93,26 +93,26 @@ HRESULT CLevel_Edit::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject
 }
 
 
-HRESULT CLevel_Edit::ParseInitialize()
+HRESULT CLevel_Tacho::ParseInitialize()
 {
 	if (FAILED(__super::ParseInitialize()))
 		return E_FAIL;
 }
 
 
-CLevel_Edit* CLevel_Edit::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLevel_Tacho* CLevel_Tacho::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CLevel_Edit* pInstance = new CLevel_Edit(pGraphic_Device);
+	CLevel_Tacho* pInstance = new CLevel_Tacho(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CLevel_Edit"));
+		MSG_BOX(TEXT("Failed to Created : CLevel_Tacho"));
 		Safe_Release(pInstance);
 	}
 	return pInstance;
 }
 
-void CLevel_Edit::Free()
+void CLevel_Tacho::Free()
 {
 	__super::Free();
 }

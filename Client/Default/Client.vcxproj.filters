@@ -121,6 +121,9 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Tacho">
+      <UniqueIdentifier>{2931dd44-5e4e-4577-acb1-67d668d2ee18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -258,6 +261,9 @@
     <ClInclude Include="..\Public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Tacho.h">
+      <Filter>01.Levels\Tacho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -379,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tacho.cpp">
+      <Filter>01.Levels\Tacho</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

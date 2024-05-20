@@ -39,6 +39,7 @@ HRESULT CLevel::ParseInitialize()
         L"../Bin/LevelLogoObjects.txt",      // 2: LEVEL_LOGO
         L"../Bin/LevelGameplayObjects.txt",  // 3: LEVEL_GAMEPLAY
         L"../Bin/LevelEditObjects.txt",      // 4: LEVEL_EDIT
+        L"../Bin/LevelTachoObjects.txt",      // 4: LEVEL_TACHO
         L"../Bin/DefaultLevelObjects.txt"    // 5: LEVEL_END (또는 기타)
     };
 
