@@ -63,6 +63,12 @@ void CMonkey_Statue::Priority_Update(_float fTimeDelta)
 void CMonkey_Statue::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	CMonkey_Statue* monkey = this;
+	if (GetAsyncKeyState('G') & 0x8000)
+	{
+		Safe_Release(monkey);
+	}
 }
 
 void CMonkey_Statue::Late_Update(_float fTimeDelta)
@@ -142,10 +148,11 @@ CGameObject* CMonkey_Statue::Clone(void* pArg)
 
 void CMonkey_Statue::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+	__super::Free();
 }
