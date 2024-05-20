@@ -128,6 +128,10 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Bullet_B(fTimeDelta);
 		break;
 
+	case MON_STATE::STAN:
+		State_Stan(fTimeDelta);
+		break;
+
 	case MON_STATE::CAST:
 		State_Cast(fTimeDelta);
 		break;
@@ -254,7 +258,7 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		break;
 
 	case ANIM_STATE::STUN:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.f, fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.5f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::READY:
@@ -278,7 +282,13 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::READY;
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	{
+		m_ePrev_State = MON_STATE::READY;
+		m_eAnim_State = ANIM_STATE::READY;
+		m_eMon_State = MON_STATE::IDLE;
+	}
+
 }
 
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
@@ -338,6 +348,16 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 
 	/*if (m_pTimerCom->Time_Limit(fTimeDelta, 6.f))
 		m_eMon_State = MON_STATE::BULLET;*/
+}
+
+void CBoss_Koofu::State_Stan(_float fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	{
+		m_ePrev_State = MON_STATE::STAN;
+		m_eAnim_State = ANIM_STATE::READY;
+		m_eMon_State = MON_STATE::READY;
+	}
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)

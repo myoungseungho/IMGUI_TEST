@@ -126,7 +126,7 @@ void CCollider::OnCollisionExit(CCollider* other)
 	if (!m_IsCollied)
 		m_IsCollied != m_IsCollied;
 
-	if (m_MineGameObject->m_Died)
+	if (other->m_Died || m_Died)
 		return;
 
 	m_MineGameObject->OnCollisionExit(other);
