@@ -30,17 +30,18 @@ HRESULT CCollider::Initialize(void* pArg)
 	m_Height = pDesc->height;
 	m_Depth = pDesc->depth;
 
-
 	if (pDesc->MineGameObject != nullptr)
 	{
 		m_MineGameObject = pDesc->MineGameObject;
-		//Safe_AddRef(m_MineGameObject);
 	}
 
 	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componet);
 
 	m_WorldMatrix = transform->Get_WorldMatrix();
+	m_Width /= transform->Get_Scaled().x;
+	m_Height /= transform->Get_Scaled().y;
+	m_Depth /= transform->Get_Scaled().z;
 
 	return S_OK;
 }
@@ -58,7 +59,7 @@ void CCollider::Render()
 
 	// 로컬 스페이스에서 콜라이더의 8개 정점을 계산
 	_float3 localVertices[8];
-	float halfWidth = m_Width / 2.0f;
+	float halfWidth = (m_Width / 2.0f);
 	float halfHeight = m_Height / 2.0f;
 	float halfDepth = m_Depth / 2.0f;
 
@@ -70,7 +71,7 @@ void CCollider::Render()
 	localVertices[5] = _float3(halfWidth, -halfHeight, halfDepth);
 	localVertices[6] = _float3(halfWidth, halfHeight, halfDepth);
 	localVertices[7] = _float3(-halfWidth, halfHeight, halfDepth);
-	
+
 	// 인덱스 배열
 	short indices[] = {
 		0, 1, 1, 2, 2, 3, 3, 0, // 아래 면
@@ -159,6 +160,4 @@ CComponent* CCollider::Clone(void* pArg)
 void CCollider::Free()
 {
 	__super::Free();
-
-	//Safe_Release(m_MineGameObject);
 }
