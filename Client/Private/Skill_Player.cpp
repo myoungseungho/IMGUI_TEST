@@ -60,7 +60,6 @@ void CSkill_Player::Update(_float fTimeDelta)
 void CSkill_Player::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
 }
 
 HRESULT CSkill_Player::Render(_float fTimeDelta)

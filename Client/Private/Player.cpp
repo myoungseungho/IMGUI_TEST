@@ -147,9 +147,14 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	// 충돌 해제 시 해당 방향 이동 가능으로 설정
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (otherObject->m_Died)
+		return;
 	// Transform 컴포넌트를 가져옴
-	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
-	CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+		CTransform* other_transform = static_cast<CTransform*>(other_component);
+	
+
 
 	// 플레이어와 다른 객체의 위치를 가져옴
 	_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -348,7 +353,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 				D3DXVec3Normalize(&vLook, &vLook);
 
 				m_SkillDir = vLook;
-		    }
+			}
 		}
 
 		else if (m_pKeyCom->Key_Pressing(VK_DOWN))
@@ -415,7 +420,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		}
 	}
 
-	else if (m_bMoveUp) 
+	else if (m_bMoveUp)
 	{
 		m_PlayerCurState = STATE_WALK;
 
@@ -457,7 +462,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		}
 	}
 
-	else if (m_bMoveLeft) 
+	else if (m_bMoveLeft)
 	{
 		Set_Direction(DIR_LEFT);
 		m_PlayerCurState = STATE_WALK;
@@ -480,13 +485,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 		m_PlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 	}
-	
+
 	else if (m_pKeyCom->Key_Pressing('2'))
 	{
 		m_PlayerCurState = (STATE_PUSH);
 		Player_Push(fTimeDelta);
 	}
-		
+
 
 	else
 		m_PlayerCurState = (STATE_IDLE);
@@ -494,7 +499,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	return S_OK;
 }
 
-	
+
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
 
@@ -512,8 +517,8 @@ HRESULT CPlayer::Player_Skill()
 	SkillPlayerDesc.m_iCurrentSkillCount = m_iCurrentSkillCount;
 	SkillPlayerDesc.m_SkillDir = m_SkillDir;
 
-	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
-		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
+	return E_FAIL;
 
 	return S_OK;
 }
@@ -536,154 +541,154 @@ void CPlayer::BillBoarding()
 
 void CPlayer::Player_AnimState(_float _fTimeDelta)
 {
-		switch (m_PlayerCurState)
+	switch (m_PlayerCurState)
+	{
+	case STATE_IDLE:
+		switch (m_PlayerDir)
 		{
-		case STATE_IDLE:
-			switch (m_PlayerDir)
-			{
-			case DIR_UP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_Up"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_Right"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_DOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_Down"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_Left"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_LeftUp"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_RightUp"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_RightDown"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Idle_LeftDown"), 1.0f, _fTimeDelta, true);
-				break;
-			}
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_Up"), 1.0f, _fTimeDelta, true);
 			break;
-		case STATE_WALK:
-			switch (m_PlayerDir)
-			{
-			case DIR_UP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_Up"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_Right"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_DOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_Down"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_Left"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_LeftUp"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_RightUp"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_RightDown"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Walk_LeftDown"), 1.0f, _fTimeDelta, true);
-				break;
-			}
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_Right"), 1.0f, _fTimeDelta, true);
 			break;
-		case STATE_ATTACK:
-			switch (m_PlayerDir)
-			{
-			case DIR_UP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_DOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_LEFT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_LEFTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 1.0f, _fTimeDelta, false);
-				break;
-			case DIR_LEFTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 1.0f, _fTimeDelta, false);
-				break;
-			}
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_Down"), 1.0f, _fTimeDelta, true);
 			break;
-		case STATE_SKILL:
-			switch (m_PlayerDir)
-			{
-			case DIR_UP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_DOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_LEFT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_LEFTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_RIGHTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 1.5f, _fTimeDelta, false);
-				break;
-			case DIR_LEFTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 1.5f, _fTimeDelta, false);
-				break;
-			}
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_Left"), 1.0f, _fTimeDelta, true);
 			break;
-		case STATE_PUSH:
-			switch (m_PlayerDir)
-			{
-			case DIR_UP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Right"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_DOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFT:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Left"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTUP:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_RIGHTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
-				break;
-			case DIR_LEFTDOWN:
-				m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
-				break;
-			}
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_LeftUp"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_RightUp"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_RightDown"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Idle_LeftDown"), 1.0f, _fTimeDelta, true);
 			break;
 		}
+		break;
+	case STATE_WALK:
+		switch (m_PlayerDir)
+		{
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_Up"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_Right"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_Down"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_Left"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_LeftUp"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_RightUp"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_RightDown"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Walk_LeftDown"), 1.0f, _fTimeDelta, true);
+			break;
+		}
+		break;
+	case STATE_ATTACK:
+		switch (m_PlayerDir)
+		{
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 1.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 1.0f, _fTimeDelta, false);
+			break;
+		}
+		break;
+	case STATE_SKILL:
+		switch (m_PlayerDir)
+		{
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 1.5f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 1.5f, _fTimeDelta, false);
+			break;
+		}
+		break;
+	case STATE_PUSH:
+		switch (m_PlayerDir)
+		{
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Right"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Left"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
+			break;
+		}
+		break;
+	}
 }
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -714,8 +719,6 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 
 	Safe_Release(m_pVIBufferCom);
@@ -729,4 +732,6 @@ void CPlayer::Free()
 	Safe_Release(m_pAnimCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }
