@@ -182,8 +182,9 @@ CGameObject* CSkill_Koofu_Bubble::Clone(void* pArg)
 
 void CSkill_Koofu_Bubble::Free()
 {
-	__super::Free();
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+
+	__super::Free();
 }

@@ -250,8 +250,6 @@ CGameObject* CMon_Turtle::Clone(void* pArg)
 
 void CMon_Turtle::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
@@ -260,4 +258,6 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pColliderCom);
 	
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

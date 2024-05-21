@@ -135,10 +135,10 @@ CGameObject * CMon_Pocket::Clone(void * pArg)
 
 void CMon_Pocket::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+
+	__super::Free();
 }

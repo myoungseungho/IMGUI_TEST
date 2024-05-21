@@ -746,7 +746,7 @@ CGameObject* CBoss_Koofu::Clone(void* pArg)
 
 void CBoss_Koofu::Free()
 {
-	__super::Free();
+
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
@@ -755,4 +755,6 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(this->m_pColliderCom);
+
+	__super::Free();
 }

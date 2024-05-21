@@ -194,10 +194,10 @@ CGameObject* CSkill_Koofu_Fuit::Clone(void* pArg)
 
 void CSkill_Koofu_Fuit::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom); 
 	Safe_Release(m_pPlayerTransform);
+
+	__super::Free();
 }

@@ -513,8 +513,6 @@ CGameObject* CBoss_Bug::Clone(void* pArg)
 
 void CBoss_Bug::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pVIBufferCom);
@@ -522,4 +520,6 @@ void CBoss_Bug::Free()
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

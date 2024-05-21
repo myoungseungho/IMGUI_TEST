@@ -44,9 +44,9 @@ HRESULT CSkill_Monster::Ready_Components()
 
 void CSkill_Monster::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pAnimCom);
+
+	__super::Free();
 }
