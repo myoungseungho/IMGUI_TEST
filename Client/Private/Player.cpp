@@ -598,7 +598,7 @@ HRESULT CPlayer::Player_Skill()
 	SkillPlayerDesc.m_iCurrentSkillCount = m_iCurrentSkillCount;
 	SkillPlayerDesc.m_SkillDir = m_SkillDir;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)));
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)))
 	return E_FAIL;
 
 	return S_OK;
@@ -800,7 +800,6 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
-	__super::Free();
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
@@ -809,4 +808,6 @@ void CPlayer::Free()
 	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pColliderCom);
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

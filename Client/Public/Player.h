@@ -54,7 +54,7 @@ private:
 	CKeyState*			m_pKeyCom = { nullptr };
 	CCalc_Timer*		 m_pCal_Timercom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
-	class CSkill_Player*		m_pSkill_Player = { nullptr };
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Animation();
