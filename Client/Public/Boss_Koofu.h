@@ -66,7 +66,7 @@ private:
 	void ScaleUp(_float fTimeDelta);
 	void Warf(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 	void Warf(_int iPosX, _int iPosZ, _float fDistance);
-	void Distory();
+	void Destory();
 
 	HRESULT RollingCreate();
 	HRESULT FuitCreate();

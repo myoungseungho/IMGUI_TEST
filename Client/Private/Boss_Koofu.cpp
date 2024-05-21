@@ -84,7 +84,7 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	Distory();
+	Destory();
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -487,11 +487,6 @@ HRESULT CBoss_Koofu::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
-
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
 	
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
@@ -508,6 +503,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
 
 
 	/* For.Com_Transform */
@@ -515,7 +511,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 0.5f;
+	ColliderDesc.depth = m_pTransformCom->Get_Scaled().z;
 	ColliderDesc.MineGameObject = this;
 
 
@@ -643,7 +639,7 @@ void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 
 }
 
-void CBoss_Koofu::Distory()
+void CBoss_Koofu::Destory()
 {
 	CBoss_Koofu* pthis = this;
 
