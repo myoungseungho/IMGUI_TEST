@@ -149,6 +149,24 @@ HRESULT CCollider_Manager::OnCollisionCheckIntervalChanged(float _fCollisionChec
 
 HRESULT CCollider_Manager::Release_Collider(const CCollider* targetCollider)
 {
+	// 먼저, m_CollisionHistory에서 해당 콜라이더와 관련된 모든 충돌 정보를 제거하거나 OnCollisionExit 이벤트를 호출합니다.
+	for (auto it = m_CollisionHistory.begin(); it != m_CollisionHistory.end(); )
+	{
+		if (it->first.first == targetCollider || it->first.second == targetCollider)
+		{
+			// 충돌 종료 이벤트 호출
+			it->first.first->OnCollisionExit(it->first.second);
+			it->first.second->OnCollisionExit(it->first.first);
+
+			// 충돌 정보 제거
+			it = m_CollisionHistory.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
 	for (int i = CG_PLAYER; i < CG_END; ++i) {
 		auto it = find(m_Colliders[i].begin(), m_Colliders[i].end(), targetCollider);
 		if (it != m_Colliders[i].end()) {
