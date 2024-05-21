@@ -123,15 +123,14 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x / 2.f;
-	ColliderDesc.height = m_pTransformCom->Get_Scaled().y / 2.f;
-	ColliderDesc.depth = 0.5f;
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x / 5.f;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y / 5.f;
+	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
@@ -140,7 +139,7 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
