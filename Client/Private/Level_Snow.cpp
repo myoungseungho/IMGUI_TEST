@@ -18,7 +18,7 @@ CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Snow::Initialize()
 {
-	m_iLevelIndex = LEVEL_TACHO;
+	m_iLevelIndex = LEVEL_SNOW;
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -70,7 +70,7 @@ HRESULT CLevel_Snow::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CCamera::CAMERA_DESC			CameraDesc{};
 
-	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_TACHO, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
 		return E_FAIL;
 
@@ -91,7 +91,7 @@ HRESULT CLevel_Snow::Ready_Layer_Tile(const _wstring& strLayerTag, int horizonta
 		for (int x = 0; x < horizontalTiles; ++x)
 		{
 			tileDesc.startPosition = _float3(startX + x * spacing, startY, startZ + z * spacing);
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TachoGround_Tile"), strLayerTag, &tileDesc)))
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_TachoGround_Tile"), strLayerTag, &tileDesc)))
 				return E_FAIL;
 		}
 	}
@@ -113,7 +113,7 @@ HRESULT CLevel_Snow::Ready_Layer_Bush(const _wstring& strLayerTag, int horizonta
 		for (int x = 0; x < horizontalTiles; ++x)
 		{
 			bushDecs.startPosition = _float3(startX + x * spacing, startY, startZ + z * spacing);
-			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Bush"), strLayerTag, &bushDecs)))
+			if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Bush"), strLayerTag, &bushDecs)))
 				return E_FAIL;
 		}
 	}
@@ -137,7 +137,7 @@ HRESULT CLevel_Snow::Ready_LandObjects()
 
 HRESULT CLevel_Snow::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

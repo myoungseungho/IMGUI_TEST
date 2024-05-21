@@ -708,6 +708,11 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CVIBuffer_Cube::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_Component_Texture_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURECUBE, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/SkyBox/SkyBox_%d.dds"), 4))))
+		return E_FAIL;
+
 	return S_OK;
 
 }
