@@ -26,6 +26,9 @@ HRESULT CBlock::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -74,9 +77,7 @@ HRESULT CBlock::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -89,10 +90,49 @@ HRESULT CBlock::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CBlock::AnimState(_float _fTimeDelta)
+{
+
+	switch (m_eAnimState)
+	{
+	case ANIMATION_STATE::ANIM_IDLE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block_Idle"), 0.5f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_UNIDLE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block_UnIdle"), 0.5f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_BLOCK:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_UnBlock"), 0.5f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_UNBLOCK:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block"), 0.5f, _fTimeDelta, false);
+		break;
+	}
+}
+
+
+void CBlock::OnCollisionEnter(CCollider* other)
+{
+	m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
+}
+
+void CBlock::OnCollisionStay(CCollider* other)
+{
+
+}
+
+void CBlock::OnCollisionExit(CCollider* other)
+{
+	m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
+}
+
 HRESULT CBlock::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_Block"),
+	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_Idle"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -110,8 +150,24 @@ HRESULT CBlock::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
+
+HRESULT CBlock::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_Idle"), TEXT("AnimTexture_Block_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_UnIdle"), TEXT("AnimTexture_Block_UnIdle"));
+	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_UnBlock"), TEXT("AnimTexture_UnBlock"));
+	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block"), TEXT("AnimTexture_Block"));
+
+	return S_OK;
+}
+
 
 CBlock* CBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -146,6 +202,7 @@ void CBlock::Free()
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pTextureCom);
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 }

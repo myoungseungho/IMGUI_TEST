@@ -26,6 +26,9 @@ HRESULT CBush::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -35,7 +38,11 @@ HRESULT CBush::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
-
+	else
+	{
+		CBush::BUSHDESC* bushDesc = static_cast<CBush::BUSHDESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &bushDesc->startPosition);
+	}
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -46,7 +53,7 @@ HRESULT CBush::Initialize(void* pArg)
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
@@ -63,6 +70,15 @@ void CBush::Priority_Update(_float fTimeDelta)
 void CBush::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (GetAsyncKeyState('G') & 0x8000)
+	{
+		m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
+	}
+	else if(GetAsyncKeyState('H') & 0x8000)
+	{
+		m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
+	}
 }
 
 void CBush::Late_Update(_float fTimeDelta)
@@ -74,9 +90,7 @@ HRESULT CBush::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -89,13 +103,23 @@ HRESULT CBush::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CBush::OnCollisionEnter(CCollider* other)
+{
+	m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
+}
+
+void CBush::OnCollisionStay(CCollider* other)
+{
+
+}
+
+void CBush::OnCollisionExit(CCollider* other)
+{
+	m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
+}
+
 HRESULT CBush::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_Bush"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -110,7 +134,34 @@ HRESULT CBush::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
 	return S_OK;
+}
+
+HRESULT CBush::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Idle"), TEXT("AnimTexture_Bush_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Move"), TEXT("AnimTexture_Bush_Move"));
+
+	return S_OK;
+}
+
+void CBush::AnimState(_float _fTimeDelta)
+{
+	switch (m_eAnimState)
+	{
+	case ANIMATION_STATE::ANIM_IDLE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Idle"), 0.3f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_MOVE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Move"), 0.3f, _fTimeDelta, true);
+		break;
+	}
 }
 
 CBush* CBush::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -147,5 +198,6 @@ void CBush::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 }

@@ -9,14 +9,6 @@
 #include "GameInstance.h"
 #include "LandObject.h"
 
-#include "Monster.h"
-#include "Mon_Pocket.h"
-#include "Boss_Bug.h"
-#include "Boss_Koofu.h"
-
-#include "Skill_Player.h"
-#include "Skill_Bug_Bullet.h"
-
 #include <Camera.h>
 
 CLevel_Edit::CLevel_Edit(LPDIRECT3DDEVICE9 pGraphic_Device)

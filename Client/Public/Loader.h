@@ -46,7 +46,8 @@ private:
 	HRESULT Loading_For_LogoLevel();	
 	HRESULT Loading_For_GamePlayLevel();
 	HRESULT Loading_For_Edit();
-
+	HRESULT Loading_For_Tacho();
+	HRESULT Loading_For_Snow();
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID);
 	virtual void Free() override;

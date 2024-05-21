@@ -10,7 +10,7 @@ CComponent::CComponent(LPDIRECT3DDEVICE9 pGraphic_Device)
 	Safe_AddRef(m_pGameInstance);
 }
 
-CComponent::CComponent(const CComponent & Prototype)
+CComponent::CComponent(const CComponent& Prototype)
 	: m_pGraphic_Device{ Prototype.m_pGraphic_Device }
 	, m_pGameInstance{ Prototype.m_pGameInstance }
 	, m_isCloned{ true }
@@ -19,7 +19,6 @@ CComponent::CComponent(const CComponent & Prototype)
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pGameInstance);
 }
-
 HRESULT CComponent::Initialize_Prototype()
 {
 	return S_OK;

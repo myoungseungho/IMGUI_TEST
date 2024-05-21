@@ -11,6 +11,7 @@
 #include "Level_Loading.h"
 #include "GameObject.h"
 #include "Component.h"
+#include "EnviormentObject.h"
 
 #include <codecvt>
 
@@ -47,7 +48,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_GAMEPLAY)))
+	if (FAILED(Open_Level(LEVEL_SNOW)))
 		return E_FAIL;
 
 
@@ -234,9 +235,11 @@ HRESULT CMainApp::Show_LayerObjects()
 	ImGui::EndChild();
 	ImGui::NextColumn(); // 다음 컬럼으로 이동
 
+	string layerName; // layerName 변수를 스코프 바깥으로 이동
+
 	ImGui::BeginChild("RightPane", ImVec2(0, 0), true); // 오른쪽 창 생성
 	if (selectedItem != -1) { // 유효한 레이어가 선택된 경우
-		const string& layerName = objectLayersVector[selectedItem].first;
+		layerName = objectLayersVector[selectedItem].first;
 		list<CGameObject*>& gameObjects = objectLayersVector[selectedItem].second;
 		int index = 0;  // 게임 오브젝트의 번호를 표시하기 위한 인덱스
 		for (auto it = gameObjects.begin(); it != gameObjects.end(); /* 빈 상태 */) {
@@ -254,7 +257,6 @@ HRESULT CMainApp::Show_LayerObjects()
 				selectedGameObjects.push_back(gameObject);
 				gameObject->SetPicking(false); // 클릭 상태 초기화
 			}
-
 
 			if (ImGui::Selectable((layerName + " " + std::to_string(index)).c_str(), isSelected)) {
 				if (ImGui::GetIO().KeyCtrl) { // Ctrl 키가 눌려있는 상태에서만 다중 선택
@@ -457,6 +459,17 @@ HRESULT CMainApp::Show_LayerObjects()
 		if (ImGui::Button("Delete Selected Object")) {
 			Click_Button_Release(selectedGameObjects);
 		}
+
+		// 복사 버튼 추가
+		ImGui::Separator(); // 구분선 추가
+		if (ImGui::Button("Copy Selected Object")) {
+			for (CGameObject* gameObject : selectedGameObjects) {
+				// 레이어 이름과 함께 객체를 복사합니다.
+				wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+				std::wstring wLayerName = converter.from_bytes(layerName);
+				CopySelectedObject(wLayerName, gameObject);
+			}
+		}
 	}
 	ImGui::EndChild();
 
@@ -470,6 +483,7 @@ HRESULT CMainApp::Show_LayerObjects()
 
 	return S_OK;
 }
+
 
 HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
 {
@@ -532,6 +546,12 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	case LEVEL_EDIT:
 		filePath = L"../Bin/LevelEditObjects.txt";
 		break;
+	case LEVEL_TACHO:
+		filePath = L"../Bin/LevelTachoObjects.txt";
+		break;
+	case LEVEL_SNOW:
+		filePath = L"../Bin/LevelSnowObjects.txt";
+		break;
 	default:
 		filePath = L"../Bin/DefaultLevelObjects.txt"; // default 이름
 		break;
@@ -580,6 +600,33 @@ HRESULT CMainApp::Click_Button_Release(std::vector<CGameObject*>& selectedGameOb
 		Safe_Release(gameObject); // 오브젝트 릴리즈
 		it = selectedGameObjects.erase(it); // 리스트에서 오브젝트 제거
 	}
+	return S_OK;
+}
+
+HRESULT CMainApp::CopySelectedObject(const std::wstring& layerName, CGameObject* sourceObject)
+{
+	// Get the current level index
+	_uint currentLevel = m_pGameInstance->GetCurrentLevelIndex();
+
+	// Extract the prototype suffix from the layer name
+	std::wstring prototypeSuffix = layerName.substr(6); // "Layer_" 이후의 문자열 추출
+	std::wstring prototypeTag = L"Prototype_GameObject_" + prototypeSuffix;
+
+	// Copy the position and scale from the source object
+	CComponent* sourceComponent = sourceObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* sourceTransform = static_cast<CTransform*>(sourceComponent);
+
+	FILEDATA copy_DESC{};
+	copy_DESC.prototypeTag = prototypeTag;
+	copy_DESC.layerName = layerName;
+	copy_DESC.position = sourceTransform->Get_State(CTransform::STATE_POSITION);
+	copy_DESC.scale = sourceTransform->Get_Scaled();
+	copy_DESC.isParsing = false;
+
+	// Create a new game object using the prototype
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag.c_str(), layerName.c_str(), &copy_DESC)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -652,6 +699,21 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
 		CAnimator::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Terrain"),
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 100, 100))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_VIBuffer_Cube */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+		CVIBuffer_Cube::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_Component_Texture_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURECUBE, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/SkyBox/SkyBox_%d.dds"), 4))))
 		return E_FAIL;
 
 	return S_OK;

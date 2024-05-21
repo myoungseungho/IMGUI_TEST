@@ -39,7 +39,7 @@ private:
 	HRESULT Click_Collider_Toggle(bool isChecked);
 	HRESULT OnCollisionCheckIntervalChanged(float);
 	HRESULT Click_Button_Release(std::vector<CGameObject*>& selectedGameObjects);
-
+	HRESULT CopySelectedObject(const std::wstring& layerName, CGameObject* sourceObject);
 private:
 	_bool bMovementEnabled = {false};
 public:

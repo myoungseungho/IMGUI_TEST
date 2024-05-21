@@ -127,7 +127,7 @@ IsParsing: 1
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
 LevelIndex: 4
-Position: 41.5677 0.5 29.9388
+Position: 41.3677 0.5 29.7388
 Scale: 1 1 1
 IsParsing: 1
 
@@ -271,6 +271,13 @@ Position: 41.4373 0.2 24.0671
 Scale: 1 1 1
 IsParsing: 1
 
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 4
+Position: 35.9652 3.19122 25.0845
+Scale: 1 1 1
+IsParsing: 1
+
 LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
 LevelIndex: 4
@@ -282,12 +289,5 @@ LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
 LevelIndex: 4
 Position: 44.7051 0 24.3327
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Sky
-PrototypeTag: Prototype_GameObject_Sky
-LevelIndex: 4
-Position: 25.5084 3.70088 26.365
 Scale: 1 1 1
 IsParsing: 1

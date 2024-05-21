@@ -1,0 +1,14 @@
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 6
+Position: 37 5.16738 26
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Tree
+PrototypeTag: Prototype_GameObject_Tree
+LevelIndex: 6
+Position: 37 1.806 31
+Scale: 1.517 3.598 1
+IsParsing: 1
+

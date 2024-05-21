@@ -58,27 +58,6 @@
     <Filter Include="02.GameObjects\Enviorment">
       <UniqueIdentifier>{40d5bc9e-84ad-4fd9-868c-44220b137ed7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Tree">
-      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Push_Stone">
-      <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Monkey_Statue">
-      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\RockBreakable">
-      <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Block">
-      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Hole">
-      <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\Bush">
-      <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Skill">
       <UniqueIdentifier>{18969ed2-d64f-4b1d-8fc3-1101eb22b1c6}</UniqueIdentifier>
     </Filter>
@@ -117,6 +96,96 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Rolling">
       <UniqueIdentifier>{6a327645-259d-4f78-aa51-c0f3ada3cd04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle">
+      <UniqueIdentifier>{1c914190-cdd5-4cc4-b5dd-a9f309c01b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Block">
+      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Bush">
+      <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Hole">
+      <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Monkey_Statue">
+      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Push_Stone">
+      <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\RockBreakable">
+      <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree">
+      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Tacho">
+      <UniqueIdentifier>{2931dd44-5e4e-4577-acb1-67d668d2ee18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho">
+      <UniqueIdentifier>{8d7973c2-79e0-4cc6-8465-40663dbcb0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_Shop">
+      <UniqueIdentifier>{fc930d93-3bf1-4aaf-acea-bf37ec68cdf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop">
+      <UniqueIdentifier>{7866f6d4-9b34-4a38-9b60-16e14885dcc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank">
+      <UniqueIdentifier>{5b3c1672-08de-4b6b-b072-49cdfb1d857d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1">
+      <UniqueIdentifier>{238cb56a-8376-4762-a173-3b0c2d8eda1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2">
+      <UniqueIdentifier>{ace35c44-c217-4c60-9c09-b641ab2eca90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_SuperMarket">
+      <UniqueIdentifier>{d4e021b3-9f22-4ae8-bf55-d94e1e05a48a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Tile">
+      <UniqueIdentifier>{d323e380-46bf-4990-a81b-f8329c5baea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Tile\Tacho">
+      <UniqueIdentifier>{d55bd872-9ba7-436f-8b22-003056834cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_Fence">
+      <UniqueIdentifier>{528bee7b-50ed-4637-97ad-7ef222668a15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Tile\Tacho\TachoGround_Tile">
+      <UniqueIdentifier>{2fedf27b-1c8e-4a9b-bfcc-b0e93dfe7e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole">
+      <UniqueIdentifier>{74d5dbf9-7318-41f3-9b1e-cb26ef65131c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Snow">
+      <UniqueIdentifier>{ce076d36-fb44-4784-9f65-ff6a5e92b51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow">
+      <UniqueIdentifier>{2ce0454f-f72e-4a01-9521-5a2cb704a1b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Tree">
+      <UniqueIdentifier>{70127eff-cdc4-4d08-860f-807be9e3bd89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_House">
+      <UniqueIdentifier>{864a6187-e977-4f00-a91e-bc07c7a19915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Fence">
+      <UniqueIdentifier>{ed3779ab-e928-4940-b694-e47ca5a0813d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_CenterDirt">
+      <UniqueIdentifier>{b180faa0-82ef-487b-873c-0b2178a62223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Bush">
+      <UniqueIdentifier>{6eec131c-3b6b-423f-90f2-f7210ccea20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_GrassGround">
+      <UniqueIdentifier>{d49ffcc8-e2b7-41ce-be1f-1e54a71c7472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Rock">
+      <UniqueIdentifier>{517a0c35-d66d-49b6-b323-afd14e794508}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,25 +265,25 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Tree.h">
-      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Push_Stone.h">
-      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monkey_Statue.h">
-      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RockBreakable.h">
-      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block.h">
-      <Filter>02.GameObjects\Enviorment\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
-      <Filter>02.GameObjects\Enviorment\Hole</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Bush.h">
-      <Filter>02.GameObjects\Enviorment\Bush</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Bush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Skill.h">
       <Filter>02.GameObjects\Skill</Filter>
@@ -254,6 +323,66 @@
     </ClInclude>
     <ClInclude Include="..\Public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Tacho.h">
+      <Filter>01.Levels\Tacho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_Shop.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_BreadShop.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_WaterTank.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_PotHorizontal1.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_PotHorizontal2.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_SuperMarket.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_SuperMarket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TachoShop_Tile.h">
+      <Filter>02.GameObjects\Tile\Tacho</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_Fence.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TachoGround_Tile.h">
+      <Filter>02.GameObjects\Tile\Tacho\TachoGround_Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Outside_TelePhonePole.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Snow.h">
+      <Filter>01.Levels\Snow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_Tree.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_House.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_House</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_Fence.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_CenterDirt.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_CenterDirt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_Bush.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Bush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_GrassGround.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_GrassGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_Rock.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_Vertical_Fence.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,25 +447,25 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
-      <Filter>02.GameObjects\Enviorment\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Push_Stone.cpp">
-      <Filter>02.GameObjects\Enviorment\Push_Stone</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monkey_Statue.cpp">
-      <Filter>02.GameObjects\Enviorment\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RockBreakable.cpp">
-      <Filter>02.GameObjects\Enviorment\RockBreakable</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
-      <Filter>02.GameObjects\Enviorment\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
-      <Filter>02.GameObjects\Enviorment\Hole</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Bush.cpp">
-      <Filter>02.GameObjects\Enviorment\Bush</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Bush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Skill.cpp">
       <Filter>02.GameObjects\Skill</Filter>
@@ -376,6 +505,66 @@
     </ClCompile>
     <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Tacho.cpp">
+      <Filter>01.Levels\Tacho</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_Shop.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_BreadShop.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_BreadShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_WaterTank.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_WaterTank</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_PotHorizontal2.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_PotHorizontal2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_SuperMarket.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_SuperMarket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TachoShop_Tile.cpp">
+      <Filter>02.GameObjects\Tile\Tacho</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_Fence.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TachoGround_Tile.cpp">
+      <Filter>02.GameObjects\Tile\Tacho\TachoGround_Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_TelephonePole.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Snow.cpp">
+      <Filter>01.Levels\Snow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Tree.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_House.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_House</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Fence.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_CenterDirt.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_CenterDirt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Bush.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_GrassGround.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_GrassGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Rock.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Vertical_Fence.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
