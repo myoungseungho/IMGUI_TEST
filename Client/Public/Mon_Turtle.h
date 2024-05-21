@@ -47,6 +47,7 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

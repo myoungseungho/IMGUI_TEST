@@ -38,9 +38,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 5.f));
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
+	
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	m_eMon_State = MON_STATE::IDLE;
@@ -124,6 +122,10 @@ HRESULT CBoss_Bug::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -203,24 +205,24 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	//auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
-	if (iter)
-	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-		{
-			Warf(30, 20, 50.f, m_fAngle);
-		}
-		else
-		{
-			m_pTransformCom->Set_Speed(10.f);
-			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
-		}
-	}
-	else
-	{
-		m_pTransformCom->Set_Speed(2.f);
-	}
+	//if (iter)
+	//{
+	//	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	//	{
+	//		Warf(30, 20, 50.f, m_fAngle);
+	//	}
+	//	else
+	//	{
+	//		m_pTransformCom->Set_Speed(10.f);
+	//		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+	//	}
+	//}
+	//else
+	//{
+	//	m_pTransformCom->Set_Speed(2.f);
+	//}
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
@@ -427,7 +429,11 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 void CBoss_Bug::Mon_State(_float fTimeDelta)
 {
 	if (m_tMonsterDesc.iHp <= 0)
+	{
 		m_eMon_State = MON_STATE::DEATH;
+		this->m_Died = true;
+	}
+		
 
 	switch (m_eMon_State)
 	{

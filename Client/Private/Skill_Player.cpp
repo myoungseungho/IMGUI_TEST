@@ -55,8 +55,8 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('1'))
-			Delete_Skill();
+	//if (m_pKeyCom->Key_Down('1'))
+			//Delete_Skill();
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -116,12 +116,6 @@ HRESULT CSkill_Player::End_RenderState()
 	return S_OK;
 }
 
-void CSkill_Player::Delete_Skill()
-{
-	CSkill_Player* pThis = this;
-
-	Safe_Release(pThis);
-}
 
 HRESULT CSkill_Player::Ready_Components()
 {

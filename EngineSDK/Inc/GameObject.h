@@ -49,6 +49,9 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
+	virtual void	Delete_Object();
+
+public:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, class CComponent** ppOut, void* pArg = nullptr);
 
 public:

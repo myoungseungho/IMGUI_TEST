@@ -10,6 +10,7 @@
 #include "Bush.h"
 #include "GameInstance.h"
 #include "Skill_Player.h"
+#include "Monster.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -60,6 +61,22 @@ void CPlayer::Update(_float fTimeDelta)
 	SetUp_OnTerrain(m_pTransformCom, 3.f);
 
 	Key_Input(fTimeDelta);
+
+	if (m_PlayerCurState == STATE_ATTACK)
+	{
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
+		{
+			m_PlayerCurState = STATE_IDLE;
+			m_pTransformCom->Set_Scaled(m_forScaled);
+
+		}
+	}
+	else if (m_PlayerCurState != STATE_ATTACK)
+	{
+		m_pTransformCom->Set_Scaled(m_forScaled);
+	}
+
+
 
 	if (m_PlayerCurState == STATE_SKILL)
 	{
@@ -115,6 +132,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
+
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -140,6 +158,26 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 
 void CPlayer::OnCollisionStay(CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+	
+	if (m_PlayerCurState == STATE_ATTACK)
+	{
+		otherObject->Delete_Object();
+		return;
+	}
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+		pDamagedObj->Damaged();
+
+		if (pDamagedObj->m_Died)
+		{
+			pDamagedObj->Delete_Object();
+		}
+		return;
+	}
+		
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)
@@ -489,7 +527,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 			m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-	else if (m_pKeyCom->Key_Pressing('A'))
+	else if (m_pKeyCom->Key_Down('A'))
 	{
 		m_PlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
@@ -502,8 +540,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	}
 
 
-	else
-		m_PlayerCurState = (STATE_IDLE);
+	//else
+	//	m_PlayerCurState = (STATE_IDLE);
 
 	return S_OK;
 }
@@ -511,7 +549,18 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
+	_float3		curScaled;
 
+	// 평타
+	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
+	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
+
+
+	curScaled.x = m_forScaled.x + 1.5f;
+	curScaled.y = m_forScaled.y + 1.5f;
+	curScaled.z = m_forScaled.z + 1.5f;
+
+	m_pTransformCom->Set_Scaled(curScaled);
 
 }
 

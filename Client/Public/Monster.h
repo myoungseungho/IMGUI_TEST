@@ -56,12 +56,16 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
-protected:
+public:
+	virtual void Damaged() {
+		--m_tMonsterDesc.iHp;
+	};
+
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
 	
 protected:
-	MONSTER_DESC m_tMonsterDesc = {};
+	MONSTER_DESC m_tMonsterDesc;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;

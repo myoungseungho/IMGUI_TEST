@@ -45,7 +45,6 @@ public:
 	HRESULT End_RenderState();
 
 public:
-	void		Delete_Skill();
 
 private:
 	_uint		m_iSkillCount = { 0 };
