@@ -24,13 +24,18 @@ protected:
 	virtual HRESULT Ready_Animation();
 
 private:
+	void Set_Scale(_float fTimeDelta);
+	void Move(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
 	void Destroy(_float fTimeDelta);
 
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-
+private:
+	_float m_fScaleAcc = { 0.f };
+	_float m_fScalePlus = { 0.1f };
+	_float m_fAngle = { 0.f };
 public:
 	static CSkill_Koofu_Bubble* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

@@ -22,6 +22,7 @@
 #include "Sky.h"
 #include "Skill_Koofu_Fuit.h"
 #include "Skill_Koofu_Rolling.h"
+#include "Skill_Koofu_Bubble.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -455,7 +456,9 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CSkill_Koofu_Fuit::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Koofu_Bubble"),
+		CSkill_Koofu_Bubble::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 

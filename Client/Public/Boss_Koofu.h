@@ -38,6 +38,7 @@ private:
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
 	void State_Bullet_B(_float fTimeDelta);
+	void State_Bullet_C(_float fTimeDelta);
 	void State_Stan(_float fTimeDelta);
 	void State_Cast(_float fTimeDelta);
 
@@ -70,6 +71,7 @@ private:
 	HRESULT RollingCreate();
 	HRESULT FuitCreate();
 	HRESULT CloneCreate();
+	HRESULT CircleCreate();
 
 private:
 	ANIM_STATE m_eAnim_State = {};
@@ -82,6 +84,7 @@ private:
 
 	_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
+
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

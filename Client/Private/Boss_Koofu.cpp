@@ -128,6 +128,10 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Bullet_B(fTimeDelta);
 		break;
 
+	case MON_STATE::BULLET_C:
+		State_Bullet_C(fTimeDelta);
+		break;
+
 	case MON_STATE::STAN:
 		State_Stan(fTimeDelta);
 		break;
@@ -285,7 +289,7 @@ void CBoss_Koofu::State_Ready(_float fTimeDelta)
 	{
 		m_ePrev_State = MON_STATE::READY;
 		m_eAnim_State = ANIM_STATE::READY;
-		m_eMon_State = MON_STATE:: CAST;
+		m_eMon_State = MON_STATE::CAST;
 	}
 
 }
@@ -296,7 +300,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	{
 		m_isClone_Create = true;
 		CloneCreate();
-		
+
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 			Warf(35.f, 31.f, 20.f);
 	}
@@ -323,14 +327,26 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eMon_State = MON_STATE::STAN;
 		m_isAttack = false;
 		m_isClone_Create = false;
-	
+
 		for (int i = 0; i < 3; ++i)
 		{
 			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
 			Safe_Release(pClone);
 		}
 	}
-	
+
+	if (!m_isClone && m_tMonsterDesc.iHp <= 40)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			Safe_Release(pClone);
+		}
+
+		m_eMon_State = MON_STATE::BULLET_C;
+		m_isBullet = false;
+	}
+
 }
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
@@ -346,10 +362,38 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	if (m_isBullet)
 	{
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-		{	m_ePrev_State = MON_STATE::BULLET_B;
+		{
+			m_ePrev_State = MON_STATE::BULLET_B;
 			m_eMon_State = MON_STATE::IDLE;
 		}
 	}
+}
+
+void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::CAST;
+
+	if (!m_isBullet)
+	{
+		CircleCreate();
+		m_isBullet = true;
+	}
+
+	if (m_isAttack && !m_isClone)
+	{
+		m_eAnim_State = ANIM_STATE::STUN;
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+		{
+			m_eAnim_State = ANIM_STATE::READY;
+
+			if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+			{
+				int a = 10;
+			}
+		}
+
+	}
+	
 }
 
 void CBoss_Koofu::State_Stan(_float fTimeDelta)
@@ -422,7 +466,9 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	
+	if (m_pKeyCom->Key_Down('2') && !m_isClone)
+		m_tMonsterDesc.iHp--;
+
 
 }
 
@@ -655,6 +701,23 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	return S_OK;
 	
+}
+
+HRESULT CBoss_Koofu::CircleCreate()
+{
+	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
+
+	Desc.iBulletCnt = 0;
+	Desc.pTargetTransform = m_pTransformCom;
+
+	for (int i = 1; i <= 3; ++i)
+	{
+		Desc.iBulletCnt = i;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Bubble"), TEXT("Layer_Bubble"), &Desc)))
+			return E_FAIL;
+	}
+
+	return S_OK;
 }
 
 

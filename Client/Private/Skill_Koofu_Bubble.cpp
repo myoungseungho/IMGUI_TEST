@@ -22,6 +22,12 @@ HRESULT CSkill_Koofu_Bubble::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
+	SKILL_MONSTER__DESC* pDesc = static_cast<SKILL_MONSTER__DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	m_tSkill_Desc.iBulletCnt = pDesc->iBulletCnt;
+	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -33,10 +39,26 @@ HRESULT CSkill_Koofu_Bubble::Initialize(void* pArg)
 
 void CSkill_Koofu_Bubble::Priority_Update(_float fTimeDelta)
 {
+	m_fAngle += fTimeDelta;
+
+	if(m_fAngle > 360)
+		m_fAngle = 0.f;
 }
 
 void CSkill_Koofu_Bubble::Update(_float fTimeDelta)
 {
+	Set_Scale(fTimeDelta);
+
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	if (m_tSkill_Desc.iBulletCnt % 2 != 0)
+	{
+		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 5.f, m_fAngle);
+	}
+	else 
+		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 5.f, -m_fAngle);
 }
 
 void CSkill_Koofu_Bubble::Late_Update(_float fTimeDelta)
@@ -48,6 +70,9 @@ HRESULT CSkill_Koofu_Bubble::Render(_float fTimeDelta)
 {
 
 	if (FAILED(Begin_RenderState()))
+		E_FAIL;
+
+	if(FAILED(m_pTextureCom->Bind_Texture(0)))
 		E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -87,6 +112,23 @@ HRESULT CSkill_Koofu_Bubble::Ready_Components()
 HRESULT CSkill_Koofu_Bubble::Ready_Animation()
 {
 	return S_OK;
+}
+
+void CSkill_Koofu_Bubble::Set_Scale(_float fTimeDelta)
+{
+	m_fScaleAcc += m_fScalePlus;
+
+	if (m_fScaleAcc > 5 || m_fScaleAcc < 0)
+		m_fScalePlus *= -1;
+
+	m_pTransformCom->Set_Scaled(_float3(1.f + m_fScaleAcc, 1.f + m_fScaleAcc, 1.f));
+}
+
+void CSkill_Koofu_Bubble::Move(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
+{
+	_float WarfPosX = iPosX + fDistance * cos((fAngle + D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ - fDistance * sin((fAngle + D3DX_PI / 180.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
 }
 
 void CSkill_Koofu_Bubble::Destroy(_float fTimeDelta)
@@ -141,4 +183,7 @@ CGameObject* CSkill_Koofu_Bubble::Clone(void* pArg)
 void CSkill_Koofu_Bubble::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
 }
