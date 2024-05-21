@@ -174,6 +174,7 @@
     <ClInclude Include="..\Public\Outside_PotHorizontal2.h" />
     <ClInclude Include="..\Public\Outside_Shop.h" />
     <ClInclude Include="..\Public\Outside_SuperMarket.h" />
+    <ClInclude Include="..\Public\Outside_TelePhonePole.h" />
     <ClInclude Include="..\Public\Outside_WaterTank.h" />
     <ClInclude Include="..\Public\Push_Stone.h" />
     <ClInclude Include="..\Public\RockBreakable.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\Private\Outside_PotHorizontal2.cpp" />
     <ClCompile Include="..\Private\Outside_Shop.cpp" />
     <ClCompile Include="..\Private\Outside_SuperMarket.cpp" />
+    <ClCompile Include="..\Private\Outside_TelephonePole.cpp" />
     <ClCompile Include="..\Private\Outside_WaterTank.cpp" />
     <ClCompile Include="..\Private\Push_Stone.cpp" />
     <ClCompile Include="..\Private\RockBreakable.cpp" />

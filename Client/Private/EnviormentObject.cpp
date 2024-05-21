@@ -75,10 +75,10 @@ HRESULT CEnviormentObject::Initialize(void* pArg)
 
 			transform->Set_State(CTransform::STATE_POSITION, &pFileData->position);
 			transform->Set_Scaled(pFileData->scale);
+
+			return S_OK;
 		}
 	}
-
-
 }
 
 void CEnviormentObject::Priority_Update(_float fTimeDelta)

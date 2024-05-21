@@ -157,6 +157,9 @@
     <Filter Include="02.GameObjects\Tile\Tacho\TachoGround_Tile">
       <UniqueIdentifier>{2fedf27b-1c8e-4a9b-bfcc-b0e93dfe7e5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole">
+      <UniqueIdentifier>{74d5dbf9-7318-41f3-9b1e-cb26ef65131c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -324,6 +327,9 @@
     <ClInclude Include="..\Public\TachoGround_Tile.h">
       <Filter>02.GameObjects\Tile\Tacho\TachoGround_Tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Outside_TelePhonePole.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -475,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TachoGround_Tile.cpp">
       <Filter>02.GameObjects\Tile\Tacho\TachoGround_Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_TelephonePole.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

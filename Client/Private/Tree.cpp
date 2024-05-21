@@ -35,11 +35,6 @@ HRESULT CTree::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
-	else
-	{
-		m_pTransformCom->Set_Scaled(_float3(1.f, 3.f, 1.f));
-	}
-
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -50,7 +45,7 @@ HRESULT CTree::Initialize(void* pArg)
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
@@ -96,7 +91,7 @@ HRESULT CTree::Render(_float fTimeDelta)
 HRESULT CTree::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Texture_Tree"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

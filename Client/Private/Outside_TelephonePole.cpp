@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Bush.h"
+#include "..\Public\Outside_TelePhonePole.h"
 
 #include "GameInstance.h"
 
-CBush::CBush(LPDIRECT3DDEVICE9 pGraphic_Device)
+COutside_TelePhonePole::COutside_TelePhonePole(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CBush::CBush(const CBush& Prototype)
+COutside_TelePhonePole::COutside_TelePhonePole(const COutside_TelePhonePole& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CBush::Initialize_Prototype()
+HRESULT COutside_TelePhonePole::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,12 +21,9 @@ HRESULT CBush::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CBush::Initialize(void* pArg)
+HRESULT COutside_TelePhonePole::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -37,11 +34,6 @@ HRESULT CBush::Initialize(void* pArg)
 		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
-	else
-	{
-		CBush::BUSHDESC* bushDesc = static_cast<CBush::BUSHDESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &bushDesc->startPosition);
 	}
 
 	/* For.Com_Transform */
@@ -63,34 +55,27 @@ HRESULT CBush::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CBush::Priority_Update(_float fTimeDelta)
+void COutside_TelePhonePole::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBush::Update(_float fTimeDelta)
+void COutside_TelePhonePole::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-	if (GetAsyncKeyState('G') & 0x8000)
-	{
-		m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
-	}
-	else if(GetAsyncKeyState('H') & 0x8000)
-	{
-		m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
-	}
 }
 
-void CBush::Late_Update(_float fTimeDelta)
+void COutside_TelePhonePole::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CBush::Render(_float fTimeDelta)
+HRESULT COutside_TelePhonePole::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
-	AnimState(fTimeDelta);
+	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -103,23 +88,13 @@ HRESULT CBush::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CBush::OnCollisionEnter(CCollider* other)
+HRESULT COutside_TelePhonePole::Ready_Components()
 {
-	m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
-}
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Texture_Sprite_Outside_TelephonePole"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
 
-void CBush::OnCollisionStay(CCollider* other)
-{
-
-}
-
-void CBush::OnCollisionExit(CCollider* other)
-{
-	m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
-}
-
-HRESULT CBush::Ready_Components()
-{
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -134,43 +109,16 @@ HRESULT CBush::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	/* For.Com_Amin */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
-		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
-HRESULT CBush::Ready_Animation()
+COutside_TelePhonePole* COutside_TelePhonePole::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Idle"), TEXT("AnimTexture_Bush_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Move"), TEXT("AnimTexture_Bush_Move"));
-
-	return S_OK;
-}
-
-void CBush::AnimState(_float _fTimeDelta)
-{
-	switch (m_eAnimState)
-	{
-	case ANIMATION_STATE::ANIM_IDLE:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Idle"), 0.3f, _fTimeDelta, false);
-		break;
-
-	case ANIMATION_STATE::ANIM_MOVE:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Move"), 0.3f, _fTimeDelta, true);
-		break;
-	}
-}
-
-CBush* CBush::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CBush* pInstance = new CBush(pGraphic_Device);
+	COutside_TelePhonePole* pInstance = new COutside_TelePhonePole(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CBush"));
+		MSG_BOX(TEXT("Failed to Created : COutside_TelePhonePole"));
 		Safe_Release(pInstance);
 	}
 
@@ -178,24 +126,25 @@ CBush* CBush::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CBush::Clone(void* pArg)
+CGameObject* COutside_TelePhonePole::Clone(void* pArg)
 {
-	CBush* pInstance = new CBush(*this);
+	COutside_TelePhonePole* pInstance = new COutside_TelePhonePole(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CBush"));
+		MSG_BOX(TEXT("Failed to Cloned : COutside_TelePhonePole"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBush::Free()
+void COutside_TelePhonePole::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 }
