@@ -12,6 +12,7 @@
 #include "Skill_Player.h"
 #include "Monster.h"
 #include "Boss_Bug.h"
+#include <Boss_Koofu.h>
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -161,13 +162,31 @@ void CPlayer::OnCollisionStay(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 	
-	if (m_PlayerCurState == STATE_ATTACK)
+	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
-		otherObject->Delete_Object();
-		return;
+		if (m_PlayerCurState == STATE_ATTACK)
+		{
+			otherObject->Delete_Object();
+			return;
+		}
 	}
 
 	if (dynamic_cast<CBoss_Bug*>(otherObject))
+	{
+		if (m_PlayerCurState == STATE_ATTACK)
+		{
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
+
+			if (pDamagedObj->m_Died)
+			{
+				pDamagedObj->Delete_Object();
+			}
+		}
+		return;
+	}
+
+	if (dynamic_cast<CBoss_Koofu*>(otherObject))
 	{
 		if (m_PlayerCurState == STATE_ATTACK)
 		{

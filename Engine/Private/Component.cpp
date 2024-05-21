@@ -35,5 +35,4 @@ void CComponent::Free()
 	    
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);
-	Safe_Release(m_pGameInstance);
 }

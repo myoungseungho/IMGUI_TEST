@@ -206,6 +206,4 @@ void CSkill_Player::Free()
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
-
-	__super::Free();
 }
