@@ -38,6 +38,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
 	//m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));	
 
+
 	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;

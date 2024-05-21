@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Skill_Monster.h"
+#include"Skill_Monster.h"
 
 BEGIN(Client)
 
-class CSkill_Koofu_Rolling final: public CSkill_Monster
+class CSkill_Koofu_Bubble final:public CSkill_Monster
 {
 private:
-	CSkill_Koofu_Rolling(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSkill_Koofu_Rolling(const CSkill_Koofu_Rolling& pPrototype);
-	virtual ~CSkill_Koofu_Rolling() = default;
+	CSkill_Koofu_Bubble(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Koofu_Bubble(const CSkill_Koofu_Bubble& pPrototype);
+	virtual ~CSkill_Koofu_Bubble() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -24,18 +24,23 @@ protected:
 	virtual HRESULT Ready_Animation();
 
 private:
+	void Set_Scale(_float fTimeDelta);
+	void Move(_int iPosX, _int iPosZ, _float fDistance, _float fAngle);
 	void Destroy(_float fTimeDelta);
 
 private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+private:
+	_float m_fScaleAcc = { 0.f };
+	_float m_fScalePlus = { 0.1f };
+	_float m_fAngle = { 0.f };
 public:
-	static CSkill_Koofu_Rolling* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSkill_Koofu_Bubble* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 
 END
-

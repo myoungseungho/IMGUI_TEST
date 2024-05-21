@@ -74,6 +74,7 @@ HRESULT CTexture::Bind_Anim(_uint fFrame)
 
 CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _wstring & strTextureFilePath, _uint iNumTextures)
 {
+
 	CTexture*		pInstance = new CTexture(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype(eType, strTextureFilePath, iNumTextures)))

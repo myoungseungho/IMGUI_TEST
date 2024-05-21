@@ -195,6 +195,8 @@ CGameObject* CSkill_Player::Clone(void* pArg)
 
 void CSkill_Player::Free()
 {
+	__super::Free();
+
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);

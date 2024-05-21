@@ -2,6 +2,7 @@
 #include "Mon_Turtle.h"
 
 #include "GameInstance.h"
+#include "Player.h"
 
 CMon_Turtle::CMon_Turtle(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -41,8 +42,9 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 3.f, rand() % 20 + 10));
+	
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.f, rand() % 20 + 10));
+	m_eMon_State = MON_STATE::IDLE;
 	
 	return S_OK;
 }
@@ -54,12 +56,12 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
+	Move_Range(0.f, 0.f, 50.f, 50.f);
+	Distory(fTimeDelta); 
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
 {
-	Distory(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -84,15 +86,6 @@ HRESULT CMon_Turtle::Render(_float fTimeDelta)
 
 void CMon_Turtle::Mon_State(_float fTimeDelta)
 {
-	if (rand() % 10 > 2)
-	{
-		m_eMon_State = MON_STATE::MOVE;
-	}
-	else
-	{
-		m_eMon_State = MON_STATE::MOVE;
-	}
-
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -107,17 +100,37 @@ void CMon_Turtle::Mon_State(_float fTimeDelta)
 
 void CMon_Turtle::Idle_Update(_float fTimeDelta)
 {
-
+		m_eMon_State = MON_STATE::MOVE;
 }
 
 void CMon_Turtle::Move_Update(_float fTimeDelta)
 {
+	_float3 fPos;
+	fPos.x = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+	fPos.y = 0.f;
+	fPos.z = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &fPos);
 	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
 void CMon_Turtle::Distory(_float fTimeDelta)
 {
+	CMon_Turtle* pTurtle = this;
 
+	if (m_pKeyCom->Key_Down('0'))
+	{
+		Safe_Release(pTurtle);
+	}
+}
+
+void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)
+{
+	_float fPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+	_float fPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+	if ((fPosX <= fMinPosX || fPosX >= fMaxPosX) || (fPosZ <= fMinPosZ || fPosZ >= fMaxPosZ))
+		m_pTransformCom->Set_Speed(0.f);
 }
 
 HRESULT CMon_Turtle::Ready_Components()
@@ -137,12 +150,26 @@ HRESULT CMon_Turtle::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 3.0f;
+	TransformDesc.fSpeedPerSec = 1.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 0.5f;
+	ColliderDesc.MineGameObject = this;
+
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
@@ -173,6 +200,28 @@ HRESULT CMon_Turtle::End_RenderState()
 	return S_OK;
 }
 
+void CMon_Turtle::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		--m_tMonsterDesc.iHp;
+		
+	}
+	
+}
+
+void CMon_Turtle::OnCollisionStay(CCollider* other)
+{
+
+}
+
+void CMon_Turtle::OnCollisionExit(CCollider* other)
+{
+	
+}
+
 CMon_Turtle* CMon_Turtle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CMon_Turtle* pInstance = new CMon_Turtle(pGraphic_Device);
@@ -201,11 +250,14 @@ CGameObject* CMon_Turtle::Clone(void* pArg)
 
 void CMon_Turtle::Free()
 {
+	__super::Free();
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTimerCom); 
 	Safe_Release(m_pTargetTransform);
-
-	__super::Free();
+	Safe_Release(m_pColliderCom);
+	
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 }

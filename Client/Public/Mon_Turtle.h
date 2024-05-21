@@ -35,6 +35,7 @@ private:
 
 private:
 	void Distory(_float fTimeDelta);
+	void Move_Range(_float fMinPosX , _float fMinPosZ , _float fMaxPosX, _float fMaxPosZ);
 
 private:
 	wstring m_ColorTexTag = {};
@@ -47,6 +48,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
 
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -131,6 +131,9 @@ void CCollider::OnCollisionExit(CCollider* other)
 	if (other->m_Died || m_Died)
 		return;
 
+	if (other->m_Died || m_Died)
+		return;
+
 	m_MineGameObject->OnCollisionExit(other);
 }
 
@@ -141,7 +144,7 @@ CCollider* CCollider::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX(TEXT("Failed to Created : CCollider"));
-		Safe_Release(pInstance);
+		Safe_Release(pInstance); 
 	}
 
 	return pInstance;

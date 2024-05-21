@@ -181,7 +181,6 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		}
 		return;
 	}
-		
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)
@@ -200,6 +199,7 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		m_bCanMoveBackward = true;
 		return;
 	}
+
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 
@@ -256,7 +256,7 @@ HRESULT CPlayer::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL;
+		return E_FAIL; 
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.3f, 31.f));
@@ -368,7 +368,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	if (m_pKeyCom->Key_Pressing('E'))
 	{
-		m_PlayerCurState = STATE_SKILL;
+		//m_PlayerCurState = STATE_SKILL;
 
 		if (m_pKeyCom->Key_Pressing(VK_UP))
 		{
@@ -789,7 +789,5 @@ void CPlayer::Free()
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pColliderCom);
-
 	m_pGameInstance->Release_Collider(m_pColliderCom);
-
 }

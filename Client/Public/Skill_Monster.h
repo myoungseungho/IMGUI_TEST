@@ -20,6 +20,7 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr };
+		_int  iTotalBullet = { 0 };
 		_int  iBulletCnt = { 0 };
 	}SKILL_MONSTER__DESC;
 
@@ -48,6 +49,8 @@ protected:
 
 	CTransform* m_pTargetTransform= { nullptr };
 
+protected:
+	_float m_fAngleRange = { 0.f };
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;

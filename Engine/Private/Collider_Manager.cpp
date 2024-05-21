@@ -168,12 +168,14 @@ HRESULT CCollider_Manager::Release_Collider(const CCollider* targetCollider)
 	}
 
 	for (int i = CG_PLAYER; i < CG_END; ++i) {
+
 		auto it = find(m_Colliders[i].begin(), m_Colliders[i].end(), targetCollider);
 		if (it != m_Colliders[i].end()) {
 			CCollider* collider = *it;
 			Safe_Release(collider);
 			m_Colliders[i].erase(it);
 			return S_OK; // 성공적으로 해제 및 삭제
+
 		}
 	}
 
