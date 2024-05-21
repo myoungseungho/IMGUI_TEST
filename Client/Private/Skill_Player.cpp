@@ -55,8 +55,6 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	//if (m_pKeyCom->Key_Down('1'))
-			//Delete_Skill();
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)

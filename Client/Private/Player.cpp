@@ -166,7 +166,7 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		otherObject->Delete_Object();
 		return;
 	}
-	// 충돌 검사 중이었음
+
 	if (dynamic_cast<CBoss_Bug*>(otherObject))
 	{
 		if (m_PlayerCurState == STATE_ATTACK)
