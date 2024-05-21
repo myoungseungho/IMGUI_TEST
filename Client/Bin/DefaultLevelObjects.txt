@@ -1,35 +1,14 @@
-LayerName: Layer_Outside_BreadShop
-PrototypeTag: Prototype_GameObject_Outside_BreadShop
-LevelIndex: 5
-Position: 37 2.6 31
-Scale: 5 5 1
-IsParsing: 1
-
-LayerName: Layer_Outside_PotHorizontal1
-PrototypeTag: Prototype_GameObject_Outside_PotHorizontal1
-LevelIndex: 5
-Position: 37 0 31
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 6
+Position: 37 5.16738 26
 Scale: 1 1 1
 IsParsing: 1
 
-LayerName: Layer_Outside_PotHorizontal2
-PrototypeTag: Prototype_GameObject_Outside_PotHorizontal2
-LevelIndex: 5
-Position: 37 0 31
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Outside_Shop
-PrototypeTag: Prototype_GameObject_Outside_Shop
-LevelIndex: 5
-Position: 37 0 31
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Outside_WaterTank
-PrototypeTag: Prototype_GameObject_Outside_WaterTank
-LevelIndex: 5
-Position: 37 0 31
-Scale: 1 1 1
+LayerName: Layer_Tree
+PrototypeTag: Prototype_GameObject_Tree
+LevelIndex: 6
+Position: 37 1.806 31
+Scale: 1.517 3.598 1
 IsParsing: 1
 

@@ -549,6 +549,9 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	case LEVEL_TACHO:
 		filePath = L"../Bin/LevelTachoObjects.txt";
 		break;
+	case LEVEL_SNOW:
+		filePath = L"../Bin/LevelSnowObjects.txt";
+		break;
 	default:
 		filePath = L"../Bin/DefaultLevelObjects.txt"; // default ¿Ã∏ß
 		break;
