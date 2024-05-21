@@ -59,7 +59,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	//BillBoarding();
-	SetUp_OnTerrain(m_pTransformCom, 3.f);
+	//SetUp_OnTerrain(m_pTransformCom, 3.f);
 
 	Key_Input(fTimeDelta);
 
