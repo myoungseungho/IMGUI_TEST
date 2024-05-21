@@ -63,6 +63,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
 
+
 	return S_OK;
 }
 
@@ -74,8 +75,7 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
-	
+	//m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);
@@ -502,8 +502,8 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
+	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 
 	/* For.Com_Transform */
