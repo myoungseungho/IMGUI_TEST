@@ -160,6 +160,9 @@
     <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole">
       <UniqueIdentifier>{74d5dbf9-7318-41f3-9b1e-cb26ef65131c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Snow">
+      <UniqueIdentifier>{ce076d36-fb44-4784-9f65-ff6a5e92b51d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -330,6 +333,9 @@
     <ClInclude Include="..\Public\Outside_TelePhonePole.h">
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Snow.h">
+      <Filter>01.Levels\Snow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -484,6 +490,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Outside_TelephonePole.cpp">
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Snow.cpp">
+      <Filter>01.Levels\Snow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
