@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -19,6 +20,11 @@ private:
 	CHole(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CHole(const CHole& Prototype); /* 사본생성 시 */
 	virtual ~CHole() = default;
+
+	enum ANIMATION_STATE {
+		ANIM_IDLE,
+		ANIM_Stone,
+	};
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -33,9 +39,15 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Animation();
+	void AnimState(_float _fTimeDelta);
+
+private:
+	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
 
 public:
 	/* 원형객체를 생성한다. */

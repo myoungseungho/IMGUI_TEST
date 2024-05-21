@@ -26,6 +26,9 @@ HRESULT CHole::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -74,9 +77,7 @@ HRESULT CHole::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -111,6 +112,28 @@ HRESULT CHole::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CHole::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Hole_Idle"), TEXT("AnimTexture_Hole_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_AnimTexture_Hole_Stone"), TEXT("AnimTexture_Hole_Stone"));
+
+	return S_OK;
+}
+
+void CHole::AnimState(_float _fTimeDelta)
+{
+	switch (m_eAnimState)
+	{
+	case ANIMATION_STATE::ANIM_IDLE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Hole_Idle"), 0.5f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_Stone:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Hole_Stone"), 0.5f, _fTimeDelta, false);
+		break;
+	}
 }
 
 CHole* CHole::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
