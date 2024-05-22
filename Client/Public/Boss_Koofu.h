@@ -88,7 +88,7 @@ private:
 	_bool m_isBullet = { false };
 
 	_float3 m_vTargetDir = {};
-
+	_uint m_iCloneNum = { 0 };
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

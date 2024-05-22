@@ -340,27 +340,26 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_isAttack = false;
 		m_isClone_Create = false;
 
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < m_iCloneNum; ++i)
 		{
 			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+
 			if (!pClone)
+			{
+				m_iCloneNum = 0;
 				break;
+			}
 
 			Safe_Release(pClone);
 		}
+
+		
 	}
 
 	if (!m_isClone && m_tMonsterDesc.iHp <= 40)
 	{
-		for (int i = 0; i < 3; ++i)
-		{
-			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
-			
-			if (!pClone)
-				break;
-
-			Safe_Release(pClone);
-		}
+		CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone")));
+		pClone->Delete_Object();
 
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_isBullet = false;
@@ -410,12 +409,16 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		{
 			m_eAnim_State = ANIM_STATE::READY;
 
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 3 ;++i)
 				{
 					CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Bubble"), i));
 
+
 					if (!pClone)
+					{
+						m_iCloneNum = 0;
 						break;
+					}
 
 					Safe_Release(pClone);
 				}
@@ -693,7 +696,10 @@ void CBoss_Koofu::Destory()
 	CBoss_Koofu* pthis = this;
 
 	if (m_isClone && m_tMonsterDesc.iHp <= 0)
+	{
 		Safe_Release(pthis);
+		m_iCloneNum--;
+	}
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
@@ -740,8 +746,9 @@ HRESULT CBoss_Koofu::CloneCreate()
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
-		
-		//Warf(-10, -10, 10, 10);
+
+		m_iCloneNum = i;
+		int a = 10;
 	}
 
 	return S_OK;
