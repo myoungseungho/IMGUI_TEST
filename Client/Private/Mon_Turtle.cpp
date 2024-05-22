@@ -165,7 +165,7 @@ HRESULT CMon_Turtle::Ready_Components()
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
