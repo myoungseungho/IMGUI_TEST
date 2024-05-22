@@ -63,6 +63,9 @@ private:
 	CCalc_Timer* m_pTimerCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 
+
+private:
+	_bool		m_bSkillAttack = { false};
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

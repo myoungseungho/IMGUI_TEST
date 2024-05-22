@@ -11,8 +11,7 @@
 #include "GameInstance.h"
 #include "Skill_Player.h"
 #include "Monster.h"
-#include "Boss_Bug.h"
-#include <Boss_Koofu.h>
+
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)

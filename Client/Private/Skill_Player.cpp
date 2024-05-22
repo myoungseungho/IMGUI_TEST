@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Skill_Player.h"
+#include "Monster.h"
 #include "GameInstance.h"
 
 CSkill_Player::CSkill_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -55,6 +56,12 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f) && m_iSkillCount >=3)
+	{
+		Delete_Object();
+	}
+
+	m_bSkillAttack = true;
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -89,6 +96,28 @@ void CSkill_Player::OnCollisionEnter(CCollider* other)
 
 void CSkill_Player::OnCollisionStay(CCollider* other)
 {
+
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		if (m_bSkillAttack)
+		{
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
+			m_bSkillAttack = false;
+
+			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
+			{
+				pDamagedObj->Delete_Object();
+			}
+		}
+
+		Delete_Object();
+
+		return;
+	}
+
 	int a = 3;
 }
 
