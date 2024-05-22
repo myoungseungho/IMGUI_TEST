@@ -5,10 +5,10 @@
 
 
 BEGIN(Engine)
-class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -20,6 +20,11 @@ private:
 	CRockBreakable(const CRockBreakable& Prototype); /* 사본생성 시 */
 	virtual ~CRockBreakable() = default;
 
+	enum ANIMATION_STATE {
+		ANIM_IDLE,
+		ANIM_Die,
+	};
+
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
@@ -29,13 +34,18 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 private:	
-	CTexture*			m_pTextureCom = { nullptr };
-	CTransform*			m_pTransformCom = { nullptr };
-	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Animation();
+	void AnimState(_float _fTimeDelta);
+
+private:
+	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
 
 public:
 	/* 원형객체를 생성한다. */

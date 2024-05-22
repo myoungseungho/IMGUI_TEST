@@ -26,6 +26,10 @@ HRESULT CRockBreakable::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -73,9 +77,7 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -90,11 +92,6 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 
 HRESULT CRockBreakable::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_BUG, TEXT("Prototype_Component_Texture_Sprite_RockBreakable"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -109,7 +106,35 @@ HRESULT CRockBreakable::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
+
 	return S_OK;
+}
+
+HRESULT CRockBreakable::Ready_Animation()
+{
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_RockBreakable_Idle"), TEXT("AnimTexture_RockBreakable_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_RockBreakable_Die"), TEXT("AnimTexture_RockBreakable_MDie"));
+
+	return S_OK;
+}
+
+void CRockBreakable::AnimState(_float _fTimeDelta)
+{
+	switch (m_eAnimState)
+	{
+	case ANIMATION_STATE::ANIM_IDLE:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_Idle"), 0.3f, _fTimeDelta, false);
+		break;
+
+	case ANIMATION_STATE::ANIM_Die:
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_MDie"), 0.5f, _fTimeDelta, false);
+		break;
+	}
 }
 
 CRockBreakable* CRockBreakable::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -143,8 +168,8 @@ void CRockBreakable::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pAnimCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 
