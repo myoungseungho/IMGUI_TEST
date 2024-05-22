@@ -16,14 +16,8 @@
     <Filter Include="01.Levels\Logo">
       <UniqueIdentifier>{cae9f95a-8919-4f1e-a749-ee91785ca225}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Loading">
-      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\GamePlay">
       <UniqueIdentifier>{7f41c64b-be06-422e-9219-83684cafa8a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Loading\Loader">
-      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects">
       <UniqueIdentifier>{e43784d0-ed5c-40f4-8d22-a8a57286ac27}</UniqueIdentifier>
@@ -199,6 +193,39 @@
     <Filter Include="01.Levels\Koofu">
       <UniqueIdentifier>{85fa5ef9-1132-46d3-8a42-c1597298ef5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_Circle">
+      <UniqueIdentifier>{ab1da2fe-fc5b-47eb-9454-193ae67a8305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_LowerCenter">
+      <UniqueIdentifier>{d342f05b-683e-4271-9e63-4a775db7ce8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_LeftCenter">
+      <UniqueIdentifier>{157d5883-ac93-4284-bad4-312596b78601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_RightCenter">
+      <UniqueIdentifier>{cdc36220-bbc1-4d83-a42f-6b965d87b9b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_LowerLeft">
+      <UniqueIdentifier>{014aa93a-b3b1-4e3e-baf8-c173952e91e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_LowerRight">
+      <UniqueIdentifier>{79de5aad-2808-4e1c-a7ad-4280073da46f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_Upper">
+      <UniqueIdentifier>{b119659b-4854-4a17-b6fc-d03a40c0264d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_UpperLeft">
+      <UniqueIdentifier>{3c087bf9-cef9-45e8-8378-8026cc33c017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight">
+      <UniqueIdentifier>{0389ca8a-6a42-4589-8d6f-5a49f470e015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Logo\Loading">
+      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Logo\Loading\Loader">
+      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -226,13 +253,13 @@
       <Filter>01.Levels\Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\Logo\Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\Logo\Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -405,6 +432,33 @@
     <ClInclude Include="..\Public\Level_Koofu.h">
       <Filter>01.Levels\Koofu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Koofu_Circle.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_LowerCenter.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_LeftCenter.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LeftCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_RightCenter.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_RightCenter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_LowerLeft.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerLeft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_LowerRight.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerRight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_Upper.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Upper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_UpperLeft.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperLeft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Koofu_UpperRight.h">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -420,13 +474,13 @@
       <Filter>01.Levels\Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\Logo\Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\Logo\Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BackGround.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -595,6 +649,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Koofu.cpp">
       <Filter>01.Levels\Koofu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_Circle.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_LowerCenter.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_LeftCenter.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LeftCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_RightCenter.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_RightCenter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_LowerLeft.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerLeft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_LowerRight.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_LowerRight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_Upper.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Upper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_UpperLeft.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperLeft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Koofu_UpperRight.cpp">
+      <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
