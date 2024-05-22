@@ -447,10 +447,8 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 	if (m_tMonsterDesc.iHp <= 0)
 	{
 		m_eMon_State = MON_STATE::DEATH;
-		this->m_Died = true;
 	}
 		
-
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
