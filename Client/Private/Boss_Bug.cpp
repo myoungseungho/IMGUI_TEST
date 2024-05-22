@@ -39,10 +39,15 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.0f, 1.5f, 50.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 1.5f, 20.f));
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float3 vLookAt = {};
+
+	vLookAt.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	vLookAt.y = 1.5f;
+	vLookAt.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->LookAt(vLookAt);
 
 	m_eMon_State = MON_STATE::IDLE;
 
@@ -100,10 +105,6 @@ HRESULT CBoss_Bug::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
-
-	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
@@ -203,24 +204,24 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
-	//auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
-	//if (iter)
-	//{
-	//	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-	//	{
-	//		Warf(30, 20, 50.f, m_fAngle);
-	//	}
-	//	else
-	//	{
-	//		m_pTransformCom->Set_Speed(10.f);
-	//		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
-	//	}
-	//}
-	//else
-	//{
-	//	m_pTransformCom->Set_Speed(2.f);
-	//}
+	if (iter)
+	{
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		{
+			Warf(30, 20, 50.f, m_fAngle);
+		}
+		else
+		{
+			m_pTransformCom->Set_Speed(10.f);
+			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+		}
+	}
+	else
+	{
+		m_pTransformCom->Set_Speed(2.f);
+	}
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
