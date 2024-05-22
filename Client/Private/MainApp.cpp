@@ -48,7 +48,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_BUG)))
+	if (FAILED(Open_Level(LEVEL_OCEAN)))
 		return E_FAIL;
 
 
@@ -558,6 +558,9 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 		break;
 	case LEVEL_BUG:
 		filePath = L"../Bin/LevelBugObjects.txt";
+		break;
+	case LEVEL_OCEAN:
+		filePath = L"../Bin/LevelOceanObjects.txt";
 		break;
 	default:
 		filePath = L"../Bin/DefaultLevelObjects.txt"; // default ¿Ã∏ß

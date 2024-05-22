@@ -177,6 +177,7 @@
     <ClInclude Include="..\Public\Level_Bug.h" />
     <ClInclude Include="..\Public\Level_Edit.h" />
     <ClInclude Include="..\Public\Level_Koofu.h" />
+    <ClInclude Include="..\Public\Level_Ocean.h" />
     <ClInclude Include="..\Public\Level_Snow.h" />
     <ClInclude Include="..\Public\Level_Tacho.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
@@ -259,6 +260,7 @@
     <ClCompile Include="..\Private\Level_Bug.cpp" />
     <ClCompile Include="..\Private\Level_Edit.cpp" />
     <ClCompile Include="..\Private\Level_Koofu.cpp" />
+    <ClCompile Include="..\Private\Level_Ocean.cpp" />
     <ClCompile Include="..\Private\Level_Snow.cpp" />
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />

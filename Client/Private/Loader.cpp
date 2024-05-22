@@ -55,7 +55,6 @@
 #include "Moon_Fence.h"
 #include "Moon_FloorStone.h"
 #include "Moon_VerticalFence.h"
-
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
 	, m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -118,6 +117,9 @@ HRESULT CLoader::Loading()
 		break;
 	case LEVEL_BUG:
 		hr = Loading_For_Bug();
+		break;
+	case LEVEL_OCEAN:
+		hr = Loading_For_Ocean();
 		break;
 	}
 
@@ -1223,6 +1225,55 @@ HRESULT CLoader::Loading_For_Bug()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Block"),
 		CBlock::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	m_isFinished = true;
+}
+
+HRESULT CLoader::Loading_For_Ocean()
+{
+	/* 텍스쳐를 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_OCEAN, TEXT("Prototype_Component_Texture_Player"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Walk/Down/Player_Walk_%d.png"), 10))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_OCEAN, TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_3.png"), 1))))
+		return E_FAIL;
+	
+
+	/* 모델을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
+
+	//컴포넌트 로드한다.
+
+
+	/* 객체원형을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
+
+
+	/* 객체원형을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera"),
+		CCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

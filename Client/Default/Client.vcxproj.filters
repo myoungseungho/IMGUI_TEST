@@ -244,6 +244,9 @@
     <Filter Include="01.Levels\Loading\Loader">
       <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Ocean">
+      <UniqueIdentifier>{ced8ffa8-2f64-4900-9136-83d4ecd3948e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -492,6 +495,9 @@
     <ClInclude Include="..\Public\Moon_VerticalFence.h">
       <Filter>02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Ocean.h">
+      <Filter>01.Levels\Ocean</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -724,6 +730,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Moon_VerticalFence.cpp">
       <Filter>02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Ocean.cpp">
+      <Filter>01.Levels\Ocean</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

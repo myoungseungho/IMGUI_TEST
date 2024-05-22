@@ -10,6 +10,7 @@
 #include "GameInstance.h"
 #include "Level_Koofu.h"
 #include "Level_Bug.h"
+#include "Level_Ocean.h"
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -56,6 +57,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL_BUG:
 			pNextLevel = CLevel_Bug::Create(m_pGraphic_Device);
+			break;
+		case LEVEL_OCEAN:
+			pNextLevel = CLevel_Ocean::Create(m_pGraphic_Device);
 			break;
 		}
 
