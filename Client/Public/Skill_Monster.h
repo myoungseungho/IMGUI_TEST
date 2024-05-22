@@ -46,6 +46,7 @@ protected:
 	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCalc_Timer* m_pTimerCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 	CTransform* m_pTargetTransform= { nullptr };
 

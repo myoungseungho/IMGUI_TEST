@@ -35,8 +35,6 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	
 	_float fDegree = (float)(rand() % 200 + 1900) / 10.f;
@@ -59,7 +57,7 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
 	CSkill_Bug_Bullet* bullet = this;
-	if (m_pTimerCom->Time_Limit(fTimeDelta,3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta,5.f))
 		Safe_Release(bullet);
 }
 
@@ -101,6 +99,23 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
+
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 0.5f;
+	ColliderDesc.MineGameObject = this;
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
@@ -169,6 +184,9 @@ void CSkill_Bug_Bullet::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
 }

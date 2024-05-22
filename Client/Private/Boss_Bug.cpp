@@ -234,7 +234,9 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 		m_eMon_State = MON_STATE::LAND;
 	}
 	else
+	{
 		m_pTransformCom->Go_Up(fTimeDelta);
+	}
 }
 
 void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
