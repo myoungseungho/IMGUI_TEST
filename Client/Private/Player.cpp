@@ -64,7 +64,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 	if (m_ePlayerCurState == STATE_SKILL)
 	{
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.6f)) // E 키를 누른 시간 (1초마다)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
 			m_iCurrentSkillCount += 1;
 			Player_Skill();
@@ -468,6 +468,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 			}
 
+			
 		}
 
 		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
@@ -721,28 +722,28 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_DOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 0.7f, _fTimeDelta, false);
 			break;
 		}
 		break;

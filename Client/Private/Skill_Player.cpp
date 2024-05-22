@@ -36,11 +36,12 @@ HRESULT CSkill_Player::Initialize(void* pArg)
 
 	//_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
 	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 ReScaled = m_pTransformCom->Get_Scaled() * (m_iSkillCount*0.8);
 
-
-	TargetPos += *D3DXVec3Normalize(&m_SkillDir, &m_SkillDir) * (1.f * m_iSkillCount);
+	TargetPos += *D3DXVec3Normalize(&m_SkillDir, &m_SkillDir) * (m_iSkillCount);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
+	m_pTransformCom->Set_Scaled(ReScaled);
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1);
 
 	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
@@ -56,7 +57,7 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
 	{
 		Delete_Object();
 	}
@@ -129,7 +130,7 @@ HRESULT CSkill_Player::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 150);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	return S_OK;
