@@ -81,16 +81,10 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 
 private:
-	_bool m_isClone = { false };
 	_bool m_isClone_Create = { false };
-
-	//_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
-
 	_float3 m_vTargetDir = {};
-	_uint m_iCloneNum = { 0 };
 
-	_bool m_bCloneDelete = { false };
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

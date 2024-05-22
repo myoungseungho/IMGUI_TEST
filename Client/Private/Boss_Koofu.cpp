@@ -33,11 +33,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
-
-	//m_isCheck == 분신 / m_isCheck != 본신 
-	m_isClone = pDesc->isClone;
-
 	m_tMonsterDesc.iHp = pDesc->iHp;
+
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -53,17 +50,9 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
 
-	if (m_isClone)
-	{
-		m_eMon_State = MON_STATE::BULLET;
-		m_tMonsterDesc.iHp = pDesc->iHp;
-		m_isClone = true;
-		Warf(35.f, 50.f, 20.f);
-	}
-	else
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
-	}
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
+	
 	return S_OK;
 }
 
@@ -77,7 +66,6 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 {
 	Move_Dir();
 	Key_Input(fTimeDelta);
-
 	MonState(fTimeDelta);
 }
 
@@ -289,7 +277,7 @@ void CBoss_Koofu::State_Move(_float fTimeDelta)
 {
 	Move(fTimeDelta);
 
-	if (!m_isClone && m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iHp <= 0)
 	{
 		m_eMon_State = MON_STATE::DEATH;
 		m_eAnim_State = ANIM_STATE::DEADTH; 
@@ -309,7 +297,7 @@ void CBoss_Koofu::State_Ready(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 {
-	if (!m_isClone && !m_isClone_Create)
+	if (!m_isClone_Create)
 	{
 		m_isClone_Create = true;
 		CloneCreate();
@@ -334,20 +322,16 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	CBoss_Koofu* pKoofu = this;
 
-	if (m_isAttack && !m_isClone)
+	if (m_isAttack)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
 		m_eMon_State = MON_STATE::STAN;
 		m_isAttack = false;
 		m_isClone_Create = false;
-		m_bCloneDelete = true;
-		
 	}
 
-	if (!m_isClone && m_tMonsterDesc.iHp <= 40)
+	if (m_tMonsterDesc.iHp <= 40)
 	{
-		m_bCloneDelete = true;
-
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_isBullet = false;
 	}
@@ -389,22 +373,19 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		
 	}
 
-	if (m_isAttack && !m_isClone)
+	if (m_isAttack)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 		{
 			m_eAnim_State = ANIM_STATE::READY;
 
-				m_isAttack = false;
-				m_isBullet = false;
-			m_bCloneDelete = true; 
-
+			m_isAttack = false;
+			m_isBullet = false;
 		}
-
 	}
 
-	if (!m_isClone && m_tMonsterDesc.iHp <= 20)
+	if (m_tMonsterDesc.iHp <= 20)
 	{
 		m_eMon_State = MON_STATE::MOVE;
 
@@ -469,7 +450,6 @@ void CBoss_Koofu::Move_Dir()
 	}
 	else if (fAngle <= 202.5f)
 	{
-
 		m_eMon_Dir = MON_DIR::DIR_D;
 	}
 	else if (fAngle <= 247.5f)
@@ -504,10 +484,8 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('2') && !m_isClone)
+	if (m_pKeyCom->Key_Down('2'))
 		m_tMonsterDesc.iHp--;
-
-
 }
 
 void CBoss_Koofu::BillBoarding()
@@ -670,23 +648,10 @@ void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 void CBoss_Koofu::Destory()
 {
 	CBoss_Koofu* pthis = this;
-
-	if (m_isClone && m_tMonsterDesc.iHp <= 0)
-	{
-		Safe_Release(pthis);
-		m_iCloneNum--;
-	}
-
-	if (m_isClone && m_bCloneDelete )
-	{
-		Safe_Release(pthis);
-		m_bCloneDelete = false;
-	}
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
 {
-	 
 	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
 
 	Desc.iBulletCnt = 0; 
@@ -726,16 +691,11 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	for (int i = 1; i <= 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Koofu_Copy"), TEXT("Layer_Boss_Koofu_Copy"), &Bosskoofu)))
 			return E_FAIL;
-
-		m_iCloneNum = i;   
-		
-		int a = 10;
 	}
 
 	return S_OK;
-	
 }
 
 HRESULT CBoss_Koofu::CircleCreate()
