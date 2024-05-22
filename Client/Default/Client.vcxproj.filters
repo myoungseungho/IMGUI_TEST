@@ -193,6 +193,12 @@
     <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_FireWood">
       <UniqueIdentifier>{ec43fbf2-dec4-4b58-aa0f-202e8f84abc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\03. Koofu">
+      <UniqueIdentifier>{0561e1a7-ec8a-41c1-b373-ef6b631cab82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Koofu">
+      <UniqueIdentifier>{85fa5ef9-1132-46d3-8a42-c1597298ef5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -396,6 +402,9 @@
     <ClInclude Include="..\Public\Snow_FireWood.h">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Koofu.h">
+      <Filter>01.Levels\Koofu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -583,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Snow_FireWood.cpp">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Koofu.cpp">
+      <Filter>01.Levels\Koofu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

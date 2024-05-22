@@ -48,6 +48,8 @@ private:
 	HRESULT Loading_For_Edit();
 	HRESULT Loading_For_Tacho();
 	HRESULT Loading_For_Snow();
+	HRESULT Loading_For_Koofu();
+
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID);
 	virtual void Free() override;
