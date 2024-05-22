@@ -91,7 +91,7 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 HRESULT CRockBreakable::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_RockBreakable"),
+	if (FAILED(__super::Add_Component(LEVEL_BUG, TEXT("Prototype_Component_Texture_Sprite_RockBreakable"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -141,10 +141,12 @@ CGameObject* CRockBreakable::Clone(void* pArg)
 
 void CRockBreakable::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

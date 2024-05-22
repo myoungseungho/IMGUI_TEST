@@ -132,7 +132,7 @@ void CBlock::OnCollisionExit(CCollider* other)
 HRESULT CBlock::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_Idle"),
+	if (FAILED(__super::Add_Component(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Block_Idle"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -160,10 +160,10 @@ HRESULT CBlock::Ready_Components()
 
 HRESULT CBlock::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_Idle"), TEXT("AnimTexture_Block_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block_UnIdle"), TEXT("AnimTexture_Block_UnIdle"));
-	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_UnBlock"), TEXT("AnimTexture_UnBlock"));
-	m_pAnimCom->Add_Animator(LEVEL_EDIT, TEXT("Prototype_Component_AnimTexture_Block"), TEXT("AnimTexture_Block"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Block_Idle"), TEXT("AnimTexture_Block_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Block_UnIdle"), TEXT("AnimTexture_Block_UnIdle"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_UnBlock"), TEXT("AnimTexture_UnBlock"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Block"), TEXT("AnimTexture_Block"));
 
 	return S_OK;
 }
@@ -198,11 +198,13 @@ CGameObject* CBlock::Clone(void* pArg)
 
 void CBlock::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

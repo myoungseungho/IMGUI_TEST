@@ -1,6 +1,567 @@
-LayerName: Layer_Sky
-PrototypeTag: Prototype_GameObject_Sky
-LevelIndex: 7
-Position: 49.2668 23.7889 23.3255
+LayerName: Layer_Block
+PrototypeTag: Prototype_GameObject_Block
+LevelIndex: 8
+Position: 39.418 0.506 25.686
 Scale: 1 1 1
 IsParsing: 1
+
+LayerName: Layer_Block
+PrototypeTag: Prototype_GameObject_Block
+LevelIndex: 8
+Position: 40.418 0.506 25.686
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Block
+PrototypeTag: Prototype_GameObject_Block
+LevelIndex: 8
+Position: 38.418 0.506 25.686
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_BossFrame
+PrototypeTag: Prototype_GameObject_Moon_BossFrame
+LevelIndex: 8
+Position: 39.6688 0.006 37.7567
+Scale: 9 9 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 44.4162 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 36.4163 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 35.5163 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 34.6163 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 33.8164 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 42.5162 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 30.8164 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 43.4162 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 45.4162 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 46.3162 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 48.1161 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 32.9164 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 31.9164 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 33.5152 -5.694 40.0162
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 47.2161 0.506 25.661
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 47.015 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 45.815 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 44.615 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 43.6151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 42.5151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 41.4151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 40.5151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 39.4151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 38.4151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 37.4151 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 36.2152 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 35.2152 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 34.2152 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 33.2152 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_Fence
+PrototypeTag: Prototype_GameObject_Moon_Fence
+LevelIndex: 8
+Position: 32.0152 0.506 50.116
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_FloorStone
+PrototypeTag: Prototype_GameObject_Moon_FloorStone
+LevelIndex: 8
+Position: 39.3678 0.006 38.1018
+Scale: 15 15 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 49.4014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 50.0014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 27.1016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 27.8016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 28.6016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 29.5016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 30.5016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 31.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 32.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 33.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 34.2016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 35.2016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 36.1016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 37.3016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 38.5015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 39.5015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 40.6015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 41.7015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 42.7015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 44.0015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 45.4014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 46.9014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 26.5016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 26.5016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 27.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 28.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 29.6016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 30.8016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 32.0016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 33.3016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 34.4016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 35.6016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 36.8016
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 38.2015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 39.2015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 40.4015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 41.8015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 43.5015
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 44.9014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 46.3014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 47.6014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 48.116 0.506 48.8014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Moon_VerticalFence
+PrototypeTag: Prototype_GameObject_Moon_VerticalFence
+LevelIndex: 8
+Position: 30.816 0.506 48.3014
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_RockBreakable
+PrototypeTag: Prototype_GameObject_RockBreakable
+LevelIndex: 8
+Position: 41.5684 0.506 25.675
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_RockBreakable
+PrototypeTag: Prototype_GameObject_RockBreakable
+LevelIndex: 8
+Position: 37.4685 0.506 25.675
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 8
+Position: 33.7883 3.92147 43.9751
+Scale: 1 1 1
+IsParsing: 1
+
