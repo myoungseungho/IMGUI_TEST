@@ -449,6 +449,7 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 		m_eMon_State = MON_STATE::DEATH;
 	}
 		
+
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
