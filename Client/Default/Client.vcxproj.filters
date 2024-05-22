@@ -247,6 +247,9 @@
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble">
       <UniqueIdentifier>{e8bf7f7a-3ae1-4e81-84e3-e157ec09a6f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Copy_Koofu">
+      <UniqueIdentifier>{025b6bd7-de72-4c13-810a-43cda2f2314f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -498,6 +501,9 @@
     <ClInclude Include="..\public\Skill_Koofu_Bubble.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mon_Copy_Koofu.h">
+      <Filter>02.GameObjects\LandObject\Monster\Copy_Koofu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -733,6 +739,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Skill_Koofu_Bubble.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mon_Copy_Koofu.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Copy_Koofu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

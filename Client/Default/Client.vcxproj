@@ -163,6 +163,7 @@
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\public\Mon_Copy_Koofu.h" />
     <ClInclude Include="..\Public\EnviormentObject.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\Koofu_Circle.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\Mon_Copy_Koofu.cpp" />
     <ClCompile Include="..\Private\EnviormentObject.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\Koofu_Circle.cpp" />

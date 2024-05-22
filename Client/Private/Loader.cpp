@@ -56,6 +56,7 @@
 #include "Moon_FloorStone.h"
 #include "Moon_VerticalFence.h"
 #include "Skill_Koofu_Bubble.h"
+#include "Mon_Copy_Koofu.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -653,6 +654,12 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 		CBoss_Koofu::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	/* For.Prototype_GameObject_Koofu_Copy */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Koofu_Copy"),
+		CMon_Copy_Koofu::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Turtle */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Turtle"),
 		CMon_Turtle::Create(m_pGraphic_Device))))
 		return E_FAIL;

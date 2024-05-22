@@ -57,9 +57,10 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	{
 		m_eMon_State = MON_STATE::BULLET;
 		m_tMonsterDesc.iHp = pDesc->iHp;
+		m_isClone = true;
 		Warf(35.f, 50.f, 20.f);
 	}
-	else if (!m_isClone)
+	else
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
 	}
@@ -339,27 +340,13 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eMon_State = MON_STATE::STAN;
 		m_isAttack = false;
 		m_isClone_Create = false;
-
-		for (int i = 0; i < m_iCloneNum; ++i)
-		{
-			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
-
-			if (!pClone)
-			{
-				m_iCloneNum = 0;
-				break;
-			}
-
-			Safe_Release(pClone);
-		}
-
+		m_bCloneDelete = true;
 		
 	}
 
 	if (!m_isClone && m_tMonsterDesc.iHp <= 40)
 	{
-		CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone")));
-		pClone->Delete_Object();
+		m_bCloneDelete = true;
 
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_isBullet = false;
@@ -409,21 +396,10 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		{
 			m_eAnim_State = ANIM_STATE::READY;
 
-				for (int i = 0; i < 3 ;++i)
-				{
-					CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Bubble"), i));
-
-
-					if (!pClone)
-					{
-						m_iCloneNum = 0;
-						break;
-					}
-
-					Safe_Release(pClone);
-				}
 				m_isAttack = false;
 				m_isBullet = false;
+			m_bCloneDelete = true; 
+
 		}
 
 	}
@@ -700,6 +676,12 @@ void CBoss_Koofu::Destory()
 		Safe_Release(pthis);
 		m_iCloneNum--;
 	}
+
+	if (m_isClone && m_bCloneDelete )
+	{
+		Safe_Release(pthis);
+		m_bCloneDelete = false;
+	}
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
@@ -747,7 +729,8 @@ HRESULT CBoss_Koofu::CloneCreate()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
 
-		m_iCloneNum = i;
+		m_iCloneNum = i;   
+		
 		int a = 10;
 	}
 
