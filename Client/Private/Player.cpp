@@ -149,7 +149,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	}
 }
 
-void CPlayer::OnCollisionStay(CCollider* other)
+void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 	
@@ -162,7 +162,7 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject))
+	else if (dynamic_cast<CMonster*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
 		{
@@ -177,16 +177,24 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		return;
 	}
 
-	if (dynamic_cast<CPush_Stone*>(otherObject))
+	else if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_PUSH)
 		{
 			CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
+			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
+			_float3 PushObjPos = pPushObjTranform->Get_State(CTransform::STATE_POSITION);
 
-				pPushObj->Delete_Object();
-			
+			if (((PushObjPos.z > m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_UP ||
+				PushObjPos.z <  m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_DOWN ||
+				PushObjPos.x > m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_RIGHT ||
+				PushObjPos.x < m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_LEFT)))
+
+			{
+				pPushObj->Push_Move(fTimeDelta, m_ePlayerDir);
+			}
+			return;
 		}
-		return;
 	}
 }
 
@@ -209,6 +217,7 @@ void CPlayer::OnCollisionExit(CCollider* other)
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
+		m_bPush = false;
 		m_ePlayerCurState = STATE_IDLE;
 	}
 
@@ -490,7 +499,12 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_ePlayerCurState = STATE_WALK;
 
 		if (m_bPush)
+		{
 			m_ePlayerCurState = STATE_PUSH;
+			m_pTransformCom->Set_Speed(1.f);
+		}
+		else
+			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTUP);
@@ -512,6 +526,14 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	else if (m_bMoveDown)
 	{
 		m_ePlayerCurState = STATE_WALK;
+
+		if (m_bPush)
+		{
+			m_ePlayerCurState = STATE_PUSH;
+			m_pTransformCom->Set_Speed(1.f);
+		}
+		else
+			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTDOWN);
@@ -535,6 +557,14 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Set_Direction(DIR_LEFT);
 		m_ePlayerCurState = STATE_WALK;
 
+		if (m_bPush)
+		{
+			m_ePlayerCurState = STATE_PUSH;
+			m_pTransformCom->Set_Speed(1.f);
+		}
+		else
+			m_pTransformCom->Set_Speed(3.f);
+
 		if (m_bCanMoveLeft)
 			m_pTransformCom->Go_Left(fTimeDelta);
 	}
@@ -543,6 +573,14 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	{
 		Set_Direction(DIR_RIGHT);
 		m_ePlayerCurState = STATE_WALK;
+
+		if (m_bPush)
+		{
+			m_ePlayerCurState = STATE_PUSH;
+			m_pTransformCom->Set_Speed(1.f);
+		}
+		else
+			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bCanMoveRight)
 			m_pTransformCom->Go_Right(fTimeDelta);
@@ -555,21 +593,10 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Attack(fTimeDelta);
 	}
 
-	else if (m_pKeyCom->Key_Pressing('2'))
-	{
-		m_ePlayerCurState = (STATE_PUSH);
-		Player_Push(fTimeDelta);
-	}
-
-	else if (m_ePlayerCurState != STATE_ATTACK )
+	else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH)
 	{
 		m_ePlayerCurState = STATE_IDLE;
 	}
-	else if (m_ePlayerCurState != STATE_PUSH)
-	{
-		m_ePlayerCurState = STATE_IDLE;
-	}
-
 
 
 	return S_OK;
@@ -612,9 +639,6 @@ HRESULT CPlayer::Player_Skill()
 	return S_OK;
 }
 
-void CPlayer::Player_Push(_float fTimeDelta)
-{
-}
 
 void CPlayer::BillBoarding()
 {

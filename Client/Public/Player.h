@@ -39,7 +39,7 @@ public:
 
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
-	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
@@ -66,7 +66,6 @@ private:
 
 	void					Player_Attack(_float fTimeDelta);
 	HRESULT			Player_Skill();
-	void					Player_Push(_float fTimeDelta);
 
 	void              Set_Direction(DIRECTION _DIR) { m_ePlayerDir = _DIR; }
 	void              Set_State(STATE _STATE) { m_ePlayerCurState = _STATE; }

@@ -127,9 +127,9 @@ void CCollider::OnCollisionEnter(CCollider* other)
 }
 
 
-void CCollider::OnCollisionStay(CCollider* other)
+void CCollider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-	m_MineGameObject->OnCollisionStay(other);
+	m_MineGameObject->OnCollisionStay(other, fTimeDelta);
 }
 
 void CCollider::OnCollisionExit(CCollider* other)

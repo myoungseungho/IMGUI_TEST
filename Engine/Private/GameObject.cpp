@@ -54,7 +54,7 @@ void CGameObject::OnCollisionEnter(CCollider* other)
 {
 }
 
-void CGameObject::OnCollisionStay(CCollider* other)
+void CGameObject::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 

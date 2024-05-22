@@ -47,7 +47,7 @@ void CMonster::OnCollisionEnter(CCollider* other)
 {
 }
 
-void CMonster::OnCollisionStay(CCollider* other)
+void CMonster::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 

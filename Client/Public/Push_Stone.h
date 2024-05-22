@@ -15,6 +15,10 @@ BEGIN(Client)
 
 class CPush_Stone final : public CEnviormentObject
 {	
+
+private:
+	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
+
 private:
 	CPush_Stone(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CPush_Stone(const CPush_Stone& Prototype); /* 사본생성 시 */
@@ -36,6 +40,9 @@ private:
 
 private:
 	HRESULT Ready_Components();
+
+public:
+	void		Push_Move(_float fTimeDelta, _uint ePlayerDir);
 
 public:
 	/* 원형객체를 생성한다. */

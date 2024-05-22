@@ -28,7 +28,7 @@ public:
 
 public:
 	void OnCollisionEnter(CCollider*);
-	void OnCollisionStay(CCollider*);
+	void OnCollisionStay(CCollider*, _float fTimeDelta);
 	void OnCollisionExit(CCollider*);
 
 public:

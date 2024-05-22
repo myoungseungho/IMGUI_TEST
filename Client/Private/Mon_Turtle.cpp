@@ -212,7 +212,7 @@ void CMon_Turtle::OnCollisionEnter(CCollider* other)
 	
 }
 
-void CMon_Turtle::OnCollisionStay(CCollider* other)
+void CMon_Turtle::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 
 }

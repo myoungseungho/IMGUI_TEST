@@ -101,8 +101,8 @@ HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 							colliderB->OnCollisionEnter(colliderA);
 						}
 						else {
-							colliderA->OnCollisionStay(colliderB);
-							colliderB->OnCollisionStay(colliderA);
+							colliderA->OnCollisionStay(colliderB, fTimeDelta);
+							colliderB->OnCollisionStay(colliderA, fTimeDelta);
 						}
 					}
 				}

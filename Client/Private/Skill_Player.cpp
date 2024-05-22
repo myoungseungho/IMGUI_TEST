@@ -57,12 +57,13 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
+
+	m_bSkillAttack = true;
+
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
 	{
 		Delete_Object();
 	}
-
-	m_bSkillAttack = true;
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
@@ -95,7 +96,7 @@ void CSkill_Player::OnCollisionEnter(CCollider* other)
 	int a = 3;
 }
 
-void CSkill_Player::OnCollisionStay(CCollider* other)
+void CSkill_Player::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 
 	CGameObject* otherObject = other->m_MineGameObject;

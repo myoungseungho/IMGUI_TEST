@@ -119,7 +119,7 @@ void CBlock::OnCollisionEnter(CCollider* other)
 	m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
 }
 
-void CBlock::OnCollisionStay(CCollider* other)
+void CBlock::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 
 }

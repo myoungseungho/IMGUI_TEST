@@ -175,7 +175,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other)
 
 }
 
-void CBoss_Bug::OnCollisionStay(CCollider* other)
+void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	
 }

@@ -110,7 +110,40 @@ HRESULT CPush_Stone::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 10.f));
+
 	return S_OK;
+}
+
+void CPush_Stone::Push_Move(_float fTimeDelta, _uint ePlayerDir)
+{
+	switch (ePlayerDir)
+	{
+	case DIR_LEFT:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	case DIR_UP:
+		m_pTransformCom->Go_Straight(fTimeDelta);
+		break;
+	case DIR_RIGHT:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_DOWN:
+		m_pTransformCom->Go_Backward(fTimeDelta);
+		break;
+	case DIR_LEFTUP:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	case DIR_RIGHTUP:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_RIGHTDOWN:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_LEFTDOWN:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	}
 }
 
 CPush_Stone* CPush_Stone::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

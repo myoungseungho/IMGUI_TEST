@@ -38,7 +38,7 @@ public:
 
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
-	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
 private:	

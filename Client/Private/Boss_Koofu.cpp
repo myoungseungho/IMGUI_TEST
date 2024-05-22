@@ -607,7 +607,7 @@ void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 		
 }
 
-void CBoss_Koofu::OnCollisionStay(CCollider* other)
+void CBoss_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
