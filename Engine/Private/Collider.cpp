@@ -39,9 +39,7 @@ HRESULT CCollider::Initialize(void* pArg)
 	CTransform* transform = static_cast<CTransform*>(componet);
 
 	m_WorldMatrix = transform->Get_WorldMatrix();
-	m_Width /= transform->Get_Scaled().x;
-	m_Height /= transform->Get_Scaled().y;
-	m_Depth /= transform->Get_Scaled().z;
+
 
 	return S_OK;
 }
@@ -55,13 +53,20 @@ void CCollider::Render()
 	DWORD originalFillMode;
 	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &originalFillMode);
 
+	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
+	CTransform* transform = static_cast<CTransform*>(componet);
+
+	float width = m_Width / transform->Get_Scaled().x;
+	float Height = m_Height / transform->Get_Scaled().y;
+	float depth = m_Depth / transform->Get_Scaled().z;
+
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 
 	// 로컬 스페이스에서 콜라이더의 8개 정점을 계산
 	_float3 localVertices[8];
-	float halfWidth = (m_Width / 2.0f);
-	float halfHeight = m_Height / 2.0f;
-	float halfDepth = m_Depth / 2.0f;
+	float halfWidth = (width / 2.0f);
+	float halfHeight = Height / 2.0f;
+	float halfDepth = depth / 2.0f;
 
 	localVertices[0] = _float3(-halfWidth, -halfHeight, -halfDepth);
 	localVertices[1] = _float3(halfWidth, -halfHeight, -halfDepth);
@@ -103,10 +108,14 @@ void CCollider::Update(_float fTimeDelta)
 	m_Center.y = transform->Get_State(CTransform::STATE_POSITION).y;
 	m_Center.z = transform->Get_State(CTransform::STATE_POSITION).z;
 
+	m_Width= transform->Get_Scaled().x;
+	m_Height = transform->Get_Scaled().y;
+	//m_Depth = transform->Get_Scaled().z;
+
 	m_WorldMatrix = transform->Get_WorldMatrix();
 
-	// 플레이어의 월드 행렬을 설정
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
+	//// 플레이어의 월드 행렬을 설정
+	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
 void CCollider::OnCollisionEnter(CCollider* other)
@@ -118,15 +127,18 @@ void CCollider::OnCollisionEnter(CCollider* other)
 }
 
 
-void CCollider::OnCollisionStay(CCollider* other)
+void CCollider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-	m_MineGameObject->OnCollisionStay(other);
+	m_MineGameObject->OnCollisionStay(other, fTimeDelta);
 }
 
 void CCollider::OnCollisionExit(CCollider* other)
 {
 	if (!m_bIsCollied)
 		m_bIsCollied != m_bIsCollied;
+
+	if (other->m_Died || m_Died)
+		return;
 
 	m_MineGameObject->OnCollisionExit(other);
 }

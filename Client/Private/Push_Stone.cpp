@@ -47,6 +47,7 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
+
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
@@ -92,7 +93,7 @@ HRESULT CPush_Stone::Render(_float fTimeDelta)
 HRESULT CPush_Stone::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -110,7 +111,40 @@ HRESULT CPush_Stone::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 10.f));
+
 	return S_OK;
+}
+
+void CPush_Stone::Push_Move(_float fTimeDelta, _uint ePlayerDir)
+{
+	switch (ePlayerDir)
+	{
+	case DIR_LEFT:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	case DIR_UP:
+		m_pTransformCom->Go_Straight(fTimeDelta);
+		break;
+	case DIR_RIGHT:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_DOWN:
+		m_pTransformCom->Go_Backward(fTimeDelta);
+		break;
+	case DIR_LEFTUP:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	case DIR_RIGHTUP:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_RIGHTDOWN:
+		m_pTransformCom->Go_Right(fTimeDelta);
+		break;
+	case DIR_LEFTDOWN:
+		m_pTransformCom->Go_Left(fTimeDelta);
+		break;
+	}
 }
 
 CPush_Stone* CPush_Stone::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -142,9 +176,9 @@ CGameObject* CPush_Stone::Clone(void* pArg)
 
 void CPush_Stone::Free()
 {
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 

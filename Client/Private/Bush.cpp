@@ -108,7 +108,7 @@ void CBush::OnCollisionEnter(CCollider* other)
 	m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
 }
 
-void CBush::OnCollisionStay(CCollider* other)
+void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 
 }
@@ -201,4 +201,5 @@ void CBush::Free()
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
+
 }

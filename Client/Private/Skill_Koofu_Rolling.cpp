@@ -55,6 +55,8 @@ void CSkill_Koofu_Rolling::Update(_float fTimeDelta)
 void CSkill_Koofu_Rolling::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+
+	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Koofu_Rolling::Render(_float fTimeDelta)
@@ -106,6 +108,16 @@ HRESULT CSkill_Koofu_Rolling::Ready_Animation()
 	return S_OK;
 }
 
+void CSkill_Koofu_Rolling::Destroy(_float fTimeDelta)
+{
+	CSkill_Koofu_Rolling* pRolling = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta  ,5.f))
+	{
+		Safe_Release(pRolling);
+	}
+}
+
 HRESULT CSkill_Koofu_Rolling::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -153,9 +165,9 @@ CGameObject* CSkill_Koofu_Rolling::Clone(void* pArg)
 
 void CSkill_Koofu_Rolling::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTextureCom);
+
+	__super::Free();
 }

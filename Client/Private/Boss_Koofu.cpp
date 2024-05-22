@@ -6,6 +6,8 @@
 #include "Skill_Monster.h"
 #include "Skill_Koofu_Fuit.h"
 
+#include "Player.h"
+
 
 CBoss_Koofu::CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -30,12 +32,16 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
+
+	//m_isCheck == 분신 / m_isCheck != 본신 
 	m_isClone = pDesc->isClone;
 
+	m_tMonsterDesc.iHp = pDesc->iHp;
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
 
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -43,8 +49,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
-
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
@@ -52,11 +57,11 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (m_isClone)
 	{
 		Warf(20.f, 30.f, 10.f);
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 30, 3.f, rand() % 20));
 		m_eMon_State = MON_STATE::BULLET;
+		m_tMonsterDesc.iHp = pDesc->iHp;
 	}
 	else
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 3.f, 20));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
 
 
 	return S_OK;
@@ -70,18 +75,15 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
-	//BillBoarding();
-
 	Move_Dir();
-	MonState(fTimeDelta);
-
 	Key_Input(fTimeDelta);
+	MonState(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	Destory();
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -122,7 +124,15 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		break;
 
 	case MON_STATE::BULLET_B:
-		State_Bullet(fTimeDelta);
+		State_Bullet_B(fTimeDelta);
+		break;
+
+	case MON_STATE::BULLET_C:
+		State_Bullet_C(fTimeDelta);
+		break;
+
+	case MON_STATE::STAN:
+		State_Stan(fTimeDelta);
 		break;
 
 	case MON_STATE::CAST:
@@ -251,15 +261,15 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		break;
 
 	case ANIM_STATE::STUN:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_STUN"), 1.5f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::READY:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_READY"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_READY"), 1.f, fTimeDelta, false);
 		break;
 
 	case ANIM_STATE::DEADTH:
-		m_pAnimCom->Play_Animator(TEXT("KOOFU_DEATH"), 1.f, fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("KOOFU_DEATH"), 1.f, fTimeDelta, false);
 		break;
 	}
 
@@ -270,29 +280,33 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 		m_eMon_State = MON_STATE::CAST;
 
-	m_ePrev_State = MON_STATE::IDLE;
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::READY;
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	{
+		m_ePrev_State = MON_STATE::READY;
+		m_eAnim_State = ANIM_STATE::READY;
+		m_eMon_State = MON_STATE::CAST;
+	}
+
 }
 
 void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::BULLET;
-
-	if (!m_isClone)
+	if (!m_isClone && !m_isClone_Create)
 	{
+		m_isClone_Create = true;
 		CloneCreate();
-		m_isClone = true;
 
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-			Warf(-10, -10, 10, 10);
+			Warf(35.f, 31.f, 20.f);
 	}
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f, 1.f))
 	{
+		m_ePrev_State = MON_STATE::BULLET;
 		m_eAnim_State = ANIM_STATE::THROW;
 
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
@@ -300,18 +314,93 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	}
 	else
 	{
+		m_ePrev_State = MON_STATE::BULLET;
 		m_eAnim_State = ANIM_STATE::IDLE;
+	}
+
+	CBoss_Koofu* pKoofu = this;
+
+	if (m_isAttack && !m_isClone)
+	{
+		m_eAnim_State = ANIM_STATE::STUN;
+		m_eMon_State = MON_STATE::STAN;
+		m_isAttack = false;
+		m_isClone_Create = false;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			Safe_Release(pClone);
+		}
+	}
+
+	if (!m_isClone && m_tMonsterDesc.iHp <= 40)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			Safe_Release(pClone);
+		}
+
+		m_eMon_State = MON_STATE::BULLET_C;
+		m_isBullet = false;
 	}
 
 }
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
-	m_ePrev_State = MON_STATE::BULLET_B;
+	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
 	{
 		RollingCreate();
+		m_isBullet = true;
+	}
+
+	if (m_isBullet)
+	{
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+		{
+			m_ePrev_State = MON_STATE::BULLET_B;
+			m_eMon_State = MON_STATE::IDLE;
+		}
+	}
+}
+
+void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::CAST;
+
+	if (!m_isBullet)
+	{
+		CircleCreate();
+		m_isBullet = true;
+	}
+
+	if (m_isAttack && !m_isClone)
+	{
+		m_eAnim_State = ANIM_STATE::STUN;
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+		{
+			m_eAnim_State = ANIM_STATE::READY;
+
+			if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+			{
+				int a = 10;
+			}
+		}
+
+	}
+	
+}
+
+void CBoss_Koofu::State_Stan(_float fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.5f))
+	{
+		m_eAnim_State = ANIM_STATE::READY;
+		m_eMon_State = MON_STATE::READY;
 	}
 }
 
@@ -319,13 +408,13 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::CAST;
 
-	if (m_ePrev_State == MON_STATE::IDLE && m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	if ( (m_ePrev_State == MON_STATE::IDLE || m_ePrev_State == MON_STATE::BULLET_B)&& m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
 
 	}
-	else if (m_ePrev_State == MON_STATE::BULLET)
+	else if (m_ePrev_State == MON_STATE::READY)
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET_B;
@@ -376,14 +465,9 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if(m_pKeyCom->Key_Down('1'))
-		Warf(-10, -10, 20, 20);
+	if (m_pKeyCom->Key_Down('2') && !m_isClone)
+		m_tMonsterDesc.iHp--;
 
-	if (m_pKeyCom->Key_Down('2'))
-		RollingCreate();
-
-	if (m_pKeyCom->Key_Down('3'))
-		FuitCreate();
 
 }
 
@@ -402,17 +486,12 @@ HRESULT CBoss_Koofu::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
-
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
 	
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
-
+	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 1.0f;
@@ -421,6 +500,28 @@ HRESULT CBoss_Koofu::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
+	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
+
+
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = m_pTransformCom->Get_Scaled().z;
+	ColliderDesc.MineGameObject = this;
+
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+	
 
 	return S_OK;
 }
@@ -439,6 +540,9 @@ HRESULT CBoss_Koofu::Ready_Animation()
 
 	//Death
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Death"), TEXT("KOOFU_DEATH"));
+
+	//Stun
+	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Stun"), TEXT("KOOFU_STUN"));
 
 	//Ready
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Ready"), TEXT("KOOFU_READY"));
@@ -488,6 +592,33 @@ HRESULT CBoss_Koofu::End_RenderState()
 	return S_OK;
 }
 
+void CBoss_Koofu::OnCollisionEnter(CCollider* other)
+{
+	if (!m_isClone)
+	{
+		m_tMonsterDesc.iHp--;
+		m_isAttack = true;
+	}
+
+	if (m_isClone)
+	{
+		m_tMonsterDesc.iHp--;
+	}
+		
+}
+
+void CBoss_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CBoss_Koofu::OnCollisionExit(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (otherObject->m_Died)
+		return;
+}
+
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
 	if (!m_pTimerCom->Time_Limit(fTimeDelta,1.f ,3.5f))
@@ -496,15 +627,23 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 
 void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 3.f, rand() % fMaxPosZ - fMinPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 1.5f, rand() % fMaxPosZ - fMinPosZ));
 }
 
 void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 {
 	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 3.f, WarfPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
 
+}
+
+void CBoss_Koofu::Destory()
+{
+	CBoss_Koofu* pthis = this;
+
+	if (m_isClone && m_tMonsterDesc.iHp <= 0)
+		Safe_Release(pthis);
 }
 
 HRESULT CBoss_Koofu::RollingCreate()
@@ -545,10 +684,11 @@ HRESULT CBoss_Koofu::CloneCreate()
 	Bosskoofu.iHp = 1;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.isClone = true;
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 1; i <= 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu"), &Bosskoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
 		
 		Warf(-10, -10, 10, 10);
@@ -556,6 +696,23 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	return S_OK;
 	
+}
+
+HRESULT CBoss_Koofu::CircleCreate()
+{
+	CSkill_Monster::SKILL_MONSTER__DESC Desc = {};
+
+	Desc.iBulletCnt = 0;
+	Desc.pTargetTransform = m_pTransformCom;
+
+	for (int i = 1; i <= 3; ++i)
+	{
+		Desc.iBulletCnt = i;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Koofu_Bubble"), TEXT("Layer_Bubble"), &Desc)))
+			return E_FAIL;
+	}
+
+	return S_OK;
 }
 
 
@@ -588,10 +745,15 @@ CGameObject* CBoss_Koofu::Clone(void* pArg)
 
 void CBoss_Koofu::Free()
 {
-	__super::Free();
+
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pTargetTransform); 
+	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(this->m_pColliderCom);
+
+	__super::Free();
 }

@@ -54,7 +54,7 @@ void CGameObject::OnCollisionEnter(CCollider* other)
 {
 }
 
-void CGameObject::OnCollisionStay(CCollider* other)
+void CGameObject::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
@@ -62,6 +62,12 @@ void CGameObject::OnCollisionExit(CCollider* other)
 {
 }
 
+void CGameObject::Delete_Object()
+{
+	CGameObject* pThis = this;
+
+	Safe_Release(pThis);
+}
 
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {

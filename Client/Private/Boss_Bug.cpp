@@ -3,6 +3,7 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 #include "Mon_Turtle.h"
+#include <Player.h>
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -38,9 +39,9 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 5.f));
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 1.5f, 20.f));
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	m_eMon_State = MON_STATE::IDLE;
@@ -63,22 +64,11 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 	Mon_State(fTimeDelta);
 
-	CBoss_Bug* boss = this;
-	if (m_pKeyCom->Key_Down('5'))
-	{
-		m_isTmp = true;
-	}
-	else if (m_pKeyCom->Key_Down('6'))
-		m_isTmp = false;
-	else if (m_pKeyCom->Key_Down('7'))
-		Safe_Release(boss);
-
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
 }
 
 HRESULT CBoss_Bug::Render(_float fTimeDelta)
@@ -111,9 +101,9 @@ HRESULT CBoss_Bug::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player"),
+	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	//	return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
@@ -124,11 +114,14 @@ HRESULT CBoss_Bug::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x / 2.f;
-	ColliderDesc.height = m_pTransformCom->Get_Scaled().y / 2.f;
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
 
@@ -138,7 +131,7 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_PLAYER, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
 
 	return S_OK;
 }
@@ -179,54 +172,62 @@ HRESULT CBoss_Bug::End_RenderState()
 
 void CBoss_Bug::OnCollisionEnter(CCollider* other)
 {
-	int a = 3;
+
 }
 
-void CBoss_Bug::OnCollisionStay(CCollider* other)
+void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-	int a = 3;
+	
 }
 
 void CBoss_Bug::OnCollisionExit(CCollider* other)
 {
-	int a = 3;
+
 }
 
 void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 {
 	_float WarfPosX = iPosX + fDistance * cos(fAngle * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(fAngle * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 3.f, WarfPosZ));
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
+
+	_float3 PlayerPos;
+
+	PlayerPos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 1.5f;
+	PlayerPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->LookAt(PlayerPos);
 
 }
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	//auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
-	if (iter)
-	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-		{
-			Warf(30, 20, 50.f, m_fAngle);
-		}
-		else
-		{
-			m_pTransformCom->Set_Speed(10.f);
-			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
-		}
-	}
-	else
-	{
-		m_pTransformCom->Set_Speed(2.f);
-	}
+	//if (iter)
+	//{
+	//	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	//	{
+	//		Warf(30, 20, 50.f, m_fAngle);
+	//	}
+	//	else
+	//	{
+	//		m_pTransformCom->Set_Speed(10.f);
+	//		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+	//	}
+	//}
+	//else
+	//{
+	//	m_pTransformCom->Set_Speed(2.f);
+	//}
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+
 	{
 		m_isLand = false;
 		m_eMon_State = MON_STATE::LAND;
@@ -246,6 +247,7 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_eMon_State = MON_STATE::DASH;
+		Bullet_Create();
 	}
 	else
 		m_pTransformCom->Go_Down(fTimeDelta);
@@ -256,7 +258,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 {
 	CMon_Turtle::MON_TURTLE_DESC	 Desc{};
 
-	Desc.iHp = 10;
+	Desc.iHp = 3;
 	Desc.iAttack = 1;
 	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -278,8 +280,9 @@ HRESULT CBoss_Bug::Bullet_Create()
 {
 	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
+	SkillDesc.iTotalBullet = 12;
 
-	for (int i = 1; i <= 12; ++i)
+	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
 		SkillDesc.iBulletCnt = i;
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
@@ -319,7 +322,7 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Regen(_float _fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 2.f) && m_ePrev_State == MON_STATE::BULLET)
+	if (m_ePrev_State == MON_STATE::BULLET && m_pTimerCom->Time_Limit(_fTimeDelta, 2.f))
 	{
 		m_eMon_State = MON_STATE::READY;
 	}
@@ -420,6 +423,19 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_DOWN"), 1.f, _fTimeDelta, false);
 		break;
 
+	case MON_STATE::FLY:
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
+		break;
+
+	case MON_STATE::LAND:
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
+		break;
+	case MON_STATE::DEATH:
+		if (m_iPhaseCnt == 2)
+			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_DEATH"), 1.f, _fTimeDelta, false);
+		break;
 	}
 
 }
@@ -427,7 +443,11 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 void CBoss_Bug::Mon_State(_float fTimeDelta)
 {
 	if (m_tMonsterDesc.iHp <= 0)
+	{
 		m_eMon_State = MON_STATE::DEATH;
+		this->m_Died = true;
+	}
+		
 
 	switch (m_eMon_State)
 	{
@@ -493,10 +513,13 @@ CGameObject* CBoss_Bug::Clone(void* pArg)
 
 void CBoss_Bug::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

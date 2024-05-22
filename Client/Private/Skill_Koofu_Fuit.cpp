@@ -36,9 +36,9 @@ HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 2);
-	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (-1.f);
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 2.f;
+	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
 
@@ -55,9 +55,9 @@ void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
 	m_pTransformCom->Go_Up(fTimeDelta);
-	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
-	Bounce(2.f);
-	BillBoarding();
+	m_pTransformCom->Gravity(0.1f, 1.0f, fTimeDelta);
+	Bounce(1.f);
+	//BillBoarding();
 	
 }
 
@@ -137,8 +137,22 @@ HRESULT CSkill_Koofu_Fuit::End_RenderState()
 
 void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 {
-	if(m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
+	{
 		m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+		m_iBounceCnt++;
+	}
+	if (m_iBounceCnt >= 4)
+	{
+		Distroy();
+		m_iBounceCnt = { 0 };
+	}
+}
+
+void CSkill_Koofu_Fuit::Distroy()
+{
+	CSkill_Koofu_Fuit* pFuit = this;
+	Safe_Release(pFuit);
 }
 
 void CSkill_Koofu_Fuit::BillBoarding()
@@ -180,10 +194,10 @@ CGameObject* CSkill_Koofu_Fuit::Clone(void* pArg)
 
 void CSkill_Koofu_Fuit::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom); 
 	Safe_Release(m_pPlayerTransform);
+
+	__super::Free();
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
@@ -13,7 +13,7 @@
 #include "Mon_Pocket.h"
 #include "Boss_Bug.h"
 #include "Boss_Koofu.h"
-
+#include "Player.h"
 #include "Skill_Player.h"
 #include "Skill_Bug_Bullet.h"
 
@@ -31,9 +31,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
+	//if (FAILED(Ready_LandObjects()))
+	//	return E_FAIL;
 
-	if (FAILED(Ready_LandObjects()))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
+
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
@@ -41,12 +44,17 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+	if (FAILED(Ready_Layer_GameObject_StonPushable(TEXT("Layer_StonePushable"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
-		return E_FAIL;*/
+	//if (FAILED(Ready_Layer_GameObject_RockBreakable(TEXT("Layer_RockBreakalbe"))))
+	//	return E_FAIL;
 
+	//if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
+	//	return E_FAIL;
+
+		if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+			return E_FAIL;
 
 	return S_OK;
 }
@@ -89,7 +97,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
 	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
 
-	BossBug.iHp = 50;
+	BossBug.iHp = 3;
 	BossBug.iAttack = 1;
 	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	
@@ -103,15 +111,33 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	Bosskoofu.iHp = 10;
+	Bosskoofu.iHp = 50;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Bosskoofu.isClone= false;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
 		return E_FAIL;
 
 	return S_OK;
 }
+
+HRESULT CLevel_GamePlay::Ready_Layer_GameObject_StonPushable(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_StonePushable"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_GameObject_RockBreakable(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_RockBreakable"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 HRESULT CLevel_GamePlay::Ready_LandObjects()
 {
@@ -120,15 +146,13 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
 	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
-		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

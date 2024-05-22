@@ -66,8 +66,8 @@ void CLandObject::SetUp_OnTerrain(CTransform * pTargetTransform, _float fOffset)
 
 void CLandObject::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTerrainTransform);
 	Safe_Release(m_pTerrainBuffer);
+
+	__super::Free();
 }

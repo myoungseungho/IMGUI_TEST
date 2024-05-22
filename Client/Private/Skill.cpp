@@ -3,7 +3,7 @@
 #include "Skill.h"
 
 CSkill::CSkill(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject { pGraphic_Device }
+	:CGameObject{ pGraphic_Device }
 {
 }
 
@@ -19,6 +19,9 @@ HRESULT CSkill::Initialize_Prototype()
 
 HRESULT CSkill::Initialize(void* pArg)
 {
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

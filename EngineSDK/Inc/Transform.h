@@ -73,7 +73,6 @@ public:
 	HRESULT Gravity(_float  fWeight, _float fLandPosY, _float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
-
 	void Rotation(const _float3& vAxis, _float fRadian);
 
 	void LookAt(const _float3& vTargetPos);	

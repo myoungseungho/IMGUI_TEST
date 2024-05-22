@@ -24,6 +24,9 @@ protected:
 	virtual HRESULT Ready_Animation();
 
 private:
+	void Destroy(_float fTimeDelta);
+
+private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 

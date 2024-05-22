@@ -21,7 +21,7 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B, FLY, LAND, STAN , REGEN,CAST, DEATH,MON_END };
+	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STAN , REGEN,CAST, DEATH,MON_END };
 	enum class MON_DIR { DIR_D, DIR_L, DIR_LD, DIR_LU, DIR_R, DIR_RD, DIR_RU, DIR_U, DIR_END };
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
@@ -53,15 +53,19 @@ protected:
 
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
-	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
-protected:
+public:
+	virtual void Damaged() {
+		--m_tMonsterDesc.iHp;
+	};
+
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
 	
-protected:
-	MONSTER_DESC m_tMonsterDesc = {};
+public:
+	MONSTER_DESC m_tMonsterDesc;
 
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;

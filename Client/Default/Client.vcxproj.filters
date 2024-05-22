@@ -247,6 +247,9 @@
     <Filter Include="01.Levels\Ocean">
       <UniqueIdentifier>{ced8ffa8-2f64-4900-9136-83d4ecd3948e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble">
+      <UniqueIdentifier>{e8bf7f7a-3ae1-4e81-84e3-e157ec09a6f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -498,6 +501,9 @@
     <ClInclude Include="..\Public\Level_Ocean.h">
       <Filter>01.Levels\Ocean</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skill_Koofu_Bubble.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -733,6 +739,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Ocean.cpp">
       <Filter>01.Levels\Ocean</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Koofu_Bubble.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

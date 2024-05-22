@@ -48,7 +48,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_OCEAN)))
+	if (FAILED(Open_Level(LEVEL_GAMEPLAY)))
 		return E_FAIL;
 
 

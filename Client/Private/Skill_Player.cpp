@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Skill_Player.h"
+#include "Monster.h"
 #include "GameInstance.h"
 
 CSkill_Player::CSkill_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -20,41 +21,63 @@ HRESULT CSkill_Player::Initialize_Prototype()
 
 HRESULT CSkill_Player::Initialize(void* pArg)
 {
+	int a = 0;
+
 	SKILL_PLAYER_DESC* pDesc = static_cast<SKILL_PLAYER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_iSkillCount = pDesc->m_iCurrentSkillCount;
+	m_SkillDir = pDesc->m_SkillDir;
+
+	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	
+	//_float3 TargetLook = m_pTargetTransform->Get_State(CTransform::STATE_LOOK);
+	_float3 TargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 ReScaled = m_pTransformCom->Get_Scaled() * (m_iSkillCount*0.8);
+
+	TargetPos += *D3DXVec3Normalize(&m_SkillDir, &m_SkillDir) * (m_iSkillCount);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &TargetPos);
+	m_pTransformCom->Set_Scaled(ReScaled);
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 1);
+
+	// 플레이어의 방향 벡터 가지고 와서 스킬 포지션에 적용하고 업데이트에서 시간 값따라 이동하면 하나씩 증가되는 것처럼 보일 듯
+
+
 	return S_OK;
 }
 
 void CSkill_Player::Priority_Update(_float fTimeDelta)
 {
-
+	
 }
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+
+	m_bSkillAttack = true;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
+	{
+		Delete_Object();
+	}
 }
 
 void CSkill_Player::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-
 }
 
 HRESULT CSkill_Player::Render(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	if (FAILED(Begin_RenderState()))
+		return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
-
-	_float4x4		ViewMatrix, ProjMatrix;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -62,7 +85,8 @@ HRESULT CSkill_Player::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	if (FAILED(End_RenderState()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -72,8 +96,30 @@ void CSkill_Player::OnCollisionEnter(CCollider* other)
 	int a = 3;
 }
 
-void CSkill_Player::OnCollisionStay(CCollider* other)
+void CSkill_Player::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		if (m_bSkillAttack)
+		{
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
+			m_bSkillAttack = false;
+
+			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
+			{
+				pDamagedObj->Delete_Object();
+			}
+		}
+
+		Delete_Object();
+
+		return;
+	}
+
 	int a = 3;
 }
 
@@ -81,22 +127,45 @@ void CSkill_Player::OnCollisionExit(CCollider* other)
 {
 	int a = 3;
 }
+HRESULT CSkill_Player::Begin_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 150);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	return S_OK;
+}
+
+HRESULT CSkill_Player::End_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	return S_OK;
+}
+
 
 HRESULT CSkill_Player::Ready_Components()
 {
-	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
-		return E_FAIL;
-
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Player_Skill"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Calc_Timer*/
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Calc_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -162,6 +231,10 @@ void CSkill_Player::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+
 	__super::Free();
 }

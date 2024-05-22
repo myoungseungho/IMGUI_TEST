@@ -45,8 +45,11 @@ public:
 
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
-	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
+
+public:
+	virtual void	Delete_Object();
 
 public:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, class CComponent** ppOut, void* pArg = nullptr);

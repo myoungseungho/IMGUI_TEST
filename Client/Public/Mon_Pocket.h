@@ -32,6 +32,8 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 
 public:
+
+public:
 	/* 원형객체를 생성한다. */
 	static CMon_Pocket* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
