@@ -169,37 +169,6 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		}
 		return;
 	}
-
-	//if (dynamic_cast<CBoss_Koofu*>(otherObject))
-	//{
-	//	if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
-	//	{
-	//		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-	//		pDamagedObj->Damaged();
-
-	//		if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
-	//		{
-	//			pDamagedObj->Delete_Object();
-	//		}
-	//	}
-	//	return;
-	//}
-
-	//if (dynamic_cast<CBoss_Bug*>(otherObject))
-	//{
-	//	if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
-	//	{
-	//		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-	//		pDamagedObj->Damaged();
-
-	//		if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
-	//		{
-	//			pDamagedObj->Delete_Object();
-	//		}
-	//	}
-	//	return;
-	//}
-
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)
