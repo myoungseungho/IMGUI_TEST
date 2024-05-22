@@ -27,7 +27,7 @@ private:
 	HRESULT Ready_Layer_Boss_Bug(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Boss_Koofu(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_GameObject_StonPushable(const _wstring& strLayerTag);
-
+	HRESULT Ready_Layer_GameObject_RockBreakable(const _wstring& strLayerTag);
 
 	HRESULT Ready_LandObjects();
 

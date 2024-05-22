@@ -47,6 +47,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_GameObject_StonPushable(TEXT("Layer_StonePushable"))))
 		return E_FAIL;
 
+	//if (FAILED(Ready_Layer_GameObject_RockBreakable(TEXT("Layer_RockBreakalbe"))))
+	//	return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 	//	return E_FAIL;
@@ -127,6 +129,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_GameObject_StonPushable(const _wstring& str
 
 	return S_OK;
 }
+
+HRESULT CLevel_GamePlay::Ready_Layer_GameObject_RockBreakable(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_RockBreakable"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 HRESULT CLevel_GamePlay::Ready_LandObjects()
 {
