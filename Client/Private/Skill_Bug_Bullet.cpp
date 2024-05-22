@@ -35,7 +35,13 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float3 vCreatePos = {};
+
+	vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	vCreatePos.y = 0.5f;
+	vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vCreatePos);
 	
 	_float fDegree = (float)(rand() % 200 + 1900) / 10.f;
 	_float fBulletCnt = pDesc->iTotalBullet;
@@ -145,6 +151,24 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 
 	return S_OK;
 }
+
+void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
+{
+	CSkill_Bug_Bullet* pInst = this;
+	Safe_Release(pInst);
+}
+
+void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
+{
+
+
+}
+
+void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
+{
+
+}
+
 
 void CSkill_Bug_Bullet::Distroy(_float fTimeDelta)
 {

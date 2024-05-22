@@ -33,9 +33,9 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 5); 
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 5)- 15.f; 
 	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (- 1.f);
+	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (1.f);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (vPositionX , vPositionY , vPositionZ));
 
@@ -48,7 +48,7 @@ void CSkill_Koofu_Rolling::Priority_Update(_float fTimeDelta)
 
 void CSkill_Koofu_Rolling::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	m_pTransformCom->Go_Backward(fTimeDelta);
 }
 
 void CSkill_Koofu_Rolling::Late_Update(_float fTimeDelta)
