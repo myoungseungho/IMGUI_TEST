@@ -46,7 +46,7 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
@@ -92,7 +92,7 @@ HRESULT CPush_Stone::Render(_float fTimeDelta)
 HRESULT CPush_Stone::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -142,10 +142,13 @@ CGameObject* CPush_Stone::Clone(void* pArg)
 
 void CPush_Stone::Free()
 {
-	__super::Free();
 
+
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

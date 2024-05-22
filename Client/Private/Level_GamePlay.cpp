@@ -44,11 +44,15 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+	if (FAILED(Ready_Layer_GameObject_StonPushable(TEXT("Layer_StonePushable"))))
 		return E_FAIL;
+
 
 	//if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 	//	return E_FAIL;
+
+		if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+			return E_FAIL;
 
 	return S_OK;
 }
@@ -111,6 +115,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 	Bosskoofu.isClone= false;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_GameObject_StonPushable(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_StonePushable"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

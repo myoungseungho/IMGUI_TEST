@@ -11,6 +11,7 @@
 #include "GameInstance.h"
 #include "Skill_Player.h"
 #include "Monster.h"
+#include <Push_Stone.h>
 
 
 
@@ -118,6 +119,12 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 		if (dynamic_cast<CBush*>(otherObject))
 			return;
 
+		if (dynamic_cast<CPush_Stone*>(otherObject))
+		{
+			m_bPush = true;
+			return;
+		}
+		
 
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -169,6 +176,18 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		}
 		return;
 	}
+
+	if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_PUSH)
+		{
+			CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
+
+				pPushObj->Delete_Object();
+			
+		}
+		return;
+	}
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)
@@ -188,6 +207,10 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		return;
 	}
 
+	if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		m_ePlayerCurState = STATE_IDLE;
+	}
 
 	// Transform 컴포넌트를 가져옴
 
@@ -466,6 +489,9 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	{
 		m_ePlayerCurState = STATE_WALK;
 
+		if (m_bPush)
+			m_ePlayerCurState = STATE_PUSH;
+
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTUP);
 			if (m_bCanMoveForward && m_bCanMoveLeft)
@@ -535,10 +561,16 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Push(fTimeDelta);
 	}
 
-	else if (m_ePlayerCurState != STATE_ATTACK)  // 공격 상태가 아닐 때만 IDLE로 변경
+	else if (m_ePlayerCurState != STATE_ATTACK )
 	{
 		m_ePlayerCurState = STATE_IDLE;
 	}
+	else if (m_ePlayerCurState != STATE_PUSH)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+	}
+
+
 
 	return S_OK;
 }

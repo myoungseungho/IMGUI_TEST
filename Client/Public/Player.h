@@ -97,6 +97,8 @@ private:
 	_bool m_bCanMoveForward = true;
 	_bool m_bCanMoveBackward = true;
 
+	_bool m_bPush = false;
+
 	_float		fTimeAcc = { 0.0f };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
