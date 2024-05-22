@@ -49,7 +49,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
@@ -75,7 +75,6 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	//m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);

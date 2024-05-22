@@ -18,7 +18,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CLandObject
+class CPlayer final : public CGameObject
 {	
 private:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
@@ -100,6 +100,7 @@ private:
 	_float		fTimeAcc = { 0.0f };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
+	_float		m_bAttack = { false };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 

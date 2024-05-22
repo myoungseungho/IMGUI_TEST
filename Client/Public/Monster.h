@@ -64,7 +64,7 @@ public:
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
 	
-protected:
+public:
 	MONSTER_DESC m_tMonsterDesc;
 
 public:

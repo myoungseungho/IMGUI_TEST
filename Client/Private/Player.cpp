@@ -16,12 +16,12 @@
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CLandObject{ Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -59,6 +59,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	m_bAttack = false;
 	Key_Input(fTimeDelta);
 	For_Attack_State(fTimeDelta);
 
@@ -115,8 +116,8 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CBush*>(otherObject))
-		return;
+		if (dynamic_cast<CBush*>(otherObject))
+			return;
 
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
@@ -155,14 +156,14 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		}
 	}
 
-	if (dynamic_cast<CBoss_Bug*>(otherObject))
+	if (dynamic_cast<CMonster*>(otherObject))
 	{
-		if (m_ePlayerCurState == STATE_ATTACK)
+		if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
 		{
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
 
-			if (pDamagedObj->m_Died)
+			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
 			{
 				pDamagedObj->Delete_Object();
 			}
@@ -170,20 +171,36 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		return;
 	}
 
-	if (dynamic_cast<CBoss_Koofu*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK)
-		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
+	//if (dynamic_cast<CBoss_Koofu*>(otherObject))
+	//{
+	//	if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
+	//	{
+	//		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+	//		pDamagedObj->Damaged();
 
-			if (pDamagedObj->m_Died)
-			{
-				pDamagedObj->Delete_Object();
-			}
-		}
-		return;
-	}
+	//		if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
+	//		{
+	//			pDamagedObj->Delete_Object();
+	//		}
+	//	}
+	//	return;
+	//}
+
+	//if (dynamic_cast<CBoss_Bug*>(otherObject))
+	//{
+	//	if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+	//	{
+	//		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+	//		pDamagedObj->Damaged();
+
+	//		if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
+	//		{
+	//			pDamagedObj->Delete_Object();
+	//		}
+	//	}
+	//	return;
+	//}
+
 }
 
 void CPlayer::OnCollisionExit(CCollider* other)
@@ -262,7 +279,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL; 
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 3.0f, 31.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 15.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -538,6 +555,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 	else if (m_pKeyCom->Key_Down('A'))
 	{
+		m_bAttack = true;
 		m_ePlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 	}
