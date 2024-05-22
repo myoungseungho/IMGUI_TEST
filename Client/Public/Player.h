@@ -44,7 +44,7 @@ public:
 
 public:
 	STATE		Get_Player_Dir() {
-		return m_PlayerCurState;
+		return m_ePlayerCurState;
 	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
@@ -68,19 +68,23 @@ private:
 	HRESULT			Player_Skill();
 	void					Player_Push(_float fTimeDelta);
 
-	void              Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
-	void              Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }
+	void              Set_Direction(DIRECTION _DIR) { m_ePlayerDir = _DIR; }
+	void              Set_State(STATE _STATE) { m_ePlayerCurState = _STATE; }
 
 	void				BillBoarding();
 
 	void				 Player_AnimState(_float _fTimeDelta);
 
+	void				For_Attack_State(_float fTimeDelta);
+
 private:
 	_float3		m_forScaled;
 
-	DIRECTION	m_PlayerDir = { DIR_END };
-	STATE			m_PlayerCurState = { STATE_END };
-	STATE			m_PlayerPreState = { STATE_IDLE };
+	DIRECTION	m_ePlayerDir = { DIR_END };
+	STATE			m_ePlayerCurState = { STATE_END };
+	STATE			m_ePlayerPreState = { STATE_IDLE };
+
+	_float			m_fAttackTime = { 0.0f };
 
 private:
 	_bool m_bMoveRight = false;
