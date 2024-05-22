@@ -10,11 +10,13 @@ class CMon_Copy_Koofu  final :public CMonster
 
 private:
 	enum class ANIM_STATE {IDLE,  THROW , ANIM_END};
+	enum class MON_STATE {IDLE , THROW , STATE_END};
 
+public:
 	typedef struct :public MONSTER_DESC
 	{
 		CTransform* m_pTargetTransform = { nullptr };
-	}BOSS_KOOFU_DESC;
+	}MON_COPY_KOOFU_DESC;
 
 private:
 	CMon_Copy_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -34,6 +36,9 @@ private:
 
 	void Mon_State(_float fTimeDelta);
 	void Anim_State(_float fTimeDelta);
+
+	void State_Idle(_float fTimeDelta);
+	void State_Throw(_float fTimeDelta);
 
 private:
 	virtual HRESULT Ready_Components();
@@ -56,6 +61,7 @@ private:
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 
+	MON_STATE m_eMon_State = {};
 	ANIM_STATE m_eAnim_State = {};
 
 public:

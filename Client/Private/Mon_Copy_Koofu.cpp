@@ -3,6 +3,8 @@
 #include "Mon_Copy_Koofu.h"
 #include "Skill_Koofu_Fuit.h"
 
+#include "Boss_Koofu.h"
+
 
 CMon_Copy_Koofu::CMon_Copy_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -24,10 +26,11 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
+	MON_COPY_KOOFU_DESC* pDesc = static_cast<MON_COPY_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->m_pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
 	Safe_AddRef(m_pTargetTransform);
 
@@ -40,8 +43,14 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
+	 
+	Warf(30.f, 20.f, 10.f);
+	
+	return S_OK;
 }
 
 void CMon_Copy_Koofu::Priority_Update(_float fTimeDelta)
@@ -124,12 +133,16 @@ void CMon_Copy_Koofu::Move_Dir()
 
 void CMon_Copy_Koofu::Mon_State(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Update(fTimeDelta, 3.f))
+	switch (m_eMon_State)
 	{
-		m_eAnim_State = ANIM_STATE::THROW;
+	case MON_STATE::IDLE:
+		State_Idle(fTimeDelta);
+		break;
+
+	case MON_STATE::THROW:
+		State_Throw(fTimeDelta);
+		break;
 	}
-	else 
-		FuitCreate();
 }
 
 void CMon_Copy_Koofu::Anim_State(_float fTimeDelta)
@@ -212,6 +225,26 @@ void CMon_Copy_Koofu::Anim_State(_float fTimeDelta)
 	}
 }
 
+void CMon_Copy_Koofu::State_Idle(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::IDLE;
+
+	if(m_pTimerCom->Time_Limit(fTimeDelta , 1.f))
+		m_eMon_State = MON_STATE::THROW;
+}
+
+void CMon_Copy_Koofu::State_Throw(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::THROW;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	{
+		//FuitCreate();
+		m_eMon_State = MON_STATE::IDLE;
+	}
+
+}
+
 
 HRESULT CMon_Copy_Koofu::Ready_Components()
 {
@@ -232,7 +265,6 @@ HRESULT CMon_Copy_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
 	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 	/* For.Com_Transform */
@@ -255,24 +287,53 @@ HRESULT CMon_Copy_Koofu::Ready_Components()
 HRESULT CMon_Copy_Koofu::Ready_Animation()
 {
 	//Idle
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Down"), TEXT("KOOFU_IDLE_DOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Left"), TEXT("KOOFU_IDLE_LEFT"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftDown"), TEXT("KOOFU_IDLE_LEFTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftUp"), TEXT("KOOFU_IDLE_LEFTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Right"), TEXT("KOOFU_IDLE_RIGHT"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightDown"), TEXT("KOOFU_IDLE_RIGHTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightUp"), TEXT("KOOFU_IDLE_RIGHTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Up"), TEXT("KOOFU_IDLE_UP"));
+	if(FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Down"), TEXT("KOOFU_IDLE_DOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Left"), TEXT("KOOFU_IDLE_LEFT"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftDown"), TEXT("KOOFU_IDLE_LEFTDOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftUp"), TEXT("KOOFU_IDLE_LEFTUP"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Right"), TEXT("KOOFU_IDLE_RIGHT"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightDown"), TEXT("KOOFU_IDLE_RIGHTDOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightUp"), TEXT("KOOFU_IDLE_RIGHTUP"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Up"), TEXT("KOOFU_IDLE_UP"))))
+		return E_FAIL;
 
 	//Throw
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Down"), TEXT("KOOFU_THROW_DOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Left"), TEXT("KOOFU_THROW_LEFT"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftDown"), TEXT("KOOFU_THROW_LEFTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftUp"), TEXT("KOOFU_THROW_LEFTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Right"), TEXT("KOOFU_THROW_RIGHT"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightDown"), TEXT("KOOFU_THROW_RIGHTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightUp"), TEXT("KOOFU_THROW_RIGHTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Up"), TEXT("KOOFU_THROW_UP"));
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Down"), TEXT("KOOFU_THROW_DOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Left"), TEXT("KOOFU_THROW_LEFT"))))
+		return E_FAIL;
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftDown"), TEXT("KOOFU_THROW_LEFTDOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftUp"), TEXT("KOOFU_THROW_LEFTUP"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Right"), TEXT("KOOFU_THROW_RIGHT"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightDown"), TEXT("KOOFU_THROW_RIGHTDOWN"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightUp"), TEXT("KOOFU_THROW_RIGHTUP"))))
+		return E_FAIL;
+
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Up"), TEXT("KOOFU_THROW_UP"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -320,7 +381,18 @@ void CMon_Copy_Koofu::Destory()
 
 	if (m_tMonsterDesc.iHp <= 0)
 		Safe_Release(pThis);
-		
+
+	CBoss_Koofu* pOrigin = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu")));
+	if (pOrigin->HitCheck())
+	{
+		Safe_Release(pThis);
+
+	}
+
+	if(m_pKeyCom->Key_Down('5'))
+		Safe_Release(pThis);
+
+	int a = 10;
 }
 
 HRESULT CMon_Copy_Koofu::FuitCreate()
@@ -367,12 +439,12 @@ CGameObject* CMon_Copy_Koofu::Clone(void* pArg)
 void CMon_Copy_Koofu::Free()
 {
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(this->m_pColliderCom);
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
 }

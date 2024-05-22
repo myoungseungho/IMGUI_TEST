@@ -7,6 +7,8 @@
 #include "Skill_Koofu_Fuit.h"
 #include "Skill_Koofu_Bubble.h"
 
+#include "Mon_Copy_Koofu.h"
+
 #include "Player.h"
 
 
@@ -320,13 +322,10 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
 
-	CBoss_Koofu* pKoofu = this;
-
-	if (m_isAttack)
+	if (m_bHitCheck)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
 		m_eMon_State = MON_STATE::STAN;
-		m_isAttack = false;
 		m_isClone_Create = false;
 	}
 
@@ -340,7 +339,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
-	//m_eAnim_State = ANIM_STATE::CAST;
+	m_bHitCheck = false;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35, 1.5f, 60.f));
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
@@ -373,14 +372,14 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		
 	}
 
-	if (m_isAttack)
+	if (m_bHitCheck)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
 		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 		{
 			m_eAnim_State = ANIM_STATE::READY;
 
-			m_isAttack = false;
+			m_bHitCheck = false;
 			m_isBullet = false;
 		}
 	}
@@ -518,7 +517,6 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
 	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 
@@ -682,16 +680,15 @@ HRESULT CBoss_Koofu::FuitCreate()
 
 HRESULT CBoss_Koofu::CloneCreate()
 {
-	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
+	CMon_Copy_Koofu::MON_COPY_KOOFU_DESC			Copykoofu{};
 
-	Bosskoofu.iHp = 1;
-	Bosskoofu.iAttack = 1;
-	Bosskoofu.isClone = true;
-	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Copykoofu.iHp = 10;
+	Copykoofu.iAttack = 1;
+	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	for (int i = 1; i <= 3; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Koofu_Copy"), TEXT("Layer_Boss_Koofu_Copy"), &Bosskoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Koofu_Copy"), TEXT("Layer_Boss_Koofu_Copy"), &Copykoofu)))
 			return E_FAIL;
 	}
 
@@ -751,7 +748,7 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pTargetTransform); 
 	Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(this->m_pColliderCom);
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
 }

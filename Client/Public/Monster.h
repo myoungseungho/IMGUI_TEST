@@ -57,17 +57,20 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
+	_bool HitCheck() { return m_bHitCheck; }
+
+public:
 	virtual void Damaged() {
 		--m_tMonsterDesc.iHp;
-		m_isAttack = true;
+		m_bHitCheck = true;
 	};
-
-protected:
-	_bool m_isAttack = { false };
 
 public:
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
+
+public:
+	_bool m_bHitCheck = { false };
 	
 public:
 	MONSTER_DESC m_tMonsterDesc;
