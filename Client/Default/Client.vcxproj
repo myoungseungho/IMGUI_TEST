@@ -193,6 +193,8 @@
     <ClInclude Include="..\Public\Snow_Bush.h" />
     <ClInclude Include="..\Public\Snow_CenterDirt.h" />
     <ClInclude Include="..\Public\Snow_Fence.h" />
+    <ClInclude Include="..\Public\Snow_Fire.h" />
+    <ClInclude Include="..\Public\Snow_FireWood.h" />
     <ClInclude Include="..\Public\Snow_GrassGround.h" />
     <ClInclude Include="..\Public\Snow_House.h" />
     <ClInclude Include="..\Public\Snow_Rock.h" />
@@ -258,6 +260,8 @@
     <ClCompile Include="..\Private\Snow_Bush.cpp" />
     <ClCompile Include="..\Private\Snow_CenterDirt.cpp" />
     <ClCompile Include="..\Private\Snow_Fence.cpp" />
+    <ClCompile Include="..\Private\Snow_Fire.cpp" />
+    <ClCompile Include="..\Private\Snow_FireWood.cpp" />
     <ClCompile Include="..\Private\Snow_GrassGround.cpp" />
     <ClCompile Include="..\Private\Snow_House.cpp" />
     <ClCompile Include="..\Private\Snow_Rock.cpp" />

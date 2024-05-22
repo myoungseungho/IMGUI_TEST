@@ -36,21 +36,7 @@ HRESULT CSnow_CenterDirt::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
 
-	/* For.Com_Transform */
-	CCollider::COLLIDER_DESC			ColliderDesc{};
-	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
-	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 1.f;
-	ColliderDesc.MineGameObject = this;
-
-	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Collider"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-		return E_FAIL;
-
-	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
+	m_pTransformCom->Rotation(_float3(1, 0, 0), 3.14f / 2.f);
 
 	return S_OK;
 }
@@ -146,5 +132,4 @@ void CSnow_CenterDirt::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
 }

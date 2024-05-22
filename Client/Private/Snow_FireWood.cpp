@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Snow_GrassGround.h"
+#include "..\Public\Snow_FireWood.h"
 
 #include "GameInstance.h"
 
-CSnow_GrassGround::CSnow_GrassGround(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSnow_FireWood::CSnow_FireWood(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CSnow_GrassGround::CSnow_GrassGround(const CSnow_GrassGround& Prototype)
+CSnow_FireWood::CSnow_FireWood(const CSnow_FireWood& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CSnow_GrassGround::Initialize_Prototype()
+HRESULT CSnow_FireWood::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CSnow_GrassGround::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CSnow_GrassGround::Initialize(void* pArg)
+HRESULT CSnow_FireWood::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -36,26 +36,40 @@ HRESULT CSnow_GrassGround::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
 
-	m_pTransformCom->Rotation(_float3(1, 0, 0), 3.14f / 2.f);
+	/* For.Com_Transform */
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 1.f;
+	ColliderDesc.MineGameObject = this;
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
 	return S_OK;
 }
 
-void CSnow_GrassGround::Priority_Update(_float fTimeDelta)
+void CSnow_FireWood::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CSnow_GrassGround::Update(_float fTimeDelta)
+void CSnow_FireWood::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 }
 
-void CSnow_GrassGround::Late_Update(_float fTimeDelta)
+void CSnow_FireWood::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CSnow_GrassGround::Render(_float fTimeDelta)
+HRESULT CSnow_FireWood::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -74,10 +88,10 @@ HRESULT CSnow_GrassGround::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CSnow_GrassGround::Ready_Components()
+HRESULT CSnow_FireWood::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Sprite_SnowTundraGrass_2"),
+	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Sprite_BonFire_Wood"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -98,13 +112,13 @@ HRESULT CSnow_GrassGround::Ready_Components()
 	return S_OK;
 }
 
-CSnow_GrassGround* CSnow_GrassGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSnow_FireWood* CSnow_FireWood::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSnow_GrassGround* pInstance = new CSnow_GrassGround(pGraphic_Device);
+	CSnow_FireWood* pInstance = new CSnow_FireWood(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CSnow_GrassGround"));
+		MSG_BOX(TEXT("Failed to Created : CSnow_FireWood"));
 		Safe_Release(pInstance);
 	}
 
@@ -112,24 +126,25 @@ CSnow_GrassGround* CSnow_GrassGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CSnow_GrassGround::Clone(void* pArg)
+CGameObject* CSnow_FireWood::Clone(void* pArg)
 {
-	CSnow_GrassGround* pInstance = new CSnow_GrassGround(*this);
+	CSnow_FireWood* pInstance = new CSnow_FireWood(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CSnow_GrassGround"));
+		MSG_BOX(TEXT("Failed to Cloned : CSnow_FireWood"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSnow_GrassGround::Free()
+void CSnow_FireWood::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 }

@@ -8,16 +8,17 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CCollider;
 END
 
 BEGIN(Client)
 
-class CSnow_GrassGround final : public CEnviormentObject
+class CSnow_FireWood final : public CEnviormentObject
 {	
 private:
-	CSnow_GrassGround(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CSnow_GrassGround(const CSnow_GrassGround& Prototype); /* 사본생성 시 */
-	virtual ~CSnow_GrassGround() = default;
+	CSnow_FireWood(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CSnow_FireWood(const CSnow_FireWood& Prototype); /* 사본생성 시 */
+	virtual ~CSnow_FireWood() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -31,13 +32,14 @@ private:
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
 
 public:
 	/* 원형객체를 생성한다. */
-	static CSnow_GrassGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSnow_FireWood* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

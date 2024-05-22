@@ -187,6 +187,12 @@
     <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Rock">
       <UniqueIdentifier>{517a0c35-d66d-49b6-b323-afd14e794508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_Fire">
+      <UniqueIdentifier>{ce4b6540-24c9-4fb6-9336-e64cc24466d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\02. Snow\Snow_FireWood">
+      <UniqueIdentifier>{ec43fbf2-dec4-4b58-aa0f-202e8f84abc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -384,6 +390,12 @@
     <ClInclude Include="..\Public\Snow_Vertical_Fence.h">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Snow_Fire.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Snow_FireWood.h">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -565,6 +577,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Snow_Vertical_Fence.cpp">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_Fire.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Snow_FireWood.cpp">
+      <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
