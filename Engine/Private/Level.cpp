@@ -42,7 +42,8 @@ HRESULT CLevel::ParseInitialize()
         L"../Bin/LevelTachoObjects.txt",      // 5: LEVEL_TACHO
         L"../Bin/LevelSnowObjects.txt",      // 6: LEVEL_SNOW
         L"../Bin/LevelKoofuObjects.txt",      // 7: LEVEL_KOOFU
-        L"../Bin/DefaultLevelObjects.txt"    // 8: LEVEL_END (또는 기타)
+        L"../Bin/LevelBugObjects.txt",      // 8: LEVEL_Bug
+        L"../Bin/DefaultLevelObjects.txt"    // 9: LEVEL_END (또는 기타)
     };
 
     // 배열 인덱스를 사용하여 파일 경로 가져오기

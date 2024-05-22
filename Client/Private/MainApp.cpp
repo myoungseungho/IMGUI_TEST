@@ -48,7 +48,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_KOOFU)))
+	if (FAILED(Open_Level(LEVEL_BUG)))
 		return E_FAIL;
 
 
@@ -59,6 +59,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 }
+
 HRESULT CMainApp::Render(_float fTimeDelta)
 {
 #pragma region IMGUI
@@ -175,6 +176,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 
 	return S_OK;
 }
+
 HRESULT CMainApp::ShowLevels()
 {
 	// 가정: 레벨 이름과 ID를 가진 배열 또는 리스트
@@ -484,7 +486,6 @@ HRESULT CMainApp::Show_LayerObjects()
 	return S_OK;
 }
 
-
 HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShowSaveFailMessage)
 {
 	// 오브젝트마다의 정보
@@ -555,6 +556,9 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	case LEVEL_KOOFU:
 		filePath = L"../Bin/LevelKoofuObjects.txt";
 		break;
+	case LEVEL_BUG:
+		filePath = L"../Bin/LevelBugObjects.txt";
+		break;
 	default:
 		filePath = L"../Bin/DefaultLevelObjects.txt"; // default 이름
 		break;
@@ -576,7 +580,6 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 		return E_FAIL;
 	}
 }
-
 
 HRESULT CMainApp::Load_Button_Pressed()
 {

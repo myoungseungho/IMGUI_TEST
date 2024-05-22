@@ -220,10 +220,28 @@
     <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight">
       <UniqueIdentifier>{0389ca8a-6a42-4589-8d6f-5a49f470e015}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Logo\Loading">
+    <Filter Include="01.Levels\Bug">
+      <UniqueIdentifier>{7b52caa7-2e29-47b6-aa9e-f3c0bbcd7659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\04. Moon">
+      <UniqueIdentifier>{b8421c7d-8e9c-44dd-ae44-334a1fdfc777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\04. Moon\Moon_FlooerStone">
+      <UniqueIdentifier>{deb2a45f-0ded-4ee6-9057-671f3817cfa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\04. Moon\Moon_BossFrame">
+      <UniqueIdentifier>{8626e9ff-e0dd-4ce3-ae14-079efd27527a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\04. Moon\Moon_Fence">
+      <UniqueIdentifier>{18f6958e-4cfc-47bf-8bce-9029e4b6bec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence">
+      <UniqueIdentifier>{ba6df18c-2a87-4c4b-9490-5a4a3196cd03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Loading">
       <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Logo\Loading\Loader">
+    <Filter Include="01.Levels\Loading\Loader">
       <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -253,13 +271,13 @@
       <Filter>01.Levels\Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
-      <Filter>01.Levels\Logo\Loading</Filter>
+      <Filter>01.Levels\Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
-      <Filter>01.Levels\Logo\Loading\Loader</Filter>
+      <Filter>01.Levels\Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -459,6 +477,21 @@
     <ClInclude Include="..\Public\Koofu_UpperRight.h">
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Bug.h">
+      <Filter>01.Levels\Bug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Moon_FloorStone.h">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_FlooerStone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Moon_BossFrame.h">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_BossFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Moon_Fence.h">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_Fence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Moon_VerticalFence.h">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -474,13 +507,13 @@
       <Filter>01.Levels\Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
-      <Filter>01.Levels\Logo\Loading</Filter>
+      <Filter>01.Levels\Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\Logo\Loading\Loader</Filter>
+      <Filter>01.Levels\Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BackGround.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -676,6 +709,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Koofu_UpperRight.cpp">
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Bug.cpp">
+      <Filter>01.Levels\Bug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Moon_FloorStone.cpp">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_FlooerStone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Moon_BossFrame.cpp">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_BossFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Moon_Fence.cpp">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_Fence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Moon_VerticalFence.cpp">
+      <Filter>02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

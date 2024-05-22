@@ -43,7 +43,7 @@ HRESULT CEnviormentObject::Initialize(void* pArg)
 	if (pArg == nullptr)
 	{
 		//카메라 트랜스폼
-		CComponent* camera_componenet = m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Camera"), TEXT("Com_Transform"));
+		CComponent* camera_componenet = m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Camera"), TEXT("Com_Transform"));
 		CTransform* camera_transform = static_cast<CTransform*>(camera_componenet);
 
 		// 카메라의 현재 위치 가져오기
