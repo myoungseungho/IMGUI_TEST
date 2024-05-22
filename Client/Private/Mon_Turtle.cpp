@@ -207,7 +207,6 @@ void CMon_Turtle::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		--m_tMonsterDesc.iHp;
-		
 	}
 	
 }

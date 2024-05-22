@@ -84,7 +84,7 @@ private:
 	_bool m_isClone = { false };
 	_bool m_isClone_Create = { false };
 
-	_bool m_isAttack = { false };
+	//_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
 
 	_float3 m_vTargetDir = {};

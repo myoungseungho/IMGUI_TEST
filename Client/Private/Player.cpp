@@ -11,17 +11,17 @@
 #include "GameInstance.h"
 #include "Skill_Player.h"
 #include "Monster.h"
-#include "Boss_Bug.h"
-#include <Boss_Koofu.h>
+#include <Push_Stone.h>
+
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLandObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-	: CLandObject{ Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -45,8 +45,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_PlayerCurState = STATE_IDLE;
-	m_PlayerDir = DIR_DOWN;
+	m_ePlayerCurState = STATE_IDLE;
+	m_ePlayerDir = DIR_DOWN;
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
@@ -59,37 +59,20 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	//BillBoarding();
-	//SetUp_OnTerrain(m_pTransformCom, 3.f);
-
+	m_bAttack = false;
 	Key_Input(fTimeDelta);
+	For_Attack_State(fTimeDelta);
 
-	if (m_PlayerCurState == STATE_ATTACK)
+	if (m_ePlayerCurState == STATE_SKILL)
 	{
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
-		{
-			m_PlayerCurState = STATE_IDLE;
-			m_pTransformCom->Set_Scaled(m_forScaled);
-
-		}
-	}
-	else if (m_PlayerCurState != STATE_ATTACK)
-	{
-		m_pTransformCom->Set_Scaled(m_forScaled);
-	}
-
-
-
-	if (m_PlayerCurState == STATE_SKILL)
-	{
-		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.6f)) // E 키를 누른 시간 (1초마다)
+		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
 			m_iCurrentSkillCount += 1;
 			Player_Skill();
 
 			if (m_iCurrentSkillCount > 3)
 			{
-				m_PlayerCurState = STATE_IDLE;
+				m_ePlayerCurState = STATE_IDLE;
 				m_iCurrentSkillCount = 0;
 			}
 		}
@@ -102,6 +85,8 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
+	//Change_State(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -131,9 +116,15 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CBush*>(otherObject))
-		return;
+		if (dynamic_cast<CBush*>(otherObject))
+			return;
 
+		if (dynamic_cast<CPush_Stone*>(otherObject))
+		{
+			m_bPush = true;
+			return;
+		}
+		
 
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -164,21 +155,21 @@ void CPlayer::OnCollisionStay(CCollider* other)
 	
 	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
-		if (m_PlayerCurState == STATE_ATTACK)
+		if (m_ePlayerCurState == STATE_ATTACK)
 		{
 			otherObject->Delete_Object();
 			return;
 		}
 	}
 
-	if (dynamic_cast<CBoss_Bug*>(otherObject))
+	if (dynamic_cast<CMonster*>(otherObject))
 	{
-		if (m_PlayerCurState == STATE_ATTACK)
+		if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
 		{
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
 
-			if (pDamagedObj->m_Died)
+			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
 			{
 				pDamagedObj->Delete_Object();
 			}
@@ -186,17 +177,14 @@ void CPlayer::OnCollisionStay(CCollider* other)
 		return;
 	}
 
-	if (dynamic_cast<CBoss_Koofu*>(otherObject))
+	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
-		if (m_PlayerCurState == STATE_ATTACK)
+		if (m_ePlayerCurState == STATE_PUSH)
 		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
+			CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
 
-			if (pDamagedObj->m_Died)
-			{
-				pDamagedObj->Delete_Object();
-			}
+				pPushObj->Delete_Object();
+			
 		}
 		return;
 	}
@@ -219,6 +207,10 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		return;
 	}
 
+	if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		m_ePlayerCurState = STATE_IDLE;
+	}
 
 	// Transform 컴포넌트를 가져옴
 
@@ -278,7 +270,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL; 
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.3f, 31.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 15.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -373,7 +365,9 @@ HRESULT CPlayer::End_RenderState()
 	return S_OK;
 }
 
-HRESULT CPlayer::Key_Input(_float fTimeDelta) {
+HRESULT CPlayer::Key_Input(_float fTimeDelta) 
+{
+
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
@@ -387,13 +381,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	if (m_pKeyCom->Key_Pressing('E'))
 	{
-		m_PlayerCurState = STATE_SKILL;
+		m_ePlayerCurState = STATE_SKILL;
 
 		if (m_pKeyCom->Key_Pressing(VK_UP))
 		{
 			if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			{
-				m_PlayerDir = DIR_LEFTUP;
+				m_ePlayerDir = DIR_LEFTUP;
 				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -405,7 +399,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
-				m_PlayerDir = DIR_RIGHTUP;
+				m_ePlayerDir = DIR_RIGHTUP;
 				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -417,7 +411,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			else
 			{
-				m_PlayerDir = (DIR_UP);
+				m_ePlayerDir = (DIR_UP);
 				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 				D3DXVec3Normalize(&vLook, &vLook);
@@ -431,7 +425,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			if (m_pKeyCom->Key_Pressing(VK_LEFT))
 			{
-				m_PlayerDir = (DIR_LEFTDOWN);
+				m_ePlayerDir = (DIR_LEFTDOWN);
 				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -444,7 +438,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
-				m_PlayerDir = (DIR_RIGHTDOWN);
+				m_ePlayerDir = (DIR_RIGHTDOWN);
 				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -457,7 +451,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			else
 			{
-				m_PlayerDir = (DIR_DOWN);
+				m_ePlayerDir = (DIR_DOWN);
 				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 				m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
@@ -466,11 +460,12 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 			}
 
+			
 		}
 
 		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
 		{
-			m_PlayerDir = (DIR_LEFT);
+			m_ePlayerDir = (DIR_LEFT);
 			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
@@ -481,7 +476,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 		{
-			m_PlayerDir = (DIR_RIGHT);
+			m_ePlayerDir = (DIR_RIGHT);
 			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
@@ -492,7 +487,10 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	else if (m_bMoveUp)
 	{
-		m_PlayerCurState = STATE_WALK;
+		m_ePlayerCurState = STATE_WALK;
+
+		if (m_bPush)
+			m_ePlayerCurState = STATE_PUSH;
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTUP);
@@ -513,7 +511,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	else if (m_bMoveDown)
 	{
-		m_PlayerCurState = STATE_WALK;
+		m_ePlayerCurState = STATE_WALK;
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTDOWN);
@@ -535,7 +533,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	else if (m_bMoveLeft)
 	{
 		Set_Direction(DIR_LEFT);
-		m_PlayerCurState = STATE_WALK;
+		m_ePlayerCurState = STATE_WALK;
 
 		if (m_bCanMoveLeft)
 			m_pTransformCom->Go_Left(fTimeDelta);
@@ -544,7 +542,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 	else if (m_bMoveRight)
 	{
 		Set_Direction(DIR_RIGHT);
-		m_PlayerCurState = STATE_WALK;
+		m_ePlayerCurState = STATE_WALK;
 
 		if (m_bCanMoveRight)
 			m_pTransformCom->Go_Right(fTimeDelta);
@@ -552,19 +550,24 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta) {
 
 	else if (m_pKeyCom->Key_Down('A'))
 	{
-		m_PlayerCurState = (STATE_ATTACK);
+		m_bAttack = true;
+		m_ePlayerCurState = (STATE_ATTACK);
 		Player_Attack(fTimeDelta);
 	}
 
 	else if (m_pKeyCom->Key_Pressing('2'))
 	{
-		m_PlayerCurState = (STATE_PUSH);
+		m_ePlayerCurState = (STATE_PUSH);
 		Player_Push(fTimeDelta);
 	}
 
+	else if (m_ePlayerCurState != STATE_ATTACK )
+	{
+		m_ePlayerCurState = STATE_IDLE;
+	}
 
-	//else
-	//	m_PlayerCurState = (STATE_IDLE);
+
+
 
 	return S_OK;
 }
@@ -574,17 +577,19 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 {
 	_float3		curScaled;
 
-	// 평타
-	// 플레이어 트랜스폼 가지고 와서 바라보는 방향으로 일정 거리 이내에 오브젝트가 있다면 삭제?
-	// 시간 값 받아서 일정 시간 지나면 상태 기본으로 변경
-
-
 	curScaled.x = m_forScaled.x + 1.5f;
 	curScaled.y = m_forScaled.y + 1.5f;
 	curScaled.z = m_forScaled.z + 1.5f;
 
 	m_pTransformCom->Set_Scaled(curScaled);
 
+	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_pTransformCom->Set_Scaled(m_forScaled);
+	}
+	else
+		return;
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -622,10 +627,10 @@ void CPlayer::BillBoarding()
 
 void CPlayer::Player_AnimState(_float _fTimeDelta)
 {
-	switch (m_PlayerCurState)
+	switch (m_ePlayerCurState)
 	{
 	case STATE_IDLE:
-		switch (m_PlayerDir)
+		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
 			m_pAnimCom->Play_Animator(TEXT("Player_Idle_Up"), 1.0f, _fTimeDelta, true);
@@ -654,7 +659,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	case STATE_WALK:
-		switch (m_PlayerDir)
+		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
 			m_pAnimCom->Play_Animator(TEXT("Player_Walk_Up"), 1.0f, _fTimeDelta, true);
@@ -683,7 +688,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	case STATE_ATTACK:
-		switch (m_PlayerDir)
+		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
 			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 1.0f, _fTimeDelta, false);
@@ -712,36 +717,36 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	case STATE_SKILL:
-		switch (m_PlayerDir)
+		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Up"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Right"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_DOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Down"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_Left"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftUp"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightUp"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_RightDown"), 0.7f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 1.5f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Skill_LeftDown"), 0.7f, _fTimeDelta, false);
 			break;
 		}
 		break;
 	case STATE_PUSH:
-		switch (m_PlayerDir)
+		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
 			m_pAnimCom->Play_Animator(TEXT("Player_Push_Up"), 1.0f, _fTimeDelta, true);
@@ -770,6 +775,25 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	}
+}
+
+void CPlayer::For_Attack_State(_float fTimeDelta)
+{
+		if (m_ePlayerCurState == STATE_ATTACK)
+		{
+			m_fAttackTime += fTimeDelta;
+			if (m_fAttackTime > 1.0f)
+			{
+				m_ePlayerCurState = STATE_IDLE;
+				m_pTransformCom->Set_Scaled(m_forScaled);
+				m_fAttackTime = 0.0f;
+			}
+		}
+		else
+		{
+			m_pTransformCom->Set_Scaled(m_forScaled);
+		}
+	
 }
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -18,7 +18,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer final : public CLandObject
+class CPlayer final : public CGameObject
 {	
 private:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
@@ -44,7 +44,7 @@ public:
 
 public:
 	STATE		Get_Player_Dir() {
-		return m_PlayerCurState;
+		return m_ePlayerCurState;
 	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
@@ -68,19 +68,23 @@ private:
 	HRESULT			Player_Skill();
 	void					Player_Push(_float fTimeDelta);
 
-	void              Set_Direction(DIRECTION _DIR) { m_PlayerDir = _DIR; }
-	void              Set_State(STATE _STATE) { m_PlayerCurState = _STATE; }
+	void              Set_Direction(DIRECTION _DIR) { m_ePlayerDir = _DIR; }
+	void              Set_State(STATE _STATE) { m_ePlayerCurState = _STATE; }
 
 	void				BillBoarding();
 
 	void				 Player_AnimState(_float _fTimeDelta);
 
+	void				For_Attack_State(_float fTimeDelta);
+
 private:
 	_float3		m_forScaled;
 
-	DIRECTION	m_PlayerDir = { DIR_END };
-	STATE			m_PlayerCurState = { STATE_END };
-	STATE			m_PlayerPreState = { STATE_IDLE };
+	DIRECTION	m_ePlayerDir = { DIR_END };
+	STATE			m_ePlayerCurState = { STATE_END };
+	STATE			m_ePlayerPreState = { STATE_IDLE };
+
+	_float			m_fAttackTime = { 0.0f };
 
 private:
 	_bool m_bMoveRight = false;
@@ -93,9 +97,12 @@ private:
 	_bool m_bCanMoveForward = true;
 	_bool m_bCanMoveBackward = true;
 
+	_bool m_bPush = false;
+
 	_float		fTimeAcc = { 0.0f };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
+	_float		m_bAttack = { false };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 

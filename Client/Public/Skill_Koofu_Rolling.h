@@ -23,6 +23,11 @@ protected:
 	virtual HRESULT Ready_Components() override;
 	virtual HRESULT Ready_Animation();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	void Destroy(_float fTimeDelta);
 

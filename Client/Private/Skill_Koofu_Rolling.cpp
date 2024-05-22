@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Skill_Koofu_Rolling.h"
+#include "Player.h"
 
 CSkill_Koofu_Rolling::CSkill_Koofu_Rolling(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster { pGraphic_Device }
@@ -122,6 +123,29 @@ HRESULT CSkill_Koofu_Rolling::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"), TEXT("SKILL_ROLLING"));
 
 	return S_OK;
+}
+
+void CSkill_Koofu_Rolling::OnCollisionEnter(CCollider* other)
+{
+
+	/*CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CTransform* pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+		pPlayerTransform->Set_State(CTransform::STATE_POSITION, &_float3(10.f, 0.5f , 10.f));
+		
+	}*/
+	
+}
+
+void CSkill_Koofu_Rolling::OnCollisionStay(CCollider* other)
+{
+}
+
+void CSkill_Koofu_Rolling::OnCollisionExit(CCollider* other)
+{
 }
 
 void CSkill_Koofu_Rolling::Destroy(_float fTimeDelta)

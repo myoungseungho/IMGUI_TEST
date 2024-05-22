@@ -59,9 +59,10 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 		m_tMonsterDesc.iHp = pDesc->iHp;
 		Warf(35.f, 50.f, 20.f);
 	}
-	else if(!m_isClone)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 1.5f, 50.f));
-
+	else if (!m_isClone)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
+	}
 	return S_OK;
 }
 
@@ -286,6 +287,12 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 void CBoss_Koofu::State_Move(_float fTimeDelta)
 {
 	Move(fTimeDelta);
+
+	if (!m_isClone && m_tMonsterDesc.iHp <= 0)
+	{
+		m_eMon_State = MON_STATE::DEATH;
+		m_eAnim_State = ANIM_STATE::DEADTH; 
+	}
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
@@ -293,7 +300,7 @@ void CBoss_Koofu::State_Ready(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_ePrev_State = MON_STATE::READY;
-		m_eAnim_State = ANIM_STATE::READY;
+		m_eAnim_State = ANIM_STATE::CAST;
 		m_eMon_State = MON_STATE::CAST;
 	}
 
@@ -363,7 +370,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
-	m_eAnim_State = ANIM_STATE::CAST;
+	//m_eAnim_State = ANIM_STATE::CAST;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35, 1.5f, 60.f));
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
@@ -378,6 +385,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 		{
 			m_ePrev_State = MON_STATE::BULLET_B;
 			m_eMon_State = MON_STATE::IDLE;
+			m_isBullet = false;
 		}
 	}
 }
@@ -389,7 +397,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 	if (!m_isBullet && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
 		m_eAnim_State = ANIM_STATE::CAST;
-		Warf(-20, -20, 20, 10);
+		Warf(10, 30, 60, 70);
 		CircleCreate();
 		m_isBullet = true;
 		
@@ -413,7 +421,6 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 				}
 				m_isAttack = false;
 				m_isBullet = false;
-				
 		}
 
 	}
@@ -437,7 +444,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.5f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
@@ -554,8 +561,8 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
-	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
+	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 
 	/* For.Com_Transform */
@@ -647,17 +654,7 @@ HRESULT CBoss_Koofu::End_RenderState()
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other)
 {
-	if (!m_isClone)
-	{
-		m_tMonsterDesc.iHp--;
-		m_isAttack = true;
-	}
 
-	if (m_isClone)
-	{
-		m_tMonsterDesc.iHp--;
-	}
-		
 }
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other)
@@ -680,14 +677,14 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 
 void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % fMaxPosX - fMinPosX, 1.5f, rand() % fMaxPosZ - fMinPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % (fMaxPosX - fMinPosX) + fMinPosX, 0.75f, rand() % (fMaxPosZ - fMinPosZ )+ fMinPosZ));
 }
 
 void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 {
 	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.75f, WarfPosZ));
 
 }
 
@@ -744,7 +741,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
 		
-		Warf(-10, -10, 10, 10);
+		//Warf(-10, -10, 10, 10);
 	}
 
 	return S_OK;

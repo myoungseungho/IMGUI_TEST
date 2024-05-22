@@ -34,6 +34,8 @@ HRESULT CSkill_Koofu_Bubble::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI/ 180.f);
+
 	return S_OK;
 }
 
@@ -192,7 +194,7 @@ CGameObject* CSkill_Koofu_Bubble::Clone(void* pArg)
 		Safe_Release(pInstance);
 	}
 
-	return pInstance;
+	return pInstance;  
 }
 
 void CSkill_Koofu_Bubble::Free()

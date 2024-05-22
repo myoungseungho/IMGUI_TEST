@@ -226,7 +226,6 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
-
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 
 	{
