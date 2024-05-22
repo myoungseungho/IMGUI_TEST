@@ -34,6 +34,8 @@ HRESULT CSkill_Koofu_Bubble::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI/ 180.f);
+
 	return S_OK;
 }
 
@@ -106,6 +108,21 @@ HRESULT CSkill_Koofu_Bubble::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	CCollider::COLLIDER_DESC			ColliderDesc{};
+	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
+	ColliderDesc.depth = 0.5f;
+	ColliderDesc.MineGameObject = this;
+
+	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	//콜라이더오브젝트 추가
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+
 	return S_OK;
 }
 
@@ -177,7 +194,7 @@ CGameObject* CSkill_Koofu_Bubble::Clone(void* pArg)
 		Safe_Release(pInstance);
 	}
 
-	return pInstance;
+	return pInstance;  
 }
 
 void CSkill_Koofu_Bubble::Free()
@@ -185,6 +202,9 @@ void CSkill_Koofu_Bubble::Free()
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
 }

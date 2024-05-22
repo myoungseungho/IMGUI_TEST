@@ -26,6 +26,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 	void Distroy(_float fTimeDelta);
 	
 public:

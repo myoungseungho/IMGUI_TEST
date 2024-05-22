@@ -116,15 +116,15 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-		if (dynamic_cast<CBush*>(otherObject))
-			return;
+	if (dynamic_cast<CBush*>(otherObject))
+		return;
 
-		if (dynamic_cast<CPush_Stone*>(otherObject))
-		{
-			m_bPush = true;
-			return;
-		}
-		
+	if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		m_bPush = true;
+		return;
+	}
+
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -152,7 +152,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
-	
+
 	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_ATTACK)
@@ -162,9 +162,9 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	else if (dynamic_cast<CMonster*>(otherObject))
+	if (dynamic_cast<CMonster*>(otherObject))
 	{
-		if (m_ePlayerCurState == STATE_ATTACK&& m_bAttack)
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
 		{
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
@@ -177,7 +177,8 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
-	else if (dynamic_cast<CPush_Stone*>(otherObject))
+
+	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_PUSH)
 		{
@@ -276,7 +277,7 @@ HRESULT CPlayer::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
-		return E_FAIL; 
+		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 15.f));
@@ -374,7 +375,7 @@ HRESULT CPlayer::End_RenderState()
 	return S_OK;
 }
 
-HRESULT CPlayer::Key_Input(_float fTimeDelta) 
+HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
 
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
@@ -383,10 +384,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
 
-	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
-		m_pTransformCom->Set_Speed(5.f);
-	else
-		m_pTransformCom->Set_Speed(3.f);
+
 
 	if (m_pKeyCom->Key_Pressing('E'))
 	{
@@ -469,7 +467,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 			}
 
-			
+
 		}
 
 		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
@@ -503,8 +501,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			m_ePlayerCurState = STATE_PUSH;
 			m_pTransformCom->Set_Speed(1.f);
 		}
-		else
-			m_pTransformCom->Set_Speed(3.f);
+
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTUP);
@@ -526,14 +523,11 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	else if (m_bMoveDown)
 	{
 		m_ePlayerCurState = STATE_WALK;
-
 		if (m_bPush)
 		{
 			m_ePlayerCurState = STATE_PUSH;
 			m_pTransformCom->Set_Speed(1.f);
 		}
-		else
-			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bMoveLeft) {
 			Set_Direction(DIR_LEFTDOWN);
@@ -562,8 +556,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			m_ePlayerCurState = STATE_PUSH;
 			m_pTransformCom->Set_Speed(1.f);
 		}
-		else
-			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bCanMoveLeft)
 			m_pTransformCom->Go_Left(fTimeDelta);
@@ -579,8 +571,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			m_ePlayerCurState = STATE_PUSH;
 			m_pTransformCom->Set_Speed(1.f);
 		}
-		else
-			m_pTransformCom->Set_Speed(3.f);
 
 		if (m_bCanMoveRight)
 			m_pTransformCom->Go_Right(fTimeDelta);
@@ -598,6 +588,10 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_ePlayerCurState = STATE_IDLE;
 	}
 
+	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+		m_pTransformCom->Set_Speed(5.f);
+	else
+		m_pTransformCom->Set_Speed(3.f);
 
 	return S_OK;
 }
@@ -634,7 +628,7 @@ HRESULT CPlayer::Player_Skill()
 	SkillPlayerDesc.m_SkillDir = m_SkillDir;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Player"), TEXT("Layer_Player_Skill"), &SkillPlayerDesc)))
-	return E_FAIL;
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -806,21 +800,21 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 
 void CPlayer::For_Attack_State(_float fTimeDelta)
 {
-		if (m_ePlayerCurState == STATE_ATTACK)
+	if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		m_fAttackTime += fTimeDelta;
+		if (m_fAttackTime > 1.0f)
 		{
-			m_fAttackTime += fTimeDelta;
-			if (m_fAttackTime > 1.0f)
-			{
-				m_ePlayerCurState = STATE_IDLE;
-				m_pTransformCom->Set_Scaled(m_forScaled);
-				m_fAttackTime = 0.0f;
-			}
-		}
-		else
-		{
+			m_ePlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(m_forScaled);
+			m_fAttackTime = 0.0f;
 		}
-	
+	}
+	else
+	{
+		m_pTransformCom->Set_Scaled(m_forScaled);
+	}
+
 }
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

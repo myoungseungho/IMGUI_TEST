@@ -35,6 +35,7 @@ private:
 	void AnimState(_float fTimeDelta);
 
 	void State_Idle(_float fTimeDelta);
+	void State_Move(_float fTimeDelta);
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
 	void State_Bullet_B(_float fTimeDelta);
@@ -44,6 +45,7 @@ private:
 
 private:
 	void Move_Dir();
+	void Move(_float fDeltaTime);
 
 	void Key_Input(_float fTimeDelta);
 	void BillBoarding();
@@ -82,9 +84,10 @@ private:
 	_bool m_isClone = { false };
 	_bool m_isClone_Create = { false };
 
-	_bool m_isAttack = { false };
+	//_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
 
+	_float3 m_vTargetDir = {};
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

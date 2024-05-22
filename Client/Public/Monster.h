@@ -59,8 +59,13 @@ public:
 public:
 	virtual void Damaged() {
 		--m_tMonsterDesc.iHp;
+		m_isAttack = true;
 	};
 
+protected:
+	_bool m_isAttack = { false };
+
+public:
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
 	
