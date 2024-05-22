@@ -44,6 +44,7 @@ private:
 
 private:
 	void Move_Dir();
+	void Move();
 
 	void Key_Input(_float fTimeDelta);
 	void BillBoarding();
@@ -85,6 +86,7 @@ private:
 	_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
 
+	_float3 m_vTargetDir = {};
 
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

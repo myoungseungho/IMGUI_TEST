@@ -5,6 +5,7 @@
 
 #include "Skill_Monster.h"
 #include "Skill_Koofu_Fuit.h"
+#include "Skill_Koofu_Bubble.h"
 
 #include "Player.h"
 
@@ -63,6 +64,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
 
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
+
 
 	return S_OK;
 }
@@ -70,15 +73,18 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
-
+	m_vTargetDir = m_pTargetTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	D3DXVec3Normalize(&m_vTargetDir, &m_vTargetDir);
+	int a = 10;
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
-	//m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
 	Move_Dir();
 	Key_Input(fTimeDelta);
-	MonState(fTimeDelta);
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	//BillBoarding();
+//	MonState(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -150,7 +156,7 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		switch (m_eMon_Dir)
 		{
 		case MON_DIR::DIR_D:
-			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_DOWN"), 1.f, fTimeDelta, true);
+ 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_DOWN"), 1.f, fTimeDelta, true);
 			break;
 
 		case MON_DIR::DIR_L:
@@ -171,8 +177,9 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 
 		case MON_DIR::DIR_RD:
 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_RIGHTDOWN"), 1.f, fTimeDelta, true);
+			//m_pAnimCom->Play_Animator(TEXT("KOOFU_WALK_LEFTDOWN"), 1.f, fTimeDelta, true);
 			break;
-
+			
 		case MON_DIR::DIR_RU:
 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_RIGHTUP"), 1.f, fTimeDelta, true);
 			break;
@@ -180,6 +187,9 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		case MON_DIR::DIR_U:
 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_UP"), 1.f, fTimeDelta, true);
 			break;
+
+			default:
+				int a = 10;
 		}
 		break;
 
@@ -331,6 +341,9 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		for (int i = 0; i < 3; ++i)
 		{
 			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			if (!pClone)
+				break;
+
 			Safe_Release(pClone);
 		}
 	}
@@ -340,6 +353,10 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		for (int i = 0; i < 3; ++i)
 		{
 			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Boss_Koofu_Clone"), i));
+			
+			if (!pClone)
+				break;
+
 			Safe_Release(pClone);
 		}
 
@@ -373,10 +390,13 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::CAST;
 
-	if (!m_isBullet)
+	if (!m_isBullet && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
+		m_eAnim_State = ANIM_STATE::CAST;
+		Warf(-20, -20, 20, 10);
 		CircleCreate();
 		m_isBullet = true;
+		
 	}
 
 	if (m_isAttack && !m_isClone)
@@ -386,10 +406,18 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		{
 			m_eAnim_State = ANIM_STATE::READY;
 
-			if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
-			{
-				int a = 10;
-			}
+				for (int i = 0; i < 3; ++i)
+				{
+					CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Bubble"), i));
+
+					if (!pClone)
+						break;
+
+					Safe_Release(pClone);
+				}
+				m_isAttack = false;
+				m_isBullet = false;
+				
 		}
 
 	}
@@ -444,6 +472,7 @@ void CBoss_Koofu::Move_Dir()
 	}
 	else if (fAngle <= 202.5f)
 	{
+
 		m_eMon_Dir = MON_DIR::DIR_D;
 	}
 	else if (fAngle <= 247.5f)
@@ -462,6 +491,11 @@ void CBoss_Koofu::Move_Dir()
 	{
 		MSG_BOX(TEXT("Dir_Error"));
 	}
+}
+
+void CBoss_Koofu::Move()
+{
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 }
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
@@ -538,7 +572,7 @@ HRESULT CBoss_Koofu::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightDown"), TEXT("KOOFU_IDLE_RIGHTDOWN"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_RightUp"), TEXT("KOOFU_IDLE_RIGHTUP"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Idle_Up"), TEXT("KOOFU_IDLE_UP"));
-
+	
 	//Death
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Death"), TEXT("KOOFU_DEATH"));
 
@@ -746,8 +780,6 @@ CGameObject* CBoss_Koofu::Clone(void* pArg)
 
 void CBoss_Koofu::Free()
 {
-
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
