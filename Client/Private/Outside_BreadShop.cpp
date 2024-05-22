@@ -45,7 +45,7 @@ HRESULT COutside_BreadShop::Initialize(void* pArg)
 	ColliderDesc.MineGameObject = this;
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Collider"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 

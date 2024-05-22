@@ -362,9 +362,7 @@ HRESULT CLoader::Loading_For_GamePlayLevel()
 
 
 	//컴포넌트 로드한다.
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Collider"),
-		CCollider::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
@@ -542,11 +540,6 @@ HRESULT CLoader::Loading_For_Edit()
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
-
-	//컴포넌트 로드한다.
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_EDIT, TEXT("Prototype_Component_Collider"),
-		CCollider::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
@@ -726,11 +719,6 @@ HRESULT CLoader::Loading_For_Tacho()
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
-	//컴포넌트 로드한다.
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TACHO, TEXT("Prototype_Component_Collider"),
-		CCollider::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
 	
@@ -892,9 +880,6 @@ HRESULT CLoader::Loading_For_Snow()
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
 	//컴포넌트 로드한다.
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_Collider"),
-		CCollider::Create(m_pGraphic_Device))))
-		return E_FAIL;
 
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
@@ -990,16 +975,13 @@ HRESULT CLoader::Loading_For_Koofu()
 	
 
 	/* 애니메이션 텍스쳐를 로드한다*/
-
 	
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
 	//컴포넌트 로드한다.
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU, TEXT("Prototype_Component_Collider"),
-		CCollider::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));

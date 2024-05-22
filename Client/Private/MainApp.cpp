@@ -719,6 +719,11 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURECUBE, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/SkyBox/SkyBox_%d.dds"), 4))))
 		return E_FAIL;
 
+	//콜라이더 컴포넌트
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
+		CCollider::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 
 }
