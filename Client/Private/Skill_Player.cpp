@@ -56,7 +56,7 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f) && m_iSkillCount >=3)
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		Delete_Object();
 	}
