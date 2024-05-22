@@ -35,6 +35,7 @@ private:
 	void AnimState(_float fTimeDelta);
 
 	void State_Idle(_float fTimeDelta);
+	void State_Move(_float fTimeDelta);
 	void State_Ready(_float fTimeDelta);
 	void State_Bullet(_float fTimeDelta);
 	void State_Bullet_B(_float fTimeDelta);
@@ -44,7 +45,7 @@ private:
 
 private:
 	void Move_Dir();
-	void Move();
+	void Move(_float fDeltaTime);
 
 	void Key_Input(_float fTimeDelta);
 	void BillBoarding();

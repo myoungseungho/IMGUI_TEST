@@ -81,7 +81,8 @@ public:
 	void Away(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 
 	_float Dir_Degree();
-
+	_float Target_Dir_Degree(const _float3& vTargetPos);
+	
 public:
 	HRESULT Bind_WorldMatrix();
 

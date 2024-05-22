@@ -312,11 +312,34 @@ _float CTransform::Dir_Degree()
 
 	fAngle = acos(fAngle);
 
+	if (vLook.x < 0.f)
+		fAngle = D3DX_PI * 2 - fAngle;
+
 	fAngle = D3DXToDegree(fAngle);
 
 	return fAngle;
 }
 
+_float CTransform::Target_Dir_Degree(const _float3& vTargetPos)
+{
+	_float3	vPosition = Get_State(STATE_POSITION);
+	_float3 vDir = vTargetPos - vPosition  ;
+
+	D3DXVec3Normalize(&vDir, &vDir);
+
+	_float3		vAxis(0.f, 0.f, 1.f);
+
+	_float fAngle = D3DXVec3Dot(&vDir, &vAxis);
+
+	fAngle = acos(fAngle);
+
+	if (vDir.x < 0.f)
+		fAngle = D3DX_PI * 2 - fAngle;
+
+	fAngle = D3DXToDegree(fAngle);
+
+	return fAngle;
+}
 
 HRESULT CTransform::Bind_WorldMatrix()
 {

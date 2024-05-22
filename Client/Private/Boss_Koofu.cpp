@@ -43,13 +43,11 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-
  	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
-
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -64,27 +62,21 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 1.5f, 20));
 
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180 * D3DX_PI / 180.f);
-
-
 	return S_OK;
 }
 
 
 void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
-	m_vTargetDir = m_pTargetTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	D3DXVec3Normalize(&m_vTargetDir, &m_vTargetDir);
-	int a = 10;
+	
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)
 {
 	Move_Dir();
 	Key_Input(fTimeDelta);
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
-	//BillBoarding();
-//	MonState(fTimeDelta);
+
+	MonState(fTimeDelta);
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -95,8 +87,6 @@ void CBoss_Koofu::Late_Update(_float fTimeDelta)
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
@@ -120,6 +110,10 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 	{
 	case MON_STATE::IDLE:
 		State_Idle(fTimeDelta);
+		break;
+
+	case MON_STATE::MOVE:
+		State_Move(fTimeDelta);
 		break;
 
 	case MON_STATE::READY:
@@ -177,7 +171,6 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 
 		case MON_DIR::DIR_RD:
 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_RIGHTDOWN"), 1.f, fTimeDelta, true);
-			//m_pAnimCom->Play_Animator(TEXT("KOOFU_WALK_LEFTDOWN"), 1.f, fTimeDelta, true);
 			break;
 			
 		case MON_DIR::DIR_RU:
@@ -187,9 +180,6 @@ void CBoss_Koofu::AnimState(_float fTimeDelta)
 		case MON_DIR::DIR_U:
 			m_pAnimCom->Play_Animator(TEXT("KOOFU_IDLE_UP"), 1.f, fTimeDelta, true);
 			break;
-
-			default:
-				int a = 10;
 		}
 		break;
 
@@ -291,6 +281,11 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 		m_eMon_State = MON_STATE::CAST;
 
+}
+
+void CBoss_Koofu::State_Move(_float fTimeDelta)
+{
+	Move(fTimeDelta);
 }
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
@@ -421,6 +416,21 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		}
 
 	}
+
+	if (!m_isClone && m_tMonsterDesc.iHp <= 20)
+	{
+		m_eMon_State = MON_STATE::MOVE;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Bubble"), i));
+
+			if (!pClone)
+				break;
+
+			Safe_Release(pClone);
+		}
+	}
 	
 }
 
@@ -452,7 +462,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 
 void CBoss_Koofu::Move_Dir()
 {
-	_float fAngle = m_pTransformCom->Dir_Degree();
+	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	if (fAngle >= 337.5f || fAngle <= 22.5f)
 	{
@@ -493,9 +503,16 @@ void CBoss_Koofu::Move_Dir()
 	}
 }
 
-void CBoss_Koofu::Move()
+void CBoss_Koofu::Move(_float fDeltaTime)
 {
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_eAnim_State = ANIM_STATE::WALK;
+
+	_float3 vChase = {};
+	vChase.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	vChase.y = 1.5f;
+	vChase.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
 }
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
@@ -529,7 +546,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fSpeedPerSec = 3.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -594,7 +611,7 @@ HRESULT CBoss_Koofu::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightDown"), TEXT("KOOFU_THROW_RIGHTDOWN"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_RightUp"), TEXT("KOOFU_THROW_RIGHTUP"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Throw_Up"), TEXT("KOOFU_THROW_UP"));
-
+	
 	//Walk
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Walk_Down"), TEXT("KOOFU_WALK_DOWN"));
 	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Koofu_Walk_Left"), TEXT("KOOFU_WALK_LEFT"));
