@@ -29,7 +29,6 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-
 	if (true == m_pLoader->isFinished())
 	{
 		CLevel* pNextLevel = { nullptr };

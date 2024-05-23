@@ -12,7 +12,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "EnviormentObject.h"
-
+#include "UI_Heart_Player.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -42,6 +42,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_Components()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Prototype_GameObject()))
 		return E_FAIL;
 
 	ImGui::StyleColorsDark();
@@ -930,7 +933,22 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		return E_FAIL;
 #pragma endregion
 
+
+#pragma region UI
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_HeartSymbol"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Icon/UI_Icon_HeartSymbol.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+
 	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Prototype_GameObject()
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Heart_Player"),
+		CUI_Heart_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
 }
 
 CMainApp* CMainApp::Create()

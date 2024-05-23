@@ -30,7 +30,9 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
-
+private:
+	HRESULT Ready_UI_Layer(LEVELID m_eNextLevelID);
+	
 private:		
 	/* 뷰변환행렬 = 월드행렬의 역행렬 */
 	CTransform*			m_pTransformCom = { nullptr };

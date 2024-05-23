@@ -66,8 +66,6 @@ HRESULT CRenderer::Render_NonBlend(_float DeltaTime)
 
 HRESULT CRenderer::Render_Blend(_float DeltaTime)
 {
-
-
 	for (auto& pRenderObject : m_RenderObjects[RG_BLEND])
 	{
 		if (nullptr != pRenderObject)

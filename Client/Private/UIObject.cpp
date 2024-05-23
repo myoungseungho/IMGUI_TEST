@@ -46,19 +46,7 @@ HRESULT CUIObject::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	// pArg가 FILEDATA 타입인지 확인
-	FILEDATA* pFileData = reinterpret_cast<FILEDATA*>(pArg);
-	if (pFileData != nullptr && !pFileData->isParsing) // isParsing 값을 확인
-	{
-		// 전달된 위치와 스케일 적용
-		CComponent* component = Get_Component(TEXT("Com_Transform"));
-		CTransform* transform = static_cast<CTransform*>(component);
-
-		transform->Set_State(CTransform::STATE_POSITION, &pFileData->position);
-		transform->Set_Scaled(pFileData->scale);
-
-		return S_OK;
-	}
+	return S_OK;
 }
 
 void CUIObject::Priority_Update(_float fTimeDelta)
@@ -78,24 +66,37 @@ void CUIObject::Late_Update(_float fTimeDelta)
 	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
 
 	CComponent* component = Get_Component(TEXT("Com_Transform"));
-	CTransform* transform = dynamic_cast<CTransform*>(component);
+	CTransform* transform = static_cast<CTransform*>(component);
 
 	_float3  cameraPosition = *(_float3*)&ViewMatrix.m[3][0];
-	_float offsetZ = 5.f;
 
 	cameraPosition.z += offsetZ;
 
-	//스카이박스는 맨 앞에 -> 덮여야 한다.
-	//UI는 맨 뒤에 -> 덮어야 한다.
 	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
 
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
+	BillBoarding();
 }
 
 HRESULT CUIObject::Render(_float fTimeDelta)
 {
 	return S_OK;
 }
+
+void CUIObject::BillBoarding()
+{
+	_float4x4      ViewMatrix{};
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
+
+	CComponent* component = Get_Component(TEXT("Com_Transform"));
+	CTransform* transform = static_cast<CTransform*>(component);
+
+	transform->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
+	transform->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
+	transform->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
+}
+
 
 void CUIObject::Free()
 {

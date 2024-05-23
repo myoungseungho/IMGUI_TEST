@@ -101,7 +101,6 @@ HRESULT CObject_Manager::AddObjectPrototypesVector(vector<string>* _pVector)
 	return S_OK;
 }
 
-
 HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < string, list<CGameObject*>>>* pVector)
 {
 	if (pVector == nullptr)
@@ -123,7 +122,6 @@ HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < strin
 
 	return S_OK;
 }
-
 
 HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < wstring, list<CGameObject*>>>* pVector)
 {
@@ -158,7 +156,6 @@ HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < wstri
 //
 //	return S_OK;
 //}
-
 
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {

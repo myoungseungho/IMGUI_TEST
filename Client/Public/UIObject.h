@@ -29,9 +29,17 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render(_float fTimeDelta);
 
+protected:
+	void BillBoarding();
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
+
+protected:
+	_float offsetX = { 0.f };
+	_float offsetY = { 0.f };
+	_float offsetZ = { 12.f };
+
 };
 
 END
