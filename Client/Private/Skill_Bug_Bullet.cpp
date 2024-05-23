@@ -3,7 +3,7 @@
 #include "Skill_Monster.h"
 #include "Skill_Bug_Bullet.h"
 #include "GameInstance.h"
-
+#include "Player.h"
 CSkill_Bug_Bullet::CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
 {
@@ -42,7 +42,7 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vCreatePos);
-	
+
 	_float fDegree = (float)(rand() % 200 + 1900) / 10.f;
 	_float fBulletCnt = pDesc->iTotalBullet;
 
@@ -63,7 +63,7 @@ void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
 	CSkill_Bug_Bullet* bullet = this;
-	if (m_pTimerCom->Time_Limit(fTimeDelta,5.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 		Safe_Release(bullet);
 }
 
@@ -128,7 +128,7 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 
 HRESULT CSkill_Bug_Bullet::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"), TEXT("SKILL_BUG_BULLET"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_Skill_Bug_Bullet"), TEXT("SKILL_BUG_BULLET"));
 
 	return S_OK;
 }
@@ -154,8 +154,11 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 
 void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
 {
-	CSkill_Bug_Bullet* pInst = this;
-	Safe_Release(pInst);
+	if (dynamic_cast<CPlayer*>(other->m_MineGameObject))
+	{
+		CSkill_Bug_Bullet* pInst = this;
+		Safe_Release(pInst);
+	}
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
@@ -169,8 +172,7 @@ void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
 
 }
 
-
-void CSkill_Bug_Bullet::Distroy(_float fTimeDelta)
+void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 {
 	CSkill_Bug_Bullet* pThis = this;
 

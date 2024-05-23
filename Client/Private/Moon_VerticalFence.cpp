@@ -135,6 +135,18 @@ void CMoon_VerticalFence::AnimState(_float _fTimeDelta)
 	}
 }
 
+void CMoon_VerticalFence::OnCollisionEnter(CCollider* other)
+{
+}
+
+void CMoon_VerticalFence::OnCollisionStay(CCollider* other)
+{
+}
+
+void CMoon_VerticalFence::OnCollisionExit(CCollider* other)
+{
+}
+
 CMoon_VerticalFence* CMoon_VerticalFence::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CMoon_VerticalFence* pInstance = new CMoon_VerticalFence(pGraphic_Device);

@@ -46,6 +46,11 @@ private:
 	void AnimState(_float _fTimeDelta);
 
 private:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
+private:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
 
 public:

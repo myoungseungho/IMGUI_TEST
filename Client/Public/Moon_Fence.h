@@ -40,6 +40,11 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Animation();

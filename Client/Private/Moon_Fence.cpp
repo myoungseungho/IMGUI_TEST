@@ -89,6 +89,18 @@ HRESULT CMoon_Fence::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CMoon_Fence::OnCollisionEnter(CCollider* other)
+{
+}
+
+void CMoon_Fence::OnCollisionStay(CCollider* other)
+{
+}
+
+void CMoon_Fence::OnCollisionExit(CCollider* other)
+{
+}
+
 HRESULT CMoon_Fence::Ready_Components()
 {
 	/* For.Com_VIBuffer */

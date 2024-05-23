@@ -11,6 +11,7 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "Boss_Bug.h"
 CLevel_Bug::CLevel_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -37,6 +38,9 @@ HRESULT CLevel_Bug::Initialize()
 	//	return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -122,13 +126,26 @@ HRESULT CLevel_Bug::Ready_Layer_Bush(const _wstring& strLayerTag, int horizontal
 	return S_OK;
 }
 
+HRESULT CLevel_Bug::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
+{
+	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
+
+	BossBug.iHp = 50;
+	BossBug.iAttack = 1;
+	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag, &BossBug)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CLevel_Bug::Ready_LandObjects()
 {
 	/*CLandObject::LANDOBJECT_DESC	Desc{};
 
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
 		return E_FAIL;*/
