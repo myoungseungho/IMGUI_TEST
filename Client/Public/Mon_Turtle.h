@@ -35,6 +35,7 @@ private:
 
 private:
 	void Destory(_float fTimeDelta);
+	void Spawn_Position(_int iPosX, _int iPosZ, _float fDistance);
 	void Move_Range(_float fMinPosX , _float fMinPosZ , _float fMaxPosX, _float fMaxPosZ);
 
 private:

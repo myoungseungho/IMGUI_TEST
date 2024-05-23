@@ -43,7 +43,7 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.f, rand() % 20 + 10));
+	Spawn_Position(39.5, 36.f, 5.f);
 	m_eMon_State = MON_STATE::IDLE;
 	
 	return S_OK;
@@ -56,7 +56,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
-	Move_Range(0.f, 0.f, 50.f, 50.f);
+	Move_Range(32.f, 27.f, 47.f, 48.f);
 	Destory(fTimeDelta);
 }
 
@@ -118,13 +118,22 @@ void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_pKeyCom->Key_Down('0'))
+		Safe_Release(pTurtle);
+
+	/*if (m_tMonsterDesc.iHp <= 0)
 	{
 		Safe_Release(pTurtle);
-	}
+	}*/
+}
 
-	if(m_pKeyCom->Key_Down('0'))
-		Safe_Release(pTurtle);
+
+void CMon_Turtle::Spawn_Position(_int iPosX, _int iPosZ, _float fDistance)
+{
+	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.75f, WarfPosZ));
+
 }
 
 void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)

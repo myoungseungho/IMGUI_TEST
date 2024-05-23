@@ -60,6 +60,13 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
+
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (vPos.x >= 32.f && vPos.x <= 47.f && vPos.z >= 27.f && vPos.z <= 48.f)
+		m_bPosRange = true;
+	else
+		m_bPosRange = false;
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
@@ -174,7 +181,17 @@ HRESULT CBoss_Bug::End_RenderState()
 
 void CBoss_Bug::OnCollisionEnter(CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
+	{
+		if ((m_eMon_State == MON_STATE::BULLET) || (m_eMon_State == MON_STATE::IDLE))
+		{
+			Damaged();
+			otherObject->Delete_Object();
+		}
+		return;
+	}
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -206,30 +223,24 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	m_fDashBulletTimer += fTimeDelta;
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
+	
 
-	if (iter)
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
-		{
-			Warf(30, 20, 50.f, m_fAngle);
-		}
-		else
-		{
-			m_pTransformCom->Set_Speed(10.f);
-			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
-
-			if (m_fDashBulletTimer >= 1.f)
-			{
-				Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
-				m_fDashBulletTimer = 0.f;
-			}
-		}
+		Warf(30, 20, 50.f, m_fAngle);
 	}
 	else
 	{
-		m_pTransformCom->Set_Speed(2.f);
+		m_pTransformCom->Set_Speed(10.f);
+		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+
+		if (m_fDashBulletTimer >= 1.f)
+		{
+			Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
+			m_fDashBulletTimer = 0.f;
+		}
 	}
+	
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
@@ -400,16 +411,21 @@ void CBoss_Bug::State_Ready(_float _fTimeDelta)
 void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
-	Skill_Dash(_fTimeDelta);
 
-	if (!iter)
+	if(iter || !m_bPosRange)
+		Skill_Dash(_fTimeDelta);
+
+	else if(!iter)
 	{
-		if (m_isTurtle)
+		m_pTransformCom->Set_Speed(2.f);
+
+		if (m_isTurtle && m_bPosRange)
 		{
-			m_ePrev_State == MON_STATE::DASH;
+			m_ePrev_State = MON_STATE::DASH;
 			m_eMon_State = MON_STATE::STAN;
 		}
-		if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
+
+		if(m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
 		{
 			Turtle_Create();
 			m_isTurtle = true;

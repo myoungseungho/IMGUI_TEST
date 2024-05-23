@@ -41,7 +41,7 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	m_vCreatePos.y = 0.5f;
-	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z -3.f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_vCreatePos);
 	
 	Bullet_State();
@@ -57,12 +57,12 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
-	Destroy(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Bug_Bullet::Render(_float fTimeDelta)
@@ -147,11 +147,7 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 
 void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
 {
-	/*if (dynamic_cast<CPlayer*>(other->m_MineGameObject))
-	{
-		CSkill_Bug_Bullet* pInst = this;
-		Safe_Release(pInst);
-	}*/
+
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
@@ -173,7 +169,6 @@ void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 		Safe_Release(pThis);
 }
 
-
 void CSkill_Bug_Bullet::Bullet_State()
 {
 	switch (m_iBulletType)
@@ -190,7 +185,7 @@ void CSkill_Bug_Bullet::Bullet_State()
 
 void CSkill_Bug_Bullet::BulletType_Normal()
 {
-	m_fAngleRange = 45.f;
+	m_fAngleRange = 75.f;
 	_float fStartRange = m_fAngleRange * 0.5f;
 	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
 

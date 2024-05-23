@@ -81,6 +81,8 @@ private:
 	_float m_fWaveTimer = { 0.f };
 
 	_bool m_isTmp = { false };
+	_bool m_bPosRange = {true};
+	_bool m_FlyLand = { true };
 
 	MON_STATE m_ePrev_State = {};
 

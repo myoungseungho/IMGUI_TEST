@@ -40,13 +40,13 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
+private:
 	void Destroy(_float fTimeDelta);
 private:
 	void Bullet_State();
 
 	void BulletType_Normal();
 	void BulletType_Circle();
-
 private:
 	_float3 m_vCreatePos = {};
 	BULLET_STATE m_iBulletType = { };
