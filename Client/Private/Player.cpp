@@ -594,6 +594,9 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	else
 		m_pTransformCom->Set_Speed(3.f);
 
+	if (m_pKeyCom->Key_Pressing(VK_SPACE))
+		m_icurrentHp--;
+
 	return S_OK;
 }
 

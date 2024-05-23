@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "..\Public\UI_HP_Green_Player.h"
-
 #include "GameInstance.h"
 
 CUI_HP_Green_Player::CUI_HP_Green_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -32,6 +31,13 @@ HRESULT CUI_HP_Green_Player::Initialize(void* pArg)
 	offsetX = -16.6f;
 	offsetY = 0.1f;
 
+	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+	CGameObject* gameobject = m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_Player"));
+	m_pPlayerCopy = static_cast<CPlayer*>(gameobject);
+	Safe_AddRef(m_pPlayerCopy);
+
+	m_iPlayerMaxHp = m_pPlayerCopy->Get_Player_MaxHp();
+	
 	return S_OK;
 }
 
@@ -41,20 +47,35 @@ void CUI_HP_Green_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Green_Player::Update(_float fTimeDelta)
 {
+	m_iPlayerCurrentHp = m_pPlayerCopy->Get_Player_Hp();
 }
 
 void CUI_HP_Green_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	// 체력 비율 계산
+	_float healthRatio = static_cast<_float>(m_iPlayerCurrentHp) / static_cast<_float>(m_iPlayerMaxHp);
 
+	// 체력바의 초기 X 스케일 설정
+	_float scaleX = 7.5f;
+
+	// 현재 스케일을 가져와서 X 스케일을 체력 비율에 따라 조정
+	_float3 currentScale = m_pTransformCom->Get_Scaled();
+	currentScale.x = scaleX * healthRatio; // 체력 비율에 따라 X 스케일 조정
+	m_pTransformCom->Set_Scaled(currentScale);
+
+	// 체력바의 왼쪽 끝을 고정시키기 위해 위치 조정
+	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	currentPosition.x = currentPosition.x - (scaleX - currentScale.x) * 0.5f; // 스케일에 따라 X 위치 조정
+
+	// 오프셋 적용
 	currentPosition.x += offsetX;
 	currentPosition.y += offsetY;
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(7.5f, 1.2f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(currentScale.x, 1.f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
@@ -133,6 +154,7 @@ void CUI_HP_Green_Player::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pPlayerCopy);
 
 	__super::Free();
 }

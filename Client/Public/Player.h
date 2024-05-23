@@ -46,6 +46,15 @@ public:
 	STATE		Get_Player_Dir() {
 		return m_ePlayerCurState;
 	}
+	_uint		Get_Player_Hp()
+	{
+		return m_icurrentHp;
+	}
+
+	_uint		Get_Player_MaxHp()
+	{
+		return m_iMaxHp;
+	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -102,6 +111,8 @@ private:
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
 	_float		m_bAttack = { false };
+	_uint		m_iMaxHp = { 10};
+	_uint		m_icurrentHp = { 10};
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 

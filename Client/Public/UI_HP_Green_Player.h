@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "UIObject.h"
+#include "Player.h"
 
 
 BEGIN(Engine)
@@ -33,7 +34,10 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
-
+private:
+	CPlayer* m_pPlayerCopy = { nullptr };
+	_uint	m_iPlayerCurrentHp = { 0 };
+	_uint	m_iPlayerMaxHp = { 0 };
 private:
 	HRESULT Ready_Components();
 
