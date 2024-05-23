@@ -126,8 +126,8 @@ HRESULT CLevel_Snow::Ready_LandObjects()
 {
 	/*CLandObject::LANDOBJECT_DESC	Desc{};
 
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_EDIT, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_EDIT, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
 		return E_FAIL;*/

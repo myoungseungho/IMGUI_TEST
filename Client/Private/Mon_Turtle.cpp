@@ -139,7 +139,7 @@ HRESULT CMon_Turtle::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, m_ColorTexTag,
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, m_ColorTexTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -176,7 +176,7 @@ HRESULT CMon_Turtle::Ready_Components()
 
 HRESULT CMon_Turtle::Ready_Animation()
 {
-	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, m_ColorTexTag, TEXT("MON_TURTLE_MOVE"))))
+	if (FAILED(m_pAnimCom->Add_Animator(LEVEL_JUNGLE, m_ColorTexTag, TEXT("MON_TURTLE_MOVE"))))
 		return E_FAIL;
 
 	return S_OK;

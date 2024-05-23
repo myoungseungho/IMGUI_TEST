@@ -7,11 +7,11 @@
 
 BEGIN(Client)
 
-class CLevel_Edit final : public CLevel
+class CLevel_Jungle final : public CLevel
 {
 private:
-	CLevel_Edit(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_Edit() = default;
+	CLevel_Jungle(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_Jungle() = default;
 
 public:
 	virtual HRESULT Initialize() override;
@@ -29,7 +29,7 @@ private:
 	HRESULT ParseInitialize();
 
 public:
-	static CLevel_Edit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLevel_Jungle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
 };
 

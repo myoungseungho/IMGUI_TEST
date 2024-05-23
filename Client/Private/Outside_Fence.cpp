@@ -141,10 +141,11 @@ CGameObject* COutside_Fence::Clone(void* pArg)
 
 void COutside_Fence::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+
+	m_pGameInstance->Release_Collider(m_pColliderCom);
+	__super::Free();
 }

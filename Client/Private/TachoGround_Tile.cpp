@@ -26,8 +26,8 @@ HRESULT CTachoGround_Tile::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//if (FAILED(__super::Initialize(pArg)))
-	//	return E_FAIL;
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
 	if (m_bIsPasingObject)
 	{

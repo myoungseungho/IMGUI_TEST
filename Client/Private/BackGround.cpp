@@ -83,10 +83,10 @@ HRESULT CBackGround::Render(_float fTimeDelta)
 
 HRESULT CBackGround::Ready_Components()
 {
-	/* 백그라운드 객체에게 필요한 컴포넌트들을 복제하여 저장해놓는다.*/
-	m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo")));
-	if (nullptr == m_pTextureCom)
-		return E_FAIL;
+	///* 백그라운드 객체에게 필요한 컴포넌트들을 복제하여 저장해놓는다.*/
+	//m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Component(LEVEL_LOGO, TEXT("Prototype_Component_Texture_Logo")));
+	//if (nullptr == m_pTextureCom)
+	//	return E_FAIL;
 
 	m_pVIBufferCom = dynamic_cast<CVIBuffer_Rect*>(m_pGameInstance->Clone_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect")));
 	if (nullptr == m_pVIBufferCom)

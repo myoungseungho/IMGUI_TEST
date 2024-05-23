@@ -43,14 +43,12 @@ private:
 
 
 private:
-	HRESULT Loading_For_LogoLevel();	
 	HRESULT Loading_For_GamePlayLevel();
-	HRESULT Loading_For_Edit();
+	HRESULT Loading_For_Jungle();
 	HRESULT Loading_For_Tacho();
 	HRESULT Loading_For_Snow();
 	HRESULT Loading_For_Koofu();
 	HRESULT Loading_For_Bug();
-	HRESULT Loading_For_Ocean();
 
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID);

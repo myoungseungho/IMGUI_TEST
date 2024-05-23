@@ -26,7 +26,7 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-	m_iLevelIndex = LEVEL_GAMEPLAY;
+	m_iLevelIndex = LEVEL_JUNGLE;
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -75,10 +75,10 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sky"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Sky"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -89,8 +89,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	CCamera::CAMERA_DESC			CameraDesc{};
 
-	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
+	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -102,9 +102,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 
 	BossBug.iHp = 50;
 	BossBug.iAttack = 1;
-	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag, &BossBug)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag, &BossBug)))
 		return E_FAIL;
 
 	return S_OK;
@@ -116,10 +116,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 
 	Bosskoofu.iHp = 50;
 	Bosskoofu.iAttack = 1;
-	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	Bosskoofu.isClone = false;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
 		return E_FAIL;
 
 	return S_OK;
@@ -127,7 +127,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_GameObject_StonPushable(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_StonePushable"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_StonePushable"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -135,7 +135,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_GameObject_StonPushable(const _wstring& str
 
 HRESULT CLevel_GamePlay::Ready_Layer_GameObject_RockBreakable(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_RockBreakable"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_RockBreakable"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -146,8 +146,8 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 {
 	CLandObject::LANDOBJECT_DESC	Desc{};
 
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
 
 
 	return S_OK;
@@ -155,7 +155,7 @@ HRESULT CLevel_GamePlay::Ready_LandObjects()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Player"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
@@ -178,13 +178,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag, CLandO
 {
 	CMon_Pocket::MON_POCKET_DESC			MonsterDesc{};
 
-	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	MonsterDesc.m_pTerrainTransform = Desc.m_pTerrainTransform;
 	MonsterDesc.m_pTerrainBuffer = Desc.m_pTerrainBuffer;
 
 	for (size_t i = 0; i < 30; i++)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Monster"), strLayerTag, &MonsterDesc)))
 			return E_FAIL;
 	}
 
@@ -193,7 +193,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag, CLandO
 
 HRESULT CLevel_GamePlay::Ready_Layer_Tree(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Tree"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Tree"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

@@ -36,15 +36,12 @@ HRESULT CLevel::ParseInitialize()
     const wchar_t* filePaths[] = {
         L"../Bin/LevelStaticObjects.txt",    // 0: LEVEL_STATIC
         L"../Bin/LevelLoadingObjects.txt",   // 1: LEVEL_LOADING
-        L"../Bin/LevelLogoObjects.txt",      // 2: LEVEL_LOGO
-        L"../Bin/LevelGameplayObjects.txt",  // 3: LEVEL_GAMEPLAY
-        L"../Bin/LevelEditObjects.txt",      // 4: LEVEL_EDIT
-        L"../Bin/LevelTachoObjects.txt",      // 5: LEVEL_TACHO
-        L"../Bin/LevelSnowObjects.txt",      // 6: LEVEL_SNOW
-        L"../Bin/LevelKoofuObjects.txt",      // 7: LEVEL_KOOFU
-        L"../Bin/LevelBugObjects.txt",      // 8: LEVEL_Bug
-        L"../Bin/LevelOceanObjects.txt",      // 9: LEVEL_Ocean
-        L"../Bin/DefaultLevelObjects.txt"    // 10: LEVEL_END (또는 기타)
+        L"../Bin/LevelTachoObjects.txt",      // 2: LEVEL_TACHO
+        L"../Bin/LevelJungleObjects.txt",  // 3: LEVEL_JUNGLE
+        L"../Bin/LevelSnowObjects.txt",      // 4: LEVEL_SNOW
+        L"../Bin/LevelKoofuObjects.txt",      // 5: LEVEL_KOOFU
+        L"../Bin/LevelBugObjects.txt",      // 6: LEVEL_Bug
+        L"../Bin/DefaultLevelObjects.txt"    // 7: LEVEL_END (또는 기타)
     };
 
     // 배열 인덱스를 사용하여 파일 경로 가져오기

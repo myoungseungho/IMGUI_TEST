@@ -85,7 +85,7 @@ HRESULT CSkill_Koofu_Rolling::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_RollingIce"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -120,7 +120,7 @@ HRESULT CSkill_Koofu_Rolling::Ready_Components()
 
 HRESULT CSkill_Koofu_Rolling::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_RollingIce"), TEXT("SKILL_ROLLING"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_RollingIce"), TEXT("SKILL_ROLLING"));
 
 	return S_OK;
 }

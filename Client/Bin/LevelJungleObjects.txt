@@ -1,293 +1,293 @@
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 37.5 0.5 31
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 39.4488 0.5 29.9636
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.5488 0.5 31.0636
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 40.4488 0.5 29.0636
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 39.5488 0.5 28.0635
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 42.5488 0.5 29.9636
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 38.5488 0.5 28.0635
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 42.4488 0.5 28.0635
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 44.3487 0.5 28.9636
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 4
+LevelIndex: 3
 Position: 44.3932 0.5 28.0596
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.5142 0 25.3319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 42.6141 0 25.2319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.7141 0 25.2319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 44.7141 0 25.2319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.5142 0 26.4319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 44.5141 0 26.4319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 4
+LevelIndex: 3
 Position: 42.7141 0 26.4319
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
-LevelIndex: 4
+LevelIndex: 3
 Position: 38.4677 0.5 28.9388
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.3677 0.5 29.7388
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
-LevelIndex: 4
+LevelIndex: 3
 Position: 39.5677 0.5 26.0387
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.3677 0.5 26.1387
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 39.5374 0.2 27.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 40.5373 0.2 28.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.4373 0.2 28.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 40.4373 0.2 30.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.5373 0.2 31.4671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.5373 0.2 30.3671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.4373 0.2 29.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.4373 0.2 28.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.4373 0.2 31.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.3373 0.2 29.3671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.5373 0.2 28.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.4373 0.2 27.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.4373 0.2 26.0671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.4373 0.2 25.2671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.5373 0.2 24.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 43.5373 0.2 24.1671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 42.5373 0.2 24.0671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
-LevelIndex: 4
+LevelIndex: 3
 Position: 41.4373 0.2 24.0671
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
-LevelIndex: 4
+LevelIndex: 3
 Position: 35.9652 3.19122 25.0845
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
-LevelIndex: 4
+LevelIndex: 3
 Position: 45.4156 0.2 30.3351
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
-LevelIndex: 4
+LevelIndex: 3
 Position: 44.7051 0 24.3327
 Scale: 1 1 1
 IsParsing: 1

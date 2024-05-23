@@ -117,8 +117,8 @@ HRESULT CRockBreakable::Ready_Components()
 
 HRESULT CRockBreakable::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_RockBreakable_Idle"), TEXT("AnimTexture_RockBreakable_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_RockBreakable_Die"), TEXT("AnimTexture_RockBreakable_MDie"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_RockBreakable_Idle"), TEXT("AnimTexture_RockBreakable_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_RockBreakable_Die"), TEXT("AnimTexture_RockBreakable_MDie"));
 
 	return S_OK;
 }

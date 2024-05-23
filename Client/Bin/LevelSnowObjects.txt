@@ -1,209 +1,209 @@
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
-LevelIndex: 6
+LevelIndex: 4
 Position: 50.4372 8.67437 20.4276
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Bush
 PrototypeTag: Prototype_GameObject_Snow_Bush
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.0566 1.406 26.8364
 Scale: 2.034 2.699 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Bush
 PrototypeTag: Prototype_GameObject_Snow_Bush
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.0566 1.406 25.2364
 Scale: 2.034 2.699 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Bush
 PrototypeTag: Prototype_GameObject_Snow_Bush
-LevelIndex: 6
+LevelIndex: 4
 Position: 42.2567 1.406 35.1364
 Scale: 2.034 2.699 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Bush
 PrototypeTag: Prototype_GameObject_Snow_Bush
-LevelIndex: 6
+LevelIndex: 4
 Position: 42.2567 1.406 37.6363
 Scale: 2.034 2.699 1
 IsParsing: 1
 
 LayerName: Layer_Snow_CenterDirt
 PrototypeTag: Prototype_GameObject_Snow_CenterDirt
-LevelIndex: 6
+LevelIndex: 4
 Position: 57.1696 0.006 23.4451
 Scale: 15 4.177 1
 IsParsing: 1
 
 LayerName: Layer_Snow_CenterDirt
 PrototypeTag: Prototype_GameObject_Snow_CenterDirt
-LevelIndex: 6
+LevelIndex: 4
 Position: 42.1699 0.006 22.6451
 Scale: 7.34 4.177 1
 IsParsing: 1
 
 LayerName: Layer_Snow_CenterDirt
 PrototypeTag: Prototype_GameObject_Snow_CenterDirt
-LevelIndex: 6
+LevelIndex: 4
 Position: 35.97 0.006 25.7451
 Scale: 4.68 4.177 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Fence
 PrototypeTag: Prototype_GameObject_Snow_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 49.2 1.499 26.7439
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Fence
 PrototypeTag: Prototype_GameObject_Snow_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 51.4 1.499 26.7439
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Fence
 PrototypeTag: Prototype_GameObject_Snow_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 60.6998 1.499 26.7439
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Fire
 PrototypeTag: Prototype_GameObject_Snow_Fire
-LevelIndex: 6
+LevelIndex: 4
 Position: 50.2 1.833 29.794
 Scale: 1.813 2.108 1
 IsParsing: 1
 
 LayerName: Layer_Snow_FireWood
 PrototypeTag: Prototype_GameObject_Snow_FireWood
-LevelIndex: 6
+LevelIndex: 4
 Position: 50.1419 0.545 29.8939
 Scale: 2.095 1 1
 IsParsing: 1
 
 LayerName: Layer_Snow_GrassGround
 PrototypeTag: Prototype_GameObject_Snow_GrassGround
-LevelIndex: 6
+LevelIndex: 4
 Position: 54.1834 0.006 35.004
 Scale: 15 7.206 3.955
 IsParsing: 1
 
 LayerName: Layer_Snow_GrassGround
 PrototypeTag: Prototype_GameObject_Snow_GrassGround
-LevelIndex: 6
+LevelIndex: 4
 Position: 34.2837 0.006 36.004
 Scale: 15 15 3.955
 IsParsing: 1
 
 LayerName: Layer_Snow_House
 PrototypeTag: Prototype_GameObject_Snow_House
-LevelIndex: 6
+LevelIndex: 4
 Position: 54.3353 3.399 37.2255
 Scale: 9.04 6.62 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Rock
 PrototypeTag: Prototype_GameObject_Snow_Rock
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.6479 1.026 30.3222
 Scale: 2.995 1.886 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Rock
 PrototypeTag: Prototype_GameObject_Snow_Rock
-LevelIndex: 6
+LevelIndex: 4
 Position: 37.648 1.026 28.6222
 Scale: 2.995 1.886 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 30.7883 4.184 19.3601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 64.0879 4.184 38.26
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 66.9878 4.184 36.46
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 63.0879 4.184 34.7601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 70.4878 4.184 33.4601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 67.1878 4.184 33.7601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 62.7879 4.184 32.3601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Tree
 PrototypeTag: Prototype_GameObject_Snow_Tree
-LevelIndex: 6
+LevelIndex: 4
 Position: 66.7878 4.184 31.8601
 Scale: 2.625 8.301 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Vertical_Fence
 PrototypeTag: Prototype_GameObject_Snow_Vertical_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.013 1.406 34.3122
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Vertical_Fence
 PrototypeTag: Prototype_GameObject_Snow_Vertical_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.013 1.406 33.193
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Vertical_Fence
 PrototypeTag: Prototype_GameObject_Snow_Vertical_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.013 1.406 32.074
 Scale: 1.96 2.625 1
 IsParsing: 1
 
 LayerName: Layer_Snow_Vertical_Fence
 PrototypeTag: Prototype_GameObject_Snow_Vertical_Fence
-LevelIndex: 6
+LevelIndex: 4
 Position: 45.013 1.406 28.716
 Scale: 1.96 2.625 1
 IsParsing: 1

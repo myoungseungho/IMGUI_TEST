@@ -139,15 +139,15 @@ HRESULT CBoss_Bug::Ready_Components()
 
 HRESULT CBoss_Bug::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"), TEXT("BOSS_BUG_PHASE1_IDLE"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"), TEXT("BOSS_BUG_PHASE1_READY"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Idle"), TEXT("BOSS_BUG_PHASE1_IDLE"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Ready"), TEXT("BOSS_BUG_PHASE1_READY"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"), TEXT("BOSS_BUG_PHASE2_DOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));
+	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"), TEXT("BOSS_BUG_PHASE2_DOWN"));
 
 	return S_OK;
 }
@@ -204,7 +204,7 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Monster_Turtle")));
 
 	if (iter)
 	{
@@ -262,7 +262,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 	Desc.iHp = 3;
 	Desc.iAttack = 1;
-	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	const wstring A[3] = { L"Prototype_Component_Texture_Monster_Red_Turtle" , L"Prototype_Component_Texture_Monster_Green_Turtle" , L"Prototype_Component_Texture_Monster_Blue_Turtle" };
 
@@ -271,7 +271,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 	{
 		Desc.ColorTexTag = A[i];
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &Desc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Turtle"), TEXT("Layer_Monster_Turtle"), &Desc)))
 			return E_FAIL;
 	}
 
@@ -287,7 +287,7 @@ HRESULT CBoss_Bug::Bullet_Create()
 	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
 		SkillDesc.iBulletCnt = i;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
 			return E_FAIL;
 	}
 
@@ -358,7 +358,7 @@ void CBoss_Bug::State_Ready(_float _fTimeDelta)
 
 void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Monster_Turtle")));
 	Skill_Dash(_fTimeDelta);
 
 	if (!iter)

@@ -1,4 +1,4 @@
-  #include "stdafx.h"
+#include "stdafx.h"
 #include "..\Public\Terrain.h"
 
 #include "GameInstance.h"
@@ -8,7 +8,7 @@ CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
-CTerrain::CTerrain(const CTerrain & Prototype)
+CTerrain::CTerrain(const CTerrain& Prototype)
 	: CGameObject{ Prototype }
 {
 }
@@ -21,13 +21,13 @@ HRESULT CTerrain::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CTerrain::Initialize(void * pArg)
+HRESULT CTerrain::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
-		return E_FAIL;	
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -53,7 +53,7 @@ HRESULT CTerrain::Render(_float fTimeDelta)
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;	
+		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -68,8 +68,10 @@ HRESULT CTerrain::Render(_float fTimeDelta)
 
 HRESULT CTerrain::Ready_Components()
 {
+	LEVELID currentLevel = (LEVELID)(m_pGameInstance->GetCurrentLevelIndex() + 1);
+
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(__super::Add_Component(currentLevel, TEXT("Prototype_Component_Texture_Terrain"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -90,9 +92,9 @@ HRESULT CTerrain::Ready_Components()
 	return S_OK;
 }
 
-CTerrain * CTerrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CTerrain*		pInstance = new CTerrain(pGraphic_Device);
+	CTerrain* pInstance = new CTerrain(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -104,9 +106,9 @@ CTerrain * CTerrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject * CTerrain::Clone(void * pArg)
+CGameObject* CTerrain::Clone(void* pArg)
 {
-	CTerrain*		pInstance = new CTerrain(*this);
+	CTerrain* pInstance = new CTerrain(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -120,7 +122,7 @@ CGameObject * CTerrain::Clone(void * pArg)
 void CTerrain::Free()
 {
 	__super::Free();
-	
+
 
 	Safe_Release(m_pTransformCom);
 

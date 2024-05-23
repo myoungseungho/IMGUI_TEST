@@ -2,9 +2,8 @@
 #include "..\Public\Level_Loading.h"
 
 #include "Loader.h"
-#include "Level_Logo.h"
 #include "Level_GamePlay.h"
-#include "Level_Edit.h"
+#include "LEVEL_Jungle.h"
 #include "Level_Tacho.h"
 #include "Level_Snow.h"
 #include "GameInstance.h"
@@ -37,17 +36,12 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 		switch (m_eNextLevelID)
 		{
-		case LEVEL_LOGO:
-			pNextLevel = CLevel_Logo::Create(m_pGraphic_Device);
-			break;
-		case LEVEL_GAMEPLAY:
-			pNextLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
-			break;
-		case LEVEL_EDIT:
-			pNextLevel = CLevel_Edit::Create(m_pGraphic_Device);
-			break;
 		case LEVEL_TACHO:
 			pNextLevel = CLevel_Tacho::Create(m_pGraphic_Device);
+			break;
+		case LEVEL_JUNGLE:
+			pNextLevel = CLevel_Jungle::Create(m_pGraphic_Device);
+			//pNextLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
 			break;
 		case LEVEL_SNOW:
 			pNextLevel = CLevel_Snow::Create(m_pGraphic_Device);

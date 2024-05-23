@@ -23,17 +23,17 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_LandObjects()))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	int horizontalTiles = 14; // 예시로 가로 13 타일
-	int verticalTiles = 2; // 예시로 세로 5 타일
+	//int horizontalTiles = 14; // 예시로 가로 13 타일
+	//int verticalTiles = 2; // 예시로 세로 5 타일
 
-	if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
+	//	return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
@@ -126,8 +126,8 @@ HRESULT CLevel_Tacho::Ready_LandObjects()
 {
 	/*CLandObject::LANDOBJECT_DESC	Desc{};
 
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_EDIT, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_EDIT, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
+	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
+	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
 		return E_FAIL;*/
@@ -135,9 +135,9 @@ HRESULT CLevel_Tacho::Ready_LandObjects()
 	return S_OK;
 }
 
-HRESULT CLevel_Tacho::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_Tacho::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Player"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

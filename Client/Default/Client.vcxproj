@@ -175,7 +175,7 @@
     <ClInclude Include="..\Public\Koofu_UpperLeft.h" />
     <ClInclude Include="..\Public\Koofu_UpperRight.h" />
     <ClInclude Include="..\Public\Level_Bug.h" />
-    <ClInclude Include="..\Public\Level_Edit.h" />
+    <ClInclude Include="..\Public\Level_Jungle.h" />
     <ClInclude Include="..\Public\Level_Koofu.h" />
     <ClInclude Include="..\Public\Level_Snow.h" />
     <ClInclude Include="..\Public\Level_Tacho.h" />
@@ -230,7 +230,6 @@
     <ClInclude Include="..\Public\LandObject.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
-    <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\Public\Monster.h" />
@@ -258,7 +257,7 @@
     <ClCompile Include="..\Private\Koofu_UpperLeft.cpp" />
     <ClCompile Include="..\Private\Koofu_UpperRight.cpp" />
     <ClCompile Include="..\Private\Level_Bug.cpp" />
-    <ClCompile Include="..\Private\Level_Edit.cpp" />
+    <ClCompile Include="..\Private\Level_Jungle.cpp" />
     <ClCompile Include="..\Private\Level_Koofu.cpp" />
     <ClCompile Include="..\Private\Level_Snow.cpp" />
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
@@ -312,7 +311,6 @@
     <ClCompile Include="..\Private\LandObject.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
-    <ClCompile Include="..\private\Level_Logo.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\Private\Monster.cpp" />
