@@ -43,7 +43,6 @@ private:
 
 
 private:
-	HRESULT Loading_For_GamePlayLevel();
 	HRESULT Loading_For_Jungle();
 	HRESULT Loading_For_Tacho();
 	HRESULT Loading_For_Snow();

@@ -57,7 +57,7 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
-	Destory(fTimeDelta);
+	Destroy(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
@@ -165,14 +165,14 @@ void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
 
 }
 
-
-void CSkill_Bug_Bullet::Destory(_float fTimeDelta)
+void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 {
 	CSkill_Bug_Bullet* pThis = this;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
 		Safe_Release(pThis);
 }
+
 
 void CSkill_Bug_Bullet::Bullet_State()
 {

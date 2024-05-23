@@ -110,7 +110,7 @@ HRESULT CSkill_Bug_SludgeWave::Ready_Components()
 
 HRESULT CSkill_Bug_SludgeWave::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_SludgeWave"), TEXT("SKILL_BUG_SLUDGEWAVE"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_SludgeWave"), TEXT("SKILL_BUG_SLUDGEWAVE"));
 
 	return S_OK;
 }

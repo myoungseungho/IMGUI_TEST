@@ -684,11 +684,11 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	Copykoofu.iHp = 10;
 	Copykoofu.iAttack = 1;
-	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 0; i < 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Koofu_Copy"), TEXT("Layer_Boss_Koofu_Copy"), &Copykoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Koofu_Copy"), TEXT("Layer_Boss_Koofu_Copy"), &Copykoofu)))
 			return E_FAIL;
 	}
 

@@ -206,7 +206,7 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	m_fDashBulletTimer += fTimeDelta;
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
 
 	if (iter)
 	{
@@ -319,7 +319,7 @@ HRESULT CBoss_Bug::Wave_Create()
 	SkillDesc.iBulletCnt = 0;
 	SkillDesc.pTargetTransform = m_pTransformCom;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"), TEXT("Layer_Skill_Bug_SludgeWave"), &SkillDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"), TEXT("Layer_Skill_Bug_SludgeWave"), &SkillDesc)))
 		return E_FAIL;
 	
 
