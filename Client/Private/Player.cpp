@@ -12,6 +12,7 @@
 #include "Skill_Player.h"
 #include "Monster.h"
 #include <Push_Stone.h>
+#include <Skill_Koofu_Bubble.h>
 
 
 
@@ -117,6 +118,9 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CBush*>(otherObject))
+		return;
+
+	if (dynamic_cast<CSkill_Koofu_Bubble*>(otherObject))
 		return;
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
