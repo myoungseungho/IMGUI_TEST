@@ -114,9 +114,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 		}
 		ImGui::End();
 
-
 		bool bShowSettings = true;
-
 
 		static bool bShowSaveSuccessMessage = false;
 		static bool bShowSaveFailMessage = false;

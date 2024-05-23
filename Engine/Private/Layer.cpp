@@ -106,7 +106,6 @@ void CLayer::Late_Update(_float fTimeDelta)
 			(*it)->Late_Update(fTimeDelta);
 			++it; // 다음 요소로 이동
 		}
-
 	}
 }
 
