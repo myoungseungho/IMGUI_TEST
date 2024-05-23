@@ -36,6 +36,8 @@ HRESULT CFile_Manager::SaveObjects(const wstring& filename, void* pArg)
 
 void* CFile_Manager::LoadObjects(const wstring& filename)
 {
+	m_vecpFileData.clear();
+
 	wifstream file(filename);
 	if (!file.is_open()) {
 		throw runtime_error("Cannot open file for reading.");
