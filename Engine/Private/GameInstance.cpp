@@ -61,7 +61,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	/* 엔진에서 관리하는 객체들 중, 반복적인 갱신이 필요한 객체들이 있다면. */
 	/* 여기에서 갱신을 수행해준다. */
-	
+
 	m_pPicking->Update();
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
@@ -133,6 +133,22 @@ _uint CGameInstance::GetCurrentLevelIndex()
 		return E_FAIL;
 
 	return m_pLevel_Manager->GetCurrentLevelIndex();
+}
+
+_uint CGameInstance::GetLoadingLevelIndex()
+{
+	if (nullptr == m_pLevel_Manager)
+		return E_FAIL;
+
+	return m_pLevel_Manager->GetLoadingLevelIndex();
+}
+
+HRESULT CGameInstance::SetLoadingLevelIndex(_uint _level)
+{
+	if (nullptr == m_pLevel_Manager)
+		return E_FAIL;
+
+	return m_pLevel_Manager->SetLoadingLevelIndex(_level);
 }
 
 HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)

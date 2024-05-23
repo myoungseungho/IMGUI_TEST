@@ -144,8 +144,8 @@ HRESULT CBush::Ready_Components()
 
 HRESULT CBush::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Idle"), TEXT("AnimTexture_Bush_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Move"), TEXT("AnimTexture_Bush_Move"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Idle"), TEXT("AnimTexture_Bush_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_Bush_Move"), TEXT("AnimTexture_Bush_Move"));
 
 	return S_OK;
 }

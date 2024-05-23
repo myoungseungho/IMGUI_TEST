@@ -26,6 +26,8 @@ public: /* For.Graphic_Device */
 public: /* For.Level_Manager */
 	HRESULT Change_Level(class CLevel* pNewLevel);
 	_uint	GetCurrentLevelIndex();
+	_uint GetLoadingLevelIndex();
+	HRESULT SetLoadingLevelIndex(_uint);
 public: /* For.Timer_Manager */
 	HRESULT Add_Timer(const _wstring& strTimerTag);
 	_float Compute_TimeDelta(const _wstring& strTimerTag);

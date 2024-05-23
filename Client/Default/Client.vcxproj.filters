@@ -79,9 +79,6 @@
     <Filter Include="02.GameObjects\Sky">
       <UniqueIdentifier>{d8524c7f-640c-4dff-a2c1-1d81795eb2b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Edit">
-      <UniqueIdentifier>{4b0bfb52-fb05-406a-bdc2-c3120bd62ec4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit">
       <UniqueIdentifier>{bda7abb2-6d2a-40f9-991f-97f218a9e220}</UniqueIdentifier>
     </Filter>
@@ -111,9 +108,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Tacho">
-      <UniqueIdentifier>{2931dd44-5e4e-4577-acb1-67d668d2ee18}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\00. Tacho">
       <UniqueIdentifier>{8d7973c2-79e0-4cc6-8465-40663dbcb0f2}</UniqueIdentifier>
@@ -151,9 +145,6 @@
     <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole">
       <UniqueIdentifier>{74d5dbf9-7318-41f3-9b1e-cb26ef65131c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Snow">
-      <UniqueIdentifier>{ce076d36-fb44-4784-9f65-ff6a5e92b51d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\02. Snow">
       <UniqueIdentifier>{2ce0454f-f72e-4a01-9521-5a2cb704a1b0}</UniqueIdentifier>
     </Filter>
@@ -187,9 +178,6 @@
     <Filter Include="02.GameObjects\Enviorment\03. Koofu">
       <UniqueIdentifier>{0561e1a7-ec8a-41c1-b373-ef6b631cab82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Koofu">
-      <UniqueIdentifier>{85fa5ef9-1132-46d3-8a42-c1597298ef5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_Circle">
       <UniqueIdentifier>{ab1da2fe-fc5b-47eb-9454-193ae67a8305}</UniqueIdentifier>
     </Filter>
@@ -217,9 +205,6 @@
     <Filter Include="02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight">
       <UniqueIdentifier>{0389ca8a-6a42-4589-8d6f-5a49f470e015}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Bug">
-      <UniqueIdentifier>{7b52caa7-2e29-47b6-aa9e-f3c0bbcd7659}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\04. Moon">
       <UniqueIdentifier>{b8421c7d-8e9c-44dd-ae44-334a1fdfc777}</UniqueIdentifier>
     </Filter>
@@ -235,14 +220,29 @@
     <Filter Include="02.GameObjects\Enviorment\04. Moon\Moon_VerticalFence">
       <UniqueIdentifier>{ba6df18c-2a87-4c4b-9490-5a4a3196cd03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Loading">
-      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Loading\Loader">
-      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble">
       <UniqueIdentifier>{e8bf7f7a-3ae1-4e81-84e3-e157ec09a6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\1. Tacho">
+      <UniqueIdentifier>{2931dd44-5e4e-4577-acb1-67d668d2ee18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\2. Jungle">
+      <UniqueIdentifier>{4b0bfb52-fb05-406a-bdc2-c3120bd62ec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\3. Snow">
+      <UniqueIdentifier>{ce076d36-fb44-4784-9f65-ff6a5e92b51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\4. Bug">
+      <UniqueIdentifier>{7b52caa7-2e29-47b6-aa9e-f3c0bbcd7659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\5. Koofu">
+      <UniqueIdentifier>{85fa5ef9-1132-46d3-8a42-c1597298ef5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99. Loading">
+      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99. Loading\Loader">
+      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -268,13 +268,13 @@
       <Filter>99.Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\99. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\99. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -376,7 +376,7 @@
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Tacho.h">
-      <Filter>01.Levels\Tacho</Filter>
+      <Filter>01.Levels\1. Tacho</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Outside_Shop.h">
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
@@ -409,7 +409,7 @@
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Snow.h">
-      <Filter>01.Levels\Snow</Filter>
+      <Filter>01.Levels\3. Snow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Snow_Tree.h">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Tree</Filter>
@@ -442,7 +442,7 @@
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Koofu.h">
-      <Filter>01.Levels\Koofu</Filter>
+      <Filter>01.Levels\5. Koofu</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Koofu_Circle.h">
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Circle</Filter>
@@ -472,7 +472,7 @@
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Bug.h">
-      <Filter>01.Levels\Bug</Filter>
+      <Filter>01.Levels\4. Bug</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Moon_FloorStone.h">
       <Filter>02.GameObjects\Enviorment\04. Moon\Moon_FlooerStone</Filter>
@@ -490,7 +490,7 @@
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Jungle.h">
-      <Filter>01.Levels\Edit</Filter>
+      <Filter>01.Levels\2. Jungle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -504,13 +504,13 @@
       <Filter>00.MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\99. Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\99. Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BackGround.cpp">
       <Filter>02.GameObjects\BackGround</Filter>
@@ -609,7 +609,7 @@
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Fuit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Tacho.cpp">
-      <Filter>01.Levels\Tacho</Filter>
+      <Filter>01.Levels\1. Tacho</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Outside_Shop.cpp">
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_Shop</Filter>
@@ -642,7 +642,7 @@
       <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_TelephonePole</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Snow.cpp">
-      <Filter>01.Levels\Snow</Filter>
+      <Filter>01.Levels\3. Snow</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Snow_Tree.cpp">
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_Tree</Filter>
@@ -675,7 +675,7 @@
       <Filter>02.GameObjects\Enviorment\02. Snow\Snow_FireWood</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Koofu.cpp">
-      <Filter>01.Levels\Koofu</Filter>
+      <Filter>01.Levels\5. Koofu</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Koofu_Circle.cpp">
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_Circle</Filter>
@@ -705,7 +705,7 @@
       <Filter>02.GameObjects\Enviorment\03. Koofu\Koofu_UpperRight</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Bug.cpp">
-      <Filter>01.Levels\Bug</Filter>
+      <Filter>01.Levels\4. Bug</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Moon_FloorStone.cpp">
       <Filter>02.GameObjects\Enviorment\04. Moon\Moon_FlooerStone</Filter>
@@ -723,7 +723,7 @@
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Koofu_Bubble</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Jungle.cpp">
-      <Filter>01.Levels\Edit</Filter>
+      <Filter>01.Levels\2. Jungle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

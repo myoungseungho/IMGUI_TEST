@@ -44,6 +44,17 @@ _uint CLevel_Manager::GetCurrentLevelIndex()
 	return m_pCurrentLevel->GetLevelIndex();
 }
 
+_uint CLevel_Manager::GetLoadingLevelIndex()
+{
+	return m_iloadingLevelIndex;
+}
+
+HRESULT CLevel_Manager::SetLoadingLevelIndex(_uint _level)
+{
+	m_iloadingLevelIndex = _level;
+	return S_OK;
+}
+
 CLevel_Manager * CLevel_Manager::Create()
 {
 	CLevel_Manager*		pInstance = new CLevel_Manager();
