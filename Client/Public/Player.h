@@ -79,6 +79,9 @@ private:
 	void				For_Damage_State(_float fTimeDelta);
 
 	void				Player_Damaged();
+	void				Player_Heal(_uint iItem) {
+		m_iPlayerHp += iItem;
+	}
 
 private:
 	_float3		m_forScaled;
@@ -93,6 +96,8 @@ private:
 	_float			m_iPlayerHp = { 100.f };
 
 	_bool			m_bCanDamaged = { true };
+	_bool			m_bForTestDamaged = { false };
+
 private:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;

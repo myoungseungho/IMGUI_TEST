@@ -121,14 +121,26 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK )
-	{
-		m_ePlayerCurState = STATE_HIT;
-		Player_Damaged();
-	}
 
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+		{
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
+		}
+	}
+
+
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	{
+		m_ePlayerCurState = STATE_HIT;
+		Player_Damaged();
+		return;
+	}
 
 	if (dynamic_cast<CSkill_Monster*>(otherObject) && m_bCanDamaged)
 	{
@@ -172,15 +184,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 
-	if (dynamic_cast<CMonster*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
-		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
-		}
-		return;
-	}
+
 
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
@@ -262,7 +266,7 @@ void CPlayer::OnCollisionExit(CCollider* other)
 
 void CPlayer::Player_Damaged()
 {
-	if (m_bCanDamaged)
+	if (m_bCanDamaged && m_bForTestDamaged != false)
 	{
 		--m_iPlayerHp;
 
@@ -298,13 +302,14 @@ void CPlayer::Player_Damaged()
 			break;
 
 		}
+		m_bCanMoveRight = false;
+		m_bCanMoveLeft = false;
+		m_bCanMoveForward = false;
+		m_bCanMoveBackward = false;
+		m_bCanDamaged = false;
 	}
 
-	m_bCanMoveRight = false;
-	m_bCanMoveLeft = false;
-	m_bCanMoveForward = false;
-	m_bCanMoveBackward = false;
-	m_bCanDamaged = false;
+
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -662,7 +667,17 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			m_pTransformCom->Set_Speed(5.f);
 		else
 			m_pTransformCom->Set_Speed(3.f);
+
+		if (m_pKeyCom->Key_Down(VK_RETURN))
+		{
+			if (m_bForTestDamaged)
+				m_bForTestDamaged = false;
+			else
+				m_bForTestDamaged = true;
+		}
+	
 	}
+
 	return S_OK;
 }
 
