@@ -47,10 +47,6 @@ public:
 		return m_ePlayerCurState;
 	}
 
-	void		Player_Damaged() {
-		--m_iPlayerHp;
-	}
-
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -80,6 +76,9 @@ private:
 	void				 Player_AnimState(_float _fTimeDelta);
 
 	void				For_Attack_State(_float fTimeDelta);
+	void				For_Damage_State(_float fTimeDelta);
+
+	void				Player_Damaged();
 
 private:
 	_float3		m_forScaled;
@@ -89,8 +88,11 @@ private:
 	STATE			m_ePlayerPreState = { STATE_IDLE };
 
 	_float			m_fAttackTime = { 0.0f };
+	_float			m_fDamageTime = { 0.0f };
 
-	_uint			m_iPlayerHp = { 100.f };
+	_float			m_iPlayerHp = { 100.f };
+
+	_bool			m_bCanDamaged = { true };
 private:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;

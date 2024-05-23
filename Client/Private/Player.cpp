@@ -61,7 +61,10 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	m_bAttack = false;
+	
+	
 	Key_Input(fTimeDelta);
+	For_Damage_State(fTimeDelta);
 	For_Attack_State(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_SKILL)
@@ -80,6 +83,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else
 		m_iCurrentSkillCount = 0;
+
 
 }
 
@@ -117,16 +121,21 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK )
+	{
+		m_ePlayerCurState = STATE_HIT;
+		Player_Damaged();
+	}
+
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
-	if (dynamic_cast<CSkill_Monster*>(otherObject))
+	if (dynamic_cast<CSkill_Monster*>(otherObject) && m_bCanDamaged)
 	{
-		Player_Damaged();
 		m_ePlayerCurState = STATE_HIT;
+		Player_Damaged();
 		return;
 	}
-		
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
@@ -251,6 +260,53 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	}
 }
 
+void CPlayer::Player_Damaged()
+{
+	if (m_bCanDamaged)
+	{
+		--m_iPlayerHp;
+
+		_float vPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+		_float vPosY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
+		_float vPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+		switch (m_ePlayerDir)
+		{
+		case DIR_UP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHT:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ));
+			break;
+		case DIR_DOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ + 0.2f));
+			break;
+		case DIR_LEFT:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ));
+			break;
+		case DIR_LEFTUP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHTUP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHTDOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ + 0.2f));
+			break;
+		case DIR_LEFTDOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ + 0.2f));
+			break;
+
+		}
+	}
+
+	m_bCanMoveRight = false;
+	m_bCanMoveLeft = false;
+	m_bCanMoveForward = false;
+	m_bCanMoveBackward = false;
+	m_bCanDamaged = false;
+}
+
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_VIBuffer_Rect */
@@ -354,15 +410,15 @@ HRESULT CPlayer::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftDown"), TEXT("Player_Skill_LeftDown"));
 	
 	//Hit
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_Up"), TEXT("Player_Skill_Up"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_Right"), TEXT("Player_Skill_Right"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_Down"), TEXT("Player_Skill_Down"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_Left"), TEXT("Player_Skill_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Up"), TEXT("Player_Hit_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Right"), TEXT("Player_Hit_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Down"), TEXT("Player_Hit_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Left"), TEXT("Player_Hit_Left"));
 
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftUp"), TEXT("Player_Skill_LeftUp"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_RightUp"), TEXT("Player_Skill_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_RightDown"), TEXT("Player_Skill_RightDown"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftDown"), TEXT("Player_Skill_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_LeftUp"), TEXT("Player_Hit_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_RightUp"), TEXT("Player_Hit_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_RightDown"), TEXT("Player_Hit_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_LeftDown"), TEXT("Player_Hit_LeftDown"));
 
 	// Push
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Up"), TEXT("Player_Push_Up"));
@@ -393,222 +449,220 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
-
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-
-
-
-	if (m_pKeyCom->Key_Pressing('E'))
+	if (m_bCanDamaged)
 	{
-		m_ePlayerCurState = STATE_SKILL;
-
-		if (m_pKeyCom->Key_Pressing(VK_UP))
+		if (m_pKeyCom->Key_Pressing('E'))
 		{
-			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			m_ePlayerCurState = STATE_SKILL;
+
+			if (m_pKeyCom->Key_Pressing(VK_UP))
 			{
-				m_ePlayerDir = DIR_LEFTUP;
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+				if (m_pKeyCom->Key_Pressing(VK_LEFT))
+				{
+					m_ePlayerDir = DIR_LEFTUP;
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-				_float3 vDir = -vLook + vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
+					_float3 vDir = -vLook + vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
 
-				m_SkillDir = -vDir;
+					m_SkillDir = -vDir;
+				}
+
+				else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+				{
+					m_ePlayerDir = DIR_RIGHTUP;
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook - vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = -vDir;
+				}
+
+				else
+				{
+					m_ePlayerDir = (DIR_UP);
+					_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+					D3DXVec3Normalize(&vLook, &vLook);
+
+					m_SkillDir = vLook;
+				}
 			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+			{
+
+				if (m_pKeyCom->Key_Pressing(VK_LEFT))
+				{
+					m_ePlayerDir = (DIR_LEFTDOWN);
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook - vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = vDir;
+				}
+
+
+				else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+				{
+					m_ePlayerDir = (DIR_RIGHTDOWN);
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook + vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = vDir;
+				}
+
+
+				else
+				{
+					m_ePlayerDir = (DIR_DOWN);
+					_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+					m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
+
+					m_SkillDir = -vLook;
+
+				}
+
+
+			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_ePlayerDir = (DIR_LEFT);
+				_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+				m_SkillDir = -vRight;
+			}
+
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
-				m_ePlayerDir = DIR_RIGHTUP;
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+				m_ePlayerDir = (DIR_RIGHT);
+				_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-				_float3 vDir = -vLook - vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
+				m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
 
-				m_SkillDir = -vDir;
+				m_SkillDir = vRight;
 			}
+		}
 
-			else
+		else if (m_bMoveUp)
+		{
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
 			{
-				m_ePlayerDir = (DIR_UP);
-				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
+			}
 
-				D3DXVec3Normalize(&vLook, &vLook);
 
-				m_SkillDir = vLook;
+			if (m_bMoveLeft) {
+				Set_Direction(DIR_LEFTUP);
+				if (m_bCanMoveForward && m_bCanMoveLeft)
+					m_pTransformCom->Go_Straight_Left(fTimeDelta);
+			}
+			else if (m_bMoveRight) {
+				Set_Direction(DIR_RIGHTUP);
+				if (m_bCanMoveForward && m_bCanMoveRight)
+					m_pTransformCom->Go_Straight_Right(fTimeDelta);
+			}
+			else {
+				Set_Direction(DIR_UP);
+				if (m_bCanMoveForward)
+					m_pTransformCom->Go_Straight(fTimeDelta);
 			}
 		}
 
-		else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+		else if (m_bMoveDown)
 		{
-
-			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			m_ePlayerCurState = STATE_WALK;
+			if (m_bPush)
 			{
-				m_ePlayerDir = (DIR_LEFTDOWN);
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-				_float3 vDir = -vLook - vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
-
-				m_SkillDir = vDir;
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
 			}
 
+			if (m_bMoveLeft) {
+				Set_Direction(DIR_LEFTDOWN);
+				if (m_bCanMoveBackward && m_bCanMoveLeft)
+					m_pTransformCom->Go_Backward_Left(fTimeDelta);
+			}
+			else if (m_bMoveRight) {
+				Set_Direction(DIR_RIGHTDOWN);
+				if (m_bCanMoveBackward && m_bCanMoveRight)
+					m_pTransformCom->Go_Backward_Right(fTimeDelta);
+			}
+			else {
+				Set_Direction(DIR_DOWN);
+				if (m_bCanMoveBackward)
+					m_pTransformCom->Go_Backward(fTimeDelta);
+			}
+		}
 
-			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		else if (m_bMoveLeft)
+		{
+			Set_Direction(DIR_LEFT);
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
 			{
-				m_ePlayerDir = (DIR_RIGHTDOWN);
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-				_float3 vDir = -vLook + vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
-
-				m_SkillDir = vDir;
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
 			}
 
+			if (m_bCanMoveLeft)
+				m_pTransformCom->Go_Left(fTimeDelta);
+		}
 
-			else
+		else if (m_bMoveRight)
+		{
+			Set_Direction(DIR_RIGHT);
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
 			{
-				m_ePlayerDir = (DIR_DOWN);
-				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
-				m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
-
-				m_SkillDir = -vLook;
-
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
 			}
 
-
+			if (m_bCanMoveRight)
+				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 
-		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+		else if (m_pKeyCom->Key_Down('A'))
 		{
-			m_ePlayerDir = (DIR_LEFT);
-			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
-
-			m_SkillDir = -vRight;
+			m_bAttack = true;
+			m_ePlayerCurState = (STATE_ATTACK);
+			Player_Attack(fTimeDelta);
 		}
 
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
 		{
-			m_ePlayerDir = (DIR_RIGHT);
-			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
-
-			m_SkillDir = vRight;
+			m_ePlayerCurState = STATE_IDLE;
 		}
+
+		if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+			m_pTransformCom->Set_Speed(5.f);
+		else
+			m_pTransformCom->Set_Speed(3.f);
 	}
-
-	else if (m_bMoveUp)
-	{
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-
-		if (m_bMoveLeft) {
-			Set_Direction(DIR_LEFTUP);
-			if (m_bCanMoveForward && m_bCanMoveLeft)
-				m_pTransformCom->Go_Straight_Left(fTimeDelta);
-		}
-		else if (m_bMoveRight) {
-			Set_Direction(DIR_RIGHTUP);
-			if (m_bCanMoveForward && m_bCanMoveRight)
-				m_pTransformCom->Go_Straight_Right(fTimeDelta);
-		}
-		else {
-			Set_Direction(DIR_UP);
-			if (m_bCanMoveForward)
-				m_pTransformCom->Go_Straight(fTimeDelta);
-		}
-	}
-
-	else if (m_bMoveDown)
-	{
-		m_ePlayerCurState = STATE_WALK;
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bMoveLeft) {
-			Set_Direction(DIR_LEFTDOWN);
-			if (m_bCanMoveBackward && m_bCanMoveLeft)
-				m_pTransformCom->Go_Backward_Left(fTimeDelta);
-		}
-		else if (m_bMoveRight) {
-			Set_Direction(DIR_RIGHTDOWN);
-			if (m_bCanMoveBackward && m_bCanMoveRight)
-				m_pTransformCom->Go_Backward_Right(fTimeDelta);
-		}
-		else {
-			Set_Direction(DIR_DOWN);
-			if (m_bCanMoveBackward)
-				m_pTransformCom->Go_Backward(fTimeDelta);
-		}
-	}
-
-	else if (m_bMoveLeft)
-	{
-		Set_Direction(DIR_LEFT);
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bCanMoveLeft)
-			m_pTransformCom->Go_Left(fTimeDelta);
-	}
-
-	else if (m_bMoveRight)
-	{
-		Set_Direction(DIR_RIGHT);
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bCanMoveRight)
-			m_pTransformCom->Go_Right(fTimeDelta);
-	}
-
-	else if (m_pKeyCom->Key_Down('A'))
-	{
-		m_bAttack = true;
-		m_ePlayerCurState = (STATE_ATTACK);
-		Player_Attack(fTimeDelta);
-	}
-
-	else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH)
-	{
-		m_ePlayerCurState = STATE_IDLE;
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
-		m_pTransformCom->Set_Speed(5.f);
-	else
-		m_pTransformCom->Set_Speed(3.f);
-
 	return S_OK;
 }
 
@@ -811,6 +865,34 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
 			break;
 		}
+		case STATE_HIT:
+			switch (m_ePlayerDir)
+			{
+			case DIR_UP:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_Up"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_RIGHT:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_Right"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_DOWN:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_Down"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_LEFT:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_Left"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_LEFTUP:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftUp"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_RIGHTUP:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightUp"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_RIGHTDOWN:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftDown"), 10.0f, _fTimeDelta, false);
+				break;
+			case DIR_LEFTDOWN:
+				m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 10.0f, _fTimeDelta, false);
+				break;
+		}
 		break;
 	}
 }
@@ -833,6 +915,23 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	}
 
 }
+void CPlayer::For_Damage_State(_float fTimeDelta)
+{
+	m_fDamageTime += fTimeDelta;
+
+	if (m_fDamageTime >= 1.5f)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_fDamageTime = 0.0f;
+		m_bCanDamaged = true;
+		m_bCanMoveRight = true;
+		m_bCanMoveLeft = true;
+		m_bCanMoveForward = true;
+		m_bCanMoveBackward = true;
+		
+	}
+}
+
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPlayer* pInstance = new CPlayer(pGraphic_Device);
