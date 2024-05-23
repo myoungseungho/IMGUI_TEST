@@ -1,6 +1,6 @@
 #include "..\Public\Renderer.h"
 
-#include "GameObject.h"
+#include "BlendObject.h"
 
 CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -66,6 +66,11 @@ HRESULT CRenderer::Render_NonBlend(_float DeltaTime)
 
 HRESULT CRenderer::Render_Blend(_float DeltaTime)
 {
+	m_RenderObjects[RG_BLEND].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
+		});
+
 	for (auto& pRenderObject : m_RenderObjects[RG_BLEND])
 	{
 		if (nullptr != pRenderObject)
@@ -81,7 +86,10 @@ HRESULT CRenderer::Render_Blend(_float DeltaTime)
 
 HRESULT CRenderer::Render_UI(_float DeltaTime)
 {
-	
+	m_RenderObjects[RG_UI].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
+		});
 
 	for (auto& pRenderObject : m_RenderObjects[RG_UI])
 	{

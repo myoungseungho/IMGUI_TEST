@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\UI_Icon_KeyBoard.h"
+#include "..\Public\UI_HP_Green_Player.h"
 
 #include "GameInstance.h"
 
-CUI_Icon_KeyBoard::CUI_Icon_KeyBoard(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_HP_Green_Player::CUI_HP_Green_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
 }
 
-CUI_Icon_KeyBoard::CUI_Icon_KeyBoard(const CUI_Icon_KeyBoard& Prototype)
+CUI_HP_Green_Player::CUI_HP_Green_Player(const CUI_HP_Green_Player& Prototype)
 	: CUIObject{ Prototype }
 {
 }
 
-HRESULT CUI_Icon_KeyBoard::Initialize_Prototype()
+HRESULT CUI_HP_Green_Player::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CUI_Icon_KeyBoard::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_Icon_KeyBoard::Initialize(void* pArg)
+HRESULT CUI_HP_Green_Player::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,21 +29,21 @@ HRESULT CUI_Icon_KeyBoard::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -21.7f;
-	offsetY = -1.1f;
+	offsetX = -16.6f;
+	offsetY = 0.1f;
 
 	return S_OK;
 }
 
-void CUI_Icon_KeyBoard::Priority_Update(_float fTimeDelta)
+void CUI_HP_Green_Player::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_Icon_KeyBoard::Update(_float fTimeDelta)
+void CUI_HP_Green_Player::Update(_float fTimeDelta)
 {
 }
 
-void CUI_Icon_KeyBoard::Late_Update(_float fTimeDelta)
+void CUI_HP_Green_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
@@ -52,13 +52,13 @@ void CUI_Icon_KeyBoard::Late_Update(_float fTimeDelta)
 	currentPosition.x += offsetX;
 	currentPosition.y += offsetY;
 	currentPosition.z += offsetZ;
-	
+
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(1.2f, 1.2f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(7.5f, 1.2f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
-HRESULT CUI_Icon_KeyBoard::Render(_float fTimeDelta)
+HRESULT CUI_HP_Green_Player::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -77,10 +77,10 @@ HRESULT CUI_Icon_KeyBoard::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CUI_Icon_KeyBoard::Ready_Components()
+HRESULT CUI_HP_Green_Player::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_KeyBoard"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_Green"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -101,13 +101,13 @@ HRESULT CUI_Icon_KeyBoard::Ready_Components()
 	return S_OK;
 }
 
-CUI_Icon_KeyBoard* CUI_Icon_KeyBoard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_HP_Green_Player* CUI_HP_Green_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Icon_KeyBoard* pInstance = new CUI_Icon_KeyBoard(pGraphic_Device);
+	CUI_HP_Green_Player* pInstance = new CUI_HP_Green_Player(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_Icon_KeyBoard"));
+		MSG_BOX(TEXT("Failed to Created : CUI_HP_Green_Player"));
 		Safe_Release(pInstance);
 	}
 
@@ -115,20 +115,20 @@ CUI_Icon_KeyBoard* CUI_Icon_KeyBoard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CUI_Icon_KeyBoard::Clone(void* pArg)
+CGameObject* CUI_HP_Green_Player::Clone(void* pArg)
 {
-	CUI_Icon_KeyBoard* pInstance = new CUI_Icon_KeyBoard(*this);
+	CUI_HP_Green_Player* pInstance = new CUI_HP_Green_Player(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CUI_Icon_KeyBoard"));
+		MSG_BOX(TEXT("Failed to Cloned : CUI_HP_Green_Player"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_Icon_KeyBoard::Free()
+void CUI_HP_Green_Player::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

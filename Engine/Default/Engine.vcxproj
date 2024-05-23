@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Animator.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\BlendObject.cpp" />
     <ClCompile Include="..\Private\Calc_Timer.cpp" />
     <ClCompile Include="..\Private\Collider.cpp" />
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Animator.h" />
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\BlendObject.h" />
     <ClInclude Include="..\Public\Calc_Timer.h" />
     <ClInclude Include="..\Public\Collider.h" />
     <ClInclude Include="..\Public\Collider_Manager.h" />

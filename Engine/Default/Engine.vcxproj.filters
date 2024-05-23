@@ -97,6 +97,9 @@
     <Filter Include="01.Utility\05.Picking">
       <UniqueIdentifier>{c992f05c-3a78-465f-93e9-c9193ca07eb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.GameObjects\BlendObject">
+      <UniqueIdentifier>{f76f6f48-5211-4518-87f2-a9bba473fa68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
       <Filter>01.Utility\05.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BlendObject.cpp">
+      <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
       <Filter>01.Utility\05.Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BlendObject.h">
+      <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

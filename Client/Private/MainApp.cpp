@@ -14,6 +14,9 @@
 #include "EnviormentObject.h"
 #include "UI_Heart_Player.h"
 #include "UI_Icon_KeyBoard.h"
+#include "UI_HP_Player.h"
+#include "UI_HP_Green_Player.h"
+#include "UI_HP_GlueEffect_Player.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -943,6 +946,18 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_KeyBoard"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Icon/UI_Icon_Keyboard.png"), 1))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_Frame"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Icon/UI_HP_Frame.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_Green"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/UI_HP_GaugeBar.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_GlueEffect_Player"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/HPGaugeBar.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 
@@ -957,6 +972,18 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Icon_KeyBoard"),
 		CUI_Icon_KeyBoard::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_Player"),
+		CUI_HP_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_Green_Player"),
+		CUI_HP_Green_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_GlueEffect_Player"),
+		CUI_HP_GlueEffect_Player::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

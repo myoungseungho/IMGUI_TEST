@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "BlendObject.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -10,7 +10,7 @@ END
 
 BEGIN(Client)
 
-class CUIObject abstract : public CGameObject
+class CUIObject abstract : public CBlendObject
 {
 protected:
 	CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device);

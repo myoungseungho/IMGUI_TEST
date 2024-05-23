@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CUIObject::CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CBlendObject{ pGraphic_Device }
 {
 }
 
 CUIObject::CUIObject(const CUIObject& rhs)
-	: CGameObject{ rhs }
+	: CBlendObject{ rhs }
 {
 }
 
@@ -62,6 +62,8 @@ void CUIObject::Update(_float fTimeDelta)
 
 void CUIObject::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
+
 	_float4x4		ViewMatrix{};
 
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);

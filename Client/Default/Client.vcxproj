@@ -239,6 +239,9 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\UIObject.h" />
     <ClInclude Include="..\Public\UI_Heart_Player.h" />
+    <ClInclude Include="..\Public\UI_HP_GlueEffect_Player.h" />
+    <ClInclude Include="..\Public\UI_HP_Green_Player.h" />
+    <ClInclude Include="..\Public\UI_HP_Player.h" />
     <ClInclude Include="..\Public\UI_Icon_KeyBoard.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
@@ -325,6 +328,9 @@
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\UIObject.cpp" />
     <ClCompile Include="..\Private\UI_Heart_Player.cpp" />
+    <ClCompile Include="..\Private\UI_HP_GlueEffect_Player.cpp" />
+    <ClCompile Include="..\Private\UI_HP_Green_Player.cpp" />
+    <ClCompile Include="..\Private\UI_HP_Player.cpp" />
     <ClCompile Include="..\Private\UI_Icon_KeyBoard.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
