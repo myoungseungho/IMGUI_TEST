@@ -7,7 +7,7 @@ BEGIN(Client)
 class CSkill_Bug_Bullet final:public CSkill_Monster
 {
 public:
-	enum class BULLET_STATE {NORMAL , CIRCLE , BULLET_END};
+	enum class BULLET_STATE {NORMAL , CIRCLE , RNADOM, BULLET_END};
 
 public:
 	typedef struct :public SKILL_MONSTER__DESC

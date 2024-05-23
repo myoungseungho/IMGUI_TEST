@@ -51,6 +51,7 @@ private:
 private:
 	HRESULT Turtle_Create();
 	HRESULT Bullet_Create(_uint iBulletNum , CSkill_Bug_Bullet::BULLET_STATE iBulletType);
+	HRESULT Wave_Create();
 
 private:
 	virtual void Mon_State(_float fTimeDelta);
@@ -77,6 +78,7 @@ private:
 	_int m_iPhaseCnt = { 1 };
 
 	_float m_fDashBulletTimer = { 0.f };
+	_float m_fWaveTimer = { 0.f };
 
 	_bool m_isTmp = { false };
 

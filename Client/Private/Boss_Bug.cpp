@@ -233,6 +233,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
+	m_fWaveTimer += fTimeDelta;
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 
 	{
@@ -242,6 +243,12 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 	else
 	{
 		m_pTransformCom->Go_Up(fTimeDelta);
+
+		if (m_fWaveTimer >= 0.5f)
+		{
+			Wave_Create();
+			m_fWaveTimer = { 0.f };
+		}
 	}
 }
 
@@ -304,6 +311,20 @@ HRESULT CBoss_Bug::Bullet_Create(_uint iBulletNum, CSkill_Bug_Bullet::BULLET_STA
 	return S_OK;
 }
 
+HRESULT CBoss_Bug::Wave_Create()
+{
+	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
+	SkillDesc.iTotalBullet = 5;
+	SkillDesc.iBulletCnt = 0;
+	SkillDesc.pTargetTransform = m_pTransformCom;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"), TEXT("Layer_Skill_Bug_SludgeWave"), &SkillDesc)))
+		return E_FAIL;
+	
+
+	return S_OK;
+}
+
 void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
@@ -312,7 +333,7 @@ void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 0.95f))
 	{
 		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
 		m_iBulletCnt++;
