@@ -33,6 +33,10 @@ private:
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	LPD3DXFONT m_pFont = { nullptr };
+
+	float m_TextPosX = 50.0f; // 텍스트 x 좌표
+	float m_TextPosY = 50.0f; // 텍스트 y 좌표
 
 private:
 	HRESULT Ready_Components();

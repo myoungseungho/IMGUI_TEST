@@ -67,23 +67,6 @@ HRESULT CGraphic_Device::Init_Device(HWND hWnd, _uint iWinSizeX, _uint iWinSizeY
 		return E_FAIL;
 	}
 
-	// ÆùÆ® ÄÄ °´Ã¼ »ý¼º
-
-	D3DXFONT_DESCW		tFontInfo;
-	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
-
-	tFontInfo.Height = 20;
-	tFontInfo.Width = 10;
-	tFontInfo.Weight = FW_HEAVY;
-	tFontInfo.CharSet = HANGEUL_CHARSET;
-	lstrcpy(tFontInfo.FaceName, L"±Ã¼­");
-
-	if (FAILED(D3DXCreateFontIndirect(m_pDevice, &tFontInfo, &m_pFont)))
-	{
-		MSG_BOX(L"CreateFontIndirect");
-		return E_FAIL;
-	}
-
 	*ppOut = m_pDevice;
 
 	Safe_AddRef(m_pDevice);

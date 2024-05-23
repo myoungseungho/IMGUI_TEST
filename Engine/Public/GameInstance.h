@@ -23,6 +23,7 @@ public: /* For.Graphic_Device */
 	void Render_Begin();
 	void Render_End(HWND hWnd = nullptr);
 
+
 public: /* For.Level_Manager */
 	HRESULT Change_Level(class CLevel* pNewLevel);
 	_uint	GetCurrentLevelIndex();

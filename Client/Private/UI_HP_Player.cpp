@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\UI_HP_Player.h"
-
+#include "Player.h"
 #include "GameInstance.h"
 
 CUI_HP_Player::CUI_HP_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -32,6 +32,22 @@ HRESULT CUI_HP_Player::Initialize(void* pArg)
 	offsetX = -16.6f;
 	offsetY = 0.1f;
 
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	tFontInfo.Height = 25;
+	tFontInfo.Width = 15;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, /*TEXT("카페24 써라운드")*/TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pFont)))
+	{
+		MSG_BOX(L"CreateFontIndirect Failed");
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -41,6 +57,23 @@ void CUI_HP_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Player::Update(_float fTimeDelta)
 {
+	//// 키 입력 처리
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	m_TextPosY -= 1.0f; // 위쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	m_TextPosY += 1.0f; // 아래쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	//{
+	//	m_TextPosX -= 1.0f; // 왼쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	//{
+	//	m_TextPosX += 1.0f; // 오른쪽으로 이동
+	//}
 }
 
 void CUI_HP_Player::Late_Update(_float fTimeDelta)
@@ -71,6 +104,28 @@ HRESULT CUI_HP_Player::Render(_float fTimeDelta)
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	CGameObject* gameobject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player"));
+	CPlayer* player = static_cast<CPlayer*>(gameobject);
+	_uint currentHp = player->Get_Player_Hp();
+	_uint maxHp = player->Get_Player_MaxHp();
+
+	// 텍스트 형식화
+	wchar_t text[256];
+	swprintf_s(text, L"%d / %d", currentHp, maxHp);
+
+	// 텍스트 렌더링
+	RECT rect;
+	SetRect(&rect, static_cast<int>(126.f), static_cast<int>(33.f), 0, 0); // 텍스트를 출력할 위치
+	m_pFont->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+
 
 	__super::End_RenderState();
 
@@ -133,6 +188,5 @@ void CUI_HP_Player::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-
 	__super::Free();
 }

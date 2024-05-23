@@ -119,6 +119,7 @@ void CGameInstance::Render_End(HWND hWnd)
 	m_pGraphic_Device->Render_End(hWnd);
 }
 
+
 HRESULT CGameInstance::Change_Level(CLevel* pNewLevel)
 {
 	if (nullptr == m_pLevel_Manager)
