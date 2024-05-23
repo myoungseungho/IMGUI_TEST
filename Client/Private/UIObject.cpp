@@ -46,6 +46,8 @@ HRESULT CUIObject::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
+	BillBoarding();
+
 	return S_OK;
 }
 
@@ -74,6 +76,25 @@ void CUIObject::Late_Update(_float fTimeDelta)
 
 	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
 
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 0.1f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 0.1f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 0.1f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 0.1f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.1f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.1f;
+	}
+
 	BillBoarding();
 }
 
@@ -92,9 +113,9 @@ void CUIObject::BillBoarding()
 	CComponent* component = Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(component);
 
-	transform->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
+	//transform->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
 	transform->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
-	transform->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
+	//transform->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
 }
 
 

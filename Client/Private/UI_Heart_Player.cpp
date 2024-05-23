@@ -29,6 +29,8 @@ HRESULT CUI_Heart_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	offsetX = -21.1f;
+	offsetY = 0.2f;
 
 	return S_OK;
 }
@@ -46,31 +48,13 @@ void CUI_Heart_Player::Late_Update(_float fTimeDelta)
 	__super::Late_Update(fTimeDelta);
 
 	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 0.1f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 0.1f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 0.1f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 0.1f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.1f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.1f;
-	}
 
 	currentPosition.x += offsetX;
 	currentPosition.y += offsetY;
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
+	m_pTransformCom->Set_Scaled(_float3(1.2f, 1.2f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
