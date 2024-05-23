@@ -29,13 +29,15 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (m_bIsPasingObject)
-	{
-		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
+	//if (m_bIsPasingObject)
+	//{
+	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
+	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
+	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
+	//}
 
+	//플레이어 충돌 테스트용 포지션
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.5f, 10.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};

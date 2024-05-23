@@ -153,14 +153,6 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CSkill_Player*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK)
-		{
-			otherObject->Delete_Object();
-			return;
-		}
-	}
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
@@ -168,11 +160,6 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
-
-			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
-			{
-				//pDamagedObj->Delete_Object();
-			}
 		}
 		return;
 	}

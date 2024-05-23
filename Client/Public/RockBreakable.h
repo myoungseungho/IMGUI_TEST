@@ -22,7 +22,8 @@ private:
 
 	enum ANIMATION_STATE {
 		ANIM_IDLE,
-		ANIM_Die,
+		ANIM_DIE,
+		ANIM_END
 	};
 
 public:
@@ -32,6 +33,11 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
+
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
 
 private:	
 	CTransform* m_pTransformCom = { nullptr };
@@ -46,6 +52,7 @@ private:
 
 private:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
+	_bool			m_bIsDied = { false };
 
 public:
 	/* 원형객체를 생성한다. */

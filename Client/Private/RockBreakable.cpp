@@ -2,6 +2,7 @@
 #include "..\Public\RockBreakable.h"
 
 #include "GameInstance.h"
+#include <Skill_Player.h>
 
 CRockBreakable::CRockBreakable(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -33,12 +34,15 @@ HRESULT CRockBreakable::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (m_bIsPasingObject)
-	{
-		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
+	//if (m_bIsPasingObject)
+	//{
+	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
+	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
+	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
+	//}
+
+	//플레이어 충돌 테스트용 포지션
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.5f, 15.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -66,11 +70,19 @@ void CRockBreakable::Priority_Update(_float fTimeDelta)
 void CRockBreakable::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (m_bIsDied)
+	{
+		Delete_Object();
+	}
+
 }
 
 void CRockBreakable::Late_Update(_float fTimeDelta)
 {
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+
 }
 
 HRESULT CRockBreakable::Render(_float fTimeDelta)
@@ -90,6 +102,27 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CRockBreakable::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CSkill_Player*>(otherObject))
+		m_eAnimState = ANIM_DIE;
+		return;
+}
+
+void CRockBreakable::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CRockBreakable::OnCollisionExit(CCollider* other)
+{
+	if (m_eAnimState == ANIM_DIE)
+	{
+		m_bIsDied = true;
+	}
+}
+
 HRESULT CRockBreakable::Ready_Components()
 {
 	/* For.Com_VIBuffer */
@@ -105,6 +138,8 @@ HRESULT CRockBreakable::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.5f, 15.f));
 
 	/* For.Com_Amin */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
@@ -131,7 +166,7 @@ void CRockBreakable::AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_Idle"), 0.3f, _fTimeDelta, false);
 		break;
 
-	case ANIMATION_STATE::ANIM_Die:
+	case ANIMATION_STATE::ANIM_DIE:
 		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_MDie"), 0.5f, _fTimeDelta, false);
 		break;
 	}
