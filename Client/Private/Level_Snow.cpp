@@ -23,11 +23,12 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_LandObjects()))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
@@ -135,9 +136,9 @@ HRESULT CLevel_Snow::Ready_LandObjects()
 	return S_OK;
 }
 
-HRESULT CLevel_Snow::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_Snow::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Player"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
