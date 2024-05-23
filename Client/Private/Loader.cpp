@@ -970,7 +970,6 @@ HRESULT CLoader::Loading_For_Bug()
 	m_isFinished = true;
 }
 
-
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID)
 {
 	CLoader* pInstance = new CLoader(pGraphic_Device);
