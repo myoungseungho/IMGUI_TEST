@@ -47,8 +47,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_GameObject_StonPushable(TEXT("Layer_StonePushable"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_GameObject_RockBreakable(TEXT("Layer_RockBreakalbe"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_GameObject_RockBreakable(TEXT("Layer_RockBreakalbe"))))
+		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 	//	return E_FAIL;
