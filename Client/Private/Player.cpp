@@ -207,6 +207,16 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		return;
 	}
 
+	if (dynamic_cast<CSkill_Koofu_Bubble*>(otherObject))
+	{
+		m_bCanMoveRight = true;
+		m_bCanMoveLeft = true;
+		m_bCanMoveForward = true;
+		m_bCanMoveBackward = true;
+		return;
+	}
+
+
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		m_bPush = false;
