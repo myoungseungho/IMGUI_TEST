@@ -243,6 +243,22 @@
     </Filter>
     <Filter Include="01.Levels\99. Loading\Loader">
       <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
+  </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Copy_Koofu">
+      <UniqueIdentifier>{025b6bd7-de72-4c13-810a-43cda2f2314f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{6a0a7de1-594d-4339-9bc0-66764a5e9ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Monster">
+      <UniqueIdentifier>{68904efa-d562-4d61-9c30-2496c283f0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Loading\Loader\Logo">
+      <UniqueIdentifier>{cae9f95a-8919-4f1e-a749-ee91785ca225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Bug_SludgeWave">
+      <UniqueIdentifier>{1bb70c14-1637-41e7-8f2e-d07e020cbaf7}</UniqueIdentifier>
+>>>>>>> 93190105227f6ead07c9a5235961e876683bc77a
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Logo.h">
+      <Filter>01.Levels\Loading\Loader\Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01.Levels\99. Loading</Filter>
@@ -492,6 +511,12 @@
     <ClInclude Include="..\Public\Level_Jungle.h">
       <Filter>01.Levels\2. Jungle</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mon_Copy_Koofu.h">
+      <Filter>02.GameObjects\LandObject\Monster\Copy_Koofu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Skill_Bug_SludgeWave.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_SludgeWave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -502,6 +527,9 @@
     </ClCompile>
     <ClCompile Include="..\private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Logo.cpp">
+      <Filter>01.Levels\Loading\Loader\Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01.Levels\99. Loading</Filter>
@@ -724,6 +752,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_Jungle.cpp">
       <Filter>01.Levels\2. Jungle</Filter>
+ </ClCompile>
+    <ClCompile Include="..\private\Mon_Copy_Koofu.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Copy_Koofu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Bug_SludgeWave.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Bug_SludgeWave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

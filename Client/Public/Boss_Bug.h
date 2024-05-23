@@ -50,7 +50,8 @@ private:
 
 private:
 	HRESULT Turtle_Create();
-	HRESULT Bullet_Create();
+	HRESULT Bullet_Create(_uint iBulletNum , CSkill_Bug_Bullet::BULLET_STATE iBulletType);
+	HRESULT Wave_Create();
 
 private:
 	virtual void Mon_State(_float fTimeDelta);
@@ -64,6 +65,7 @@ private:
 	void State_Land(_float _fTimeDelta);
 	void State_Regen(_float _fTimeDelta);
 	void State_Stan(_float fTimeDelta);
+	void State_Death(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
@@ -74,6 +76,9 @@ private:
 	_bool m_isLand = { false };
 	_bool m_isReady = { false };
 	_int m_iPhaseCnt = { 1 };
+
+	_float m_fDashBulletTimer = { 0.f };
+	_float m_fWaveTimer = { 0.f };
 
 	_bool m_isTmp = { false };
 

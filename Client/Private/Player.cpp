@@ -171,7 +171,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
 			{
-				pDamagedObj->Delete_Object();
+				//pDamagedObj->Delete_Object();
 			}
 		}
 		return;

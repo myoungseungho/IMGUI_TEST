@@ -3,7 +3,8 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 #include "Mon_Turtle.h"
-#include <Player.h>
+#include "Player.h"
+#include "Skill_Bug_Bullet.h"
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -117,6 +118,7 @@ HRESULT CBoss_Bug::Ready_Components()
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(15.f, 1.5f, 50.f));
 
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -203,7 +205,8 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
-	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
+	m_fDashBulletTimer += fTimeDelta;
+	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
 	if (iter)
 	{
@@ -215,6 +218,12 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		{
 			m_pTransformCom->Set_Speed(10.f);
 			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+
+			if (m_fDashBulletTimer >= 1.f)
+			{
+				Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
+				m_fDashBulletTimer = 0.f;
+			}
 		}
 	}
 	else
@@ -225,6 +234,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
+	m_fWaveTimer += fTimeDelta;
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 
 	{
@@ -234,6 +244,12 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 	else
 	{
 		m_pTransformCom->Go_Up(fTimeDelta);
+
+		if (m_fWaveTimer >= 0.2f)
+		{
+			Wave_Create();
+			m_fWaveTimer = { 0.f };
+		}
 	}
 }
 
@@ -248,10 +264,12 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_eMon_State = MON_STATE::DASH;
-		Bullet_Create();
+		Bullet_Create(36, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
 	}
 	else
+	{
 		m_pTransformCom->Go_Down(fTimeDelta);
+	}
 
 }
 
@@ -277,11 +295,12 @@ HRESULT CBoss_Bug::Turtle_Create()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::Bullet_Create()
+HRESULT CBoss_Bug::Bullet_Create(_uint iBulletNum, CSkill_Bug_Bullet::BULLET_STATE iBulletType)
 {
-	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
+	CSkill_Bug_Bullet::BULLET_SKILL_DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
-	SkillDesc.iTotalBullet = 12;
+	SkillDesc.iTotalBullet = iBulletNum;
+	SkillDesc.iBulletType = iBulletType;
 
 	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
@@ -289,6 +308,20 @@ HRESULT CBoss_Bug::Bullet_Create()
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Skill_Bug_Bullet"), TEXT("Layer_Skill_Bug_Bullet"), &SkillDesc)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CBoss_Bug::Wave_Create()
+{
+	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
+	SkillDesc.iTotalBullet = 5;
+	SkillDesc.iBulletCnt = 0;
+	SkillDesc.pTargetTransform = m_pTransformCom;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"), TEXT("Layer_Skill_Bug_SludgeWave"), &SkillDesc)))
+		return E_FAIL;
+	
 
 	return S_OK;
 }
@@ -301,9 +334,9 @@ void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+	if (m_pTimerCom->Time_Limit(_fTimeDelta, 0.95f))
 	{
-		Bullet_Create();
+		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
 		m_iBulletCnt++;
 	}
 
@@ -337,13 +370,22 @@ void CBoss_Bug::State_Regen(_float _fTimeDelta)
 
 void CBoss_Bug::State_Stan(_float fTimeDelta)
 {
-	m_pTransformCom->Gravity(0.1f, 3.f, fTimeDelta);
+	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
 		m_ePrev_State = MON_STATE::STAN;
 		m_eMon_State = MON_STATE::REGEN;
 	}
+}
+
+void CBoss_Bug::State_Death(_float fTimeDelta)
+{
+	CBoss_Bug* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		Safe_Release(pThis);
+
 }
 
 void CBoss_Bug::State_Ready(_float _fTimeDelta)
@@ -384,7 +426,7 @@ void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Land(_float  _fTimeDelta)
 {
-	Land(0.f, 0.f, _fTimeDelta);
+	Land(30.f, 45.f, _fTimeDelta);
 }
 
 
@@ -481,6 +523,10 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::STAN:
 		State_Stan(fTimeDelta);
+		break;
+
+	case MON_STATE::DEATH:
+		State_Death(fTimeDelta);
 		break;
 	}
 }

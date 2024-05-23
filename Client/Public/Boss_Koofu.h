@@ -10,11 +10,9 @@ class CBoss_Koofu final :public CMonster
 private:
 	enum class ANIM_STATE {IDLE ,WALK , CAST , READY , STUN ,THROW , DEADTH ,ANIM_END };
 public:
-	typedef struct:public MONSTER_DESC
+	typedef struct : public MONSTER_DESC
 	{
 		CTransform* m_pTargetTransform = {nullptr};
-		_bool isClone = { false };
-	
 	}BOSS_KOOFU_DESC;
 
 private:
@@ -81,12 +79,8 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 
 private:
-	_bool m_isClone = { false };
 	_bool m_isClone_Create = { false };
-
-	//_bool m_isAttack = { false };
 	_bool m_isBullet = { false };
-
 	_float3 m_vTargetDir = {};
 
 public:

@@ -50,14 +50,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_GameObject_RockBreakable(TEXT("Layer_RockBreakalbe"))))
 	//	return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
-		return E_FAIL;
-
-	//if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
-	//	return E_FAIL;
-
 	/*if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;*/
+
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
+	return E_FAIL;
 
 	return S_OK;
 }
@@ -116,10 +113,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 
 	Bosskoofu.iHp = 50;
 	Bosskoofu.iAttack = 1;
-	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
-	Bosskoofu.isClone = false;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
 		return E_FAIL;
 
 	return S_OK;

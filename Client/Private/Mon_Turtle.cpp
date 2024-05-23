@@ -57,7 +57,7 @@ void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
 	Move_Range(0.f, 0.f, 50.f, 50.f);
-	Distory(fTimeDelta); 
+	Destory(fTimeDelta);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -114,14 +114,17 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
-void CMon_Turtle::Distory(_float fTimeDelta)
+void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 
-	if (m_pKeyCom->Key_Down('0'))
+	if (m_tMonsterDesc.iHp <= 0)
 	{
 		Safe_Release(pTurtle);
 	}
+
+	if(m_pKeyCom->Key_Down('0'))
+		Safe_Release(pTurtle);
 }
 
 void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)
@@ -202,13 +205,7 @@ HRESULT CMon_Turtle::End_RenderState()
 
 void CMon_Turtle::OnCollisionEnter(CCollider* other)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		--m_tMonsterDesc.iHp;
-	}
-	
 }
 
 void CMon_Turtle::OnCollisionStay(CCollider* other, _float fTimeDelta)

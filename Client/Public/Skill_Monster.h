@@ -52,6 +52,8 @@ protected:
 
 protected:
 	_float m_fAngleRange = { 0.f };
+	_uint m_iBulletCnt = { 0 };
+	_uint m_iTotalBullet = { 0 };
 public:
 	virtual CGameObject* Clone(void* pArg = nullptr) = 0;
 	virtual void Free() override;

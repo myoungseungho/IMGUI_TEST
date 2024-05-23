@@ -16,11 +16,11 @@ public:
 	virtual HRESULT Initialize(void* pArg)	override;
 
 public:
-	_bool Time_Limit(_float fTimeDelta, _float fTimer)
+	_bool Time_Limit(_float fTimeDelta, _float fInitTimer)
 	{
 		m_fTimer += fTimeDelta;
 
-		if (m_fTimer >= fTimer)
+		if (m_fTimer >= fInitTimer)
 		{
 			m_fTimer = { 0 };
 		
@@ -30,7 +30,7 @@ public:
 			return false;
 	}
 
-	_bool Time_Limit(_float fTimeDelta, _float fStartTimer, _float fEndTimer)
+	_bool Time_Limit(_float fTimeDelta, _float fStartTimer, _float fUpdateTimer)
 	{
 		if (Time_Limit(fTimeDelta, fStartTimer))
 		{
@@ -41,7 +41,7 @@ public:
 		{
 			m_fPrevTimer += fTimeDelta;
 
-			if (m_fPrevTimer <= fEndTimer)
+			if (m_fPrevTimer <= fUpdateTimer)
 			{
 				return true;
 			}
@@ -53,6 +53,18 @@ public:
 			}
 		}
 		return false;
+	}
+
+	_bool Time_Update(_float fTimeDelta, _float fUpdateTimer)
+	{
+		if (Time_Limit(fTimeDelta, fUpdateTimer))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 public:

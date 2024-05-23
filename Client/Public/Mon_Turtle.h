@@ -34,7 +34,7 @@ private:
 	void Move_Update(_float fTimeDelta);
 
 private:
-	void Distory(_float fTimeDelta);
+	void Destory(_float fTimeDelta);
 	void Move_Range(_float fMinPosX , _float fMinPosZ , _float fMaxPosX, _float fMaxPosZ);
 
 private:
