@@ -64,6 +64,7 @@ private:
 	void State_Land(_float _fTimeDelta);
 	void State_Regen(_float _fTimeDelta);
 	void State_Stan(_float fTimeDelta);
+	void State_Death(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };

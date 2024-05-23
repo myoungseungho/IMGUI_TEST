@@ -25,8 +25,11 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 		return E_FAIL;
 
 	SKILL_MONSTER__DESC* pDesc = static_cast<SKILL_MONSTER__DESC*>(pArg);
-
+	
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_iBulletCnt = pDesc->iBulletCnt;
+	m_iTotalBullet = pDesc->iTotalBullet;
+
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
@@ -35,22 +38,19 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	_float3 vCreatePos = {};
+	m_vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	m_vCreatePos.y = 0.5f;
+	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	vCreatePos.y = 0.5f;
-	vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vCreatePos);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_vCreatePos);
 	
-	_float fDegree = (float)(rand() % 200 + 1900) / 10.f;
 	_float fBulletCnt = pDesc->iTotalBullet;
 
 	m_fAngleRange = 45.f;
 	_float fStartRange = m_fAngleRange * 0.5f;
-	_float fAngle_Per_Piece = m_fAngleRange / fBulletCnt;
+	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
 
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * pDesc->iBulletCnt) * D3DX_PI / 180.f);
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);
 	return S_OK;
 }
 
@@ -62,9 +62,8 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
-	CSkill_Bug_Bullet* bullet = this;
-	if (m_pTimerCom->Time_Limit(fTimeDelta,5.f))
-		Safe_Release(bullet);
+
+	Destory(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
@@ -170,12 +169,21 @@ void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
 }
 
 
-void CSkill_Bug_Bullet::Distroy(_float fTimeDelta)
+void CSkill_Bug_Bullet::Destory(_float fTimeDelta)
 {
 	CSkill_Bug_Bullet* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
 		Safe_Release(pThis);
+}
+
+void CSkill_Bug_Bullet::BulletType_Normal()
+{
+	m_fAngleRange = 45.f;
+	_float fStartRange = m_fAngleRange * 0.5f;
+	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
+
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);
 }
 
 CSkill_Bug_Bullet* CSkill_Bug_Bullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

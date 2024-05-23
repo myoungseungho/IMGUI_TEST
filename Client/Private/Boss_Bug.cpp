@@ -252,7 +252,9 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 		Bullet_Create();
 	}
 	else
+	{
 		m_pTransformCom->Go_Down(fTimeDelta);
+	}
 
 }
 
@@ -345,6 +347,15 @@ void CBoss_Bug::State_Stan(_float fTimeDelta)
 		m_ePrev_State = MON_STATE::STAN;
 		m_eMon_State = MON_STATE::REGEN;
 	}
+}
+
+void CBoss_Bug::State_Death(_float fTimeDelta)
+{
+	CBoss_Bug* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		Safe_Release(pThis);
+
 }
 
 void CBoss_Bug::State_Ready(_float _fTimeDelta)
@@ -482,6 +493,10 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 
 	case MON_STATE::STAN:
 		State_Stan(fTimeDelta);
+		break;
+
+	case MON_STATE::DEATH:
+		State_Death(fTimeDelta);
 		break;
 	}
 }

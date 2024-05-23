@@ -64,13 +64,13 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
-	/*_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));*/
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
 
 	Bind_PipeLines();
 

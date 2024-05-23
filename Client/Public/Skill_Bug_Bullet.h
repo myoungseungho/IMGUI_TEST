@@ -31,7 +31,13 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
-	void Distroy(_float fTimeDelta);
+	void Destory(_float fTimeDelta);
+
+private:
+	void BulletType_Normal();
+
+private:
+	_float3 m_vCreatePos = {};
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
