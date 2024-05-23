@@ -76,6 +76,8 @@ private:
 	_bool m_isReady = { false };
 	_int m_iPhaseCnt = { 1 };
 
+	_float m_fDashBulletTimer = { 0.f };
+
 	_bool m_isTmp = { false };
 
 	MON_STATE m_ePrev_State = {};

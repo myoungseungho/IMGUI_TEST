@@ -204,6 +204,7 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
+	m_fDashBulletTimer += fTimeDelta;
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_GAMEPLAY, TEXT("Layer_Monster_Turtle")));
 
 	if (iter)
@@ -216,6 +217,12 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		{
 			m_pTransformCom->Set_Speed(10.f);
 			m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+
+			if (m_fDashBulletTimer >= 1.f)
+			{
+				Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
+				m_fDashBulletTimer = 0.f;
+			}
 		}
 	}
 	else
