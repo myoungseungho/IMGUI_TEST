@@ -71,7 +71,6 @@ void CRockBreakable::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-
 }
 
 void CRockBreakable::Late_Update(_float fTimeDelta)
@@ -113,7 +112,10 @@ void CRockBreakable::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CRockBreakable::OnCollisionExit(CCollider* other)
 {
-
+	if (m_eAnimState == ANIM_DIE)
+	{
+		Delete_Object();
+	}
 }
 
 HRESULT CRockBreakable::Ready_Components()
@@ -157,11 +159,10 @@ void CRockBreakable::AnimState(_float _fTimeDelta)
 	{
 	case ANIMATION_STATE::ANIM_IDLE:
 		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_Idle"), 0.3f, _fTimeDelta, false);
-	
 		break;
 
 	case ANIMATION_STATE::ANIM_DIE:
-		if (m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_MDie"), 0.5f, _fTimeDelta, false))
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_RockBreakable_MDie"), 0.5f, _fTimeDelta, false);
 		break;
 	}
 }
