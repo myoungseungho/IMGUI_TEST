@@ -256,6 +256,9 @@
     <Filter Include="02.GameObjects\UI\UI_Heart_Player">
       <UniqueIdentifier>{314cd74f-38b8-429b-b254-54b00ff464c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\UI_Icon_KeyBoard">
+      <UniqueIdentifier>{dbfcf54d-d14f-42a8-85cf-f614d0bf48d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -516,6 +519,9 @@
     <ClInclude Include="..\Public\UI_Heart_Player.h">
       <Filter>02.GameObjects\UI\UI_Heart_Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Icon_KeyBoard.h">
+      <Filter>02.GameObjects\UI\UI_Icon_KeyBoard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -760,6 +766,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Heart_Player.cpp">
       <Filter>02.GameObjects\UI\UI_Heart_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Icon_KeyBoard.cpp">
+      <Filter>02.GameObjects\UI\UI_Icon_KeyBoard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

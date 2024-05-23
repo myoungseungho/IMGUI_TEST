@@ -76,24 +76,7 @@ void CUIObject::Late_Update(_float fTimeDelta)
 
 	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
 
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 0.1f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 0.1f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 0.1f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 0.1f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.1f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.1f;
-	}
+	
 
 	BillBoarding();
 }

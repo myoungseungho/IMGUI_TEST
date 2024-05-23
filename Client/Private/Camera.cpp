@@ -51,7 +51,6 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
 
-
 	//GetCursorPos(&m_OldMousePos);
 
 	Ready_UI_Layer((LEVELID)m_pGameInstance->GetLoadingLevelIndex());
@@ -165,6 +164,9 @@ HRESULT CCamera::Key_Input(_float fTimeDelta)
 HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_Heart_Player"), TEXT("Layer_UI_Heart_Player"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_Icon_KeyBoard"), TEXT("Layer_UI_Icon_KeyBoard"))))
 		return E_FAIL;
 }
 

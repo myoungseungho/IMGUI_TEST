@@ -13,6 +13,7 @@
 #include "Component.h"
 #include "EnviormentObject.h"
 #include "UI_Heart_Player.h"
+#include "UI_Icon_KeyBoard.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -938,6 +939,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_HeartSymbol"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Icon/UI_Icon_HeartSymbol.png"), 1))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_KeyBoard"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Icon/UI_Icon_Keyboard.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 
@@ -948,6 +953,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Heart_Player"),
 		CUI_Heart_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Icon_KeyBoard"),
+		CUI_Icon_KeyBoard::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 
