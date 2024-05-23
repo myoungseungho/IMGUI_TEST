@@ -250,6 +250,9 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Koofu_Copy">
       <UniqueIdentifier>{06864482-1852-4006-8ded-f658833293a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI">
+      <UniqueIdentifier>{ea165099-c0c5-4d81-a9fd-e067f002d173}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -504,6 +507,9 @@
     <ClInclude Include="..\Public\Mon_Copy_Koofu.h">
       <Filter>02.GameObjects\LandObject\Monster\Koofu_Copy</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UIObject.h">
+      <Filter>02.GameObjects\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -742,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mon_Copy_Koofu.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Koofu_Copy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIObject.cpp">
+      <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
