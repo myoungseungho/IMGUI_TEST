@@ -244,7 +244,7 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 	{
 		m_pTransformCom->Go_Up(fTimeDelta);
 
-		if (m_fWaveTimer >= 0.5f)
+		if (m_fWaveTimer >= 0.2f)
 		{
 			Wave_Create();
 			m_fWaveTimer = { 0.f };

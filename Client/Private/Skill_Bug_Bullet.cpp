@@ -158,6 +158,7 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 
 void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
 {
+
 	CSkill_Bug_Bullet* pInst = this;
 	Safe_Release(pInst);
 }
