@@ -57,7 +57,7 @@ void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
 	Move_Range(0.f, 0.f, 50.f, 50.f);
-	Distory(fTimeDelta); 
+	Destory(fTimeDelta);
 }
 
 void CMon_Turtle::Late_Update(_float fTimeDelta)
@@ -114,7 +114,7 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
-void CMon_Turtle::Distory(_float fTimeDelta)
+void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 

@@ -250,6 +250,12 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Copy_Koofu">
       <UniqueIdentifier>{025b6bd7-de72-4c13-810a-43cda2f2314f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{6a0a7de1-594d-4339-9bc0-66764a5e9ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Monster">
+      <UniqueIdentifier>{68904efa-d562-4d61-9c30-2496c283f0c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
