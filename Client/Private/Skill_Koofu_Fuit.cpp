@@ -93,7 +93,7 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_FuitBounce"),
+	if (FAILED(__super::Add_Component(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_FuitBounce"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -128,7 +128,7 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 
 HRESULT CSkill_Koofu_Fuit::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE,TEXT("Prototype_Component_Texture_FuitBounce"), TEXT("SKILL_FUIT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU,TEXT("Prototype_Component_Texture_FuitBounce"), TEXT("SKILL_FUIT"));
 
 	return S_OK;
 }

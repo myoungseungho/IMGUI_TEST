@@ -11,6 +11,8 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "Boss_Koofu.h"
+
 CLevel_Koofu::CLevel_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -23,7 +25,7 @@ HRESULT CLevel_Koofu::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_LandObjects()))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
@@ -36,6 +38,9 @@ HRESULT CLevel_Koofu::Initialize()
 	//	return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -121,6 +126,21 @@ HRESULT CLevel_Koofu::Ready_Layer_Bush(const _wstring& strLayerTag, int horizont
 	return S_OK;
 }
 
+HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
+{
+	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
+
+	Bosskoofu.iHp = 50;
+	Bosskoofu.iAttack = 1;
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Bosskoofu.isClone = false;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Boss_Koofu"), strLayerTag, &Bosskoofu)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 HRESULT CLevel_Koofu::Ready_LandObjects()
 {
@@ -135,9 +155,9 @@ HRESULT CLevel_Koofu::Ready_LandObjects()
 	return S_OK;
 }
 
-HRESULT CLevel_Koofu::Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc)
+HRESULT CLevel_Koofu::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Player"), strLayerTag, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Player"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

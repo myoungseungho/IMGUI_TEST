@@ -342,7 +342,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 		for (int i = 0; i < 3; ++i)
 		{
-			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Boss_Koofu_Clone"), i));
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Boss_Koofu_Clone"), i));
 			if (!pClone)
 				break;
 
@@ -354,7 +354,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	{
 		for (int i = 0; i < 3; ++i)
 		{
-			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Boss_Koofu_Clone"), i));
+			CBoss_Koofu* pClone = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Boss_Koofu_Clone"), i));
 			
 			if (!pClone)
 				break;
@@ -412,7 +412,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 				for (int i = 0; i < 3; ++i)
 				{
-					CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Bubble"), i));
+					CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Bubble"), i));
 
 					if (!pClone)
 						break;
@@ -431,7 +431,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 		for (int i = 0; i < 3; ++i)
 		{
-			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Bubble"), i));
+			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Bubble"), i));
 
 			if (!pClone)
 				break;
@@ -589,46 +589,46 @@ HRESULT CBoss_Koofu::Ready_Components()
 HRESULT CBoss_Koofu::Ready_Animation()
 {
 	//Idle
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_Down"), TEXT("KOOFU_IDLE_DOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_Left"), TEXT("KOOFU_IDLE_LEFT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftDown"), TEXT("KOOFU_IDLE_LEFTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftUp"), TEXT("KOOFU_IDLE_LEFTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_Right"), TEXT("KOOFU_IDLE_RIGHT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_RightDown"), TEXT("KOOFU_IDLE_RIGHTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_RightUp"), TEXT("KOOFU_IDLE_RIGHTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Idle_Up"), TEXT("KOOFU_IDLE_UP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_Down"), TEXT("KOOFU_IDLE_DOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_Left"), TEXT("KOOFU_IDLE_LEFT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftDown"), TEXT("KOOFU_IDLE_LEFTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_LeftUp"), TEXT("KOOFU_IDLE_LEFTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_Right"), TEXT("KOOFU_IDLE_RIGHT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_RightDown"), TEXT("KOOFU_IDLE_RIGHTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_RightUp"), TEXT("KOOFU_IDLE_RIGHTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Idle_Up"), TEXT("KOOFU_IDLE_UP"));
 	
 	//Death
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Death"), TEXT("KOOFU_DEATH"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Death"), TEXT("KOOFU_DEATH"));
 
 	//Stun
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Stun"), TEXT("KOOFU_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Stun"), TEXT("KOOFU_STUN"));
 
 	//Ready
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Ready"), TEXT("KOOFU_READY"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Ready"), TEXT("KOOFU_READY"));
 
 	//Cast
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Cast"), TEXT("KOOFU_CAST"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Cast"), TEXT("KOOFU_CAST"));
 
 	//Throw
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_Down"), TEXT("KOOFU_THROW_DOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_Left"), TEXT("KOOFU_THROW_LEFT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftDown"), TEXT("KOOFU_THROW_LEFTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftUp"), TEXT("KOOFU_THROW_LEFTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_Right"), TEXT("KOOFU_THROW_RIGHT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_RightDown"), TEXT("KOOFU_THROW_RIGHTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_RightUp"), TEXT("KOOFU_THROW_RIGHTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Throw_Up"), TEXT("KOOFU_THROW_UP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_Down"), TEXT("KOOFU_THROW_DOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_Left"), TEXT("KOOFU_THROW_LEFT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftDown"), TEXT("KOOFU_THROW_LEFTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_LeftUp"), TEXT("KOOFU_THROW_LEFTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_Right"), TEXT("KOOFU_THROW_RIGHT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_RightDown"), TEXT("KOOFU_THROW_RIGHTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_RightUp"), TEXT("KOOFU_THROW_RIGHTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Throw_Up"), TEXT("KOOFU_THROW_UP"));
 	
 	//Walk
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_Down"), TEXT("KOOFU_WALK_DOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_Left"), TEXT("KOOFU_WALK_LEFT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_LeftDown"), TEXT("KOOFU_WALK_LEFTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_LeftUp"), TEXT("KOOFU_WALK_LEFTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_Right"), TEXT("KOOFU_WALK_RIGHT"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_RightDown"), TEXT("KOOFU_WALK_RIGHTDOWN"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_RightUp"), TEXT("KOOFU_WALK_RIGHTUP"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Koofu_Walk_Up"), TEXT("KOOFU_WALK_UP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_Down"), TEXT("KOOFU_WALK_DOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_Left"), TEXT("KOOFU_WALK_LEFT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_LeftDown"), TEXT("KOOFU_WALK_LEFTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_LeftUp"), TEXT("KOOFU_WALK_LEFTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_Right"), TEXT("KOOFU_WALK_RIGHT"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_RightDown"), TEXT("KOOFU_WALK_RIGHTDOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_RightUp"), TEXT("KOOFU_WALK_RIGHTUP"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Koofu_Walk_Up"), TEXT("KOOFU_WALK_UP"));
 
 	return S_OK;
 }
@@ -708,7 +708,7 @@ HRESULT CBoss_Koofu::RollingCreate()
 	{
 		Desc.iBulletCnt = i;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Skill_Koofu_Rolling"), TEXT("Layer_Rolling") ,&Desc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Skill_Koofu_Rolling"), TEXT("Layer_Rolling") ,&Desc)))
 			return E_FAIL;
 	}
 }
@@ -719,9 +719,9 @@ HRESULT CBoss_Koofu::FuitCreate()
 
 	Desc.iBulletCnt = 1;
 	Desc.pTargetTransform = m_pTransformCom;
-	Desc.pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Desc.pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Skill_Koofu_Fuit"), TEXT("Layer_Fuit"), &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Skill_Koofu_Fuit"), TEXT("Layer_Fuit"), &Desc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -734,11 +734,11 @@ HRESULT CBoss_Koofu::CloneCreate()
 	Bosskoofu.iHp = 1;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.isClone = true;
-	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 1; i <= 3; ++i)
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Boss_Koofu"), TEXT("Layer_Boss_Koofu_Clone"), &Bosskoofu)))
 			return E_FAIL;
 		
 		//Warf(-10, -10, 10, 10);
@@ -758,7 +758,7 @@ HRESULT CBoss_Koofu::CircleCreate()
 	for (int i = 1; i <= 3; ++i)
 	{
 		Desc.iBulletCnt = i;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Skill_Koofu_Bubble"), TEXT("Layer_Bubble"), &Desc)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Skill_Koofu_Bubble"), TEXT("Layer_Bubble"), &Desc)))
 			return E_FAIL;
 	}
 
