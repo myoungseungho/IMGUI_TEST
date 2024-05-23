@@ -50,7 +50,7 @@ private:
 
 private:
 	HRESULT Turtle_Create();
-	HRESULT Bullet_Create();
+	HRESULT Bullet_Create(_uint iBulletNum , CSkill_Bug_Bullet::BULLET_STATE iBulletType);
 
 private:
 	virtual void Mon_State(_float fTimeDelta);

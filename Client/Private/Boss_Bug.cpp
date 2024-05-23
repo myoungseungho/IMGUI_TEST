@@ -3,7 +3,8 @@
 #include "Boss_Bug.h"
 #include "GameInstance.h"
 #include "Mon_Turtle.h"
-#include <Player.h>
+#include "Player.h"
+#include "Skill_Bug_Bullet.h"
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -116,7 +117,6 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.0f, 3.f, 20.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -249,7 +249,7 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_eMon_State = MON_STATE::DASH;
-		Bullet_Create();
+		Bullet_Create(36, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
 	}
 	else
 	{
@@ -280,11 +280,12 @@ HRESULT CBoss_Bug::Turtle_Create()
 	return S_OK;
 }
 
-HRESULT CBoss_Bug::Bullet_Create()
+HRESULT CBoss_Bug::Bullet_Create(_uint iBulletNum, CSkill_Bug_Bullet::BULLET_STATE iBulletType)
 {
-	CSkill_Monster::SKILL_MONSTER__DESC SkillDesc{};
+	CSkill_Bug_Bullet::BULLET_SKILL_DESC SkillDesc{};
 	SkillDesc.pTargetTransform = m_pTransformCom;
-	SkillDesc.iTotalBullet = 12;
+	SkillDesc.iTotalBullet = iBulletNum;
+	SkillDesc.iBulletType = iBulletType;
 
 	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
@@ -306,7 +307,7 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 	{
-		Bullet_Create();
+		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
 		m_iBulletCnt++;
 	}
 
@@ -340,7 +341,7 @@ void CBoss_Bug::State_Regen(_float _fTimeDelta)
 
 void CBoss_Bug::State_Stan(_float fTimeDelta)
 {
-	m_pTransformCom->Gravity(0.1f, 3.f, fTimeDelta);
+	m_pTransformCom->Gravity(0.1f, 2.f, fTimeDelta);
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
@@ -396,7 +397,7 @@ void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Land(_float  _fTimeDelta)
 {
-	Land(0.f, 0.f, _fTimeDelta);
+	Land(30.f, 45.f, _fTimeDelta);
 }
 
 

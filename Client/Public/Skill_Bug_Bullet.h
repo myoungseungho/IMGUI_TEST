@@ -6,6 +6,15 @@ BEGIN(Client)
 
 class CSkill_Bug_Bullet final:public CSkill_Monster
 {
+public:
+	enum class BULLET_STATE {NORMAL , CIRCLE , BULLET_END};
+
+public:
+	typedef struct :public SKILL_MONSTER__DESC
+	{
+		BULLET_STATE iBulletType = {  };
+	}BULLET_SKILL_DESC;
+
 private:
 	CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CSkill_Bug_Bullet(const CSkill_Bug_Bullet& Prototype);
@@ -31,13 +40,17 @@ public:
 	virtual void OnCollisionStay(class CCollider* other);
 	virtual void OnCollisionExit(class CCollider* other);
 
+private:
+	void Bullet_State();
+
+	void BulletType_Normal();
+	void BulletType_Circle();
+
 	void Destory(_float fTimeDelta);
 
 private:
-	void BulletType_Normal();
-
-private:
 	_float3 m_vCreatePos = {};
+	BULLET_STATE m_iBulletType = { };
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

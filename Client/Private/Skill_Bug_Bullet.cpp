@@ -24,11 +24,12 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
-	SKILL_MONSTER__DESC* pDesc = static_cast<SKILL_MONSTER__DESC*>(pArg);
+	BULLET_SKILL_DESC* pDesc = static_cast<BULLET_SKILL_DESC*>(pArg);
 	
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_iBulletCnt = pDesc->iBulletCnt;
 	m_iTotalBullet = pDesc->iTotalBullet;
+	m_iBulletType = pDesc->iBulletType;
 
 	Safe_AddRef(m_pTargetTransform);
 
@@ -44,13 +45,17 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_vCreatePos);
 	
-	_float fBulletCnt = pDesc->iTotalBullet;
+	Bullet_State();
+
+	/*_float fBulletCnt = pDesc->iTotalBullet;
 
 	m_fAngleRange = 45.f;
 	_float fStartRange = m_fAngleRange * 0.5f;
 	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
 
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);*/
+	
+
 	return S_OK;
 }
 
@@ -177,6 +182,20 @@ void CSkill_Bug_Bullet::Destory(_float fTimeDelta)
 		Safe_Release(pThis);
 }
 
+void CSkill_Bug_Bullet::Bullet_State()
+{
+	switch (m_iBulletType)
+	{
+	case BULLET_STATE::NORMAL:
+		BulletType_Normal();
+		break;
+
+	case BULLET_STATE::CIRCLE:
+		BulletType_Circle();
+		break;
+	}
+}
+
 void CSkill_Bug_Bullet::BulletType_Normal()
 {
 	m_fAngleRange = 45.f;
@@ -184,6 +203,16 @@ void CSkill_Bug_Bullet::BulletType_Normal()
 	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
 
 	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);
+}
+
+void CSkill_Bug_Bullet::BulletType_Circle()
+{
+	m_fAngleRange = 360.f;
+	_float fStartRange = m_fAngleRange * 0.5f;
+	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
+
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iBulletCnt) * D3DX_PI / 180.f);
+
 }
 
 CSkill_Bug_Bullet* CSkill_Bug_Bullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
