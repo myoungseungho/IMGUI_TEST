@@ -71,6 +71,11 @@ void CRockBreakable::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	if (m_bIsDied)
+	{
+		Delete_Object();
+	}
+
 }
 
 void CRockBreakable::Late_Update(_float fTimeDelta)
@@ -114,7 +119,7 @@ void CRockBreakable::OnCollisionExit(CCollider* other)
 {
 	if (m_eAnimState == ANIM_DIE)
 	{
-		Delete_Object();
+		m_bIsDied = true;
 	}
 }
 

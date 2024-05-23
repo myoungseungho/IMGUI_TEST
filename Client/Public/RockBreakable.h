@@ -52,6 +52,7 @@ private:
 
 private:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
+	_bool			m_bIsDied = { false };
 
 public:
 	/* 원형객체를 생성한다. */
