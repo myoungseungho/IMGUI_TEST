@@ -120,7 +120,8 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
-	if (dynamic_cast<CSkill_Koofu_Bubble*>(otherObject))
+
+	if (dynamic_cast<CSkill_Monster*>(otherObject))
 		return;
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
@@ -207,7 +208,7 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		return;
 	}
 
-	if (dynamic_cast<CSkill_Koofu_Bubble*>(otherObject))
+	if (dynamic_cast<CSkill_Monster*>(otherObject))
 	{
 		m_bCanMoveRight = true;
 		m_bCanMoveLeft = true;
@@ -215,7 +216,6 @@ void CPlayer::OnCollisionExit(CCollider* other)
 		m_bCanMoveBackward = true;
 		return;
 	}
-
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
