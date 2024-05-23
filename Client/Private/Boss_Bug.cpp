@@ -116,7 +116,7 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(15.f, 1.5f, 50.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 1.5f, 36.f));
 
 
 	/* For.Com_Transform */
@@ -133,8 +133,8 @@ HRESULT CBoss_Bug::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
-
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER_SKILL, this);
+	
 	return S_OK;
 }
 

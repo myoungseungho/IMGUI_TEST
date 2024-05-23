@@ -147,11 +147,11 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 
 void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
 {
-	if (dynamic_cast<CPlayer*>(other->m_MineGameObject))
+	/*if (dynamic_cast<CPlayer*>(other->m_MineGameObject))
 	{
 		CSkill_Bug_Bullet* pInst = this;
 		Safe_Release(pInst);
-	}
+	}*/
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)

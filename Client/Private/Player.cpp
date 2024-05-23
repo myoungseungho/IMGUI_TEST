@@ -13,6 +13,7 @@
 #include "Monster.h"
 #include <Push_Stone.h>
 #include <Skill_Koofu_Bubble.h>
+#include <Skill_Bug_Bullet.h>
 
 
 
@@ -130,7 +131,6 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 		return;
 	}
 
-
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -165,6 +165,17 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
+		}
+		return;
+	}
+
+	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+		{
+			CSkill_Bug_Bullet* pPushObj = dynamic_cast<CSkill_Bug_Bullet*>(otherObject);
+			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
+			pPushObjTranform->Set_Speed(-2.f);
 		}
 		return;
 	}
@@ -281,7 +292,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 15.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 0.5f, 30.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
