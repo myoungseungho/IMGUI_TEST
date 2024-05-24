@@ -42,24 +42,7 @@ void CUI_HP_GlueEffect_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_GlueEffect_Player::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 0.005f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 0.005f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 0.005f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 0.005f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.005f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.005f;
-	}
+	
 
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;

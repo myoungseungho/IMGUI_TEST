@@ -178,8 +178,8 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_Green_Player"), TEXT("Layer_UI_HP_Green_Player"))))
 		return E_FAIL;
 
-	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_BloodEffect"), TEXT("Layer_UI_HP_BloodEffect"))))
-		return E_FAIL;*/
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_BloodEffect"), TEXT("Layer_UI_HP_BloodEffect"))))
+		return E_FAIL;
 }
 
 HRESULT CCamera::Ready_Components()

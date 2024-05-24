@@ -101,6 +101,11 @@ void CTexture::ChangeTextureColor(D3DCOLOR originalColor, D3DCOLOR newColor)
 				pPixel[2] = (newColor >> 16) & 0xFF; // R
 				pPixel[1] = (newColor >> 8) & 0xFF;  // G
 				pPixel[0] = newColor & 0xFF;         // B
+				pPixel[3] = (newColor >> 24) & 0xFF; // A
+			}
+			else if (color == D3DCOLOR_XRGB(0, 0, 0)) // 검정색 부분을 투명화
+			{
+				pPixel[3] = 0; // A 값을 0으로 만들어 투명하게 만듦
 			}
 		}
 	}

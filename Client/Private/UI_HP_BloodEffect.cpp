@@ -29,12 +29,13 @@ HRESULT CUI_HP_BloodEffect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.04f;
-	offsetY = -1.58f;
-	offsetZ = 1.68f;
+	offsetX = -0.0199999996f;
+	offsetY = -0.809999466f;
+	offsetZ = 1.68999946f;
 
-	m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(255, 255, 255), D3DCOLOR_XRGB(255, 0, 0)); // 흰색을 빨간색으로
-	//m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(0, 0, 0), D3DCOLOR_XRGB(255, 255, 255)); // 검정색을 빨간색으로
+	// 큰 사각형과 작은 사각형 사이의 영역을 빨간색으로, 작은 사각형 안은 투명하게 변경
+	m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(255, 255, 255), D3DCOLOR_ARGB(255, 255, 0, 0)); // 흰색을 빨간색으로
+	m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(0, 0, 0), D3DCOLOR_ARGB(0, 0, 0, 0)); // 검정색을 투명하게
 
 	return S_OK;
 }
@@ -45,6 +46,25 @@ void CUI_HP_BloodEffect::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_BloodEffect::Update(_float fTimeDelta)
 {
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 0.005f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 0.005f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 0.005f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 0.005f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.005f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.005f;
+	}
+
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;
 	float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
