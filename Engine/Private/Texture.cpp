@@ -72,6 +72,42 @@ HRESULT CTexture::Bind_Anim(_uint fFrame)
 }
 
 
+void CTexture::ChangeTextureColor(D3DCOLOR originalColor, D3DCOLOR newColor)
+{
+	if (m_Textures.empty())
+		return;
+
+	IDirect3DTexture9* pTexture = static_cast<IDirect3DTexture9*>(m_Textures[0]);
+	if (!pTexture)
+		return;
+
+	D3DLOCKED_RECT lockedRect;
+	if (FAILED(pTexture->LockRect(0, &lockedRect, NULL, D3DLOCK_DISCARD)))
+		return;
+
+	BYTE* pTexels = (BYTE*)lockedRect.pBits;
+	D3DSURFACE_DESC desc;
+	pTexture->GetLevelDesc(0, &desc);
+
+	for (UINT y = 0; y < desc.Height; ++y)
+	{
+		for (UINT x = 0; x < desc.Width; ++x)
+		{
+			BYTE* pPixel = pTexels + y * lockedRect.Pitch + x * 4;
+			D3DCOLOR color = D3DCOLOR_ARGB(pPixel[3], pPixel[2], pPixel[1], pPixel[0]);
+
+			if (color == originalColor)
+			{
+				pPixel[2] = (newColor >> 16) & 0xFF; // R
+				pPixel[1] = (newColor >> 8) & 0xFF;  // G
+				pPixel[0] = newColor & 0xFF;         // B
+			}
+		}
+	}
+
+	pTexture->UnlockRect(0);
+}
+
 CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, TYPE eType, const _wstring & strTextureFilePath, _uint iNumTextures)
 {
 

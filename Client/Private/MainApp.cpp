@@ -17,6 +17,7 @@
 #include "UI_HP_Player.h"
 #include "UI_HP_Green_Player.h"
 #include "UI_HP_GlueEffect_Player.h"
+#include "UI_HP_BloodEffect.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -958,6 +959,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_GlueEffect_Player"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/HPGaugeBar.png"), 1))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_BloodEffect"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_UI_HPBarFrameLine.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 
@@ -984,6 +989,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_GlueEffect_Player"),
 		CUI_HP_GlueEffect_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_BloodEffect"),
+		CUI_HP_BloodEffect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

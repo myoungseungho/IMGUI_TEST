@@ -65,13 +65,13 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
-	/*_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));*/
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
 
 	Bind_PipeLines();
 
@@ -178,6 +178,8 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_Green_Player"), TEXT("Layer_UI_HP_Green_Player"))))
 		return E_FAIL;
 
+	/*if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_BloodEffect"), TEXT("Layer_UI_HP_BloodEffect"))))
+		return E_FAIL;*/
 }
 
 HRESULT CCamera::Ready_Components()

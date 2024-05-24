@@ -28,8 +28,9 @@ HRESULT CUI_HP_Green_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -16.6f;
-	offsetY = 0.1f;
+	offsetX = -0.659999549f;
+	offsetY = -0.00499999989f;
+	offsetZ = 1.f;
 
 	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 	CGameObject* gameobject = m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_Player"));
@@ -47,6 +48,8 @@ void CUI_HP_Green_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Green_Player::Update(_float fTimeDelta)
 {
+	
+
 	m_iPlayerCurrentHp = m_pPlayerCopy->Get_Player_Hp();
 }
 
@@ -58,7 +61,7 @@ void CUI_HP_Green_Player::Late_Update(_float fTimeDelta)
 	_float healthRatio = static_cast<_float>(m_iPlayerCurrentHp) / static_cast<_float>(m_iPlayerMaxHp);
 
 	// 체력바의 초기 X 스케일 설정
-	_float scaleX = 7.5f;
+	_float scaleX = 0.65f;
 
 	// 현재 스케일을 가져와서 X 스케일을 체력 비율에 따라 조정
 	_float3 currentScale = m_pTransformCom->Get_Scaled();
@@ -75,7 +78,7 @@ void CUI_HP_Green_Player::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(currentScale.x, 1.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(currentScale.x, 0.08f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

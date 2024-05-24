@@ -29,8 +29,9 @@ HRESULT CUI_HP_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -16.6f;
-	offsetY = 0.1f;
+	offsetX = -0.659999549f;
+	offsetY = -0.00499999989f;
+	offsetZ = 1.f;
 
 	D3DXFONT_DESCW tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
@@ -87,7 +88,7 @@ void CUI_HP_Player::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(8.f, 1.2f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.7f, 0.1f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
@@ -116,7 +117,7 @@ HRESULT CUI_HP_Player::Render(_float fTimeDelta)
 
 	// 텍스트 렌더링
 	RECT rect;
-	SetRect(&rect, static_cast<int>(126.f), static_cast<int>(33.f), 0, 0); // 텍스트를 출력할 위치
+	SetRect(&rect, static_cast<int>(154.f), static_cast<int>(40.f), 0, 0); // 텍스트를 출력할 위치
 	m_pFont->DrawText(
 		NULL,
 		text,

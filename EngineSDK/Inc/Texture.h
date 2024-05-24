@@ -24,6 +24,7 @@ public:
 public:
 	HRESULT Bind_Texture(_uint iTextureIndex);
 	HRESULT Bind_Anim(_uint fFrame);
+	void ChangeTextureColor(D3DCOLOR originalColor, D3DCOLOR newColor);
 
 public:
 	_uint									m_iNumTextures = { 0 };

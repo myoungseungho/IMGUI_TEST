@@ -74,11 +74,13 @@ void CUIObject::Late_Update(_float fTimeDelta)
 
 	_float3  cameraPosition = *(_float3*)&ViewMatrix.m[3][0];
 
+	cameraPosition.x += offsetX;
+	cameraPosition.y += offsetY;
 	cameraPosition.z += offsetZ;
 
 	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
 
-	
+
 
 	BillBoarding();
 }

@@ -239,6 +239,7 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\UIObject.h" />
     <ClInclude Include="..\Public\UI_Heart_Player.h" />
+    <ClInclude Include="..\Public\UI_HP_BloodEffect.h" />
     <ClInclude Include="..\Public\UI_HP_GlueEffect_Player.h" />
     <ClInclude Include="..\Public\UI_HP_Green_Player.h" />
     <ClInclude Include="..\Public\UI_HP_Player.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\UIObject.cpp" />
     <ClCompile Include="..\Private\UI_Heart_Player.cpp" />
+    <ClCompile Include="..\Private\UI_HP_BloodEffect.cpp" />
     <ClCompile Include="..\Private\UI_HP_GlueEffect_Player.cpp" />
     <ClCompile Include="..\Private\UI_HP_Green_Player.cpp" />
     <ClCompile Include="..\Private\UI_HP_Player.cpp" />

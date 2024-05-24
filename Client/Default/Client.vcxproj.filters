@@ -534,6 +534,9 @@
     <ClInclude Include="..\Public\UI_HP_GlueEffect_Player.h">
       <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_HP_BloodEffect.h">
+      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -789,6 +792,9 @@
       <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_GlueEffect_Player.cpp">
+      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_HP_BloodEffect.cpp">
       <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
     </ClCompile>
   </ItemGroup>
