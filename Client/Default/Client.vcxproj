@@ -163,6 +163,8 @@
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
+    <ClInclude Include="..\Public\End_Orb.h" />
+    <ClInclude Include="..\Public\End_Stand.h" />
     <ClInclude Include="..\Public\EnviormentObject.h" />
     <ClInclude Include="..\Public\Hole.h" />
     <ClInclude Include="..\Public\Koofu_Circle.h" />
@@ -185,7 +187,6 @@
     <ClInclude Include="..\Public\Moon_Fence.h" />
     <ClInclude Include="..\Public\Moon_FloorStone.h" />
     <ClInclude Include="..\Public\Moon_VerticalFence.h" />
-    <ClInclude Include="..\Public\Orb.h" />
     <ClInclude Include="..\Public\Outside_BreadShop.h" />
     <ClInclude Include="..\Public\Outside_Fence.h" />
     <ClInclude Include="..\Public\Outside_PotHorizontal1.h" />
@@ -200,6 +201,8 @@
     <ClInclude Include="..\Public\Boss_Koofu.h" />
     <ClInclude Include="..\Public\Mon_Pocket.h" />
     <ClInclude Include="..\Public\Mon_Turtle.h" />
+    <ClInclude Include="..\Public\Rotation_Orb.h" />
+    <ClInclude Include="..\Public\Rotation_Stand.h" />
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Bug_Bullet.h" />
     <ClInclude Include="..\Public\Skill_Bug_SludgeWave.h" />
@@ -209,6 +212,7 @@
     <ClInclude Include="..\Public\Skill_Monster.h" />
     <ClInclude Include="..\Public\Skill_Player.h" />
     <ClInclude Include="..\Public\Sky.h" />
+    <ClInclude Include="..\Public\Small_Orb.h" />
     <ClInclude Include="..\Public\Snow_Bush.h" />
     <ClInclude Include="..\Public\Snow_CenterDirt.h" />
     <ClInclude Include="..\Public\Snow_Fence.h" />
@@ -238,6 +242,8 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\UnRotation_Orb.h" />
+    <ClInclude Include="..\Public\UnRotation_Stand.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -248,6 +254,8 @@
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\Private\End_Orb.cpp" />
+    <ClCompile Include="..\Private\End_Stand.cpp" />
     <ClCompile Include="..\Private\EnviormentObject.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\Koofu_Circle.cpp" />
@@ -270,7 +278,6 @@
     <ClCompile Include="..\Private\Moon_Fence.cpp" />
     <ClCompile Include="..\Private\Moon_FloorStone.cpp" />
     <ClCompile Include="..\Private\Moon_VerticalFence.cpp" />
-    <ClCompile Include="..\Private\Orb.cpp" />
     <ClCompile Include="..\Private\Outside_BreadShop.cpp" />
     <ClCompile Include="..\Private\Outside_Fence.cpp" />
     <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp" />
@@ -285,6 +292,8 @@
     <ClCompile Include="..\Private\Boss_Koofu.cpp" />
     <ClCompile Include="..\Private\Mon_Pocket.cpp" />
     <ClCompile Include="..\Private\Mon_Turtle.cpp" />
+    <ClCompile Include="..\Private\Rotation_Orb.cpp" />
+    <ClCompile Include="..\Private\Rotation_Stand.cpp" />
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_SludgeWave.cpp" />
@@ -294,6 +303,7 @@
     <ClCompile Include="..\Private\Skill_Monster.cpp" />
     <ClCompile Include="..\Private\Skill_Player.cpp" />
     <ClCompile Include="..\Private\Sky.cpp" />
+    <ClCompile Include="..\Private\Small_Orb.cpp" />
     <ClCompile Include="..\Private\Snow_Bush.cpp" />
     <ClCompile Include="..\Private\Snow_CenterDirt.cpp" />
     <ClCompile Include="..\Private\Snow_Fence.cpp" />
@@ -322,6 +332,8 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\UnRotation_Orb.cpp" />
+    <ClCompile Include="..\Private\UnRotation_Stand.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

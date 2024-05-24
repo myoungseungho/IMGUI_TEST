@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Tree.h"
+#include "..\Public\UnRotation_Stand.h"
 
 #include "GameInstance.h"
 
-CTree::CTree(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUnRotation_Stand::CUnRotation_Stand(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CTree::CTree(const CTree& Prototype)
+CUnRotation_Stand::CUnRotation_Stand(const CUnRotation_Stand& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CTree::Initialize_Prototype()
+HRESULT CUnRotation_Stand::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CTree::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CTree::Initialize(void* pArg)
+HRESULT CUnRotation_Stand::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -55,21 +55,21 @@ HRESULT CTree::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CTree::Priority_Update(_float fTimeDelta)
+void CUnRotation_Stand::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTree::Update(_float fTimeDelta)
+void CUnRotation_Stand::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 }
 
-void CTree::Late_Update(_float fTimeDelta)
+void CUnRotation_Stand::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CTree::Render(_float fTimeDelta)
+HRESULT CUnRotation_Stand::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -88,10 +88,10 @@ HRESULT CTree::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CTree::Ready_Components()
+HRESULT CUnRotation_Stand::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_UnRotationOrbStand"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -112,13 +112,13 @@ HRESULT CTree::Ready_Components()
 	return S_OK;
 }
 
-CTree* CTree::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUnRotation_Stand* CUnRotation_Stand::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CTree* pInstance = new CTree(pGraphic_Device);
+	CUnRotation_Stand* pInstance = new CUnRotation_Stand(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CTree"));
+		MSG_BOX(TEXT("Failed to Created : CUnRotation_Stand"));
 		Safe_Release(pInstance);
 	}
 
@@ -126,20 +126,20 @@ CTree* CTree::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CTree::Clone(void* pArg)
+CGameObject* CUnRotation_Stand::Clone(void* pArg)
 {
-	CTree* pInstance = new CTree(*this);
+	CUnRotation_Stand* pInstance = new CUnRotation_Stand(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CTree"));
+		MSG_BOX(TEXT("Failed to Cloned : CUnRotation_Stand"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CTree::Free()
+void CUnRotation_Stand::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

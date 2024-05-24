@@ -13,12 +13,12 @@ END
 
 BEGIN(Client)
 
-class CTree final : public CEnviormentObject
+class CRotation_Stand final : public CEnviormentObject
 {	
 private:
-	CTree(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CTree(const CTree& Prototype); /* 사본생성 시 */
-	virtual ~CTree() = default;
+	CRotation_Stand(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CRotation_Stand(const CRotation_Stand& Prototype); /* 사본생성 시 */
+	virtual ~CRotation_Stand() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -39,7 +39,7 @@ private:
 
 public:
 	/* 원형객체를 생성한다. */
-	static CTree* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CRotation_Stand* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

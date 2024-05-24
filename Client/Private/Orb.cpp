@@ -93,69 +93,8 @@ HRESULT COrb::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void COrb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
-{
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_State() == 2)
-			Change_State(fTimeDelta);
-	}
-}
-
-void COrb::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-
-}
-
-void COrb::OnCollisionExit(class CCollider* other)
-{
-
-}
-
 HRESULT COrb::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Orb"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_SmallOrb"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrb"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_RotationOrbStand"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_UnRotationOrbStand"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrbStand"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_OrbEffect"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Timer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
-		return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
@@ -170,43 +109,9 @@ HRESULT COrb::Ready_Components()
 	return S_OK;
 }
 
-void COrb::Change_State(_float fTimeDelta)
-{
-
-}
-
-COrb* COrb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	COrb* pInstance = new COrb(pGraphic_Device);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX(TEXT("Failed to Created : COrb"));
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-
-CGameObject* COrb::Clone(void* pArg)
-{
-	COrb* pInstance = new COrb(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX(TEXT("Failed to Cloned : COrb"));
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
 void COrb::Free()
 {
-	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
 

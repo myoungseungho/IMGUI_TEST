@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CEnd_Stand::CEnd_Stand(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: COrb{ pGraphic_Device }
+	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
 CEnd_Stand::CEnd_Stand(const CEnd_Stand& Prototype)
-	: COrb{ Prototype }
+	: CEnviormentObject{ Prototype }
 {
 }
 
@@ -91,7 +91,7 @@ HRESULT CEnd_Stand::Render(_float fTimeDelta)
 HRESULT CEnd_Stand::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_TACHO, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrbStand"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

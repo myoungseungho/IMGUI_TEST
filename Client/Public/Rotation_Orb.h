@@ -14,20 +14,14 @@ END
 
 BEGIN(Client)
 
-class CMonkey_Statue final : public CEnviormentObject
+class CRotation_Orb final : public CEnviormentObject
 {	
 private:
-	enum MONKEY_STATE
-	{
-		STATE_UP,
-		STATE_DOWN,
-		STATE_END
-	};
 
 private:
-	CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CMonkey_Statue(const CMonkey_Statue& Prototype); /* 사본생성 시 */
-	virtual ~CMonkey_Statue() = default;
+	CRotation_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CRotation_Orb(const CRotation_Orb& Prototype); /* 사본생성 시 */
+	virtual ~CRotation_Orb() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -43,7 +37,7 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-	static _uint			m_eMonkeyState;
+
 
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
@@ -56,13 +50,11 @@ private:
 	HRESULT Ready_Components();
 
 
-	_float3				PrePos = { 0.f, 0.f, 0.f };
 private:
-	void			Change_State(_float fTimeDelta);
-	void			Shaking_Statue(_float fTimeDelta);
+
 public:
 	/* 원형객체를 생성한다. */
-	static CMonkey_Statue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CRotation_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

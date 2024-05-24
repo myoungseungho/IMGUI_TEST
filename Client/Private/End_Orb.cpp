@@ -1,22 +1,20 @@
 #include "stdafx.h"
-#include "..\Public\Monkey_Statue.h"
+#include "..\Public\End_Orb.h"
 
 #include "GameInstance.h"
 #include <Player.h>
 
-_uint CMonkey_Statue::m_eMonkeyState = CMonkey_Statue::STATE_UP;
-
-CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEnd_Orb::CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CMonkey_Statue::CMonkey_Statue(const CMonkey_Statue& Prototype)
+CEnd_Orb::CEnd_Orb(const CEnd_Orb& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CMonkey_Statue::Initialize_Prototype()
+HRESULT CEnd_Orb::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -24,7 +22,7 @@ HRESULT CMonkey_Statue::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CMonkey_Statue::Initialize(void* pArg)
+HRESULT CEnd_Orb::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -56,33 +54,25 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	CMonkey_Statue::m_eMonkeyState = STATE_UP;
-	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 	return S_OK;
 }
 
-void CMonkey_Statue::Priority_Update(_float fTimeDelta)
+void CEnd_Orb::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CMonkey_Statue::Update(_float fTimeDelta)
+void CEnd_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.01f))
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
-	}
-
 }
 
-void CMonkey_Statue::Late_Update(_float fTimeDelta)
+void CEnd_Orb::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CMonkey_Statue::Render(_float fTimeDelta)
+HRESULT CEnd_Orb::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -101,7 +91,7 @@ HRESULT CMonkey_Statue::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
@@ -109,27 +99,24 @@ void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2)
-			Change_State(fTimeDelta);
+		if (pCopyPlayer->Get_Player_State() == 2);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 	}
 }
 
-void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
+void CEnd_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 
 }
 
-void CMonkey_Statue::OnCollisionExit(class CCollider* other)
+void CEnd_Orb::OnCollisionExit(class CCollider* other)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x , PrePos.y, PrePos.z));
 }
 
-HRESULT CMonkey_Statue::Ready_Components()
+HRESULT CEnd_Orb::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Sprite_MonkeyStatue_Trigger"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrb"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -156,29 +143,13 @@ HRESULT CMonkey_Statue::Ready_Components()
 	return S_OK;
 }
 
-void CMonkey_Statue::Change_State(_float fTimeDelta)
+CEnd_Orb* CEnd_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//Shaking_Statue(fTimeDelta);
-
-	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
-		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
-	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
-		CMonkey_Statue::m_eMonkeyState = STATE_UP;
-
-}
-
-void CMonkey_Statue::Shaking_Statue(_float fTimeDelta)
-{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
-}
-
-CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CMonkey_Statue* pInstance = new CMonkey_Statue(pGraphic_Device);
+	CEnd_Orb* pInstance = new CEnd_Orb(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CMonkey_Statue"));
+		MSG_BOX(TEXT("Failed to Created : CEnd_Orb"));
 		Safe_Release(pInstance);
 	}
 
@@ -186,20 +157,20 @@ CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CMonkey_Statue::Clone(void* pArg)
+CGameObject* CEnd_Orb::Clone(void* pArg)
 {
-	CMonkey_Statue* pInstance = new CMonkey_Statue(*this);
+	CEnd_Orb* pInstance = new CEnd_Orb(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CMonkey_Statue"));
+		MSG_BOX(TEXT("Failed to Cloned : CEnd_Orb"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonkey_Statue::Free()
+void CEnd_Orb::Free()
 {
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
