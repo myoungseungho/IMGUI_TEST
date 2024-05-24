@@ -12,13 +12,15 @@
 #include "TachoShop_Tile.h"
 #include "Bush.h"
 CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device }
+	: CLevel_UI{ pGraphic_Device }
 {
 }
 
 HRESULT CLevel_Snow::Initialize()
 {
 	m_iLevelIndex = LEVEL_SNOW;
+
+	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -44,6 +46,7 @@ HRESULT CLevel_Snow::Initialize()
 
 void CLevel_Snow::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLevel_Snow::Render()

@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "UIObject.h"
 
-
 BEGIN(Engine)
 class CTexture;
 class CTransform;

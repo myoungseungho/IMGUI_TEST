@@ -14,13 +14,15 @@
 #include "Boss_Koofu.h"
 
 CLevel_Koofu::CLevel_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device }
+	: CLevel_UI{ pGraphic_Device }
 {
 }
 
 HRESULT CLevel_Koofu::Initialize()
 {
 	m_iLevelIndex = LEVEL_KOOFU;
+
+	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -48,6 +50,7 @@ HRESULT CLevel_Koofu::Initialize()
 
 void CLevel_Koofu::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLevel_Koofu::Render()

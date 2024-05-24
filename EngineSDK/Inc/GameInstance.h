@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Component_Manager.h"
 #include "Collider_Manager.h"
+
 BEGIN(Engine)
 
 class ENGINE_DLL CGameInstance final : public CBase
@@ -64,6 +65,9 @@ public: /* For.Picking */
 	_bool Picked_InLocalSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos);
 	_bool Picked_InWorldSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos);
 
+public: /* For.UIManager */
+
+
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
 	class CLevel_Manager* m_pLevel_Manager = { nullptr };
@@ -74,12 +78,11 @@ private:
 	class CFile_Manager* m_pFileManager = { nullptr };
 	class CCollider_Manager* m_pColliderManager = { nullptr };
 	class CPicking* m_pPicking = { nullptr };
-
+	class CUI_Manager* m_pUIManager = { nullptr };
 public:
 	void Release_Engine();
 
 	virtual void Free() override;
-
 };
 
 END

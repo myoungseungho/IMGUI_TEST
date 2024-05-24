@@ -12,13 +12,15 @@
 #include "TachoShop_Tile.h"
 #include "Bush.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device }
+	: CLevel_UI{ pGraphic_Device }
 {
 }
 
 HRESULT CLevel_Tacho::Initialize()
 {
 	m_iLevelIndex = LEVEL_TACHO;
+
+	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -43,6 +45,7 @@ HRESULT CLevel_Tacho::Initialize()
 
 void CLevel_Tacho::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLevel_Tacho::Render()

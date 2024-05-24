@@ -8,6 +8,7 @@
 #include "FileManager.h"
 #include "Collider_Manager.h"
 #include "Picking.h"
+#include "UI_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -54,6 +55,10 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 	if (nullptr == m_pPicking)
 		return E_FAIL;
 
+	m_pUIManager = CUI_Manager::Create();
+	if (nullptr == m_pPicking)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -73,6 +78,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pLevel_Manager->Update(fTimeDelta);
 
 	m_pColliderManager->Update(fTimeDelta);
+
+	m_pUIManager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Render_Engine(_float deltaTime)
@@ -317,6 +324,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pFileManager);
 	Safe_Release(m_pColliderManager);
 	Safe_Release(m_pGraphic_Device);
+	Safe_Release(m_pUIManager);
 	CGameInstance::Get_Instance()->Destroy_Instance();
 }
 

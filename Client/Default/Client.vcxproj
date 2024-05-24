@@ -180,6 +180,7 @@
     <ClInclude Include="..\Public\Level_Koofu.h" />
     <ClInclude Include="..\Public\Level_Snow.h" />
     <ClInclude Include="..\Public\Level_Tacho.h" />
+    <ClInclude Include="..\Public\Level_UI.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
     <ClInclude Include="..\Public\Mon_Copy_Koofu.h" />
     <ClInclude Include="..\Public\Moon_BossFrame.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Private\Level_Koofu.cpp" />
     <ClCompile Include="..\Private\Level_Snow.cpp" />
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
+    <ClCompile Include="..\Private\Level_UI.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
     <ClCompile Include="..\Private\Mon_Copy_Koofu.cpp" />
     <ClCompile Include="..\Private\Moon_BossFrame.cpp" />
@@ -356,6 +358,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Private\imgui.natstepfilter" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "Level.h"
+#include "Level_UI.h"
 
 #include "LandObject.h"
 
 BEGIN(Client)
 
-class CLevel_Tacho final : public CLevel
+class CLevel_Tacho final : public CLevel_UI
 {
 private:
 	CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device);

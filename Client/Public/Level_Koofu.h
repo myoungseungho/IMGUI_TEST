@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "Level.h"
+#include "Level_UI.h"
 
 #include "LandObject.h"
 
 BEGIN(Client)
 
-class CLevel_Koofu final : public CLevel
+class CLevel_Koofu final : public CLevel_UI
 {
 private:
 	CLevel_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device);

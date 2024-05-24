@@ -13,13 +13,15 @@
 #include "Bush.h"
 #include "Boss_Bug.h"
 CLevel_Bug::CLevel_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device }
+	: CLevel_UI{ pGraphic_Device }
 {
 }
 
 HRESULT CLevel_Bug::Initialize()
 {
 	m_iLevelIndex = LEVEL_BUG;
+
+	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -48,6 +50,7 @@ HRESULT CLevel_Bug::Initialize()
 
 void CLevel_Bug::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLevel_Bug::Render()

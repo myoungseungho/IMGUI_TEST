@@ -12,13 +12,15 @@
 #include <Camera.h>
 
 CLevel_Jungle::CLevel_Jungle(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CLevel{ pGraphic_Device }
+	: CLevel_UI{ pGraphic_Device }
 {
 }
 
 HRESULT CLevel_Jungle::Initialize()
 {
 	m_iLevelIndex = LEVEL_JUNGLE;
+
+	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -37,6 +39,7 @@ HRESULT CLevel_Jungle::Initialize()
 
 void CLevel_Jungle::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLevel_Jungle::Render()

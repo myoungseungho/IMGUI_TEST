@@ -265,6 +265,9 @@
     <Filter Include="01.Levels\6. Edit">
       <UniqueIdentifier>{14e7a5e4-1f4e-46f3-901d-8ceb8566949d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\7. UI">
+      <UniqueIdentifier>{6e793bd8-8c17-40ed-a672-427deaf15f8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -543,6 +546,9 @@
     <ClInclude Include="..\Public\Level_Edit.h">
       <Filter>01.Levels\6. Edit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_UI.h">
+      <Filter>01.Levels\7. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -806,6 +812,9 @@
     <ClCompile Include="..\Private\Level_Edit.cpp">
       <Filter>01.Levels\6. Edit</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Level_UI.cpp">
+      <Filter>01.Levels\7. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -829,5 +838,6 @@
     <None Include="..\Private\imgui.natstepfilter">
       <Filter>97. Imgui\cpp</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
