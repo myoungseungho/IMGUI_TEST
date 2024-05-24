@@ -19,6 +19,18 @@
 #include "UI_HP_GlueEffect_Player.h"
 #include "UI_HP_BloodEffect.h"
 #include "UI_FadeInOut.h"
+#include "UI_Cursor.h"
+#include "UI_Inventory_BackGround.h"
+#include "UI_Inventory_DotLine.h"
+#include "UI_Inventory_Slot.h"
+#include "UI_Inventory_VerticalDotLine.h"
+#include "UI_ItemTabIcon_Caution.h"
+#include "UI_ItemTabIcon_Food.h"
+#include "UI_ItemTabIcon_Hat.h"
+#include "UI_ItemTabIcon_Leaf.h"
+#include "UI_Shop_ItemInfo_TextBox.h"
+#include "UI_Shop_PlayerCoin.h"
+#include "UI_Shop_PriceTag.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -970,8 +982,58 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_FadeInOut"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_BoxWhite.png"), 1))))
 		return E_FAIL;
-#pragma endregion
 
+
+	//인벤토리
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_UI_Cursor"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Cursor_Test_%d.png"), 3))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Inventory_BackGround"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_Test.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Inventory_DotLine"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_DotLineDetail.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Inventory_Slot"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_Test_AddSlot.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Inventory_VerticalDotLine"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_VerticalDotLine.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_ItemTabIcon_Caution"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_ItemTabIcon_3.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_ItemTabIcon_Food"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_ItemTabIcon_1.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_ItemTabIcon_Hat"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_ItemTabIcon_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_ItemTabIcon_Leaf"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_ItemTabIcon_2.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Shop_ItemInfo_TextBox"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_ItemInfo_TextBox.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Shop_PlayerCoin"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_PlayerCoin.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Shop_PriceTag"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Shop_PriceTag.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
 
 	return S_OK;
 }
@@ -1004,6 +1066,55 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_FadeInOut"),
 		CUI_FadeInOut::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	///////// 인벤토리
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Cursor"),
+		CUI_Cursor::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory_BackGround"),
+		CUI_Inventory_BackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory_DotLine"),
+		CUI_Inventory_DotLine::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory_Slot"),
+		CUI_Inventory_Slot::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory_VerticalDotLine"),
+		CUI_Inventory_VerticalDotLine::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"),
+		CUI_ItemTabIcon_Caution::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ItemTabIcon_Food"),
+		CUI_ItemTabIcon_Food::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ItemTabIcon_Hat"),
+		CUI_ItemTabIcon_Hat::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_ItemTabIcon_Leaf"),
+		CUI_ItemTabIcon_Leaf::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Shop_ItemInfo_TextBox"),
+		CUI_Shop_ItemInfo_TextBox::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"),
+		CUI_Shop_PlayerCoin::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Shop_PriceTag"),
+		CUI_Shop_PriceTag::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 
