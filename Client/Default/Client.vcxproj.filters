@@ -277,6 +277,9 @@
     <Filter Include="02.GameObjects\UI\Basic_Effect">
       <UniqueIdentifier>{962f3cc4-d26c-4d7e-8e75-c0596a651097}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\EscUI\Inventory">
+      <UniqueIdentifier>{62d61113-19be-4fb2-9723-d8b73ffb185e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -561,6 +564,42 @@
     <ClInclude Include="..\Public\UI_FadeInOut.h">
       <Filter>02.GameObjects\UI\Basic_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_BackGround.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_Slot.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_VerticalDotLine.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shop_PriceTag.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_DotLine.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shop_ItemInfo_TextBox.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Cursor.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Shop_PlayerCoin.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemTabIcon_Hat.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemTabIcon_Food.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemTabIcon_Leaf.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_ItemTabIcon_Caution.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -829,6 +868,42 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_FadeInOut.cpp">
       <Filter>02.GameObjects\UI\Basic_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_BackGround.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_Slot.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_VerticalDotLine.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shop_PriceTag.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_DotLine.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shop_ItemInfo_TextBox.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Cursor.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Shop_PlayerCoin.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemTabIcon_Hat.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemTabIcon_Food.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemTabIcon_Leaf.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_ItemTabIcon_Caution.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

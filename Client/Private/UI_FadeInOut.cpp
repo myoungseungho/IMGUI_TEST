@@ -33,6 +33,9 @@ HRESULT CUI_FadeInOut::Initialize(void* pArg)
 	offsetY = 0.f;
 	offsetZ = 1.f;
 
+	// 원하는 알파 값으로 초기화
+	m_fAlpha = 125.f;
+
 	return S_OK;
 }
 
@@ -62,28 +65,28 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 	}
 
 
-	// Update alpha value
-	m_fElapsedTime += fTimeDelta;
-	float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
+	//// Update alpha value
+	//m_fElapsedTime += fTimeDelta;
+	//float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
 
-	if (m_bIncreasingAlpha)
-	{
-		m_fAlpha += fAlphaStep;
-		if (m_fAlpha >= m_fMaxAlpha)
-		{
-			m_fAlpha = m_fMaxAlpha;
-			m_bIncreasingAlpha = false;
-		}
-	}
-	else
-	{
-		m_fAlpha -= fAlphaStep;
-		if (m_fAlpha <= m_fMinAlpha)
-		{
-			m_fAlpha = m_fMinAlpha;
-			m_bIncreasingAlpha = true;
-		}
-	}
+	//if (m_bIncreasingAlpha)
+	//{
+	//	m_fAlpha += fAlphaStep;
+	//	if (m_fAlpha >= m_fMaxAlpha)
+	//	{
+	//		m_fAlpha = m_fMaxAlpha;
+	//		m_bIncreasingAlpha = false;
+	//	}
+	//}
+	//else
+	//{
+	//	m_fAlpha -= fAlphaStep;
+	//	if (m_fAlpha <= m_fMinAlpha)
+	//	{
+	//		m_fAlpha = m_fMinAlpha;
+	//		m_bIncreasingAlpha = true;
+	//	}
+	//}
 }
 
 void CUI_FadeInOut::Late_Update(_float fTimeDelta)
