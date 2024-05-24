@@ -43,10 +43,10 @@ HRESULT CCamera::Initialize(void* pArg)
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
 	m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
 
-	m_fFovy = D3DXToRadian(60.0f);
+	m_fFovy = D3DXToRadian(45.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
@@ -70,7 +70,7 @@ void CCamera::Update(_float fTimeDelta)
 	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 5.f, Targetz - 10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
 
 	Bind_PipeLines();
 
