@@ -29,14 +29,13 @@ HRESULT CUI_Inventory_Button::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 200.0f;
-	m_fSizeY = 200.0f;
-	m_fX = 100.f;
-	m_fY = 100.f;
+	m_fSizeX = 180.f;
+	m_fSizeY = 90.f;
+	m_fX = 140.f;
+	m_fY = 150.f;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-		&_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
 
 	m_fAlpha = 255.f;
 	return S_OK;
@@ -95,15 +94,6 @@ void CUI_Inventory_Button::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
 	__super::Late_Update(fTimeDelta);
-
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX - g_iWinSizeX * 0.5f + offsetX, -m_fY + g_iWinSizeY * 0.5f + offsetY, 1.f + offsetZ));
-	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
