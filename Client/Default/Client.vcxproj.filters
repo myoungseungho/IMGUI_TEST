@@ -603,6 +603,12 @@
     <ClInclude Include="..\Public\UI_Inventory.h">
       <Filter>02.GameObjects\UI\EscUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_SlotBeigeBackground.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory_Button.h">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -910,6 +916,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Inventory.cpp">
       <Filter>02.GameObjects\UI\EscUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_SlotBeigeBackground.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory_Button.cpp">
+      <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

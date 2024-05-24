@@ -29,10 +29,11 @@ HRESULT CUI_Shop_PriceTag::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.864f;
-	offsetY = 0.f;
+	offsetX = 1.04099846f;
+	offsetY = -0.634999573f;
 	offsetZ = 1.f;
 
+	m_fAlpha = 255.f;
 	return S_OK;
 }
 
@@ -44,7 +45,7 @@ void CUI_Shop_PriceTag::Priority_Update(_float fTimeDelta)
 void CUI_Shop_PriceTag::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
+	
 }
 
 void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
@@ -59,7 +60,7 @@ void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.4f, 0.19f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

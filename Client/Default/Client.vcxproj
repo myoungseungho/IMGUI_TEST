@@ -250,8 +250,10 @@
     <ClInclude Include="..\Public\UI_Icon_KeyBoard.h" />
     <ClInclude Include="..\Public\UI_Inventory.h" />
     <ClInclude Include="..\Public\UI_Inventory_BackGround.h" />
+    <ClInclude Include="..\Public\UI_Inventory_Button.h" />
     <ClInclude Include="..\Public\UI_Inventory_DotLine.h" />
     <ClInclude Include="..\Public\UI_Inventory_Slot.h" />
+    <ClInclude Include="..\Public\UI_Inventory_SlotBeigeBackground.h" />
     <ClInclude Include="..\Public\UI_Inventory_VerticalDotLine.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Caution.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Food.h" />
@@ -356,8 +358,10 @@
     <ClCompile Include="..\Private\UI_Icon_KeyBoard.cpp" />
     <ClCompile Include="..\Private\UI_Inventory.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_BackGround.cpp" />
+    <ClCompile Include="..\Private\UI_Inventory_Button.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_DotLine.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_Slot.cpp" />
+    <ClCompile Include="..\Private\UI_Inventory_SlotBeigeBackground.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_VerticalDotLine.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Caution.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Food.cpp" />

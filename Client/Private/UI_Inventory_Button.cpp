@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\UI_Shop_ItemInfo_TextBox.h"
+#include "..\Public\UI_Inventory_Button.h"
 
 #include "GameInstance.h"
 
-CUI_Shop_ItemInfo_TextBox::CUI_Shop_ItemInfo_TextBox(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Inventory_Button::CUI_Inventory_Button(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
 }
 
-CUI_Shop_ItemInfo_TextBox::CUI_Shop_ItemInfo_TextBox(const CUI_Shop_ItemInfo_TextBox& Prototype)
+CUI_Inventory_Button::CUI_Inventory_Button(const CUI_Inventory_Button& Prototype)
 	: CUIObject{ Prototype }
 {
 }
 
-HRESULT CUI_Shop_ItemInfo_TextBox::Initialize_Prototype()
+HRESULT CUI_Inventory_Button::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CUI_Shop_ItemInfo_TextBox::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_Shop_ItemInfo_TextBox::Initialize(void* pArg)
+HRESULT CUI_Inventory_Button::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,28 +29,65 @@ HRESULT CUI_Shop_ItemInfo_TextBox::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = 0.850998640f;
-	offsetY = -0.794999421f;
-	offsetZ = 0.950000048f;
+	offsetX = 0.175999284f;
+	offsetY = -0.125000060f;
+	offsetZ = 1.00999999f;
 
-	m_fAlpha = 118.000000f;
+	m_fAlpha = 255.f;
 	return S_OK;
 }
 
-void CUI_Shop_ItemInfo_TextBox::Priority_Update(_float fTimeDelta)
+void CUI_Inventory_Button::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
-void CUI_Shop_ItemInfo_TextBox::Update(_float fTimeDelta)
+void CUI_Inventory_Button::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-	
+
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 0.005f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 0.005f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 0.005f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 0.005f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.005f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.005f;
+	}
+	if (GetAsyncKeyState('J') & 0x8000) {
+		offsetXScale -= 0.01f;
+	}
+	if (GetAsyncKeyState('K') & 0x8000) {
+		offsetXScale += 0.01f;
+	}
+	if (GetAsyncKeyState('N') & 0x8000) {
+		offsetYScale -= 0.01f;
+	}
+	if (GetAsyncKeyState('M') & 0x8000) {
+		offsetYScale += 0.01f;
+	}
+	if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		m_fAlpha += 1.f;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		m_fAlpha -= 1.f;
+	}
 }
 
-void CUI_Shop_ItemInfo_TextBox::Late_Update(_float fTimeDelta)
+void CUI_Inventory_Button::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
 	__super::Late_Update(fTimeDelta);
 
 	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -60,11 +97,11 @@ void CUI_Shop_ItemInfo_TextBox::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(1.34f, 0.94f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.56f, 0.24f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
-HRESULT CUI_Shop_ItemInfo_TextBox::Render(_float fTimeDelta)
+HRESULT CUI_Inventory_Button::Render(_float fTimeDelta)
 {
 	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
@@ -84,10 +121,10 @@ HRESULT CUI_Shop_ItemInfo_TextBox::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CUI_Shop_ItemInfo_TextBox::Ready_Components()
+HRESULT CUI_Inventory_Button::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Shop_ItemInfo_TextBox"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Inventory_Button"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -108,13 +145,13 @@ HRESULT CUI_Shop_ItemInfo_TextBox::Ready_Components()
 	return S_OK;
 }
 
-CUI_Shop_ItemInfo_TextBox* CUI_Shop_ItemInfo_TextBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Inventory_Button* CUI_Inventory_Button::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Shop_ItemInfo_TextBox* pInstance = new CUI_Shop_ItemInfo_TextBox(pGraphic_Device);
+	CUI_Inventory_Button* pInstance = new CUI_Inventory_Button(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_Shop_ItemInfo_TextBox"));
+		MSG_BOX(TEXT("Failed to Created : CUI_Inventory_Button"));
 		Safe_Release(pInstance);
 	}
 
@@ -122,20 +159,20 @@ CUI_Shop_ItemInfo_TextBox* CUI_Shop_ItemInfo_TextBox::Create(LPDIRECT3DDEVICE9 p
 }
 
 
-CGameObject* CUI_Shop_ItemInfo_TextBox::Clone(void* pArg)
+CGameObject* CUI_Inventory_Button::Clone(void* pArg)
 {
-	CUI_Shop_ItemInfo_TextBox* pInstance = new CUI_Shop_ItemInfo_TextBox(*this);
+	CUI_Inventory_Button* pInstance = new CUI_Inventory_Button(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CUI_Shop_ItemInfo_TextBox"));
+		MSG_BOX(TEXT("Failed to Cloned : CUI_Inventory_Button"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_Shop_ItemInfo_TextBox::Free()
+void CUI_Inventory_Button::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

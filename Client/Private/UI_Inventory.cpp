@@ -28,8 +28,8 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 
 	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag)))
+	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
 			return E_FAIL;
 		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag));
 		if (!pUIObject)
@@ -78,6 +78,12 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
 		return E_FAIL;
 
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_SlotBeigeBackground"), TEXT("Layer_UI_Inventory_SlotBeigeBackground"))))
+		return E_FAIL;
+
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Button"), TEXT("Layer_UI_Inventory_Button"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -87,7 +93,7 @@ void CUI_Inventory::Priority_Update(_float fTimeDelta)
 
 void CUI_Inventory::Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CUI_Inventory::Late_Update(_float fTimeDelta)
