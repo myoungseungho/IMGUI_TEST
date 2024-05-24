@@ -56,7 +56,7 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	m_pTransformCom->Go_Backward(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
@@ -185,7 +185,7 @@ void CSkill_Bug_Bullet::Bullet_State()
 
 void CSkill_Bug_Bullet::BulletType_Normal()
 {
-	m_fAngleRange = 75.f;
+	m_fAngleRange = 90.f;
 	_float fStartRange = m_fAngleRange * 0.5f;
 	_float fAngle_Per_Piece = m_fAngleRange / m_iTotalBullet;
 

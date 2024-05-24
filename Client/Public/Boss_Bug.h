@@ -80,14 +80,12 @@ private:
 	_float m_fDashBulletTimer = { 0.f };
 	_float m_fWaveTimer = { 0.f };
 
-	_bool m_isTmp = { false };
 	_bool m_bPosRange = {true};
-	_bool m_FlyLand = { true };
+	_bool m_bStartDash = { false };
+
+	_bool m_bDown = { false };
 
 	MON_STATE m_ePrev_State = {};
-
-
-	_bool Check = { true};
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -190,6 +190,18 @@ HRESULT CTransform::Go_VectorDown(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Go_VectorUp(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vUp = Get_State(STATE_UP);
+
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
 HRESULT CTransform::Gravity(_float fWeight, _float fLandPosY, _float fTimeDelta)
 {
 	_float3 vPosition = Get_State(STATE_POSITION);

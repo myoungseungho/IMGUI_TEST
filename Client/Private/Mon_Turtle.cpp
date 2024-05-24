@@ -118,9 +118,8 @@ void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 
-	if (m_pKeyCom->Key_Down('0'))
+	if(m_tMonsterDesc.iHp <= 0)
 		Safe_Release(pTurtle);
-
 
 }
 

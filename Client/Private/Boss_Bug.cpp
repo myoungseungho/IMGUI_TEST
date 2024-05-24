@@ -42,8 +42,6 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_eMon_State = MON_STATE::IDLE;
 
-	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180.f * D3DX_PI / 180.f);
-
 	return S_OK;
 }
 
@@ -68,15 +66,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 		m_tMonsterDesc.iHp--;
 
 	Mon_State(fTimeDelta);
-
-	if (m_pKeyCom->Key_Down('5'))
-		m_pTransformCom->Go_VectorDown(fTimeDelta);
-
-	_float3 a = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->LookAt(a);
-	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-	m_pTransformCom->Radian_Turn(b, 90.f* D3DX_PI /180.f);
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -210,33 +199,31 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 {
 	_float WarfPosX = iPosX + fDistance * cos(fAngle * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(fAngle * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.5f, WarfPosZ));
 
 	_float3 PlayerPos;
 
 	PlayerPos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 1.5f;
+	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 0.5f;
 	PlayerPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-	
-	//m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
-	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI / 180.f);
-	
+
+	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	m_pTransformCom->Radian_Turn(vRight, 270.f * D3DX_PI / 180.f);
 }
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	m_fDashBulletTimer += fTimeDelta;
-	
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 	{
 		Warf(30, 20, 50.f, m_fAngle);
-		m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	}
 	else
 	{
 		m_pTransformCom->Set_Speed(10.f);
-		m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+		m_pTransformCom->Go_VectorDown(fTimeDelta * 5.f);
 
 		if (m_fDashBulletTimer >= 1.f)
 		{
@@ -280,12 +267,12 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 	{
 		m_eMon_State = MON_STATE::DASH;
 		Bullet_Create(36, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
+		m_bDown = true;
 	}
 	else
 	{
 		m_pTransformCom->Go_Down(fTimeDelta);
 	}
-
 }
 
 HRESULT CBoss_Bug::Turtle_Create()
@@ -398,7 +385,7 @@ void CBoss_Bug::State_Death(_float fTimeDelta)
 {
 	CBoss_Bug* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 7.f))
 		Safe_Release(pThis);
 
 }
@@ -416,17 +403,27 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
 
+	if (!m_bStartDash)
+	{
+		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		m_pTransformCom->Rotation(vRight, 90.f * D3DX_PI / 180.f);
+		m_bStartDash = true;
+	}
+
 	if(iter || !m_bPosRange)
 		Skill_Dash(_fTimeDelta);
-
+	
 	else if(!iter)
 	{
 		m_pTransformCom->Set_Speed(2.f);
 
 		if (m_isTurtle && m_bPosRange)
 		{
+			m_pTransformCom->Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);
+
 			m_ePrev_State = MON_STATE::DASH;
 			m_eMon_State = MON_STATE::STAN;
+			m_bStartDash = false;
 		}
 
 		if(m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
@@ -446,7 +443,7 @@ void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Land(_float  _fTimeDelta)
 {
-	Land(30.f, 45.f, _fTimeDelta);
+	Land(39.5f, 36.f, _fTimeDelta);
 }
 
 

@@ -70,6 +70,7 @@ public:
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
 	HRESULT Go_VectorDown(_float fTimeDelta);
+	HRESULT Go_VectorUp(_float fTimeDelta);
 
 	HRESULT Gravity(_float  fWeight, _float fLandPosY, _float fTimeDelta);
 
