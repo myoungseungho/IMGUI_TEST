@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\UI_HP_BloodEffect.h"
+#include "..\Public\UI_FadeInOut.h"
 
 #include "GameInstance.h"
 
-CUI_HP_BloodEffect::CUI_HP_BloodEffect(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_FadeInOut::CUI_FadeInOut(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
 }
 
-CUI_HP_BloodEffect::CUI_HP_BloodEffect(const CUI_HP_BloodEffect& Prototype)
+CUI_FadeInOut::CUI_FadeInOut(const CUI_FadeInOut& Prototype)
 	: CUIObject{ Prototype }
 {
 }
 
-HRESULT CUI_HP_BloodEffect::Initialize_Prototype()
+HRESULT CUI_FadeInOut::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CUI_HP_BloodEffect::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_HP_BloodEffect::Initialize(void* pArg)
+HRESULT CUI_FadeInOut::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,24 +29,39 @@ HRESULT CUI_HP_BloodEffect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.0199999996f;
-	offsetY = -0.809999466f;
-	offsetZ = 1.68999946f;
-
-	// 큰 사각형과 작은 사각형 사이의 영역을 빨간색으로, 작은 사각형 안은 투명하게 변경
-	m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(255, 255, 255), D3DCOLOR_ARGB(255, 255, 0, 0)); // 흰색을 빨간색으로
-	m_pTextureCom->ChangeTextureColor(D3DCOLOR_XRGB(0, 0, 0), D3DCOLOR_ARGB(0, 0, 0, 0)); // 검정색을 투명하게
+	offsetX = 0.f;
+	offsetY = 0.f;
+	offsetZ = 1.f;
 
 	return S_OK;
 }
 
-void CUI_HP_BloodEffect::Priority_Update(_float fTimeDelta)
+void CUI_FadeInOut::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_HP_BloodEffect::Update(_float fTimeDelta)
+void CUI_FadeInOut::Update(_float fTimeDelta)
 {
-	
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 0.005f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 0.005f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 0.005f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 0.005f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.005f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.005f;
+	}
+
+
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;
 	float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
@@ -71,7 +86,7 @@ void CUI_HP_BloodEffect::Update(_float fTimeDelta)
 	}
 }
 
-void CUI_HP_BloodEffect::Late_Update(_float fTimeDelta)
+void CUI_FadeInOut::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
@@ -81,14 +96,12 @@ void CUI_HP_BloodEffect::Late_Update(_float fTimeDelta)
 	currentPosition.y += offsetY;
 	currentPosition.z += offsetZ;
 
-	
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(10.f, 5.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
-HRESULT CUI_HP_BloodEffect::Render(_float fTimeDelta)
+HRESULT CUI_FadeInOut::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -115,10 +128,10 @@ HRESULT CUI_HP_BloodEffect::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CUI_HP_BloodEffect::Ready_Components()
+HRESULT CUI_FadeInOut::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_BloodEffect"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_GlueEffect_Player"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -139,14 +152,13 @@ HRESULT CUI_HP_BloodEffect::Ready_Components()
 	return S_OK;
 }
 
-
-CUI_HP_BloodEffect* CUI_HP_BloodEffect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_FadeInOut* CUI_FadeInOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_HP_BloodEffect* pInstance = new CUI_HP_BloodEffect(pGraphic_Device);
+	CUI_FadeInOut* pInstance = new CUI_FadeInOut(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_HP_BloodEffect"));
+		MSG_BOX(TEXT("Failed to Created : CUI_HP_FadeInOut"));
 		Safe_Release(pInstance);
 	}
 
@@ -154,20 +166,20 @@ CUI_HP_BloodEffect* CUI_HP_BloodEffect::Create(LPDIRECT3DDEVICE9 pGraphic_Device
 }
 
 
-CGameObject* CUI_HP_BloodEffect::Clone(void* pArg)
+CGameObject* CUI_FadeInOut::Clone(void* pArg)
 {
-	CUI_HP_BloodEffect* pInstance = new CUI_HP_BloodEffect(*this);
+	CUI_FadeInOut* pInstance = new CUI_FadeInOut(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CUI_HP_BloodEffect"));
+		MSG_BOX(TEXT("Failed to Cloned : CUI_HP_FadeInOut"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_HP_BloodEffect::Free()
+void CUI_FadeInOut::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

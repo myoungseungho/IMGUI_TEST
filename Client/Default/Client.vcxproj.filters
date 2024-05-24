@@ -253,20 +253,29 @@
     <Filter Include="02.GameObjects\UI">
       <UniqueIdentifier>{ea165099-c0c5-4d81-a9fd-e067f002d173}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\UI_Heart_Player">
-      <UniqueIdentifier>{314cd74f-38b8-429b-b254-54b00ff464c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\UI_Icon_KeyBoard">
-      <UniqueIdentifier>{dbfcf54d-d14f-42a8-85cf-f614d0bf48d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\UI_HP_Player">
-      <UniqueIdentifier>{28f8505b-40bf-4bbe-a7be-fccbaa625fed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\6. Edit">
       <UniqueIdentifier>{14e7a5e4-1f4e-46f3-901d-8ceb8566949d}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\7. UI">
       <UniqueIdentifier>{6e793bd8-8c17-40ed-a672-427deaf15f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerUI">
+      <UniqueIdentifier>{a2178b8a-1bfc-4618-b6b3-03c1826bd2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerUI\UI_Heart_Player">
+      <UniqueIdentifier>{314cd74f-38b8-429b-b254-54b00ff464c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerUI\UI_HP_Player">
+      <UniqueIdentifier>{28f8505b-40bf-4bbe-a7be-fccbaa625fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerUI\UI_Icon_KeyBoard">
+      <UniqueIdentifier>{dbfcf54d-d14f-42a8-85cf-f614d0bf48d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\EscUI">
+      <UniqueIdentifier>{2d80393f-ae0c-4251-a814-739ba89f3245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Basic_Effect">
+      <UniqueIdentifier>{962f3cc4-d26c-4d7e-8e75-c0596a651097}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -526,28 +535,31 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Heart_Player.h">
-      <Filter>02.GameObjects\UI\UI_Heart_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_Heart_Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_Icon_KeyBoard.h">
-      <Filter>02.GameObjects\UI\UI_Icon_KeyBoard</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_Icon_KeyBoard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Player.h">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Green_Player.h">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_GlueEffect_Player.h">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_BloodEffect.h">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Edit.h">
       <Filter>01.Levels\6. Edit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_UI.h">
       <Filter>01.Levels\7. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_FadeInOut.h">
+      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -792,28 +804,31 @@
       <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Heart_Player.cpp">
-      <Filter>02.GameObjects\UI\UI_Heart_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_Heart_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_Icon_KeyBoard.cpp">
-      <Filter>02.GameObjects\UI\UI_Icon_KeyBoard</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_Icon_KeyBoard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_Player.cpp">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_Green_Player.cpp">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_GlueEffect_Player.cpp">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_BloodEffect.cpp">
-      <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+      <Filter>02.GameObjects\UI\PlayerUI\UI_HP_Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Edit.cpp">
       <Filter>01.Levels\6. Edit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_UI.cpp">
       <Filter>01.Levels\7. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_FadeInOut.cpp">
+      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

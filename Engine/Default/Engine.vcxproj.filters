@@ -100,9 +100,6 @@
     <Filter Include="01.Utility\02.GameObjects\BlendObject">
       <UniqueIdentifier>{f76f6f48-5211-4518-87f2-a9bba473fa68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\06. UI">
-      <UniqueIdentifier>{01c5d2ec-69a3-42d2-a43a-bcb9d0c0d6a8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -185,9 +182,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\BlendObject.cpp">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UI_Manager.cpp">
-      <Filter>01.Utility\06. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -286,9 +280,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UI_Manager.h">
-      <Filter>01.Utility\06. UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

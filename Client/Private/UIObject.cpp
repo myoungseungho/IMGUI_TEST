@@ -80,8 +80,6 @@ void CUIObject::Late_Update(_float fTimeDelta)
 
 	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
 
-
-
 	BillBoarding();
 }
 
