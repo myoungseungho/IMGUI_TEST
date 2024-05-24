@@ -274,7 +274,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 3
-Position: 30 5.5 5
+Position: -4.61936e-07 10 -5
 Scale: 1 1 1
 IsParsing: 1
 
