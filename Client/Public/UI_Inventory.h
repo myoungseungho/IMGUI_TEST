@@ -34,23 +34,19 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 public:
-	void SetInventoryOnOff() { m_bIsOn = !m_bIsOn; }
+	void SetInventoryOnOff() 
+	{
+		m_bIsOn = !m_bIsOn; 
+
+		for (auto& iter : m_vecUIObject)
+		{
+			iter->m_bIsOn = m_bIsOn;
+		}
+	}
 private:
 	_bool m_bIsOn = { false };
 private:
-	CUI_FadeInOut* m_pUI_FadeInOut = { nullptr };
-	CUI_Cursor* m_pUI_Cursor = { nullptr };
-	CUI_Inventory_BackGround* m_pUI_Inventory_BackGround = { nullptr };
-	CUI_Inventory_DotLine* m_pUI_Inventory_DotLine = { nullptr };
-	CUI_Inventory_Slot* m_pUI_Inventory_Slot = { nullptr };
-	CUI_Inventory_VerticalDotLine* m_pUI_Inventory_VerticalDotLine = { nullptr };
-	CUI_ItemTabIcon_Caution* m_pUI_ItemTabIcon_Caution = { nullptr };
-	CUI_ItemTabIcon_Food* m_pUI_ItemTabIcon_Food = { nullptr };
-	CUI_ItemTabIcon_Hat* m_pUI_ItemTabIcon_Hat = { nullptr };
-	CUI_ItemTabIcon_Leaf* m_pUI_ItemTabIcon_Leaf = { nullptr };
-	CUI_Shop_ItemInfo_TextBox* m_pUI_Shop_ItemInfo_TextBox = { nullptr };
-	CUI_Shop_PlayerCoin* m_pUI_Shop_PlayerCoin = { nullptr };
-	CUI_Shop_PriceTag* m_pUI_Shop_PriceTag = { nullptr };
+	vector<CUIObject*> m_vecUIObject;
 
 public:
 	/* 원형객체를 생성한다. */

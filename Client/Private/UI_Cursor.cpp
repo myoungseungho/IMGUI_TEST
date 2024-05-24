@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CUI_Cursor::CUI_Cursor(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CEnviormentObject{ pGraphic_Device }
+	: CUIObject{ pGraphic_Device }
 {
 }
 
 CUI_Cursor::CUI_Cursor(const CUI_Cursor& Prototype)
-	: CEnviormentObject{ Prototype }
+	: CUIObject{ Prototype }
 {
 }
 
@@ -65,16 +65,20 @@ void CUI_Cursor::Priority_Update(_float fTimeDelta)
 
 void CUI_Cursor::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
 void CUI_Cursor::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CUI_Cursor::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
+
 	__super::Begin_RenderState();
 
 	AnimState(fTimeDelta);

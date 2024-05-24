@@ -39,7 +39,8 @@ protected:
 	_float offsetX = { 0.f };
 	_float offsetY = { 0.f };
 	_float offsetZ = { 12.f };
-
+public:
+	_bool m_bIsOn = { false };
 };
 
 END

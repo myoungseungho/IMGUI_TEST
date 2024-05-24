@@ -38,15 +38,18 @@ HRESULT CUI_Shop_PriceTag::Initialize(void* pArg)
 
 void CUI_Shop_PriceTag::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
 void CUI_Shop_PriceTag::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
 }
 
 void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
 	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -62,6 +65,7 @@ void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Shop_PriceTag::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */

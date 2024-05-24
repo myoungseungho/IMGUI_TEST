@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "EnviormentObject.h"
+#include "UIObject.h"
 
 
 BEGIN(Engine)
@@ -14,7 +14,7 @@ END
 
 BEGIN(Client)
 
-class CUI_Cursor final : public CEnviormentObject
+class CUI_Cursor final : public CUIObject
 {	
 private:
 	CUI_Cursor(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */

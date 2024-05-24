@@ -26,76 +26,60 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
+	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_FadeInOut"), TEXT("Layer_UI_FadeInOut"))))
-		return E_FAIL;
-	m_pUI_FadeInOut = static_cast<CUI_FadeInOut*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_FadeInOut")));
-	Safe_AddRef(m_pUI_FadeInOut);
+	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag)))
+			return E_FAIL;
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag));
+		if (!pUIObject)
+			return E_FAIL;
+		Safe_AddRef(pUIObject);
+		m_vecUIObject.push_back(pUIObject);
+		return S_OK;
+		};
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_Cursor"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_FadeInOut"), TEXT("Layer_UI_FadeInOut"))))
 		return E_FAIL;
-	m_pUI_Cursor = static_cast<CUI_Cursor*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Cursor")));
-	Safe_AddRef(m_pUI_Cursor);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_BackGround"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_Cursor"))))
 		return E_FAIL;
-	m_pUI_Inventory_BackGround = static_cast<CUI_Inventory_BackGround*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Inventory_BackGround")));
-	Safe_AddRef(m_pUI_Inventory_BackGround);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_BackGround"))))
 		return E_FAIL;
-	m_pUI_Inventory_DotLine = static_cast<CUI_Inventory_DotLine*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Inventory_DotLine")));
-	Safe_AddRef(m_pUI_Inventory_DotLine);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Inventory_Slot"), TEXT("Layer_UI_Inventory_Slot"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
-	m_pUI_Inventory_Slot = static_cast<CUI_Inventory_Slot*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Inventory_Slot")));
-	Safe_AddRef(m_pUI_Inventory_Slot);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Inventory_VerticalDotLine"), TEXT("Layer_UI_Inventory_VerticalDotLine"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Slot"), TEXT("Layer_UI_Inventory_Slot"))))
 		return E_FAIL;
-	m_pUI_Inventory_VerticalDotLine = static_cast<CUI_Inventory_VerticalDotLine*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Inventory_VerticalDotLine")));
-	Safe_AddRef(m_pUI_Inventory_VerticalDotLine);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_VerticalDotLine"), TEXT("Layer_UI_Inventory_VerticalDotLine"))))
 		return E_FAIL;
-	m_pUI_ItemTabIcon_Caution = static_cast<CUI_ItemTabIcon_Caution*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_ItemTabIcon_Caution")));
-	Safe_AddRef(m_pUI_ItemTabIcon_Caution);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_ItemTabIcon_Food"), TEXT("Layer_UI_ItemTabIcon_Food"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
 		return E_FAIL;
-	m_pUI_ItemTabIcon_Food = static_cast<CUI_ItemTabIcon_Food*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_ItemTabIcon_Food")));
-	Safe_AddRef(m_pUI_ItemTabIcon_Food);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_ItemTabIcon_Hat"), TEXT("Layer_UI_ItemTabIcon_Hat"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Food"), TEXT("Layer_UI_ItemTabIcon_Food"))))
 		return E_FAIL;
-	m_pUI_ItemTabIcon_Hat = static_cast<CUI_ItemTabIcon_Hat*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_ItemTabIcon_Hat")));
-	Safe_AddRef(m_pUI_ItemTabIcon_Hat);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_ItemTabIcon_Leaf"), TEXT("Layer_UI_ItemTabIcon_Leaf"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Hat"), TEXT("Layer_UI_ItemTabIcon_Hat"))))
 		return E_FAIL;
-	m_pUI_ItemTabIcon_Leaf = static_cast<CUI_ItemTabIcon_Leaf*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_ItemTabIcon_Leaf")));
-	Safe_AddRef(m_pUI_ItemTabIcon_Leaf);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Shop_ItemInfo_TextBox"), TEXT("Layer_UI_Shop_ItemInfo_TextBox"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Leaf"), TEXT("Layer_UI_ItemTabIcon_Leaf"))))
 		return E_FAIL;
-	m_pUI_Shop_ItemInfo_TextBox = static_cast<CUI_Shop_ItemInfo_TextBox*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Shop_ItemInfo_TextBox")));
-	Safe_AddRef(m_pUI_Shop_ItemInfo_TextBox);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"), TEXT("Layer_UI_Shop_PlayerCoin"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_ItemInfo_TextBox"), TEXT("Layer_UI_Shop_ItemInfo_TextBox"))))
 		return E_FAIL;
-	m_pUI_Shop_PlayerCoin = static_cast<CUI_Shop_PlayerCoin*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Shop_PlayerCoin")));
-	Safe_AddRef(m_pUI_Shop_PlayerCoin);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"), TEXT("Layer_UI_Shop_PlayerCoin"))))
 		return E_FAIL;
-	m_pUI_Shop_PriceTag = static_cast<CUI_Shop_PriceTag*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_UI_Shop_PriceTag")));
-	Safe_AddRef(m_pUI_Shop_PriceTag);
+
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
+		return E_FAIL;
 
 	return S_OK;
 }
-
 
 void CUI_Inventory::Priority_Update(_float fTimeDelta)
 {
@@ -103,7 +87,7 @@ void CUI_Inventory::Priority_Update(_float fTimeDelta)
 
 void CUI_Inventory::Update(_float fTimeDelta)
 {
-
+	
 }
 
 void CUI_Inventory::Late_Update(_float fTimeDelta)
@@ -145,19 +129,11 @@ CGameObject* CUI_Inventory::Clone(void* pArg)
 
 void CUI_Inventory::Free()
 {
-	Safe_Release(m_pUI_FadeInOut);
-	Safe_Release(m_pUI_Cursor);
-	Safe_Release(m_pUI_Inventory_BackGround);
-	Safe_Release(m_pUI_Inventory_DotLine);
-	Safe_Release(m_pUI_Inventory_Slot);
-	Safe_Release(m_pUI_Inventory_VerticalDotLine);
-	Safe_Release(m_pUI_ItemTabIcon_Caution);
-	Safe_Release(m_pUI_ItemTabIcon_Food);
-	Safe_Release(m_pUI_ItemTabIcon_Hat);
-	Safe_Release(m_pUI_ItemTabIcon_Leaf);
-	Safe_Release(m_pUI_Shop_ItemInfo_TextBox);
-	Safe_Release(m_pUI_Shop_PlayerCoin);
-	Safe_Release(m_pUI_Shop_PriceTag);
+	for (auto& pUIObject : m_vecUIObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecUIObject.clear();
 
 	__super::Free();
 }

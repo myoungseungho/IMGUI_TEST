@@ -45,6 +45,8 @@ void CUI_FadeInOut::Priority_Update(_float fTimeDelta)
 
 void CUI_FadeInOut::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
+
 	if (GetAsyncKeyState('F') & 0x8000) {
 		offsetX -= 0.005f;
 	}
@@ -91,6 +93,7 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 
 void CUI_FadeInOut::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
 	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -106,6 +109,7 @@ void CUI_FadeInOut::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_FadeInOut::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(m_fAlpha), 255, 255, 255));
