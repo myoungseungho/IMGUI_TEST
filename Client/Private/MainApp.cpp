@@ -31,6 +31,7 @@
 #include "UI_Shop_ItemInfo_TextBox.h"
 #include "UI_Shop_PlayerCoin.h"
 #include "UI_Shop_PriceTag.h"
+#include "UI_Inventory.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -983,7 +984,6 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_BoxWhite.png"), 1))))
 		return E_FAIL;
 
-
 	//인벤토리
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_UI_Cursor"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/UI_Cursor_Test_%d.png"), 3))))
@@ -1069,6 +1069,11 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		return E_FAIL;
 
 	///////// 인벤토리
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory"),
+		CUI_Inventory::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Cursor"),
 		CUI_Cursor::Create(m_pGraphic_Device))))
 		return E_FAIL;

@@ -22,10 +22,10 @@ HRESULT CLevel_UI::Initialize()
 
 void CLevel_UI::Update(_float fTimeDelta)
 {
-	/*if (Key_Down(VK_ESCAPE))
+	if (Key_Down(VK_ESCAPE))
 	{
-		m_pGameInstance->
-	}*/
+
+	}
 }
 
 HRESULT CLevel_UI::Render()
