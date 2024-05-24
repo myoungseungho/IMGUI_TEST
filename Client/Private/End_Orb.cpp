@@ -24,18 +24,27 @@ HRESULT CEnd_Orb::Initialize_Prototype()
 
 HRESULT CEnd_Orb::Initialize(void* pArg)
 {
+	END_ORB_DESC* pDesc = static_cast<END_ORB_DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (m_bIsPasingObject)
-	{
-		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
+	//if (m_bIsPasingObject)
+	//{
+	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
+	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
+	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
+	//}
+
+	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 1.f, vTargetPos.z));
 
 
 	/* For.Com_Transform */
@@ -172,6 +181,7 @@ CGameObject* CEnd_Orb::Clone(void* pArg)
 
 void CEnd_Orb::Free()
 {
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

@@ -16,7 +16,11 @@ BEGIN(Client)
 
 class CRotation_Orb final : public CEnviormentObject
 {	
-private:
+public:
+	typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}ROTATION_ORB_DESC;
 
 private:
 	CRotation_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -46,6 +50,7 @@ private:
 	CCalc_Timer*			m_pTimerCom = { nullptr };
 	CCollider*				m_pColliderCom = { nullptr };
 
+	CTransform* m_pTargetTransform = { nullptr };
 private:
 	HRESULT Ready_Components();
 

@@ -10,6 +10,10 @@
 #include "LandObject.h"
 
 #include <Camera.h>
+#include <End_Orb.h>
+#include <Rotation_Orb.h>
+#include <Small_Orb.h>
+#include <UnRotation_Orb.h>
 
 CLevel_Jungle::CLevel_Jungle(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -30,6 +34,19 @@ HRESULT CLevel_Jungle::Initialize()
 		return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_Rotation_Orb"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_End_Orb"))))
+		return E_FAIL;
+
+
+	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_UnRotation_Orb"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_Small_Orb"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -66,6 +83,54 @@ HRESULT CLevel_Jungle::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Jungle::Ready_Layer_End_Orb(const _wstring& strLayerTag)
+{
+	CEnd_Orb::END_ORB_DESC			ENDORBDESC{};
+
+	ENDORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_End_Stand"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_End_Orb"), strLayerTag, &ENDORBDESC)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Jungle::Ready_Layer_Rotation_Orb(const _wstring& strLayerTag)
+{
+	CRotation_Orb::ROTATION_ORB_DESC			ROTORBDESC{};
+
+	ROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Stand"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Rotation_Orb"), strLayerTag, &ROTORBDESC)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Jungle::Ready_Layer_Small_Orb(const _wstring& strLayerTag)
+{
+	CSmall_Orb::SMALL_ORB_DESC			SAMALLORBDESC{};
+
+	SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Orb"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Small_Orb"), strLayerTag, &SAMALLORBDESC)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Jungle::Ready_Layer_UnRotation_Orb(const _wstring& strLayerTag)
+{
+	CUnRotation_Orb::UNROTATION_ORB_DESC			UNROTORBDESC{};
+
+	UNROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_UnRotation_Stand"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_UnRotation_Orb"), strLayerTag, &UNROTORBDESC)))
 		return E_FAIL;
 
 	return S_OK;

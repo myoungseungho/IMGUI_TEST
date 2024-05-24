@@ -25,6 +25,11 @@ HRESULT CSmall_Orb::Initialize_Prototype()
 
 HRESULT CSmall_Orb::Initialize(void* pArg)
 {
+	SMALL_ORB_DESC* pDesc = static_cast<SMALL_ORB_DESC*>(pArg);
+
+	m_pTargetTransform = pDesc->pTargetTransform;
+	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -174,6 +179,7 @@ CGameObject* CSmall_Orb::Clone(void* pArg)
 
 void CSmall_Orb::Free()
 {
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

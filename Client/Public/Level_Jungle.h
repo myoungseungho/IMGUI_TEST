@@ -24,6 +24,11 @@ private:
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag, CLandObject::LANDOBJECT_DESC& Desc);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 
+	HRESULT Ready_Layer_End_Orb(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Rotation_Orb(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Small_Orb(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UnRotation_Orb(const _wstring& strLayerTag);
+
 	HRESULT Ready_LandObjects();
 
 	HRESULT ParseInitialize();
