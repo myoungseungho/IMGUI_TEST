@@ -15,6 +15,7 @@
 #include <Skill_Koofu_Bubble.h>
 #include <RockBreakable.h>
 #include <Monkey_Statue.h>
+#include <Block.h>
 
 
 
@@ -156,7 +157,37 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
+	if (dynamic_cast<CBlock*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CMonkey_Statue::m_eMonkeyState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
 
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
 
 
 	// Transform 컴포넌트를 가져옴
@@ -257,6 +288,36 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			}
 			if (m_bMoveDown && playerPosition.z > otherPosition.z) {
 				m_bCanMoveBackward = false;
+			}
+		}
+	}
+
+	if (dynamic_cast<CBlock*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CMonkey_Statue::m_eMonkeyState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
 			}
 		}
 	}
