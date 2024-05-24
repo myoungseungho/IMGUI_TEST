@@ -5,7 +5,7 @@
 #include "imgui_impl_win32.h"
 
 #include "..\Public\LEVEL_UI.h"
-
+#include "UI_Inventory.h"
 #include "GameInstance.h"
 
 CLevel_UI::CLevel_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -23,9 +23,21 @@ HRESULT CLevel_UI::Initialize()
 
 void CLevel_UI::Update(_float fTimeDelta)
 {
+	//ESC를 눌렀을 때 인벤토리 사본이 이미 존재한다면 가져오고
+	//없다면 사본 하나 만든다.
 	if (Key_Down(VK_ESCAPE))
 	{
-
+		LEVELID currentLevel = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
+		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_Inventory"));
+		if (inventoryGameObject == nullptr)
+		{
+			Ready_Layer_Inventory(TEXT("Layer_Inventory"));
+		}
+		else
+		{
+			CUI_Inventory* inventory = static_cast<CUI_Inventory*>(inventoryGameObject);
+			inventory->SetInventoryOnOff();
+		}
 	}
 }
 

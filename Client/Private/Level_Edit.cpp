@@ -20,7 +20,6 @@ HRESULT CLevel_Edit::Initialize()
 {
 	m_iLevelIndex = LEVEL_EDIT;
 
-	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -30,6 +29,8 @@ HRESULT CLevel_Edit::Initialize()
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
+	__super::Initialize();
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일

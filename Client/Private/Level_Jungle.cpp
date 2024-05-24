@@ -20,7 +20,6 @@ HRESULT CLevel_Jungle::Initialize()
 {
 	m_iLevelIndex = LEVEL_JUNGLE;
 
-	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -30,6 +29,8 @@ HRESULT CLevel_Jungle::Initialize()
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
+	__super::Initialize();
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
