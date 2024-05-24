@@ -29,9 +29,13 @@ HRESULT CUI_Shop_PlayerCoin::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = 0.775998712f;
-	offsetY = -0.0199999996f;
-	offsetZ = 1.f;
+	m_fSizeX = 170.f;
+	m_fSizeY = 75.f;
+	m_fX = 520.f;
+	m_fY = 290.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
 
 	m_fAlpha = 255.f;
 
@@ -54,14 +58,6 @@ void CUI_Shop_PlayerCoin::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.48f, 0.17f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

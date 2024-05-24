@@ -49,42 +49,7 @@ void CUI_Inventory_SlotBeigeBackground::Priority_Update(_float fTimeDelta)
 void CUI_Inventory_SlotBeigeBackground::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 10.f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 10.f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 10.f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 10.f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 10.f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 10.f;
-	}
-	if (GetAsyncKeyState('J') & 0x8000) {
-		offsetXScale -= 10.f;
-	}
-	if (GetAsyncKeyState('K') & 0x8000) {
-		offsetXScale += 10.f;
-	}
-	if (GetAsyncKeyState('N') & 0x8000) {
-		offsetYScale -= 10.f;
-	}
-	if (GetAsyncKeyState('M') & 0x8000) {
-		offsetYScale += 10.f;
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000) {
-		m_fAlpha += 1.f;
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-		m_fAlpha -= 1.f;
-	}
+	
 }
 
 void CUI_Inventory_SlotBeigeBackground::Late_Update(_float fTimeDelta)

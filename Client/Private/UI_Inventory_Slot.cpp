@@ -38,7 +38,7 @@ HRESULT CUI_Inventory_Slot::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
 
 	// 원하는 알파 값으로 초기화
-	m_fAlpha = 190.f;
+	m_fAlpha = 255.f;
 
 	return S_OK;
 }

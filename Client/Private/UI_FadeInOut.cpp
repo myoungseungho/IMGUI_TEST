@@ -29,9 +29,13 @@ HRESULT CUI_FadeInOut::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = 0.f;
-	offsetY = 0.f;
-	offsetZ = 1.35f;
+	m_fSizeX = 1385.f;
+	m_fSizeY = 765.f;
+	m_fX = -10.f;
+	m_fY = 50.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
 
 	// 원하는 알파 값으로 초기화
 	m_fAlpha = 125.f;
@@ -47,7 +51,7 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 
-
+	
 	//// Update alpha value
 	//m_fElapsedTime += fTimeDelta;
 	//float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
@@ -77,14 +81,6 @@ void CUI_FadeInOut::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

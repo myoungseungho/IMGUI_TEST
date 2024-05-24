@@ -29,11 +29,15 @@ HRESULT CUI_Inventory_VerticalDotLine::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = 0.435999036f;
-	offsetY = -0.504999697f;
-	offsetZ = 1.f;
+	m_fSizeX = 5.f;
+	m_fSizeY = 515.f;
+	m_fX = 270.f;
+	m_fY = -10.f;
 
-	m_fAlpha = 190.f;
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
+
+	m_fAlpha = 255.f;
 	return S_OK;
 }
 
@@ -53,14 +57,6 @@ void CUI_Inventory_VerticalDotLine::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.02f, 1.86f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
