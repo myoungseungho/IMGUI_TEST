@@ -185,6 +185,7 @@
     <ClInclude Include="..\Public\Moon_Fence.h" />
     <ClInclude Include="..\Public\Moon_FloorStone.h" />
     <ClInclude Include="..\Public\Moon_VerticalFence.h" />
+    <ClInclude Include="..\Public\Orb.h" />
     <ClInclude Include="..\Public\Outside_BreadShop.h" />
     <ClInclude Include="..\Public\Outside_Fence.h" />
     <ClInclude Include="..\Public\Outside_PotHorizontal1.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="..\Private\Moon_Fence.cpp" />
     <ClCompile Include="..\Private\Moon_FloorStone.cpp" />
     <ClCompile Include="..\Private\Moon_VerticalFence.cpp" />
+    <ClCompile Include="..\Private\Orb.cpp" />
     <ClCompile Include="..\Private\Outside_BreadShop.cpp" />
     <ClCompile Include="..\Private\Outside_Fence.cpp" />
     <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp" />

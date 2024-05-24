@@ -250,6 +250,12 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Koofu_Copy">
       <UniqueIdentifier>{06864482-1852-4006-8ded-f658833293a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb">
+      <UniqueIdentifier>{e7c70de5-6c90-4465-ba64-920de112a6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Light">
+      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -504,6 +510,9 @@
     <ClInclude Include="..\Public\Mon_Copy_Koofu.h">
       <Filter>02.GameObjects\LandObject\Monster\Koofu_Copy</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -742,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Mon_Copy_Koofu.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Koofu_Copy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

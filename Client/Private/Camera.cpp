@@ -35,16 +35,16 @@ HRESULT CCamera::Initialize(void* pArg)
 		return E_FAIL;
 
 	/* 카메라가 내 월드 공간에 어디에 존재하는지. */
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(0.f, 10.f, -5.f));
 	//m_pTransformCom->LookAt(_float3(0.f, 0.f, 0.f));	
 
 
-	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	//_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	//_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	//_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
-	m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
+	//m_pTransformCom->LookAt(_float3(m_pTargetTransform->Get_State(CTransform::STATE_POSITION)));
 
 	m_fFovy = D3DXToRadian(45.0f);
 	m_fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
@@ -52,7 +52,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fFar = 1000.f;
 
 
-	//GetCursorPos(&m_OldMousePos);
+	GetCursorPos(&m_OldMousePos);
 
 	return S_OK;
 }
@@ -64,17 +64,15 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
-	_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
-	_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	//_float Targetx = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	//_float Targety = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	//_float Targetz = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(Targetx, Targety + 10.f, Targetz - 10.f));
 
 	Bind_PipeLines();
-
-
 }
 
 void CCamera::Late_Update(_float fTimeDelta)
