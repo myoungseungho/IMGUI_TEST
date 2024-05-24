@@ -29,9 +29,14 @@ HRESULT CUI_Inventory_Button::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = 0.175999284f;
-	offsetY = -0.125000060f;
-	offsetZ = 1.00999999f;
+	m_fSizeX = 200.0f;
+	m_fSizeY = 200.0f;
+	m_fX = 100.f;
+	m_fY = 100.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		&_float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 1.f));
 
 	m_fAlpha = 255.f;
 	return S_OK;
@@ -46,35 +51,36 @@ void CUI_Inventory_Button::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
+
 	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 0.005f;
+		offsetX -= 10.f;
 	}
 	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 0.005f;
+		offsetX += 10.f;
 	}
 	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 0.005f;
+		offsetY += 10.f;
 	}
 	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 0.005f;
+		offsetY -= 10.f;
 	}
 	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.005f;
+		offsetZ -= 10.f;
 	}
 	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.005f;
+		offsetZ += 10.f;
 	}
 	if (GetAsyncKeyState('J') & 0x8000) {
-		offsetXScale -= 0.01f;
+		offsetXScale -= 10.f;
 	}
 	if (GetAsyncKeyState('K') & 0x8000) {
-		offsetXScale += 0.01f;
+		offsetXScale += 10.f;
 	}
 	if (GetAsyncKeyState('N') & 0x8000) {
-		offsetYScale -= 0.01f;
+		offsetYScale -= 10.f;
 	}
 	if (GetAsyncKeyState('M') & 0x8000) {
-		offsetYScale += 0.01f;
+		offsetYScale += 10.f;
 	}
 	if (GetAsyncKeyState(VK_UP) & 0x8000) {
 		m_fAlpha += 1.f;
@@ -96,8 +102,9 @@ void CUI_Inventory_Button::Late_Update(_float fTimeDelta)
 	currentPosition.y += offsetY;
 	currentPosition.z += offsetZ;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.56f, 0.24f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX - g_iWinSizeX * 0.5f + offsetX, -m_fY + g_iWinSizeY * 0.5f + offsetY, 1.f + offsetZ));
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

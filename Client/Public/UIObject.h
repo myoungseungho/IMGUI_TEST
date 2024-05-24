@@ -39,9 +39,14 @@ public:
 protected:
 	_float4x4 m_ViewMatrix = {};
 	_float4x4 m_ProjMatrix = {}; // Projection 행렬 멤버 변수 추가
+	_float m_fSizeX = 0.f;
+	_float m_fSizeY = 0.f;
+	_float m_fX = 0.f;
+	_float m_fY = 0.f;
+
 	_float offsetX = { 0.f };
 	_float offsetY = { 0.f };
-	_float offsetZ = { 12.f };
+	_float offsetZ = { 0.f };
 	_float offsetXScale = { 0.f };
 	_float offsetYScale = { 0.f };
 

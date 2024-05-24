@@ -31,6 +31,12 @@ HRESULT CUIObject::Begin_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
+	// 투영 행렬 설정
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+
+	// 뷰 행렬 설정
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
+
 	return S_OK;
 }
 
@@ -78,24 +84,6 @@ void CUIObject::Update(_float fTimeDelta)
 void CUIObject::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	_float4x4		ViewMatrix{};
-
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &ViewMatrix);
-	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
-
-	CComponent* component = Get_Component(TEXT("Com_Transform"));
-	CTransform* transform = static_cast<CTransform*>(component);
-
-	_float3  cameraPosition = *(_float3*)&ViewMatrix.m[3][0];
-
-	cameraPosition.x += offsetX;
-	cameraPosition.y += offsetY;
-	cameraPosition.z += offsetZ;
-
-	transform->Set_State(CTransform::STATE_POSITION, &cameraPosition);
-
-	BillBoarding();
 }
 
 HRESULT CUIObject::Render(_float fTimeDelta)
@@ -123,6 +111,7 @@ void CUIObject::Set_OrthoMatrix()
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
 }
 
 
