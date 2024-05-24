@@ -41,7 +41,7 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	m_vCreatePos.y = 0.5f;
-	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z -3.f;
+	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z -1.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_vCreatePos);
 	
 	Bullet_State();

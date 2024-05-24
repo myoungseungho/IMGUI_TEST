@@ -86,6 +86,9 @@ private:
 
 	MON_STATE m_ePrev_State = {};
 
+
+	_bool Check = { true};
+
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

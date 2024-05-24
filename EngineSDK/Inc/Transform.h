@@ -69,10 +69,12 @@ public:
 	HRESULT Go_Backward_Right(_float fTimeDelta);
 	HRESULT Go_Up(_float fTimeDelta);
 	HRESULT Go_Down(_float fTimeDelta);
+	HRESULT Go_VectorDown(_float fTimeDelta);
 
 	HRESULT Gravity(_float  fWeight, _float fLandPosY, _float fTimeDelta);
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
+	void Radian_Turn(const _float3& vAxis, _float fRadian);
 	void Rotation(const _float3& vAxis, _float fRadian);
 
 	void LookAt(const _float3& vTargetPos);	
@@ -83,6 +85,7 @@ public:
 	_float Dir_Degree();
 	_float Target_Dir_Degree(const _float3& vTargetPos);
 	
+
 public:
 	HRESULT Bind_WorldMatrix();
 

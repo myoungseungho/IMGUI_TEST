@@ -40,16 +40,9 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-
-	_float3 vLookAt = {};
-
-	vLookAt.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	vLookAt.y = 1.5f;
-	vLookAt.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-
-	m_pTransformCom->LookAt(vLookAt);
-
 	m_eMon_State = MON_STATE::IDLE;
+
+	m_pTransformCom->Rotation(_float3(0.f, 1.f, 0.f), 180.f * D3DX_PI / 180.f);
 
 	return S_OK;
 }
@@ -76,6 +69,14 @@ void CBoss_Bug::Update(_float fTimeDelta)
 
 	Mon_State(fTimeDelta);
 
+	if (m_pKeyCom->Key_Down('5'))
+		m_pTransformCom->Go_VectorDown(fTimeDelta);
+
+	_float3 a = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->LookAt(a);
+	_float3 b = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	m_pTransformCom->Radian_Turn(b, 90.f* D3DX_PI /180.f);
 }
 
 void CBoss_Bug::Late_Update(_float fTimeDelta)
@@ -124,7 +125,7 @@ HRESULT CBoss_Bug::Ready_Components()
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 1.5f, 36.f));
-
+	
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -152,7 +153,8 @@ HRESULT CBoss_Bug::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));\
+
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"), TEXT("BOSS_BUG_PHASE2_DOWN"));
@@ -215,9 +217,10 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 	PlayerPos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 1.5f;
 	PlayerPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-
-	m_pTransformCom->LookAt(PlayerPos);
-
+	
+	//m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	//m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI / 180.f);
+	
 }
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
@@ -228,6 +231,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 	{
 		Warf(30, 20, 50.f, m_fAngle);
+		m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	}
 	else
 	{

@@ -107,7 +107,7 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 {
 	_float3 fPos;
 	fPos.x = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
-	fPos.y = 0.f;
+	fPos.y = 0.5f;
 	fPos.z = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &fPos);
@@ -121,10 +121,7 @@ void CMon_Turtle::Destory(_float fTimeDelta)
 	if (m_pKeyCom->Key_Down('0'))
 		Safe_Release(pTurtle);
 
-	/*if (m_tMonsterDesc.iHp <= 0)
-	{
-		Safe_Release(pTurtle);
-	}*/
+
 }
 
 
@@ -132,7 +129,7 @@ void CMon_Turtle::Spawn_Position(_int iPosX, _int iPosZ, _float fDistance)
 {
 	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.75f, WarfPosZ));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.5f, WarfPosZ));
 
 }
 
