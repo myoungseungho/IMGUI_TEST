@@ -19,6 +19,8 @@ public:
 	virtual HRESULT Render() override;
 private:
 	_bool Key_Down(_uint _iKey);
+	HRESULT Ready_Layer_Inventory(const _wstring& strLayerTag);
+
 private:
 	_bool m_bKeyState[VK_MAX];
 public:

@@ -600,6 +600,9 @@
     <ClInclude Include="..\Public\UI_ItemTabIcon_Caution.h">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Inventory.h">
+      <Filter>02.GameObjects\UI\EscUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -904,6 +907,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_ItemTabIcon_Caution.cpp">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Inventory.cpp">
+      <Filter>02.GameObjects\UI\EscUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

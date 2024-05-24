@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CUI_Inventory::CUI_Inventory(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CUIObject{ pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CUI_Inventory::CUI_Inventory(const CUI_Inventory& Prototype)
-	: CUIObject{ Prototype }
+	: CGameObject{ Prototype }
 {
 }
 

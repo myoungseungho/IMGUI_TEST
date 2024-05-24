@@ -15,7 +15,8 @@ CLevel_UI::CLevel_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_UI::Initialize()
 {
-	
+	if (FAILED(Ready_Layer_Inventory(TEXT("Layer_Inventory"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -50,6 +51,16 @@ _bool CLevel_UI::Key_Down(_uint _iKey)
 	}
 
 	return false;
+}
+
+HRESULT CLevel_UI::Ready_Layer_Inventory(const _wstring& strLayerTag)
+{
+	LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CLevel_UI::Free()

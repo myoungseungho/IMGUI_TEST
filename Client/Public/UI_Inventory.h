@@ -18,7 +18,7 @@
 
 BEGIN(Client)
 
-class CUI_Inventory final : public CUIObject
+class CUI_Inventory final : public CGameObject
 {	
 private:
 	CUI_Inventory(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */

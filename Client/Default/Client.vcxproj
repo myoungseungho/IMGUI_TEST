@@ -248,6 +248,7 @@
     <ClInclude Include="..\Public\UI_HP_Green_Player.h" />
     <ClInclude Include="..\Public\UI_HP_Player.h" />
     <ClInclude Include="..\Public\UI_Icon_KeyBoard.h" />
+    <ClInclude Include="..\Public\UI_Inventory.h" />
     <ClInclude Include="..\Public\UI_Inventory_BackGround.h" />
     <ClInclude Include="..\Public\UI_Inventory_DotLine.h" />
     <ClInclude Include="..\Public\UI_Inventory_Slot.h" />
@@ -353,6 +354,7 @@
     <ClCompile Include="..\Private\UI_HP_Green_Player.cpp" />
     <ClCompile Include="..\Private\UI_HP_Player.cpp" />
     <ClCompile Include="..\Private\UI_Icon_KeyBoard.cpp" />
+    <ClCompile Include="..\Private\UI_Inventory.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_BackGround.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_DotLine.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_Slot.cpp" />
