@@ -26,6 +26,10 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	D3DXMatrixIdentity(&m_ViewMatrix);
+	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
+
+
 	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr) -> HRESULT {

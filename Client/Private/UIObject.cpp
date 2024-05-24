@@ -61,7 +61,7 @@ HRESULT CUIObject::Initialize(void* pArg)
 {
 	__super::Initialize(pArg);
 
-	BillBoarding();
+	Set_OrthoMatrix();
 
 	return S_OK;
 }
@@ -116,6 +116,13 @@ void CUIObject::BillBoarding()
 	//transform->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
 	transform->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
 	//transform->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
+}
+
+void CUIObject::Set_OrthoMatrix()
+{
+	D3DXMatrixIdentity(&m_ViewMatrix);
+	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 }
 
 

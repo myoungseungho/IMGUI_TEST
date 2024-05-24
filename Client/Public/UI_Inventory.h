@@ -45,6 +45,9 @@ public:
 	}
 private:
 	_bool m_bIsOn = { false };
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
+
 private:
 	vector<CUIObject*> m_vecUIObject;
 

@@ -31,11 +31,14 @@ public:
 
 protected:
 	void BillBoarding();
+	void Set_OrthoMatrix(); // 직교 투영 설정 함수 추가
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 	virtual void Free() override;
 
 protected:
+	_float4x4 m_ViewMatrix = {};
+	_float4x4 m_ProjMatrix = {}; // Projection 행렬 멤버 변수 추가
 	_float offsetX = { 0.f };
 	_float offsetY = { 0.f };
 	_float offsetZ = { 12.f };
