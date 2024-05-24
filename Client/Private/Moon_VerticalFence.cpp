@@ -135,7 +135,7 @@ void CMoon_VerticalFence::AnimState(_float _fTimeDelta)
 	}
 }
 
-void CMoon_VerticalFence::OnCollisionEnter(CCollider* other)
+void CMoon_VerticalFence::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 }
 
@@ -143,7 +143,7 @@ void CMoon_VerticalFence::OnCollisionStay(CCollider* other)
 {
 }
 
-void CMoon_VerticalFence::OnCollisionExit(CCollider* other)
+void CMoon_VerticalFence::OnCollisionExit(class CCollider* other)
 {
 }
 

@@ -43,7 +43,7 @@ HRESULT CMonster::Ready_Components()
 	return S_OK;
 }
 
-void CMonster::OnCollisionEnter(CCollider* other)
+void CMonster::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 }
 
@@ -51,7 +51,7 @@ void CMonster::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-void CMonster::OnCollisionExit(CCollider* other)
+void CMonster::OnCollisionExit(class CCollider* other)
 {
 }
 

@@ -20,9 +20,9 @@ BEGIN(Client)
 
 class CPlayer final : public CGameObject
 {	
-private:
+public:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
-enum STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END};
+enum PLAYER_STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -38,12 +38,12 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 public:
-	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-	STATE		Get_Player_Dir() {
+	PLAYER_STATE		Get_Player_State() {
 		return m_ePlayerCurState;
 	}
 
@@ -69,7 +69,7 @@ private:
 	HRESULT			Player_Skill();
 
 	void              Set_Direction(DIRECTION _DIR) { m_ePlayerDir = _DIR; }
-	void              Set_State(STATE _STATE) { m_ePlayerCurState = _STATE; }
+	void              Set_State(PLAYER_STATE _STATE) { m_ePlayerCurState = _STATE; }
 
 	void				BillBoarding();
 
@@ -87,8 +87,8 @@ private:
 	_float3		m_forScaled;
 
 	DIRECTION	m_ePlayerDir = { DIR_END };
-	STATE			m_ePlayerCurState = { STATE_END };
-	STATE			m_ePlayerPreState = { STATE_IDLE };
+	PLAYER_STATE			m_ePlayerCurState = { STATE_END };
+	PLAYER_STATE			m_ePlayerPreState = { STATE_IDLE };
 
 	_float			m_fAttackTime = { 0.0f };
 	_float			m_fDamageTime = { 0.0f };

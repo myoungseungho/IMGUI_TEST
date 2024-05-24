@@ -172,7 +172,7 @@ HRESULT CBoss_Bug::End_RenderState()
 	return S_OK;
 }
 
-void CBoss_Bug::OnCollisionEnter(CCollider* other)
+void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }
@@ -182,7 +182,7 @@ void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	
 }
 
-void CBoss_Bug::OnCollisionExit(CCollider* other)
+void CBoss_Bug::OnCollisionExit(class CCollider* other)
 {
 
 }

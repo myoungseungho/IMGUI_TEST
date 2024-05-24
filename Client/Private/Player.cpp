@@ -13,6 +13,8 @@
 #include "Monster.h"
 #include <Push_Stone.h>
 #include <Skill_Koofu_Bubble.h>
+#include <RockBreakable.h>
+#include <Monkey_Statue.h>
 
 
 
@@ -117,10 +119,9 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CPlayer::OnCollisionEnter(CCollider* other)
+void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
-
 
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
@@ -156,6 +157,8 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	}
 
 
+
+
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -184,9 +187,6 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 
-
-
-
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_PUSH)
@@ -206,9 +206,36 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			return;
 		}
 	}
+
+	if (dynamic_cast<CRockBreakable*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
+			CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+			CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+			// ÇÃ·¹ÀÌ¾î¿Í ´Ù¸¥ °´Ã¼ÀÇ À§Ä¡¸¦ °¡Á®¿È
+			_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+			if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+				m_bCanMoveRight = false;
+			}
+			if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+				m_bCanMoveLeft = false;
+			}
+			if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+				m_bCanMoveForward = false;
+			}
+			if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+				m_bCanMoveBackward = false;
+			}
+		}
+	}
 }
 
-void CPlayer::OnCollisionExit(CCollider* other)
+void CPlayer::OnCollisionExit(class CCollider* other)
 {
 	if (other->m_Died)
 		return;
@@ -651,13 +678,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 
-		else if (m_pKeyCom->Key_Down('A'))
-		{
-			m_bAttack = true;
-			m_ePlayerCurState = (STATE_ATTACK);
-			Player_Attack(fTimeDelta);
-		}
-
 		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
 		{
 			m_ePlayerCurState = STATE_IDLE;
@@ -667,6 +687,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			m_pTransformCom->Set_Speed(5.f);
 		else
 			m_pTransformCom->Set_Speed(3.f);
+
+		if (m_pKeyCom->Key_Down('A'))
+		{
+			m_bAttack = true;
+			m_ePlayerCurState = (STATE_ATTACK);
+			Player_Attack(fTimeDelta);
+			}
 
 		if (m_pKeyCom->Key_Down(VK_RETURN))
 		{
@@ -880,6 +907,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("Player_Push_Down"), 1.0f, _fTimeDelta, true);
 			break;
 		}
+		break;
 		case STATE_HIT:
 			switch (m_ePlayerDir)
 			{

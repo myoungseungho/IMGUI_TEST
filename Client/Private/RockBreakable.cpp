@@ -102,7 +102,7 @@ HRESULT CRockBreakable::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CRockBreakable::OnCollisionEnter(CCollider* other)
+void CRockBreakable::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
@@ -115,7 +115,7 @@ void CRockBreakable::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-void CRockBreakable::OnCollisionExit(CCollider* other)
+void CRockBreakable::OnCollisionExit(class CCollider* other)
 {
 	if (m_eAnimState == ANIM_DIE)
 	{

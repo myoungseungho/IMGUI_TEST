@@ -2,6 +2,9 @@
 #include "..\Public\Monkey_Statue.h"
 
 #include "GameInstance.h"
+#include <Player.h>
+
+_uint CMonkey_Statue::m_eMonkeyState = CMonkey_Statue::STATE_UP;
 
 CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -53,6 +56,9 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	CMonkey_Statue::m_eMonkeyState = STATE_UP;
+	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	return S_OK;
 }
 
@@ -64,9 +70,11 @@ void CMonkey_Statue::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	CMonkey_Statue* monkey = this;
-	if (GetAsyncKeyState('G') & 0x8000)
-		Safe_Release(monkey);
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.01f))
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
+	}
+
 }
 
 void CMonkey_Statue::Late_Update(_float fTimeDelta)
@@ -93,6 +101,31 @@ HRESULT CMonkey_Statue::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_State() == 2)
+			Change_State(fTimeDelta);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
+	}
+}
+
+void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+
+}
+
+void CMonkey_Statue::OnCollisionExit(class CCollider* other)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x , PrePos.y, PrePos.z));
+}
+
 HRESULT CMonkey_Statue::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -105,6 +138,11 @@ HRESULT CMonkey_Statue::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* For.Com_Timer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 1.0f;
@@ -114,7 +152,24 @@ HRESULT CMonkey_Statue::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+
 	return S_OK;
+}
+
+void CMonkey_Statue::Change_State(_float fTimeDelta)
+{
+	//Shaking_Statue(fTimeDelta);
+
+	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
+		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
+	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
+		CMonkey_Statue::m_eMonkeyState = STATE_UP;
+
+}
+
+void CMonkey_Statue::Shaking_Statue(_float fTimeDelta)
+{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 }
 
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -146,6 +201,7 @@ CGameObject* CMonkey_Statue::Clone(void* pArg)
 
 void CMonkey_Statue::Free()
 {
+	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

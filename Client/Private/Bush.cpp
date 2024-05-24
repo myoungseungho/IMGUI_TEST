@@ -103,7 +103,7 @@ HRESULT CBush::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CBush::OnCollisionEnter(CCollider* other)
+void CBush::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
 }
@@ -113,7 +113,7 @@ void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 }
 
-void CBush::OnCollisionExit(CCollider* other)
+void CBush::OnCollisionExit(class CCollider* other)
 {
 	m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
 }

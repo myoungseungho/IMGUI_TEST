@@ -37,7 +37,7 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 public:
-	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
@@ -47,6 +47,8 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
+
+	class CMonkey_Statue* m_pMonkeyStatue = { nullptr };
 
 private:
 	HRESULT Ready_Components();

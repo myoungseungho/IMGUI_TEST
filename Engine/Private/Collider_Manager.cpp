@@ -97,8 +97,8 @@ HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 						//두 번째 조건 : !m_CollisionHistory[key]
 						//이전 프레임에서 이 쌍이 존재했지만 충돌하지 않았으면 OnCollisionEnter 이벤트를 호출합니다.
 						if (m_CollisionHistory.find(key) == m_CollisionHistory.end() || !m_CollisionHistory[key]) {
-							colliderA->OnCollisionEnter(colliderB);
-							colliderB->OnCollisionEnter(colliderA);
+							colliderA->OnCollisionEnter(colliderB, fTimeDelta);
+							colliderB->OnCollisionEnter(colliderA, fTimeDelta);
 						}
 						else {
 							colliderA->OnCollisionStay(colliderB, fTimeDelta);

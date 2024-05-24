@@ -356,7 +356,7 @@ HRESULT CMon_Copy_Koofu::End_RenderState()
 	return S_OK;
 }
 
-void CMon_Copy_Koofu::OnCollisionEnter(CCollider* other)
+void CMon_Copy_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 }
 
@@ -364,7 +364,7 @@ void CMon_Copy_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-void CMon_Copy_Koofu::OnCollisionExit(CCollider* other)
+void CMon_Copy_Koofu::OnCollisionExit(class CCollider* other)
 {
 }
 

@@ -145,7 +145,7 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 	return S_OK;
 }
 
-void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
+void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDelta)
 {
 	if (dynamic_cast<CPlayer*>(other->m_MineGameObject))
 	{

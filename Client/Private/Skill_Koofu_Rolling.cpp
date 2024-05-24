@@ -125,7 +125,7 @@ HRESULT CSkill_Koofu_Rolling::Ready_Animation()
 	return S_OK;
 }
 
-void CSkill_Koofu_Rolling::OnCollisionEnter(CCollider* other)
+void CSkill_Koofu_Rolling::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 	/*CGameObject* otherObject = other->m_MineGameObject;
@@ -144,7 +144,7 @@ void CSkill_Koofu_Rolling::OnCollisionStay(CCollider* other)
 {
 }
 
-void CSkill_Koofu_Rolling::OnCollisionExit(CCollider* other)
+void CSkill_Koofu_Rolling::OnCollisionExit(class CCollider* other)
 {
 }
 
