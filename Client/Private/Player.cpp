@@ -131,7 +131,7 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
 
 		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
-		vDir.y = 0.5f;
+		vDir.y = 0.0f;
 
 		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
 

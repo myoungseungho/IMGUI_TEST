@@ -46,8 +46,7 @@ private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
 	_uint m_iBounceCnt = { 0 };
-	_float3 vPosition = {};
-
+	_float3 vMoveDir = {};
 public:
 	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

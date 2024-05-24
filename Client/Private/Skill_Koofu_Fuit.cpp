@@ -41,9 +41,9 @@ HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
-	m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 
-	vPosition = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vMoveDir = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	vMoveDir.y = 0.f;
 
 	return S_OK;
 }
@@ -56,11 +56,14 @@ void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
 	BillBoarding();
 
-	//m_pTransformCom->Go_Straight(fTimeDelta);
-	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) , fTimeDelta);
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vPos += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * 5.f* fTimeDelta;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 
 	m_pTransformCom->Go_Up(fTimeDelta);
-	m_pTransformCom->Gravity(0.05f, 1.0f, fTimeDelta);
+	m_pTransformCom->Gravity(0.2f, 1.0f, fTimeDelta);
 	Bounce(1.f);
 	
 }
@@ -179,7 +182,9 @@ void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 {
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
 	{
-		m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+		vMoveDir = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vMoveDir.y = 0.f;
+
 		m_iBounceCnt++;
 	}
 	if (m_iBounceCnt >= 4)
