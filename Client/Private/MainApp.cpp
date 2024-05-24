@@ -34,7 +34,7 @@
 #include "UI_Inventory.h"
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -981,7 +981,7 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_FadeInOut"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_BoxWhite.png"), 1))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Veil.png"), 1))))
 		return E_FAIL;
 
 	//인벤토리

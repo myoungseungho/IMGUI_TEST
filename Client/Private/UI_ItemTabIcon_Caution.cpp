@@ -29,8 +29,8 @@ HRESULT CUI_ItemTabIcon_Caution::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.864f;
-	offsetY = 0.f;
+	offsetX = -0.349000514f;
+	offsetY = -0.140000001f;
 	offsetZ = 1.f;
 
 	return S_OK;
@@ -44,7 +44,7 @@ void CUI_ItemTabIcon_Caution::Priority_Update(_float fTimeDelta)
 void CUI_ItemTabIcon_Caution::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
+	
 }
 
 void CUI_ItemTabIcon_Caution::Late_Update(_float fTimeDelta)
@@ -59,7 +59,7 @@ void CUI_ItemTabIcon_Caution::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.16f, 0.16f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

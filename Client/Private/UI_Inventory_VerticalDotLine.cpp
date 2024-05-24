@@ -29,10 +29,11 @@ HRESULT CUI_Inventory_VerticalDotLine::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.864f;
-	offsetY = 0.f;
+	offsetX = 0.435999036f;
+	offsetY = -0.504999697f;
 	offsetZ = 1.f;
 
+	m_fAlpha = 190.f;
 	return S_OK;
 }
 
@@ -44,7 +45,7 @@ void CUI_Inventory_VerticalDotLine::Priority_Update(_float fTimeDelta)
 void CUI_Inventory_VerticalDotLine::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
+	
 }
 
 void CUI_Inventory_VerticalDotLine::Late_Update(_float fTimeDelta)
@@ -59,7 +60,7 @@ void CUI_Inventory_VerticalDotLine::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.02f, 1.86f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

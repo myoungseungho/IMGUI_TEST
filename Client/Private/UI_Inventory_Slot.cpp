@@ -29,9 +29,12 @@ HRESULT CUI_Inventory_Slot::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.864f;
-	offsetY = 0.f;
+	offsetX = -0.284000576f;
+	offsetY = -0.594999611f;
 	offsetZ = 1.f;
+
+	// 원하는 알파 값으로 초기화
+	m_fAlpha = 190.f;
 
 	return S_OK;
 }
@@ -59,13 +62,14 @@ void CUI_Inventory_Slot::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(2.74f, 1.65f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
 HRESULT CUI_Inventory_Slot::Render(_float fTimeDelta)
 {
 	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
+
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */

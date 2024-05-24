@@ -39,8 +39,13 @@ protected:
 	_float offsetX = { 0.f };
 	_float offsetY = { 0.f };
 	_float offsetZ = { 12.f };
+	_float offsetXScale = { 0.f };
+	_float offsetYScale = { 0.f };
+
+	_float m_fAlpha = { 190.f };               // Current alpha value
+
 public:
-	_bool m_bIsOn = { false };
+	_bool m_bIsOn = { true };
 };
 
 END

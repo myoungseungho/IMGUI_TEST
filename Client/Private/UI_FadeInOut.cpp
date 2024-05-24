@@ -31,7 +31,7 @@ HRESULT CUI_FadeInOut::Initialize(void* pArg)
 
 	offsetX = 0.f;
 	offsetY = 0.f;
-	offsetZ = 1.f;
+	offsetZ = 1.35f;
 
 	// 원하는 알파 값으로 초기화
 	m_fAlpha = 125.f;
@@ -46,25 +46,6 @@ void CUI_FadeInOut::Priority_Update(_float fTimeDelta)
 void CUI_FadeInOut::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
-
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 0.005f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 0.005f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 0.005f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 0.005f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.005f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.005f;
-	}
 
 
 	//// Update alpha value
@@ -112,10 +93,6 @@ HRESULT CUI_FadeInOut::Render(_float fTimeDelta)
 	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
 
-	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(m_fAlpha), 255, 255, 255));
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
@@ -128,17 +105,13 @@ HRESULT CUI_FadeInOut::Render(_float fTimeDelta)
 
 	__super::End_RenderState();
 
-	// 알파 블렌딩 원래 상태로 복원
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
 	return S_OK;
 }
 
 HRESULT CUI_FadeInOut::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_HP_GlueEffect_Player"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_FadeInOut"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

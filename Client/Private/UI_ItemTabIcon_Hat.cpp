@@ -29,8 +29,8 @@ HRESULT CUI_ItemTabIcon_Hat::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.864f;
-	offsetY = 0.f;
+	offsetX = -0.674000204f;
+	offsetY = -0.140000001f;
 	offsetZ = 1.f;
 
 	return S_OK;
@@ -59,7 +59,7 @@ void CUI_ItemTabIcon_Hat::Late_Update(_float fTimeDelta)
 	currentPosition.z += offsetZ;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(0.16f, 0.16f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
