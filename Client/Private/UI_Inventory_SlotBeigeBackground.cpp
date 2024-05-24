@@ -29,11 +29,15 @@ HRESULT CUI_Inventory_SlotBeigeBackground::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.289000571f;
-	offsetY = -0.594999611f;
-	offsetZ = 1.01f;
+	m_fSizeX = 780.f;
+	m_fSizeY = 440.f;
+	m_fX = -140.f;
+	m_fY = -50.f;
 
-	m_fAlpha = 255.f;
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
+
+	m_fAlpha = 59.0000000f;
 	return S_OK;
 }
 
@@ -45,6 +49,42 @@ void CUI_Inventory_SlotBeigeBackground::Priority_Update(_float fTimeDelta)
 void CUI_Inventory_SlotBeigeBackground::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 10.f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 10.f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 10.f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 10.f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 10.f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 10.f;
+	}
+	if (GetAsyncKeyState('J') & 0x8000) {
+		offsetXScale -= 10.f;
+	}
+	if (GetAsyncKeyState('K') & 0x8000) {
+		offsetXScale += 10.f;
+	}
+	if (GetAsyncKeyState('N') & 0x8000) {
+		offsetYScale -= 10.f;
+	}
+	if (GetAsyncKeyState('M') & 0x8000) {
+		offsetYScale += 10.f;
+	}
+	if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		m_fAlpha += 1.f;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		m_fAlpha -= 1.f;
+	}
 }
 
 void CUI_Inventory_SlotBeigeBackground::Late_Update(_float fTimeDelta)
@@ -53,14 +93,6 @@ void CUI_Inventory_SlotBeigeBackground::Late_Update(_float fTimeDelta)
 
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(2.73F , 1.62F, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
