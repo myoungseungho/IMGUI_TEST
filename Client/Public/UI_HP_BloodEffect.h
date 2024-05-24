@@ -8,7 +8,6 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
-class CCollider;
 END
 
 BEGIN(Client)
@@ -34,7 +33,6 @@ private:
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CCollider* m_pColliderCom = { nullptr };
 
 private:
 	float m_fAlpha = { 0.f };               // Current alpha value
@@ -42,7 +40,7 @@ private:
 	float m_fElapsedTime = { 0.f };       // Elapsed time for alpha animation
 	float m_fAlphaAnimationDuration = { 0.5f }; // Duration for alpha increase/decrease
 	float m_fMinAlpha = { 0.f };           // Minimum alpha value
-	float m_fMaxAlpha = { 50.f };         // Maximum alpha value
+	float m_fMaxAlpha = { 30.f };         // Maximum alpha value
 
 public:
 	/* 원형객체를 생성한다. */

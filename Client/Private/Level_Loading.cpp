@@ -9,6 +9,7 @@
 #include "GameInstance.h"
 #include "Level_Koofu.h"
 #include "Level_Bug.h"
+#include "Level_Edit.h"
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -40,7 +41,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL_JUNGLE:
 			pNextLevel = CLevel_Jungle::Create(m_pGraphic_Device);
-			//pNextLevel = CLevel_GamePlay::Create(m_pGraphic_Device);
 			break;
 		case LEVEL_SNOW:
 			pNextLevel = CLevel_Snow::Create(m_pGraphic_Device);
@@ -50,6 +50,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			break;
 		case LEVEL_BUG:
 			pNextLevel = CLevel_Bug::Create(m_pGraphic_Device);
+			break;
+		case LEVEL_EDIT:
+			pNextLevel = CLevel_Edit::Create(m_pGraphic_Device);
 			break;
 		}
 

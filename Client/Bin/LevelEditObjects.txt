@@ -1,0 +1,6 @@
+LayerName: Layer_Sky
+PrototypeTag: Prototype_GameObject_Sky
+LevelIndex: 7
+Position: 29.9819 8.10798 10.8281
+Scale: 1 1 1
+IsParsing: 1

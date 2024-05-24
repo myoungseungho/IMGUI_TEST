@@ -48,8 +48,6 @@ void CUI_HP_Green_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Green_Player::Update(_float fTimeDelta)
 {
-	
-
 	m_iPlayerCurrentHp = m_pPlayerCopy->Get_Player_Hp();
 }
 

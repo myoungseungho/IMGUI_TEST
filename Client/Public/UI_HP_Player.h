@@ -8,7 +8,6 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
-class CCollider;
 END
 
 BEGIN(Client)
@@ -32,7 +31,6 @@ private:
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CCollider* m_pColliderCom = { nullptr };
 	LPD3DXFONT m_pFont = { nullptr };
 
 	float m_TextPosX = 50.0f; // 텍스트 x 좌표

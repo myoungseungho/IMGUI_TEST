@@ -192,6 +192,7 @@ HRESULT CMainApp::ShowLevels()
 		{"Snow", LEVEL_SNOW},
 		{"Koofu", LEVEL_KOOFU},
 		{"Bug", LEVEL_BUG},
+		{"Edit", LEVEL_EDIT},
 	};
 
 	for (auto& level : levels) {

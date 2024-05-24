@@ -118,6 +118,9 @@ HRESULT CLoader::Loading()
 	case LEVEL_KOOFU:
 		hr = Loading_For_Koofu();
 		break;
+	case LEVEL_EDIT:
+		hr = Loading_For_Edit();
+		break;
 	}
 
 	if (FAILED(hr))
@@ -965,6 +968,51 @@ HRESULT CLoader::Loading_For_Bug()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"),
 		CSkill_Bug_SludgeWave::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	m_isFinished = true;
+}
+
+HRESULT CLoader::Loading_For_Edit()
+{
+	/* 텍스쳐를 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Terrain"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_0.png"), 1))))
+		return E_FAIL;
+	
+
+	/* 애니메이션 텍스쳐를 로드한다*/
+
+
+	/* 모델을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
+
+	/* 객체원형을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
+
+
+	/* 객체원형을 로드한다. */
+	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		CPlayer::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera"),
+		CCamera::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
+		CTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Sky */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sky"),
+		CSky::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

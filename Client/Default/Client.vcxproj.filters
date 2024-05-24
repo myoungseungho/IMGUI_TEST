@@ -262,6 +262,9 @@
     <Filter Include="02.GameObjects\UI\UI_HP_Player">
       <UniqueIdentifier>{28f8505b-40bf-4bbe-a7be-fccbaa625fed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\6. Edit">
+      <UniqueIdentifier>{14e7a5e4-1f4e-46f3-901d-8ceb8566949d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -537,6 +540,9 @@
     <ClInclude Include="..\Public\UI_HP_BloodEffect.h">
       <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_Edit.h">
+      <Filter>01.Levels\6. Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -796,6 +802,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_BloodEffect.cpp">
       <Filter>02.GameObjects\UI\UI_HP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Edit.cpp">
+      <Filter>01.Levels\6. Edit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

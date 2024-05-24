@@ -175,6 +175,7 @@
     <ClInclude Include="..\Public\Koofu_UpperLeft.h" />
     <ClInclude Include="..\Public\Koofu_UpperRight.h" />
     <ClInclude Include="..\Public\Level_Bug.h" />
+    <ClInclude Include="..\Public\Level_Edit.h" />
     <ClInclude Include="..\Public\Level_Jungle.h" />
     <ClInclude Include="..\Public\Level_Koofu.h" />
     <ClInclude Include="..\Public\Level_Snow.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="..\Private\Koofu_UpperLeft.cpp" />
     <ClCompile Include="..\Private\Koofu_UpperRight.cpp" />
     <ClCompile Include="..\Private\Level_Bug.cpp" />
+    <ClCompile Include="..\Private\Level_Edit.cpp" />
     <ClCompile Include="..\Private\Level_Jungle.cpp" />
     <ClCompile Include="..\Private\Level_Koofu.cpp" />
     <ClCompile Include="..\Private\Level_Snow.cpp" />
