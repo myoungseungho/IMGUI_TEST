@@ -10,10 +10,12 @@
 #include "Bush.h"
 #include "GameInstance.h"
 #include "Skill_Player.h"
+#include "Skill_Monster.h"
 #include "Monster.h"
-#include <Push_Stone.h>
-#include <Skill_Koofu_Bubble.h>
-#include <Skill_Bug_Bullet.h>
+#include "Push_Stone.h"
+#include "Skill_Koofu_Bubble.h"
+#include "Skill_Bug_Bullet.h"
+
 
 
 
@@ -121,15 +123,30 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
-
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		CSkill_Monster* pMonSkill = dynamic_cast<CSkill_Monster*>(otherObject);
+		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.5f;
+
+		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
 		return;
+	}	
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		m_bPush = true;
 		return;
 	}
+	
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));

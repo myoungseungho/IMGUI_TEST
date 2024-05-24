@@ -41,8 +41,9 @@ HRESULT CSkill_Koofu_Fuit::Initialize(void* pArg)
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
-
 	m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+
+	vPosition = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	return S_OK;
 }
@@ -53,11 +54,14 @@ void CSkill_Koofu_Fuit::Priority_Update(_float fTimeDelta)
 
 void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Go_Straight(fTimeDelta);
+	BillBoarding();
+
+	//m_pTransformCom->Go_Straight(fTimeDelta);
+	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) , fTimeDelta);
+
 	m_pTransformCom->Go_Up(fTimeDelta);
-	m_pTransformCom->Gravity(0.1f, 1.0f, fTimeDelta);
+	m_pTransformCom->Gravity(0.05f, 1.0f, fTimeDelta);
 	Bounce(1.f);
-	//BillBoarding();
 	
 }
 
@@ -99,7 +103,7 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 7.0f;
+	TransformDesc.fSpeedPerSec = 5.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -152,6 +156,25 @@ HRESULT CSkill_Koofu_Fuit::End_RenderState()
 	return S_OK;
 }
 
+void CSkill_Koofu_Fuit::OnCollisionEnter(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+	CSkill_Koofu_Fuit* pThis = this;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+			Safe_Release(pThis);
+	}
+}
+
+void CSkill_Koofu_Fuit::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CSkill_Koofu_Fuit::OnCollisionExit(CCollider* other)
+{
+}
+
 void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 {
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
@@ -180,6 +203,7 @@ void CSkill_Koofu_Fuit::BillBoarding()
 	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
 }
 

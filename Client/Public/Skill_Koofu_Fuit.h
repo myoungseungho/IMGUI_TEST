@@ -32,6 +32,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	void Bounce(_float _LandPosY);
 	void Distroy();
@@ -41,6 +46,8 @@ private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
 	_uint m_iBounceCnt = { 0 };
+	_float3 vPosition = {};
+
 public:
 	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

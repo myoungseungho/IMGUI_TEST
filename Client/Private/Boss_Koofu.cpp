@@ -52,7 +52,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.f, 0.75f, 37.f));
 	
 	return S_OK;
 }
@@ -303,8 +303,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_isClone_Create = true;
 		CloneCreate();
 
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-			Warf(35.f, 50.f, 10.f);
+		Warf(49.f, 37.f, 7.f);
 	}
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f, 1.f))
@@ -340,7 +339,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
 	m_bHitCheck = false;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35, 1.5f, 60.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50, 1.5f, 45.f));
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
 	{
@@ -516,7 +515,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
+//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
 	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 
