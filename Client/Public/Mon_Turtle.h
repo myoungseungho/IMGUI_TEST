@@ -41,7 +41,6 @@ private:
 
 private:
 	wstring m_ColorTexTag = {};
-	CTransform* m_pTargetTransform = { nullptr };
 
 private:
 	virtual HRESULT Ready_Components();

@@ -51,7 +51,7 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
-	Move_Dir(fTimeDelta);
+	__super::Move_Dir(fTimeDelta);
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
@@ -302,48 +302,6 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CMon_Trash_Slime::OnCollisionExit(CCollider* other)
 {
-}
-
-void CMon_Trash_Slime::Move_Dir(_float fTimeDelta)
-{
-	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
-
-	if (fAngle >= 337.5f || fAngle <= 22.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_U;
-	}
-	else if (fAngle <= 67.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_RU;
-	}
-	else if (fAngle <= 112.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_R;
-	}
-	else if (fAngle <= 157.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_RD;
-	}
-	else if (fAngle <= 202.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_D;
-	}
-	else if (fAngle <= 247.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_LD;
-	}
-	else if (fAngle <= 292.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_L;
-	}
-	else if (fAngle < 337.5f)
-	{
-		m_eMon_Dir = MON_DIR::DIR_LU;
-	}
-	else
-	{
-		MSG_BOX(TEXT("Dir_Error"));
-	}
 }
 
 CMon_Trash_Slime* CMon_Trash_Slime::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -68,7 +68,6 @@ private:
 	void State_Death(_float fTimeDelta);
 
 private:
-	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle = { 0.f };
 	_int m_iBulletCnt = { 0 };
 	_bool m_isTurtle = { false };

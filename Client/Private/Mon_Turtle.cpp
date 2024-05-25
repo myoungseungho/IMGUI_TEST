@@ -28,9 +28,9 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
-	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pPlayerTransform = pDesc->pTargetTransform;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	m_ColorTexTag = pDesc->ColorTexTag;
 	
@@ -111,7 +111,7 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 	fPos.z = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &fPos);
-	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
+	m_pTransformCom->Away(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
 void CMon_Turtle::Destory(_float fTimeDelta)
@@ -255,7 +255,7 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTimerCom); 
-	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pColliderCom);
 	
 	m_pGameInstance->Release_Collider(m_pColliderCom);

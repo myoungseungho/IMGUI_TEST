@@ -76,7 +76,6 @@ private:
 private:
 	ANIM_STATE m_eAnim_State = {};
 	MON_STATE m_ePrev_State = {};
-	CTransform* m_pTargetTransform = { nullptr };
 
 private:
 	_bool m_isClone_Create = { false };
