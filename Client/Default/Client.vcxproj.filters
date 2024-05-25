@@ -253,6 +253,9 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Trash_Slime">
       <UniqueIdentifier>{9660dd4d-700a-46cf-9f35-f4c8e2632937}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Bear_Solider">
+      <UniqueIdentifier>{80be53df-422b-46ea-b9b9-16c6275fbf25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -510,6 +513,9 @@
     <ClInclude Include="..\public\Mon_Trash_Slime.h">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mon_Bear_Solider.h">
+      <Filter>02.GameObjects\LandObject\Monster\Bear_Solider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -751,6 +757,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mon_Trash_Slime.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mon_Bear_Solider.cpp">
+      <Filter>02.GameObjects\LandObject\Monster\Bear_Solider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
