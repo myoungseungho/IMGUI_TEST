@@ -46,7 +46,9 @@ private:
 private:
 	ANIM_STATE m_eAnim_State = {};
 
-
+private:
+	_float m_fAttackRange = { 0.f };
+	_float3 m_vTargetDistance = { };
 
 public:
 	static CMon_Trash_Slime* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

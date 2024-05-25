@@ -52,6 +52,9 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
 	__super::Move_Dir(fTimeDelta);
+
+	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_fAttackRange = D3DXVec3Length(&m_vTargetDistance);
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
@@ -259,10 +262,7 @@ void CMon_Trash_Slime::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float fAttackRange = D3DXVec3Length(&m_fDistance);
-
-	if (fAttackRange <= 10.f)
+	if (m_fAttackRange <= 10.f)
 		m_eMon_State = MON_STATE::MOVE;
 
 }
@@ -272,23 +272,19 @@ void CMon_Trash_Slime::State_Move(_float fTimeDelta)
 	m_eAnim_State = ANIM_STATE::MOVE;
 
 	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
+		Move(fTimeDelta);
 
-	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float fAttackRange = D3DXVec3Length(&m_fDistance);
-
-	if (fAttackRange > 10.f)
+	if (m_fAttackRange > 10.f)
 		m_eMon_State = MON_STATE::IDLE;
 
 }
 
 void CMon_Trash_Slime::Move(_float fTimeDelta)
 {
-	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if(m_pTimerCom->Time_Limit(fTimeDelta,1.f))
+		m_pTransformCom->Go_Up(fTimeDelta + 0.2f);
 
-	_float fAttackRange  = D3DXVec3Length(&m_fDistance);
-
-	if(fAttackRange <= 10.f)
-		m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
+	m_pTransformCom->Gravity(0.2f, 0.5f, fTimeDelta);
 }
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other)
