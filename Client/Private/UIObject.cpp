@@ -15,9 +15,6 @@ CUIObject::CUIObject(const CUIObject& rhs)
 
 HRESULT CUIObject::Begin_RenderState()
 {
-	// Z-버퍼 비활성화
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
-
 	// 알파 블렌딩 활성화
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -59,8 +56,6 @@ HRESULT CUIObject::End_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
-	// Z-버퍼 다시 활성화
-	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	return S_OK;
 }
 

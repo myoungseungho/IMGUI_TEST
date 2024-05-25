@@ -35,7 +35,7 @@ HRESULT CUI_FadeInOut::Initialize(void* pArg)
 	m_fY = 50.f;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
 	// 원하는 알파 값으로 초기화
 	m_fAlpha = 125.f;
