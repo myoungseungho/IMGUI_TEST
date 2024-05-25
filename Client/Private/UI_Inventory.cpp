@@ -42,6 +42,7 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
+	//UI오브젝트 받아서 VECTOR에 넣기
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
 			return E_FAIL;
@@ -50,6 +51,30 @@ HRESULT CInventory::Initialize(void* pArg)
 			return E_FAIL;
 		Safe_AddRef(pUIObject);
 		m_vecUIObject.push_back(pUIObject);
+		return S_OK;
+		};
+
+	//UI오브젝트 받아서 HatVector에 넣기
+	auto AddHatUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
+			return E_FAIL;
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
+		if (!pUIObject)
+			return E_FAIL;
+		Safe_AddRef(pUIObject);
+		m_vecHatObject.push_back(pUIObject);
+		return S_OK;
+		};
+
+	//UI오브젝트 받아서 ItemVector에 넣기
+	auto AddItemUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
+			return E_FAIL;
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
+		if (!pUIObject)
+			return E_FAIL;
+		Safe_AddRef(pUIObject);
+		m_vecItemObject.push_back(pUIObject);
 		return S_OK;
 		};
 
@@ -120,7 +145,49 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Button"), TEXT("Layer_UI_Inventory_Button"))))
 		return E_FAIL;
-	
+
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		switch (i)
+		{
+		case 0:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 66.f;
+			break;
+		case 1:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 104.f;
+			break;
+		case 2:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 104.f;
+			break;
+		case 3:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 104.f;
+			break;
+		case 4:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 160.f, 160.f };
+			slotData.alpha = 104.f;
+			break;
+		}
+
+		slotData.index = i;
+
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_UI_Hat"), &slotData, i)))
+			return E_FAIL;
+		if (FAILED(AddHatUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_UI_Hat"), &slotData, i)))
+			return E_FAIL;
+	}
+
 
 	// 초기 상태 설정
 	UpdateAlphaValues();
@@ -349,6 +416,18 @@ void CInventory::Free()
 		Safe_Release(pUIObject);
 	}
 	m_vecUIObject.clear();
+
+	for (auto& pUIObject : m_vecHatObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecHatObject.clear();
+
+	for (auto& pUIObject : m_vecItemObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecItemObject.clear();
 
 	Safe_Release(m_pKeyCom);
 	__super::Free();
