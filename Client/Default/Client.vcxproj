@@ -205,6 +205,7 @@
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Bug_Bullet.h" />
     <ClInclude Include="..\Public\Skill_Bug_SludgeWave.h" />
+    <ClInclude Include="..\public\Skill_Cannon_Ball.h" />
     <ClInclude Include="..\public\Skill_Koofu_Bubble.h" />
     <ClInclude Include="..\public\Skill_Koofu_Fuit.h" />
     <ClInclude Include="..\Public\Skill_Koofu_Rolling.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_SludgeWave.cpp" />
+    <ClCompile Include="..\private\Skill_Cannon_Ball.cpp" />
     <ClCompile Include="..\private\Skill_Koofu_Bubble.cpp" />
     <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp" />
     <ClCompile Include="..\Private\Skill_Koofu_Rolling.cpp" />

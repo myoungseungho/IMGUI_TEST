@@ -61,6 +61,7 @@
 #include "Mon_Trash_Slime.h"
 #include "Mon_Bear_Solider.h"
 #include "Mon_Bear_Cannon.h"
+#include "Skill_Cannon_Ball.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -424,6 +425,9 @@ HRESULT CLoader::Loading_For_Snow()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Snow/Sprite_BonFire_Wood.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Sprite_Snow_Ball"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Animation/Monster/Snow_Ball/Snow_Ball.png"), 1))))
+		return E_FAIL;
 
 	/* 애니메이션 텍스쳐를 로드한다*/
 
@@ -797,6 +801,11 @@ HRESULT CLoader::Loading_For_Snow()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Bear_Cannon"),
 		CMon_Bear_Cannon::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Cannon_Baull"),
+		CSkill_Cannon_Ball::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 
 	m_isFinished = true;
 }

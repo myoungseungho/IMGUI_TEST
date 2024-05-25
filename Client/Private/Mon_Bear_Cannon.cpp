@@ -317,15 +317,39 @@ void CMon_Bear_Cannon::Anim_State(_float fTimeDelta)
 
 void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 {
+	m_eAnim_State = ANIM_STATE::IDLE;
 
+	if (m_fMoveRange <= 10.f)
+	{
+		m_eMon_State = MON_STATE::ATTACK;
+	}
 }
 
 void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
 {
+	m_eAnim_State = ANIM_STATE::ATTACK;
+
+
+
+	if (m_fMoveRange > 10.f)
+	{
+		m_eMon_State = MON_STATE::IDLE;
+	}
+
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+		m_eMon_State = MON_STATE::STUN;
+	}
 }
 
 void CMon_Bear_Cannon::State_Stun(_float fTimeDelta)
 {
+	m_eAnim_State = ANIM_STATE::STUN;
+	CMon_Bear_Cannon* pThis = this;
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	{
+		Safe_Release(pThis);
+	}
 }
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other)

@@ -4,18 +4,18 @@
 
 BEGIN(Client)
 
-class CSkill_Koofu_Fuit final: public CSkill_Monster
+class CSkill_Cannon_Ball final :public CSkill_Monster
 {
 public:
 	typedef struct :public SKILL_MONSTER__DESC
 	{
 		CTransform* pPlayerTransform = { nullptr };
-	}SKILL_FUIT_DESC;
+	}SKILL_CANNON_DESC;
 
 private:
-	CSkill_Koofu_Fuit(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CSkill_Koofu_Fuit(const CSkill_Koofu_Fuit& Prototype);
-	virtual ~CSkill_Koofu_Fuit() = default;
+	CSkill_Cannon_Ball(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Cannon_Ball(const CSkill_Cannon_Ball& Prototype);
+	virtual ~CSkill_Cannon_Ball() = default;
 
 
 public:
@@ -41,20 +41,16 @@ public:
 
 private:
 	void Move(_float fTimeDelta);
-	void Bounce(_float _LandPosY);
-	void Distroy();
-	void BillBoarding();
 
 private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
-	_uint m_iBounceCnt = { 0 };
-	_float3 vMoveDir = {};
 public:
-	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSkill_Cannon_Ball* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };
 
 END
+
