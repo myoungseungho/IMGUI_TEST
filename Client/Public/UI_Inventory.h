@@ -16,6 +16,12 @@
 #include "UI_Shop_PlayerCoin.h"
 #include "UI_Shop_PriceTag.h"
 
+
+BEGIN(Engine)
+class CKeyState;
+END
+
+
 BEGIN(Client)
 
 class CUI_Inventory final : public CGameObject
@@ -33,10 +39,20 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+private:
+	HRESULT Ready_Components();
+
+	void Control_FirstRow();
+	void Control_OtherRow();
+	void UpdateAlphaValues();
+
+	_uint getMaxCols(_uint row) const {
+		return (row == 0) ? m_firstRowCols : m_otherRowsCols;
+	}
 public:
-	void SetInventoryOnOff() 
+	void SetInventoryOnOff()
 	{
-		m_bIsOn = !m_bIsOn; 
+		m_bIsOn = !m_bIsOn;
 
 		for (auto& iter : m_vecUIObject)
 		{
@@ -44,7 +60,19 @@ public:
 		}
 	}
 private:
+	CKeyState* m_pKeyCom = { nullptr };
+
+private:
 	_bool m_bIsOn = { true };
+
+	_uint m_currentRow = { 0 };// 현재 선택된 아이템의 행
+	_uint m_currentCol = { 0 }; // 현재 선택된 아이템의 열
+	const _uint m_firstRowCols = { 4 }; // 첫 번째 행의 열 수
+	const _uint m_otherRowsCols = { 5 }; // 나머지 행의 열 수
+	_uint m_maxRows = { 4 }; // 인벤토리의 행 수
+	int m_previousRow = -1; // 이전 선택된 아이템의 행
+	int m_previousCol = -1; // 이전 선택된 아이템의 열
+
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
 

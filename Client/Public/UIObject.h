@@ -50,6 +50,7 @@ protected:
 	_float offsetXScale = { 0.f };
 	_float offsetYScale = { 0.f };
 
+public:
 	_float m_fAlpha = { 190.f };               // Current alpha value
 
 public:
