@@ -178,6 +178,12 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_GlueEffect_Player"), TEXT("Layer_UI_HP_ZEffect_GlueEffect_Player"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot"), TEXT("Layer_UI_PlayerEquipSlot"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"), TEXT("Layer_UI_PlayerEquipSlot_BackGround"))))
+		return E_FAIL;
+
 	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_BloodEffect"), TEXT("Layer_UI_HP_BloodEffect"))))
 	//	return E_FAIL;
 

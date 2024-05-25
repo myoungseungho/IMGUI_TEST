@@ -48,42 +48,7 @@ void CUI_HP_GlueEffect_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_GlueEffect_Player::Update(_float fTimeDelta)
 {
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 5.f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 5.f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 5.f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 5.f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.01f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.01f;
-	}
-	if (GetAsyncKeyState('J') & 0x8000) {
-		offsetXScale -= 5.f;
-	}
-	if (GetAsyncKeyState('K') & 0x8000) {
-		offsetXScale += 5.f;
-	}
-	if (GetAsyncKeyState('N') & 0x8000) {
-		offsetYScale -= 5.f;
-	}
-	if (GetAsyncKeyState('M') & 0x8000) {
-		offsetYScale += 5.f;
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000) {
-		m_fAlpha += 1.f;
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-		m_fAlpha -= 1.f;
-	}
+	
 
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;
@@ -112,10 +77,7 @@ void CUI_HP_GlueEffect_Player::Update(_float fTimeDelta)
 void CUI_HP_GlueEffect_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	// 새로운 위치와 크기 설정
-	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, offsetZ));
+	
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

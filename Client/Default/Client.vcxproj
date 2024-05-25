@@ -259,6 +259,8 @@
     <ClInclude Include="..\Public\UI_ItemTabIcon_Food.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Hat.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Leaf.h" />
+    <ClInclude Include="..\Public\UI_PlayerEquipSlot.h" />
+    <ClInclude Include="..\Public\UI_PlayerEquipSlot_BackGround.h" />
     <ClInclude Include="..\Public\UI_Shop_ItemInfo_TextBox.h" />
     <ClInclude Include="..\Public\UI_Shop_PlayerCoin.h" />
     <ClInclude Include="..\Public\UI_Shop_PriceTag.h" />
@@ -367,6 +369,8 @@
     <ClCompile Include="..\Private\UI_ItemTabIcon_Food.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Hat.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Leaf.cpp" />
+    <ClCompile Include="..\Private\UI_PlayerEquipSlot.cpp" />
+    <ClCompile Include="..\Private\UI_PlayerEquipSlot_BackGround.cpp" />
     <ClCompile Include="..\Private\UI_Shop_ItemInfo_TextBox.cpp" />
     <ClCompile Include="..\Private\UI_Shop_PlayerCoin.cpp" />
     <ClCompile Include="..\Private\UI_Shop_PriceTag.cpp" />

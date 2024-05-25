@@ -280,6 +280,9 @@
     <Filter Include="02.GameObjects\UI\EscUI\Inventory">
       <UniqueIdentifier>{62d61113-19be-4fb2-9723-d8b73ffb185e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot">
+      <UniqueIdentifier>{3af12edc-6b80-46ef-b580-27204acdf48d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -609,6 +612,12 @@
     <ClInclude Include="..\Public\UI_Inventory_Button.h">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_PlayerEquipSlot.h">
+      <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_PlayerEquipSlot_BackGround.h">
+      <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -922,6 +931,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Inventory_Button.cpp">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PlayerEquipSlot.cpp">
+      <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_PlayerEquipSlot_BackGround.cpp">
+      <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\UI_Heart_Player.h"
+#include "..\Public\UI_PlayerEquipSlot.h"
 
 #include "GameInstance.h"
 
-CUI_Heart_Player::CUI_Heart_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_PlayerEquipSlot::CUI_PlayerEquipSlot(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
 }
 
-CUI_Heart_Player::CUI_Heart_Player(const CUI_Heart_Player& Prototype)
+CUI_PlayerEquipSlot::CUI_PlayerEquipSlot(const CUI_PlayerEquipSlot& Prototype)
 	: CUIObject{ Prototype }
 {
 }
 
-HRESULT CUI_Heart_Player::Initialize_Prototype()
+HRESULT CUI_PlayerEquipSlot::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CUI_Heart_Player::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_Heart_Player::Initialize(void* pArg)
+HRESULT CUI_PlayerEquipSlot::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -31,8 +31,8 @@ HRESULT CUI_Heart_Player::Initialize(void* pArg)
 
 	m_fSizeX = 50.f;
 	m_fSizeY = 50.f;
-	m_fX = -595.f;
-	m_fY = 305.f;
+	m_fX = -530.f;
+	m_fY = 250.f;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
@@ -43,23 +43,23 @@ HRESULT CUI_Heart_Player::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_Heart_Player::Priority_Update(_float fTimeDelta)
+void CUI_PlayerEquipSlot::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_Heart_Player::Update(_float fTimeDelta)
+void CUI_PlayerEquipSlot::Update(_float fTimeDelta)
 {
-
+	
 }
 
-void CUI_Heart_Player::Late_Update(_float fTimeDelta)
+void CUI_PlayerEquipSlot::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
+	
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
-HRESULT CUI_Heart_Player::Render(_float fTimeDelta)
+HRESULT CUI_PlayerEquipSlot::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -78,10 +78,10 @@ HRESULT CUI_Heart_Player::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CUI_Heart_Player::Ready_Components()
+HRESULT CUI_PlayerEquipSlot::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Icon_HeartSymbol"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_PlayerEquipSlot"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -102,13 +102,13 @@ HRESULT CUI_Heart_Player::Ready_Components()
 	return S_OK;
 }
 
-CUI_Heart_Player* CUI_Heart_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_PlayerEquipSlot* CUI_PlayerEquipSlot::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Heart_Player* pInstance = new CUI_Heart_Player(pGraphic_Device);
+	CUI_PlayerEquipSlot* pInstance = new CUI_PlayerEquipSlot(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_Heart_Player"));
+		MSG_BOX(TEXT("Failed to Created : CUI_PlayerEquipSlot"));
 		Safe_Release(pInstance);
 	}
 
@@ -116,20 +116,20 @@ CUI_Heart_Player* CUI_Heart_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CUI_Heart_Player::Clone(void* pArg)
+CGameObject* CUI_PlayerEquipSlot::Clone(void* pArg)
 {
-	CUI_Heart_Player* pInstance = new CUI_Heart_Player(*this);
+	CUI_PlayerEquipSlot* pInstance = new CUI_PlayerEquipSlot(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CUI_Heart_Player"));
+		MSG_BOX(TEXT("Failed to Cloned : CUI_PlayerEquipSlot"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_Heart_Player::Free()
+void CUI_PlayerEquipSlot::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

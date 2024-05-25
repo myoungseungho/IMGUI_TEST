@@ -34,6 +34,8 @@
 #include "UI_Inventory.h"
 #include "UI_Inventory_SlotBeigeBackground.h"
 #include "UI_Inventory_Button.h"
+#include "UI_PlayerEquipSlot.h"
+#include "UI_PlayerEquipSlot_BackGround.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1043,6 +1045,14 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/Sprite_UI_MainComponents_InventoryButton.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_PlayerEquipSlot"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/Sprite_UI_MainComponents_SlotFrame.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_PlayerEquipSlot_BackGround"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Shop/Sprite_UISystem_CursorBack.png"), 1))))
+		return E_FAIL;
+
 #pragma endregion
 
 	return S_OK;
@@ -1138,6 +1148,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory_Button"),
 		CUI_Inventory_Button::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerEquipSlot"),
+		CUI_PlayerEquipSlot::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"),
+		CUI_PlayerEquipSlot_BackGround::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

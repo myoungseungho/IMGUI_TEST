@@ -88,7 +88,6 @@ void CUI_HP_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
