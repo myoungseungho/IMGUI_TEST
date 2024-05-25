@@ -36,6 +36,8 @@
 #include "UI_Inventory_Button.h"
 #include "UI_PlayerEquipSlot.h"
 #include "UI_PlayerEquipSlot_BackGround.h"
+#include "UI_Hat.h"
+#include "UI_Item.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1163,6 +1165,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"),
 		CUI_PlayerEquipSlot_BackGround::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Hat"),
+		CUI_Hat::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Item"),
+		CUI_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

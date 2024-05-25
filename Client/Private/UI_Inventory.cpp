@@ -120,6 +120,7 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Button"), TEXT("Layer_UI_Inventory_Button"))))
 		return E_FAIL;
+	
 
 	// 초기 상태 설정
 	UpdateAlphaValues();
@@ -291,8 +292,6 @@ void CInventory::Control_OtherRow()
 		}
 	}
 }
-
-
 
 
 void CInventory::Late_Update(_float fTimeDelta)

@@ -78,6 +78,8 @@ private:
 
 private:
 	vector<CUIObject*> m_vecUIObject;
+	vector<CUIObject*> m_vecHatObject;
+	vector<CUIObject*> m_vecItemObject;
 
 public:
 	/* 원형객체를 생성한다. */
