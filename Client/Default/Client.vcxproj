@@ -242,6 +242,7 @@
     <ClInclude Include="..\Public\UIObject.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_FadeInOut.h" />
+    <ClInclude Include="..\Public\UI_Hat.h" />
     <ClInclude Include="..\Public\UI_Heart_Player.h" />
     <ClInclude Include="..\Public\UI_HP_BloodEffect.h" />
     <ClInclude Include="..\Public\UI_HP_GlueEffect_Player.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="..\Public\UI_Inventory_Slot.h" />
     <ClInclude Include="..\Public\UI_Inventory_SlotBeigeBackground.h" />
     <ClInclude Include="..\Public\UI_Inventory_VerticalDotLine.h" />
+    <ClInclude Include="..\Public\UI_Item.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Caution.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Food.h" />
     <ClInclude Include="..\Public\UI_ItemTabIcon_Hat.h" />
@@ -352,6 +354,7 @@
     <ClCompile Include="..\Private\UIObject.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_FadeInOut.cpp" />
+    <ClCompile Include="..\Private\UI_Hat.cpp" />
     <ClCompile Include="..\Private\UI_Heart_Player.cpp" />
     <ClCompile Include="..\Private\UI_HP_BloodEffect.cpp" />
     <ClCompile Include="..\Private\UI_HP_GlueEffect_Player.cpp" />
@@ -365,6 +368,7 @@
     <ClCompile Include="..\Private\UI_Inventory_Slot.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_SlotBeigeBackground.cpp" />
     <ClCompile Include="..\Private\UI_Inventory_VerticalDotLine.cpp" />
+    <ClCompile Include="..\Private\UI_Item.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Caution.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Food.cpp" />
     <ClCompile Include="..\Private\UI_ItemTabIcon_Hat.cpp" />

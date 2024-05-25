@@ -283,6 +283,9 @@
     <Filter Include="02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot">
       <UniqueIdentifier>{3af12edc-6b80-46ef-b580-27204acdf48d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\PlayerHatUI">
+      <UniqueIdentifier>{fece1618-af18-49db-be75-cb060f57566d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -618,6 +621,12 @@
     <ClInclude Include="..\Public\UI_PlayerEquipSlot_BackGround.h">
       <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Item.h">
+      <Filter>02.GameObjects\UI\PlayerHatUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Hat.h">
+      <Filter>02.GameObjects\UI\PlayerHatUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -937,6 +946,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_PlayerEquipSlot_BackGround.cpp">
       <Filter>02.GameObjects\UI\PlayerUI\UI_PlayerEquipSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Hat.cpp">
+      <Filter>02.GameObjects\UI\PlayerHatUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Item.cpp">
+      <Filter>02.GameObjects\UI\PlayerHatUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
