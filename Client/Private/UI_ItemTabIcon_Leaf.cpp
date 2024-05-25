@@ -37,8 +37,6 @@ HRESULT CUI_ItemTabIcon_Leaf::Initialize(void* pArg)
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-
-	m_fAlpha = 255.f;
 	return S_OK;
 }
 

@@ -30,7 +30,7 @@ HRESULT CUI_Inventory_DotLine::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fSizeX = 290.f;
-	m_fSizeY = 30.f;
+	m_fSizeY = 10.f;
 	m_fX = 440.f;
 	m_fY = -80.f;
 
@@ -50,7 +50,7 @@ void CUI_Inventory_DotLine::Priority_Update(_float fTimeDelta)
 void CUI_Inventory_DotLine::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
+	
 }
 
 void CUI_Inventory_DotLine::Late_Update(_float fTimeDelta)
@@ -58,7 +58,8 @@ void CUI_Inventory_DotLine::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
 	__super::Late_Update(fTimeDelta);
-
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, 0.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

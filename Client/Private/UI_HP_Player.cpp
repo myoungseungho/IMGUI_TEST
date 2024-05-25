@@ -29,9 +29,15 @@ HRESULT CUI_HP_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.659999549f;
-	offsetY = -0.00499999989f;
-	offsetZ = 1.f;
+	m_fSizeX = 235.f;
+	m_fSizeY = 50.f;
+	m_fX = -450.f;
+	m_fY = 305.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
+
+	m_fAlpha = 255.f;
 
 	D3DXFONT_DESCW tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
@@ -58,6 +64,7 @@ void CUI_HP_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Player::Update(_float fTimeDelta)
 {
+	
 	//// 키 입력 처리
 	//if (GetAsyncKeyState(VK_UP) & 0x8000)
 	//{
@@ -81,14 +88,7 @@ void CUI_HP_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.7f, 0.1f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
@@ -117,7 +117,7 @@ HRESULT CUI_HP_Player::Render(_float fTimeDelta)
 
 	// 텍스트 렌더링
 	RECT rect;
-	SetRect(&rect, static_cast<int>(154.f), static_cast<int>(40.f), 0, 0); // 텍스트를 출력할 위치
+	SetRect(&rect, static_cast<int>(155.f), static_cast<int>(43.f), 0, 0); // 텍스트를 출력할 위치
 	m_pFont->DrawText(
 		NULL,
 		text,

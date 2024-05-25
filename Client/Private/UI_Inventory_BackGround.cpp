@@ -29,13 +29,15 @@ HRESULT CUI_Inventory_BackGround::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 180.f;
-	m_fSizeY = 90.f;
-	m_fX = 150.f;
-	m_fY = 210.f;
+	m_fSizeX = 320.f;
+	m_fSizeY = 225.f;
+	m_fX = 455.f;
+	m_fY = 130.f;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
+
+	m_fAlpha = 66.f;
 
 	return S_OK;
 }
@@ -49,42 +51,7 @@ void CUI_Inventory_BackGround::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 5.f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 5.f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 5.f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 5.f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 5.f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 5.f;
-	}
-	if (GetAsyncKeyState('J') & 0x8000) {
-		offsetXScale -= 5.f;
-	}
-	if (GetAsyncKeyState('K') & 0x8000) {
-		offsetXScale += 5.f;
-	}
-	if (GetAsyncKeyState('N') & 0x8000) {
-		offsetYScale -= 5.f;
-	}
-	if (GetAsyncKeyState('M') & 0x8000) {
-		offsetYScale += 5.f;
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000) {
-		m_fAlpha += 1.f;
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-		m_fAlpha -= 1.f;
-	}
+	
 }
 
 void CUI_Inventory_BackGround::Late_Update(_float fTimeDelta)
@@ -93,8 +60,8 @@ void CUI_Inventory_BackGround::Late_Update(_float fTimeDelta)
 
 	__super::Late_Update(fTimeDelta);
 
-	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, 1.f));
+	
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

@@ -29,9 +29,15 @@ HRESULT CUI_HP_GlueEffect_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.654999554f;
-	offsetY = -0.00499999989f;
-	offsetZ = 0.990000010f;
+	m_fSizeX = 220.f;
+	m_fSizeY = 35.f;
+	m_fX = -450.f;
+	m_fY = 305.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
+
+	m_fAlpha = 255.f;
 
 	return S_OK;
 }
@@ -42,7 +48,42 @@ void CUI_HP_GlueEffect_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_GlueEffect_Player::Update(_float fTimeDelta)
 {
-	
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 5.f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 5.f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 5.f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 5.f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.01f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.01f;
+	}
+	if (GetAsyncKeyState('J') & 0x8000) {
+		offsetXScale -= 5.f;
+	}
+	if (GetAsyncKeyState('K') & 0x8000) {
+		offsetXScale += 5.f;
+	}
+	if (GetAsyncKeyState('N') & 0x8000) {
+		offsetYScale -= 5.f;
+	}
+	if (GetAsyncKeyState('M') & 0x8000) {
+		offsetYScale += 5.f;
+	}
+	if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		m_fAlpha += 1.f;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		m_fAlpha -= 1.f;
+	}
 
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;
@@ -72,19 +113,16 @@ void CUI_HP_GlueEffect_Player::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.68f, 0.1f, 1.f));
+	// 새로운 위치와 크기 설정
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, offsetZ));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
 HRESULT CUI_HP_GlueEffect_Player::Render(_float fTimeDelta)
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+
 	__super::Begin_RenderState();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(m_fAlpha), 255, 255, 255));
@@ -106,6 +144,8 @@ HRESULT CUI_HP_GlueEffect_Player::Render(_float fTimeDelta)
 	// 알파 블렌딩 원래 상태로 복원
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 	return S_OK;
 }

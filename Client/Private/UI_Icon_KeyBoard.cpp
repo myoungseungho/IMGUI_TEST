@@ -29,9 +29,16 @@ HRESULT CUI_Icon_KeyBoard::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	offsetX = -0.884000003f;
-	offsetY = -0.0449999943f;
-	offsetZ = 1.f;
+	m_fSizeX = 55.f;
+	m_fSizeY = 55.f;
+	m_fX = -595.f;
+	m_fY = 255.f;
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
+
+
+	m_fAlpha = 255.f;
 
 	return S_OK;
 }
@@ -48,15 +55,7 @@ void CUI_Icon_KeyBoard::Update(_float fTimeDelta)
 void CUI_Icon_KeyBoard::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	currentPosition.x += offsetX;
-	currentPosition.y += offsetY;
-	currentPosition.z += offsetZ;
 	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &currentPosition);
-	m_pTransformCom->Set_Scaled(_float3(0.1f, 0.1f, 1.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

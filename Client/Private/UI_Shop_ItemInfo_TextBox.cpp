@@ -38,7 +38,7 @@ HRESULT CUI_Shop_ItemInfo_TextBox::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
 
-	m_fAlpha = 255.000000f;
+	m_fAlpha = 66.f;
 	return S_OK;
 }
 
