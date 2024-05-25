@@ -97,6 +97,14 @@ HRESULT CBoss_Koofu::Render(_float fTimeDelta)
 
 void CBoss_Koofu::MonState(_float fTimeDelta)
 {
+	if (m_tMonsterDesc.iHp <= 40)
+	{
+		m_eMon_State = MON_STATE::BULLET_C;
+		//m_isBullet = false;
+	}
+
+
+
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -320,7 +328,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
 
-	if (m_bHitCheck)
+	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
 		m_eMon_State = MON_STATE::STAN;
@@ -328,11 +336,6 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	}
 
-	if (m_tMonsterDesc.iHp <= 40)
-	{
-		m_eMon_State = MON_STATE::BULLET_C;
-		m_isBullet = false;
-	}
 
 }
 
@@ -362,23 +365,30 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::CAST;
 
-	if (!m_isBullet && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
+	if (!m_isBubbleSpanw && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
 		m_eAnim_State = ANIM_STATE::CAST;
-		Warf(10, 30, 60, 70);
+		Warf(39, 28, 60 , 47);
 		CircleCreate();
-		m_isBullet = true;
+		m_isBubbleSpanw = true;
 		
 	}
 
-	if (m_bHitCheck)
+	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET_C)
 	{
-		m_eAnim_State = ANIM_STATE::STUN;
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
-		{
-			m_eAnim_State = ANIM_STATE::READY;
+			m_eMon_State = MON_STATE::STAN;
+	
 			m_bHitCheck = false;
-			m_isBullet = false;
+			m_isBubbleSpanw = false;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Bubble"), i));
+
+			if (!pClone)
+				break;
+
+			Safe_Release(pClone);
 		}
 	}
 
@@ -473,7 +483,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 	_float3 vChase = {};
 	vChase.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y = 1.5f;
+	vChase.y = 0.5f;
 	vChase.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
@@ -681,7 +691,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 {
 	CMon_Copy_Koofu::MON_COPY_KOOFU_DESC			Copykoofu{};
 
-	Copykoofu.iHp = 10;
+	Copykoofu.iHp = 1;
 	Copykoofu.iAttack = 1;
 	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

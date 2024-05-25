@@ -38,6 +38,7 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 private:
+	void Move(_float fTimeDelta);
 	void Bounce(_float _LandPosY);
 	void Distroy();
 	void BillBoarding();

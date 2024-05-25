@@ -81,6 +81,7 @@ private:
 private:
 	_bool m_isClone_Create = { false };
 	_bool m_isBullet = { false };
+	_bool m_isBubbleSpanw = { false };
 	_float3 m_vTargetDir = {};
 
 public:

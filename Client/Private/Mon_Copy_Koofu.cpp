@@ -388,11 +388,6 @@ void CMon_Copy_Koofu::Destory()
 		Safe_Release(pThis);
 
 	}
-
-	if(m_pKeyCom->Key_Down('5'))
-		Safe_Release(pThis);
-
-	int a = 10;
 }
 
 HRESULT CMon_Copy_Koofu::FuitCreate()

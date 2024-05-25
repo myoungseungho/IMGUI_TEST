@@ -55,17 +55,8 @@ void CSkill_Koofu_Fuit::Priority_Update(_float fTimeDelta)
 void CSkill_Koofu_Fuit::Update(_float fTimeDelta)
 {
 	BillBoarding();
-
-	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	vPos += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * 5.f* fTimeDelta;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
-
-	m_pTransformCom->Go_Up(fTimeDelta);
-	m_pTransformCom->Gravity(0.2f, 1.0f, fTimeDelta);
+	Move(fTimeDelta);
 	Bounce(1.f);
-	
 }
 
 void CSkill_Koofu_Fuit::Late_Update(_float fTimeDelta)
@@ -178,6 +169,18 @@ void CSkill_Koofu_Fuit::OnCollisionExit(CCollider* other)
 {
 }
 
+void CSkill_Koofu_Fuit::Move(_float fTimeDelta)
+{
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vPos += *D3DXVec3Normalize(&vMoveDir, &vMoveDir) * 5.f * fTimeDelta;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+
+	m_pTransformCom->Go_Up(fTimeDelta);
+	m_pTransformCom->Gravity(0.2f, 1.0f, fTimeDelta);
+}
+
 void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 {
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION).y <= _LandPosY)
@@ -208,7 +211,6 @@ void CSkill_Koofu_Fuit::BillBoarding()
 	D3DXMatrixInverse(&ViewMatrix, nullptr, &ViewMatrix);
 
 	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, (_float3*)&ViewMatrix.m[0][0]);
-	m_pTransformCom->Set_State(CTransform::STATE_UP, (_float3*)&ViewMatrix.m[1][0]);
 	m_pTransformCom->Set_State(CTransform::STATE_LOOK, (_float3*)&ViewMatrix.m[2][0]);
 }
 

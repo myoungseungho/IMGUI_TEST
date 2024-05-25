@@ -15,6 +15,7 @@
 #include "Push_Stone.h"
 #include "Skill_Koofu_Bubble.h"
 #include "Skill_Bug_Bullet.h"
+#include "Skill_Koofu_Rolling.h"
 
 
 
@@ -194,6 +195,19 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
 			pPushObjTranform->Set_Speed(-2.f);
 		}
+		return;
+	}
+
+	if (dynamic_cast<CSkill_Koofu_Rolling*>(otherObject))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		CSkill_Koofu_Rolling* pMonSkill = dynamic_cast<CSkill_Koofu_Rolling*>(otherObject);
+		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
+
+		m_pTransformCom->Set_Speed(10.f);
+		m_pTransformCom->Go_Backward(fTimeDelta);
+
 		return;
 	}
 
