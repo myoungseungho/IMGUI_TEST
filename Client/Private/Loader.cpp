@@ -802,7 +802,7 @@ HRESULT CLoader::Loading_For_Snow()
 		CMon_Bear_Cannon::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Cannon_Baull"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Cannon_Ball"),
 		CSkill_Cannon_Ball::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

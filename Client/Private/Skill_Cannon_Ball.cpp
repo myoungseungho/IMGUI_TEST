@@ -58,6 +58,8 @@ void CSkill_Cannon_Ball::Update(_float fTimeDelta)
 void CSkill_Cannon_Ball::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+
+	Destory(fTimeDelta);
 }
 
 HRESULT CSkill_Cannon_Ball::Render(_float fTimeDelta)
@@ -87,10 +89,10 @@ HRESULT CSkill_Cannon_Ball::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Sprite_Snow_Ball"),
+	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Sprite_Snow_Ball"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
-
+	
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 5.0f;
@@ -159,6 +161,16 @@ void CSkill_Cannon_Ball::Move(_float fTimeDelta)
 	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
 }
 
+void CSkill_Cannon_Ball::Destory(_float fTimeDelta)
+{
+	CSkill_Cannon_Ball* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta,2.f))
+	{
+		Safe_Release(pThis);
+	}
+}
+
 CSkill_Cannon_Ball* CSkill_Cannon_Ball::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CSkill_Cannon_Ball* pInstance = new CSkill_Cannon_Ball(pGraphic_Device);
@@ -188,8 +200,8 @@ CGameObject* CSkill_Cannon_Ball::Clone(void* pArg)
 void CSkill_Cannon_Ball::Free()
 {
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pColliderCom);
 

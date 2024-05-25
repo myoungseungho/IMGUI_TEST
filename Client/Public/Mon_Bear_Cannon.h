@@ -42,6 +42,9 @@ private:
 	void State_Stun(_float fTimeDelta);
 
 private:
+	HRESULT Attack();
+
+private:
 	ANIM_STATE m_eAnim_State = {};
 	MON_STATE m_ePrev_State = {};
 private:

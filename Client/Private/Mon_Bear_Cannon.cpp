@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
 #include "Mon_Bear_Cannon.h"
-
 #include "GameInstance.h"
-#include "Player.h"
+
+#include "Skill_Cannon_Ball.h"
 
 CMon_Bear_Cannon::CMon_Bear_Cannon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -83,9 +83,6 @@ HRESULT CMon_Bear_Cannon::Render(_float fTimeDelta)
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
-
-	m_eMon_State = MON_STATE::IDLE;
-	m_eAnim_State = ANIM_STATE::IDLE;
 
 	return S_OK;
 }
@@ -319,9 +316,10 @@ void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if (m_fMoveRange <= 10.f)
+	if (m_fMoveRange <= 10.f && m_pTimerCom->Time_Limit(fTimeDelta , 2.f))
 	{
 		m_eMon_State = MON_STATE::ATTACK;
+		int a = 10;
 	}
 }
 
@@ -329,7 +327,8 @@ void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::ATTACK;
 
-
+	if(m_pTimerCom->Time_Limit(fTimeDelta,2.f))
+		Attack();
 
 	if (m_fMoveRange > 10.f)
 	{
@@ -350,6 +349,18 @@ void CMon_Bear_Cannon::State_Stun(_float fTimeDelta)
 	{
 		Safe_Release(pThis);
 	}
+}
+
+HRESULT CMon_Bear_Cannon::Attack()
+{
+	CSkill_Cannon_Ball::SKILL_CANNON_DESC  Desc{};
+	Desc.pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Desc.pTargetTransform = m_pTransformCom;
+	Desc.iTotalBullet = 1;
+	Desc.iBulletCnt = 0;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Skill_Cannon_Ball"), TEXT("Layer_Cannon_Ball"), &Desc)))
+		return E_FAIL;
 }
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other)

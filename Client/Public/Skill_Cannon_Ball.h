@@ -41,6 +41,7 @@ public:
 
 private:
 	void Move(_float fTimeDelta);
+	void Destory(_float fTimeDelta);
 
 private:
 	CTransform* m_pPlayerTransform = { nullptr };
