@@ -131,7 +131,7 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Bullet_C(fTimeDelta);
 		break;
 
-	case MON_STATE::STAN:
+	case MON_STATE::STUN:
 		State_Stan(fTimeDelta);
 		break;
 
@@ -331,7 +331,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
-		m_eMon_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::STUN;
 		m_isClone_Create = false;
 
 	}
@@ -376,7 +376,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET_C)
 	{
-			m_eMon_State = MON_STATE::STAN;
+			m_eMon_State = MON_STATE::STUN;
 	
 			m_bHitCheck = false;
 			m_isBubbleSpanw = false;

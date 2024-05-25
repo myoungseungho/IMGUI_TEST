@@ -393,7 +393,7 @@ void CMon_Bear_Solider::Mon_State(_float fTimeDelta)
 		State_Hit(fTimeDelta);
 		break;
 
-	case MON_STATE::STAN:
+	case MON_STATE::STUN:
 		State_Stun(fTimeDelta);
 		break;
 
@@ -429,7 +429,7 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 	if (m_tMonsterDesc.iHp <= 0)
 	{
 		m_ePrev_State = MON_STATE::MOVE;
-		m_eMon_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::STUN;
 	}
 }
 
@@ -446,7 +446,7 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 	if (m_tMonsterDesc.iHp <= 0)
 	{
 		m_ePrev_State = MON_STATE::ATTACK;
-		m_eMon_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::STUN;
 	}
 }
 
@@ -457,7 +457,7 @@ void CMon_Bear_Solider::State_Hit(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		m_ePrev_State = MON_STATE::HIT;
-		m_eMon_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::STUN;
 	}
 }
 
@@ -472,7 +472,7 @@ void CMon_Bear_Solider::State_Stun(_float fTimeDelta)
 
 	if (m_ePrev_State == MON_STATE::HIT && m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
-		m_ePrev_State = MON_STATE::STAN;
+		m_ePrev_State = MON_STATE::STUN;
 		m_eMon_State = MON_STATE::MOVE;
 	}
 

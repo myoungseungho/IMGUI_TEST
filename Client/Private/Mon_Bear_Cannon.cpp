@@ -57,6 +57,7 @@ void CMon_Bear_Cannon::Priority_Update(_float fTimeDelta)
 
 void CMon_Bear_Cannon::Update(_float fTimeDelta)
 {
+	Mon_State(fTimeDelta);
 }
 
 void CMon_Bear_Cannon::Late_Update(_float fTimeDelta)
@@ -69,6 +70,8 @@ HRESULT CMon_Bear_Cannon::Render(_float fTimeDelta)
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
+	Anim_State(fTimeDelta);
+
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
@@ -77,6 +80,9 @@ HRESULT CMon_Bear_Cannon::Render(_float fTimeDelta)
 
 	if (FAILED(End_RenderState()))
 		return E_FAIL;
+
+	m_eMon_State = MON_STATE::IDLE;
+	m_eAnim_State = ANIM_STATE::IDLE;
 
 	return S_OK;
 }
@@ -121,6 +127,36 @@ HRESULT CMon_Bear_Cannon::Ready_Components()
 
 HRESULT CMon_Bear_Cannon::Ready_Animation()
 {
+	/* Bear_Cannon_Idle */
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Down"), TEXT("Bear_Cannon_Idle_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Left"), TEXT("Bear_Cannon_Idle_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftDown"), TEXT("Bear_Cannon_Idle_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftUp"), TEXT("Bear_Cannon_Idle_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Right"), TEXT("Bear_Cannon_Idle_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightDown"), TEXT("Bear_Cannon_Idle_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightUp"), TEXT("Bear_Cannon_Idle_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Up"), TEXT("Bear_Cannon_Idle_Up"));
+
+	/* Bear_Cannon_Attack */
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Down"), TEXT("Bear_Cannon_Attack_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Left"), TEXT("Bear_Cannon_Attack_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftDown"), TEXT("Bear_Cannon_Attack_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftUp"), TEXT("Bear_Cannon_Attack_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Right"), TEXT("Bear_Cannon_Attack_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightDown"), TEXT("Bear_Cannon_Attack_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightUp"), TEXT("Bear_Cannon_Attack_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Up"), TEXT("Bear_Cannon_Attack_Up"));
+
+	/* Bear_Cannon_Stun */
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Down"), TEXT("Bear_Cannon_Stun_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Left"), TEXT("Bear_Cannon_Stun_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftDown"), TEXT("Bear_Cannon_Stun_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftUp"), TEXT("Bear_Cannon_Stun_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Right"), TEXT("Bear_Cannon_Stun_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightDown"), TEXT("Bear_Cannon_Stun_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightUp"), TEXT("Bear_Cannon_Stun_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Up"), TEXT("Bear_Cannon_Stun_Up"));
+
 	return S_OK;
 }
 
@@ -140,6 +176,152 @@ HRESULT CMon_Bear_Cannon::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
+}
+
+void CMon_Bear_Cannon::Mon_State(_float fTimeDelta)
+{
+	switch (m_eMon_State)
+	{
+	case MON_STATE::IDLE:
+		State_Idle(fTimeDelta);
+		break;
+
+	case MON_STATE::ATTACK:
+		State_Attack(fTimeDelta);
+		break;
+
+	case MON_STATE::STUN:
+		State_Stun(fTimeDelta);
+		break;
+	}
+}
+
+void CMon_Bear_Cannon::Anim_State(_float fTimeDelta)
+{
+	switch (m_eAnim_State)
+	{
+	case ANIM_STATE::IDLE:
+		switch (m_eMon_Dir)
+		{
+		case MON_DIR::DIR_D:
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_Down"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_L:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_Left"), 1.f, fTimeDelta, true);
+			break;									
+													
+		case MON_DIR::DIR_LD:						
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_LeftDown"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_LU:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_LeftUp"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_R:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_Right"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_RD:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_RightDown"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_RU:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_RightUp"), 1.f, fTimeDelta, true);
+			break;									
+													
+		case MON_DIR::DIR_U:						
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Idle_Up"), 1.f, fTimeDelta, true);
+			break;
+		}
+		break;
+	case ANIM_STATE::ATTACK:
+		switch (m_eMon_Dir)
+		{
+		case MON_DIR::DIR_D:
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_Down"), 1.f, fTimeDelta, true);
+			break;							
+											
+		case MON_DIR::DIR_L:				
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_Left"), 1.f, fTimeDelta, true);
+			break;							
+											
+		case MON_DIR::DIR_LD:				
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_LeftDown"), 1.f, fTimeDelta, true);
+			break;								
+												
+		case MON_DIR::DIR_LU:					
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_LeftUp"), 1.f, fTimeDelta, true);
+			break;								
+												
+		case MON_DIR::DIR_R:					
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_Right"), 1.f, fTimeDelta, true);
+			break;								
+												
+		case MON_DIR::DIR_RD:					
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_RightDown"), 1.f, fTimeDelta, true);
+			break;								
+												
+		case MON_DIR::DIR_RU:					
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_RightUp"), 1.f, fTimeDelta, true);
+			break;								
+												
+		case MON_DIR::DIR_U:					
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Attack_Up"), 1.f, fTimeDelta, true);
+			break;
+		}
+		break;
+
+	case ANIM_STATE::STUN:
+		switch (m_eMon_Dir)
+		{
+		case MON_DIR::DIR_D:
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_Down"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_L:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_Left"), 1.f, fTimeDelta, true);
+			break;									
+													
+		case MON_DIR::DIR_LD:						
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_LeftDown"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_LU:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_LeftUp"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_R:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_Right"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_RD:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_RightDown"), 1.f, fTimeDelta, true);
+			break;									
+													
+		case MON_DIR::DIR_RU:						
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_RightUp"), 1.f, fTimeDelta, true);
+			break;										
+														
+		case MON_DIR::DIR_U:							
+			m_pAnimCom->Play_Animator(TEXT("Bear_Cannon_Stun_Up"), 1.f, fTimeDelta, true);
+			break;
+		}
+		break;
+	}
+}
+
+void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
+{
+}
+
+void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
+{
+}
+
+void CMon_Bear_Cannon::State_Stun(_float fTimeDelta)
+{
 }
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other)

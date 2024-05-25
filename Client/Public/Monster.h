@@ -21,7 +21,7 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STAN,HIT , REGEN,CAST, DEATH,MON_END };
+	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STUN,HIT , REGEN,CAST, DEATH,MON_END };
 	enum class MON_DIR { DIR_D, DIR_L, DIR_LD, DIR_LU, DIR_R, DIR_RD, DIR_RU, DIR_U, DIR_END };
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC

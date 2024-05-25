@@ -363,7 +363,7 @@ void CBoss_Bug::State_Regen(_float _fTimeDelta)
 		m_eMon_State = MON_STATE::READY;
 	}
 
-	if (m_ePrev_State == MON_STATE::STAN && m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
+	if (m_ePrev_State == MON_STATE::STUN && m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
 	{
 		m_eMon_State = MON_STATE::FLY;
 	}
@@ -376,7 +376,7 @@ void CBoss_Bug::State_Stan(_float fTimeDelta)
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
 	{
-		m_ePrev_State = MON_STATE::STAN;
+		m_ePrev_State = MON_STATE::STUN;
 		m_eMon_State = MON_STATE::REGEN;
 	}
 }
@@ -422,7 +422,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 			m_pTransformCom->Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);
 
 			m_ePrev_State = MON_STATE::DASH;
-			m_eMon_State = MON_STATE::STAN;
+			m_eMon_State = MON_STATE::STUN;
 			m_bStartDash = false;
 		}
 
@@ -478,7 +478,7 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_REGEN"), 1.f, _fTimeDelta, false);
 		break;
 
-	case MON_STATE::STAN:
+	case MON_STATE::STUN:
 		if (m_iPhaseCnt == 2)
 			m_pAnimCom->Play_Animator(TEXT("BOSS_BUG_PHASE2_DOWN"), 1.f, _fTimeDelta, false);
 		break;
@@ -538,7 +538,7 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 		State_Regen(fTimeDelta);
 		break;
 
-	case MON_STATE::STAN:
+	case MON_STATE::STUN:
 		State_Stan(fTimeDelta);
 		break;
 

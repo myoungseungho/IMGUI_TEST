@@ -7,12 +7,11 @@ BEGIN(Client)
 class CMon_Bear_Cannon final :public CMonster
 {
 public:
-	enum class ANIM_STATE { IDLE, MOVE, ATTACK, HIT, STUN, ANIM_END };
+	enum class ANIM_STATE { IDLE, ATTACK, STUN, ANIM_END };
 private:
 	CMon_Bear_Cannon(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMon_Bear_Cannon(const CMon_Bear_Cannon& Prototype);
 	virtual ~CMon_Bear_Cannon() = default;
-
 
 public:
 	virtual HRESULT Initialize_Prototype()					override;
@@ -28,6 +27,14 @@ private:
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+
+private:
+	void Mon_State(_float fTimeDelta);
+	void Anim_State(_float fTimeDelta);
+
+	void State_Idle(_float fTimeDelta);
+	void State_Attack(_float fTimeDelta);
+	void State_Stun(_float fTimeDelta);
 
 private:
 	ANIM_STATE m_eAnim_State = {};
