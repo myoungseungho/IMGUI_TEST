@@ -47,6 +47,8 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 
+	m_fAttackRange = 1.f;
+
 	return S_OK;
 }
 

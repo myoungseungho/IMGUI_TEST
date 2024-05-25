@@ -28,6 +28,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	void Mon_State(_float fTimeDelta);
 	void Anim_State(_float fTimeDelta);
@@ -38,11 +43,11 @@ private:
 
 private:
 	ANIM_STATE m_eAnim_State = {};
-
-public:
-	virtual void OnCollisionEnter(class CCollider* other);
-	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
-	virtual void OnCollisionExit(class CCollider* other);
+	MON_STATE m_ePrev_State = {};
+private:
+	_float m_fMoveRange = { 0.f };
+	_float m_fAttackRange = { 0.f };
+	_float3 m_vTargetDistance = { };
 
 public:
 	static CMon_Bear_Cannon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

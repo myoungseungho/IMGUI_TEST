@@ -53,6 +53,9 @@ HRESULT CMon_Bear_Cannon::Initialize(void* pArg)
 void CMon_Bear_Cannon::Priority_Update(_float fTimeDelta)
 {
 	__super::Move_Dir(fTimeDelta);
+
+	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_fMoveRange = D3DXVec3Length(&m_vTargetDistance);
 }
 
 void CMon_Bear_Cannon::Update(_float fTimeDelta)
@@ -314,6 +317,7 @@ void CMon_Bear_Cannon::Anim_State(_float fTimeDelta)
 
 void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 {
+
 }
 
 void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)

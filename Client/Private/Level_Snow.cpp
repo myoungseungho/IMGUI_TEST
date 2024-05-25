@@ -34,11 +34,11 @@ HRESULT CLevel_Snow::Initialize()
 	/*if (FAILED(Ready_Layer_Monster_Trash_Slime(TEXT("Layer_Monster_Trash_Slime"))))
 		return E_FAIL;*/
 
-	/*if (FAILED(Ready_Layer_Monster_Bear_Solider(TEXT("Layer_Monster_Bear_Solider"))))
-		return E_FAIL;*/
-
-	if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
+	if (FAILED(Ready_Layer_Monster_Bear_Solider(TEXT("Layer_Monster_Bear_Solider"))))
 		return E_FAIL;
+
+	/*if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
+		return E_FAIL;*/
 
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
