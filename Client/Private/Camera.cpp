@@ -163,6 +163,8 @@ HRESULT CCamera::Key_Input(_float fTimeDelta)
 
 HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 {
+	UIDATA slotData{};
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_Heart_Player"), TEXT("Layer_UI_Heart_Player"))))
 		return E_FAIL;
 
@@ -174,15 +176,69 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_Green_Player"), TEXT("Layer_UI_HP_Green_Player"))))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_GlueEffect_Player"), TEXT("Layer_UI_HP_ZEffect_GlueEffect_Player"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot"), TEXT("Layer_UI_PlayerEquipSlot"))))
-		return E_FAIL;
+	for (size_t i = 0; i < 4; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		switch (i)
+		{
+		case 0:
+			slotData.position = { -530.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 1:
+			slotData.position = { -480.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 2:
+			slotData.position = { -430.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 3:
+			slotData.position = { -380.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		}
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"), TEXT("Layer_UI_PlayerEquipSlot_BackGround"))))
-		return E_FAIL;
+		slotData.alpha = 255.f;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot"), TEXT("Layer_UI_PlayerEquipSlot"), &slotData)))
+			return E_FAIL;
+	}
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		switch (i)
+		{
+		case 0:
+			slotData.position = { -530.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 1:
+			slotData.position = { -480.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 2:
+			slotData.position = { -430.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		case 3:
+			slotData.position = { -380.f, 250.f };
+			slotData.scale = { 50.f, 50.f };
+			break;
+		}
+
+		slotData.alpha = 57.f;
+
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"), TEXT("Layer_UI_PlayerEquipSlot_BackGround"), &slotData)))
+			return E_FAIL;
+	}
+
+
 
 	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_HP_BloodEffect"), TEXT("Layer_UI_HP_BloodEffect"))))
 	//	return E_FAIL;

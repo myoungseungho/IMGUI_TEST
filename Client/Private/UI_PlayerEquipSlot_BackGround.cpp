@@ -29,15 +29,18 @@ HRESULT CUI_PlayerEquipSlot_BackGround::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 50.f;
-	m_fSizeY = 50.f;
-	m_fX = -530.f;
-	m_fY = 250.f;
+	UIDATA* uiData = reinterpret_cast<UIDATA*>(pArg);
+
+	m_fSizeX = uiData->scale.x;
+	m_fSizeY = uiData->scale.y;
+	m_fX = uiData->position.x;
+	m_fY = uiData->position.y;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-	m_fAlpha = 57.f;
+
+	m_fAlpha = uiData->alpha;
 
 	return S_OK;
 }

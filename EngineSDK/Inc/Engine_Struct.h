@@ -27,4 +27,11 @@ namespace Engine
 		bool isParsing;
 	}FILEDATA;
 
+	typedef struct
+	{
+		_float2 position;
+		_float2 scale;
+		_float alpha;
+	}UIDATA;
+
 }
