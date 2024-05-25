@@ -65,6 +65,8 @@ protected:
 	_uint						m_iGameObjectData = { 0 };
 	_bool						m_bIsPasingObject = { false };
 	_bool						m_bIsPicking = { false };
+public:
+	_uint						m_iIndex = { 0 };
 protected:
 	map<const _wstring, CComponent*>		m_Components;
 

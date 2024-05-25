@@ -39,8 +39,8 @@ HRESULT CUI_Inventory_BackGround::Initialize(void* pArg)
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-
 	m_fAlpha = uiData->alpha;
+	m_iIndex = uiData->index;
 
 	return S_OK;
 }
@@ -61,7 +61,9 @@ void CUI_Inventory_BackGround::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
 	__super::Late_Update(fTimeDelta);
-	
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

@@ -204,6 +204,7 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 		}
 
 		slotData.alpha = 255.f;
+		slotData.index = i;
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot"), TEXT("Layer_UI_PlayerEquipSlot"), &slotData)))
 			return E_FAIL;
@@ -233,6 +234,7 @@ HRESULT CCamera::Ready_UI_Layer(LEVELID m_eNextLevelID)
 		}
 
 		slotData.alpha = 57.f;
+		slotData.index = i;
 
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(m_eNextLevelID, TEXT("Prototype_GameObject_UI_PlayerEquipSlot_BackGround"), TEXT("Layer_UI_PlayerEquipSlot_BackGround"), &slotData)))
 			return E_FAIL;

@@ -32,6 +32,7 @@ namespace Engine
 		_float2 position;
 		_float2 scale;
 		_float alpha;
+		_uint index;
 	}UIDATA;
 
 }
