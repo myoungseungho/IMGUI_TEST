@@ -9,17 +9,17 @@
 #include "UI_Inventory_BackGround.h"
 #include "GameInstance.h"
 
-CUI_Inventory::CUI_Inventory(LPDIRECT3DDEVICE9 pGraphic_Device)
+CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
 }
 
-CUI_Inventory::CUI_Inventory(const CUI_Inventory& Prototype)
+CInventory::CInventory(const CInventory& Prototype)
 	: CGameObject{ Prototype }
 {
 }
 
-HRESULT CUI_Inventory::Initialize_Prototype()
+HRESULT CInventory::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -27,7 +27,7 @@ HRESULT CUI_Inventory::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CUI_Inventory::Initialize(void* pArg)
+HRESULT CInventory::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -126,11 +126,11 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_Inventory::Priority_Update(_float fTimeDelta)
+void CInventory::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_Inventory::Update(_float fTimeDelta)
+void CInventory::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn)
 		return;
@@ -207,7 +207,7 @@ void CUI_Inventory::Update(_float fTimeDelta)
 	// HandleSelection(selectedIndex); // 가정된 함수
 }
 
-void CUI_Inventory::UpdateAlphaValues()
+void CInventory::UpdateAlphaValues()
 {
 	if (m_currentRow == 0) {
 		Control_FirstRow();
@@ -217,7 +217,7 @@ void CUI_Inventory::UpdateAlphaValues()
 	}
 }
 
-void CUI_Inventory::Control_FirstRow()
+void CInventory::Control_FirstRow()
 {
 	for (auto& iter : m_vecUIObject)
 	{
@@ -253,7 +253,7 @@ void CUI_Inventory::Control_FirstRow()
 	}
 }
 
-void CUI_Inventory::Control_OtherRow()
+void CInventory::Control_OtherRow()
 {
 	// 첫 번째 행의 아이템들의 알파값을 150.f로 설정
 	for (auto& iter : m_vecUIObject)
@@ -295,17 +295,17 @@ void CUI_Inventory::Control_OtherRow()
 
 
 
-void CUI_Inventory::Late_Update(_float fTimeDelta)
+void CInventory::Late_Update(_float fTimeDelta)
 {
 
 }
 
-HRESULT CUI_Inventory::Render(_float fTimeDelta)
+HRESULT CInventory::Render(_float fTimeDelta)
 {
 	return S_OK;
 }
 
-HRESULT CUI_Inventory::Ready_Components()
+HRESULT CInventory::Ready_Components()
 {
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
@@ -316,9 +316,9 @@ HRESULT CUI_Inventory::Ready_Components()
 }
 
 
-CUI_Inventory* CUI_Inventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Inventory* pInstance = new CUI_Inventory(pGraphic_Device);
+	CInventory* pInstance = new CInventory(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -330,9 +330,9 @@ CUI_Inventory* CUI_Inventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CUI_Inventory::Clone(void* pArg)
+CGameObject* CInventory::Clone(void* pArg)
 {
-	CUI_Inventory* pInstance = new CUI_Inventory(*this);
+	CInventory* pInstance = new CInventory(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -343,7 +343,7 @@ CGameObject* CUI_Inventory::Clone(void* pArg)
 	return pInstance;
 }
 
-void CUI_Inventory::Free()
+void CInventory::Free()
 {
 	for (auto& pUIObject : m_vecUIObject)
 	{

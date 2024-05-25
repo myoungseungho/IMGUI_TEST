@@ -24,12 +24,12 @@ END
 
 BEGIN(Client)
 
-class CUI_Inventory final : public CGameObject
+class CInventory final : public CGameObject
 {
 private:
-	CUI_Inventory(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CUI_Inventory(const CUI_Inventory& Prototype); /* 사본생성 시 */
-	virtual ~CUI_Inventory() = default;
+	CInventory(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CInventory(const CInventory& Prototype); /* 사본생성 시 */
+	virtual ~CInventory() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -81,7 +81,7 @@ private:
 
 public:
 	/* 원형객체를 생성한다. */
-	static CUI_Inventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

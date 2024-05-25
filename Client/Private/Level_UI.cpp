@@ -35,7 +35,7 @@ void CLevel_UI::Update(_float fTimeDelta)
 		}
 		else
 		{
-			CUI_Inventory* inventory = static_cast<CUI_Inventory*>(inventoryGameObject);
+			CInventory* inventory = static_cast<CInventory*>(inventoryGameObject);
 			inventory->SetInventoryOnOff();
 		}
 	}

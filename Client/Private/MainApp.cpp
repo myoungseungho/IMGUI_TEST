@@ -1098,7 +1098,7 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	///////// 인벤토리
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Inventory"),
-		CUI_Inventory::Create(m_pGraphic_Device))))
+		CInventory::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Cursor"),
