@@ -32,13 +32,15 @@ HRESULT CUI_Cursor::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (m_bIsPasingObject)
-	{
-		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
+	m_fSizeX = 160.f;
+	m_fSizeY = 165.f;
+	m_fX = -430.f;
+	m_fY = 85.f;
 
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
+
+	m_fAlpha = 255.f;
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -66,12 +68,13 @@ void CUI_Cursor::Priority_Update(_float fTimeDelta)
 void CUI_Cursor::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+	
 }
 
 void CUI_Cursor::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
+	
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
@@ -96,25 +99,7 @@ HRESULT CUI_Cursor::Render(_float fTimeDelta)
 
 void CUI_Cursor::AnimState(_float _fTimeDelta)
 {
-
-	switch (m_eAnimState)
-	{
-	case ANIMATION_STATE::ANIM_IDLE:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block_Idle"), 0.5f, _fTimeDelta, false);
-		break;
-
-	case ANIMATION_STATE::ANIM_UNIDLE:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block_UnIdle"), 0.5f, _fTimeDelta, false);
-		break;
-
-	case ANIMATION_STATE::ANIM_BLOCK:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_UnBlock"), 0.5f, _fTimeDelta, false);
-		break;
-
-	case ANIMATION_STATE::ANIM_UNBLOCK:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Block"), 0.5f, _fTimeDelta, false);
-		break;
-	}
+	m_pAnimCom->Play_Animator(TEXT("AnimTexture_Cursor_Idle"), 0.5f, _fTimeDelta, true);
 }
 
 
@@ -164,10 +149,7 @@ HRESULT CUI_Cursor::Ready_Components()
 
 HRESULT CUI_Cursor::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Block_Idle"), TEXT("AnimTexture_Block_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Block_UnIdle"), TEXT("AnimTexture_Block_UnIdle"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_UnBlock"), TEXT("AnimTexture_UnBlock"));
-	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Block"), TEXT("AnimTexture_Block"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_UI_Cursor"), TEXT("AnimTexture_Cursor_Idle"));
 
 	return S_OK;
 }

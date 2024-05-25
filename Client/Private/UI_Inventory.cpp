@@ -32,10 +32,10 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 
 	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr) -> HRESULT {
+	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
 			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag));
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
 		if (!pUIObject)
 			return E_FAIL;
 		Safe_AddRef(pUIObject);
@@ -43,14 +43,35 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
 		return S_OK;
 		};
 
+	UIDATA slotData{};
+
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_FadeInOut"), TEXT("Layer_UI_FadeInOut"))))
 		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_Cursor"))))
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_ZCursor"))))
 		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_BackGround"))))
-		return E_FAIL;
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		switch (i)
+		{
+		case 0:
+			slotData.position = { 455.f, 130.f };
+			slotData.scale = { 320.f, 225.f };
+			slotData.alpha = 66.f;
+			break;
+		case 1:
+			slotData.position = { -430.f, 80.f };
+			slotData.scale = { 140.f, 145.f };
+			slotData.alpha = 104.f;
+			break;
+		}
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
+			return E_FAIL;
+	}
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;

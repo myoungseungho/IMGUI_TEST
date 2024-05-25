@@ -81,7 +81,7 @@ HRESULT CUI_Item::Render(_float fTimeDelta)
 HRESULT CUI_Item::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_ItemSprite"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Item"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

@@ -44,7 +44,7 @@ public:
 		}
 	}
 private:
-	_bool m_bIsOn = { false };
+	_bool m_bIsOn = { true };
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
 

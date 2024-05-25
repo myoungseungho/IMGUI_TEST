@@ -53,7 +53,7 @@ protected:
 	_float m_fAlpha = { 190.f };               // Current alpha value
 
 public:
-	_bool m_bIsOn = { false };
+	_bool m_bIsOn = { true };
 };
 
 END
