@@ -41,8 +41,6 @@ protected:
 	_float4x4 m_ProjMatrix = {}; // Projection 행렬 멤버 변수 추가
 	_float m_fSizeX = 0.f;
 	_float m_fSizeY = 0.f;
-	_float m_fX = 0.f;
-	_float m_fY = 0.f;
 
 	_float offsetX = { 0.f };
 	_float offsetY = { 0.f };
@@ -52,6 +50,8 @@ protected:
 
 public:
 	_float m_fAlpha = { 190.f };               // Current alpha value
+	_float m_fX = 0.f;
+	_float m_fY = 0.f;
 
 public:
 	_bool m_bIsOn = { true };
