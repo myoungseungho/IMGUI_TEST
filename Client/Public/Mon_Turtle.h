@@ -20,6 +20,7 @@ private:
 	CMon_Turtle(const CMon_Turtle& Prototype);
 	virtual ~CMon_Turtle() = default;
 
+public:
 	virtual HRESULT Initialize_Prototype()					override;
 	virtual HRESULT Initialize(void* pArg)					override;
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -54,6 +55,8 @@ public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
+
+
 
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

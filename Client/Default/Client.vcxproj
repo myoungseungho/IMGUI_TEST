@@ -181,6 +181,7 @@
     <ClInclude Include="..\Public\Level_Tacho.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
     <ClInclude Include="..\Public\Mon_Copy_Koofu.h" />
+    <ClInclude Include="..\public\Mon_Trash_Slime.h" />
     <ClInclude Include="..\Public\Moon_BossFrame.h" />
     <ClInclude Include="..\Public\Moon_Fence.h" />
     <ClInclude Include="..\Public\Moon_FloorStone.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
     <ClCompile Include="..\Private\Mon_Copy_Koofu.cpp" />
+    <ClCompile Include="..\private\Mon_Trash_Slime.cpp" />
     <ClCompile Include="..\Private\Moon_BossFrame.cpp" />
     <ClCompile Include="..\Private\Moon_Fence.cpp" />
     <ClCompile Include="..\Private\Moon_FloorStone.cpp" />

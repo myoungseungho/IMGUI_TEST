@@ -11,6 +11,8 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "Monster.h"
+
 CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
 {
@@ -27,6 +29,9 @@ HRESULT CLevel_Snow::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Monster_Trash_Slime"))))
 		return E_FAIL;
 
 
@@ -73,6 +78,19 @@ HRESULT CLevel_Snow::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	CameraDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Camera"), strLayerTag, &CameraDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag)
+{
+	CMonster::MONSTER_DESC			MonsterDesc{};
+	MonsterDesc.iHp = 3;
+	MonsterDesc.iAttack = 1;
+	MonsterDesc.pTargetTransform= dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Trash_Slime"), strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 
 	return S_OK;

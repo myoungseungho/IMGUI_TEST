@@ -28,6 +28,7 @@ public:
 	{
 		_uint iHp = { 0 };
 		_uint iAttack = { 0 };
+		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 
 protected:
