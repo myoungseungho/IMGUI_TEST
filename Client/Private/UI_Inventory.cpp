@@ -155,7 +155,7 @@ HRESULT CInventory::Initialize(void* pArg)
 		case 0:
 			slotData.position = { -430.f, 80.f };
 			slotData.scale = { 160.f, 165.f };
-			slotData.alpha = 66.f;
+			slotData.alpha = 0.f;
 			break;
 		case 1:
 			slotData.position = { -430.f, 80.f };
