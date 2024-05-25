@@ -256,6 +256,9 @@
     <Filter Include="02.GameObjects\LandObject\Monster\Bear_Solider">
       <UniqueIdentifier>{80be53df-422b-46ea-b9b9-16c6275fbf25}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\LandObject\Monster\Bear_Cannon">
+      <UniqueIdentifier>{9a57a5c3-cf07-438e-b1bb-68e3f694b647}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -516,6 +519,7 @@
     <ClInclude Include="..\public\Mon_Bear_Solider.h">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Solider</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mon_Bear_Cannon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -761,6 +765,7 @@
     <ClCompile Include="..\private\Mon_Bear_Solider.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Solider</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Mon_Bear_Cannon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -59,6 +59,7 @@
 #include "Mon_Copy_Koofu.h"
 #include "Skill_Bug_SludgeWave.h"
 #include "Mon_Trash_Slime.h"
+#include "Mon_Bear_Solider.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -720,6 +721,10 @@ HRESULT CLoader::Loading_For_Snow()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Trash_Slime"),
 		CMon_Trash_Slime::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Monster_Bear_Solider"),
+		CMon_Bear_Solider::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

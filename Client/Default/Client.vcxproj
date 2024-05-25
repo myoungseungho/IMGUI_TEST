@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\public\Mon_Bear_Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\EnviormentObject.h" />
     <ClInclude Include="..\Public\Hole.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\Mon_Bear_Cannon.cpp" />
     <ClCompile Include="..\Private\EnviormentObject.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\Koofu_Circle.cpp" />

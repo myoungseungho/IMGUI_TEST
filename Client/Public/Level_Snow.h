@@ -24,6 +24,7 @@ private:
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles);
 	HRESULT Ready_Layer_Bush(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles);
 
