@@ -52,6 +52,8 @@ protected:
 	CAnimator* m_pAnimCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 
+	CTransform* m_pPlayerTransform = { nullptr };
+
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
@@ -60,6 +62,8 @@ public:
 public:
 	_bool HitCheck() { return m_bHitCheck; }
 
+public:
+	void Move_Dir(_float _floatTimeDelta);
 public:
 	virtual void Damaged() {
 		--m_tMonsterDesc.iHp;
@@ -72,7 +76,8 @@ public:
 
 public:
 	_bool m_bHitCheck = { false };
-	
+	_float m_fDirAngle = { 0.f };
+
 public:
 	MONSTER_DESC m_tMonsterDesc;
 

@@ -34,10 +34,10 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
-	m_pTargetTransform = pDesc->m_pTargetTransform;
+	m_pPlayerTransform = pDesc->m_pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -437,7 +437,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 
 void CBoss_Koofu::Move_Dir()
 {
-	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 
 	if (fAngle >= 337.5f || fAngle <= 22.5f)
 	{
@@ -482,9 +482,9 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 	m_eAnim_State = ANIM_STATE::WALK;
 
 	_float3 vChase = {};
-	vChase.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
 	vChase.y = 0.5f;
-	vChase.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
 }
@@ -693,7 +693,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 
 	Copykoofu.iHp = 1;
 	Copykoofu.iAttack = 1;
-	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Copykoofu.pTargetTransform  = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -754,7 +754,7 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTargetTransform); 
+	Safe_Release(m_pPlayerTransform); 
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);

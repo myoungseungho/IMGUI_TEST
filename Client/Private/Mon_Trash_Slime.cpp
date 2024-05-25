@@ -28,9 +28,9 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
-	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pPlayerTransform = pDesc->pTargetTransform;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -41,19 +41,28 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(15.f, 0.5f, 15.f));
+
+	m_eMon_State = MON_STATE::IDLE;
+	m_eAnim_State = ANIM_STATE::IDLE;
+
 	return S_OK;
 }
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
+	Move_Dir(fTimeDelta);
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
 {
+	Mon_State(fTimeDelta);
 }
 
 void CMon_Trash_Slime::Late_Update(_float fTimeDelta)
 {
+
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CMon_Trash_Slime::Render(_float fTimeDelta)
@@ -113,6 +122,24 @@ HRESULT CMon_Trash_Slime::Ready_Components()
 
 HRESULT CMon_Trash_Slime::Ready_Animation()
 {
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_Down"), TEXT("Trash_Idle_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_Left"), TEXT("Trash_Idle_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_LeftDown"), TEXT("Trash_Idle_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_LeftUp"), TEXT("Trash_Idle_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_Right"), TEXT("Trash_Idle_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_RightDown"), TEXT("Trash_Idle_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_RightUp"), TEXT("Trash_Idle_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Idle_Up"), TEXT("Trash_Idle_Up"));
+
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Down"), TEXT("Trash_Walk_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Left"), TEXT("Trash_Walk_Left"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_LeftDown"), TEXT("Trash_Walk_LeftDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_LeftUp"), TEXT("Trash_Walk_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Right"), TEXT("Trash_Walk_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightDown"), TEXT("Trash_Walk_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightUp"), TEXT("Trash_Walk_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Up"), TEXT("Trash_Wal_Up"));
+
 	return S_OK;
 }
 
@@ -136,11 +163,137 @@ HRESULT CMon_Trash_Slime::End_RenderState()
 
 void CMon_Trash_Slime::Anim_State(_float fTimeDelta)
 {
+	switch (m_eAnim_State)
+	{
+	case ANIM_STATE::IDLE:
+		switch (m_eMon_Dir)
+		{
+		case MON_DIR::DIR_D:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_Down"), 1.f, fTimeDelta, true);
+			break;
 
+		case MON_DIR::DIR_L:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_Left"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_LD:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_LeftDown"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_LU:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_LeftUp"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_R:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_Right"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_RD:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_RightDown"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_RU:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_RightUp"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_U:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Idle_Up"), 1.f, fTimeDelta, true);
+			break;
+		}
+		break;
+
+	case ANIM_STATE::MOVE:
+		switch (m_eMon_Dir)
+		{
+		case MON_DIR::DIR_D:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_Down"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_L:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_Left"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_LD:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_LeftDown"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_LU:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_LeftUp"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_R:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_Right"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_RD:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_RightDown"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_RU:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_RightUp"), 1.f, fTimeDelta, true);
+			break;
+
+		case MON_DIR::DIR_U:
+			m_pAnimCom->Play_Animator(TEXT("Trash_Walk_Up"), 1.f, fTimeDelta, true);
+			break;
+		}
+		break;
+	}
+}
+
+void CMon_Trash_Slime::Mon_State(_float fTimeDelta)
+{
+	switch (m_eMon_State)
+	{
+	case MON_STATE::IDLE:
+		State_Idle(fTimeDelta);
+		break;
+
+	case MON_STATE::MOVE:
+		State_Move(fTimeDelta);
+		break;
+	}
+}
+
+void CMon_Trash_Slime::State_Idle(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::IDLE;
+
+	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float fAttackRange = D3DXVec3Length(&m_fDistance);
+
+	if (fAttackRange <= 10.f)
+		m_eMon_State = MON_STATE::MOVE;
+
+}
+
+void CMon_Trash_Slime::State_Move(_float fTimeDelta)
+{
+	m_eAnim_State = ANIM_STATE::MOVE;
+
+	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
+
+	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float fAttackRange = D3DXVec3Length(&m_fDistance);
+
+	if (fAttackRange > 10.f)
+		m_eMon_State = MON_STATE::IDLE;
+
+}
+
+void CMon_Trash_Slime::Move(_float fTimeDelta)
+{
+	_float3 m_fDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float fAttackRange  = D3DXVec3Length(&m_fDistance);
+
+	if(fAttackRange <= 10.f)
+		m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
 }
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other)
 {
+
 }
 
 void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -153,7 +306,7 @@ void CMon_Trash_Slime::OnCollisionExit(CCollider* other)
 
 void CMon_Trash_Slime::Move_Dir(_float fTimeDelta)
 {
-	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 
 	if (fAngle >= 337.5f || fAngle <= 22.5f)
 	{
@@ -224,7 +377,9 @@ void CMon_Trash_Slime::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
-
+	Safe_Release(m_pPlayerTransform);
+	
+	
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();

@@ -28,7 +28,7 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 
 	MON_COPY_KOOFU_DESC* pDesc = static_cast<MON_COPY_KOOFU_DESC*>(pArg);
 
-	m_pTargetTransform = pDesc->m_pTargetTransform;
+	m_pTargetTransform = pDesc->pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 

@@ -55,11 +55,55 @@ void CMonster::OnCollisionExit(CCollider* other)
 {
 }
 
+void CMonster::Move_Dir(_float _floatTimeDelta)
+{
+	m_fDirAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+
+	if (m_fDirAngle >= 337.5f || m_fDirAngle <= 22.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_U;
+	}
+	else if (m_fDirAngle <= 67.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_RU;
+	}
+	else if (m_fDirAngle <= 112.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_R;
+	}
+	else if (m_fDirAngle <= 157.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_RD;
+	}
+	else if (m_fDirAngle <= 202.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_D;
+	}
+	else if (m_fDirAngle <= 247.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_LD;
+	}
+	else if (m_fDirAngle <= 292.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_L;
+	}
+	else if (m_fDirAngle < 337.5f)
+	{
+		m_eMon_Dir = MON_DIR::DIR_LU;
+	}
+	else
+	{
+		MSG_BOX(TEXT("Dir_Error"));
+	}
+}
+
 void CMonster::Free()
 {
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pAnimCom);
+
+	Safe_Release(m_pPlayerTransform);
 
 	__super::Free();
 }

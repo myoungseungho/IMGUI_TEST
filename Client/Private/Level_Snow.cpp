@@ -31,7 +31,7 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Monster_Trash_Slime"))))
+	if (FAILED(Ready_Layer_Monster_Trash_Slime(TEXT("Layer_Monster_Trash_Slime"))))
 		return E_FAIL;
 
 

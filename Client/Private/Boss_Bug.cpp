@@ -28,11 +28,11 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 		return E_FAIL;
 
 	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
-	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pPlayerTransform = pDesc->pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -203,11 +203,11 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 
 	_float3 PlayerPos;
 
-	PlayerPos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	PlayerPos.y = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 0.5f;
-	PlayerPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	PlayerPos.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
+	PlayerPos.y = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).y + 0.5f;
+	PlayerPos.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	m_pTransformCom->Radian_Turn(vRight, 270.f * D3DX_PI / 180.f);
 }
@@ -577,7 +577,7 @@ CGameObject* CBoss_Bug::Clone(void* pArg)
 void CBoss_Bug::Free()
 {
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);

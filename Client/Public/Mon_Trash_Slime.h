@@ -34,14 +34,20 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 private:
+	void Move_Dir(_float fTimeDelta);
 	void Anim_State(_float fTimeDelta);
+	void Mon_State(_float fTimeDelta);
 
+	void State_Idle(_float fTimeDelta);
+	void State_Move(_float fTimeDelta);
 
 private:
-	void Move_Dir(_float fTimeDelta);
+	void Move(_float fTimeDelta);
 
 private:
 	CTransform* m_pTargetTransform = { nullptr };
+
+	ANIM_STATE m_eAnim_State = {};
 
 public:
 	static CMon_Trash_Slime* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -50,3 +56,4 @@ public:
 	virtual void Free() override;
 };
 
+END
