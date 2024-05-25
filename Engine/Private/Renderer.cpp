@@ -86,11 +86,6 @@ HRESULT CRenderer::Render_Blend(_float DeltaTime)
 
 HRESULT CRenderer::Render_UI(_float DeltaTime)
 {
-	m_RenderObjects[RG_UI].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
-		{
-			return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
-		});
-
 	for (auto& pRenderObject : m_RenderObjects[RG_UI])
 	{
 		if (nullptr != pRenderObject)
