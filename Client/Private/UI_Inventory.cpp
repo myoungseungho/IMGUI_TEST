@@ -7,6 +7,8 @@
 #include "UI_ItemTabIcon_Leaf.h"
 #include "UI_Cursor.h"
 #include "UI_Inventory_BackGround.h"
+#include "UI_Item.h"
+#include "UI_Hat.h"
 #include "GameInstance.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -51,30 +53,6 @@ HRESULT CInventory::Initialize(void* pArg)
 			return E_FAIL;
 		Safe_AddRef(pUIObject);
 		m_vecUIObject.push_back(pUIObject);
-		return S_OK;
-		};
-
-	//UI오브젝트 받아서 HatVector에 넣기
-	auto AddHatUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
-			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
-		if (!pUIObject)
-			return E_FAIL;
-		Safe_AddRef(pUIObject);
-		m_vecHatObject.push_back(pUIObject);
-		return S_OK;
-		};
-
-	//UI오브젝트 받아서 ItemVector에 넣기
-	auto AddItemUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
-			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
-		if (!pUIObject)
-			return E_FAIL;
-		Safe_AddRef(pUIObject);
-		m_vecItemObject.push_back(pUIObject);
 		return S_OK;
 		};
 
@@ -165,8 +143,23 @@ HRESULT CInventory::Initialize(void* pArg)
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
 			return E_FAIL;
-	/*	if (FAILED(AddHatUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
-			return E_FAIL;*/
+	}
+
+
+
+	for (size_t i = 0; i < 15; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		int row = (i / 5); // 두 번째 행부터 시작
+		int col = i % 5;
+
+		slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
+		slotData.scale = { 60.f, 70.f };
+		slotData.alpha = 255.f;
+		slotData.index = i;
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, i)))
+			return E_FAIL;
 	}
 
 	// 초기 상태 설정
@@ -265,6 +258,28 @@ void CInventory::UpdateAlphaValues()
 	}
 }
 
+void CInventory::ShowHats()
+{
+	for (auto& iter : m_vecUIObject)
+	{
+		if (typeid(*iter) == typeid(CUI_Hat))
+			iter->m_fAlpha = 255.f; // Hat 객체를 보이게 설정
+		else if (typeid(*iter) == typeid(CUI_Item))
+			iter->m_fAlpha = 0.f; // Item 객체를 숨김
+	}
+}
+
+void CInventory::ShowItems()
+{
+	for (auto& iter : m_vecUIObject)
+	{
+		if (typeid(*iter) == typeid(CUI_Hat))
+			iter->m_fAlpha = 0.f; // Hat 객체를 보이게 설정
+		else if (typeid(*iter) == typeid(CUI_Item))
+			iter->m_fAlpha = 255.f; // Item 객체를 숨김
+	}
+}
+
 void CInventory::Control_FirstRow()
 {
 	for (auto& iter : m_vecUIObject)
@@ -299,6 +314,18 @@ void CInventory::Control_FirstRow()
 		}
 
 	}
+
+	// 두 번째 행 이후의 객체를 변경
+	if (m_currentCol == 0)
+	{
+		// Hat 객체를 보여줌
+		ShowHats();
+	}
+	else if (m_currentCol == 1)
+	{
+		// Item 객체를 보여줌
+		ShowItems();
+	}
 }
 
 void CInventory::Control_OtherRow()
@@ -330,7 +357,6 @@ void CInventory::Control_OtherRow()
 		}
 	}
 }
-
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
@@ -387,18 +413,6 @@ void CInventory::Free()
 		Safe_Release(pUIObject);
 	}
 	m_vecUIObject.clear();
-
-	for (auto& pUIObject : m_vecHatObject)
-	{
-		Safe_Release(pUIObject);
-	}
-	m_vecHatObject.clear();
-
-	for (auto& pUIObject : m_vecItemObject)
-	{
-		Safe_Release(pUIObject);
-	}
-	m_vecItemObject.clear();
 
 	Safe_Release(m_pKeyCom);
 	__super::Free();

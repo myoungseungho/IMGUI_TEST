@@ -45,6 +45,8 @@ private:
 	void Control_FirstRow();
 	void Control_OtherRow();
 	void UpdateAlphaValues();
+	void ShowHats();
+	void ShowItems();
 	_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_firstRowCols : m_otherRowsCols;
 	}
@@ -77,8 +79,6 @@ private:
 
 private:
 	vector<CUIObject*> m_vecUIObject;
-	vector<CUIObject*> m_vecHatObject;
-	vector<CUIObject*> m_vecItemObject;
 
 public:
 	/* 원형객체를 생성한다. */

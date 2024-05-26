@@ -29,16 +29,18 @@ HRESULT CUI_Item::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 50.f;
-	m_fSizeY = 50.f;
-	m_fX = -595.f;
-	m_fY = 305.f;
+	UIDATA* uiData = reinterpret_cast<UIDATA*>(pArg);
+
+	m_fSizeX = uiData->scale.x;
+	m_fSizeY = uiData->scale.y;
+	m_fX = uiData->position.x;
+	m_fY = uiData->position.y;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-
-	m_fAlpha = 255.f;
+	m_fAlpha = uiData->alpha;
+	m_iIndex = uiData->index;
 
 	return S_OK;
 }
@@ -68,7 +70,7 @@ HRESULT CUI_Item::Render(_float fTimeDelta)
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	if (FAILED(m_pTextureCom->Bind_Texture(m_iIndex)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
