@@ -45,15 +45,18 @@ HRESULT CUI_Item::Initialize(void* pArg)
 
 void CUI_Item::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
 void CUI_Item::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
 }
 
 void CUI_Item::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
@@ -61,6 +64,7 @@ void CUI_Item::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Item::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */

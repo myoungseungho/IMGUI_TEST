@@ -147,47 +147,27 @@ HRESULT CInventory::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	for (size_t i = 0; i < 5; i++)
+	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
+	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
+	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
+	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+
+	for (size_t i = 0; i < 15; i++)
 	{
 		// 각 슬롯에 대한 위치와 크기 설정
-		switch (i)
-		{
-		case 0:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 160.f, 165.f };
-			slotData.alpha = 0.f;
-			break;
-		case 1:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 160.f, 165.f };
-			slotData.alpha = 104.f;
-			break;
-		case 2:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 160.f, 165.f };
-			slotData.alpha = 104.f;
-			break;
-		case 3:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 160.f, 165.f };
-			slotData.alpha = 104.f;
-			break;
-		case 4:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 160.f, 160.f };
-			slotData.alpha = 104.f;
-			break;
-		}
+		int row = (i / 5); // 두 번째 행부터 시작
+		int col = i % 5;
 
+		slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
+		slotData.scale = { 60.f, 70.f };
+		slotData.alpha = 255.f;
 		slotData.index = i;
 
-
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_UI_Hat"), &slotData, i)))
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
 			return E_FAIL;
-		if (FAILED(AddHatUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_UI_Hat"), &slotData, i)))
-			return E_FAIL;
+	/*	if (FAILED(AddHatUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
+			return E_FAIL;*/
 	}
-
 
 	// 초기 상태 설정
 	UpdateAlphaValues();
@@ -334,11 +314,11 @@ void CInventory::Control_OtherRow()
 		}
 	}
 
-	// CUI_Cursor 객체와 CUI_Inventory_BackGround 객체의 위치를 업데이트
+	// CUI_Cursor 객체의 위치를 업데이트
 	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
 	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
 	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
-	const float deltaY = -130.0f; // 행 이동 시의 Y 위치 증감분
+	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
 
 	for (auto& iter : m_vecUIObject)
 	{
@@ -347,15 +327,6 @@ void CInventory::Control_OtherRow()
 			iter->m_fX = initialX + m_currentCol * deltaX;
 			iter->m_fY = initialY + (m_currentRow - 1) * deltaY; // 첫 번째 행 제외
 			iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
-		}
-		else if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
-		{
-			// 특정 조건에 맞는 CUI_Inventory_BackGround 객체를 선택
-			if (iter->m_iIndex == 1) {
-				iter->m_fX = initialX + m_currentCol * deltaX;
-				iter->m_fY = initialY + (m_currentRow - 1) * deltaY; // 첫 번째 행 제외
-				iter->m_fAlpha = 104.f; // 두 번째 행부터는 커서가 보이게 설정
-			}
 		}
 	}
 }

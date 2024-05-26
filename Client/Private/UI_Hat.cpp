@@ -29,42 +29,90 @@ HRESULT CUI_Hat::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 50.f;
-	m_fSizeY = 50.f;
-	m_fX = -595.f;
-	m_fY = 305.f;
+	UIDATA* uiData = reinterpret_cast<UIDATA*>(pArg);
+
+	m_fSizeX = uiData->scale.x;
+	m_fSizeY = uiData->scale.y;
+	m_fX = uiData->position.x;
+	m_fY = uiData->position.y;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-
-	m_fAlpha = 255.f;
+	m_fAlpha = uiData->alpha;
+	m_iIndex = uiData->index;
 
 	return S_OK;
 }
 
 void CUI_Hat::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
 }
 
 void CUI_Hat::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 5.f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 5.f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 5.f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 5.f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.01f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.01f;
+	}
+	if (GetAsyncKeyState('J') & 0x8000) {
+		offsetXScale -= 5.f;
+	}
+	if (GetAsyncKeyState('K') & 0x8000) {
+		offsetXScale += 5.f;
+	}
+	if (GetAsyncKeyState('N') & 0x8000) {
+		offsetYScale -= 5.f;
+	}
+	if (GetAsyncKeyState('M') & 0x8000) {
+		offsetYScale += 5.f;
+	}
+	/*if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		m_fAlpha += 1.f;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		m_fAlpha -= 1.f;
+	}*/
 }
 
 void CUI_Hat::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
 	__super::Late_Update(fTimeDelta);
 
+
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX+offsetXScale, m_fSizeY+offsetYScale, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX+offsetX, m_fY+offsetY, 0.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
 HRESULT CUI_Hat::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	if (FAILED(m_pTextureCom->Bind_Texture(m_iIndex)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))

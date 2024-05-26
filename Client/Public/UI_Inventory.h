@@ -45,7 +45,6 @@ private:
 	void Control_FirstRow();
 	void Control_OtherRow();
 	void UpdateAlphaValues();
-
 	_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_firstRowCols : m_otherRowsCols;
 	}

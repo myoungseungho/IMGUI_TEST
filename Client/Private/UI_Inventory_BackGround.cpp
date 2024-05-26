@@ -62,8 +62,6 @@ void CUI_Inventory_BackGround::Late_Update(_float fTimeDelta)
 
 	__super::Late_Update(fTimeDelta);
 
-	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
