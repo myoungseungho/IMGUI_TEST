@@ -151,7 +151,7 @@ HRESULT CMon_Bear_Cannon::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Down"), TEXT("Bear_Cannon_Stun_Down"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Left"), TEXT("Bear_Cannon_Stun_Left"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftDown"), TEXT("Bear_Cannon_Stun_LeftDown"));
-	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftUp"), TEXT("Bear_Cannon_Stun_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_C	omponent_AnimTexture_BearSoldier_Stun_LeftUp"), TEXT("Bear_Cannon_Stun_LeftUp"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Right"), TEXT("Bear_Cannon_Stun_Right"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightDown"), TEXT("Bear_Cannon_Stun_RightDown"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightUp"), TEXT("Bear_Cannon_Stun_RightUp"));
@@ -319,7 +319,6 @@ void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 	if (m_fMoveRange <= 10.f && m_pTimerCom->Time_Limit(fTimeDelta , 2.f))
 	{
 		m_eMon_State = MON_STATE::ATTACK;
-		int a = 10;
 	}
 }
 
@@ -327,8 +326,11 @@ void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::ATTACK;
 
-	if(m_pTimerCom->Time_Limit(fTimeDelta,2.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	{
 		Attack();
+		m_eMon_State = MON_STATE::IDLE;
+	}
 
 	if (m_fMoveRange > 10.f)
 	{

@@ -37,11 +37,8 @@ HRESULT CSkill_Cannon_Ball::Initialize(void* pArg)
 		return E_FAIL;
 
 	//생성 위치
-	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y + 2.f;
-	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	Move_Dir();
+	
 
 	return S_OK;
 }
@@ -168,6 +165,80 @@ void CSkill_Cannon_Ball::Destory(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
 		Safe_Release(pThis);
+	}
+}
+
+void CSkill_Cannon_Ball::Move_Dir()
+{
+	m_fDirAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+
+	if (m_fDirAngle >= 337.5f || m_fDirAngle <= 22.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 67.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + 0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y ;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 112.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x +0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y ;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 157.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + 0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y ;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 202.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 247.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x - 0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle <= 292.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x - 0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else if (m_fDirAngle < 337.5f)
+	{
+		_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + 0.5f;
+		_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+		_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPositionX, vPositionY, vPositionZ));
+	}
+	else
+	{
+		MSG_BOX(TEXT("Dir_Error"));
 	}
 }
 

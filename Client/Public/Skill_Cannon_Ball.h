@@ -42,9 +42,11 @@ public:
 private:
 	void Move(_float fTimeDelta);
 	void Destory(_float fTimeDelta);
+	void Move_Dir();
 
 private:
 	CTransform* m_pPlayerTransform = { nullptr };
+	_float m_fDirAngle = { 0.f };
 
 public:
 	static CSkill_Cannon_Ball* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
