@@ -55,6 +55,11 @@ HRESULT CUI_HP_Player::Initialize(void* pArg)
 		return E_FAIL;
 	}
 
+	CGameObject* gameobject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetLoadingLevelIndex(), TEXT("Layer_Player"));
+	m_pPlayerCopy = static_cast<CPlayer*>(gameobject);
+	Safe_AddRef(m_pPlayerCopy);
+	m_iPlayerMaxHp = m_pPlayerCopy->Get_Player_MaxHp();
+
 	return S_OK;
 }
 
@@ -64,7 +69,7 @@ void CUI_HP_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_Player::Update(_float fTimeDelta)
 {
-	
+	m_iPlayerCurrentHp = m_pPlayerCopy->Get_Player_Hp();
 	//// 키 입력 처리
 	//if (GetAsyncKeyState(VK_UP) & 0x8000)
 	//{
@@ -105,14 +110,9 @@ HRESULT CUI_HP_Player::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	CGameObject* gameobject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player"));
-	CPlayer* player = static_cast<CPlayer*>(gameobject);
-	_uint currentHp = player->Get_Player_Hp();
-	_uint maxHp = player->Get_Player_MaxHp();
-
 	// 텍스트 형식화
 	wchar_t text[256];
-	swprintf_s(text, L"%d / %d", currentHp, maxHp);
+	swprintf_s(text, L"%d / %d", m_iPlayerCurrentHp, m_iPlayerMaxHp);
 
 	// 텍스트 렌더링
 	RECT rect;
@@ -189,6 +189,7 @@ void CUI_HP_Player::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pFont);
+	Safe_Release(m_pPlayerCopy);
 
 	__super::Free();
 }

@@ -25,6 +25,9 @@ HRESULT CLevel_Loading::Initialize(LEVELID eNextLevelID)
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Loading(TEXT("Layer_Loading_BackGround"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -65,8 +68,27 @@ HRESULT CLevel_Loading::Render()
 {
 	m_pLoader->Draw_Text();
 
+	if (!m_pLoader->isFinished()) {
+		
+	}
+	else {
+		
+	}
+
 	return S_OK;
 }
+
+HRESULT CLevel_Loading::Ready_Layer_Loading(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_LOADING, TEXT("Prototype_GameObject_UI_Loading_Background"), strLayerTag)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_LOADING, TEXT("Prototype_GameObject_UI_Loading_Orgu_Run"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 CLevel_Loading* CLevel_Loading::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID)
 {

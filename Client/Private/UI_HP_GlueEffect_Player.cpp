@@ -48,8 +48,6 @@ void CUI_HP_GlueEffect_Player::Priority_Update(_float fTimeDelta)
 
 void CUI_HP_GlueEffect_Player::Update(_float fTimeDelta)
 {
-	
-
 	// Update alpha value
 	m_fElapsedTime += fTimeDelta;
 	float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;

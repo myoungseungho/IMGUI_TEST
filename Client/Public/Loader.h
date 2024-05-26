@@ -41,7 +41,6 @@ private:
 	CRITICAL_SECTION			m_Critical_Section = {};
 	CGameInstance*				m_pGameInstance = { nullptr };
 
-
 private:
 	HRESULT Loading_For_Jungle();
 	HRESULT Loading_For_Tacho();
@@ -49,6 +48,7 @@ private:
 	HRESULT Loading_For_Koofu();
 	HRESULT Loading_For_Bug();
 	HRESULT Loading_For_Edit();
+
 
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID);

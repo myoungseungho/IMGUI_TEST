@@ -470,8 +470,6 @@ void CInventory::AddToQuickInventory(_uint slot)
 	}
 }
 
-
-
 void CInventory::Control_FirstRow()
 {
 	for (auto& iter : m_vecUIObject)
@@ -570,6 +568,7 @@ void CInventory::UpdateSelectedItemInfo()
 		}
 	}
 }
+
 void CInventory::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
@@ -662,8 +661,6 @@ HRESULT CInventory::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-
-
 HRESULT CInventory::Ready_Components()
 {
 	/* For.Com_KeyState */
@@ -720,8 +717,6 @@ void CInventory::Font_Initialize()
 	}
 }
 
-
-
 CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CInventory* pInstance = new CInventory(pGraphic_Device);
@@ -734,7 +729,6 @@ CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	return pInstance;
 }
-
 
 CGameObject* CInventory::Clone(void* pArg)
 {

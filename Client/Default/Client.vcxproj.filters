@@ -286,6 +286,9 @@
     <Filter Include="02.GameObjects\UI\PlayerItem">
       <UniqueIdentifier>{fece1618-af18-49db-be75-cb060f57566d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Loading">
+      <UniqueIdentifier>{81fd0153-d602-494b-8061-f3ebd10981c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -627,6 +630,12 @@
     <ClInclude Include="..\Public\UI_Hat.h">
       <Filter>02.GameObjects\UI\PlayerItem</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UI_Loading_Background.h">
+      <Filter>02.GameObjects\UI\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Loading_Orgu_Run.h">
+      <Filter>02.GameObjects\UI\Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -952,6 +961,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Item.cpp">
       <Filter>02.GameObjects\UI\PlayerItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Loading_Background.cpp">
+      <Filter>02.GameObjects\UI\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Loading_Orgu_Run.cpp">
+      <Filter>02.GameObjects\UI\Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

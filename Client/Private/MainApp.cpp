@@ -38,9 +38,11 @@
 #include "UI_PlayerEquipSlot_BackGround.h"
 #include "UI_Hat.h"
 #include "UI_Item.h"
+#include "UI_Loading_Background.h"
+#include "UI_Loading_Orgu_Run.h"
 #include <codecvt>
 
-bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -1058,8 +1060,17 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_Item"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Item/ItemSprite/Sprite_Item_%d.png"), 16))))
 		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_Hat"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Item/ItemSprite/Sprite_ItemThumbnails_Equipment_%d.png"), 64))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_Loading_BackGround"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Loading/BackGround/BackGround.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_Loading_Ogu"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Loading/Ogu/Loading_%d.png"), 8))))
 		return E_FAIL;
 
 #pragma endregion
@@ -1173,6 +1184,14 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Item"),
 		CUI_Item::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Loading_Background"),
+		CUI_Loading_Background::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Loading_Orgu_Run"),
+		CUI_Loading_Orgu_Run::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

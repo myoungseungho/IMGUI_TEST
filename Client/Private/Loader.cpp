@@ -79,8 +79,9 @@ _uint APIENTRY LoadingMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVELID eNextLevelID)
 {
-
 	m_eLevelID = eNextLevelID;
+
+	m_pGameInstance->SetLoadingLevelIndex(m_eLevelID);
 
 	InitializeCriticalSection(&m_Critical_Section);
 
@@ -98,8 +99,6 @@ HRESULT CLoader::Loading()
 	HRESULT		hr{};
 
 	m_isFinished = false;
-
-	m_pGameInstance->SetLoadingLevelIndex(m_eLevelID);
 
 	switch (m_eLevelID)
 	{
@@ -298,7 +297,7 @@ HRESULT CLoader::Loading_For_Jungle()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_MonkeyStatue_Trigger.png"), 1))))
 		return E_FAIL;
 
-	
+
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
@@ -379,7 +378,7 @@ HRESULT CLoader::Loading_For_Snow()
 {
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
-	
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_1.png"), 1))))
 		return E_FAIL;
@@ -981,7 +980,7 @@ HRESULT CLoader::Loading_For_Edit()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_EDIT, TEXT("Prototype_Component_Texture_Terrain"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Terrain/Orgu_Terrain_0.png"), 1))))
 		return E_FAIL;
-	
+
 
 	/* 애니메이션 텍스쳐를 로드한다*/
 
