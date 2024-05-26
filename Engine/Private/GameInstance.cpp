@@ -217,7 +217,6 @@ HRESULT CGameInstance::AddObjectLayersVector(_uint iLevelIndex, vector<pair < ws
 	return	m_pObject_Manager->AddObjectLayersVector(iLevelIndex, pVector);
 }
 
-
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)

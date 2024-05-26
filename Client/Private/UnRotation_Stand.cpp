@@ -2,6 +2,7 @@
 #include "..\Public\UnRotation_Stand.h"
 
 #include "GameInstance.h"
+#include <UnRotation_Orb.h>
 
 CUnRotation_Stand::CUnRotation_Stand(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -52,6 +53,8 @@ HRESULT CUnRotation_Stand::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+
+
 	return S_OK;
 }
 
@@ -62,6 +65,21 @@ void CUnRotation_Stand::Priority_Update(_float fTimeDelta)
 void CUnRotation_Stand::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (!IsHaveOrb)
+	{
+		CUnRotation_Orb::UNROTATION_ORB_DESC			UNROTORBDESC{};
+
+		//UNROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_UnRotation_Stand"), TEXT("Com_Transform")));
+
+		UNROTORBDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_UnRotation_Orb"), TEXT("Layer_UnRotation_Orb"), &UNROTORBDESC);
+
+		IsHaveOrb = true;
+	}
+	
+
 }
 
 void CUnRotation_Stand::Late_Update(_float fTimeDelta)

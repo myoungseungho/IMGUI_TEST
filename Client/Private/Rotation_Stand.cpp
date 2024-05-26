@@ -2,6 +2,7 @@
 #include "..\Public\Rotation_Stand.h"
 
 #include "GameInstance.h"
+#include <Rotation_Orb.h>
 
 CRotation_Stand::CRotation_Stand(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -62,6 +63,19 @@ void CRotation_Stand::Priority_Update(_float fTimeDelta)
 void CRotation_Stand::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (!IsHaveOrb)
+	{
+		CRotation_Orb::ROTATION_ORB_DESC			ROTORBDESC{};
+
+		//ROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Stand"), TEXT("Com_Transform")));
+
+		ROTORBDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Rotation_Orb"), TEXT("Layer_Rotation_Orb"), &ROTORBDESC);
+
+		IsHaveOrb = true;
+	}
 }
 
 void CRotation_Stand::Late_Update(_float fTimeDelta)
@@ -108,6 +122,8 @@ HRESULT CRotation_Stand::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }

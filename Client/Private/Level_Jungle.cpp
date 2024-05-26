@@ -36,18 +36,6 @@ HRESULT CLevel_Jungle::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_Rotation_Orb"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_End_Orb"))))
-		return E_FAIL;
-
-
-	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_UnRotation_Orb"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_End_Orb(TEXT("Layer_Small_Orb"))))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -116,7 +104,7 @@ HRESULT CLevel_Jungle::Ready_Layer_Small_Orb(const _wstring& strLayerTag)
 {
 	CSmall_Orb::SMALL_ORB_DESC			SAMALLORBDESC{};
 
-	SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Orb"), TEXT("Com_Transform")));
+	SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Stand"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Small_Orb"), strLayerTag, &SAMALLORBDESC)))
 		return E_FAIL;

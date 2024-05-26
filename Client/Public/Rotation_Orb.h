@@ -53,7 +53,7 @@ private:
 	CTransform* m_pTargetTransform = { nullptr };
 private:
 	HRESULT Ready_Components();
-
+	_bool IsHaveOrb = { false };
 
 private:
 

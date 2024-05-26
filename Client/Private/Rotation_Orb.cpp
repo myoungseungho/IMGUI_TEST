@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Player.h>
+#include <Small_Orb.h>
 
 
 CRotation_Orb::CRotation_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -45,7 +46,7 @@ HRESULT CRotation_Orb::Initialize(void* pArg)
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 1.f, vTargetPos.z));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z-0.01f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -63,6 +64,8 @@ HRESULT CRotation_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+
+
 	return S_OK;
 }
 
@@ -74,6 +77,17 @@ void CRotation_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	if (!IsHaveOrb)
+	{
+		CSmall_Orb::SMALL_ORB_DESC			SAMALLORBDESC{};
+
+		//SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Orb"), TEXT("Com_Transform")));
+		SAMALLORBDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Small_Orb"), TEXT("Layer_Small_Orb"), &SAMALLORBDESC);
+
+		IsHaveOrb = true;
+	}
 }
 
 void CRotation_Orb::Late_Update(_float fTimeDelta)

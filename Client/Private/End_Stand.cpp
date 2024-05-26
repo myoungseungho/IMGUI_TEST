@@ -2,6 +2,7 @@
 #include "..\Public\End_Stand.h"
 
 #include "GameInstance.h"
+#include <End_Orb.h>
 
 CEnd_Stand::CEnd_Stand(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -52,6 +53,8 @@ HRESULT CEnd_Stand::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+
+
 	return S_OK;
 }
 
@@ -62,6 +65,19 @@ void CEnd_Stand::Priority_Update(_float fTimeDelta)
 void CEnd_Stand::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (!IsHaveOrb)
+	{
+		CEnd_Orb::END_ORB_DESC			ENDORBDESC{};
+
+		//ENDORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_End_Stand"), TEXT("Com_Transform")));
+
+		ENDORBDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_End_Orb"), TEXT("Layer_End_Orb"), &ENDORBDESC);
+
+		IsHaveOrb = true;
+	}
 }
 
 void CEnd_Stand::Late_Update(_float fTimeDelta)
@@ -108,6 +124,8 @@ HRESULT CEnd_Stand::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+
 
 	return S_OK;
 }

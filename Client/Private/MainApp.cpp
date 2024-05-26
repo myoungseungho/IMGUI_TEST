@@ -501,7 +501,8 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
-	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb", L"Layer_UnRotation_Orb", L"Layer_Small_Orb" };
+	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb", 
+		L"Layer_Small_Orb" };
 
 	for (auto& object : objectLayersVector)
 	{
