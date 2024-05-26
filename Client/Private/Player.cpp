@@ -211,6 +211,9 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
+	if (dynamic_cast<CSkill_Monster*>(otherObject))
+		return;
+
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
@@ -323,7 +326,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(25.5f, 0.5f, 15.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.5f, 0.5f, 28.f));
 	//&_float3(39.5f, 0.5f, 30.f));
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};

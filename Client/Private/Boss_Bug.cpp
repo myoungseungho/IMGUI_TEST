@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "Skill_Bug_Bullet.h"
 
+#include "Skill_Player.h"
+
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -178,7 +180,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other)
 	{
 		if ((m_eMon_State == MON_STATE::BULLET) || (m_eMon_State == MON_STATE::IDLE))
 		{
-			Damaged();
+			m_tMonsterDesc.iHp--;
 			otherObject->Delete_Object();
 		}
 		return;
@@ -187,7 +189,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other)
 
 void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-	
+
 }
 
 void CBoss_Bug::OnCollisionExit(CCollider* other)

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 
 #include "Skill_Cannon_Ball.h"
+#include "Skill_Player.h"
 
 CMon_Bear_Cannon::CMon_Bear_Cannon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -167,6 +168,8 @@ HRESULT CMon_Bear_Cannon::Begin_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+
+
 	return S_OK;
 }
 
@@ -320,6 +323,11 @@ void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 	{
 		m_eMon_State = MON_STATE::ATTACK;
 	}
+
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+		m_eMon_State = MON_STATE::STUN;
+	}
 }
 
 void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
@@ -367,7 +375,12 @@ HRESULT CMon_Bear_Cannon::Attack()
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other)
 {
-	
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CSkill_Player*>(otherObject))
+	{
+		m_tMonsterDesc.iHp--;
+	}
 }
 
 void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)

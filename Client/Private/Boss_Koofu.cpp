@@ -97,14 +97,6 @@ HRESULT CBoss_Koofu::Render(_float fTimeDelta)
 
 void CBoss_Koofu::MonState(_float fTimeDelta)
 {
-	if (m_tMonsterDesc.iHp <= 40)
-	{
-		m_eMon_State = MON_STATE::BULLET_C;
-		//m_isBullet = false;
-	}
-
-
-
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:
@@ -295,7 +287,7 @@ void CBoss_Koofu::State_Move(_float fTimeDelta)
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		m_ePrev_State = MON_STATE::READY;
 		m_eAnim_State = ANIM_STATE::CAST;
@@ -336,6 +328,10 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	}
 
+	if (m_tMonsterDesc.iHp <= 40)
+	{
+		m_eMon_State = MON_STATE::BULLET_C;
+	}
 
 }
 
@@ -359,6 +355,12 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 			m_isBullet = false;
 		}
 	}
+
+
+	if (m_tMonsterDesc.iHp <= 40)
+	{
+		m_eMon_State = MON_STATE::BULLET_C;
+	}
 }
 
 void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
@@ -374,12 +376,15 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		
 	}
 
-	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET_C)
+	if (m_bHitCheck)
 	{
-			m_eMon_State = MON_STATE::STUN;
-	
-			m_bHitCheck = false;
-			m_isBubbleSpanw = false;
+		m_ePrev_State = MON_STATE::BULLET_C;
+		m_eMon_State = MON_STATE::STUN;
+
+		//m_eAnim_State = ANIM_STATE::STUN;
+
+		m_bHitCheck = false;
+		m_isBubbleSpanw = false;
 
 		for (int i = 0; i < 3; ++i)
 		{
@@ -411,11 +416,20 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
+	m_eAnim_State = ANIM_STATE::STUN;
+
+	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
 	}
+
+	if (m_ePrev_State != MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	{
+		
+		m_eMon_State = MON_STATE::BULLET_C;
+	}
+
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)
@@ -433,6 +447,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET_B;
 	}
+
 }
 
 void CBoss_Koofu::Move_Dir()
@@ -525,7 +540,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
 	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 
