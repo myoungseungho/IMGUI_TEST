@@ -223,6 +223,17 @@ void CInventory::Update(_float fTimeDelta)
 		positionChanged = true;
 	}
 
+	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
+	{
+		if (m_firstRowSelectedCol == 0) {
+			EquipHat();
+		}
+		else if (m_firstRowSelectedCol == 1) {
+			EquipItem();
+		}
+	}
+
+
 	if (positionChanged) {
 		UpdateAlphaValues();
 		m_previousRow = m_currentRow;
@@ -280,6 +291,51 @@ void CInventory::ShowItems()
 	}
 }
 
+void CInventory::EquipHat()
+{
+	int selectedIndex = 0;
+
+	if (m_currentRow > 0) {
+		// 두 번째 행부터 현재 행까지의 인덱스를 계산
+		for (int i = 1; i < m_currentRow; ++i) {
+			selectedIndex += getMaxCols(i);
+		}
+		selectedIndex += m_currentCol;
+
+		// 인덱스를 통해 현재 선택된 Hat을 찾음
+		if (selectedIndex >= 0 && selectedIndex < m_vecUIObject.size()) {
+			for (auto& iter : m_vecUIObject) {
+				if (iter->m_iIndex == selectedIndex && typeid(*iter) == typeid(CUI_Hat)) {
+					m_currentEquipHat = iter;
+					break;
+				}
+			}
+		}
+	}
+}
+
+void CInventory::EquipItem()
+{
+	int selectedIndex = 0;
+
+	if (m_currentRow > 0) {
+		// 두 번째 행부터 현재 행까지의 인덱스를 계산
+		for (int i = 1; i < m_currentRow; ++i) {
+			selectedIndex += getMaxCols(i);
+		}
+		selectedIndex += m_currentCol;
+
+		// 인덱스를 통해 현재 선택된 Item을 찾음
+		if (selectedIndex >= 0 && selectedIndex < m_vecUIObject.size()) {
+			for (auto& iter : m_vecUIObject) {
+				if (iter->m_iIndex == selectedIndex && typeid(*iter) == typeid(CUI_Item)) {
+					m_currentEquipItem = iter;
+					break;
+				}
+			}
+		}
+	}
+}
 void CInventory::Control_FirstRow()
 {
 	for (auto& iter : m_vecUIObject)
@@ -312,8 +368,10 @@ void CInventory::Control_FirstRow()
 				iter->m_fAlpha = 0.f;
 			}
 		}
-
 	}
+
+	// 첫 번째 행에서 선택된 열 위치를 기억
+	m_firstRowSelectedCol = m_currentCol;
 
 	// 두 번째 행 이후의 객체를 변경
 	if (m_currentCol == 0)

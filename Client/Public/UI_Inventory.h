@@ -50,6 +50,10 @@ private:
 	_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_firstRowCols : m_otherRowsCols;
 	}
+
+	void EquipHat();
+	void EquipItem();
+
 public:
 	void SetInventoryOnOff()
 	{
@@ -76,6 +80,11 @@ private:
 
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
+
+private:
+	_uint m_firstRowSelectedCol = { 0 }; // 첫 번째 행에서 선택된 열 위치
+	CUIObject* m_currentEquipHat = { nullptr }; // 현재 착용된 Hat
+	CUIObject* m_currentEquipItem = { nullptr }; // 현재 착용된 Item
 
 private:
 	vector<CUIObject*> m_vecUIObject;
