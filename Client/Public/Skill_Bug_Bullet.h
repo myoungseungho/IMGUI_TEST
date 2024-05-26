@@ -50,6 +50,8 @@ private:
 private:
 	_float3 m_vCreatePos = {};
 	BULLET_STATE m_iBulletType = { };
+
+	_bool m_bPlayerAttack = { false };
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

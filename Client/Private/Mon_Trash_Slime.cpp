@@ -41,7 +41,7 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(15.f, 0.5f, 15.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(25.f, 0.5f, 15.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -64,8 +64,8 @@ void CMon_Trash_Slime::Update(_float fTimeDelta)
 
 void CMon_Trash_Slime::Late_Update(_float fTimeDelta)
 {
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	Destory();
 }
 
 HRESULT CMon_Trash_Slime::Render(_float fTimeDelta)
@@ -285,6 +285,14 @@ void CMon_Trash_Slime::Move(_float fTimeDelta)
 		m_pTransformCom->Go_Up(fTimeDelta + 0.2f);
 
 	m_pTransformCom->Gravity(0.2f, 0.5f, fTimeDelta);
+}
+
+void CMon_Trash_Slime::Destory()
+{
+	CMon_Trash_Slime* pThis = this;
+
+	Safe_Release(pThis);
+
 }
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other)

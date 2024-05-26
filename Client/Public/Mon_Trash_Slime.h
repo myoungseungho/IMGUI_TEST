@@ -42,7 +42,7 @@ private:
 
 private:
 	void Move(_float fTimeDelta);
-
+	void Destory();
 private:
 	ANIM_STATE m_eAnim_State = {};
 

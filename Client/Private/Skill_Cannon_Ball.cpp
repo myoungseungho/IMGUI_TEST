@@ -143,6 +143,13 @@ HRESULT CSkill_Cannon_Ball::End_RenderState()
 
 void CSkill_Cannon_Ball::OnCollisionEnter(CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if(dynamic_cast<CPlayer*>(otherObject))
+	{
+		CSkill_Cannon_Ball* pThis = this;
+		Safe_Release(pThis);
+	}
 }
 
 void CSkill_Cannon_Ball::OnCollisionStay(CCollider* other, _float fTimeDelta)

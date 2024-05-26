@@ -152,8 +152,8 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other)
 
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
-		if(dynamic_cast<CPlayer*>(otherObject)->Get_Player_Dir() != CPlayer::STATE_ATTACK)
-			Safe_Release(pThis);
+		if (dynamic_cast<CPlayer*>(otherObject)->Get_Player_Dir() != CPlayer::STATE_ATTACK)
+			m_bPlayerAttack = true;
 	}
 	
 }
@@ -174,6 +174,9 @@ void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 	CSkill_Bug_Bullet* pThis = this;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
+		Safe_Release(pThis);
+
+	if(m_bPlayerAttack)
 		Safe_Release(pThis);
 }
 

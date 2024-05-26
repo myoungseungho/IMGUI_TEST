@@ -16,6 +16,7 @@
 #include "Skill_Koofu_Bubble.h"
 #include "Skill_Bug_Bullet.h"
 #include "Skill_Koofu_Rolling.h"
+#include <Mon_Bear_Cannon.h>
 
 
 
@@ -176,6 +177,8 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CMon_Bear_Cannon*>(otherObject))
+		return;
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
@@ -193,7 +196,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			CSkill_Bug_Bullet* pPushObj = dynamic_cast<CSkill_Bug_Bullet*>(otherObject);
 			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
-			pPushObjTranform->Set_Speed(-2.f);
+			pPushObjTranform->Set_Speed(-3.5f);
 		}
 		return;
 	}

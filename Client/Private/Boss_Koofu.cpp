@@ -338,7 +338,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
 	m_bHitCheck = false;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50, 1.5f, 45.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50, 0.75f, 45.f));
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
 	{
@@ -365,15 +365,20 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 {
+	if (!m_bWarf)
+	{
+		Warf(39, 28, 60, 47);
+		m_bWarf = true;
+	}
+
 	m_eAnim_State = ANIM_STATE::CAST;
 
 	if (!m_isBubbleSpanw && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
-		m_eAnim_State = ANIM_STATE::CAST;
 		Warf(39, 28, 60 , 47);
 		CircleCreate();
 		m_isBubbleSpanw = true;
-		
+		m_bWarf = false;
 	}
 
 	if (m_bHitCheck)
@@ -615,15 +620,18 @@ HRESULT CBoss_Koofu::Ready_Animation()
 HRESULT CBoss_Koofu::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	
 	return S_OK;
 }
 
 HRESULT CBoss_Koofu::End_RenderState()
 {
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
