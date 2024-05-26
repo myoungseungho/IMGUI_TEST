@@ -21,7 +21,7 @@ public:
 	{
 		CTransform* pTargetTransform = { nullptr };
 	}SMALL_ORB_DESC;
-
+	enum SMALLORB_DIR {DIR_DOWN, DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_END};
 private:
 	CSmall_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CSmall_Orb(const CSmall_Orb& Prototype); /* 사본생성 시 */
@@ -56,6 +56,7 @@ private:
 
 
 private:
+	SMALLORB_DIR			m_eDirection = { DIR_END };
 
 public:
 	/* 원형객체를 생성한다. */

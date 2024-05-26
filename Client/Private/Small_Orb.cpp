@@ -65,7 +65,7 @@ HRESULT CSmall_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	
+	m_eDirection = DIR_DOWN;
 
 
 	return S_OK;
@@ -78,6 +78,31 @@ void CSmall_Orb::Priority_Update(_float fTimeDelta)
 void CSmall_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (m_eDirection == DIR_DOWN)
+	{
+		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+	}
+	else if (m_eDirection == DIR_LEFT)
+	{
+		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x-0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+	}
+	else if (m_eDirection == DIR_UP)
+	{
+		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z + 0.02f));
+	}
+	else if (m_eDirection == DIR_RIGHT)
+	{
+		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x+0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+	}
 
 }
 
@@ -114,7 +139,19 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
 		if (pCopyPlayer->Get_Player_State() == 2);
+		{
+			if (m_eDirection == DIR_DOWN)
+				m_eDirection = DIR_LEFT;
 
+			else if (m_eDirection == DIR_LEFT)
+				m_eDirection = DIR_UP;
+
+			else if (m_eDirection == DIR_UP)
+				m_eDirection = DIR_RIGHT;
+
+			else if (m_eDirection == DIR_RIGHT)
+				m_eDirection = DIR_DOWN;
+		}
 	}
 }
 
