@@ -42,6 +42,7 @@ public: /* For.Object_Manager */
 	HRESULT AddObjectPrototypesVector(vector<string>*);
 	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < string, list<CGameObject*>>>*);
 	HRESULT AddObjectLayersVector(_uint iLevelIndex, vector<pair < wstring, list<CGameObject*>>>*);
+	CGameObject* GetObjectByIndex(_uint iLevelIndex, const wstring& strLayerTag, _uint index);
 
 
 public: /* For.Component_Manager */

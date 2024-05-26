@@ -17,7 +17,7 @@ private:
 public:
 	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex);
 	class CGameObject* Get_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, _uint iIndex);
-	
+
 public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_Prototype(const wstring& strPrototypeTag, class CGameObject* pPrototype);
@@ -25,7 +25,7 @@ public:
 	HRESULT AddObjectPrototypesVector(vector<string>*);
 	HRESULT AddObjectLayersVector(_uint, vector<pair < string, list<CGameObject*>>>* pVector);
 	HRESULT AddObjectLayersVector(_uint, vector<pair < wstring, list<CGameObject*>>>* pVector);
-
+	CGameObject* GetObjectByIndex(_uint iLevelIndex, const wstring& strLayerTag, _uint index);
 
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);

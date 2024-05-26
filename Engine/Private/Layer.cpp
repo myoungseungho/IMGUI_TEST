@@ -32,6 +32,18 @@ CGameObject* CLayer::Get_GameObject(_uint iIndex)
 	return (*iter);
 }
 
+CGameObject* CLayer::Get_GameObjectByIndex(_uint iIndex)
+{
+	// 리스트를 순회하며 m_index가 iIndex와 같은 객체를 찾음
+	for (auto& pGameObject : m_GameObjects)
+	{
+		if (pGameObject->m_iIndex == iIndex)
+			return pGameObject; // 일치하는 객체를 찾으면 반환
+	}
+
+	return nullptr; // 일치하는 객체가 없으면 nullptr 반환
+}
+
 HRESULT CLayer::Add_GameObject(CGameObject* pGameObject)
 {
 	if (nullptr == pGameObject)

@@ -48,12 +48,12 @@ private:
 	void ShowHats();
 	void ShowItems();
 	_uint getMaxCols(_uint row) const {
-		return (row == 0) ? m_firstRowCols : m_otherRowsCols;
+		return (row == 0) ? m_iFirstRowCols : m_iOtherRowsCols;
 	}
 
 	void EquipHat();
 	void EquipItem();
-
+	void AddToQuickInventory(_uint slot);
 public:
 	void SetInventoryOnOff()
 	{
@@ -70,13 +70,15 @@ private:
 private:
 	_bool m_bIsOn = { true };
 
-	_uint m_currentRow = { 0 };// 현재 선택된 아이템의 행
-	_uint m_currentCol = { 0 }; // 현재 선택된 아이템의 열
-	const _uint m_firstRowCols = { 4 }; // 첫 번째 행의 열 수
-	const _uint m_otherRowsCols = { 5 }; // 나머지 행의 열 수
-	_uint m_maxRows = { 4 }; // 인벤토리의 행 수
-	int m_previousRow = -1; // 이전 선택된 아이템의 행
-	int m_previousCol = -1; // 이전 선택된 아이템의 열
+	_uint m_iCurrentRow = { 0 };// 현재 선택된 아이템의 행
+	_uint m_iCurrentCol = { 0 }; // 현재 선택된 아이템의 열
+	const _uint m_iFirstRowCols = { 4 }; // 첫 번째 행의 열 수
+	const _uint m_iOtherRowsCols = { 5 }; // 나머지 행의 열 수
+	const _uint m_iMaxRows = { 4 }; // 인벤토리의 행 수
+	_uint m_iPreviousRow = -1; // 이전 선택된 아이템의 행
+	_uint m_iPreviousCol = -1; // 이전 선택된 아이템의 열
+	const _uint m_iInitHatCount = { 15 };
+	const _uint m_iInitItemCount = { 15 };
 
 	_float4x4			m_ViewMatrix = {};
 	_float4x4			m_ProjMatrix = {};
@@ -85,6 +87,7 @@ private:
 	_uint m_firstRowSelectedCol = { 0 }; // 첫 번째 행에서 선택된 열 위치
 	CUIObject* m_currentEquipHat = { nullptr }; // 현재 착용된 Hat
 	CUIObject* m_currentEquipItem = { nullptr }; // 현재 착용된 Item
+	vector<CUIObject*> m_quickInventory; // 간이 인벤토리 (최대 4개의 슬롯)
 
 private:
 	vector<CUIObject*> m_vecUIObject;

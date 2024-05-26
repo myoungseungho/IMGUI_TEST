@@ -31,7 +31,7 @@ CGameObject* CObject_Manager::Get_GameObject(_uint iLevelIndex, const _wstring& 
 	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
 	if (nullptr == pLayer)
 		return nullptr;
-	
+
 	return pLayer->Get_GameObject(iIndex);
 }
 
@@ -141,21 +141,16 @@ HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<pair < wstri
 	return S_OK;
 }
 
-//
-//HRESULT CObject_Manager::AddObjectLayersVector(_uint _level, vector<list<CGameObject*>>* pVector)
-//{
-//	if (pVector == nullptr)
-//		return E_FAIL;
-//
-//	list<CGameObject*> tempList;
-//	for (auto& iter : m_pLayers[_level])
-//	{
-//		iter.second->Add_List(&tempList);
-//		pVector->push_back(tempList);
-//	}
-//
-//	return S_OK;
-//}
+CGameObject* CObject_Manager::GetObjectByIndex(_uint iLevelIndex, const wstring& strLayerTag, _uint index)
+{
+	CLayer* layer = Find_Layer(iLevelIndex, strLayerTag);
+	CGameObject* gameobject = layer->Get_GameObjectByIndex(index);
+
+	if (gameobject == nullptr)
+		return nullptr;
+
+	return gameobject;
+}
 
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
@@ -177,11 +172,11 @@ void CObject_Manager::Update(_float fTimeDelta)
 
 void CObject_Manager::Late_Update(_float fTimeDelta)
 {
- 	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Late_Update(fTimeDelta);
-		
+
 	}
 }
 
