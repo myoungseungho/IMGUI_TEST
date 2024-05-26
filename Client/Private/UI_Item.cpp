@@ -53,7 +53,6 @@ void CUI_Item::Priority_Update(_float fTimeDelta)
 void CUI_Item::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-
 }
 
 void CUI_Item::Late_Update(_float fTimeDelta)

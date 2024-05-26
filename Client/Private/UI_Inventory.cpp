@@ -38,9 +38,9 @@ HRESULT CInventory::Initialize(void* pArg)
 		return E_FAIL;
 
 	Font_Initialize();
-	
+
 	// 간이 인벤토리 초기화 (nullptr로 채움)
-	m_quickInventory.resize(4, nullptr);
+	m_vecQuickInventory.resize(4, nullptr);
 
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
@@ -67,30 +67,30 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_ZCursor"))))
 		return E_FAIL;
-	
 
-	for (size_t i = 0; i < 2; i++)
-	{
-		// 각 슬롯에 대한 위치와 크기 설정
-		switch (i)
-		{
-		case 0:
-			slotData.position = { 455.f, 130.f };
-			slotData.scale = { 320.f, 225.f };
-			slotData.alpha = 66.f;
-			break;
-		case 1:
-			slotData.position = { -430.f, 80.f };
-			slotData.scale = { 140.f, 145.f };
-			slotData.alpha = 104.f;
-			break;
-		}
 
-		slotData.index = i;
+	//for (size_t i = 0; i < 2; i++)
+	//{
+	//	// 각 슬롯에 대한 위치와 크기 설정
+	//	switch (i)
+	//	{
+	//	case 0:
+	//		slotData.position = { 455.f, 130.f };
+	//		slotData.scale = { 320.f, 225.f };
+	//		slotData.alpha = 66.f;
+	//		break;
+	//	case 1:
+	//		slotData.position = { -430.f, 80.f };
+	//		slotData.scale = { 140.f, 145.f };
+	//		slotData.alpha = 104.f;
+	//		break;
+	//	}
 
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
-			return E_FAIL;
-	}
+	//	slotData.index = i;
+
+	//	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
+	//		return E_FAIL;
+	//}
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
@@ -147,6 +147,9 @@ HRESULT CInventory::Initialize(void* pArg)
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
 			return E_FAIL;
+
+		// 아이템 정보 설정
+		m_vecItemInfo.push_back(m_vecHatInfo[i]);
 	}
 
 
@@ -164,6 +167,8 @@ HRESULT CInventory::Initialize(void* pArg)
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, i)))
 			return E_FAIL;
+
+		m_vecItemInfo.push_back(m_vecItemInfo[i]);
 	}
 
 	// 초기 상태 설정
@@ -180,23 +185,23 @@ void CInventory::Update(_float fTimeDelta)
 	if (!m_bIsOn)
 		return;
 
-	// 키 입력 처리
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		m_TextPosY -= 10.f; // 위쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		m_TextPosY += 10.f; // 아래쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		m_TextPosX -= 10.f; // 왼쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_TextPosX += 10.f; // 오른쪽으로 이동
-	}
+	//// 키 입력 처리
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	m_TextPosY -= 10.f; // 위쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	m_TextPosY += 10.f; // 아래쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	//{
+	//	m_TextPosX -= 10.f; // 왼쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	//{
+	//	m_TextPosX += 10.f; // 오른쪽으로 이동
+	//}
 
 	bool positionChanged = false;
 
@@ -283,6 +288,8 @@ void CInventory::Update(_float fTimeDelta)
 		// 첫 번째 행인 경우
 		selectedIndex = m_iCurrentCol;
 	}
+
+	UpdateSelectedItemInfo();
 
 	// 선택된 아이템 처리 (예: 하이라이트 표시)
 	// HandleSelection(selectedIndex); // 가정된 함수
@@ -400,8 +407,8 @@ void CInventory::AddToQuickInventory(_uint slot)
 	slotData.alpha = 200.f;
 
 	// 기존 슬롯에 있는 오브젝트를 제거
-	if (m_quickInventory[slot] != nullptr) {
-		Safe_Release(m_quickInventory[slot]);
+	if (m_vecQuickInventory[slot] != nullptr) {
+		Safe_Release(m_vecQuickInventory[slot]);
 	}
 
 	if (m_firstRowSelectedCol == 0 && m_currentEquipHat != nullptr) {
@@ -413,8 +420,8 @@ void CInventory::AddToQuickInventory(_uint slot)
 
 		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Hat_QuickInventory"), m_currentEquipHat->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
-		m_quickInventory[slot] = uiobject;
-		m_currentEquipHat = nullptr;
+		m_vecQuickInventory[slot] = uiobject;
+		m_currentEquipHat = uiobject;
 	}
 	else if (m_firstRowSelectedCol == 1 && m_currentEquipItem != nullptr) {
 		// Item을 간이 인벤토리에 추가
@@ -424,9 +431,8 @@ void CInventory::AddToQuickInventory(_uint slot)
 		}
 		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Item_QuickInventory"), m_currentEquipItem->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
-
-		m_quickInventory[slot] = uiobject;
-		m_currentEquipItem = nullptr;
+		m_vecQuickInventory[slot] = uiobject;
+		m_currentEquipItem = uiobject;
 	}
 }
 
@@ -510,6 +516,24 @@ void CInventory::Control_OtherRow()
 	}
 }
 
+void CInventory::UpdateSelectedItemInfo()
+{
+	int selectedIndex = 0;
+
+	if (m_iCurrentRow > 0) {
+		// 두 번째 행부터 현재 행까지의 인덱스를 계산
+		for (int i = 1; i < m_iCurrentRow; ++i) {
+			selectedIndex += getMaxCols(i);
+		}
+		selectedIndex += m_iCurrentCol;
+
+		// 인덱스를 통해 현재 선택된 아이템 정보를 업데이트
+		if (selectedIndex >= 0 && selectedIndex < m_vecItemInfo.size()) {
+			m_WstringTitle = m_vecItemInfo[selectedIndex].title;
+			m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
+		}
+	}
+}
 void CInventory::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
@@ -541,6 +565,38 @@ HRESULT CInventory::Render(_float fTimeDelta)
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
 
+	// 첫 번째 행인 경우 텍스트와 타이틀을 표시하지 않음
+	if (m_iCurrentRow == 0)
+	{
+		__super::End_RenderState();
+		return S_OK;
+	}
+
+	// 현재 선택된 아이템의 인덱스 계산
+	int selectedIndex = 0;
+
+	if (m_iCurrentRow > 0) {
+		// 두 번째 행부터 현재 행까지의 인덱스를 계산
+		for (int i = 1; i < m_iCurrentRow; ++i) {
+			selectedIndex += getMaxCols(i);
+		}
+		selectedIndex += m_iCurrentCol;
+	}
+
+	// 선택된 아이템의 제목과 설명을 설정
+	if (selectedIndex < m_vecItemInfo.size()) {
+		if (m_firstRowSelectedCol == 0) {
+			// Hat의 정보
+			m_WstringTitle = m_vecItemInfo[selectedIndex + m_iInitHatCount].title; // Item 정보는 Hat 정보 이후에 있음
+			m_WstringExplain = m_vecItemInfo[selectedIndex + m_iInitHatCount].explain;
+		}
+		else if (m_firstRowSelectedCol == 1) {
+			// Item의 정보
+			m_WstringTitle = m_vecItemInfo[selectedIndex].title;
+			m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
+		}
+	}
+
 	// 텍스트 렌더링 - CurrentItemTitle
 	swprintf_s(text, L"%s", m_WstringTitle.c_str());
 	SetRect(&rect, static_cast<int>(950.f), static_cast<int>(390.f), 0, 0); // 텍스트를 출력할 위치 변경
@@ -569,6 +625,7 @@ HRESULT CInventory::Render(_float fTimeDelta)
 
 	return S_OK;
 }
+
 
 
 HRESULT CInventory::Ready_Components()
@@ -663,12 +720,6 @@ void CInventory::Free()
 		Safe_Release(pUIObject);
 	}
 	m_vecUIObject.clear();
-
-	for (auto& pUIObject : m_quickInventory)
-	{
-		Safe_Release(pUIObject);
-	}
-	m_quickInventory.clear();
 
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTransformCom);

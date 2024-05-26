@@ -23,7 +23,7 @@ public:
 	/* RefCnt를 감소시켜주겠다. or 삭제한다. */
 	_uint Release();
 
-private:
+protected:
 	_uint m_iRefCnt = { 0 };
 
 public:
