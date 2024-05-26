@@ -9,6 +9,7 @@
 #include "UI_Inventory_BackGround.h"
 #include "UI_Item.h"
 #include "UI_Hat.h"
+#include "Player.h"
 #include "GameInstance.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -180,10 +181,43 @@ void CInventory::Priority_Update(_float fTimeDelta)
 {
 }
 
+void CInventory::UseQuickInventory_Item(_uint slot)
+{
+	if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Hat))
+	{
+
+	}
+	else if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Item))
+	{
+		_uint index = m_vecQuickInventory[slot]->m_iIndex;
+
+		if (index > 2) // index가 0보다 작을 수 없으므로 생략
+			return;
+
+		LEVELID currentLevel = static_cast<LEVELID>(m_pGameInstance->GetCurrentLevelIndex());
+		CPlayer* player = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_Player")));
+
+		// index에 따라 플레이어 HP 설정
+		const int hpValues[] = { 1, 2, 3 };
+		player->Set_Player_Hp(hpValues[index]);
+
+		Safe_Release(m_vecQuickInventory[slot]);
+	}
+
+}
+
 void CInventory::Update(_float fTimeDelta)
 {
-	if (!m_bIsOn)
+	//인벤토리 켜지 않았을 때는 1,2,3,4는 퀵인벤토리 슬롯의 아이템을 사용
+	if (!m_bIsOn) {
+		for (int i = 0; i < 4; ++i) {
+			if (m_pKeyCom->Key_Down('1' + i)) {
+				UseQuickInventory_Item(i);
+			}
+		}
 		return;
+	}
+
 
 	//// 키 입력 처리
 	//if (GetAsyncKeyState(VK_UP) & 0x8000)
@@ -435,6 +469,8 @@ void CInventory::AddToQuickInventory(_uint slot)
 		m_currentEquipItem = uiobject;
 	}
 }
+
+
 
 void CInventory::Control_FirstRow()
 {

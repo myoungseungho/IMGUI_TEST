@@ -63,6 +63,7 @@ private:
 	void EquipHat();
 	void EquipItem();
 	void AddToQuickInventory(_uint slot);
+	void UseQuickInventory_Item(_uint slot);
 public:
 	void SetInventoryOnOff()
 	{
