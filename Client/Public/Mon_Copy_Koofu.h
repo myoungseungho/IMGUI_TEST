@@ -15,7 +15,7 @@ private:
 public:
 	typedef struct :public MONSTER_DESC
 	{
-		CTransform* m_pTargetTransform = { nullptr };
+	
 	}MON_COPY_KOOFU_DESC;
 
 private:

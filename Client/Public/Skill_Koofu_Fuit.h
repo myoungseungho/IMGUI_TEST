@@ -2,6 +2,8 @@
 
 #include "Skill_Monster.h"
 
+BEGIN(Client)
+
 class CSkill_Koofu_Fuit final: public CSkill_Monster
 {
 public:
@@ -32,7 +34,13 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
+	void Move(_float fTimeDelta);
 	void Bounce(_float _LandPosY);
 	void Distroy();
 	void BillBoarding();
@@ -41,6 +49,7 @@ private:
 	CTransform* m_pPlayerTransform = { nullptr };
 
 	_uint m_iBounceCnt = { 0 };
+	_float3 vMoveDir = {};
 public:
 	static CSkill_Koofu_Fuit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
@@ -48,3 +57,4 @@ public:
 	virtual void Free() override;
 };
 
+END

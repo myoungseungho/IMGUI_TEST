@@ -34,7 +34,7 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 5)- 15.f; 
+	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 3)- 9.f; 
 	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (1.f);
 
@@ -98,7 +98,7 @@ HRESULT CSkill_Koofu_Rolling::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -152,7 +152,7 @@ void CSkill_Koofu_Rolling::Destroy(_float fTimeDelta)
 {
 	CSkill_Koofu_Rolling* pRolling = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta  ,5.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta  ,1.75f))
 	{
 		Safe_Release(pRolling);
 	}

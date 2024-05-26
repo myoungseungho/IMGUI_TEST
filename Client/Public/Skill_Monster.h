@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Skill.h"
+#include "Player.h"
 #include "GameInstance.h"
 
 BEGIN(Engine)

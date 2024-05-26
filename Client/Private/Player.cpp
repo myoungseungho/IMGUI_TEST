@@ -10,9 +10,14 @@
 #include "Bush.h"
 #include "GameInstance.h"
 #include "Skill_Player.h"
+#include "Skill_Monster.h"
 #include "Monster.h"
-#include <Push_Stone.h>
-#include <Skill_Koofu_Bubble.h>
+#include "Push_Stone.h"
+#include "Skill_Koofu_Bubble.h"
+#include "Skill_Bug_Bullet.h"
+#include "Skill_Koofu_Rolling.h"
+#include <Mon_Bear_Cannon.h>
+
 
 
 
@@ -120,16 +125,30 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
-
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		CSkill_Monster* pMonSkill = dynamic_cast<CSkill_Monster*>(otherObject);
+		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.0f;
+
+		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
 		return;
+	}	
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		m_bPush = true;
 		return;
 	}
-
+	
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -158,6 +177,8 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CMon_Bear_Cannon*>(otherObject))
+		return;
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
@@ -168,6 +189,33 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 		return;
 	}
+
+	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+		{
+			CSkill_Bug_Bullet* pPushObj = dynamic_cast<CSkill_Bug_Bullet*>(otherObject);
+			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
+			pPushObjTranform->Set_Speed(-3.5f);
+		}
+		return;
+	}
+
+	if (dynamic_cast<CSkill_Koofu_Rolling*>(otherObject))
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		CSkill_Koofu_Rolling* pMonSkill = dynamic_cast<CSkill_Koofu_Rolling*>(otherObject);
+		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
+
+		m_pTransformCom->Set_Speed(10.f);
+		m_pTransformCom->Go_Backward(fTimeDelta);
+
+		return;
+	}
+
+	if (dynamic_cast<CSkill_Monster*>(otherObject))
+		return;
 
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
@@ -281,8 +329,8 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30.f, 0.5f, 15.f));
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.5f, 0.5f, 28.f));
+	//&_float3(39.5f, 0.5f, 30.f));
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);

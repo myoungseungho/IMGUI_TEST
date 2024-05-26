@@ -21,13 +21,14 @@ BEGIN(Client)
 class CMonster abstract : public CGameObject
 {
 protected:
-	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STAN , REGEN,CAST, DEATH,MON_END };
+	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STUN,HIT , REGEN,CAST, DEATH,MON_END };
 	enum class MON_DIR { DIR_D, DIR_L, DIR_LD, DIR_LU, DIR_R, DIR_RD, DIR_RU, DIR_U, DIR_END };
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
 	{
 		_uint iHp = { 0 };
 		_uint iAttack = { 0 };
+		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 
 protected:
@@ -51,6 +52,8 @@ protected:
 	CAnimator* m_pAnimCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
 
+	CTransform* m_pPlayerTransform = { nullptr };
+
 public:
 	virtual void OnCollisionEnter(class CCollider* other);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
@@ -59,6 +62,8 @@ public:
 public:
 	_bool HitCheck() { return m_bHitCheck; }
 
+public:
+	void Move_Dir(_float _floatTimeDelta);
 public:
 	virtual void Damaged() {
 		--m_tMonsterDesc.iHp;
@@ -71,7 +76,8 @@ public:
 
 public:
 	_bool m_bHitCheck = { false };
-	
+	_float m_fDirAngle = { 0.f };
+
 public:
 	MONSTER_DESC m_tMonsterDesc;
 

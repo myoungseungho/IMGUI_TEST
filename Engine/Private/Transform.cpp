@@ -9,6 +9,7 @@ CTransform::CTransform(const CTransform & Prototype)
 	: CComponent{ Prototype }
 	, m_WorldMatrix{ Prototype.m_WorldMatrix }
 {
+	
 }
 
 void CTransform::Set_Scaled(const _float3 & vScaled)
@@ -177,6 +178,30 @@ HRESULT CTransform::Go_Down(_float fTimeDelta)
 	return S_OK;
 }
 
+HRESULT CTransform::Go_VectorDown(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vUp = Get_State(STATE_UP);
+
+	vPosition -= *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
+HRESULT CTransform::Go_VectorUp(_float fTimeDelta)
+{
+	_float3		vPosition = Get_State(STATE_POSITION);
+	_float3		vUp = Get_State(STATE_UP);
+
+	vPosition += *D3DXVec3Normalize(&vUp, &vUp) * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, &vPosition);
+
+	return S_OK;
+}
+
 HRESULT CTransform::Gravity(_float fWeight, _float fLandPosY, _float fTimeDelta)
 {
 	_float3 vPosition = Get_State(STATE_POSITION);
@@ -215,6 +240,24 @@ void CTransform::Turn(const _float3 & vAxis, _float fTimeDelta)
 	Set_State(STATE_LOOK, &vLook);
 }
 
+void CTransform::Radian_Turn(const _float3& vAxis, _float fRadian)
+{
+	_float3		vRight = Get_State(STATE_RIGHT);
+	_float3		vUp = Get_State(STATE_UP);
+	_float3		vLook = Get_State(STATE_LOOK);
+
+	_float4x4	RotationMatrix{};
+	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, fRadian);
+
+	D3DXVec3TransformNormal(&vRight, &vRight, &RotationMatrix);
+	D3DXVec3TransformNormal(&vUp, &vUp, &RotationMatrix);
+	D3DXVec3TransformNormal(&vLook, &vLook, &RotationMatrix);
+
+	Set_State(STATE_RIGHT, &vRight);
+	Set_State(STATE_UP, &vUp);
+	Set_State(STATE_LOOK, &vLook);
+}
+
 void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3		vScaled = Get_Scaled();
@@ -225,7 +268,7 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 
 	_float4x4	RotationMatrix{};
 	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, fRadian);
-
+	 
 	D3DXVec3TransformNormal(&vRight, &vRight, &RotationMatrix);
 	D3DXVec3TransformNormal(&vUp, &vUp, &RotationMatrix);
 	D3DXVec3TransformNormal(&vLook, &vLook, &RotationMatrix);

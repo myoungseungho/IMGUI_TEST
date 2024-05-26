@@ -81,7 +81,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_EDIT)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 

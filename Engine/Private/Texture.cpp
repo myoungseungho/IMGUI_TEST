@@ -20,11 +20,6 @@ HRESULT CTexture::Initialize_Prototype(TYPE eType, const _wstring & strTextureFi
 {
 	m_iNumTextures = iNumTextures;
 
-
-	/* "../Bin/Resources/Textures/Explosion/Explosion%d.png" */
-	/* "../Bin/Resources/Textures/Snow/Snow.png" */
-
-	/* 텍스쳐를 로드하여 m_Textures에 보관한다. */
 	for (size_t i = 0; i < iNumTextures; i++)
 	{
 		LPDIRECT3DBASETEXTURE9			pTexture = { nullptr };

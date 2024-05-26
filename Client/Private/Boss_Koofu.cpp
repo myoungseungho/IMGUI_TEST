@@ -34,10 +34,10 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
-	m_pTargetTransform = pDesc->m_pTargetTransform;
+	m_pPlayerTransform = pDesc->m_pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -52,7 +52,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.75f, 50.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.f, 0.75f, 37.f));
 	
 	return S_OK;
 }
@@ -123,7 +123,7 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 		State_Bullet_C(fTimeDelta);
 		break;
 
-	case MON_STATE::STAN:
+	case MON_STATE::STUN:
 		State_Stan(fTimeDelta);
 		break;
 
@@ -287,7 +287,7 @@ void CBoss_Koofu::State_Move(_float fTimeDelta)
 
 void CBoss_Koofu::State_Ready(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		m_ePrev_State = MON_STATE::READY;
 		m_eAnim_State = ANIM_STATE::CAST;
@@ -303,8 +303,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_isClone_Create = true;
 		CloneCreate();
 
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-			Warf(35.f, 50.f, 10.f);
+		Warf(49.f, 37.f, 7.f);
 	}
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f, 1.f))
@@ -324,15 +323,14 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	if (m_bHitCheck)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
-		m_eMon_State = MON_STATE::STAN;
+		m_eMon_State = MON_STATE::STUN; 
 		m_isClone_Create = false;
 
 	}
 
-	if (m_tMonsterDesc.iHp <= 40)
+	if (m_tMonsterDesc.iHp <= 30)
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
-		m_isBullet = false;
 	}
 
 }
@@ -340,7 +338,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 {
 	m_bHitCheck = false;
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35, 1.5f, 60.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50, 0.75f, 45.f));
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
 	{
@@ -357,29 +355,48 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 			m_isBullet = false;
 		}
 	}
+
+
+	if (m_tMonsterDesc.iHp <= 60)
+	{
+		m_eMon_State = MON_STATE::BULLET_C;
+	}
 }
 
 void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 {
+	if (!m_bWarf)
+	{
+		Warf(39, 28, 60, 47);
+		m_bWarf = true;
+	}
+
 	m_eAnim_State = ANIM_STATE::CAST;
 
-	if (!m_isBullet && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
+	if (!m_isBubbleSpanw && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
-		m_eAnim_State = ANIM_STATE::CAST;
-		Warf(10, 30, 60, 70);
+		Warf(39, 28, 60 , 47);
 		CircleCreate();
-		m_isBullet = true;
-		
+		m_isBubbleSpanw = true;
+		m_bWarf = false;
 	}
 
 	if (m_bHitCheck)
 	{
-		m_eAnim_State = ANIM_STATE::STUN;
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+		m_ePrev_State = MON_STATE::BULLET_C;
+		m_eMon_State = MON_STATE::STUN;
+
+		m_bHitCheck = false;
+		m_isBubbleSpanw = false;
+
+		for (int i = 0; i < 3; ++i)
 		{
-			m_eAnim_State = ANIM_STATE::READY;
-			m_bHitCheck = false;
-			m_isBullet = false;
+			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Bubble"), i));
+
+			if (!pClone)
+				break;
+
+			Safe_Release(pClone);
 		}
 	}
 
@@ -402,11 +419,21 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
+	m_eAnim_State = ANIM_STATE::STUN;
+
+	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
 	}
+
+	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	{
+		
+		m_eMon_State = MON_STATE::BULLET_C;
+		m_bHitCheck = false;
+	}
+
 }
 
 void CBoss_Koofu::State_Cast(_float fTimeDelta)
@@ -417,6 +444,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
+		m_bHitCheck = false;
 
 	}
 	else if (m_ePrev_State == MON_STATE::READY)
@@ -424,11 +452,12 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET_B;
 	}
+
 }
 
 void CBoss_Koofu::Move_Dir()
 {
-	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	_float fAngle = m_pTransformCom->Target_Dir_Degree(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 
 	if (fAngle >= 337.5f || fAngle <= 22.5f)
 	{
@@ -473,9 +502,9 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 	m_eAnim_State = ANIM_STATE::WALK;
 
 	_float3 vChase = {};
-	vChase.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y = 1.5f;
-	vChase.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z;
+	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
+	vChase.y = 0.75f;
+	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
 }
@@ -516,7 +545,7 @@ HRESULT CBoss_Koofu::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
+	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50.f, 0.75f, 36.567f));
 	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 
 
@@ -591,15 +620,18 @@ HRESULT CBoss_Koofu::Ready_Animation()
 HRESULT CBoss_Koofu::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	
 	return S_OK;
 }
 
 HRESULT CBoss_Koofu::End_RenderState()
 {
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -682,9 +714,9 @@ HRESULT CBoss_Koofu::CloneCreate()
 {
 	CMon_Copy_Koofu::MON_COPY_KOOFU_DESC			Copykoofu{};
 
-	Copykoofu.iHp = 10;
+	Copykoofu.iHp = 1;
 	Copykoofu.iAttack = 1;
-	Copykoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
+	Copykoofu.pTargetTransform  = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -745,7 +777,7 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTargetTransform); 
+	Safe_Release(m_pPlayerTransform); 
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);

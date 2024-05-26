@@ -28,9 +28,9 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
-	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pPlayerTransform = pDesc->pTargetTransform;
 
-	Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pPlayerTransform);
 
 	m_ColorTexTag = pDesc->ColorTexTag;
 	
@@ -43,7 +43,7 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 	
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % 20 + 20, 0.f, rand() % 20 + 10));
+	Spawn_Position(39.5, 36.f, 5.f);
 	m_eMon_State = MON_STATE::IDLE;
 	
 	return S_OK;
@@ -56,7 +56,7 @@ void CMon_Turtle::Priority_Update(_float fTimeDelta)
 void CMon_Turtle::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
-	Move_Range(0.f, 0.f, 50.f, 50.f);
+	Move_Range(32.f, 27.f, 47.f, 48.f);
 	Destory(fTimeDelta);
 }
 
@@ -107,24 +107,29 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 {
 	_float3 fPos;
 	fPos.x = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
-	fPos.y = 0.f;
+	fPos.y = 0.5f;
 	fPos.z = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &fPos);
-	m_pTransformCom->Away(m_pTargetTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
+	m_pTransformCom->Away(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta , 10.f);
 }
 
 void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
-	{
+	if(m_tMonsterDesc.iHp <= 0)
 		Safe_Release(pTurtle);
-	}
 
-	if(m_pKeyCom->Key_Down('0'))
-		Safe_Release(pTurtle);
+}
+
+
+void CMon_Turtle::Spawn_Position(_int iPosX, _int iPosZ, _float fDistance)
+{
+	_float WarfPosX = iPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
+	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.5f, WarfPosZ));
+
 }
 
 void CMon_Turtle::Move_Range(_float fMinPosX, _float fMinPosZ, _float fMaxPosX, _float fMaxPosZ)
@@ -250,7 +255,7 @@ void CMon_Turtle::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTimerCom); 
-	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pColliderCom);
 	
 	m_pGameInstance->Release_Collider(m_pColliderCom);

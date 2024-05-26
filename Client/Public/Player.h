@@ -20,9 +20,10 @@ BEGIN(Client)
 
 class CPlayer final : public CGameObject
 {
-private:
-	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
-	enum STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END };
+
+public:
+enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
+enum STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -102,7 +103,6 @@ private:
 	STATE			m_ePlayerPreState = { STATE_IDLE };
 
 	_float			m_fAttackTime = { 0.0f };
-
 private:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;

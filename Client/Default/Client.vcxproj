@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\public\Mon_Bear_Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\EnviormentObject.h" />
     <ClInclude Include="..\Public\Hole.h" />
@@ -182,7 +183,9 @@
     <ClInclude Include="..\Public\Level_Tacho.h" />
     <ClInclude Include="..\Public\Level_UI.h" />
     <ClInclude Include="..\Public\Monkey_Statue.h" />
+    <ClInclude Include="..\public\Mon_Bear_Solider.h" />
     <ClInclude Include="..\Public\Mon_Copy_Koofu.h" />
+    <ClInclude Include="..\public\Mon_Trash_Slime.h" />
     <ClInclude Include="..\Public\Moon_BossFrame.h" />
     <ClInclude Include="..\Public\Moon_Fence.h" />
     <ClInclude Include="..\Public\Moon_FloorStone.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="..\Public\Skill.h" />
     <ClInclude Include="..\Public\Skill_Bug_Bullet.h" />
     <ClInclude Include="..\Public\Skill_Bug_SludgeWave.h" />
+    <ClInclude Include="..\public\Skill_Cannon_Ball.h" />
     <ClInclude Include="..\public\Skill_Koofu_Bubble.h" />
     <ClInclude Include="..\public\Skill_Koofu_Fuit.h" />
     <ClInclude Include="..\Public\Skill_Koofu_Rolling.h" />
@@ -278,6 +282,7 @@
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\private\Mon_Bear_Cannon.cpp" />
     <ClCompile Include="..\Private\EnviormentObject.cpp" />
     <ClCompile Include="..\Private\Hole.cpp" />
     <ClCompile Include="..\Private\Koofu_Circle.cpp" />
@@ -297,7 +302,9 @@
     <ClCompile Include="..\Private\Level_Tacho.cpp" />
     <ClCompile Include="..\Private\Level_UI.cpp" />
     <ClCompile Include="..\Private\Monkey_Statue.cpp" />
+    <ClCompile Include="..\private\Mon_Bear_Solider.cpp" />
     <ClCompile Include="..\Private\Mon_Copy_Koofu.cpp" />
+    <ClCompile Include="..\private\Mon_Trash_Slime.cpp" />
     <ClCompile Include="..\Private\Moon_BossFrame.cpp" />
     <ClCompile Include="..\Private\Moon_Fence.cpp" />
     <ClCompile Include="..\Private\Moon_FloorStone.cpp" />
@@ -319,6 +326,7 @@
     <ClCompile Include="..\Private\Skill.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_Bullet.cpp" />
     <ClCompile Include="..\Private\Skill_Bug_SludgeWave.cpp" />
+    <ClCompile Include="..\private\Skill_Cannon_Ball.cpp" />
     <ClCompile Include="..\private\Skill_Koofu_Bubble.cpp" />
     <ClCompile Include="..\private\Skill_Koofu_Fuit.cpp" />
     <ClCompile Include="..\Private\Skill_Koofu_Rolling.cpp" />

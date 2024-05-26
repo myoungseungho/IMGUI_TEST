@@ -34,9 +34,9 @@ HRESULT CSkill_Bug_SludgeWave::Initialize(void* pArg)
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
-
-	Create_Position(50.f, 50.f, 50.f);
-
+	
+	Create_Position(39.5f, 36.f, 55.f);
+	
 	return S_OK;
 }
 
@@ -81,7 +81,7 @@ HRESULT CSkill_Bug_SludgeWave::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 10.0f;
+	TransformDesc.fSpeedPerSec = 6.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -118,13 +118,13 @@ HRESULT CSkill_Bug_SludgeWave::Ready_Animation()
 void CSkill_Bug_SludgeWave::Create_Position(_float fPosX, _float fPosZ, _float fDistance)
 {
 	_float WarfPosX = fPosX + fDistance * cos(rand() % 360 * (D3DX_PI / 180.f));
-	_float WarfPosZ = fPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
+	_float WarfPosZ = fPosZ + fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.75f, WarfPosZ));
 }
 
 void CSkill_Bug_SludgeWave::Move(_float fTimeDelta)
 {
-	m_pTransformCom->LookAt(_float3(50.f, 0.5f, 50.f));
+	m_pTransformCom->LookAt(_float3(39.5f, 0.5f, 36.f));
 	m_pTransformCom->Go_Straight(fTimeDelta);
 }
 

@@ -76,13 +76,15 @@ private:
 private:
 	ANIM_STATE m_eAnim_State = {};
 	MON_STATE m_ePrev_State = {};
-	CTransform* m_pTargetTransform = { nullptr };
 
 private:
 	_bool m_isClone_Create = { false };
 	_bool m_isBullet = { false };
+	_bool m_isBubbleSpanw = { false };
 	_float3 m_vTargetDir = {};
 
+	_float m_fAlpha = { 255.f };
+	_bool m_bWarf = { false };
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

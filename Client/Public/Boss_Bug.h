@@ -68,7 +68,6 @@ private:
 	void State_Death(_float fTimeDelta);
 
 private:
-	CTransform* m_pTargetTransform = { nullptr };
 	_float m_fAngle = { 0.f };
 	_int m_iBulletCnt = { 0 };
 	_bool m_isTurtle = { false };
@@ -80,10 +79,14 @@ private:
 	_float m_fDashBulletTimer = { 0.f };
 	_float m_fWaveTimer = { 0.f };
 
-	_bool m_isTmp = { false };
+	_bool m_bPosRange = {true};
+	_bool m_bStartDash = { false };
+
+	_bool m_bDown = { false };
 
 	MON_STATE m_ePrev_State = {};
 
+	_bool m_bPlayerAttack = { false };
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

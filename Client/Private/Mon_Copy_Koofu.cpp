@@ -28,7 +28,7 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 
 	MON_COPY_KOOFU_DESC* pDesc = static_cast<MON_COPY_KOOFU_DESC*>(pArg);
 
-	m_pTargetTransform = pDesc->m_pTargetTransform;
+	m_pTargetTransform = pDesc->pTargetTransform;
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
@@ -48,7 +48,7 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
 	 
-	Warf(30.f, 20.f, 10.f);
+	Warf(49.f, 37.f, 7.f);
 	
 	return S_OK;
 }
@@ -66,6 +66,7 @@ void CMon_Copy_Koofu::Update(_float fTimeDelta)
 void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+
 	Destory();
 }
 
@@ -229,20 +230,19 @@ void CMon_Copy_Koofu::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if(m_pTimerCom->Time_Limit(fTimeDelta , 2.f))
+	if(m_pTimerCom->Time_Limit(fTimeDelta , 4.f))
 		m_eMon_State = MON_STATE::THROW;
 }
 
 void CMon_Copy_Koofu::State_Throw(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::THROW;
-
+	
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
-		FuitCreate();
 		m_eMon_State = MON_STATE::IDLE;
+		FuitCreate();
 	}
-
 }
 
 
@@ -388,11 +388,6 @@ void CMon_Copy_Koofu::Destory()
 		Safe_Release(pThis);
 
 	}
-
-	if(m_pKeyCom->Key_Down('5'))
-		Safe_Release(pThis);
-
-	int a = 10;
 }
 
 HRESULT CMon_Copy_Koofu::FuitCreate()
