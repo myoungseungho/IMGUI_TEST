@@ -320,15 +320,15 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::IDLE;
 	}
 
-	if (m_bHitCheck && m_eMon_State == MON_STATE::BULLET)
+	if (m_bHitCheck)
 	{
 		m_eAnim_State = ANIM_STATE::STUN;
-		m_eMon_State = MON_STATE::STUN;
+		m_eMon_State = MON_STATE::STUN; 
 		m_isClone_Create = false;
 
 	}
 
-	if (m_tMonsterDesc.iHp <= 40)
+	if (m_tMonsterDesc.iHp <= 30)
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -357,7 +357,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	}
 
 
-	if (m_tMonsterDesc.iHp <= 40)
+	if (m_tMonsterDesc.iHp <= 60)
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -380,8 +380,6 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 	{
 		m_ePrev_State = MON_STATE::BULLET_C;
 		m_eMon_State = MON_STATE::STUN;
-
-		//m_eAnim_State = ANIM_STATE::STUN;
 
 		m_bHitCheck = false;
 		m_isBubbleSpanw = false;
@@ -424,10 +422,11 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_eMon_State = MON_STATE::READY;
 	}
 
-	if (m_ePrev_State != MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 	{
 		
 		m_eMon_State = MON_STATE::BULLET_C;
+		m_bHitCheck = false;
 	}
 
 }
@@ -440,6 +439,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
+		m_bHitCheck = false;
 
 	}
 	else if (m_ePrev_State == MON_STATE::READY)
@@ -498,7 +498,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 	_float3 vChase = {};
 	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y = 0.5f;
+	vChase.y = 0.75f;
 	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
