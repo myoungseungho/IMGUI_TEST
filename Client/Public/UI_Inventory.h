@@ -19,12 +19,13 @@
 
 BEGIN(Engine)
 class CKeyState;
+class CTransform;
 END
 
 
 BEGIN(Client)
 
-class CInventory final : public CGameObject
+class CInventory final : public CUIObject
 {
 private:
 	CInventory(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -65,7 +66,9 @@ public:
 		}
 	}
 private:
+	CTransform* m_pTransformCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
+	LPD3DXFONT m_pCurrentPlayerMoney_Font = { nullptr };
 
 private:
 	_bool m_bIsOn = { true };
@@ -88,10 +91,12 @@ private:
 	CUIObject* m_currentEquipHat = { nullptr }; // 현재 착용된 Hat
 	CUIObject* m_currentEquipItem = { nullptr }; // 현재 착용된 Item
 	vector<CUIObject*> m_quickInventory; // 간이 인벤토리 (최대 4개의 슬롯)
+	vector<CUIObject*> m_vecUIObject; // 플레이어 인벤토리에서 만든 모든 UI 오브젝트 ESC용
 
 private:
-	vector<CUIObject*> m_vecUIObject;
-
+	_uint m_iCurrentMoney = { 5000};
+	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
+	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
 public:
 	/* 원형객체를 생성한다. */
 	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -12,12 +12,12 @@
 #include "GameInstance.h"
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+	: CUIObject{ pGraphic_Device }
 {
 }
 
 CInventory::CInventory(const CInventory& Prototype)
-	: CGameObject{ Prototype }
+	: CUIObject{ Prototype }
 {
 }
 
@@ -36,6 +36,23 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	tFontInfo.Height = 40;
+	tFontInfo.Width = 30;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, /*TEXT("카페24 써라운드")*/TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentPlayerMoney_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect Failed");
+		return E_FAIL;
+	}
+
 
 	// 간이 인벤토리 초기화 (nullptr로 채움)
 	m_quickInventory.resize(4, nullptr);
@@ -177,6 +194,24 @@ void CInventory::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn)
 		return;
+
+	// 키 입력 처리
+	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	{
+		m_TextPosY -= 10.f; // 위쪽으로 이동
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	{
+		m_TextPosY += 10.f; // 아래쪽으로 이동
+	}
+	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	{
+		m_TextPosX -= 10.f; // 왼쪽으로 이동
+	}
+	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	{
+		m_TextPosX += 10.f; // 오른쪽으로 이동
+	}
 
 	bool positionChanged = false;
 
@@ -410,8 +445,6 @@ void CInventory::AddToQuickInventory(_uint slot)
 }
 
 
-
-
 void CInventory::Control_FirstRow()
 {
 	for (auto& iter : m_vecUIObject)
@@ -494,11 +527,37 @@ void CInventory::Control_OtherRow()
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
+	__super::Late_Update(fTimeDelta);
+
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
 HRESULT CInventory::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+
+	__super::Begin_RenderState();
+
+	// 텍스트 형식화
+	wchar_t text[256];
+	swprintf_s(text, L"%d", m_iCurrentMoney);
+
+	// 텍스트 렌더링
+	RECT rect;
+	SetRect(&rect, static_cast<int>(1130.f), static_cast<int>(50.f), 0, 0); // 텍스트를 출력할 위치
+	m_pCurrentPlayerMoney_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+
+	__super::End_RenderState();
+
 	return S_OK;
 }
 
@@ -507,6 +566,15 @@ HRESULT CInventory::Ready_Components()
 	/* For.Com_KeyState */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
 		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC			TransformDesc{};
+	TransformDesc.fSpeedPerSec = 1.0f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -552,9 +620,12 @@ void CInventory::Free()
 	{
 		Safe_Release(pUIObject);
 	}
-
 	m_quickInventory.clear();
+
 	Safe_Release(m_pKeyCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pCurrentPlayerMoney_Font);
+
 	__super::Free();
 }
 
