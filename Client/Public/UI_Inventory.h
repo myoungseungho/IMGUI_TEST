@@ -43,6 +43,9 @@ public:
 private:
 	HRESULT Ready_Components();
 
+	void Font_Initialize();
+
+
 	void Control_FirstRow();
 	void Control_OtherRow();
 	void UpdateAlphaValues();
@@ -69,6 +72,8 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
 	LPD3DXFONT m_pCurrentPlayerMoney_Font = { nullptr };
+	LPD3DXFONT m_pCurrentItemTitle_Font = { nullptr };
+	LPD3DXFONT m_pCurrentItemExplain_Font = { nullptr };
 
 private:
 	_bool m_bIsOn = { true };
@@ -97,6 +102,9 @@ private:
 	_uint m_iCurrentMoney = { 5000};
 	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
 	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
+	wstring m_WstringTitle = {TEXT("타이틀 테스트")};
+	wstring m_WstringExplain = { TEXT("설명 테스트") };
+
 public:
 	/* 원형객체를 생성한다. */
 	static CInventory* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

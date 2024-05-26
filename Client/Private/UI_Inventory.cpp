@@ -37,23 +37,8 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	D3DXFONT_DESCW tFontInfo;
-	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
-
-	tFontInfo.Height = 40;
-	tFontInfo.Width = 30;
-	tFontInfo.Weight = FW_HEAVY;
-	tFontInfo.CharSet = HANGEUL_CHARSET;
-
-	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, /*TEXT("카페24 써라운드")*/TEXT("Cafe24 Ssurround air OTF Light"));
-
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentPlayerMoney_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect Failed");
-		return E_FAIL;
-	}
-
-
+	Font_Initialize();
+	
 	// 간이 인벤토리 초기화 (nullptr로 채움)
 	m_quickInventory.resize(4, nullptr);
 
@@ -82,7 +67,7 @@ HRESULT CInventory::Initialize(void* pArg)
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_ZCursor"))))
 		return E_FAIL;
-
+	
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -134,14 +119,14 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"), TEXT("Layer_UI_Shop_PlayerCoin"))))
 		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
-		return E_FAIL;
+	//if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
+	//	return E_FAIL;
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_SlotBeigeBackground"), TEXT("Layer_UI_Inventory_SlotBeigeBackground"))))
 		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Button"), TEXT("Layer_UI_Inventory_Button"))))
-		return E_FAIL;
+	//if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_Button"), TEXT("Layer_UI_Inventory_Button"))))
+	//	return E_FAIL;
 
 
 	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
@@ -380,6 +365,7 @@ void CInventory::EquipItem()
 		}
 	}
 }
+
 void CInventory::AddToQuickInventory(_uint slot)
 {
 	if (slot < 0 || slot >= 4)
@@ -443,7 +429,6 @@ void CInventory::AddToQuickInventory(_uint slot)
 		m_currentEquipItem = nullptr;
 	}
 }
-
 
 void CInventory::Control_FirstRow()
 {
@@ -540,14 +525,38 @@ HRESULT CInventory::Render(_float fTimeDelta)
 
 	__super::Begin_RenderState();
 
-	// 텍스트 형식화
+	// 텍스트 형식화 및 렌더링
 	wchar_t text[256];
-	swprintf_s(text, L"%d", m_iCurrentMoney);
 
-	// 텍스트 렌더링
+	// 텍스트 렌더링 - CurrentPlayerMoney
+	swprintf_s(text, L"%d", m_iCurrentMoney);
 	RECT rect;
 	SetRect(&rect, static_cast<int>(1130.f), static_cast<int>(50.f), 0, 0); // 텍스트를 출력할 위치
 	m_pCurrentPlayerMoney_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+
+	// 텍스트 렌더링 - CurrentItemTitle
+	swprintf_s(text, L"%s", m_WstringTitle.c_str());
+	SetRect(&rect, static_cast<int>(950.f), static_cast<int>(390.f), 0, 0); // 텍스트를 출력할 위치 변경
+	m_pCurrentItemTitle_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 255, 255, 255)
+	);
+
+	// 텍스트 렌더링 - CurrentItemExplain
+	swprintf_s(text, L"%s", m_WstringExplain.c_str());
+	SetRect(&rect, static_cast<int>(950.f), static_cast<int>(460.f), 0, 0); // 텍스트를 출력할 위치 변경
+	m_pCurrentItemExplain_Font->DrawText(
 		NULL,
 		text,
 		-1,
@@ -560,6 +569,7 @@ HRESULT CInventory::Render(_float fTimeDelta)
 
 	return S_OK;
 }
+
 
 HRESULT CInventory::Ready_Components()
 {
@@ -579,6 +589,44 @@ HRESULT CInventory::Ready_Components()
 
 	return S_OK;
 }
+
+void CInventory::Font_Initialize()
+{
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 40;
+	tFontInfo.Width = 30;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentPlayerMoney_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemTitle_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemExplain
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemExplain_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemExplain_Font Failed");
+		return;
+	}
+}
+
 
 
 CInventory* CInventory::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -625,6 +673,8 @@ void CInventory::Free()
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCurrentPlayerMoney_Font);
+	Safe_Release(m_pCurrentItemTitle_Font);
+	Safe_Release(m_pCurrentItemExplain_Font);
 
 	__super::Free();
 }
