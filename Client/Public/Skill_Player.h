@@ -50,7 +50,6 @@ private:
 	_uint		m_iSkillCount = { 0 };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
-
 protected:
 	virtual HRESULT Ready_Components();
 

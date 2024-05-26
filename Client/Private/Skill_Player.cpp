@@ -57,7 +57,6 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-
 	m_bSkillAttack = true;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))

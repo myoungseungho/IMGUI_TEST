@@ -51,6 +51,7 @@ private:
 	_float m_fMoveRange = { 0.f };
 	_float m_fAttackRange = { 0.f };
 	_float3 m_vTargetDistance = { };
+	_bool m_bShield = { true };
 
 public:
 	static CMon_Bear_Cannon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
