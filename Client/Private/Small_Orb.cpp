@@ -138,19 +138,31 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2);
+		if (pCopyPlayer->Get_Player_State() == 2)
 		{
-			if (m_eDirection == DIR_DOWN)
+			if (m_eDirection == DIR_DOWN )
+			{
 				m_eDirection = DIR_LEFT;
+				return;
+			}
 
-			else if (m_eDirection == DIR_LEFT)
+			if (m_eDirection == DIR_LEFT)
+			{
 				m_eDirection = DIR_UP;
+				return;
+			}
 
-			else if (m_eDirection == DIR_UP)
+			if (m_eDirection == DIR_UP)
+			{
 				m_eDirection = DIR_RIGHT;
+				return;
+			}
 
-			else if (m_eDirection == DIR_RIGHT)
+			if (m_eDirection == DIR_RIGHT)
+			{
 				m_eDirection = DIR_DOWN;
+				return;
+			}
 		}
 	}
 }
@@ -162,6 +174,7 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CSmall_Orb::OnCollisionExit(class CCollider* other)
 {
+
 }
 
 HRESULT CSmall_Orb::Ready_Components()

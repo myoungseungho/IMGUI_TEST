@@ -131,20 +131,6 @@ Position: 32.93 0.506 12.686
 Scale: 0.9 0.9 0.9
 IsParsing: 1
 
-LayerName: Layer_End_Stand
-PrototypeTag: Prototype_GameObject_End_Stand
-LevelIndex: 3
-Position: 37.314 1.499 11.94
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_End_Stand
-PrototypeTag: Prototype_GameObject_End_Stand
-LevelIndex: 3
-Position: 23.881 1.499 6.343
-Scale: 1 1 1
-IsParsing: 1
-
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
 LevelIndex: 3
@@ -316,7 +302,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 3
-Position: 13.3948 10 -12.2139
+Position: 33.28 10.5 -1.61423
 Scale: 1 1 1
 IsParsing: 1
 
@@ -333,3 +319,4 @@ LevelIndex: 3
 Position: 44.7051 0.45 24.3327
 Scale: 1 1 1
 IsParsing: 1
+
