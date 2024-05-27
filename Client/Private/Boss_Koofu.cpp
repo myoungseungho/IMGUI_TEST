@@ -130,6 +130,9 @@ void CBoss_Koofu::MonState(_float fTimeDelta)
 	case MON_STATE::CAST:
 		State_Cast(fTimeDelta);
 		break;
+	case MON_STATE::DEATH:
+		State_Death(fTimeDelta);
+		break;
 	}
 }
 
@@ -276,6 +279,8 @@ void CBoss_Koofu::State_Idle(_float fTimeDelta)
 
 void CBoss_Koofu::State_Move(_float fTimeDelta)
 {
+	ScaleUp(fTimeDelta);
+
 	Move(fTimeDelta);
 
 	if (m_tMonsterDesc.iHp <= 0)
@@ -375,10 +380,8 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 	if (!m_isBubbleSpanw && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
-		Warf(39, 28, 60 , 47);
 		CircleCreate();
 		m_isBubbleSpanw = true;
-		m_bWarf = false;
 	}
 
 	if (m_bHitCheck)
@@ -432,6 +435,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_bHitCheck = false;
+		m_bWarf = false;
 	}
 
 }
@@ -453,6 +457,11 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 		m_eMon_State = MON_STATE::BULLET_B;
 	}
 
+}
+
+void CBoss_Koofu::State_Death(_float fTimeDelta)
+{
+	ScaleDown(fTimeDelta);
 }
 
 void CBoss_Koofu::Move_Dir()
@@ -499,11 +508,13 @@ void CBoss_Koofu::Move_Dir()
 
 void CBoss_Koofu::Move(_float fDeltaTime)
 {
+	ScaleUp(fDeltaTime);
+
 	m_eAnim_State = ANIM_STATE::WALK;
 
 	_float3 vChase = {};
 	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y = 0.75f;
+	vChase.y =  fScaleDown + 0.75f;
 	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
@@ -658,8 +669,48 @@ void CBoss_Koofu::OnCollisionExit(class CCollider* other)
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (!m_pTimerCom->Time_Limit(fTimeDelta,1.f ,3.5f))
-		m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f) * (fTimeDelta + 1));
+	if (m_pTimerCom->Time_Limit(fTimeDelta , 1.5f))
+	{
+		bScaleUp = true;
+	}
+
+	if(!bScaleUp)
+	{
+		fScaleUp += fTimeDelta;
+
+		m_pTransformCom->Set_Scaled(_float3(1.f + fScaleUp, 1.f + fScaleUp, 1.f));
+
+		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float fCurrPosX = vCurrPos.x;
+		_float fCurrPosY = fScaleUp * 0.5f + 0.75f;
+		_float fCurrPosZ = vCurrPos.z;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));
+	}
+}
+
+void CBoss_Koofu::ScaleDown(_float fTimeDelta)
+{
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	{
+		bScaleDown = true;
+	}
+
+	if (!bScaleDown)
+	{
+		fScaleDown += fTimeDelta;
+
+		m_pTransformCom->Set_Scaled(_float3(1.f - fScaleDown, 1.f - fScaleDown, 1.f));
+
+		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float fCurrPosX = vCurrPos.x;
+		_float fCurrPosY = fScaleDown *0.5f - 0.75f;
+		_float fCurrPosZ = vCurrPos.z;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));
+	}
 }
 
 void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
