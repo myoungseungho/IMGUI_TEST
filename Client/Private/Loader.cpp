@@ -69,6 +69,7 @@
 #include "Rotation_Stand.h"
 #include "Small_Orb.h"
 #include "Rotation_Orb.h"
+#include "Laser.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -338,6 +339,11 @@ HRESULT CLoader::Loading_For_Jungle()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_OrbLight.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Laser"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_BattForestSecretBridge.png"), 1))))
+		return E_FAIL;
+
+
 #pragma endregion
 
 	/* 모델을 로드한다. */
@@ -438,6 +444,10 @@ HRESULT CLoader::Loading_For_Jungle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_End_Stand"),
 		CEnd_Stand::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Laser"),
+		CLaser::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion

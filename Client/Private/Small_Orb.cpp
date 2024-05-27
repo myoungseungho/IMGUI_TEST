@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Player.h>
+#include <Laser.h>
 
 
 CSmall_Orb::CSmall_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -102,6 +103,20 @@ void CSmall_Orb::Update(_float fTimeDelta)
 		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x+0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+	}
+
+
+
+	while (bTest)
+	{
+
+		CLaser::LASER_DESC			LASERDESC{};
+
+		LASERDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
+
+		bTest = false;
 	}
 
 }

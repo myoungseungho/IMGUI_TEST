@@ -521,7 +521,7 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = (m_pTransformCom->Get_Scaled().x * 0.5f);
+	ColliderDesc.width = (m_pTransformCom->Get_Scaled().x);
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
