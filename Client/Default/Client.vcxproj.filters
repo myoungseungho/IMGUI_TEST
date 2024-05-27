@@ -300,7 +300,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Cannon_Ball">
       <UniqueIdentifier>{073bb1d9-d8a3-4790-8598-fa13d7dd9f1c}</UniqueIdentifier>
-  </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb">
       <UniqueIdentifier>{e7c70de5-6c90-4465-ba64-920de112a6d2}</UniqueIdentifier>
     </Filter>
@@ -327,6 +327,24 @@
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand">
       <UniqueIdentifier>{04318e6c-45c2-483c-a55f-9a9c35dba7d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{5cd91591-4484-411c-96b7-d8b8606d410e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster">
+      <UniqueIdentifier>{bb96e917-53a5-4994-b2a8-893f53608001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy">
+      <UniqueIdentifier>{216f5686-2296-49e9-a1ef-006fb564083d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Dash">
+      <UniqueIdentifier>{155d751a-2d21-4912-abb3-ed95d5232e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Line">
+      <UniqueIdentifier>{cf5b590d-bb9b-4831-89a3-02210fd86b88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Down">
+      <UniqueIdentifier>{f4249500-fc25-4e14-a2b4-0790776067a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -674,7 +692,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Loading_Orgu_Run.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Mon_Trash_Slime.h">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
     </ClInclude>
@@ -707,6 +725,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\Rotation_Stand.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Monster.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Bullet_Destroy.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Dash.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Down.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Line.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1039,7 +1075,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Loading_Orgu_Run.cpp">
       <Filter>02.GameObjects\UI\Loading</Filter>
-</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Mon_Trash_Slime.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
     </ClCompile>
@@ -1051,7 +1087,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Mon_Bear_Cannon.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Cannon</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Rotation_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb</Filter>
     </ClCompile>
@@ -1072,6 +1108,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\Small_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Monster.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Bullet_Destroy.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Dash.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Down.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Line.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

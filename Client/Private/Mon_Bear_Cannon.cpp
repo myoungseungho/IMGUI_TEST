@@ -373,7 +373,7 @@ HRESULT CMon_Bear_Cannon::Attack()
 		return E_FAIL;
 }
 
-void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other)
+void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 

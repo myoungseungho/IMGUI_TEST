@@ -12,6 +12,8 @@
 #include "TachoShop_Tile.h"
 #include "Bush.h"
 #include "Boss_Bug.h"
+#include "Effect_Monster.h"
+
 CLevel_Bug::CLevel_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -45,6 +47,9 @@ HRESULT CLevel_Bug::Initialize()
 
 	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
+
+	/*if (FAILED(Ready_Layer_Test(TEXT("Layer_Effect_Bug_Line"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -139,6 +144,17 @@ HRESULT CLevel_Bug::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Boss_Bug"), strLayerTag, &BossBug)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Bug::Ready_Layer_Test(const _wstring& strLayerTag)
+{
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Line"), strLayerTag, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

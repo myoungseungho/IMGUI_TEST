@@ -69,6 +69,10 @@
 #include "Rotation_Stand.h"
 #include "Small_Orb.h"
 #include "Rotation_Orb.h"
+#include "Effect_Bug_Bullet_Destroy.h"
+#include "Effect_Bug_Dash.h"
+#include "Effect_Bug_Line.h"
+#include "Effect_Bug_Down.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -1243,6 +1247,22 @@ HRESULT CLoader::Loading_For_Bug()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Moon/Sprite_MoonForest_FenceThornVerticalOff_%d.png"), 8))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Effect_Bug_Bullet_Destroy"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Bug_Bullet_Destroy/BugBulletDestroy_%d.png"), 8))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Effect_Bug_Dash"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Bug_Dash/Bug_Dash_%d.png"), 8))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Effect_MothFlyLine"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Bug_Dash_Line/MothFlyLine_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Effect_BugBossDown"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Boss_Bug_Down/Sprite_BugBossDown_%d.png"), 6))))
+		return E_FAIL;
+	
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
@@ -1316,20 +1336,37 @@ HRESULT CLoader::Loading_For_Bug()
 		return E_FAIL;
 
 
-
+	/* Prototype_GameObject_Mon_Turtle */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Turtle"),
 		CMon_Turtle::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	/* For.Prototype_GameObject_Effect_Bug_Bullet*/
+	/* For.Prototype_GameObject_Skill_Bug_Bullet*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Bug_Bullet"),
 		CSkill_Bug_Bullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
+	/* For.Prototype_GameObject_Skill_Bug_SludgeWave */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"),
 		CSkill_Bug_SludgeWave::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Effect_Bug_Bullet_Destroy */
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bug_Bullet_Destroy"),
+		CEffect_Bug_Bullet_Destroy::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bug_Dash"),
+		CEffect_Bug_Dash::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bug_Line"),
+		CEffect_Bug_Line::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bug_Down"),
+		CEffect_Bug_Down::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

@@ -56,7 +56,7 @@ HRESULT CRenderer::Render_NonBlend(_float DeltaTime)
 		if (nullptr != pRenderObject)
 			pRenderObject->Render(DeltaTime);
 
-		Safe_Release(pRenderObject);
+		Safe_Release(pRenderObject);    
 	}
 
 	m_RenderObjects[RG_NONBLEND].clear();

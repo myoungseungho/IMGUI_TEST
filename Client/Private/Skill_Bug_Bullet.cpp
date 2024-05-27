@@ -4,6 +4,8 @@
 #include "Skill_Bug_Bullet.h"
 #include "GameInstance.h"
 #include "Player.h"
+#include "Effect_Monster.h"
+
 CSkill_Bug_Bullet::CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
 {
@@ -148,21 +150,23 @@ HRESULT CSkill_Bug_Bullet::End_RenderState()
 void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
-	CSkill_Bug_Bullet* pThis = this;
 
 	CPlayer* player = static_cast<CPlayer*>(otherObject);
 
-	if (player == nullptr)
+	if (player != nullptr)
 	{
 		if (player->Get_Player_State() != CPlayer::STATE_ATTACK)
 			m_bPlayerAttack = true;
 	}
 
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Bullet_Destroy"), TEXT("Layer_Skill_Bug_Bullet_Destroy"), &Desc);
 }
 
-void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
+void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other, _float fTimeDelta)
 {
-
 
 }
 
@@ -171,15 +175,18 @@ void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
 
 }
 
-void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
+HRESULT CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 {
 	CSkill_Bug_Bullet* pThis = this;
+	
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
 		Safe_Release(pThis);
 
 	if (m_bPlayerAttack)
 		Safe_Release(pThis);
+
+	return S_OK;
 }
 
 void CSkill_Bug_Bullet::Bullet_State()

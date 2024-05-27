@@ -112,7 +112,7 @@ HRESULT CSkill_Cannon_Ball::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER_SKILL, this);
 
 	return S_OK;
 }
@@ -141,23 +141,24 @@ HRESULT CSkill_Cannon_Ball::End_RenderState()
 	return S_OK;
 }
 
-void CSkill_Cannon_Ball::OnCollisionEnter(CCollider* other)
+void CSkill_Cannon_Ball::OnCollisionEnter(CCollider* other,  _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if(dynamic_cast<CPlayer*>(otherObject))
-	{
-		CSkill_Cannon_Ball* pThis = this;
-		Safe_Release(pThis);
-	}
+	int a = 10;
 }
 
 void CSkill_Cannon_Ball::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		m_bDead = true;
+	}
 }
 
 void CSkill_Cannon_Ball::OnCollisionExit(CCollider* other)
 {
+	int a = 0;
 }
 
 void CSkill_Cannon_Ball::Move(_float fTimeDelta)
@@ -173,6 +174,9 @@ void CSkill_Cannon_Ball::Destory(_float fTimeDelta)
 	{
 		Safe_Release(pThis);
 	}
+
+	if(m_bDead)
+		Safe_Release(pThis);
 }
 
 void CSkill_Cannon_Ball::Move_Dir()

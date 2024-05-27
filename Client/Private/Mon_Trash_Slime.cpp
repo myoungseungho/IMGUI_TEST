@@ -295,7 +295,7 @@ void CMon_Trash_Slime::Destory()
 
 }
 
-void CMon_Trash_Slime::OnCollisionEnter(CCollider* other)
+void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }
