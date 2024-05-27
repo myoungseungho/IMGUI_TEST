@@ -43,10 +43,19 @@ private:
 	HRESULT Ready_Components();
 	void Font_Initialize();
 private:
-	wstring m_WstringName = { TEXT("이름 테스트") };
-	wstring m_WstringTalk = { TEXT("토크 테스트") };
+	wstring m_WstringName = { TEXT("명승호 저녁 일기") };
+	wstring m_WstringTalk = TEXT(
+		"저는 오늘 짜장면을 먹었습니다.\n"
+		"군만두도 먹었습니다..\n"
+		"지금 아주 배가 부릅니다.\n"
+		"음료수가 먹고싶네요"
+	);
+	wstring m_DisplayText;
 	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
 	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
+	_float m_fTextUpdateTime = {0.f};
+	_float m_fTextDisplayInterval= { 0.1f };
+	size_t m_CurrentCharIndex = { 0 };
 public:
 	/* 원형객체를 생성한다. */
 	static CUI_Npc_Talk_BackGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

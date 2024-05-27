@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\UI_Npc_Talk_BackGround.h"
-
+#include <sstream>
 #include "GameInstance.h"
 
 CUI_Npc_Talk_BackGround::CUI_Npc_Talk_BackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -159,7 +159,7 @@ HRESULT CUI_Npc_Talk_BackGround::Render(_float fTimeDelta)
 	wchar_t text[256];
 	RECT rect;
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
+	/* 사각형 위에 올리고 싶은 텍스트를 미리 장치에 바인딩한다. */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
@@ -171,7 +171,7 @@ HRESULT CUI_Npc_Talk_BackGround::Render(_float fTimeDelta)
 
 	// 텍스트 렌더링 - 이름
 	swprintf_s(text, L"%s", m_WstringName.c_str());
-	SetRect(&rect, static_cast<int>(300.f), static_cast<int>(370.f), 0, 0); // 텍스트를 출력할 위치 변경
+	SetRect(&rect, static_cast<int>(280.f), static_cast<int>(375.f), 0, 0); // 텍스트를 출력할 위치 변경
 	m_pName_Font->DrawText(
 		NULL,
 		text,
@@ -182,21 +182,58 @@ HRESULT CUI_Npc_Talk_BackGround::Render(_float fTimeDelta)
 	);
 
 	// 텍스트 렌더링 - CurrentItemExplain
-	swprintf_s(text, L"%s", m_WstringTalk.c_str());
-	SetRect(&rect, static_cast<int>(570.f), static_cast<int>(460.f), 0, 0); // 텍스트를 출력할 위치 변경
-	m_pTalk_Font->DrawText(
-		NULL,
-		text,
-		-1,
-		&rect,
-		DT_NOCLIP,
-		D3DCOLOR_ARGB(255, 255, 255, 255)
-	);
+	m_fTextUpdateTime += fTimeDelta;
+	if (m_fTextUpdateTime >= m_fTextDisplayInterval)
+	{
+		m_fTextUpdateTime = 0.0f;
+		if (m_CurrentCharIndex < m_WstringTalk.length())
+		{
+			m_DisplayText += m_WstringTalk[m_CurrentCharIndex];
+			++m_CurrentCharIndex;
+		}
+	}
+
+	// 각 줄의 텍스트를 중앙 정렬된 시작 위치에 출력
+	wistringstream wiss(m_DisplayText);
+	wstring line;
+	int lineIndex = 0;
+	int startY = 460; // 초기 Y 위치
+
+	while (getline(wiss, line))
+	{
+		// 현재 줄의 중앙 정렬된 시작 위치 계산
+		RECT lineRect = { 0, 0, 0, 0 };
+		m_pTalk_Font->DrawText(
+			NULL,
+			line.c_str(),
+			-1,
+			&lineRect,
+			DT_CALCRECT,
+			0
+		);
+		int lineWidth = lineRect.right - lineRect.left;
+		int centerX = 640; // 중앙 정렬 기준 X 좌표
+		int startX = centerX - (lineWidth / 2);
+
+		// 텍스트 렌더링 - CurrentItemExplain
+		SetRect(&rect, startX, startY + (lineIndex * 30), startX + lineWidth, 0); // 각 줄의 Y 간격은 30 픽셀
+		m_pTalk_Font->DrawText(
+			NULL,
+			line.c_str(),
+			-1,
+			&rect,
+			DT_NOCLIP,
+			D3DCOLOR_ARGB(255, 255, 255, 255)
+		);
+
+		lineIndex++;
+	}
 
 	__super::End_RenderState();
 
 	return S_OK;
 }
+
 
 HRESULT CUI_Npc_Talk_BackGround::Ready_Components()
 {
@@ -255,6 +292,7 @@ void CUI_Npc_Talk_BackGround::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-
+	Safe_Release(m_pName_Font);
+	Safe_Release(m_pTalk_Font);
 	__super::Free();
 }
