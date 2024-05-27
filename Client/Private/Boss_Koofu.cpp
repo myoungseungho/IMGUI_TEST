@@ -514,7 +514,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 	_float3 vChase = {};
 	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y =  fScaleDown + 0.75f;
+	vChase.y =  fScaleUp * 0.5f + 0.75f;
 	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
@@ -700,13 +700,13 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 	if (!bScaleDown)
 	{
 		fScaleDown += fTimeDelta;
-
-		m_pTransformCom->Set_Scaled(_float3(1.f - fScaleDown, 1.f - fScaleDown, 1.f));
+		_float3 vScale  = m_pTransformCom->Get_Scaled();
+		m_pTransformCom->Set_Scaled(_float3(vScale.x - fScaleDown, vScale.y - fScaleDown, 1.f));
 
 		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		_float fCurrPosX = vCurrPos.x;
-		_float fCurrPosY = fScaleDown *0.5f - 0.75f;
+		_float fCurrPosY = fScaleDown  - 0.5f;
 		_float fCurrPosZ = vCurrPos.z;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));

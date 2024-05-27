@@ -134,7 +134,7 @@ HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	Bosskoofu.iHp = 15;
+	Bosskoofu.iHp = 100;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

@@ -89,7 +89,7 @@ private:
 	_bool m_bWarf = { false };
 
 	_float fScaleUp = { 1.f };
-	_float fScaleDown = { 1.f };
+	_float fScaleDown = { 0.f };
 	_bool bScaleUp = { false };
 	_bool bScaleDown = { false };
 public:
