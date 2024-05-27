@@ -32,7 +32,7 @@ HRESULT CLaser::Initialize(void* pArg)
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_eDirection = (DIRECTION)pDesc->iLaserDir;
 
-	//Safe_AddRef(m_pTargetTransform);
+	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -106,8 +106,6 @@ void CLaser::Update(_float fTimeDelta)
 
 void CLaser::Late_Update(_float fTimeDelta)
 {
-
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
