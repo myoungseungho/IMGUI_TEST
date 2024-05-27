@@ -639,7 +639,7 @@ HRESULT CBoss_Koofu::End_RenderState()
 	return S_OK;
 }
 
-void CBoss_Koofu::OnCollisionEnter(CCollider* other)
+void CBoss_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }
@@ -648,7 +648,7 @@ void CBoss_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-void CBoss_Koofu::OnCollisionExit(CCollider* other)
+void CBoss_Koofu::OnCollisionExit(class CCollider* other)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 

@@ -20,10 +20,9 @@ BEGIN(Client)
 
 class CPlayer final : public CGameObject
 {
-
 public:
 enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
-enum STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_END};
+enum PLAYER_STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END};
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -39,17 +38,18 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 public:
-	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-	STATE		Get_Player_Dir() {
+	PLAYER_STATE		Get_Player_State() {
 		return m_ePlayerCurState;
 	}
+
 	_uint		Get_Player_Hp()
 	{
-		return m_icurrentHp;
+		return m_iPlayerHp;
 	}
 
 	_uint		Get_Player_MaxHp()
@@ -59,10 +59,10 @@ public:
 
 	_uint		Set_Player_Hp(_uint _hp)
 	{
-		if (m_icurrentHp + _hp >= m_iMaxHp)
-			return m_icurrentHp = m_iMaxHp;
+		if (m_iPlayerHp + _hp >= m_iMaxHp)
+			return m_iPlayerHp = m_iMaxHp;
 		else
-			return m_icurrentHp += _hp;
+			return m_iPlayerHp += _hp;
 	}
 
 private:
@@ -87,22 +87,33 @@ private:
 	HRESULT			Player_Skill();
 
 	void              Set_Direction(DIRECTION _DIR) { m_ePlayerDir = _DIR; }
-	void              Set_State(STATE _STATE) { m_ePlayerCurState = _STATE; }
+	void              Set_State(PLAYER_STATE _STATE) { m_ePlayerCurState = _STATE; }
 
 	void				BillBoarding();
 
 	void				 Player_AnimState(_float _fTimeDelta);
 
 	void				For_Attack_State(_float fTimeDelta);
+	void				For_Damage_State(_float fTimeDelta);
+
+	void				Player_Damaged();
 
 private:
 	_float3		m_forScaled;
 
 	DIRECTION	m_ePlayerDir = { DIR_END };
-	STATE			m_ePlayerCurState = { STATE_END };
-	STATE			m_ePlayerPreState = { STATE_IDLE };
+	PLAYER_STATE			m_ePlayerCurState = { STATE_END };
+	PLAYER_STATE			m_ePlayerPreState = { STATE_IDLE };
 
 	_float			m_fAttackTime = { 0.0f };
+	_float			m_fDamageTime = { 0.0f };
+
+	_uint			m_iPlayerHp = { 100 };
+	_uint			m_iMaxHp = { 10 };
+
+	_bool			m_bCanDamaged = { true };
+	_bool			m_bForTestDamaged = { false };
+
 private:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;
@@ -120,8 +131,6 @@ private:
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
 	_float		m_bAttack = { false };
-	_uint		m_iMaxHp = { 10 };
-	_uint		m_icurrentHp = { 10 };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 

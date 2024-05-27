@@ -208,7 +208,7 @@ HRESULT CMon_Turtle::End_RenderState()
 	return S_OK;
 }
 
-void CMon_Turtle::OnCollisionEnter(CCollider* other)
+void CMon_Turtle::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }
@@ -218,7 +218,7 @@ void CMon_Turtle::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 }
 
-void CMon_Turtle::OnCollisionExit(CCollider* other)
+void CMon_Turtle::OnCollisionExit(class CCollider* other)
 {
 	
 }

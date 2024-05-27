@@ -62,6 +62,13 @@
 #include "Mon_Bear_Solider.h"
 #include "Mon_Bear_Cannon.h"
 #include "Skill_Cannon_Ball.h"
+#include "End_Stand.h"
+#include "End_Orb.h"
+#include "UnRotation_Orb.h"
+#include "UnRotation_Stand.h"
+#include "Rotation_Stand.h"
+#include "Small_Orb.h"
+#include "Rotation_Orb.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -301,6 +308,37 @@ HRESULT CLoader::Loading_For_Jungle()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_MonkeyStatue_Trigger.png"), 1))))
 		return E_FAIL;
 
+#pragma region Texture_Laser_Quiz
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Orb"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_Orb.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_SmallOrb"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_OrbSmall.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrb"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_OrbEnd.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_RotationOrbStand"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_StandStarter.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_UnRotationOrbStand"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_Stand.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrbStand"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_StandEnd.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_OrbEffect"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_OceanLightOrb_OrbLight.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
@@ -373,6 +411,36 @@ HRESULT CLoader::Loading_For_Jungle()
 		CBush::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+#pragma region For_Laser_Quiz
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rotation_Orb"),
+		CRotation_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Small_Orb"),
+		CSmall_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UnRotation_Orb"),
+		CUnRotation_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_End_Orb"),
+		CEnd_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rotation_Stand"),
+		CRotation_Stand::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UnRotation_Stand"),
+		CUnRotation_Stand::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_End_Stand"),
+		CEnd_Stand::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+#pragma endregion
 	m_isFinished = true;
 
 	return S_OK;
@@ -1311,7 +1379,6 @@ HRESULT CLoader::Loading_For_Edit()
 
 	m_isFinished = true;
 }
-
 
 CLoader* CLoader::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVELID eNextLevelID)
 {

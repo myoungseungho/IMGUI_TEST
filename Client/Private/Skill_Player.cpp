@@ -90,7 +90,7 @@ HRESULT CSkill_Player::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CSkill_Player::OnCollisionEnter(CCollider* other)
+void CSkill_Player::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	int a = 3;
 }
@@ -107,22 +107,14 @@ void CSkill_Player::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
 			m_bSkillAttack = false;
-
-			if (pDamagedObj->m_tMonsterDesc.iHp <= 0)
-			{
-				pDamagedObj->Delete_Object();
-			}
 		}
-
-		Delete_Object();
 
 		return;
 	}
 
-	int a = 3;
 }
 
-void CSkill_Player::OnCollisionExit(CCollider* other)
+void CSkill_Player::OnCollisionExit(class CCollider* other)
 {
 	int a = 3;
 }

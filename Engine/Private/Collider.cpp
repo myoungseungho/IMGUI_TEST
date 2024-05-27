@@ -118,12 +118,12 @@ void CCollider::Update(_float fTimeDelta)
 	//m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
-void CCollider::OnCollisionEnter(CCollider* other)
+void CCollider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	if (!m_bIsCollied)
 		m_bIsCollied != m_bIsCollied;
 
-	m_MineGameObject->OnCollisionEnter(other);
+	m_MineGameObject->OnCollisionEnter(other, fTimeDelta);
 }
 
 

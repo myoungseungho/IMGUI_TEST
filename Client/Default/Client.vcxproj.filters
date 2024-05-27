@@ -300,6 +300,33 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Cannon_Ball">
       <UniqueIdentifier>{073bb1d9-d8a3-4790-8598-fa13d7dd9f1c}</UniqueIdentifier>
+  </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb">
+      <UniqueIdentifier>{e7c70de5-6c90-4465-ba64-920de112a6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Light">
+      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb">
+      <UniqueIdentifier>{ed1cddb5-29b0-49be-9a2a-59900263c5ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb">
+      <UniqueIdentifier>{fe15fbf1-7053-4ef9-8e77-2fef4474ea66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb">
+      <UniqueIdentifier>{d4d4a736-f564-4605-bfb2-958a3d11c7dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\End_Stand">
+      <UniqueIdentifier>{7cf63c81-5650-4ee2-951b-16cd08eea809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb">
+      <UniqueIdentifier>{1d09e022-932f-49d5-9d0d-9a8053431fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\UnRotation_Stand">
+      <UniqueIdentifier>{ecbab8c7-1671-4645-ab71-70f5f0a7825d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand">
+      <UniqueIdentifier>{04318e6c-45c2-483c-a55f-9a9c35dba7d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -660,6 +687,27 @@
     <ClInclude Include="..\public\Mon_Bear_Cannon.h">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Cannon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\End_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UnRotation_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Small_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Rotation_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\End_Stand.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\End_Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UnRotation_Stand.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\UnRotation_Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Rotation_Stand.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1003,6 +1051,27 @@
     </ClCompile>
     <ClCompile Include="..\private\Mon_Bear_Cannon.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Cannon</Filter>
+  </ClCompile>
+    <ClCompile Include="..\Private\Rotation_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UnRotation_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\End_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\End_Stand.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\End_Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UnRotation_Stand.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\UnRotation_Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Rotation_Stand.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Small_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,8 @@
 #include "..\Public\Block.h"
 
 #include "GameInstance.h"
+#include "Monkey_Statue.h"
+
 
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -10,6 +12,7 @@ CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 CBlock::CBlock(const CBlock& Prototype)
 	: CEnviormentObject{ Prototype }
+
 {
 }
 
@@ -66,6 +69,12 @@ void CBlock::Priority_Update(_float fTimeDelta)
 void CBlock::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (CMonkey_Statue::m_eMonkeyState ==1)
+		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
+	else
+		m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
+
 }
 
 void CBlock::Late_Update(_float fTimeDelta)
@@ -114,19 +123,16 @@ void CBlock::AnimState(_float _fTimeDelta)
 }
 
 
-void CBlock::OnCollisionEnter(CCollider* other)
+void CBlock::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
 }
 
 void CBlock::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-
 }
 
-void CBlock::OnCollisionExit(CCollider* other)
+void CBlock::OnCollisionExit(class CCollider* other)
 {
-	m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
 }
 
 HRESULT CBlock::Ready_Components()
@@ -154,6 +160,7 @@ HRESULT CBlock::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
 		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
 		return E_FAIL;
+
 
 	return S_OK;
 }

@@ -89,7 +89,7 @@ HRESULT CMoon_Fence::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CMoon_Fence::OnCollisionEnter(CCollider* other)
+void CMoon_Fence::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 }
 
@@ -97,7 +97,7 @@ void CMoon_Fence::OnCollisionStay(CCollider* other)
 {
 }
 
-void CMoon_Fence::OnCollisionExit(CCollider* other)
+void CMoon_Fence::OnCollisionExit(class CCollider* other)
 {
 }
 

@@ -2,6 +2,7 @@
 #include "..\Public\Bush.h"
 
 #include "GameInstance.h"
+#include <Player.h>
 
 CBush::CBush(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -103,17 +104,40 @@ HRESULT CBush::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CBush::OnCollisionEnter(CCollider* other)
+void CBush::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	m_eAnimState = ANIMATION_STATE::ANIM_MOVE;
+
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_State() == 2)
+		{
+			Delete_Object();
+		}
+	}
+		
 }
 
 void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_State() == 2)
+		{
+			Delete_Object();
+		}
+	}
 }
 
-void CBush::OnCollisionExit(CCollider* other)
+void CBush::OnCollisionExit(class CCollider* other)
 {
 	m_eAnimState = ANIMATION_STATE::ANIM_IDLE;
 }

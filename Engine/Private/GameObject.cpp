@@ -50,7 +50,7 @@ HRESULT CGameObject::Render(_float DeltaTime)
 	return S_OK;
 }
 
-void CGameObject::OnCollisionEnter(CCollider* other)
+void CGameObject::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 }
 

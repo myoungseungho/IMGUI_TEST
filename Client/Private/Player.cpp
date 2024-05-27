@@ -17,8 +17,9 @@
 #include "Skill_Bug_Bullet.h"
 #include "Skill_Koofu_Rolling.h"
 #include <Mon_Bear_Cannon.h>
-
-
+#include <RockBreakable.h>
+#include <Monkey_Statue.h>
+#include <Block.h>
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -66,7 +67,10 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	m_bAttack = false;
+
+
 	Key_Input(fTimeDelta);
+	For_Damage_State(fTimeDelta);
 	For_Attack_State(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_SKILL)
@@ -85,6 +89,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else
 		m_iCurrentSkillCount = 0;
+
 
 }
 
@@ -118,15 +123,44 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CPlayer::OnCollisionEnter(CCollider* other)
+void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
+	//몬스터의 스킬이 여러갠데
+	//호박도 스킬이고, 그 미는것도 스킬이잖아.
+	//내가 추론하기에 그럼 CSkill_Monster 산하에 호박 객체가 또 하나 있을 것이고,
+	//미는것도 또 하나 객체가 있다면
+	//부모 객체로 조건문을 검사하는게 아니고
+	//미는 불렛에서만 작동하게 하면 되는거아냐?
+	//내가 지금까지 이해한 미는 불렛은 쿠푸가 존나게 미는거 그거 말한건데
+	//이 로직을 다른 불렛에서도 동일하게 탄다고?
+	//그냥 밀려날 거리가 더 먼것뿐이야? 그럼 로직은 동일한데?
+	//스턴이라는게 실제 게임에서도 있었던거야?
+	//너가 자의적으로 만든거?
+	//그럼 지금 모든 불렛을 맞으면 기본적으로 밀리고, 스턴이 걸리는데.
+	//딱 하나 예외가 쿠푸가 쏘는 미는 스킬만 밀리고 스턴이 안걸려야 해.
+	//그래서 분기처리를 좀 해야 할 것 같은데
+
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
 	{
+		//의도
+		//이동을 아예 막는다.
+		//m_bCanamaged가 true면
+		//스턴 먹었을 때 false로 바뀐다.
+		//그럼 스턴 안먹으면 true가 바뀐다.
+		//스킬 
+		if (m_bCanDamaged)
+		{
+			m_ePlayerCurState = STATE_HIT;
+			Player_Damaged();
+			return;
+		}
+
+		//스킬몬스터랑 충돌하면, 플레이어가 밀려남.
 		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		CSkill_Monster* pMonSkill = dynamic_cast<CSkill_Monster*>(otherObject);
@@ -137,21 +171,74 @@ void CPlayer::OnCollisionEnter(CCollider* other)
 
 		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
 
-		
+
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
 		return;
-	}	
+	}
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+		{
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
+		}
+	}
+
+
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	{
+		m_ePlayerCurState = STATE_HIT;
+		Player_Damaged();
+		return;
+	}
+
+
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
 		m_bPush = true;
 		return;
 	}
-	
 
-	// Transform 컴포넌트를 가져옴
-	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+
+	if (dynamic_cast<CBlock*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CMonkey_Statue::m_eMonkeyState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
+
+	>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
+
+		// Transform 컴포넌트를 가져옴
+		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
 
 	// 플레이어와 다른 객체의 위치를 가져옴
@@ -180,15 +267,16 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CMon_Bear_Cannon*>(otherObject))
 		return;
 
-	if (dynamic_cast<CMonster*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+	<<<<<< < HEAD
+		if (dynamic_cast<CMonster*>(otherObject))
 		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
+			if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+			{
+				CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+				pDamagedObj->Damaged();
+			}
+			return;
 		}
-		return;
-	}
 
 	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
 	{
@@ -218,28 +306,114 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		return;
 
 
-	if (dynamic_cast<CPush_Stone*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_PUSH)
+	====== =
+		>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
+		if (dynamic_cast<CPush_Stone*>(otherObject))
 		{
-			CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
-			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
-			_float3 PushObjPos = pPushObjTranform->Get_State(CTransform::STATE_POSITION);
-
-			if (((PushObjPos.z > m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_UP ||
-				PushObjPos.z <  m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_DOWN ||
-				PushObjPos.x > m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_RIGHT ||
-				PushObjPos.x < m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_LEFT)))
-
+			if (m_ePlayerCurState == STATE_PUSH)
 			{
-				pPushObj->Push_Move(fTimeDelta, m_ePlayerDir);
+				CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
+				CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
+				_float3 PushObjPos = pPushObjTranform->Get_State(CTransform::STATE_POSITION);
+
+				if (((PushObjPos.z > m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_UP ||
+					PushObjPos.z <  m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_DOWN ||
+					PushObjPos.x > m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_RIGHT ||
+					PushObjPos.x < m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_LEFT)))
+
+				{
+					pPushObj->Push_Move(fTimeDelta, m_ePlayerDir);
+				}
+				return;
 			}
-			return;
+		}
+
+	if (dynamic_cast<CRockBreakable*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			// Transform 컴포넌트를 가져옴
+			CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+			CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+			// 플레이어와 다른 객체의 위치를 가져옴
+			_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+			if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+				m_bCanMoveRight = false;
+			}
+			if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+				m_bCanMoveLeft = false;
+			}
+			if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+				m_bCanMoveForward = false;
+			}
+			if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+				m_bCanMoveBackward = false;
+			}
+		}
+	}
+
+	if (dynamic_cast<CMonkey_Statue*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			// Transform 컴포넌트를 가져옴
+			CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+			CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+			// 플레이어와 다른 객체의 위치를 가져옴
+			_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+			if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+				m_bCanMoveRight = false;
+			}
+			if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+				m_bCanMoveLeft = false;
+			}
+			if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+				m_bCanMoveForward = false;
+			}
+			if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+				m_bCanMoveBackward = false;
+			}
+		}
+	}
+
+	if (dynamic_cast<CBlock*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CMonkey_Statue::m_eMonkeyState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
 		}
 	}
 }
 
-void CPlayer::OnCollisionExit(CCollider* other)
+void CPlayer::OnCollisionExit(class CCollider* other)
 {
 	if (other->m_Died)
 		return;
@@ -293,6 +467,54 @@ void CPlayer::OnCollisionExit(CCollider* other)
 	if (playerPosition.z > otherPosition.z) {
 		m_bCanMoveBackward = true;
 	}
+}
+
+void CPlayer::Player_Damaged()
+{
+	if (m_bCanDamaged && m_bForTestDamaged != false)
+	{
+		--m_iPlayerHp;
+
+		_float vPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
+		_float vPosY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
+		_float vPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+
+		switch (m_ePlayerDir)
+		{
+		case DIR_UP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHT:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ));
+			break;
+		case DIR_DOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ + 0.2f));
+			break;
+		case DIR_LEFT:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ));
+			break;
+		case DIR_LEFTUP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHTUP:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ - 0.2f));
+			break;
+		case DIR_RIGHTDOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ + 0.2f));
+			break;
+		case DIR_LEFTDOWN:
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ + 0.2f));
+			break;
+
+		}
+		m_bCanMoveRight = false;
+		m_bCanMoveLeft = false;
+		m_bCanMoveForward = false;
+		m_bCanMoveBackward = false;
+		m_bCanDamaged = false;
+	}
+
+
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -397,6 +619,17 @@ HRESULT CPlayer::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_RightDown"), TEXT("Player_Skill_RightDown"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Skill_LeftDown"), TEXT("Player_Skill_LeftDown"));
 
+	//Hit
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Up"), TEXT("Player_Hit_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Right"), TEXT("Player_Hit_Right"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Down"), TEXT("Player_Hit_Down"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_Left"), TEXT("Player_Hit_Left"));
+
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_LeftUp"), TEXT("Player_Hit_LeftUp"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_RightUp"), TEXT("Player_Hit_RightUp"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_RightDown"), TEXT("Player_Hit_RightDown"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_LeftDown"), TEXT("Player_Hit_LeftDown"));
+
 	// Push
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Up"), TEXT("Player_Push_Up"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Right"), TEXT("Player_Push_Right"));
@@ -426,205 +659,231 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
-
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-
-
-
-	if (m_pKeyCom->Key_Pressing('E'))
+	if (m_bCanDamaged)
 	{
-		m_ePlayerCurState = STATE_SKILL;
-
-		if (m_pKeyCom->Key_Pressing(VK_UP))
+		if (m_pKeyCom->Key_Pressing('E'))
 		{
-			if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			m_ePlayerCurState = STATE_SKILL;
+
+			if (m_pKeyCom->Key_Pressing(VK_UP))
 			{
-				m_ePlayerDir = DIR_LEFTUP;
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+				if (m_pKeyCom->Key_Pressing(VK_LEFT))
+				{
+					m_ePlayerDir = DIR_LEFTUP;
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-				_float3 vDir = -vLook + vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
+					_float3 vDir = -vLook + vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
 
-				m_SkillDir = -vDir;
+					m_SkillDir = -vDir;
+				}
+
+				else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+				{
+					m_ePlayerDir = DIR_RIGHTUP;
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook - vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = -vDir;
+				}
+
+				else
+				{
+					m_ePlayerDir = (DIR_UP);
+					_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+					D3DXVec3Normalize(&vLook, &vLook);
+
+					m_SkillDir = vLook;
+				}
 			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_DOWN))
+			{
+
+				if (m_pKeyCom->Key_Pressing(VK_LEFT))
+				{
+					m_ePlayerDir = (DIR_LEFTDOWN);
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook - vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = vDir;
+				}
+
+
+				else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
+				{
+					m_ePlayerDir = (DIR_RIGHTDOWN);
+					_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+					_float3 vDir = -vLook + vRight;
+					D3DXVec3Normalize(&vDir, &vDir);
+
+					m_SkillDir = vDir;
+				}
+
+
+				else
+				{
+					m_ePlayerDir = (DIR_DOWN);
+					_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+					m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
+
+					m_SkillDir = -vLook;
+
+				}
+
+
+			}
+
+			else if (m_pKeyCom->Key_Pressing(VK_LEFT))
+			{
+				m_ePlayerDir = (DIR_LEFT);
+				_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+				m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
+
+				m_SkillDir = -vRight;
+			}
+
 
 			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
 			{
-				m_ePlayerDir = DIR_RIGHTUP;
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+				m_ePlayerDir = (DIR_RIGHT);
+				_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-				_float3 vDir = -vLook - vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
+				m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
 
-				m_SkillDir = -vDir;
+				m_SkillDir = vRight;
+			}
+		}
+
+		else if (m_bMoveUp)
+		{
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
+			{
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
 			}
 
+
+			if (m_bMoveLeft) {
+				Set_Direction(DIR_LEFTUP);
+				if (m_bCanMoveForward && m_bCanMoveLeft)
+					m_pTransformCom->Go_Straight_Left(fTimeDelta);
+			}
+			else if (m_bMoveRight) {
+				Set_Direction(DIR_RIGHTUP);
+				if (m_bCanMoveForward && m_bCanMoveRight)
+					m_pTransformCom->Go_Straight_Right(fTimeDelta);
+			}
+			else {
+				Set_Direction(DIR_UP);
+				if (m_bCanMoveForward)
+					m_pTransformCom->Go_Straight(fTimeDelta);
+			}
+		}
+
+		else if (m_bMoveDown)
+		{
+			m_ePlayerCurState = STATE_WALK;
+			if (m_bPush)
+			{
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
+			}
+
+			if (m_bMoveLeft) {
+				Set_Direction(DIR_LEFTDOWN);
+				if (m_bCanMoveBackward && m_bCanMoveLeft)
+					m_pTransformCom->Go_Backward_Left(fTimeDelta);
+			}
+			else if (m_bMoveRight) {
+				Set_Direction(DIR_RIGHTDOWN);
+				if (m_bCanMoveBackward && m_bCanMoveRight)
+					m_pTransformCom->Go_Backward_Right(fTimeDelta);
+			}
+			else {
+				Set_Direction(DIR_DOWN);
+				if (m_bCanMoveBackward)
+					m_pTransformCom->Go_Backward(fTimeDelta);
+			}
+		}
+
+		else if (m_bMoveLeft)
+		{
+			Set_Direction(DIR_LEFT);
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
+			{
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
+			}
+
+			if (m_bCanMoveLeft)
+				m_pTransformCom->Go_Left(fTimeDelta);
+		}
+
+		else if (m_bMoveRight)
+		{
+			Set_Direction(DIR_RIGHT);
+			m_ePlayerCurState = STATE_WALK;
+
+			if (m_bPush)
+			{
+				m_ePlayerCurState = STATE_PUSH;
+				m_pTransformCom->Set_Speed(1.f);
+			}
+
+			if (m_bCanMoveRight)
+				m_pTransformCom->Go_Right(fTimeDelta);
+		}
+
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
+		{
+			m_ePlayerCurState = STATE_IDLE;
+		}
+
+		if (m_pKeyCom->Key_Pressing(VK_SHIFT))
+			m_pTransformCom->Set_Speed(5.f);
+		else
+			m_pTransformCom->Set_Speed(3.f);
+
+		if (m_pKeyCom->Key_Down('A'))
+		{
+			m_bAttack = true;
+			m_ePlayerCurState = (STATE_ATTACK);
+			Player_Attack(fTimeDelta);
+		}
+
+		if (m_pKeyCom->Key_Down(VK_RETURN))
+		{
+			if (m_bForTestDamaged)
+				m_bForTestDamaged = false;
 			else
-			{
-				m_ePlayerDir = (DIR_UP);
-				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
-				D3DXVec3Normalize(&vLook, &vLook);
-
-				m_SkillDir = vLook;
-			}
+				m_bForTestDamaged = true;
 		}
 
-		else if (m_pKeyCom->Key_Pressing(VK_DOWN))
-		{
-
-			if (m_pKeyCom->Key_Pressing(VK_LEFT))
-			{
-				m_ePlayerDir = (DIR_LEFTDOWN);
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-				_float3 vDir = -vLook - vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
-
-				m_SkillDir = vDir;
-			}
-
-
-			else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-			{
-				m_ePlayerDir = (DIR_RIGHTDOWN);
-				_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-				_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-				_float3 vDir = -vLook + vRight;
-				D3DXVec3Normalize(&vDir, &vDir);
-
-				m_SkillDir = vDir;
-			}
-
-
-			else
-			{
-				m_ePlayerDir = (DIR_DOWN);
-				_float3		vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
-				m_SkillDir = *D3DXVec3Normalize(&vLook, &vLook);
-
-				m_SkillDir = -vLook;
-
-			}
-
-
-		}
-
-		else if (m_pKeyCom->Key_Pressing(VK_LEFT))
-		{
-			m_ePlayerDir = (DIR_LEFT);
-			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
-
-			m_SkillDir = -vRight;
-		}
-
-
-		else if (m_pKeyCom->Key_Pressing(VK_RIGHT))
-		{
-			m_ePlayerDir = (DIR_RIGHT);
-			_float3		vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-			m_SkillDir = *D3DXVec3Normalize(&vRight, &vRight);
-
-			m_SkillDir = vRight;
-		}
 	}
 
-	else if (m_bMoveUp)
-	{
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-
-		if (m_bMoveLeft) {
-			Set_Direction(DIR_LEFTUP);
-			if (m_bCanMoveForward && m_bCanMoveLeft)
-				m_pTransformCom->Go_Straight_Left(fTimeDelta);
-		}
-		else if (m_bMoveRight) {
-			Set_Direction(DIR_RIGHTUP);
-			if (m_bCanMoveForward && m_bCanMoveRight)
-				m_pTransformCom->Go_Straight_Right(fTimeDelta);
-		}
-		else {
-			Set_Direction(DIR_UP);
-			if (m_bCanMoveForward)
-				m_pTransformCom->Go_Straight(fTimeDelta);
-		}
-	}
-
-	else if (m_bMoveDown)
-	{
-		m_ePlayerCurState = STATE_WALK;
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bMoveLeft) {
-			Set_Direction(DIR_LEFTDOWN);
-			if (m_bCanMoveBackward && m_bCanMoveLeft)
-				m_pTransformCom->Go_Backward_Left(fTimeDelta);
-		}
-		else if (m_bMoveRight) {
-			Set_Direction(DIR_RIGHTDOWN);
-			if (m_bCanMoveBackward && m_bCanMoveRight)
-				m_pTransformCom->Go_Backward_Right(fTimeDelta);
-		}
-		else {
-			Set_Direction(DIR_DOWN);
-			if (m_bCanMoveBackward)
-				m_pTransformCom->Go_Backward(fTimeDelta);
-		}
-	}
-
-	else if (m_bMoveLeft)
-	{
-		Set_Direction(DIR_LEFT);
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bCanMoveLeft)
-			m_pTransformCom->Go_Left(fTimeDelta);
-	}
-
-	else if (m_bMoveRight)
-	{
-		Set_Direction(DIR_RIGHT);
-		m_ePlayerCurState = STATE_WALK;
-
-		if (m_bPush)
-		{
-			m_ePlayerCurState = STATE_PUSH;
-			m_pTransformCom->Set_Speed(1.f);
-		}
-
-		if (m_bCanMoveRight)
-			m_pTransformCom->Go_Right(fTimeDelta);
-	}
-
+	<<<<<< < HEAD
 	else if (m_pKeyCom->Key_Down('A'))
 	{
 		m_bAttack = true;
@@ -645,7 +904,9 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	if (m_pKeyCom->Key_Pressing(VK_SPACE))
 		m_icurrentHp--;
 
-	return S_OK;
+	====== =
+		>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
+		return S_OK;
 }
 
 
@@ -848,6 +1109,35 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			break;
 		}
 		break;
+	case STATE_HIT:
+		switch (m_ePlayerDir)
+		{
+		case DIR_UP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Up"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Right"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_DOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Down"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFT:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Left"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftUp"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTUP:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightUp"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_RIGHTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftDown"), 10.0f, _fTimeDelta, false);
+			break;
+		case DIR_LEFTDOWN:
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 10.0f, _fTimeDelta, false);
+			break;
+		}
+		break;
 	}
 }
 
@@ -869,6 +1159,23 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	}
 
 }
+void CPlayer::For_Damage_State(_float fTimeDelta)
+{
+	m_fDamageTime += fTimeDelta;
+
+	if (m_fDamageTime >= 1.5f)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_fDamageTime = 0.0f;
+		m_bCanDamaged = true;
+		m_bCanMoveRight = true;
+		m_bCanMoveLeft = true;
+		m_bCanMoveForward = true;
+		m_bCanMoveBackward = true;
+
+	}
+}
+
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CPlayer* pInstance = new CPlayer(pGraphic_Device);

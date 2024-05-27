@@ -226,8 +226,6 @@ CGameObject* CGameInstance::GetObjectByIndex(_uint iLevelIndex, const wstring& s
 	return	m_pObject_Manager->GetObjectByIndex(iLevelIndex, strLayerTag, index);
 }
 
-
-
 HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CComponent* pPrototype)
 {
 	if (nullptr == m_pComponent_Manager)
