@@ -2,6 +2,10 @@
 #include "..\Public\Laser.h"
 
 #include "GameInstance.h"
+#include <Player.h>
+#include <RockBreakable.h>
+
+class CSmall_Orb;
 
 CLaser::CLaser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -26,13 +30,21 @@ HRESULT CLaser::Initialize(void* pArg)
 	LASER_DESC* pDesc = static_cast<LASER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
-	Safe_AddRef(m_pTargetTransform);
+	m_eDirection = (DIRECTION)pDesc->iLaserDir;
+
+	//Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+
+	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z));
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
 
 
 	/* For.Com_Transform */
@@ -43,10 +55,6 @@ HRESULT CLaser::Initialize(void* pArg)
 	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
-	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 1.0f, vTargetPos.z + 0.02f));
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
 
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
@@ -54,7 +62,7 @@ HRESULT CLaser::Initialize(void* pArg)
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_LASER, this);
 
 	return S_OK;
 }
@@ -65,11 +73,41 @@ void CLaser::Priority_Update(_float fTimeDelta)
 
 void CLaser::Update(_float fTimeDelta)
 {
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	{
+		CLaser* pThis = this;
+
+		Safe_Release(pThis);
+	}
+
 	__super::Update(fTimeDelta);
+
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (m_eDirection == DIR_LEFT)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x - 0.2f, vPos.y, vPos.z));
+		}
+		else if (m_eDirection == DIR_UP)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x, vPos.y, vPos.z + 0.2f));
+		}
+		else if (m_eDirection == DIR_RIGHT)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x + 0.2f, vPos.y, vPos.z));
+		}
+		else if (m_eDirection == DIR_DOWN)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x, vPos.y, vPos.z - 0.2f));
+		}
+
+	
 }
 
 void CLaser::Late_Update(_float fTimeDelta)
 {
+
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
@@ -92,6 +130,26 @@ HRESULT CLaser::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+
+}
+
+void CLaser::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+	
+}
+
+void CLaser::OnCollisionExit(CCollider* other)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	//if (dynamic_cast<CRockBreakable*>(otherObject))
+	//{
+	//	Delete_Object();
+	//}
+}
+
 HRESULT CLaser::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -102,6 +160,11 @@ HRESULT CLaser::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Timer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
+		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -145,6 +208,7 @@ CGameObject* CLaser::Clone(void* pArg)
 
 void CLaser::Free()
 {
+	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
@@ -152,6 +216,7 @@ void CLaser::Free()
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
 	__super::Free();
 }
 

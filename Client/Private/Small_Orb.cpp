@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <Laser.h>
 
+_uint CSmall_Orb::m_eSmallOrbDir = CSmall_Orb::DIR_DOWN;
 
 CSmall_Orb::CSmall_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -66,6 +67,7 @@ HRESULT CSmall_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	m_ePreDirection = DIR_DOWN;
 	m_eDirection = DIR_DOWN;
 
 
@@ -80,44 +82,41 @@ void CSmall_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	if (m_eDirection == DIR_DOWN)
-	{
-		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
-	}
-	else if (m_eDirection == DIR_LEFT)
-	{
-		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+		if (m_eDirection == DIR_DOWN)
+		{
+			_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x-0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
-	}
-	else if (m_eDirection == DIR_UP)
-	{
-		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+		}
+		else if (m_eDirection == DIR_LEFT)
+		{
+			_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z + 0.02f));
-	}
-	else if (m_eDirection == DIR_RIGHT)
-	{
-		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+		}
+		else if (m_eDirection == DIR_UP)
+		{
+			_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x+0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
-	}
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.1f, vTargetPos.z + 0.02f));
+		}
+		else if (m_eDirection == DIR_RIGHT)
+		{
+			_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
+		}
 
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		{
+			CLaser::LASER_DESC			LASERDESC{};
 
-	while (bTest)
-	{
+			LASERDESC.pTargetTransform = m_pTransformCom;
+			LASERDESC.iLaserDir = m_eDirection;
 
-		CLaser::LASER_DESC			LASERDESC{};
-
-		LASERDESC.pTargetTransform = m_pTransformCom;
-
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
-
-		bTest = false;
-	}
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
+		}
 
 }
 
@@ -157,25 +156,33 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		{
 			if (m_eDirection == DIR_DOWN )
 			{
+				m_ePreDirection = DIR_DOWN;
 				m_eDirection = DIR_LEFT;
+
 				return;
 			}
 
 			if (m_eDirection == DIR_LEFT)
 			{
+				m_ePreDirection = DIR_LEFT;
 				m_eDirection = DIR_UP;
+
 				return;
 			}
 
 			if (m_eDirection == DIR_UP)
 			{
+				m_ePreDirection = DIR_UP;
 				m_eDirection = DIR_RIGHT;
+
 				return;
 			}
 
 			if (m_eDirection == DIR_RIGHT)
 			{
+				m_ePreDirection = DIR_RIGHT;
 				m_eDirection = DIR_DOWN;
+
 				return;
 			}
 		}

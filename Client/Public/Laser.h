@@ -9,6 +9,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
+class CCalc_Timer;
 END
 
 BEGIN(Client)
@@ -19,9 +20,10 @@ public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr };
+		_uint			iLaserDir = { 0 };
 	}LASER_DESC;
 	
-
+	enum DIRECTION { DIR_DOWN, DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_END };
 private:
 	CLaser(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CLaser(const CLaser& Prototype); /* 사본생성 시 */
@@ -35,15 +37,24 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CCalc_Timer* m_pTimerCom = { nullptr };
 
 	CTransform* m_pTargetTransform = { nullptr };
+	DIRECTION		m_eDirection = { DIR_END };
 private:
 	HRESULT Ready_Components();
+
+	_bool bIsCollision = { false };
 
 public:
 	/* 원형객체를 생성한다. */

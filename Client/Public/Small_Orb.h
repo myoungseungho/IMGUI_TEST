@@ -55,9 +55,11 @@ private:
 	HRESULT Ready_Components();
 	_bool	bTest = { true };
 
+public:
+	static _uint			m_eSmallOrbDir;
 private:
 	SMALLORB_DIR			m_eDirection = { DIR_END };
-
+	SMALLORB_DIR			m_ePreDirection = { DIR_END };
 public:
 	/* 원형객체를 생성한다. */
 	static CSmall_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
