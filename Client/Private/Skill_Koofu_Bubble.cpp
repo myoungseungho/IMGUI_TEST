@@ -57,10 +57,10 @@ void CSkill_Koofu_Bubble::Update(_float fTimeDelta)
 
 	if (m_tSkill_Desc.iBulletCnt % 2 != 0)
 	{
-		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 5.f, m_fAngle);
+		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 3.f, m_fAngle);
 	}
 	else 
-		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 5.f, -m_fAngle);
+		Move(vPositionX, vPositionZ, m_tSkill_Desc.iBulletCnt * 3.f, -m_fAngle);
 }
 
 void CSkill_Koofu_Bubble::Late_Update(_float fTimeDelta)
@@ -108,8 +108,6 @@ HRESULT CSkill_Koofu_Bubble::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	
-
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
@@ -137,7 +135,7 @@ void CSkill_Koofu_Bubble::Set_Scale(_float fTimeDelta)
 {
 	m_fScaleAcc += m_fScalePlus;
 
-	if (m_fScaleAcc > 5 || m_fScaleAcc < 0)
+	if (m_fScaleAcc > 3 || m_fScaleAcc < 0)
 		m_fScalePlus *= -1;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f + m_fScaleAcc, 1.f + m_fScaleAcc, 1.f));

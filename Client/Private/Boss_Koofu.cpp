@@ -375,7 +375,6 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 
 	if (!m_isBubbleSpanw && m_pTimerCom->Time_Limit(fTimeDelta,2.f))
 	{
-		//Warf(39, 28, 60 , 47);
 		CircleCreate();
 		m_isBubbleSpanw = true;
 	}
