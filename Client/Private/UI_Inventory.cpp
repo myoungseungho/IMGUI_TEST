@@ -183,6 +183,10 @@ void CInventory::Priority_Update(_float fTimeDelta)
 
 void CInventory::UseQuickInventory_Item(_uint slot)
 {
+	if (m_vecQuickInventory[slot] == nullptr)
+		return;
+
+
 	if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Hat))
 	{
 

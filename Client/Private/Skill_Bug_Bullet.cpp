@@ -25,7 +25,7 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 		return E_FAIL;
 
 	BULLET_SKILL_DESC* pDesc = static_cast<BULLET_SKILL_DESC*>(pArg);
-	
+
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_iBulletCnt = pDesc->iBulletCnt;
 	m_iTotalBullet = pDesc->iTotalBullet;
@@ -41,9 +41,9 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 	m_vCreatePos.x = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x;
 	m_vCreatePos.y = 0.5f;
-	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z -1.5f;
+	m_vCreatePos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 1.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_vCreatePos);
-	
+
 	Bullet_State();
 
 	return S_OK;
@@ -150,12 +150,14 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 	CGameObject* otherObject = other->m_MineGameObject;
 	CSkill_Bug_Bullet* pThis = this;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
+	CPlayer* player = static_cast<CPlayer*>(otherObject);
+
+	if (player == nullptr)
 	{
-		if (dynamic_cast<CPlayer*>(otherObject)->Get_Player_Dir() != CPlayer::STATE_ATTACK)
+		if (player->Get_Player_State() != CPlayer::STATE_ATTACK)
 			m_bPlayerAttack = true;
 	}
-	
+
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
@@ -176,7 +178,7 @@ void CSkill_Bug_Bullet::Destroy(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 10.f))
 		Safe_Release(pThis);
 
-	if(m_bPlayerAttack)
+	if (m_bPlayerAttack)
 		Safe_Release(pThis);
 }
 

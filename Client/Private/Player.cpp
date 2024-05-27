@@ -235,10 +235,8 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
-	>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
-
-		// Transform 컴포넌트를 가져옴
-		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+	// Transform 컴포넌트를 가져옴
+	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
 
 	// 플레이어와 다른 객체의 위치를 가져옴
@@ -267,16 +265,15 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CMon_Bear_Cannon*>(otherObject))
 		return;
 
-	<<<<<< < HEAD
-		if (dynamic_cast<CMonster*>(otherObject))
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
 		{
-			if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
-			{
-				CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-				pDamagedObj->Damaged();
-			}
-			return;
+			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+			pDamagedObj->Damaged();
 		}
+		return;
+	}
 
 	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
 	{
@@ -305,28 +302,25 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
 		return;
 
-
-	====== =
-		>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
-		if (dynamic_cast<CPush_Stone*>(otherObject))
+	if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_PUSH)
 		{
-			if (m_ePlayerCurState == STATE_PUSH)
+			CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
+			CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
+			_float3 PushObjPos = pPushObjTranform->Get_State(CTransform::STATE_POSITION);
+
+			if (((PushObjPos.z > m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_UP ||
+				PushObjPos.z <  m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_DOWN ||
+				PushObjPos.x > m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_RIGHT ||
+				PushObjPos.x < m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_LEFT)))
+
 			{
-				CPush_Stone* pPushObj = dynamic_cast<CPush_Stone*>(otherObject);
-				CTransform* pPushObjTranform = dynamic_cast<CTransform*>(pPushObj->Get_Component(TEXT("Com_Transform")));
-				_float3 PushObjPos = pPushObjTranform->Get_State(CTransform::STATE_POSITION);
-
-				if (((PushObjPos.z > m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_UP ||
-					PushObjPos.z <  m_pTransformCom->Get_State(CTransform::STATE_POSITION).z && m_ePlayerDir == DIR_DOWN ||
-					PushObjPos.x > m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_RIGHT ||
-					PushObjPos.x < m_pTransformCom->Get_State(CTransform::STATE_POSITION).x && m_ePlayerDir == DIR_LEFT)))
-
-				{
-					pPushObj->Push_Move(fTimeDelta, m_ePlayerDir);
-				}
-				return;
+				pPushObj->Push_Move(fTimeDelta, m_ePlayerDir);
 			}
+			return;
 		}
+	}
 
 	if (dynamic_cast<CRockBreakable*>(otherObject))
 	{
@@ -883,7 +877,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 	}
 
-	<<<<<< < HEAD
 	else if (m_pKeyCom->Key_Down('A'))
 	{
 		m_bAttack = true;
@@ -902,11 +895,9 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Set_Speed(3.f);
 
 	if (m_pKeyCom->Key_Pressing(VK_SPACE))
-		m_icurrentHp--;
+		m_iPlayerHp--;
 
-	====== =
-		>>>>>> > fd5f7ee124d12865469079860e27f0c7f41dd19e
-		return S_OK;
+	return S_OK;
 }
 
 
