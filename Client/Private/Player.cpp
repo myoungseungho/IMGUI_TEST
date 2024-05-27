@@ -20,6 +20,7 @@
 #include <RockBreakable.h>
 #include <Monkey_Statue.h>
 #include <Block.h>
+#include "Npc.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -238,6 +239,11 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 
 		return;
+	}
+
+	if (dynamic_cast<CNpc*>(otherObject))
+	{
+
 	}
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
@@ -479,6 +485,10 @@ void CPlayer::Player_Damaged()
 	}
 
 
+}
+
+void CPlayer::Interaction_NPC()
+{
 }
 
 HRESULT CPlayer::Ready_Components()

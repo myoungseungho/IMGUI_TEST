@@ -97,7 +97,8 @@ private:
 	void				For_Damage_State(_float fTimeDelta);
 
 	void				Player_Damaged();
-
+private:
+	void Interaction_NPC();
 private:
 	_float3		m_forScaled;
 

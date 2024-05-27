@@ -65,7 +65,7 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 	m_fX = -15.f;
 	m_fY = -145.f;
 
-	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); // 초기 크기를 0으로 설정
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
 	Font_Initialize();
@@ -76,11 +76,30 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 
 void CUI_Npc_Talk::Priority_Update(_float fTimeDelta)
 {
-	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
+	if (!m_bIsNpcTalkOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
 void CUI_Npc_Talk::Update(_float fTimeDelta)
 {
+	// 생성된 후 경과 시간 계산
+	m_fCreateTime += fTimeDelta;
+
+	// 객체가 n초간 커지면서 시작되도록 처리
+	if (m_fCreateTime <= m_fGrowthDuration)
+	{
+		_float growthProgress = m_fCreateTime / m_fGrowthDuration;
+		_float currentSizeX = m_fSizeX * growthProgress;
+		_float currentSizeY = m_fSizeY * growthProgress;
+
+		m_pTransformCom->Set_Scaled(_float3(currentSizeX, currentSizeY, 1.f));
+	}
+	else
+	{
+		// 성장 완료 후 최종 크기와 위치로 설정
+		m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
+		m_bGrowthComplete = true; // 성장 완료 상태 설정
+	}
+
 	/*if (GetAsyncKeyState('F') & 0x8000) {
 		offsetX -= 5.f;
 	}
@@ -141,6 +160,9 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 
 void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsNpcTalkOn)
+		return;
+
 	//if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 	//
@@ -151,6 +173,9 @@ void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 {
+	if (!m_bIsNpcTalkOn)
+		return S_OK;
+
 	//if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
 
@@ -169,64 +194,67 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	// 텍스트 렌더링 - 이름
-	swprintf_s(text, L"%s", m_WstringName.c_str());
-	SetRect(&rect, static_cast<int>(280.f), static_cast<int>(375.f), 0, 0); // 텍스트를 출력할 위치 변경
-	m_pName_Font->DrawText(
-		NULL,
-		text,
-		-1,
-		&rect,
-		DT_NOCLIP,
-		D3DCOLOR_ARGB(255, 255, 255, 255)
-	);
-
-	// 텍스트 렌더링 - CurrentItemExplain
-	m_fTextUpdateTime += fTimeDelta;
-	if (m_fTextUpdateTime >= m_fTextDisplayInterval)
+	if (m_bGrowthComplete)
 	{
-		m_fTextUpdateTime = 0.0f;
-		if (m_CurrentCharIndex < m_WstringTalk.length())
-		{
-			m_DisplayText += m_WstringTalk[m_CurrentCharIndex];
-			++m_CurrentCharIndex;
-		}
-	}
-
-	// 각 줄의 텍스트를 중앙 정렬된 시작 위치에 출력
-	wistringstream wiss(m_DisplayText);
-	wstring line;
-	int lineIndex = 0;
-	int startY = 460; // 초기 Y 위치
-
-	while (getline(wiss, line))
-	{
-		// 현재 줄의 중앙 정렬된 시작 위치 계산
-		RECT lineRect = { 0, 0, 0, 0 };
-		m_pTalk_Font->DrawText(
+		// 텍스트 렌더링 - 이름
+		swprintf_s(text, L"%s", m_WstringName.c_str());
+		SetRect(&rect, static_cast<int>(280.f), static_cast<int>(375.f), 0, 0); // 텍스트를 출력할 위치 변경
+		m_pName_Font->DrawText(
 			NULL,
-			line.c_str(),
-			-1,
-			&lineRect,
-			DT_CALCRECT,
-			0
-		);
-		int lineWidth = lineRect.right - lineRect.left;
-		int centerX = 640; // 중앙 정렬 기준 X 좌표
-		int startX = centerX - (lineWidth / 2);
-
-		// 텍스트 렌더링 - CurrentItemExplain
-		SetRect(&rect, startX, startY + (lineIndex * 30), startX + lineWidth, 0); // 각 줄의 Y 간격은 30 픽셀
-		m_pTalk_Font->DrawText(
-			NULL,
-			line.c_str(),
+			text,
 			-1,
 			&rect,
 			DT_NOCLIP,
-			D3DCOLOR_ARGB(255, 255, 255, 255)
+			D3DCOLOR_ARGB(255, 169, 169, 144)
 		);
 
-		lineIndex++;
+		// 텍스트 렌더링 - CurrentItemExplain
+		m_fTextUpdateTime += fTimeDelta;
+		if (m_fTextUpdateTime >= m_fTextDisplayInterval)
+		{
+			m_fTextUpdateTime = 0.0f;
+			if (m_CurrentCharIndex < m_WstringTalk.length())
+			{
+				m_DisplayText += m_WstringTalk[m_CurrentCharIndex];
+				++m_CurrentCharIndex;
+			}
+		}
+
+		// 각 줄의 텍스트를 중앙 정렬된 시작 위치에 출력
+		wistringstream wiss(m_DisplayText);
+		wstring line;
+		int lineIndex = 0;
+		int startY = 460; // 초기 Y 위치
+
+		while (getline(wiss, line))
+		{
+			// 현재 줄의 중앙 정렬된 시작 위치 계산
+			RECT lineRect = { 0, 0, 0, 0 };
+			m_pTalk_Font->DrawText(
+				NULL,
+				line.c_str(),
+				-1,
+				&lineRect,
+				DT_CALCRECT,
+				0
+			);
+			int lineWidth = lineRect.right - lineRect.left;
+			int centerX = 640; // 중앙 정렬 기준 X 좌표
+			int startX = centerX - (lineWidth / 2);
+
+			// 텍스트 렌더링 - CurrentItemExplain
+			SetRect(&rect, startX, startY + (lineIndex * 30), startX + lineWidth, 0); // 각 줄의 Y 간격은 30 픽셀
+			m_pTalk_Font->DrawText(
+				NULL,
+				line.c_str(),
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(255, 255, 255, 255)
+			);
+
+			lineIndex++;
+		}
 	}
 
 	__super::End_RenderState();

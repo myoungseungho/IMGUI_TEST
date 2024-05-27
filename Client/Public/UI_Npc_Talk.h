@@ -56,6 +56,13 @@ private:
 	_float m_fTextUpdateTime = {0.f};
 	_float m_fTextDisplayInterval= { 0.1f };
 	size_t m_CurrentCharIndex = { 0 };
+
+	//크기 애니메이션
+	_float m_fCreateTime = 0.0f; // 객체가 생성된 시간
+	_float m_fGrowthDuration = 0.2f; // n초간 커지는 시간
+	_bool m_bGrowthComplete = false; // 성장 완료 여부
+public:
+	_bool m_bIsNpcTalkOn = { false };
 public:
 	/* 원형객체를 생성한다. */
 	static CUI_Npc_Talk* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
