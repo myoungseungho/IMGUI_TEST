@@ -458,6 +458,7 @@ void CInventory::AddToQuickInventory(_uint slot)
 
 		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Hat_QuickInventory"), m_currentEquipHat->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
+		uiobject->m_bIsOn = true;
 		m_vecQuickInventory[slot] = uiobject;
 		m_currentEquipHat = uiobject;
 	}
@@ -469,6 +470,7 @@ void CInventory::AddToQuickInventory(_uint slot)
 		}
 		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Item_QuickInventory"), m_currentEquipItem->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
+		uiobject->m_bIsOn = true;
 		m_vecQuickInventory[slot] = uiobject;
 		m_currentEquipItem = uiobject;
 	}
