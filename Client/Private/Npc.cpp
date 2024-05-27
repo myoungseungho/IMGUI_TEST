@@ -35,12 +35,10 @@ HRESULT CNpc::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	if (m_bIsPasingObject)
-	{
-		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	}
+	NPCDESC* npcDesc = reinterpret_cast<NPCDESC*>(pArg);
+	m_wStrNpcName = npcDesc->npcName;
+	m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.872f, 0.7f, 30.239f));
 
 	return S_OK;
 }

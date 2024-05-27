@@ -44,7 +44,7 @@
 #include "UI_Npc_Talk.h"
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -533,7 +533,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
 	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb",
-		L"Layer_Small_Orb" };
+		L"Layer_Small_Orb",L"Layer_Npc" };
 
 	// "Layer_UI"로 시작하는 모든 레이어를 스킵할 레이어에 추가
 	for (const auto& object : objectLayersVector)

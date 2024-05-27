@@ -278,13 +278,6 @@ Position: 29.544 0.6 28.668
 Scale: 1 1 1
 IsParsing: 1
 
-LayerName: Layer_Npc
-PrototypeTag: Prototype_GameObject_Npc
-LevelIndex: 2
-Position: 39.872 0.7 30.239
-Scale: 1.5 1.5 1
-IsParsing: 1
-
 LayerName: Layer_Outside_BreadShop
 PrototypeTag: Prototype_GameObject_Outside_BreadShop
 LevelIndex: 2

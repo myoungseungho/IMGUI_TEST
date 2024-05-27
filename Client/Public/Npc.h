@@ -17,6 +17,12 @@ BEGIN(Client)
 
 class CNpc final : public CGameObject
 {
+public:
+	typedef struct
+	{
+		wstring  npcName = {};
+	}NPCDESC;
+
 private:
 	enum ANIMATION_STATE {
 		ANIM_IDLE,
@@ -49,6 +55,8 @@ private:
 
 private:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
+	wstring m_wStrNpcName = {};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Animation();

@@ -11,6 +11,7 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "Npc.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -29,8 +30,8 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	/*if (FAILED(Ready_Layer_Npc(TEXT("Layer_Npc"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Npc(TEXT("Layer_Npc"))))
+		return E_FAIL;
 
 	__super::Initialize();
 
@@ -130,7 +131,10 @@ HRESULT CLevel_Tacho::Ready_Layer_Bush(const _wstring& strLayerTag, int horizont
 
 HRESULT CLevel_Tacho::Ready_Layer_Npc(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Npc"), strLayerTag)))
+	CNpc::NPCDESC desc{};
+	desc.npcName = TEXT("Tacho_NPC");
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Npc"), strLayerTag, &desc)))
 		return E_FAIL;
 
 	return S_OK;
