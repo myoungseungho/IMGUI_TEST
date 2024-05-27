@@ -171,7 +171,7 @@ HRESULT CInventory::Initialize(void* pArg)
 
 		m_vecItemInfo.push_back(m_vecItemInfo[i]);
 	}
-
+	
 	// 초기 상태 설정
 	UpdateAlphaValues();
 	return S_OK;

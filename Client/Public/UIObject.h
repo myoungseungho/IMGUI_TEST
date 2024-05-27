@@ -54,7 +54,7 @@ public:
 	_float m_fY = 0.f;
 
 public:
-	_bool m_bIsOn = { true };
+	_bool m_bIsOn = { false };
 };
 
 END

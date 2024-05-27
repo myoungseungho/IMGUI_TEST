@@ -24,7 +24,6 @@ HRESULT CLevel_Jungle::Initialize()
 {
 	m_iLevelIndex = LEVEL_JUNGLE;
 
-
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 

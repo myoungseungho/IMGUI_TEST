@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\UIObject.h"
-
+#include "Camera.h"
 #include "GameInstance.h"
 
 CUIObject::CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -56,6 +56,11 @@ HRESULT CUIObject::End_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
+	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
+	CCamera* camera = static_cast<CCamera*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Camera")));
+	if (camera != nullptr)
+		camera->Bind_PipeLines();
+
 	return S_OK;
 }
 
@@ -109,6 +114,7 @@ void CUIObject::BillBoarding()
 
 void CUIObject::Set_OrthoMatrix()
 {
+	//직교투영  트랜스폼
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);

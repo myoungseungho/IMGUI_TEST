@@ -40,6 +40,7 @@
 #include "UI_Item.h"
 #include "UI_Loading_Background.h"
 #include "UI_Loading_Orgu_Run.h"
+#include "Camera.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -87,7 +88,6 @@ HRESULT CMainApp::Initialize()
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
-
 }
 
 HRESULT CMainApp::Render(_float fTimeDelta)
@@ -198,6 +198,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 #pragma endregion
 	m_pGameInstance->Render_Begin();
 	m_pGameInstance->Render_Engine(fTimeDelta);
+
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_End();
@@ -530,7 +531,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
-	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb", 
+	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb",
 		L"Layer_Small_Orb" };
 
 	for (auto& object : objectLayersVector)
@@ -954,7 +955,7 @@ HRESULT CMainApp::Ready_Prototype_Components()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Hit_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Hit/LeftDown/Player_Hit_%d.png"), 3))))
 		return E_FAIL;
-	
+
 #pragma endregion
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_Hole"),
