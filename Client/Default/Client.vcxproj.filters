@@ -714,11 +714,11 @@
     <ClInclude Include="..\Public\Rotation_Stand.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_Npc_Talk_BackGround.h">
-      <Filter>02.GameObjects\UI\NpcTalk</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Npc.h">
       <Filter>02.GameObjects\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Npc_Talk.h">
+      <Filter>02.GameObjects\UI\NpcTalk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1085,11 +1085,11 @@
     <ClCompile Include="..\Private\Small_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UI_Npc_Talk_BackGround.cpp">
-      <Filter>02.GameObjects\UI\NpcTalk</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Npc.cpp">
       <Filter>02.GameObjects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Npc_Talk.cpp">
+      <Filter>02.GameObjects\UI\NpcTalk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

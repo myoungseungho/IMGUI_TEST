@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\UI_Npc_Talk_BackGround.h"
+#include "..\Public\UI_Npc_Talk.h"
 #include <sstream>
 #include "GameInstance.h"
 
-CUI_Npc_Talk_BackGround::CUI_Npc_Talk_BackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Npc_Talk::CUI_Npc_Talk(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
 }
 
-CUI_Npc_Talk_BackGround::CUI_Npc_Talk_BackGround(const CUI_Npc_Talk_BackGround& Prototype)
+CUI_Npc_Talk::CUI_Npc_Talk(const CUI_Npc_Talk& Prototype)
 	: CUIObject{ Prototype }
 {
 }
 
-HRESULT CUI_Npc_Talk_BackGround::Initialize_Prototype()
+HRESULT CUI_Npc_Talk::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -22,7 +22,7 @@ HRESULT CUI_Npc_Talk_BackGround::Initialize_Prototype()
 }
 
 
-void CUI_Npc_Talk_BackGround::Font_Initialize()
+void CUI_Npc_Talk::Font_Initialize()
 {
 	D3DXFONT_DESCW tFontInfo;
 	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
@@ -52,7 +52,7 @@ void CUI_Npc_Talk_BackGround::Font_Initialize()
 	}
 }
 
-HRESULT CUI_Npc_Talk_BackGround::Initialize(void* pArg)
+HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -74,12 +74,12 @@ HRESULT CUI_Npc_Talk_BackGround::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI_Npc_Talk_BackGround::Priority_Update(_float fTimeDelta)
+void CUI_Npc_Talk::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 }
 
-void CUI_Npc_Talk_BackGround::Update(_float fTimeDelta)
+void CUI_Npc_Talk::Update(_float fTimeDelta)
 {
 	/*if (GetAsyncKeyState('F') & 0x8000) {
 		offsetX -= 5.f;
@@ -139,7 +139,7 @@ void CUI_Npc_Talk_BackGround::Update(_float fTimeDelta)
 	}
 }
 
-void CUI_Npc_Talk_BackGround::Late_Update(_float fTimeDelta)
+void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 {
 	//if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
@@ -149,7 +149,7 @@ void CUI_Npc_Talk_BackGround::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
-HRESULT CUI_Npc_Talk_BackGround::Render(_float fTimeDelta)
+HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 {
 	//if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
@@ -235,7 +235,7 @@ HRESULT CUI_Npc_Talk_BackGround::Render(_float fTimeDelta)
 }
 
 
-HRESULT CUI_Npc_Talk_BackGround::Ready_Components()
+HRESULT CUI_Npc_Talk::Ready_Components()
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Test_UITextBox_TextBox"),
@@ -260,13 +260,13 @@ HRESULT CUI_Npc_Talk_BackGround::Ready_Components()
 }
 
 
-CUI_Npc_Talk_BackGround* CUI_Npc_Talk_BackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUI_Npc_Talk* CUI_Npc_Talk::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CUI_Npc_Talk_BackGround* pInstance = new CUI_Npc_Talk_BackGround(pGraphic_Device);
+	CUI_Npc_Talk* pInstance = new CUI_Npc_Talk(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_Npc_Talk_BackGround"));
+		MSG_BOX(TEXT("Failed to Created : CUI_Npc_Talk"));
 		Safe_Release(pInstance);
 	}
 
@@ -274,20 +274,20 @@ CUI_Npc_Talk_BackGround* CUI_Npc_Talk_BackGround::Create(LPDIRECT3DDEVICE9 pGrap
 }
 
 
-CGameObject* CUI_Npc_Talk_BackGround::Clone(void* pArg)
+CGameObject* CUI_Npc_Talk::Clone(void* pArg)
 {
-	CUI_Npc_Talk_BackGround* pInstance = new CUI_Npc_Talk_BackGround(*this);
+	CUI_Npc_Talk* pInstance = new CUI_Npc_Talk(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CUI_Npc_Talk_BackGround"));
+		MSG_BOX(TEXT("Failed to Cloned : CUI_Npc_Talk"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUI_Npc_Talk_BackGround::Free()
+void CUI_Npc_Talk::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

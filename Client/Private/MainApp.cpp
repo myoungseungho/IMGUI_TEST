@@ -41,7 +41,7 @@
 #include "UI_Loading_Background.h"
 #include "UI_Loading_Orgu_Run.h"
 #include "Camera.h"
-#include "UI_Npc_Talk_BackGround.h"
+#include "UI_Npc_Talk.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1249,8 +1249,8 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		CUI_Loading_Orgu_Run::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Talk_BackGround"),
-		CUI_Npc_Talk_BackGround::Create(m_pGraphic_Device))))
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Talk"),
+		CUI_Npc_Talk::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 
