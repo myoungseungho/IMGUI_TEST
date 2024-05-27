@@ -152,12 +152,11 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	CPlayer* player = static_cast<CPlayer*>(otherObject);
 
-	if (player == nullptr)
+	if (player != nullptr)
 	{
 		if (player->Get_Player_State() != CPlayer::STATE_ATTACK)
 			m_bPlayerAttack = true;
 	}
-
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
