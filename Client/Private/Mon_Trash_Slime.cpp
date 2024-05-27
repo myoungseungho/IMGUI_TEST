@@ -271,7 +271,7 @@ void CMon_Trash_Slime::State_Move(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::MOVE;
 
-	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
+	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 0.75f);
 		Move(fTimeDelta);
 
 	if (m_fAttackRange > 10.f)
