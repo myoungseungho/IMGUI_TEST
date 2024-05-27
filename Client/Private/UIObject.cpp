@@ -57,6 +57,7 @@ HRESULT CUIObject::End_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
 	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
+
 	CCamera* camera = static_cast<CCamera*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Camera")));
 	if (camera != nullptr)
 		camera->Bind_PipeLines();

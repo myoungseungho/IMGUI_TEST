@@ -79,7 +79,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_JUNGLE)))
+	if (FAILED(Open_Level(LEVEL_TACHO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -533,6 +533,17 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	unordered_set<wstring> skipLayers =
 	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb",
 		L"Layer_Small_Orb" };
+
+	// "Layer_UI"로 시작하는 모든 레이어를 스킵할 레이어에 추가
+	for (const auto& object : objectLayersVector)
+	{
+		if (object.first.find(L"Layer_UI") == 0 ||
+			object.first.find(L"Layer_ZUI") == 0 ||
+			object.first.find(L"Layer_XUI") == 0)
+		{
+			skipLayers.insert(object.first);
+		}
+	}
 
 	for (auto& object : objectLayersVector)
 	{
