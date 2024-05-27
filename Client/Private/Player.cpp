@@ -68,7 +68,6 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	m_bAttack = false;
 
-
 	Key_Input(fTimeDelta);
 	For_Damage_State(fTimeDelta);
 	For_Attack_State(fTimeDelta);
@@ -130,51 +129,36 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
-	//몬스터의 스킬이 여러갠데
-	//호박도 스킬이고, 그 미는것도 스킬이잖아.
-	//내가 추론하기에 그럼 CSkill_Monster 산하에 호박 객체가 또 하나 있을 것이고,
-	//미는것도 또 하나 객체가 있다면
-	//부모 객체로 조건문을 검사하는게 아니고
-	//미는 불렛에서만 작동하게 하면 되는거아냐?
-	//내가 지금까지 이해한 미는 불렛은 쿠푸가 존나게 미는거 그거 말한건데
-	//이 로직을 다른 불렛에서도 동일하게 탄다고?
-	//그냥 밀려날 거리가 더 먼것뿐이야? 그럼 로직은 동일한데?
-	//스턴이라는게 실제 게임에서도 있었던거야?
-	//너가 자의적으로 만든거?
-	//그럼 지금 모든 불렛을 맞으면 기본적으로 밀리고, 스턴이 걸리는데.
-	//딱 하나 예외가 쿠푸가 쏘는 미는 스킬만 밀리고 스턴이 안걸려야 해.
-	//그래서 분기처리를 좀 해야 할 것 같은데
-
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
 	{
-		//의도
-		//이동을 아예 막는다.
-		//m_bCanamaged가 true면
-		//스턴 먹었을 때 false로 바뀐다.
-		//그럼 스턴 안먹으면 true가 바뀐다.
-		//스킬 
-		if (m_bCanDamaged)
+		if (m_bCanDamaged&&m_bForTestDamaged != false)
 		{
 			m_ePlayerCurState = STATE_HIT;
 			Player_Damaged();
+
+
+			//스킬몬스터랑 충돌하면, 플레이어가 밀려남.
+			_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			CSkill_Monster* pMonSkill = dynamic_cast<CSkill_Monster*>(otherObject);
+			CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
+
+			_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
+			vDir.y = 0.0f;
+
+			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+			m_bCanMoveRight = false;
+			m_bCanMoveLeft = false;
+			m_bCanMoveForward = false;
+			m_bCanMoveBackward = false;
+			m_bCanDamaged = false;
+
 			return;
 		}
-
-		//스킬몬스터랑 충돌하면, 플레이어가 밀려남.
-		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		CSkill_Monster* pMonSkill = dynamic_cast<CSkill_Monster*>(otherObject);
-		CTransform* pMonSkillTransform = dynamic_cast<CTransform*>(pMonSkill->Get_Component(TEXT("Com_Transform")));
-
-		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
-		vDir.y = 0.0f;
-
-		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
-
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
-
-		return;
 	}
 
 	if (dynamic_cast<CMonster*>(otherObject))
@@ -189,12 +173,33 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
 	{
-		m_ePlayerCurState = STATE_HIT;
-		Player_Damaged();
-		return;
+		if (m_bCanDamaged && m_bForTestDamaged != false)
+		{
+			m_ePlayerCurState = STATE_HIT;
+			Player_Damaged();
+
+			_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			CMonster* pMonster = dynamic_cast<CMonster*>(otherObject);
+			CTransform* pMonTransform = dynamic_cast<CTransform*>(pMonster->Get_Component(TEXT("Com_Transform")));
+
+			_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonTransform->Get_State(CTransform::STATE_POSITION);
+			vDir.y = 0.0f;
+
+			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+			m_bCanMoveRight = false;
+			m_bCanMoveLeft = false;
+			m_bCanMoveForward = false;
+			m_bCanMoveBackward = false;
+			m_bCanDamaged = false;
+
+			return;
+		}
 	}
-
-
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
@@ -469,43 +474,8 @@ void CPlayer::Player_Damaged()
 	{
 		--m_iPlayerHp;
 
-		_float vPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION).x;
-		_float vPosY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
-		_float vPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION).z;
+		
 
-		switch (m_ePlayerDir)
-		{
-		case DIR_UP:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ - 0.2f));
-			break;
-		case DIR_RIGHT:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ));
-			break;
-		case DIR_DOWN:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX, vPosY, vPosZ + 0.2f));
-			break;
-		case DIR_LEFT:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ));
-			break;
-		case DIR_LEFTUP:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ - 0.2f));
-			break;
-		case DIR_RIGHTUP:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ - 0.2f));
-			break;
-		case DIR_RIGHTDOWN:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX - 0.2f, vPosY, vPosZ + 0.2f));
-			break;
-		case DIR_LEFTDOWN:
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPosX + 0.2f, vPosY, vPosZ + 0.2f));
-			break;
-
-		}
-		m_bCanMoveRight = false;
-		m_bCanMoveLeft = false;
-		m_bCanMoveForward = false;
-		m_bCanMoveBackward = false;
-		m_bCanDamaged = false;
 	}
 
 
@@ -875,16 +845,16 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_bForTestDamaged = true;
 		}
 
-	}
 
-	else if (m_pKeyCom->Key_Down('A'))
-	{
-		m_bAttack = true;
-		m_ePlayerCurState = (STATE_ATTACK);
-		Player_Attack(fTimeDelta);
-	}
 
-	else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH)
+		else if (m_pKeyCom->Key_Down('A'))
+		{
+			m_bAttack = true;
+			m_ePlayerCurState = (STATE_ATTACK);
+			Player_Attack(fTimeDelta);
+		}
+	}
+	else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
 	{
 		m_ePlayerCurState = STATE_IDLE;
 	}
@@ -1104,28 +1074,28 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Up"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Up"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Right"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Right"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_DOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Down"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Down"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_LEFT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Left"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_Left"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftUp"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftUp"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightUp"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightUp"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftDown"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_LeftDown"), 1.0f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 10.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 1.0f, _fTimeDelta, false);
 			break;
 		}
 		break;
@@ -1137,10 +1107,10 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		m_fAttackTime += fTimeDelta;
-		if (m_fAttackTime > 1.0f)
+		if (m_fAttackTime >= 1.0f)
 		{
-			m_ePlayerCurState = STATE_IDLE;
 			m_pTransformCom->Set_Scaled(m_forScaled);
+			m_ePlayerCurState = STATE_IDLE;
 			m_fAttackTime = 0.0f;
 		}
 	}
