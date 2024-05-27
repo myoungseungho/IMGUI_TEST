@@ -108,6 +108,8 @@ HRESULT CSkill_Koofu_Bubble::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	
+
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;

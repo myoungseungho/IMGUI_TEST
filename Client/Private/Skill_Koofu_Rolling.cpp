@@ -35,7 +35,7 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 		return E_FAIL;
 
 	_float vPositionX = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).x + (pDesc->iBulletCnt * 3)- 9.f; 
-	_float vPositionY = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).y;
+	_float vPositionY = 1.5f;
 	_float vPositionZ = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z + (1.f);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (vPositionX , vPositionY , vPositionZ));
