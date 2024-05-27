@@ -41,6 +41,7 @@
 #include "UI_Loading_Background.h"
 #include "UI_Loading_Orgu_Run.h"
 #include "Camera.h"
+#include "UI_Npc_Talk_BackGround.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1122,6 +1123,13 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
+#pragma region NPC
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Test_UITextBox_TextBox"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Basic/Test_UITextBox_TextBox.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -1239,6 +1247,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Loading_Orgu_Run"),
 		CUI_Loading_Orgu_Run::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Talk_BackGround"),
+		CUI_Npc_Talk_BackGround::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

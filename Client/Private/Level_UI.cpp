@@ -18,6 +18,9 @@ HRESULT CLevel_UI::Initialize()
 	if (FAILED(Ready_Layer_Inventory(TEXT("Layer_ZUI_Inventory"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Npc_Talk(TEXT("Layer_UI_Npc_Talk_BackGround"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -43,7 +46,6 @@ void CLevel_UI::Update(_float fTimeDelta)
 
 HRESULT CLevel_UI::Render()
 {
-
 	return S_OK;
 }
 
@@ -73,6 +75,14 @@ HRESULT CLevel_UI::Ready_Layer_Inventory(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_UI::Ready_Layer_Npc_Talk(const _wstring& strLayerTag)
+{
+	LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_Npc_Talk_BackGround"), strLayerTag)))
+		return E_FAIL;
 }
 
 void CLevel_UI::Free()

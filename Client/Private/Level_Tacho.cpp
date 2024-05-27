@@ -29,6 +29,9 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+	/*if (FAILED(Ready_Layer_Npc(TEXT("Layer_Npc"))))
+		return E_FAIL;*/
+
 	__super::Initialize();
 
 
@@ -125,16 +128,10 @@ HRESULT CLevel_Tacho::Ready_Layer_Bush(const _wstring& strLayerTag, int horizont
 	return S_OK;
 }
 
-
-HRESULT CLevel_Tacho::Ready_LandObjects()
+HRESULT CLevel_Tacho::Ready_Layer_Npc(const _wstring& strLayerTag)
 {
-	/*CLandObject::LANDOBJECT_DESC	Desc{};
-
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
-		return E_FAIL;*/
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Npc"), strLayerTag)))
+		return E_FAIL;
 
 	return S_OK;
 }
