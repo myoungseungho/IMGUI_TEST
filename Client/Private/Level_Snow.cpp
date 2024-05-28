@@ -23,7 +23,7 @@ CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Snow::Initialize()
 {
 	m_iLevelIndex = LEVEL_SNOW;
-
+	
 	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
@@ -47,8 +47,8 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
+		return E_FAIL;*/
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
@@ -192,7 +192,6 @@ HRESULT CLevel_Snow::Ready_Layer_Bush(const _wstring& strLayerTag, int horizonta
 
 	return S_OK;
 }
-
 
 HRESULT CLevel_Snow::Ready_LandObjects()
 {

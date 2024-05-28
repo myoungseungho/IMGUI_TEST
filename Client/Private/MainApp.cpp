@@ -711,6 +711,7 @@ HRESULT CMainApp::SetUp_DefaultState()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
+
 	return S_OK;
 }
 
