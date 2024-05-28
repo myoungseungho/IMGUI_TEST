@@ -2,7 +2,6 @@
 #include "..\Public\Block.h"
 
 #include "GameInstance.h"
-#include "Monkey_Statue.h"
 
 
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
