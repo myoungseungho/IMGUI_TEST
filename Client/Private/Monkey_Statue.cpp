@@ -33,15 +33,13 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//if (m_bIsPasingObject)
-	//{
-	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	//}
+	if (m_bIsPasingObject)
+	{
+		FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
+		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
+	}
 
-	MONKEYDESC* desc = reinterpret_cast<MONKEYDESC*>(pArg);
-	m_pTransformCom->Set_Scaled(desc->scale);
 
 
 	/* For.Com_Transform */
@@ -161,29 +159,10 @@ HRESULT CMonkey_Statue::Ready_Components()
 
 void CMonkey_Statue::Change_State(_float fTimeDelta)
 {
-	//Shaking_Statue(fTimeDelta);
-
-	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
-
-	for (auto& iter : m_pairBlockCoupleMonkey)
-	{
-		if (iter.first == m_iNum)
-		{
-			CGameObject* gameobject = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Block"), iter.second);
-			static_cast<CBlock*>(gameobject).
-		}
-	}
-
 	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
 		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
 	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
 		CMonkey_Statue::m_eMonkeyState = STATE_UP;
-
-}
-
-void CMonkey_Statue::Shaking_Statue(_float fTimeDelta)
-{
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 }
 
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

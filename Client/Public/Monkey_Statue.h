@@ -16,12 +16,6 @@ BEGIN(Client)
 
 class CMonkey_Statue final : public CEnviormentObject
 {	
-	typedef struct
-	{
-		_uint iNumber;
-		_float3 position;
-		_float3 scale;
-	}MONKEYDESC;
 private:
 	enum MONKEY_STATE
 	{
@@ -65,12 +59,8 @@ private:
 	_float3				PrePos = { 0.f, 0.f, 0.f };
 private:
 	void			Change_State(_float fTimeDelta);
-	void			Shaking_Statue(_float fTimeDelta);
 
-private:
-	_uint m_iNum = { 0 };
-private:
-	vector<pair<_uint, _uint>> m_pairBlockCoupleMonkey{ {0,3},{1,4},{2,5} };
+
 public:
 	/* 원형객체를 생성한다. */
 	static CMonkey_Statue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
