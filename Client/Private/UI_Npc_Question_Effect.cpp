@@ -20,7 +20,6 @@ void CUI_Npc_Question_Effect::SetIsOn(bool _isOn)
 
 	if (_isOn)
 	{
-		m_fStartY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 		m_fEndY = m_fStartY + 10.0f; // 목표 Y 위치 설정
 		m_bIsAnimatingUp = true;
 		m_bIsAnimatingDown = false;

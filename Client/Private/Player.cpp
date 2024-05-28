@@ -75,7 +75,7 @@ void CPlayer::Update(_float fTimeDelta)
 	Key_Input(fTimeDelta);
 	For_Damage_State(fTimeDelta);
 	For_Attack_State(fTimeDelta);
-	
+
 
 	if (m_ePlayerCurState == STATE_SKILL)
 	{
@@ -94,7 +94,6 @@ void CPlayer::Update(_float fTimeDelta)
 	else
 		m_iCurrentSkillCount = 0;
 }
-
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
@@ -461,6 +460,7 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 	{
 		m_pCurrentCollisionOk_Npc = nullptr;
 		Set_Npc_Talk(false);
+		m_bIsInteractionIng = false;
 	}
 	// Transform 컴포넌트를 가져옴
 
@@ -510,10 +510,21 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
 	static_cast<CUI_Npc_Talk*>(gameObjectTalk)->SetIsNpcTalkOn(_isOn);
 
-	//// 이펙트 수정
-	CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
-	static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+	//충돌 On
+	if (_isOn)
+	{
+		//// 이펙트 수정
+		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
+		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
 
+	}
+	//충돌 Off인데
+	else if (m_bIsInteractionIng && !_isOn)
+	{
+		//// 이펙트 수정
+		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
+		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+	}
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -886,6 +897,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		if (m_pKeyCom->Key_Down(VK_SPACE))
 		{
 			Set_Npc_Talk(true);
+			m_bIsInteractionIng = true;
 		}
 	}
 

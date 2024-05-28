@@ -138,6 +138,7 @@ private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:
 	CNpc* m_pCurrentCollisionOk_Npc = { nullptr };
+	_bool m_bIsInteractionIng = { false };
 public:
 
 	/* 원형객체를 생성한다. */

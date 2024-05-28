@@ -64,7 +64,7 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 	m_fSizeY = 330.f;
 	m_fX = -15.f;
 	m_fY = -145.f;
-
+ 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); // 초기 크기를 0으로 설정
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
@@ -77,27 +77,52 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 void CUI_Npc_Talk::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bIsNpcTalkOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-}
+} 
 
 void CUI_Npc_Talk::Update(_float fTimeDelta)
 {
+	if (!m_bUpdateEnabled) return; // 업데이트가 비활성화된 경우 반환
+
 	// 생성된 후 경과 시간 계산
 	m_fCreateTime += fTimeDelta;
 
-	// 객체가 n초간 커지면서 시작되도록 처리
-	if (m_fCreateTime <= m_fGrowthDuration)
+	if (m_bIsShrinking)
 	{
-		_float growthProgress = m_fCreateTime / m_fGrowthDuration;
-		_float currentSizeX = m_fSizeX * growthProgress;
-		_float currentSizeY = m_fSizeY * growthProgress;
+		// 객체가 n초간 작아지면서 사라지도록 처리
+		if (m_fCreateTime <= m_fGrowthDuration)
+		{
+			_float shrinkProgress = m_fCreateTime / m_fGrowthDuration;
+			_float currentSizeX = m_fSizeX * (1.0f - shrinkProgress);
+			_float currentSizeY = m_fSizeY * (1.0f - shrinkProgress);
 
-		m_pTransformCom->Set_Scaled(_float3(currentSizeX, currentSizeY, 1.f));
+			m_pTransformCom->Set_Scaled(_float3(currentSizeX, currentSizeY, 1.f));
+		}
+		else
+		{
+			// 축소 완료 후 크기 0으로 설정
+			m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); // 초기 크기를 0으로 설정
+			m_bUpdateEnabled = false; // 업데이트 비활성화
+			m_bIsNpcTalkOn = false; // 축소 애니메이션 완료 후에 비활성화
+		}
 	}
 	else
 	{
-		// 성장 완료 후 최종 크기와 위치로 설정
-		m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
-		m_bGrowthComplete = true; // 성장 완료 상태 설정
+		// 객체가 n초간 커지면서 시작되도록 처리
+		if (m_fCreateTime <= m_fGrowthDuration)
+		{
+			_float growthProgress = m_fCreateTime / m_fGrowthDuration;
+			_float currentSizeX = m_fSizeX * growthProgress;
+			_float currentSizeY = m_fSizeY * growthProgress;
+
+			m_pTransformCom->Set_Scaled(_float3(currentSizeX, currentSizeY, 1.f));
+		}
+		else
+		{
+			// 성장 완료 후 최종 크기와 위치로 설정  
+			m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); 
+			m_bGrowthComplete = true; // 성장 완료 상태 설정
+			m_bUpdateEnabled = false;
+		}
 	}
 
 	/*if (GetAsyncKeyState('F') & 0x8000) {
@@ -165,16 +190,15 @@ void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 
 	//if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
-	
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
 HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 {
-	if (!m_bIsNpcTalkOn)
+	if (!m_bIsNpcTalkOn && !m_bIsShrinking)
 		return S_OK;
 
-	//if (!m_bIsOn) return S_OK; // m_bIsOn이 false이면 렌더링을 수행하지 않음
 	__super::Begin_RenderState();
 
 	// 텍스트 형식화 및 렌더링
@@ -260,6 +284,25 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
+{
+	m_fCreateTime = 0.0f; // 애니메이션 시작 시간 초기화
+	m_bUpdateEnabled = true;
+
+	if (_isOn)
+	{
+		m_bIsShrinking = false;
+		m_bGrowthComplete = false;
+		m_CurrentCharIndex = 0;
+		m_DisplayText.clear();
+		m_bIsNpcTalkOn = true; // 애니메이션 시작 시 바로 켬
+	}
+	else
+	{
+		m_bIsShrinking = true;
+		m_bGrowthComplete = false; // 축소 애니메이션 시작 시 성장 완료 플래그 초기화
+	}
+}
 
 HRESULT CUI_Npc_Talk::Ready_Components()
 {

@@ -33,18 +33,8 @@ public:
 	virtual HRESULT Render(_float fTimeDelta) override;
 
 public:
-	void SetIsNpcTalkOn(_bool _isOn) 
-	{
-		m_bIsNpcTalkOn = _isOn; 
+	void SetIsNpcTalkOn(_bool _isOn);
 
-		if (_isOn)
-		{
-			// 텍스트 애니메이션 초기화
-			m_DisplayText.clear();
-			m_CurrentCharIndex = 0;
-			m_fTextUpdateTime = 0.0f;
-		}
-	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -73,10 +63,12 @@ private:
 
 	//크기 애니메이션
 	_float m_fCreateTime = 0.0f; // 객체가 생성된 시간
-	_float m_fGrowthDuration = 0.2f; // n초간 커지는 시간
+	_float m_fGrowthDuration = 0.5f; // n초간 커지는 시간
 	_bool m_bGrowthComplete = false; // 성장 완료 여부
 private:
 	_bool m_bIsNpcTalkOn = { false };
+	_bool m_bIsShrinking = { false };
+	_bool m_bUpdateEnabled = { false };
 public:
 	/* 원형객체를 생성한다. */
 	static CUI_Npc_Talk* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
