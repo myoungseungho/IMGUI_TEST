@@ -53,10 +53,10 @@ private:
 	CTransform*			m_pTargetTransform = { nullptr };
 private:
 	HRESULT Ready_Components();
-	_bool	bTest = { true };
+
 
 public:
-	static _uint			m_eSmallOrbDir;
+
 private:
 	SMALLORB_DIR			m_eDirection = { DIR_END };
 	SMALLORB_DIR			m_ePreDirection = { DIR_END };

@@ -280,6 +280,8 @@
     <ClInclude Include="..\Public\UI_Shop_PriceTag.h" />
     <ClInclude Include="..\Public\UnRotation_Orb.h" />
     <ClInclude Include="..\Public\UnRotation_Stand.h" />
+    <ClInclude Include="..\Public\Un_Laser.h" />
+    <ClInclude Include="..\Public\Un_Small_Orb.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -406,6 +408,8 @@
     <ClCompile Include="..\Private\UI_Shop_PriceTag.cpp" />
     <ClCompile Include="..\Private\UnRotation_Orb.cpp" />
     <ClCompile Include="..\Private\UnRotation_Stand.cpp" />
+    <ClCompile Include="..\Private\Un_Laser.cpp" />
+    <ClCompile Include="..\Private\Un_Small_Orb.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

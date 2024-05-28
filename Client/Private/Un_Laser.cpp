@@ -1,25 +1,22 @@
 #include "stdafx.h"
-#include "..\Public\Laser.h"
+#include "..\Public\Un_Laser.h"
 
 #include "GameInstance.h"
 #include <Player.h>
-#include <RockBreakable.h>
 #include "UnRotation_Orb.h"
-#include <Un_Small_Orb.h>
+#include <End_Orb.h>
 
-class CSmall_Orb;
-
-CLaser::CLaser(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUn_Laser::CUn_Laser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CLaser::CLaser(const CLaser& Prototype)
+CUn_Laser::CUn_Laser(const CUn_Laser& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CLaser::Initialize_Prototype()
+HRESULT CUn_Laser::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -27,9 +24,9 @@ HRESULT CLaser::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CLaser::Initialize(void* pArg)
+HRESULT CUn_Laser::Initialize(void* pArg)
 {
-	LASER_DESC* pDesc = static_cast<LASER_DESC*>(pArg);
+	UN_LASER_DESC* pDesc = static_cast<UN_LASER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_eDirection = (DIRECTION)pDesc->iLaserDir;
@@ -69,14 +66,14 @@ HRESULT CLaser::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CLaser::Priority_Update(_float fTimeDelta)
+void CUn_Laser::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CLaser::Update(_float fTimeDelta)
+void CUn_Laser::Update(_float fTimeDelta)
 {
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.0f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.0f))
 	{
 		m_Died = true;
 
@@ -107,12 +104,12 @@ void CLaser::Update(_float fTimeDelta)
 	
 }
 
-void CLaser::Late_Update(_float fTimeDelta)
+void CUn_Laser::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
-HRESULT CLaser::Render(_float fTimeDelta)
+HRESULT CUn_Laser::Render(_float fTimeDelta)
 {
 	__super::Begin_Blend_RenderState();
 
@@ -131,11 +128,11 @@ HRESULT CLaser::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+void CUn_Laser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CUn_Small_Orb*>(otherObject))
+	if (dynamic_cast<CEnd_Orb*>(otherObject))
 	{
 		m_Died = true;
 		
@@ -144,15 +141,15 @@ void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 }
 
-void CLaser::OnCollisionStay(CCollider* other, _float fTimeDelta)
+void CUn_Laser::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-void CLaser::OnCollisionExit(CCollider* other)
+void CUn_Laser::OnCollisionExit(CCollider* other)
 {
 }
 
-HRESULT CLaser::Ready_Components()
+HRESULT CUn_Laser::Ready_Components()
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Laser"),
@@ -181,13 +178,13 @@ HRESULT CLaser::Ready_Components()
 	return S_OK;
 }
 
-CLaser* CLaser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUn_Laser* CUn_Laser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CLaser* pInstance = new CLaser(pGraphic_Device);
+	CUn_Laser* pInstance = new CUn_Laser(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CLaser"));
+		MSG_BOX(TEXT("Failed to Created : CUn_Laser"));
 		Safe_Release(pInstance);
 	}
 
@@ -195,20 +192,20 @@ CLaser* CLaser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CLaser::Clone(void* pArg)
+CGameObject* CUn_Laser::Clone(void* pArg)
 {
-	CLaser* pInstance = new CLaser(*this);
+	CUn_Laser* pInstance = new CUn_Laser(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CLaser"));
+		MSG_BOX(TEXT("Failed to Cloned : CUn_Laser"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLaser::Free()
+void CUn_Laser::Free()
 {
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pTargetTransform);

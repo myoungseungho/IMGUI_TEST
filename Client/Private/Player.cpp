@@ -20,6 +20,8 @@
 #include <RockBreakable.h>
 #include <Monkey_Statue.h>
 #include <Block.h>
+#include <Laser.h>
+#include <Un_Laser.h>
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -128,6 +130,12 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CBush*>(otherObject))
+		return;
+
+	if (dynamic_cast<CUn_Laser*>(otherObject))
+		return;
+
+	if (dynamic_cast<CLaser*>(otherObject))
 		return;
 
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
