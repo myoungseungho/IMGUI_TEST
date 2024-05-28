@@ -35,6 +35,13 @@ HRESULT CEffect_Koofu_Smoke::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	MaterialDesc = RED_MTRL;
+
+	LightDesc.Type = D3DLIGHT_DIRECTIONAL;
+	LightDesc.Diffuse = D3DXCOLOR(1.0f, 1.f, 1.f, 1.f);
+	LightDesc.Ambient = D3DXCOLOR(1.0f, 1.f, 1.f, 1.f);
+	LightDesc.Direction = _float3(1.f, -1.f, 1.f);
+
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 	vPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 1.f;
 
@@ -131,6 +138,13 @@ HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
+	m_pGraphic_Device->SetMaterial(&MaterialDesc);
+
+	if (FAILED(m_pGraphic_Device->SetLight(0, &LightDesc)))
+		return E_FAIL;
+
+	m_pGraphic_Device->LightEnable(0, TRUE);
+
 	return S_OK;
 }
 
@@ -162,6 +176,17 @@ void CEffect_Koofu_Smoke::Destroy(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 		Safe_Release(pThis);
 
+}
+
+D3DMATERIAL9 CEffect_Koofu_Smoke::InitMtrl(D3DXCOLOR a, D3DXCOLOR d, D3DXCOLOR s, D3DXCOLOR e, float p)
+{
+	D3DMATERIAL9 mtrl;
+	mtrl.Ambient = a;
+	mtrl.Diffuse = d;
+	mtrl.Specular = s;
+	mtrl.Emissive = e;
+	mtrl.Power = p;
+	return mtrl;
 }
 
 CEffect_Koofu_Smoke* CEffect_Koofu_Smoke::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

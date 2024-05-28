@@ -31,8 +31,7 @@ private:
 private:
 	void Destroy(_float fTimeDelta);
 
-private:
-	D3DLIGHT9 pLight;
+
 
 public:
 	static CEffect_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

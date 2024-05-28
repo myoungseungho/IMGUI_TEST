@@ -474,7 +474,29 @@ void CMon_Bear_Solider::State_Stun(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
-	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_pTimerCom->Time_Limit(fTimeDelta , 3.f))
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	m_fAlphaTimer += fTimeDelta;
+
+	if (m_fAlphaTimer >= 0.25f)
+	{
+		m_fAlpha = 50.f;
+	}
+	else
+		m_fAlpha = 255.f;
+
+
+	if (m_fAlphaTimer >= 0.5f)
+		m_fAlphaTimer = 0.f;
+
+	if (!m_bStunEffect)
+	{
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_bStunEffect = true;
+	}
+
+	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_pTimerCom->Time_Limit(fTimeDelta , 4.f))
 	{
 		Destroy();
 	}

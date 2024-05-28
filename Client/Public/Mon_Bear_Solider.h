@@ -54,6 +54,9 @@ private:
 	_float m_fAttackRange = { 0.f };
 	_float3 m_vTargetDistance = { };
 
+	_bool m_bStunEffect = { false };
+	_float m_fAlphaTimer = { 0.f };
+	_float m_fAlpha = { 0.f };
 public:
 	static CMon_Bear_Solider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

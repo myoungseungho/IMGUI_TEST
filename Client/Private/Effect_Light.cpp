@@ -33,16 +33,8 @@ HRESULT CEffect_Light::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(10.f, 10.f, 10.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 0.01f, 38.f));
 
-
-	D3DXCOLOR Color = D3DCOLOR_XRGB(255, 255, 255);
-
-	pLight.Type = D3DLIGHT_DIRECTIONAL;
-	pLight.Diffuse = Color;
-	pLight.Specular = Color * 0.3f;
-	pLight.Ambient = Color * 0.6f;
-	pLight.Direction = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
 	return S_OK;
 }
 
@@ -62,6 +54,9 @@ void CEffect_Light::Late_Update(_float fTimeDelta)
 HRESULT CEffect_Light::Render(_float fTimeDelta)
 {
 	if (FAILED(Begin_RenderState()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -86,12 +81,17 @@ HRESULT CEffect_Light::Ready_Components()
 	TransformDesc.fSpeedPerSec = 0.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_BUG, TEXT("Prototype_Component_Texture_Effect_Light"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-
+	m_pTransformCom->Set_Scaled(_float3(20.f, 20.f, 1.f));
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI / 180.f);
 
 	return S_OK;
 }
@@ -103,19 +103,41 @@ HRESULT CEffect_Light::Ready_Animation()
 
 HRESULT CEffect_Light::Begin_RenderState()
 {
-	m_pGraphic_Device->SetLight(0, &pLight);
-	m_pGraphic_Device->LightEnable(0, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+	// 컬링 모드 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_SPECULARENABLE, true);
+	// 텍스처 페이저 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(50), 255, 255, 255));
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
 	return S_OK;
 }
 
 HRESULT CEffect_Light::End_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 
+	// 알파 블렌딩 비활성화
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	// 원래의 컬링 모드로 복원
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	// 알파 블렌딩 비활성화 및 텍스처 스테이지 상태 복원
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
 	return S_OK;
 }
@@ -153,6 +175,7 @@ CGameObject* CEffect_Light::Clone(void* pArg)
 
 void CEffect_Light::Free()
 {
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 

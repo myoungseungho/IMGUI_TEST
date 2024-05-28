@@ -50,10 +50,6 @@ void CTerrain::Late_Update(_float fTimeDelta)
 HRESULT CTerrain::Render(_float fTimeDelta)
 {
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -64,9 +60,6 @@ HRESULT CTerrain::Render(_float fTimeDelta)
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 

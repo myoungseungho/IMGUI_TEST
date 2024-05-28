@@ -44,20 +44,14 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
+	if (FAILED(ParseInitialize()))
 		return E_FAIL;
-
-	/*if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
-		return E_FAIL;*/
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
 	//	return E_FAIL;
-
-	if (FAILED(ParseInitialize()))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -135,17 +129,6 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Cannon(const _wstring& strLayerTag
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Bear_Cannon"), strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 	
-	return S_OK;
-}
-
-HRESULT CLevel_Snow::Ready_Layer_Effect_Light(const _wstring& strLayerTag)
-{
-	CEffect_Monster::EFFECT_MONSTER__DESC			Desc{};
-	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Light"), strLayerTag , &Desc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
