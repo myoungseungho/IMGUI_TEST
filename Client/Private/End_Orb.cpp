@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Player.h>
+#include <Un_Laser.h>
 
 CEnd_Orb::CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -63,6 +64,8 @@ HRESULT CEnd_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	m_eClearState = STATE_UNCLEAR;
+
 	return S_OK;
 }
 
@@ -74,6 +77,7 @@ void CEnd_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	m_eClearState = m_eClearState;
 }
 
 void CEnd_Orb::Late_Update(_float fTimeDelta)
@@ -104,12 +108,10 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
+	if (dynamic_cast<CUn_Laser*>(otherObject))
 	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_State() == 2);
-
+		m_eClearState = STATE_CLEAR;
+		return;
 	}
 }
 

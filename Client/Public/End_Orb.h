@@ -21,7 +21,7 @@ public:
 	{
 		CTransform* pTargetTransform = { nullptr };
 	}END_ORB_DESC;
-
+	enum CLEAR {STATE_UNCLEAR, STATE_CLEAR, STATE_END};
 private:
 	CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
 	CEnd_Orb(const CEnd_Orb& Prototype); /* 사본생성 시 */
@@ -53,7 +53,7 @@ private:
 	CTransform*			m_pTargetTransform = { nullptr };
 private:
 	HRESULT Ready_Components();
-
+	CLEAR		m_eClearState = { STATE_END };
 public:
 	/* 원형객체를 생성한다. */
 	static CEnd_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
