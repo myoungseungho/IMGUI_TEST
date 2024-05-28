@@ -36,7 +36,7 @@
 #include "UI_Inventory_Button.h"
 #include "UI_PlayerEquipSlot.h"
 #include "UI_PlayerEquipSlot_BackGround.h"
-#include "UI_Hat.h"
+#include "UI_Hat.h" 
 #include "UI_Item.h"
 #include "UI_Loading_Background.h"
 #include "UI_Loading_Orgu_Run.h"
