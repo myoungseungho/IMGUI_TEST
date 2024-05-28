@@ -33,6 +33,8 @@ HRESULT CEffect_Shadow::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), 90.f * D3DX_PI / 180.f);
+
 	return S_OK;
 }
 
@@ -42,6 +44,10 @@ void CEffect_Shadow::Priority_Update(_float fTimeDelta)
 
 void CEffect_Shadow::Update(_float fTimeDelta)
 {
+	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 0.01f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 }
 
 void CEffect_Shadow::Late_Update(_float fTimeDelta)
@@ -55,7 +61,7 @@ HRESULT CEffect_Shadow::Render(_float fTimeDelta)
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_SHADOW"), 0.5f, fTimeDelta, true)))
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -75,6 +81,11 @@ HRESULT CEffect_Shadow::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Shadow"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 0.0f;
@@ -84,7 +95,7 @@ HRESULT CEffect_Shadow::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 1.f));
 
 
 	return S_OK;
@@ -92,7 +103,6 @@ HRESULT CEffect_Shadow::Ready_Components()
 
 HRESULT CEffect_Shadow::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_Shadow"), TEXT("EFFECT_SHADOW"));
 	return S_OK;
 }
 
@@ -147,5 +157,9 @@ CGameObject* CEffect_Shadow::Clone(void* pArg)
 
 void CEffect_Shadow::Free()
 {
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
+
 	__super::Free();
 }

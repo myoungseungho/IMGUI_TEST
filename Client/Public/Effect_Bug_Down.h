@@ -5,7 +5,7 @@
 
 BEGIN(Client)
 
-class CEffect_Bug_Down :public CEffect_Monster
+class CEffect_Bug_Down final :public CEffect_Monster
 {
 private:
 	CEffect_Bug_Down(LPDIRECT3DDEVICE9 pGraphic_Device);

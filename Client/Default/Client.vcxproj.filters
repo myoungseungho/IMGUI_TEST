@@ -358,6 +358,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Shiled">
       <UniqueIdentifier>{64229d6c-4f43-4160-8c19-df71c658e821}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Light">
+      <UniqueIdentifier>{dd2ef63b-6419-40cb-bd53-cc0d10a7ff09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -768,6 +771,9 @@
     <ClInclude Include="..\public\Effect_Stun.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effect_Light.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1162,6 +1168,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Effect_Stun.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Light.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,14 +5,12 @@
 
 BEGIN(Client)
 
-class CEffect_Bug_Dash final :public CEffect_Monster
+class CEffect_Light final :public CEffect_Monster
 {
 private:
-	CEffect_Bug_Dash(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CEffect_Bug_Dash(const CEffect_Bug_Dash& Prototype);
-	virtual ~CEffect_Bug_Dash() = default;
-
-
+	CEffect_Light(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CEffect_Light(const CEffect_Light& Prototype);
+	virtual ~CEffect_Light() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()					override;
@@ -29,11 +27,15 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+
 private:
 	void Destroy(_float fTimeDelta);
 
+private:
+	D3DLIGHT9 pLight;
+
 public:
-	static CEffect_Bug_Dash* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CEffect_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;

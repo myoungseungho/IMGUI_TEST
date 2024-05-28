@@ -77,6 +77,7 @@
 #include "Effect_Shield.h"
 #include "Effect_Shadow.h"
 #include "Effect_Stun.h"
+#include "Effect_Light.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -907,6 +908,10 @@ HRESULT CLoader::Loading_For_Snow()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stun"),
 		CEffect_Stun::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Light"),
+		CEffect_Light::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	
 	m_isFinished = true;
 }
@@ -1193,7 +1198,7 @@ HRESULT CLoader::Loading_For_Koofu()
 		CMon_Copy_Koofu::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Shield"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Shield"),
 		CEffect_Shield::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

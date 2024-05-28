@@ -33,6 +33,8 @@ HRESULT CEffect_Mon_Destroy::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+
 	return S_OK;
 }
 
@@ -42,6 +44,7 @@ void CEffect_Mon_Destroy::Priority_Update(_float fTimeDelta)
 
 void CEffect_Mon_Destroy::Update(_float fTimeDelta)
 {
+
 }
 
 void CEffect_Mon_Destroy::Late_Update(_float fTimeDelta)
@@ -55,7 +58,7 @@ HRESULT CEffect_Mon_Destroy::Render(_float fTimeDelta)
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_MON_DESTROY"), 0.5f, fTimeDelta, true)))
+	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_MON_DESTROY"), 0.5f, fTimeDelta, false)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -92,7 +95,7 @@ HRESULT CEffect_Mon_Destroy::Ready_Components()
 
 HRESULT CEffect_Mon_Destroy::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"), TEXT("EFFECT_MON_DESTROY"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"), TEXT("EFFECT_MON_DESTROY"));
 	return S_OK;
 }
 
@@ -116,6 +119,10 @@ HRESULT CEffect_Mon_Destroy::End_RenderState()
 
 void CEffect_Mon_Destroy::Destroy(_float fTimeDelta)
 {
+	CEffect_Mon_Destroy* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
+		Safe_Release(pThis);
 }
 
 CEffect_Mon_Destroy* CEffect_Mon_Destroy::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -147,5 +154,8 @@ CGameObject* CEffect_Mon_Destroy::Clone(void* pArg)
 
 void CEffect_Mon_Destroy::Free()
 {
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
+
 	__super::Free();
 }

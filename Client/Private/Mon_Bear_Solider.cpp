@@ -5,6 +5,8 @@
 #include "GameInstance.h"
 #include "Player.h"
 
+#include"Effect_Monster.h"
+
 CMon_Bear_Solider::CMon_Bear_Solider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
 {
@@ -48,6 +50,11 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 
 	m_fAttackRange = 1.f;
+
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Shadow"), TEXT("Layer_Effect_Shadow"), &Desc);
 
 	return S_OK;
 }

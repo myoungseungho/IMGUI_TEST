@@ -5,7 +5,7 @@
 
 BEGIN(Client)
 
-class CEffect_Mon_Destroy :public CEffect_Monster
+class CEffect_Mon_Destroy final :public CEffect_Monster
 {
 private:
 	CEffect_Mon_Destroy(LPDIRECT3DDEVICE9 pGraphic_Device);

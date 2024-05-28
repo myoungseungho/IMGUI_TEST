@@ -146,7 +146,7 @@ HRESULT CBoss_Bug::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));\
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
 
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));

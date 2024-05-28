@@ -33,7 +33,6 @@ HRESULT CEffect_Bug_Bullet_Destroy::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
 	return S_OK;
@@ -86,8 +85,6 @@ HRESULT CEffect_Bug_Bullet_Destroy::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
-
-	
 
 	return S_OK;
 }

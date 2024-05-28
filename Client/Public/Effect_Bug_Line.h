@@ -5,7 +5,7 @@
 
 BEGIN(Client)
 
-class CEffect_Bug_Line :public CEffect_Monster
+class CEffect_Bug_Line final :public CEffect_Monster
 {
 public:
 	typedef struct :public EFFECT_MONSTER__DESC

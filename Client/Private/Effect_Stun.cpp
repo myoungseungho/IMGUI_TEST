@@ -33,6 +33,12 @@ HRESULT CEffect_Stun::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 2.f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+
+
 	return S_OK;
 }
 
@@ -55,7 +61,7 @@ HRESULT CEffect_Stun::Render(_float fTimeDelta)
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_STUN"), 0.5f, fTimeDelta, true)))
+	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_STUN"), 0.75f, fTimeDelta, true)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -92,7 +98,7 @@ HRESULT CEffect_Stun::Ready_Components()
 
 HRESULT CEffect_Stun::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
 	return S_OK;
 }
 
@@ -116,6 +122,10 @@ HRESULT CEffect_Stun::End_RenderState()
 
 void CEffect_Stun::Destroy(_float fTimeDelta)
 {
+	CEffect_Stun* pThis = this;
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
+		Safe_Release(pThis);
 }
 
 CEffect_Stun* CEffect_Stun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -147,5 +157,8 @@ CGameObject* CEffect_Stun::Clone(void* pArg)
 
 void CEffect_Stun::Free()
 {
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransform);
+
 	__super::Free();
 }
