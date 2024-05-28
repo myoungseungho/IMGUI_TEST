@@ -106,6 +106,13 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 		}
 	}
 
+	// Enter 키 입력 처리
+	if (m_pKeyCom->Key_Down(VK_RETURN))
+	{
+		AdvanceTalkCycle();
+	}
+
+	// 창 커지거나 작아지는것
 	if (m_bIsShrinking)
 	{
 		// 객체가 n초간 작아지면서 사라지도록 처리
@@ -142,6 +149,7 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 			m_bGrowthComplete = true; // 성장 완료 상태 설정
 		}
 	}
+
 
 
 
@@ -327,18 +335,34 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CUI_Npc_Talk::SetNpcTalkMessage(const wstring& name, const wstring& talk)
+void CUI_Npc_Talk::SetNpcTalkMessages(const vector<pair<wstring, wstring>>& messages)
 {
-	m_WstringName = name;
-	m_WstringTalk = talk;
-	m_DisplayText.clear();
-	m_CurrentCharIndex = 0;
-	m_fTextUpdateTime = 0.0f;
+	m_vecMessages = messages;
+	m_CurrentMessageIndex = 0;
+	AdvanceTalkCycle();
 }
+
+void CUI_Npc_Talk::AdvanceTalkCycle()
+{
+	if (m_CurrentMessageIndex < m_vecMessages.size())
+	{
+		m_WstringName = m_vecMessages[m_CurrentMessageIndex].first;
+		m_WstringTalk = m_vecMessages[m_CurrentMessageIndex].second;
+		m_DisplayText.clear();
+		m_CurrentCharIndex = 0;
+		m_fTextUpdateTime = 0.0f;
+		m_CurrentMessageIndex++;
+	}
+	else
+	{
+		SetIsNpcTalkOn(false);
+	}
+}
+
 
 void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
 {
-	m_fCreateTime = 0.0f; // 애니메이션 시작 시간 초기화
+	m_fCreateTime = 0.0f;
 
 	if (_isOn)
 	{
@@ -346,12 +370,12 @@ void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
 		m_bGrowthComplete = false;
 		m_CurrentCharIndex = 0;
 		m_DisplayText.clear();
-		m_bIsNpcTalkOn = true; // 애니메이션 시작 시 바로 켬
+		m_bIsNpcTalkOn = true;
 	}
 	else
 	{
 		m_bIsShrinking = true;
-		m_bGrowthComplete = false; // 축소 애니메이션 시작 시 성장 완료 플래그 초기화
+		m_bGrowthComplete = false;
 	}
 }
 
@@ -370,6 +394,11 @@ HRESULT CUI_Npc_Talk::Ready_Components()
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */

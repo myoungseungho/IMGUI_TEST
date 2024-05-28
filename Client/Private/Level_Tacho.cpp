@@ -183,18 +183,20 @@ HRESULT CLevel_Tacho::ParseInitialize()
 
 void CLevel_Tacho::Level_Tacho_Start1()
 {
-	// 현재 레벨 인덱스를 가져옴
 	_uint level = m_pGameInstance->GetLoadingLevelIndex();
 
-	// Npc_Talk 객체를 가져옴
 	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
 	CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
 
-	// Npc_Talk UI를 활성화하고 메시지를 설정함
 	if (npcTalkUI)
 	{
 		npcTalkUI->SetIsNpcTalkOn(true);
-		npcTalkUI->SetNpcTalkMessage(TEXT("상점 주인"), TEXT("안녕하세요! 환영합니다.\n여기서 물건을 살 수 있습니다."));
+		vector<pair<wstring, wstring>> messages = {
+			{TEXT("상점 주인"), TEXT("안녕하세요! 환영합니다.\n여기서 물건을 살 수 있습니다.")},
+			{TEXT("상점 주인"), TEXT("오늘의 특별 세일 품목도 확인해보세요.")},
+			{TEXT("상점 주인"), TEXT("감사합니다. 좋은 하루 되세요.")}
+		};
+		npcTalkUI->SetNpcTalkMessages(messages);
 	}
 }
 

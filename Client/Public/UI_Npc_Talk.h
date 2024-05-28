@@ -8,6 +8,8 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CKeyState;
+
 END
 
 BEGIN(Client)
@@ -34,12 +36,14 @@ public:
 
 public:
 	void SetIsNpcTalkOn(_bool _isOn);
-	void SetNpcTalkMessage(const wstring& name, const wstring& talk); // 두 개의 문자열을 설정하는 함수
+	void SetNpcTalkMessages(const vector<pair<wstring, wstring>>& messages);
+	void AdvanceTalkCycle();
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTexture*			m_pArrow_Down_TextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	CKeyState* m_pKeyCom = { nullptr };
 	LPD3DXFONT			m_pName_Font = { nullptr };
 	LPD3DXFONT			m_pTalk_Font = { nullptr };
 
@@ -55,6 +59,9 @@ private:
 		"지금 아주 배가 부릅니다.\n"
 		"음료수가 먹고싶네요"
 	);
+
+	vector<pair<wstring, wstring>> m_vecMessages;
+	_uint m_CurrentMessageIndex = { 0 };
 	wstring m_DisplayText;
 	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
 	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
