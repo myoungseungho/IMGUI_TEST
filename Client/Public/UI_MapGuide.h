@@ -47,6 +47,7 @@ private:
 public:
 	void SetIsNpcTalkOn(_bool _isOn);
 	void UpdatePosition(_float fTimeDelta);
+	void UpdateAlpha(_float fTimeDelta);
 	void SetMapGuideText(const wstring& text)
 	{
 		m_WstringName = text;
@@ -56,6 +57,7 @@ private:
 
 	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
 	_float m_fTextY = { 0.f }; // 텍스트 y 좌표
+	_float m_fTextAlpha = { 0.f };
 	_float m_fTextTargetY = { 34.8f };
 	_float m_fTextStartY = { -10.f };
 	_float m_fCreateTime = { 0.f };

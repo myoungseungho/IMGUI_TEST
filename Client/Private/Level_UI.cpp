@@ -96,10 +96,7 @@ HRESULT CLevel_UI::Ready_Layer_Map_Guide(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_MapGuide"), strLayerTag)))
 		return E_FAIL;
 
-	//맵가이드를 찾아서 텍스트 넣어주기
-	_uint level = m_pGameInstance->GetLoadingLevelIndex();
-
-	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_MapGuide"));
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(loadingLevel, TEXT("Layer_UI_Map_Guide"));
 	CUI_MapGuide* mapGuideUI = static_cast<CUI_MapGuide*>(gameObjectTalk);
 
 	if (mapGuideUI)
@@ -107,7 +104,7 @@ HRESULT CLevel_UI::Ready_Layer_Map_Guide(const _wstring& strLayerTag)
 		mapGuideUI->SetIsNpcTalkOn(true);
 
 		std::wstring mapName;
-		switch (level)
+		switch (loadingLevel)
 		{
 		case LEVEL_TACHO:
 			mapName = TEXT("태초 마을");

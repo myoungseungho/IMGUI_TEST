@@ -75,6 +75,7 @@ void CUI_MapGuide::Update(_float fTimeDelta)
 
 	m_fCreateTime += fTimeDelta;
 	UpdatePosition(fTimeDelta);
+	UpdateAlpha(fTimeDelta);
 	//if (GetAsyncKeyState('F') & 0x8000) {
 	//	offsetX -= 5.f;
 	//}
@@ -165,21 +166,20 @@ HRESULT CUI_MapGuide::Render(_float fTimeDelta)
 
 	// 텍스트 렌더링 - 이름
 	swprintf_s(text, L"%s", m_WstringName.c_str());
-	SetRect(&rect, static_cast<int>(520.f), static_cast<int>(m_fTextY), 0, 0); // 텍스트를 출력할 위치 변경
+	SetRect(&rect, static_cast<int>(570.f), static_cast<int>(m_fTextY), 0, 0); // 텍스트를 출력할 위치 변경
 	m_pName_Font->DrawText(
 		NULL,
 		text,
 		-1,
 		&rect,
 		DT_NOCLIP,
-		D3DCOLOR_ARGB(255, 255, 255, 255)
+		D3DCOLOR_ARGB(static_cast<int>(m_fTextAlpha), 255, 255, 255) // 텍스트 알파 값 적용
 	);
 
 	__super::End_RenderState();
 
 	return S_OK;
 }
-
 
 
 void CUI_MapGuide::SetIsNpcTalkOn(_bool _isOn)
@@ -194,6 +194,8 @@ void CUI_MapGuide::SetIsNpcTalkOn(_bool _isOn)
 		m_fAnimTime = 0.0f; // 애니메이션 시간 초기화
 		m_bIsReturning = false; // 돌아가는 중인지 여부 초기화
 		m_fWaitTime = 0.0f; // 대기 시간 초기화
+		m_fAlpha = 0.f; // 알파 값 초기화
+		m_fTextAlpha = 0.f; // 텍스트 알파 값 초기화
 	}
 	else
 	{
@@ -234,6 +236,32 @@ void CUI_MapGuide::UpdatePosition(_float fTimeDelta)
 	else
 	{
 		m_bIsMapGuide = false; // 애니메이션 종료 후 비활성화
+	}
+}
+
+void CUI_MapGuide::UpdateAlpha(_float fTimeDelta)
+{
+	if (!m_bIsReturning && m_fAnimTime < m_fAnimDuration)
+	{
+		_float progress = m_fAnimTime / m_fAnimDuration;
+		m_fAlpha = 255.0f * progress;
+		m_fTextAlpha = 255.0f * progress;
+	}
+	else if (!m_bIsReturning)
+	{
+		m_fAlpha = 255.0f;
+		m_fTextAlpha = 255.0f;
+	}
+	else if (m_bIsReturning && m_fAnimTime < m_fAnimDuration)
+	{
+		_float progress = m_fAnimTime / m_fAnimDuration;
+		m_fAlpha = 255.0f * (1.0f - progress);
+		m_fTextAlpha = 255.0f * (1.0f - progress);
+	}
+	else
+	{
+		m_fAlpha = 0.0f;
+		m_fTextAlpha = 0.0f;
 	}
 }
 
