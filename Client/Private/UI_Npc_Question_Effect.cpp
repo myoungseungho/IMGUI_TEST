@@ -245,3 +245,4 @@ void CUI_Npc_Question_Effect::Free()
 
 	__super::Free();
 }
+ 
