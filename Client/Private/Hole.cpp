@@ -116,8 +116,8 @@ HRESULT CHole::Ready_Components()
 
 HRESULT CHole::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Hole_Idle"), TEXT("AnimTexture_Hole_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Hole_Stone"), TEXT("AnimTexture_Hole_Stone"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Hole_Idle"), TEXT("AnimTexture_Hole_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Hole_Stone"), TEXT("AnimTexture_Hole_Stone"));
 
 	return S_OK;
 }

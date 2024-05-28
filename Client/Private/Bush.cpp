@@ -39,11 +39,11 @@ HRESULT CBush::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
-	else
+	/*else
 	{
 		CBush::BUSHDESC* bushDesc = static_cast<CBush::BUSHDESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &bushDesc->startPosition);
-	}
+	}*/
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
