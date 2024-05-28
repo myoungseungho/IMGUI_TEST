@@ -135,7 +135,7 @@ void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CUn_Small_Orb*>(otherObject))
+	if (dynamic_cast<CUnRotation_Orb*>(otherObject))
 	{
 		m_Died = true;
 		

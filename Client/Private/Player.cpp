@@ -550,8 +550,8 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.5f, 0.5f, 28.f));
-	//&_float3(39.5f, 0.5f, 30.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.0f, 0.5f, 15.f));
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);

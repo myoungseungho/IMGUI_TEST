@@ -5,6 +5,8 @@
 #include <Player.h>
 #include "UnRotation_Orb.h"
 #include <End_Orb.h>
+#include <Rotation_Orb.h>
+#include <UnRotation_Stand.h>
 
 CUn_Laser::CUn_Laser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -138,7 +140,18 @@ void CUn_Laser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		
 		return;
 	}
+	else if (dynamic_cast<CRotation_Orb*>(otherObject))
+	{
+		m_Died = true;
 
+		return;
+	}
+	else if (dynamic_cast<CUnRotation_Stand*>(otherObject))
+	{
+		m_Died = true;
+
+		return;
+	}
 }
 
 void CUn_Laser::OnCollisionStay(CCollider* other, _float fTimeDelta)

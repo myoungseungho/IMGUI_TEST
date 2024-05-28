@@ -52,6 +52,8 @@ HRESULT CUn_Small_Orb::Initialize(void* pArg)
 	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
+	
+
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
@@ -109,7 +111,7 @@ void CUn_Small_Orb::Update(_float fTimeDelta)
 			UNLASERDESC.iLaserDir = m_eDirection;
 
 			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Un_Laser"), TEXT("Layer_Un_Laser"), &UNLASERDESC);
-			m_eCollisionLazer = STATE_NOTCOL;
+			//m_eCollisionLazer = STATE_NOTCOL;
 		}
 
 }
@@ -183,6 +185,10 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	}
 
 	if (dynamic_cast<CLaser*>(otherObject))
+	{
+		m_eCollisionLazer = STATE_COL;
+	}
+	else if (dynamic_cast<CUn_Laser*>(otherObject))
 	{
 		m_eCollisionLazer = STATE_COL;
 	}
