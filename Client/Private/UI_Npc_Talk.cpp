@@ -191,7 +191,7 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	{
 		// 텍스트 렌더링 - 이름
 		swprintf_s(text, L"%s", m_WstringName.c_str());
-		SetRect(&rect, static_cast<int>(280.f), static_cast<int>(375.f), 0, 0); // 텍스트를 출력할 위치 변경
+		SetRect(&rect, static_cast<int>(320.f), static_cast<int>(375.f), 0, 0); // 텍스트를 출력할 위치 변경
 		m_pName_Font->DrawText(
 			NULL,
 			text,
