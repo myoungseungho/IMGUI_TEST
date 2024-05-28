@@ -9,24 +9,24 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
-class CCalc_Timer;
+class CAnimator;
 END
 
 BEGIN(Client)
 
-class CEnd_Orb final : public CEnviormentObject
+class CDoor final : public CEnviormentObject
 {	
-public:
-	typedef struct
-	{
-		CTransform* pTargetTransform = { nullptr };
-	}END_ORB_DESC;
-
-	enum CLEAR {STATE_UNCLEAR, STATE_CLEAR, STATE_END};
 private:
-	CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CEnd_Orb(const CEnd_Orb& Prototype); /* 사본생성 시 */
-	virtual ~CEnd_Orb() = default;
+	CDoor(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CDoor(const CDoor& Prototype); /* 사본생성 시 */
+	virtual ~CDoor() = default;
+
+	enum ANIMATION_STATE {
+		ANIM_IDLE,
+		ANIM_UNIDLE,
+		ANIM_UNBLOCK,
+		ANIM_BLOCK
+	};
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -41,26 +41,26 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
-public:
-
-
 private:	
-	CTexture*				m_pTextureCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CCalc_Timer*			m_pTimerCom = { nullptr };
-	CCollider*				m_pColliderCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+	CAnimator* m_pAnimCom = { nullptr };
 
-	CTransform*			m_pTargetTransform = { nullptr };
+	class CMonkey_Statue* m_pMonkeyStatue = { nullptr };
+
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Animation();
+	void AnimState(_float _fTimeDelta);
 
-public:
-	static _uint			m_eClearState;
+private:
+	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
 
 public:
 	/* 원형객체를 생성한다. */
-	static CEnd_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CDoor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

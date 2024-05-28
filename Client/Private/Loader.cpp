@@ -73,6 +73,7 @@
 #include "Laser.h"
 #include "Un_Laser.h"
 #include "Un_Small_Orb.h"
+#include "Door.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -382,6 +383,10 @@ HRESULT CLoader::Loading_For_Jungle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Un_Laser"),
 		CUn_Laser::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Orb_Door"),
+		CDoor::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 #pragma endregion

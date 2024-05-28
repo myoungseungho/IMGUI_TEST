@@ -7,6 +7,7 @@
 #include <End_Orb.h>
 #include <Rotation_Orb.h>
 #include <UnRotation_Stand.h>
+#include <Un_Small_Orb.h>
 
 CUn_Laser::CUn_Laser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -45,7 +46,7 @@ HRESULT CUn_Laser::Initialize(void* pArg)
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z));
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
+	m_pTransformCom->Set_Scaled(_float3(0.6f, 0.6f, 0.6f));
 
 
 	/* For.Com_Transform */
@@ -146,7 +147,7 @@ void CUn_Laser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		return;
 	}
-	else if (dynamic_cast<CUnRotation_Stand*>(otherObject))
+	else if (dynamic_cast<CUn_Small_Orb*>(otherObject) && m_pTimerCom->Time_Limit(fTimeDelta, 0.1f))
 	{
 		m_Died = true;
 

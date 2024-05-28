@@ -46,7 +46,7 @@ HRESULT CLaser::Initialize(void* pArg)
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z));
-	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
+	m_pTransformCom->Set_Scaled(_float3(0.6f, 0.6f, 0.6f));
 
 
 	/* For.Com_Transform */

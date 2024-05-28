@@ -340,6 +340,9 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser">
       <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door">
+      <UniqueIdentifier>{26e08543-7d8e-4378-aaef-5152db4deb0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -728,7 +731,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_FadeInOut.h">
       <Filter>02.GameObjects\UI\Basic_Effect</Filter>
-  </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Laser.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
     </ClInclude>
@@ -737,6 +740,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Un_Laser.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Door.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1120,6 +1126,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Un_Laser.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Door.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
