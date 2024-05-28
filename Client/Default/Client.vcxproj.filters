@@ -361,6 +361,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Light">
       <UniqueIdentifier>{dd2ef63b-6419-40cb-bd53-cc0d10a7ff09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Koofu_Smoke">
+      <UniqueIdentifier>{3e2fefd2-3949-4195-8127-737e77994330}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -744,9 +747,6 @@
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Effect_Monster.h">
-      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Effect_Bug_Bullet_Destroy.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
     </ClInclude>
@@ -773,6 +773,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Effect_Light.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Monster.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Koofu_Smoke.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1142,9 +1148,6 @@
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Effect_Monster.cpp">
-      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Effect_Bug_Bullet_Destroy.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
     </ClCompile>
@@ -1171,6 +1174,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Effect_Light.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Monster.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Koofu_Smoke.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

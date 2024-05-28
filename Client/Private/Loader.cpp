@@ -78,6 +78,7 @@
 #include "Effect_Shadow.h"
 #include "Effect_Stun.h"
 #include "Effect_Light.h"
+#include "Effect_Koofu_Smoke.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -1095,6 +1096,9 @@ HRESULT CLoader::Loading_For_Koofu()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Shield/Sprite_ShieldBlurALot.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Texture_Smoke"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/SmokeEffect/SmokeEffect_0.png"), 1))))
+		return E_FAIL;
 
 	/* 애니메이션 텍스쳐를 로드한다*/
 
@@ -1200,6 +1204,10 @@ HRESULT CLoader::Loading_For_Koofu()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Shield"),
 		CEffect_Shield::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Koofu_Smoke"),
+		CEffect_Koofu_Smoke::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

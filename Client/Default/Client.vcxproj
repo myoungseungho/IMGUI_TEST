@@ -166,6 +166,7 @@
     <ClInclude Include="..\public\Effect_Bug_Dash.h" />
     <ClInclude Include="..\public\Effect_Bug_Down.h" />
     <ClInclude Include="..\public\Effect_Bug_Line.h" />
+    <ClInclude Include="..\public\Effect_Koofu_Smoke.h" />
     <ClInclude Include="..\public\Effect_Light.h" />
     <ClInclude Include="..\public\Effect_Monster.h" />
     <ClInclude Include="..\public\Effect_Bug_Bullet_Destroy.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="..\private\Effect_Bug_Dash.cpp" />
     <ClCompile Include="..\private\Effect_Bug_Down.cpp" />
     <ClCompile Include="..\private\Effect_Bug_Line.cpp" />
+    <ClCompile Include="..\private\Effect_Koofu_Smoke.cpp" />
     <ClCompile Include="..\private\Effect_Light.cpp" />
     <ClCompile Include="..\private\Effect_Monster.cpp" />
     <ClCompile Include="..\private\Effect_Bug_Bullet_Destroy.cpp" />
