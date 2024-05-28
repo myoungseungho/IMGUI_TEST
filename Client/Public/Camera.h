@@ -53,7 +53,7 @@ private:
 	HRESULT Key_Input(_float fTimeDelta);
 	HRESULT Ready_Components();
 
-private:
+public:
 	/* 투영행렬 : 투영변환을 할때 생길 수 있는 문제(fov가 90도로 고정된다 + z값이 모두 1이 된다. )들을 사전에 처리한다? */
 	/* 투영변환 : / w */
 	/* 렌더링 파이프라인에 필요한 뷰변환행렬 + 투영행렬 */

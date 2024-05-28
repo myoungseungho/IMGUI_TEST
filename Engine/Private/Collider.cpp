@@ -19,8 +19,6 @@ HRESULT CCollider::Initialize_Prototype()
 	return S_OK;
 }
 
-
-
 HRESULT CCollider::Initialize(void* pArg)
 {
 	COLLIDER_DESC* pDesc = static_cast<COLLIDER_DESC*>(pArg);
@@ -44,7 +42,6 @@ HRESULT CCollider::Initialize(void* pArg)
 	return S_OK;
 }
 
-
 void CCollider::Render()
 {
 	if (!m_pGraphic_Device) return;
@@ -52,6 +49,9 @@ void CCollider::Render()
 	// 현재 FILL 모드 상태 저장
 	DWORD originalFillMode;
 	m_pGraphic_Device->GetRenderState(D3DRS_FILLMODE, &originalFillMode);
+
+	_float4x4 viewMatrix;
+	_float4x4 projectionMatrix;
 
 	CComponent* componet = m_MineGameObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* transform = static_cast<CTransform*>(componet);
@@ -96,8 +96,6 @@ void CCollider::Render()
 	// 렌더링 상태를 원래대로 복원
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, originalFillMode);
 }
-
-
 
 void CCollider::Update(_float fTimeDelta)
 {

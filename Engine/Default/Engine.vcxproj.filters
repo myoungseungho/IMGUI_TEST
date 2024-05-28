@@ -108,9 +108,6 @@
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00.System\00.Device\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\GameInstance.cpp">
-      <Filter>01.Utility\00.GameInstance</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Level.cpp">
       <Filter>01.Utility\01.Levels</Filter>
     </ClCompile>
@@ -182,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BlendObject.cpp">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameInstance.cpp">
+      <Filter>01.Utility\00.GameInstance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

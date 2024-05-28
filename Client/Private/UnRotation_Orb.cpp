@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include <Player.h>
 
+#include "Un_Small_Orb.h"
 
 CUnRotation_Orb::CUnRotation_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -74,6 +75,18 @@ void CUnRotation_Orb::Priority_Update(_float fTimeDelta)
 void CUnRotation_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	if (!IsHaveOrb)
+	{
+		CUn_Small_Orb::UN_SMALL_ORB_DESC			UNSAMALLORBDESC{};
+
+		//SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Orb"), TEXT("Com_Transform")));
+		UNSAMALLORBDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Un_Small_Orb"), TEXT("Layer_Un_Small_Orb"), &UNSAMALLORBDESC);
+
+		IsHaveOrb = true;
+	}
 }
 
 void CUnRotation_Orb::Late_Update(_float fTimeDelta)

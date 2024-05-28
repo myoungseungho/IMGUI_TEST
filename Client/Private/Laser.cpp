@@ -1,21 +1,25 @@
 #include "stdafx.h"
-#include "..\Public\End_Orb.h"
+#include "..\Public\Laser.h"
 
 #include "GameInstance.h"
 #include <Player.h>
-#include <Un_Laser.h>
+#include <RockBreakable.h>
+#include "UnRotation_Orb.h"
+#include <Un_Small_Orb.h>
 
-CEnd_Orb::CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
+class CSmall_Orb;
+
+CLaser::CLaser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CEnd_Orb::CEnd_Orb(const CEnd_Orb& Prototype)
+CLaser::CLaser(const CLaser& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CEnd_Orb::Initialize_Prototype()
+HRESULT CLaser::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -23,11 +27,13 @@ HRESULT CEnd_Orb::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CEnd_Orb::Initialize(void* pArg)
+HRESULT CLaser::Initialize(void* pArg)
 {
-	END_ORB_DESC* pDesc = static_cast<END_ORB_DESC*>(pArg);
+	LASER_DESC* pDesc = static_cast<LASER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_eDirection = (DIRECTION)pDesc->iLaserDir;
+
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
@@ -36,16 +42,11 @@ HRESULT CEnd_Orb::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//if (m_bIsPasingObject)
-	//{
-	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	//}
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z - 0.01f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z));
+	m_pTransformCom->Set_Scaled(_float3(0.5f, 0.5f, 0.5f));
 
 
 	/* For.Com_Transform */
@@ -56,38 +57,64 @@ HRESULT CEnd_Orb::Initialize(void* pArg)
 	ColliderDesc.depth = 1.f;
 	ColliderDesc.MineGameObject = this;
 
+
 	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
-
-	m_eClearState = STATE_UNCLEAR;
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_LASER, this);
 
 	return S_OK;
 }
 
-void CEnd_Orb::Priority_Update(_float fTimeDelta)
+void CLaser::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CEnd_Orb::Update(_float fTimeDelta)
+void CLaser::Update(_float fTimeDelta)
 {
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.0f))
+	{
+		m_Died = true;
+
+		return;
+	}
+
 	__super::Update(fTimeDelta);
 
-	m_eClearState = m_eClearState;
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (m_eDirection == DIR_LEFT)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x - 0.2f, vPos.y, vPos.z));
+		}
+		else if (m_eDirection == DIR_UP)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x, vPos.y, vPos.z + 0.2f));
+		}
+		else if (m_eDirection == DIR_RIGHT)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x + 0.2f, vPos.y, vPos.z));
+		}
+		else if (m_eDirection == DIR_DOWN)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x, vPos.y, vPos.z - 0.2f));
+		}
+
+	
 }
 
-void CEnd_Orb::Late_Update(_float fTimeDelta)
+void CLaser::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
-HRESULT CEnd_Orb::Render(_float fTimeDelta)
+HRESULT CLaser::Render(_float fTimeDelta)
 {
-	__super::Begin_RenderState();
+	__super::Begin_Blend_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -99,35 +126,36 @@ HRESULT CEnd_Orb::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	__super::End_RenderState();
+	__super::End_Blend_RenderState();
 
 	return S_OK;
 }
 
-void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CUn_Laser*>(otherObject))
+	if (dynamic_cast<CUn_Small_Orb*>(otherObject))
 	{
-		m_eClearState = STATE_CLEAR;
+		m_Died = true;
+		
 		return;
 	}
-}
-
-void CEnd_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
 
 }
 
-void CEnd_Orb::OnCollisionExit(class CCollider* other)
+void CLaser::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 }
 
-HRESULT CEnd_Orb::Ready_Components()
+void CLaser::OnCollisionExit(CCollider* other)
+{
+}
+
+HRESULT CLaser::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_EndOrb"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Laser"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -150,17 +178,16 @@ HRESULT CEnd_Orb::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
-CEnd_Orb* CEnd_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CLaser* CLaser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CEnd_Orb* pInstance = new CEnd_Orb(pGraphic_Device);
+	CLaser* pInstance = new CLaser(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CEnd_Orb"));
+		MSG_BOX(TEXT("Failed to Created : CLaser"));
 		Safe_Release(pInstance);
 	}
 
@@ -168,23 +195,23 @@ CEnd_Orb* CEnd_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CEnd_Orb::Clone(void* pArg)
+CGameObject* CLaser::Clone(void* pArg)
 {
-	CEnd_Orb* pInstance = new CEnd_Orb(*this);
+	CLaser* pInstance = new CLaser(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CEnd_Orb"));
+		MSG_BOX(TEXT("Failed to Cloned : CLaser"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CEnd_Orb::Free()
+void CLaser::Free()
 {
-	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTimerCom);
+	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
@@ -194,3 +221,4 @@ void CEnd_Orb::Free()
 
 	__super::Free();
 }
+

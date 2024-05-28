@@ -300,12 +300,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Cannon_Ball">
       <UniqueIdentifier>{073bb1d9-d8a3-4790-8598-fa13d7dd9f1c}</UniqueIdentifier>
-  </Filter>
+    </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb">
       <UniqueIdentifier>{e7c70de5-6c90-4465-ba64-920de112a6d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Light">
-      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb">
       <UniqueIdentifier>{ed1cddb5-29b0-49be-9a2a-59900263c5ad}</UniqueIdentifier>
@@ -327,6 +324,15 @@
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand">
       <UniqueIdentifier>{04318e6c-45c2-483c-a55f-9a9c35dba7d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb">
+      <UniqueIdentifier>{5a58124c-8f6f-4f8f-8a68-3d7e7d8b38af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser">
+      <UniqueIdentifier>{023befcc-a690-42dc-b43e-fbd17cc4458c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser">
+      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -674,7 +680,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Loading_Orgu_Run.h">
       <Filter>02.GameObjects\UI\Loading</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Mon_Trash_Slime.h">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
     </ClInclude>
@@ -707,6 +713,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Rotation_Stand.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Laser.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Un_Small_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Un_Laser.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1039,7 +1054,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Loading_Orgu_Run.cpp">
       <Filter>02.GameObjects\UI\Loading</Filter>
-</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Mon_Trash_Slime.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Trash_Slime</Filter>
     </ClCompile>
@@ -1051,7 +1066,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Mon_Bear_Cannon.cpp">
       <Filter>02.GameObjects\LandObject\Monster\Bear_Cannon</Filter>
-  </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Private\Rotation_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb</Filter>
     </ClCompile>
@@ -1072,6 +1087,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Small_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Laser.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Un_Small_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Un_Laser.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
