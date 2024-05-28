@@ -59,6 +59,26 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_ePlayerCurState = STATE_IDLE;
 	m_ePlayerDir = DIR_DOWN;
 
+	LEVELID level =  (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+	switch (level)
+	{
+	case Client::LEVEL_TACHO:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(19.649f, 0.5f, 30.250f));
+		break;
+	case Client::LEVEL_JUNGLE:
+		break;
+	case Client::LEVEL_SNOW:
+		break;
+	case Client::LEVEL_KOOFU:
+		break;
+	case Client::LEVEL_BUG:
+		break;
+	case Client::LEVEL_EDIT:
+		break;
+	default:
+		break;
+	}
+
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
 	return S_OK;
@@ -561,7 +581,6 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.5f, 0.5f, 28.f));
 	//&_float3(39.5f, 0.5f, 30.f));
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};

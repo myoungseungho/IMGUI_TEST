@@ -21,7 +21,6 @@ HRESULT CUI_Npc_Talk::Initialize_Prototype()
 	return S_OK;
 }
 
-
 void CUI_Npc_Talk::Font_Initialize()
 {
 	D3DXFONT_DESCW tFontInfo;
@@ -64,7 +63,7 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 	m_fSizeY = 330.f;
 	m_fX = -15.f;
 	m_fY = -145.f;
- 
+
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); // 초기 크기를 0으로 설정
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
@@ -77,14 +76,35 @@ HRESULT CUI_Npc_Talk::Initialize(void* pArg)
 void CUI_Npc_Talk::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bIsNpcTalkOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-} 
+}
 
 void CUI_Npc_Talk::Update(_float fTimeDelta)
 {
-	if (!m_bUpdateEnabled) return; // 업데이트가 비활성화된 경우 반환
+	if (!m_bIsNpcTalkOn) return; // 업데이트가 비활성화된 경우 반환
 
 	// 생성된 후 경과 시간 계산
 	m_fCreateTime += fTimeDelta;
+
+	// 화살표 애니메이션 처리
+	if (m_bGrowthComplete)
+	{
+		m_fArrowAnimTime += fTimeDelta;
+		if (m_fArrowAnimTime >= m_fArrowAnimDuration)
+		{
+			m_fArrowAnimTime = 0.0f;
+			m_bArrowAnimUp = !m_bArrowAnimUp; // 방향 전환
+		}
+
+		_float progress = m_fArrowAnimTime / m_fArrowAnimDuration;
+		if (m_bArrowAnimUp)
+		{
+			m_fArrowOffsetY = m_fArrowOffsetRange * progress; // 위로 이동
+		}
+		else
+		{
+			m_fArrowOffsetY = m_fArrowOffsetRange * (1.0f - progress); // 아래로 이동
+		}
+	}
 
 	if (m_bIsShrinking)
 	{
@@ -101,7 +121,6 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 		{
 			// 축소 완료 후 크기 0으로 설정
 			m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); // 초기 크기를 0으로 설정
-			m_bUpdateEnabled = false; // 업데이트 비활성화
 			m_bIsNpcTalkOn = false; // 축소 애니메이션 완료 후에 비활성화
 		}
 	}
@@ -119,13 +138,16 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 		else
 		{
 			// 성장 완료 후 최종 크기와 위치로 설정  
-			m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f)); 
+			m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 			m_bGrowthComplete = true; // 성장 완료 상태 설정
-			m_bUpdateEnabled = false;
 		}
 	}
 
-	/*if (GetAsyncKeyState('F') & 0x8000) {
+
+
+
+
+	if (GetAsyncKeyState('F') & 0x8000) {
 		offsetX -= 5.f;
 	}
 	if (GetAsyncKeyState('H') & 0x8000) {
@@ -160,7 +182,7 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 	}
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
 		m_fAlpha -= 1.f;
-	}*/
+	}
 
 
 
@@ -188,7 +210,6 @@ void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 	if (!m_bIsNpcTalkOn)
 		return;
 
-	//if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
@@ -201,20 +222,24 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 
 	__super::Begin_RenderState();
 
-	// 텍스트 형식화 및 렌더링
-
 	wchar_t text[256];
 	RECT rect;
 
-	/* 사각형 위에 올리고 싶은 텍스트를 미리 장치에 바인딩한다. */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
 		return E_FAIL;
+
+	_float4x4 backUpWorldMatrix = m_pTransformCom->Get_WorldMatrix();
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	/*_float3 _arrowPosition = { offsetX,offsetY,0 };
+	_float3 _scale = { offsetXScale,offsetYScale,0 };*/
+
+	
 
 	if (m_bGrowthComplete)
 	{
@@ -242,7 +267,6 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 			}
 		}
 
-		// 각 줄의 텍스트를 중앙 정렬된 시작 위치에 출력
 		wistringstream wiss(m_DisplayText);
 		wstring line;
 		int lineIndex = 0;
@@ -250,7 +274,6 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 
 		while (getline(wiss, line))
 		{
-			// 현재 줄의 중앙 정렬된 시작 위치 계산
 			RECT lineRect = { 0, 0, 0, 0 };
 			m_pTalk_Font->DrawText(
 				NULL,
@@ -263,8 +286,6 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 			int lineWidth = lineRect.right - lineRect.left;
 			int centerX = 640; // 중앙 정렬 기준 X 좌표
 			int startX = centerX - (lineWidth / 2);
-
-			// 텍스트 렌더링 - CurrentItemExplain
 			SetRect(&rect, startX, startY + (lineIndex * 30), startX + lineWidth, 0); // 각 줄의 Y 간격은 30 픽셀
 			m_pTalk_Font->DrawText(
 				NULL,
@@ -274,9 +295,31 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 				DT_NOCLIP,
 				D3DCOLOR_ARGB(255, 255, 255, 255)
 			);
-
 			lineIndex++;
 		}
+
+		_float3 _arrowPosition = { -10.f, -220.f + m_fArrowOffsetY, 0 };
+		_float3 _scale = { 35.f, 25.f, 0 };
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_arrowPosition);
+		m_pTransformCom->Set_Scaled(_scale);
+
+		if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
+			return E_FAIL;
+
+		if (FAILED(m_pArrow_Down_TextureCom->Bind_Texture(0)))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, (_float3*)&backUpWorldMatrix.m[0][0]);
+		m_pTransformCom->Set_State(CTransform::STATE_UP, (_float3*)&backUpWorldMatrix.m[1][0]);
+		m_pTransformCom->Set_State(CTransform::STATE_LOOK, (_float3*)&backUpWorldMatrix.m[2][0]);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (_float3*)&backUpWorldMatrix.m[3][0]);
+
+		if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
+			return E_FAIL;
 	}
 
 	__super::End_RenderState();
@@ -284,10 +327,18 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CUI_Npc_Talk::SetNpcTalkMessage(const wstring& name, const wstring& talk)
+{
+	m_WstringName = name;
+	m_WstringTalk = talk;
+	m_DisplayText.clear();
+	m_CurrentCharIndex = 0;
+	m_fTextUpdateTime = 0.0f;
+}
+
 void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
 {
 	m_fCreateTime = 0.0f; // 애니메이션 시작 시간 초기화
-	m_bUpdateEnabled = true;
 
 	if (_isOn)
 	{
@@ -311,6 +362,11 @@ HRESULT CUI_Npc_Talk::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_UI_MainComponents_ArrowDown"),
+		TEXT("Com_Arrow_Texture"), reinterpret_cast<CComponent**>(&m_pArrow_Down_TextureCom))))
+		return E_FAIL;
+
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -328,7 +384,6 @@ HRESULT CUI_Npc_Talk::Ready_Components()
 	return S_OK;
 }
 
-
 CUI_Npc_Talk* CUI_Npc_Talk::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CUI_Npc_Talk* pInstance = new CUI_Npc_Talk(pGraphic_Device);
@@ -341,7 +396,6 @@ CUI_Npc_Talk* CUI_Npc_Talk::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	return pInstance;
 }
-
 
 CGameObject* CUI_Npc_Talk::Clone(void* pArg)
 {
@@ -361,6 +415,7 @@ void CUI_Npc_Talk::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pArrow_Down_TextureCom);
 	Safe_Release(m_pName_Font);
 	Safe_Release(m_pTalk_Font);
 	__super::Free();

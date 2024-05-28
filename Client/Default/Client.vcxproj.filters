@@ -728,7 +728,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_FadeInOut.h">
       <Filter>02.GameObjects\UI\Basic_Effect</Filter>
-  </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\Laser.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
     </ClInclude>

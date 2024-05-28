@@ -29,6 +29,12 @@ private:
 	HRESULT Ready_Layer_Npc_Question(const _wstring& strLayerTag);
 
 	HRESULT ParseInitialize();
+private:
+	void Level_Tacho_Start1();
+
+private:
+	_float m_fElapsedTime = 0.0f; // 경과 시간
+	_bool m_bStart1Called = false; // Level_Tacho_Start1 함수 호출 여부
 
 public:
 	static CLevel_Tacho* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

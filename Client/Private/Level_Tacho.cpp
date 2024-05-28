@@ -13,6 +13,7 @@
 #include "Bush.h"
 #include "Npc.h"
 #include "UI_Npc_Question_Effect.h"
+#include "UI_Npc_Talk.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -55,6 +56,15 @@ HRESULT CLevel_Tacho::Initialize()
 void CLevel_Tacho::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
+
+	// 2초가 지나고, Level_Tacho_Start1 함수가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
+	{
+		Level_Tacho_Start1();
+		m_bStart1Called = true;
+	}
 }
 
 HRESULT CLevel_Tacho::Render()
@@ -169,6 +179,23 @@ HRESULT CLevel_Tacho::ParseInitialize()
 {
 	if (FAILED(__super::ParseInitialize()))
 		return E_FAIL;
+}
+
+void CLevel_Tacho::Level_Tacho_Start1()
+{
+	// 현재 레벨 인덱스를 가져옴
+	_uint level = m_pGameInstance->GetLoadingLevelIndex();
+
+	// Npc_Talk 객체를 가져옴
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+	CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+
+	// Npc_Talk UI를 활성화하고 메시지를 설정함
+	if (npcTalkUI)
+	{
+		npcTalkUI->SetIsNpcTalkOn(true);
+		npcTalkUI->SetNpcTalkMessage(TEXT("상점 주인"), TEXT("안녕하세요! 환영합니다.\n여기서 물건을 살 수 있습니다."));
+	}
 }
 
 

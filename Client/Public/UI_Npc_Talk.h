@@ -34,9 +34,10 @@ public:
 
 public:
 	void SetIsNpcTalkOn(_bool _isOn);
-
+	void SetNpcTalkMessage(const wstring& name, const wstring& talk); // 두 개의 문자열을 설정하는 함수
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
+	CTexture*			m_pArrow_Down_TextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 	LPD3DXFONT			m_pName_Font = { nullptr };
@@ -65,10 +66,17 @@ private:
 	_float m_fCreateTime = 0.0f; // 객체가 생성된 시간
 	_float m_fGrowthDuration = 0.5f; // n초간 커지는 시간
 	_bool m_bGrowthComplete = false; // 성장 완료 여부
+	_bool m_bIsShrinking = { false };
+
 private:
 	_bool m_bIsNpcTalkOn = { false };
-	_bool m_bIsShrinking = { false };
-	_bool m_bUpdateEnabled = { false };
+
+private:
+	_float m_fArrowOffsetY = 0.f; // 화살표의 Y 오프셋
+	_float m_fArrowAnimDuration = 0.5f; // 애니메이션 시간
+	_float m_fArrowAnimTime = 0.0f; // 애니메이션 경과 시간
+	_float m_fArrowOffsetRange = 10.0f; // 화살표의 Y 등락폭
+	_bool m_bArrowAnimUp = true; // 화살표가 올라가는 중인지 여부
 public:
 	/* 원형객체를 생성한다. */
 	static CUI_Npc_Talk* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
