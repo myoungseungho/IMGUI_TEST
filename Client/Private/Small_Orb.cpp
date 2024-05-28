@@ -108,7 +108,7 @@ void CSmall_Orb::Update(_float fTimeDelta)
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
 		}
 
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 0.1f))
 		{
 			CLaser::LASER_DESC			LASERDESC{};
 

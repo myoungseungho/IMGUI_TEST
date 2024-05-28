@@ -73,11 +73,12 @@ void CLaser::Priority_Update(_float fTimeDelta)
 
 void CLaser::Update(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-	{
-		CLaser* pThis = this;
 
-		Safe_Release(pThis);
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.0f))
+	{
+		m_Died = true;
+
+		return;
 	}
 
 	__super::Update(fTimeDelta);
@@ -130,22 +131,22 @@ HRESULT CLaser::Render(_float fTimeDelta)
 
 void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CRockBreakable*>(otherObject))
+	{
+		m_Died = true;
+		
+		return;
+	}
 }
 
 void CLaser::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-	
 }
 
 void CLaser::OnCollisionExit(CCollider* other)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	//if (dynamic_cast<CRockBreakable*>(otherObject))
-	//{
-	//	Delete_Object();
-	//}
 }
 
 HRESULT CLaser::Ready_Components()
