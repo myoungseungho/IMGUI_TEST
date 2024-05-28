@@ -149,68 +149,6 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 			m_bGrowthComplete = true; // 성장 완료 상태 설정
 		}
 	}
-
-
-
-
-
-
-	if (GetAsyncKeyState('F') & 0x8000) {
-		offsetX -= 5.f;
-	}
-	if (GetAsyncKeyState('H') & 0x8000) {
-		offsetX += 5.f;
-	}
-	if (GetAsyncKeyState('T') & 0x8000) {
-		offsetY += 5.f;
-	}
-	if (GetAsyncKeyState('G') & 0x8000) {
-		offsetY -= 5.f;
-	}
-	if (GetAsyncKeyState('R') & 0x8000) {
-		offsetZ -= 0.01f;
-	}
-	if (GetAsyncKeyState('Y') & 0x8000) {
-		offsetZ += 0.01f;
-	}
-	if (GetAsyncKeyState('J') & 0x8000) {
-		offsetXScale -= 5.f;
-	}
-	if (GetAsyncKeyState('K') & 0x8000) {
-		offsetXScale += 5.f;
-	}
-	if (GetAsyncKeyState('N') & 0x8000) {
-		offsetYScale -= 5.f;
-	}
-	if (GetAsyncKeyState('M') & 0x8000) {
-		offsetYScale += 5.f;
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000) {
-		m_fAlpha += 1.f;
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-		m_fAlpha -= 1.f;
-	}
-
-
-
-	//// 키 입력 처리
-	//if (GetAsyncKeyState(VK_UP) & 0x8000)
-	//{
-	//	m_TextPosY -= 10.f; // 위쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	//{
-	//	m_TextPosY += 10.f; // 아래쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	//{
-	//	m_TextPosX -= 10.f; // 왼쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	//{
-	//	m_TextPosX += 10.f; // 오른쪽으로 이동
-	//}
 }
 
 void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
@@ -447,5 +385,6 @@ void CUI_Npc_Talk::Free()
 	Safe_Release(m_pArrow_Down_TextureCom);
 	Safe_Release(m_pName_Font);
 	Safe_Release(m_pTalk_Font);
+	Safe_Release(m_pKeyCom);
 	__super::Free();
 }

@@ -7,6 +7,7 @@
 #include "..\Public\LEVEL_UI.h"
 #include "UI_Inventory.h"
 #include "GameInstance.h"
+#include "UI_MapGuide.h"
 
 CLevel_UI::CLevel_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -21,6 +22,8 @@ HRESULT CLevel_UI::Initialize()
 	if (FAILED(Ready_Layer_Npc_Talk(TEXT("Layer_UI_Npc_Talk"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Map_Guide(TEXT("Layer_UI_Map_Guide"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -84,6 +87,50 @@ HRESULT CLevel_UI::Ready_Layer_Npc_Talk(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_Npc_Talk"), strLayerTag)))
 		return E_FAIL;
+}
+
+HRESULT CLevel_UI::Ready_Layer_Map_Guide(const _wstring& strLayerTag)
+{
+	LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_MapGuide"), strLayerTag)))
+		return E_FAIL;
+
+	//맵가이드를 찾아서 텍스트 넣어주기
+	_uint level = m_pGameInstance->GetLoadingLevelIndex();
+
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_MapGuide"));
+	CUI_MapGuide* mapGuideUI = static_cast<CUI_MapGuide*>(gameObjectTalk);
+
+	if (mapGuideUI)
+	{
+		mapGuideUI->SetIsNpcTalkOn(true);
+
+		std::wstring mapName;
+		switch (level)
+		{
+		case LEVEL_TACHO:
+			mapName = TEXT("태초 마을");
+			break;
+		case LEVEL_JUNGLE:
+			mapName = TEXT("정글");
+			break;
+		case LEVEL_SNOW:
+			mapName = TEXT("설산");
+			break;
+		case LEVEL_KOOFU:
+			mapName = TEXT("쿠푸 보스");
+			break;
+		case LEVEL_BUG:
+			mapName = TEXT("누에 보스");
+			break;
+		default:
+			mapName = TEXT("알 수 없음");
+			break;
+		}
+
+		mapGuideUI->SetMapGuideText(mapName);
+	}
 }
 
 

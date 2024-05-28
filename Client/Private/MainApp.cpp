@@ -43,6 +43,7 @@
 #include "Camera.h"
 #include "UI_Npc_Talk.h"
 #include "UI_Npc_Question_Effect.h"
+#include "UI_MapGuide.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1127,6 +1128,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_UI_MainComponents_ArrowDown.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_BoxShadow"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_BoxShadow.png"), 1))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region NPC
@@ -1269,6 +1274,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Question_Effect"),
 		CUI_Npc_Question_Effect::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_MapGuide"),
+		CUI_MapGuide::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 
