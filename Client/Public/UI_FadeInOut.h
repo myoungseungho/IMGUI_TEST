@@ -32,6 +32,7 @@ private:
 
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
+	CTexture*			m_pEffectTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 

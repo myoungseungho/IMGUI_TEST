@@ -615,9 +615,6 @@
     <ClInclude Include="..\Public\Level_UI.h">
       <Filter>01.Levels\7. UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_FadeInOut.h">
-      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Inventory_BackGround.h">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClInclude>
@@ -719,6 +716,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_Npc_Talk.h">
       <Filter>02.GameObjects\UI\NpcTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Npc_Question_Effect.h">
+      <Filter>02.GameObjects\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_FadeInOut.h">
+      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1090,6 +1093,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Npc_Talk.cpp">
       <Filter>02.GameObjects\UI\NpcTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Npc_Question_Effect.cpp">
+      <Filter>02.GameObjects\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

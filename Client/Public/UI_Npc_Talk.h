@@ -32,6 +32,19 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+public:
+	void SetIsNpcTalkOn(_bool _isOn) 
+	{
+		m_bIsNpcTalkOn = _isOn; 
+
+		if (_isOn)
+		{
+			// 텍스트 애니메이션 초기화
+			m_DisplayText.clear();
+			m_CurrentCharIndex = 0;
+			m_fTextUpdateTime = 0.0f;
+		}
+	}
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -42,6 +55,7 @@ private:
 private:
 	HRESULT Ready_Components();
 	void Font_Initialize();
+	
 private:
 	wstring m_WstringName = { TEXT("명승호 저녁 일기") };
 	wstring m_WstringTalk = TEXT(
@@ -61,7 +75,7 @@ private:
 	_float m_fCreateTime = 0.0f; // 객체가 생성된 시간
 	_float m_fGrowthDuration = 0.2f; // n초간 커지는 시간
 	_bool m_bGrowthComplete = false; // 성장 완료 여부
-public:
+private:
 	_bool m_bIsNpcTalkOn = { false };
 public:
 	/* 원형객체를 생성한다. */

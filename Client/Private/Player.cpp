@@ -21,7 +21,8 @@
 #include <Monkey_Statue.h>
 #include <Block.h>
 #include "Npc.h"
-
+#include "UI_Npc_Talk.h"
+#include "UI_Npc_Question_Effect.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -89,8 +90,6 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else
 		m_iCurrentSkillCount = 0;
-
-
 }
 
 
@@ -132,7 +131,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
 	{
-		if (m_bCanDamaged&&m_bForTestDamaged != false)
+		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
 			m_ePlayerCurState = STATE_HIT;
 			Player_Damaged();
@@ -171,7 +170,6 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-
 	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
@@ -208,7 +206,6 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
-
 	if (dynamic_cast<CBlock*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_WALK)
@@ -241,10 +238,9 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
-	if (dynamic_cast<CNpc*>(otherObject))
-	{
-
-	}
+	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
+	if (npc != nullptr)
+		Interaction_NPC(npc);
 
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -450,6 +446,13 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		m_ePlayerCurState = STATE_IDLE;
 	}
 
+	//NPC¶û Ãæµ¹¹þ¾î³ª¸é ÇØÁ¦
+	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
+	if (npc != nullptr)
+	{
+		m_pCurrentCollisionOk_Npc = nullptr;
+		Set_Npc_Talk(false);
+	}
 	// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -480,15 +483,28 @@ void CPlayer::Player_Damaged()
 	{
 		--m_iPlayerHp;
 
-		
+
 
 	}
 
 
 }
 
-void CPlayer::Interaction_NPC()
+void CPlayer::Interaction_NPC(CNpc* _npc)
 {
+	m_pCurrentCollisionOk_Npc = _npc;
+}
+
+void CPlayer::Set_Npc_Talk(_bool _isOn)
+{
+	_uint level = m_pGameInstance->GetCurrentLevelIndex();
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+	static_cast<CUI_Npc_Talk*>(gameObjectTalk)->SetIsNpcTalkOn(_isOn);
+
+	//// ÀÌÆåÆ® ¼öÁ¤
+	CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
+	static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -874,8 +890,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	else
 		m_pTransformCom->Set_Speed(3.f);
 
-	if (m_pKeyCom->Key_Pressing(VK_SPACE))
-		m_iPlayerHp--;
+	if (m_pCurrentCollisionOk_Npc != nullptr)
+	{
+		if (m_pKeyCom->Key_Down(VK_SPACE))
+		{
+			Set_Npc_Talk(true);
+		}
+	}
 
 	return S_OK;
 }

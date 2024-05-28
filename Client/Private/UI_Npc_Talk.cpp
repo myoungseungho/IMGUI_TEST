@@ -139,23 +139,23 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 
 
 
-	// 키 입력 처리
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		m_TextPosY -= 10.f; // 위쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		m_TextPosY += 10.f; // 아래쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		m_TextPosX -= 10.f; // 왼쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_TextPosX += 10.f; // 오른쪽으로 이동
-	}
+	//// 키 입력 처리
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	m_TextPosY -= 10.f; // 위쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	m_TextPosY += 10.f; // 아래쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	//{
+	//	m_TextPosX -= 10.f; // 왼쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	//{
+	//	m_TextPosX += 10.f; // 오른쪽으로 이동
+	//}
 }
 
 void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
@@ -165,9 +165,7 @@ void CUI_Npc_Talk::Late_Update(_float fTimeDelta)
 
 	//if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
-	//
-	//m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, 0.f));
+	
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 

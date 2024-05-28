@@ -20,6 +20,8 @@ class CNpc final : public CGameObject
 public:
 	typedef struct
 	{
+		_float3 position = {};
+		_float3 scale = {};
 		wstring  npcName = {};
 	}NPCDESC;
 
@@ -46,6 +48,8 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
+public:
+	wstring m_wStrNpcName = {};
 
 private:
 	CTransform* m_pTransformCom = { nullptr };
@@ -55,7 +59,6 @@ private:
 
 private:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
-	wstring m_wStrNpcName = {};
 
 private:
 	HRESULT Ready_Components();

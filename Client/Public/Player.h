@@ -21,8 +21,8 @@ BEGIN(Client)
 class CPlayer final : public CGameObject
 {
 public:
-enum DIRECTION {DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END};
-enum PLAYER_STATE {STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END};
+	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
+	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END };
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -97,8 +97,10 @@ private:
 	void				For_Damage_State(_float fTimeDelta);
 
 	void				Player_Damaged();
+
 private:
-	void Interaction_NPC();
+	void Interaction_NPC(class CNpc* npc);
+	void Set_Npc_Talk(_bool _isOn);
 private:
 	_float3		m_forScaled;
 
@@ -134,7 +136,8 @@ private:
 	_float		m_bAttack = { false };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
-
+private:
+	CNpc* m_pCurrentCollisionOk_Npc = { nullptr };
 public:
 
 	/* 원형객체를 생성한다. */

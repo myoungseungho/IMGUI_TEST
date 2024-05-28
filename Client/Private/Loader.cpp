@@ -69,8 +69,8 @@
 #include "Rotation_Stand.h"
 #include "Small_Orb.h"
 #include "Rotation_Orb.h"
-#include "UI_Npc_Talk_BackGround.h"
 #include "Npc.h"
+#include "UI_Npc_Talk.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }

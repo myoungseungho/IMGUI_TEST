@@ -42,6 +42,7 @@
 #include "UI_Loading_Orgu_Run.h"
 #include "Camera.h"
 #include "UI_Npc_Talk.h"
+#include "UI_Npc_Question_Effect.h"
 #include <codecvt>
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
@@ -1128,6 +1129,14 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Basic/Test_UITextBox_TextBox.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_UI_Quest_QuestionMark"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Quest/QuestionMark/UI_Quest_QuestionMark_%d.png"), 8))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_UI_Quest_QuestionMarkBlur"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Quest/QuestionMark/UI_Quest_QuestionMark_Blur_%d.png"), 8))))
+		return E_FAIL;
+
 #pragma endregion
 
 	return S_OK;
@@ -1251,6 +1260,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Talk"),
 		CUI_Npc_Talk::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_Npc_Question_Effect"),
+		CUI_Npc_Question_Effect::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

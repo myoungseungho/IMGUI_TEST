@@ -273,6 +273,7 @@
     <ClInclude Include="..\Public\UI_ItemTabIcon_Leaf.h" />
     <ClInclude Include="..\Public\UI_Loading_Background.h" />
     <ClInclude Include="..\Public\UI_Loading_Orgu_Run.h" />
+    <ClInclude Include="..\Public\UI_Npc_Question_Effect.h" />
     <ClInclude Include="..\Public\UI_Npc_Talk.h" />
     <ClInclude Include="..\Public\UI_PlayerEquipSlot.h" />
     <ClInclude Include="..\Public\UI_PlayerEquipSlot_BackGround.h" />
@@ -400,6 +401,7 @@
     <ClCompile Include="..\Private\UI_ItemTabIcon_Leaf.cpp" />
     <ClCompile Include="..\Private\UI_Loading_Background.cpp" />
     <ClCompile Include="..\Private\UI_Loading_Orgu_Run.cpp" />
+    <ClCompile Include="..\Private\UI_Npc_Question_Effect.cpp" />
     <ClCompile Include="..\Private\UI_Npc_Talk.cpp" />
     <ClCompile Include="..\Private\UI_PlayerEquipSlot.cpp" />
     <ClCompile Include="..\Private\UI_PlayerEquipSlot_BackGround.cpp" />
