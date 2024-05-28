@@ -53,7 +53,7 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
 	__super::Move_Dir(fTimeDelta);
 
-	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+ 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fAttackRange = D3DXVec3Length(&m_vTargetDistance);
 }
 
@@ -271,7 +271,7 @@ void CMon_Trash_Slime::State_Move(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::MOVE;
 
-	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta);
+	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 0.75f);
 		Move(fTimeDelta);
 
 	if (m_fAttackRange > 10.f)
@@ -290,8 +290,8 @@ void CMon_Trash_Slime::Move(_float fTimeDelta)
 void CMon_Trash_Slime::Destory()
 {
 	CMon_Trash_Slime* pThis = this;
-
-	Safe_Release(pThis);
+	if(m_tMonsterDesc.iHp <= 0)
+		Safe_Release(pThis);
 
 }
 

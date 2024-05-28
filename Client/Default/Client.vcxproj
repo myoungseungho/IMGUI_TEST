@@ -193,6 +193,7 @@
     <ClInclude Include="..\Public\Moon_Fence.h" />
     <ClInclude Include="..\Public\Moon_FloorStone.h" />
     <ClInclude Include="..\Public\Moon_VerticalFence.h" />
+    <ClInclude Include="..\Public\Npc.h" />
     <ClInclude Include="..\Public\Outside_BreadShop.h" />
     <ClInclude Include="..\Public\Outside_Fence.h" />
     <ClInclude Include="..\Public\Outside_PotHorizontal1.h" />
@@ -273,6 +274,8 @@
     <ClInclude Include="..\Public\UI_ItemTabIcon_Leaf.h" />
     <ClInclude Include="..\Public\UI_Loading_Background.h" />
     <ClInclude Include="..\Public\UI_Loading_Orgu_Run.h" />
+    <ClInclude Include="..\Public\UI_Npc_Question_Effect.h" />
+    <ClInclude Include="..\Public\UI_Npc_Talk.h" />
     <ClInclude Include="..\Public\UI_PlayerEquipSlot.h" />
     <ClInclude Include="..\Public\UI_PlayerEquipSlot_BackGround.h" />
     <ClInclude Include="..\Public\UI_Shop_ItemInfo_TextBox.h" />
@@ -322,6 +325,7 @@
     <ClCompile Include="..\Private\Moon_Fence.cpp" />
     <ClCompile Include="..\Private\Moon_FloorStone.cpp" />
     <ClCompile Include="..\Private\Moon_VerticalFence.cpp" />
+    <ClCompile Include="..\Private\Npc.cpp" />
     <ClCompile Include="..\Private\Outside_BreadShop.cpp" />
     <ClCompile Include="..\Private\Outside_Fence.cpp" />
     <ClCompile Include="..\Private\Outside_PotHorizontal1.cpp" />
@@ -401,6 +405,8 @@
     <ClCompile Include="..\Private\UI_ItemTabIcon_Leaf.cpp" />
     <ClCompile Include="..\Private\UI_Loading_Background.cpp" />
     <ClCompile Include="..\Private\UI_Loading_Orgu_Run.cpp" />
+    <ClCompile Include="..\Private\UI_Npc_Question_Effect.cpp" />
+    <ClCompile Include="..\Private\UI_Npc_Talk.cpp" />
     <ClCompile Include="..\Private\UI_PlayerEquipSlot.cpp" />
     <ClCompile Include="..\Private\UI_PlayerEquipSlot_BackGround.cpp" />
     <ClCompile Include="..\Private\UI_Shop_ItemInfo_TextBox.cpp" />

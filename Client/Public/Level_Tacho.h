@@ -25,8 +25,8 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Tile(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles);
 	HRESULT Ready_Layer_Bush(const _wstring& strLayerTag, int horizontalTiles, int verticalTiles);
-
-	HRESULT Ready_LandObjects();
+	HRESULT Ready_Layer_Npc(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Npc_Question(const _wstring& strLayerTag);
 
 	HRESULT ParseInitialize();
 

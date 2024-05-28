@@ -40,6 +40,7 @@ private:
 	void State_Bullet_C(_float fTimeDelta);
 	void State_Stan(_float fTimeDelta);
 	void State_Cast(_float fTimeDelta);
+	void State_Death(_float fTimeDelta);
 
 private:
 	void Move_Dir();
@@ -64,6 +65,7 @@ public:
 private:
 
 	void ScaleUp(_float fTimeDelta);
+	void ScaleDown(_float fTimeDelta);
 	void Warf(_int fRangePosX , _int fRangePosZ, _int fMaxPosX, _int fMaxPosZ);
 	void Warf(_int iPosX, _int iPosZ, _float fDistance);
 	void Destory();
@@ -85,6 +87,11 @@ private:
 
 	_float m_fAlpha = { 255.f };
 	_bool m_bWarf = { false };
+
+	_float fScaleUp = { 1.f };
+	_float fScaleDown = { 0.f };
+	_bool bScaleUp = { false };
+	_bool bScaleDown = { false };
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

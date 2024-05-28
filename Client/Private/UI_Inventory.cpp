@@ -223,24 +223,6 @@ void CInventory::Update(_float fTimeDelta)
 	}
 
 
-	//// 키 입력 처리
-	//if (GetAsyncKeyState(VK_UP) & 0x8000)
-	//{
-	//	m_TextPosY -= 10.f; // 위쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	//{
-	//	m_TextPosY += 10.f; // 아래쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	//{
-	//	m_TextPosX -= 10.f; // 왼쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	//{
-	//	m_TextPosX += 10.f; // 오른쪽으로 이동
-	//}
-
 	bool positionChanged = false;
 
 	if (m_pKeyCom->Key_Down(VK_UP))

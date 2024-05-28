@@ -11,6 +11,8 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "Npc.h"
+#include "UI_Npc_Question_Effect.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -27,6 +29,12 @@ HRESULT CLevel_Tacho::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Npc(TEXT("Layer_Npc"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Npc_Question(TEXT("Layer_Npc_Question"))))
 		return E_FAIL;
 
 	__super::Initialize();
@@ -125,18 +133,27 @@ HRESULT CLevel_Tacho::Ready_Layer_Bush(const _wstring& strLayerTag, int horizont
 	return S_OK;
 }
 
-
-HRESULT CLevel_Tacho::Ready_LandObjects()
+HRESULT CLevel_Tacho::Ready_Layer_Npc(const _wstring& strLayerTag)
 {
-	/*CLandObject::LANDOBJECT_DESC	Desc{};
+	CNpc::NPCDESC desc{};
+	desc.npcName = TEXT("Tacho_NPC");
+	desc.position = _float3(39.872f, 0.7f, 30.239f);
+	desc.scale = _float3(1.5f, 1.5f, 1.f);
 
-	Desc.m_pTerrainBuffer = dynamic_cast<CVIBuffer_Terrain*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_VIBuffer"), 0));
-	Desc.m_pTerrainTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_BackGround"), TEXT("Com_Transform"), 0));
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"), Desc)))
-		return E_FAIL;*/
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Npc"), strLayerTag, &desc)))
+		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_Tacho::Ready_Layer_Npc_Question(const _wstring& strLayerTag)
+{
+	CUI_Npc_Question_Effect::EFFECT_DESC desc{};
+	desc.position = _float3(39.872f, 2.f, 30.239f);
+	desc.scale = _float3(1.f, 1.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_UI_Npc_Question_Effect"), strLayerTag, &desc)))
+		return E_FAIL;
 }
 
 HRESULT CLevel_Tacho::Ready_Layer_Player(const _wstring& strLayerTag)

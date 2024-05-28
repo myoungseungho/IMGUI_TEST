@@ -325,6 +325,12 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand">
       <UniqueIdentifier>{04318e6c-45c2-483c-a55f-9a9c35dba7d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\NPC">
+      <UniqueIdentifier>{4a860616-f144-466b-99a3-e77567c03089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\NpcTalk">
+      <UniqueIdentifier>{a138b777-b9d2-4ba5-9812-d3059c26b206}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb">
       <UniqueIdentifier>{5a58124c-8f6f-4f8f-8a68-3d7e7d8b38af}</UniqueIdentifier>
     </Filter>
@@ -615,9 +621,6 @@
     <ClInclude Include="..\Public\Level_UI.h">
       <Filter>01.Levels\7. UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UI_FadeInOut.h">
-      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UI_Inventory_BackGround.h">
       <Filter>02.GameObjects\UI\EscUI\Inventory</Filter>
     </ClInclude>
@@ -714,6 +717,18 @@
     <ClInclude Include="..\Public\Rotation_Stand.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Rotation_Stand</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Npc.h">
+      <Filter>02.GameObjects\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Npc_Talk.h">
+      <Filter>02.GameObjects\UI\NpcTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_Npc_Question_Effect.h">
+      <Filter>02.GameObjects\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI_FadeInOut.h">
+      <Filter>02.GameObjects\UI\Basic_Effect</Filter>
+  </ClInclude>
     <ClInclude Include="..\Public\Laser.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
     </ClInclude>
@@ -1087,6 +1102,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Small_Orb.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Small_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Npc.cpp">
+      <Filter>02.GameObjects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Npc_Talk.cpp">
+      <Filter>02.GameObjects\UI\NpcTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI_Npc_Question_Effect.cpp">
+      <Filter>02.GameObjects\NPC</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Laser.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>

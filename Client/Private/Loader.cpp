@@ -68,6 +68,8 @@
 #include "Rotation_Stand.h"
 #include "Small_Orb.h"
 #include "Rotation_Orb.h"
+#include "Npc.h"
+#include "UI_Npc_Talk.h"
 #include "Laser.h"
 #include "Un_Laser.h"
 #include "Un_Small_Orb.h"
@@ -194,7 +196,12 @@ HRESULT CLoader::Loading_For_Tacho()
 
 	/* 애니메이션 텍스쳐를 로드한다*/
 
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_TutorialVillager_Pig_Idle"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/NPC/0_Tutorial/Pig/Sprite_TutorialVillager_Pig_%d.png"), 6))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_TutorialVillager_Pig_Bye"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/NPC/0_Tutorial/Pig/Sprite_TutorialVillager_Pig_React_%d.png"), 7))))
+		return E_FAIL;
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
@@ -257,6 +264,10 @@ HRESULT CLoader::Loading_For_Tacho()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Outside_TelephonePole"),
 		COutside_TelePhonePole::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc"),
+		CNpc::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 
