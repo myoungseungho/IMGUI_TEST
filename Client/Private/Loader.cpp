@@ -73,6 +73,10 @@
 #include "Effect_Bug_Dash.h"
 #include "Effect_Bug_Line.h"
 #include "Effect_Bug_Down.h"
+#include "Effect_Mon_Destroy.h"
+#include "Effect_Shield.h"
+#include "Effect_Shadow.h"
+#include "Effect_Stun.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -503,6 +507,10 @@ HRESULT CLoader::Loading_For_Snow()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Animation/Monster/Snow_Ball/Snow_Ball.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Shadow"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Shadow/Sprite_Shadow.png"), 1))))
+		return E_FAIL;
+
 	/* 애니메이션 텍스쳐를 로드한다*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Snow_Fire_Idle"),
@@ -779,6 +787,14 @@ HRESULT CLoader::Loading_For_Snow()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/Up/BearCannon_Attack_%d.png"), 5))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Stun"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Stun/Sprite_StunEffect_%d.png"), 16))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Mon_Destroy/Sprite_MonsterEffects_%d.png"), 5))))
+		return E_FAIL;
+
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
@@ -880,7 +896,18 @@ HRESULT CLoader::Loading_For_Snow()
 		CSkill_Cannon_Ball::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Shadow"),
+		CEffect_Shadow::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Mon_Destory"),
+		CEffect_Mon_Destroy::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stun"),
+		CEffect_Stun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
 	m_isFinished = true;
 }
 
@@ -1059,6 +1086,11 @@ HRESULT CLoader::Loading_For_Koofu()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Animation/Monster/Bubble/Bubble.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_Texture_Shield"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Shield/Sprite_ShieldBlurALot.png"), 1))))
+		return E_FAIL;
+
+
 	/* 애니메이션 텍스쳐를 로드한다*/
 
 
@@ -1159,6 +1191,10 @@ HRESULT CLoader::Loading_For_Koofu()
 	/* For.Prototype_GameObject_Koofu_Copy */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Koofu_Copy"),
 		CMon_Copy_Koofu::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Shield"),
+		CEffect_Shield::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

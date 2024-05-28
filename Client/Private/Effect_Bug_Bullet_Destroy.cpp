@@ -49,7 +49,7 @@ void CEffect_Bug_Bullet_Destroy::Update(_float fTimeDelta)
 
 void CEffect_Bug_Bullet_Destroy::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 	Destroy(fTimeDelta);
 }
 

@@ -346,6 +346,18 @@
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Down">
       <UniqueIdentifier>{f4249500-fc25-4e14-a2b4-0790776067a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Stun">
+      <UniqueIdentifier>{47bd976c-7152-4837-9471-26b0c3647abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Mon_Destroy">
+      <UniqueIdentifier>{6e76114e-b757-4f61-b8e1-a3812e8602e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Shadow">
+      <UniqueIdentifier>{8ca3a6d7-43fd-42c5-a3af-a4bb1f9a7c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Shiled">
+      <UniqueIdentifier>{64229d6c-4f43-4160-8c19-df71c658e821}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -744,6 +756,18 @@
     <ClInclude Include="..\public\Effect_Bug_Line.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effect_Mon_Destroy.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Mon_Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Shadow.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Shield.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shiled</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Stun.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1126,6 +1150,18 @@
     </ClCompile>
     <ClCompile Include="..\private\Effect_Bug_Line.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Mon_Destroy.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Mon_Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Shadow.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Shield.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shiled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Stun.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

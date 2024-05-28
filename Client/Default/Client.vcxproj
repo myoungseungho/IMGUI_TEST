@@ -168,6 +168,10 @@
     <ClInclude Include="..\public\Effect_Bug_Line.h" />
     <ClInclude Include="..\public\Effect_Monster.h" />
     <ClInclude Include="..\public\Effect_Bug_Bullet_Destroy.h" />
+    <ClInclude Include="..\public\Effect_Mon_Destroy.h" />
+    <ClInclude Include="..\public\Effect_Shadow.h" />
+    <ClInclude Include="..\public\Effect_Shield.h" />
+    <ClInclude Include="..\public\Effect_Stun.h" />
     <ClInclude Include="..\public\Mon_Bear_Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\End_Orb.h" />
@@ -301,6 +305,10 @@
     <ClCompile Include="..\private\Effect_Bug_Line.cpp" />
     <ClCompile Include="..\private\Effect_Monster.cpp" />
     <ClCompile Include="..\private\Effect_Bug_Bullet_Destroy.cpp" />
+    <ClCompile Include="..\private\Effect_Mon_Destroy.cpp" />
+    <ClCompile Include="..\private\Effect_Shadow.cpp" />
+    <ClCompile Include="..\private\Effect_Shield.cpp" />
+    <ClCompile Include="..\private\Effect_Stun.cpp" />
     <ClCompile Include="..\private\Mon_Bear_Cannon.cpp" />
     <ClCompile Include="..\Private\End_Orb.cpp" />
     <ClCompile Include="..\Private\End_Stand.cpp" />

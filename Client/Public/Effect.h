@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObject.h"
+#include "BlendObject.h"
 
 BEGIN(Client)
 
-class CEffect abstract :public CGameObject
+class CEffect abstract :public CBlendObject
 {
 protected:
 	CEffect(LPDIRECT3DDEVICE9 pGraphic_Device);

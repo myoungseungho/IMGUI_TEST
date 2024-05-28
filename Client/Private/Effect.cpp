@@ -3,12 +3,12 @@
 #include "Effect.h"
 
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphic_Device)
-	:CGameObject{ pGraphic_Device }
+	:CBlendObject{ pGraphic_Device }
 {
 }
 
 CEffect::CEffect(const CEffect& Prototype)
-	:CGameObject{ Prototype }
+	:CBlendObject{ Prototype }
 {
 }
 
