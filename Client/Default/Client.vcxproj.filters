@@ -304,9 +304,6 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb">
       <UniqueIdentifier>{e7c70de5-6c90-4465-ba64-920de112a6d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Light">
-      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb">
       <UniqueIdentifier>{ed1cddb5-29b0-49be-9a2a-59900263c5ad}</UniqueIdentifier>
     </Filter>
@@ -333,6 +330,15 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\NpcTalk">
       <UniqueIdentifier>{a138b777-b9d2-4ba5-9812-d3059c26b206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb">
+      <UniqueIdentifier>{5a58124c-8f6f-4f8f-8a68-3d7e7d8b38af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser">
+      <UniqueIdentifier>{023befcc-a690-42dc-b43e-fbd17cc4458c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser">
+      <UniqueIdentifier>{443bcc0d-1ab2-49af-977c-54b24b2598a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -722,6 +728,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_FadeInOut.h">
       <Filter>02.GameObjects\UI\Basic_Effect</Filter>
+  </ClInclude>
+    <ClInclude Include="..\Public\Laser.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Un_Small_Orb.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Un_Laser.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1096,6 +1111,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_Npc_Question_Effect.cpp">
       <Filter>02.GameObjects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Laser.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\Rotation_Orb\Laser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Un_Small_Orb.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Small_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Un_Laser.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\UnRotation_Orb\Un_Laser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

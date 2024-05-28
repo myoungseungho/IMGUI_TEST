@@ -20,6 +20,8 @@ protected:
 protected:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+	HRESULT Begin_Blend_RenderState();
+	HRESULT End_Blend_RenderState();
 
 public:
 	virtual HRESULT Initialize_Prototype();

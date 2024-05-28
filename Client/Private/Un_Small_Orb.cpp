@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "..\Public\Small_Orb.h"
+#include "..\Public\Un_Small_Orb.h"
 
 #include "GameInstance.h"
 #include <Player.h>
-#include <Laser.h>
+#include "Un_Laser.h"
+#include "Laser.h"
 
 
-
-CSmall_Orb::CSmall_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUn_Small_Orb::CUn_Small_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CSmall_Orb::CSmall_Orb(const CSmall_Orb& Prototype)
+CUn_Small_Orb::CUn_Small_Orb(const CUn_Small_Orb& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CSmall_Orb::Initialize_Prototype()
+HRESULT CUn_Small_Orb::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -25,9 +25,9 @@ HRESULT CSmall_Orb::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CSmall_Orb::Initialize(void* pArg)
+HRESULT CUn_Small_Orb::Initialize(void* pArg)
 {
-	SMALL_ORB_DESC* pDesc = static_cast<SMALL_ORB_DESC*>(pArg);
+	UN_SMALL_ORB_DESC* pDesc = static_cast<UN_SMALL_ORB_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
@@ -37,13 +37,6 @@ HRESULT CSmall_Orb::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	//if (m_bIsPasingObject)
-	//{
-	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	//}
 
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
@@ -67,18 +60,18 @@ HRESULT CSmall_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	m_ePreDirection = DIR_LEFT;
-	m_eDirection = DIR_LEFT;
-
+	m_ePreDirection = DIR_DOWN;
+	m_eDirection = DIR_DOWN;
+	m_eCollisionLazer = STATE_NOTCOL;
 
 	return S_OK;
 }
 
-void CSmall_Orb::Priority_Update(_float fTimeDelta)
+void CUn_Small_Orb::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CSmall_Orb::Update(_float fTimeDelta)
+void CUn_Small_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
@@ -108,24 +101,25 @@ void CSmall_Orb::Update(_float fTimeDelta)
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.5f, vTargetPos.y + 0.1f, vTargetPos.z - 0.02f));
 		}
 
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 0.1f))
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 0.1f) && m_eCollisionLazer == STATE_COL)
 		{
-			CLaser::LASER_DESC			LASERDESC{};
+			CUn_Laser::UN_LASER_DESC			UNLASERDESC{};
 
-			LASERDESC.pTargetTransform = m_pTransformCom;
-			LASERDESC.iLaserDir = m_eDirection;
+			UNLASERDESC.pTargetTransform = m_pTransformCom;
+			UNLASERDESC.iLaserDir = m_eDirection;
 
-			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Un_Laser"), TEXT("Layer_Un_Laser"), &UNLASERDESC);
+			m_eCollisionLazer = STATE_NOTCOL;
 		}
 
 }
 
-void CSmall_Orb::Late_Update(_float fTimeDelta)
+void CUn_Small_Orb::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CSmall_Orb::Render(_float fTimeDelta)
+HRESULT CUn_Small_Orb::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -144,7 +138,7 @@ HRESULT CSmall_Orb::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
@@ -187,19 +181,28 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			}
 		}
 	}
+
+	if (dynamic_cast<CLaser*>(otherObject))
+	{
+		m_eCollisionLazer = STATE_COL;
+	}
 }
 
-void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
+void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-
 }
 
-void CSmall_Orb::OnCollisionExit(class CCollider* other)
+void CUn_Small_Orb::OnCollisionExit(class CCollider* other)
 {
+	//CGameObject* otherObject = other->m_MineGameObject;
 
+	//	if (dynamic_cast<CLaser*>(otherObject))
+	//	{
+	//		m_eCollisionLazer = STATE_NOTCOL;
+	//	}
 }
 
-HRESULT CSmall_Orb::Ready_Components()
+HRESULT CUn_Small_Orb::Ready_Components()
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_SmallOrb"),
@@ -229,13 +232,13 @@ HRESULT CSmall_Orb::Ready_Components()
 	return S_OK;
 }
 
-CSmall_Orb* CSmall_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CUn_Small_Orb* CUn_Small_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSmall_Orb* pInstance = new CSmall_Orb(pGraphic_Device);
+	CUn_Small_Orb* pInstance = new CUn_Small_Orb(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CSmall_Orb"));
+		MSG_BOX(TEXT("Failed to Created : CUn_Small_Orb"));
 		Safe_Release(pInstance);
 	}
 
@@ -243,20 +246,20 @@ CSmall_Orb* CSmall_Orb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CSmall_Orb::Clone(void* pArg)
+CGameObject* CUn_Small_Orb::Clone(void* pArg)
 {
-	CSmall_Orb* pInstance = new CSmall_Orb(*this);
+	CUn_Small_Orb* pInstance = new CUn_Small_Orb(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CSmall_Orb"));
+		MSG_BOX(TEXT("Failed to Cloned : CUn_Small_Orb"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSmall_Orb::Free()
+void CUn_Small_Orb::Free()
 {
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTimerCom);

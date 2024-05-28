@@ -53,6 +53,7 @@ private:
 private:
 	HRESULT Ready_Components();
 
+	_bool IsHaveOrb = { false };
 public:
 	/* 원형객체를 생성한다. */
 	static CUnRotation_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

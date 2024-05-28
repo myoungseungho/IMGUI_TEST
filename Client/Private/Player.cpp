@@ -23,6 +23,8 @@
 #include "Npc.h"
 #include "UI_Npc_Talk.h"
 #include "UI_Npc_Question_Effect.h"
+#include <Laser.h>
+#include <Un_Laser.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -73,6 +75,7 @@ void CPlayer::Update(_float fTimeDelta)
 	Key_Input(fTimeDelta);
 	For_Damage_State(fTimeDelta);
 	For_Attack_State(fTimeDelta);
+	
 
 	if (m_ePlayerCurState == STATE_SKILL)
 	{
@@ -129,6 +132,12 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CBush*>(otherObject))
 		return;
 
+	if (dynamic_cast<CUn_Laser*>(otherObject))
+		return;
+
+	if (dynamic_cast<CLaser*>(otherObject))
+		return;
+
 	if (dynamic_cast<CSkill_Monster*>(otherObject))
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
@@ -146,7 +155,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonSkillTransform->Get_State(CTransform::STATE_POSITION);
 			vDir.y = 0.0f;
 
-			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.5f;
 
 
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
@@ -185,7 +194,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonTransform->Get_State(CTransform::STATE_POSITION);
 			vDir.y = 0.0f;
 
-			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.1f;
+			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.5f;
 
 
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
@@ -546,7 +555,7 @@ HRESULT CPlayer::Ready_Components()
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
+	ColliderDesc.width = (m_pTransformCom->Get_Scaled().x);
 	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
 	ColliderDesc.depth = 0.5f;
 	ColliderDesc.MineGameObject = this;
@@ -870,25 +879,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			else
 				m_bForTestDamaged = true;
 		}
-
-
-
-		else if (m_pKeyCom->Key_Down('A'))
-		{
-			m_bAttack = true;
-			m_ePlayerCurState = (STATE_ATTACK);
-			Player_Attack(fTimeDelta);
-		}
 	}
-	else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
-	{
-		m_ePlayerCurState = STATE_IDLE;
-	}
-
-	if (m_pKeyCom->Key_Pressing(VK_SHIFT))
-		m_pTransformCom->Set_Speed(5.f);
-	else
-		m_pTransformCom->Set_Speed(3.f);
 
 	if (m_pCurrentCollisionOk_Npc != nullptr)
 	{
@@ -912,13 +903,6 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 	m_pTransformCom->Set_Scaled(curScaled);
 
-	if (m_pCal_Timercom->Time_Limit(fTimeDelta, 1.f))
-	{
-		m_ePlayerCurState = STATE_IDLE;
-		m_pTransformCom->Set_Scaled(m_forScaled);
-	}
-	else
-		return;
 }
 
 HRESULT CPlayer::Player_Skill()

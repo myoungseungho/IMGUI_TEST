@@ -31,6 +31,24 @@ HRESULT CEnviormentObject::End_RenderState()
 	return S_OK;
 }
 
+HRESULT CEnviormentObject::Begin_Blend_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+	return S_OK;
+}
+
+HRESULT CEnviormentObject::End_Blend_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+
+
+	return S_OK;
+}
+
 HRESULT CEnviormentObject::Initialize_Prototype()
 {
 	return S_OK;

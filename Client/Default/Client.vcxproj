@@ -162,6 +162,7 @@
     <ClInclude Include="..\Public\Block.h" />
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\Public\Laser.h" />
     <ClInclude Include="..\public\Mon_Bear_Cannon.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\End_Orb.h" />
@@ -282,6 +283,8 @@
     <ClInclude Include="..\Public\UI_Shop_PriceTag.h" />
     <ClInclude Include="..\Public\UnRotation_Orb.h" />
     <ClInclude Include="..\Public\UnRotation_Stand.h" />
+    <ClInclude Include="..\Public\Un_Laser.h" />
+    <ClInclude Include="..\Public\Un_Small_Orb.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -292,6 +295,7 @@
     <ClCompile Include="..\Private\Block.cpp" />
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\Private\Laser.cpp" />
     <ClCompile Include="..\private\Mon_Bear_Cannon.cpp" />
     <ClCompile Include="..\Private\End_Orb.cpp" />
     <ClCompile Include="..\Private\End_Stand.cpp" />
@@ -410,6 +414,8 @@
     <ClCompile Include="..\Private\UI_Shop_PriceTag.cpp" />
     <ClCompile Include="..\Private\UnRotation_Orb.cpp" />
     <ClCompile Include="..\Private\UnRotation_Stand.cpp" />
+    <ClCompile Include="..\Private\Un_Laser.cpp" />
+    <ClCompile Include="..\Private\Un_Small_Orb.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

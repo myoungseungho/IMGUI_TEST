@@ -15,13 +15,9 @@ _uint CBase::Release()
 	{
 		Free();		
 
-		int a = 10;
-
 		m_Died = true;
 
-		/* 삭제한다. */
 		delete this;
-
 
 		return 0;
 	}

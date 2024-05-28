@@ -14,18 +14,20 @@ END
 
 BEGIN(Client)
 
-class CEnd_Orb final : public CEnviormentObject
+class CLaser final : public CEnviormentObject
 {	
 public:
 	typedef struct
 	{
 		CTransform* pTargetTransform = { nullptr };
-	}END_ORB_DESC;
-	enum CLEAR {STATE_UNCLEAR, STATE_CLEAR, STATE_END};
+		_uint			iLaserDir = { 0 };
+	}LASER_DESC;
+	
+	enum DIRECTION { DIR_DOWN, DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_END };
 private:
-	CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CEnd_Orb(const CEnd_Orb& Prototype); /* 사본생성 시 */
-	virtual ~CEnd_Orb() = default;
+	CLaser(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CLaser(const CLaser& Prototype); /* 사본생성 시 */
+	virtual ~CLaser() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -40,23 +42,23 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
-public:
-
-
 private:	
-	CTexture*				m_pTextureCom = { nullptr };
+	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CCalc_Timer*			m_pTimerCom = { nullptr };
-	CCollider*				m_pColliderCom = { nullptr };
+	CCollider* m_pColliderCom = { nullptr };
+	CCalc_Timer* m_pTimerCom = { nullptr };
 
-	CTransform*			m_pTargetTransform = { nullptr };
+	CTransform* m_pTargetTransform = { nullptr };
+	DIRECTION		m_eDirection = { DIR_END };
 private:
 	HRESULT Ready_Components();
-	CLEAR		m_eClearState = { STATE_END };
+
+	_bool bIsCollision = { false };
+
 public:
 	/* 원형객체를 생성한다. */
-	static CEnd_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CLaser* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;
