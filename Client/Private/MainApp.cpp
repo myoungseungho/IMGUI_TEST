@@ -57,7 +57,7 @@
 #include "TravelNpc.h"
 #include <codecvt>
 
-bool bShowImGuiWindows = true;  // IMGUI 창 표시 여부를 제어하는 전역 변수
+bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
@@ -93,7 +93,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_TACHO)))
+	if (FAILED(Open_Level(LEVEL_JUNGLE)))
 		return E_FAIL;
 
 	return S_OK;

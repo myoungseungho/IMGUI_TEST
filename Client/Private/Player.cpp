@@ -60,23 +60,29 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_ePlayerCurState = STATE_IDLE;
+	LEVELID level = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+
 	m_ePlayerDir = DIR_DOWN;
 	m_bAttack = false;
 
-	LEVELID level = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 	switch (level)
 	{
 	case Client::LEVEL_TACHO:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(19.649f, 0.5f, 30.250f));
+		m_ePlayerCurState = STATE_IDLE;
 		break;
 	case Client::LEVEL_JUNGLE:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(19.649f, 5.5f, 30.250f));
+		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_SNOW:
+		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_KOOFU:
+		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_BUG:
+		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_EDIT:
 		break;
@@ -153,7 +159,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			// 초기 설정
 			m_fElapsedTime = 0.0f;
-			m_fDuration = 2.0f; // 예를 들어 2초 동안 이동
+			m_fDuration = 5.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 			m_fTargetY = m_fInitialY - 5.0f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
@@ -911,7 +917,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-	if (m_bCanDamaged && !m_bAttack && m_ePlayerCurState != STATE_BALLON_UP)
+	if (m_bCanDamaged && !m_bAttack && m_ePlayerCurState != STATE_BALLON_UP && m_ePlayerCurState != STATE_BALLON_DOWN)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
@@ -1103,7 +1109,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 
-		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_BALLON_UP)
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT/* && m_ePlayerCurState != STATE_BALLON_UP && m_ePlayerCurState != STATE_BALLON_DOWN*/)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
