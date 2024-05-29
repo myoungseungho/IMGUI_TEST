@@ -119,7 +119,15 @@ void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
 		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
-			Change_State(fTimeDelta);
+		{
+			CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+
+			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this) - 1;
+
+			pQuizManager->Change_Block_State(iMonkeyIndex);
+
+			bIsChangeOnce = false;
+		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 	}
@@ -165,13 +173,6 @@ HRESULT CMonkey_Statue::Ready_Components()
 
 
 	return S_OK;
-}
-
-void CMonkey_Statue::Change_State(_float fTimeDelta)
-{
-	CQuizMgr* pQuizMgr = CQuizMgr::Get_Instance();
-
-	pQuizMgr->Find_Monkey(this);
 }
 
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

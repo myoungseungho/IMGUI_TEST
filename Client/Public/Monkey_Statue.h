@@ -42,9 +42,6 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
-public:
-
-
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -55,12 +52,8 @@ private:
 private:
 	HRESULT Ready_Components();
 
-
+private:
 	_float3				PrePos = { 0.f, 0.f, 0.f };
-private:
-	void			Change_State(_float fTimeDelta);
-
-private:
 	_bool		bIsChangeOnce = { true };
 
 public:

@@ -224,7 +224,9 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		if (m_ePlayerCurState == STATE_WALK)
 		{
-			if (CMonkey_Statue::m_eMonkeyState != 1)
+			CBlock* pBlock = dynamic_cast<CBlock*>(otherObject);
+
+			if (pBlock->m_eAnimState != 3)
 			{
 				// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -458,7 +460,9 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		if (m_ePlayerCurState == STATE_WALK)
 		{
-			if (CMonkey_Statue::m_eMonkeyState != 1)
+			CBlock* pBlock = dynamic_cast<CBlock*>(otherObject);
+
+			if (pBlock->m_eAnimState != 3)
 			{
 				// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));

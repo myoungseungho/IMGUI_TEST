@@ -1,4 +1,11 @@
+#include "stdafx.h"
 #include "QuizMgr.h"
+
+CQuizMgr* CQuizMgr::p_Instance = { nullptr };
+
+CQuizMgr::CQuizMgr()
+{
+}
 
 CQuizMgr* CQuizMgr::Get_Instance()
 {
@@ -28,12 +35,33 @@ const vector<CBlock*>& CQuizMgr::Get_vecBlocks()
 	return m_vecBlocks;
 }
 
-CMonkey_Statue* CQuizMgr::Find_Monkey(CMonkey_Statue* pMonkey)
+_uint CQuizMgr::Find_Monkey_Index(CMonkey_Statue* pMonkey)
 {
+	auto it = find(m_vecMonkeyStatues.begin(), m_vecMonkeyStatues.end(), pMonkey);
 
+	if (it != m_vecMonkeyStatues.end())
+	{
+		return distance(m_vecMonkeyStatues.begin(), it);
+	}
+	else
+		return -1;
+}
+_uint CQuizMgr::Find_Block_Index(CBlock* pBlock)
+{
+	auto it = find(m_vecBlocks.begin(), m_vecBlocks.end(), pBlock);
+
+	if (it != m_vecBlocks.end())
+	{
+		return distance(m_vecBlocks.begin(), it);
+	}
+	else
+		return -1;
 }
 
-CBlock* CQuizMgr::Find_Block(CBlock* pBlock)
+void CQuizMgr::Change_Block_State(_uint iMonkeyIndex)
 {
-
+	if (iMonkeyIndex == 3)
+	{
+		m_vecBlocks[7]->Change_State();
+	}
 }

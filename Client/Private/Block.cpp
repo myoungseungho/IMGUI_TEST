@@ -74,11 +74,6 @@ void CBlock::Priority_Update(_float fTimeDelta)
 void CBlock::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
-	else
-		m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
-
 }
 
 void CBlock::Late_Update(_float fTimeDelta)
@@ -137,6 +132,14 @@ void CBlock::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CBlock::OnCollisionExit(class CCollider* other)
 {
+}
+
+void CBlock::Change_State()
+{
+	if (m_eAnimState == ANIM_BLOCK)
+		m_eAnimState = ANIM_UNBLOCK;
+	else
+		m_eAnimState = ANIM_BLOCK;
 }
 
 HRESULT CBlock::Ready_Components()

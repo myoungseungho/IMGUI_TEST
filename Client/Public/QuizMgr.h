@@ -6,7 +6,7 @@
 
 class CQuizMgr
 {
-private:
+public:
     CQuizMgr();
     virtual ~CQuizMgr() = default;
 
@@ -19,8 +19,10 @@ public:
     const vector<CMonkey_Statue*>& Get_vecMonkeyStatues();
     const vector<CBlock*>& Get_vecBlocks();
 
-    CMonkey_Statue* Find_Monkey(CMonkey_Statue* pMonkey);
-    CBlock* Find_Block(CBlock* pBlock);
+    _uint Find_Monkey_Index(CMonkey_Statue* pMonkey);
+    _uint Find_Block_Index(CBlock* pBlock);
+
+    void    Change_Block_State(_uint iMonkeyIndex);
 
 public:
     vector<CMonkey_Statue*> m_vecMonkeyStatues;

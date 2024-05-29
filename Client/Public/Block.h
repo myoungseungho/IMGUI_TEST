@@ -48,13 +48,15 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
 
+public:
+	void		Change_State();
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_Animation();
 	void AnimState(_float _fTimeDelta);
 
-private:
+public:
 	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
 
 public:
