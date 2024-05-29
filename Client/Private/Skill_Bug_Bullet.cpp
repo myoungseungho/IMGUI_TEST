@@ -4,6 +4,9 @@
 #include "Skill_Bug_Bullet.h"
 #include "GameInstance.h"
 #include "Player.h"
+
+#include "Effect_Monster.h"
+
 CSkill_Bug_Bullet::CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
 {
@@ -152,11 +155,19 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	CPlayer* player = static_cast<CPlayer*>(otherObject);
 
+	CEffect_Monster::EFFECT_MONSTER__DESC  Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
 	if (player != nullptr)
 	{
 		if (player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
 			m_bPlayerAttack = true;
+
 	}
+
+	if(player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Bullet_Destroy"), TEXT("Layer_Effect_Bullet_Destroy"), &Desc);
+
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(CCollider* other, _float fTimeDelta)

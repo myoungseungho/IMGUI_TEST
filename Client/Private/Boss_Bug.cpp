@@ -228,30 +228,36 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 {
 	m_fDashBulletTimer += fTimeDelta;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
 	{
 		Warf(30, 20, 50.f, m_fAngle);
+		m_fDashTimer = 0.f;
 	}
 	else
 	{
-		m_fDashEffectTimer += fTimeDelta;
-
-		CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
-		Desc.pTargetTransform = m_pTransformCom;
+		m_fDashTimer += fTimeDelta;
 
 		if (m_fDashEffectTimer >= 0.2f)
 		{
+			CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+			Desc.pTargetTransform = m_pTransformCom;
+
 			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Dash"), TEXT("Layer_Effect_Bug_Dash"), &Desc);
 			m_fDashEffectTimer = 0.f;
 		}
 
-		m_pTransformCom->Set_Speed(10.f);
-		m_pTransformCom->Go_VectorDown(fTimeDelta * 5.f);
-
-		if (m_fDashBulletTimer >= 1.f)
+		if (m_fDashTimer >= 1.5f)
 		{
-			Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
-			m_fDashBulletTimer = 0.f;
+			m_fDashEffectTimer += fTimeDelta;
+
+			m_pTransformCom->Set_Speed(10.f);
+			m_pTransformCom->Go_VectorDown(fTimeDelta * 5.f);
+
+			if (m_fDashBulletTimer >= 1.f)
+			{
+				Bullet_Create(48, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
+				m_fDashBulletTimer = 0.f;
+			}
 		}
 	}
 	
@@ -312,7 +318,6 @@ HRESULT CBoss_Bug::Turtle_Create()
 	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	const wstring A[3] = { L"Prototype_Component_Texture_Monster_Red_Turtle" , L"Prototype_Component_Texture_Monster_Green_Turtle" , L"Prototype_Component_Texture_Monster_Blue_Turtle" };
-
 
 	for (int i = 0; i < 3; ++i)
 	{
@@ -430,6 +435,13 @@ void CBoss_Bug::State_Ready(_float _fTimeDelta)
 void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
+	/*_bool Check = iter->Get_Dead();
+	int b = 10;*/
+	
+
+
+	if (!iter)
+		int a = 10;
 
 	if (!m_bStartDash)
 	{

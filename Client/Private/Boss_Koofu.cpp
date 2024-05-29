@@ -61,7 +61,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 
 void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
-	
+	if (!m_bHitCheck)
+		m_fAlpha = 255.f;
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)
@@ -73,7 +74,7 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 	Destory();
 }
 
@@ -375,6 +376,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 	{
 		Warf(39, 28, 60, 47);
 		m_bWarf = true;
+		m_bHitCheck = false;
 	}
 
 	m_eAnim_State = ANIM_STATE::CAST;
@@ -425,7 +427,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
-	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
@@ -433,7 +435,6 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 
 	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 	{
-		
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_bHitCheck = false;
 		m_bWarf = false;
@@ -647,24 +648,42 @@ HRESULT CBoss_Koofu::Ready_Animation()
 
 HRESULT CBoss_Koofu::Begin_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	// 컬링 모드 설정
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	// 텍스처 페이저 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(m_fAlpha), 255, 255, 255));
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-	
 	return S_OK;
 }
 
 HRESULT CBoss_Koofu::End_RenderState()
 {
+	// 알파 블렌딩 비활성화
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
+	// 원래의 컬링 모드로 복원
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-	return S_OK;
+	// 알파 블렌딩 비활성화 및 텍스처 스테이지 상태 복원
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+
+
+	return S_OK;			
 }
 
 void CBoss_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
@@ -674,6 +693,24 @@ void CBoss_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 void CBoss_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	CPlayer* player = static_cast<CPlayer*>(otherObject);
+
+	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+			m_fAlphaTimer = 0.f;
+	}
 }
 
 void CBoss_Koofu::OnCollisionExit(class CCollider* other)
@@ -682,6 +719,13 @@ void CBoss_Koofu::OnCollisionExit(class CCollider* other)
 
 	if (otherObject->m_Died)
 		return;
+	
+	CPlayer* player = static_cast<CPlayer*>(otherObject);
+
+	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	{
+		m_fAlpha = 255.f;
+	}
 }
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
@@ -718,16 +762,19 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 	{
 		fScaleDown += fTimeDelta;
 		_float3 vScale  = m_pTransformCom->Get_Scaled();
-		m_pTransformCom->Set_Scaled(_float3(vScale.x - fScaleDown, vScale.y - fScaleDown, 1.f));
+		m_pTransformCom->Set_Scaled(_float3(vScale.x - 0.25f, vScale.y - 0.25f, 1.f));
 
 		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		_float fCurrPosX = vCurrPos.x;
-		_float fCurrPosY = fScaleDown  - 0.5f;
+		_float fCurrPosY = fScaleDown  + 0.5f;
 		_float fCurrPosZ = vCurrPos.z;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));
 	}
+	m_pTransformCom->Gravity(0.1f, 0.5f, fTimeDelta);
+
+	m_fAlpha = 255.f;
 }
 
 void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)

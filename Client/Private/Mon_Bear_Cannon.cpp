@@ -423,6 +423,26 @@ HRESULT CMon_Bear_Cannon::Attack()
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CSkill_Player*>(otherObject))
+	{
+		//m_tMonsterDesc.iHp--;
+
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		CSkill_Player* pSkill = dynamic_cast<CSkill_Player*>(otherObject);
+		CTransform* pSkillTransform = dynamic_cast<CTransform*>(pSkill->Get_Component(TEXT("Com_Transform")));
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pSkillTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.0f;
+
+		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.5f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+		return;
+	}
 }
 
 void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)
