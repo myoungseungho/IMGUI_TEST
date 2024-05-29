@@ -37,6 +37,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+	void For_Skill_Damage(_float fTimeDelta);
+
 public:
 	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
@@ -50,6 +52,7 @@ private:
 	_uint		m_iSkillCount = { 0 };
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
+	_float		m_fSkillTime = { 0.f };
 protected:
 	virtual HRESULT Ready_Components();
 
@@ -64,7 +67,8 @@ private:
 
 
 private:
-	_bool		m_bSkillAttack = { false};
+	_uint		m_Check = { 0 };
+	_bool		m_bSkillAttack = { true};
 public:
 	static CSkill_Player* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

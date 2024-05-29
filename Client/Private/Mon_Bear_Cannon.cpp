@@ -423,12 +423,6 @@ HRESULT CMon_Bear_Cannon::Attack()
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CSkill_Player*>(otherObject))
-	{
-		m_tMonsterDesc.iHp--;
-	}
 }
 
 void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)

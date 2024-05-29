@@ -166,7 +166,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CLaser*>(otherObject))
 		return;
 
-	if (dynamic_cast<CSkill_Monster*>(otherObject))
+	if (dynamic_cast<CSkill_Monster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -195,15 +195,6 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			m_bCanDamaged = false;
 
 			return;
-		}
-	}
-
-	if (dynamic_cast<CMonster*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
-		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
 		}
 	}
 
@@ -370,12 +361,14 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
+		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+
 		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
 		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
+			m_bAttack = false;
+			return;
 		}
-		return;
 	}
 
 	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
@@ -401,9 +394,6 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		return;
 	}
-
-	if (dynamic_cast<CSkill_Monster*>(otherObject))
-		return;
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
@@ -1253,6 +1243,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 1.0f, _fTimeDelta, false);
 			break;
 		}
+		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;

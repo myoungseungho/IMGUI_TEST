@@ -143,6 +143,7 @@ public:
 
 public:
 	_bool		m_bHaveSkill = { false };
+	
 
 private:
 	_uint m_iCurrentSkillCount = { 0 };
