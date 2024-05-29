@@ -1,24 +1,3 @@
-LayerName: Layer_Block
-PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 6
-Position: 39.418 0.506 25.686
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Block
-PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 6
-Position: 40.418 0.506 25.686
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Block
-PrototypeTag: Prototype_GameObject_Block
-LevelIndex: 6
-Position: 38.418 0.506 25.686
-Scale: 1 1 1
-IsParsing: 1
-
 LayerName: Layer_Moon_BossFrame
 PrototypeTag: Prototype_GameObject_Moon_BossFrame
 LevelIndex: 6

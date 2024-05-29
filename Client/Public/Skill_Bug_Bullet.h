@@ -41,7 +41,7 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 private:
-	HRESULT Destroy(_float fTimeDelta);
+	void Destroy(_float fTimeDelta);
 private:
 	void Bullet_State();
 

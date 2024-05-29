@@ -159,11 +159,10 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 	}
 }
 
-void CSkill_Bug_Bullet::OnCollisionStay(class CCollider* other)
+void CSkill_Bug_Bullet::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
-
-
 }
+
 
 void CSkill_Bug_Bullet::OnCollisionExit(class CCollider* other)
 {
