@@ -313,7 +313,6 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 	const wstring A[3] = { L"Prototype_Component_Texture_Monster_Red_Turtle" , L"Prototype_Component_Texture_Monster_Green_Turtle" , L"Prototype_Component_Texture_Monster_Blue_Turtle" };
 
-
 	for (int i = 0; i < 3; ++i)
 	{
 		Desc.ColorTexTag = A[i];
@@ -430,6 +429,13 @@ void CBoss_Bug::State_Ready(_float _fTimeDelta)
 void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
+	/*_bool Check = iter->Get_Dead();
+	int b = 10;*/
+	
+
+
+	if (!iter)
+		int a = 10;
 
 	if (!m_bStartDash)
 	{

@@ -48,12 +48,3 @@ unsigned int  ClassName::Destroy_Instance()				\
 
 #define	VK_MAX	0xff
 
-#define   WHITE (D3DCOLOR_XRGB(255, 255, 255));
-#define   BLACK (D3DCOLOR_XRGB(0, 0, 0));
-#define     RED (D3DCOLOR_XRGB(255, 0, 0));
-#define   GREEN (D3DCOLOR_XRGB(0, 255, 0));
-#define    BLUE (D3DCOLOR_XRGB(0, 0, 255));
-#define  YELLOW (D3DCOLOR_XRGB(255, 255, 0));
-#define    CYAN (D3DCOLOR_XRGB(0, 255, 255));
-#define MAGENTA (D3DCOLOR_XRGB(255, 0, 255));
-

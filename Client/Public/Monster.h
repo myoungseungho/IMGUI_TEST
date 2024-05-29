@@ -70,6 +70,14 @@ public:
 		m_bHitCheck = true;
 	};
 
+	virtual void Set_Dead()
+	{
+		if (m_tMonsterDesc.iHp <= 0)
+			m_bDead = true;
+	};
+
+	virtual _bool Get_Dead() { return m_bDead; }
+
 public:
 	MON_STATE m_eMon_State = {};
 	MON_DIR	  m_eMon_Dir = {};
@@ -77,6 +85,9 @@ public:
 public:
 	_bool m_bHitCheck = { false };
 	_float m_fDirAngle = { 0.f };
+
+protected:
+	_bool m_bDead = false;
 
 public:
 	MONSTER_DESC m_tMonsterDesc;

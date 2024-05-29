@@ -15,6 +15,13 @@ public:
 		
 	}MON_TURTLE_DESC;
 
+
+	virtual void Set_Dead()
+	{
+		if (m_tMonsterDesc.iHp <= 0)
+			m_bDead = true;
+	};
+
 private:
 	CMon_Turtle(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CMon_Turtle(const CMon_Turtle& Prototype);
