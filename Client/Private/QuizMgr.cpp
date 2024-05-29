@@ -1,10 +1,25 @@
 #include "stdafx.h"
 #include "QuizMgr.h"
 
+
 CQuizMgr* CQuizMgr::p_Instance = { nullptr };
 
 CQuizMgr::CQuizMgr()
 {
+}
+
+CQuizMgr::~CQuizMgr()
+{
+	Free();
+}
+
+void CQuizMgr::Destroy_Instance()
+{
+	if (p_Instance)
+	{
+		delete p_Instance;
+		p_Instance = nullptr;
+	}
 }
 
 CQuizMgr* CQuizMgr::Get_Instance()
@@ -64,4 +79,21 @@ void CQuizMgr::Change_Block_State(_uint iMonkeyIndex)
 	{
 		m_vecBlocks[7]->Change_State();
 	}
+}
+
+void CQuizMgr::Free()
+{
+	for (auto block : m_vecBlocks)
+	{
+		Safe_Release(block);
+	}
+	m_vecBlocks.clear();
+	m_vecBlocks.shrink_to_fit();
+
+	for (auto monkey : m_vecMonkeyStatues)
+	{
+		Safe_Release(monkey);
+	}
+	m_vecMonkeyStatues.clear();
+	m_vecMonkeyStatues.shrink_to_fit();
 }

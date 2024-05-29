@@ -27,7 +27,7 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
-	CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -62,7 +62,7 @@ HRESULT CBlock::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	pQuizManager->Add_Block(this);
+	CQuizMgr::Get_Instance()->Add_Block(this);
 
 	return S_OK;
 }
@@ -212,13 +212,15 @@ CGameObject* CBlock::Clone(void* pArg)
 
 void CBlock::Free()
 {
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pAnimCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
+		Safe_Release(m_pTransformCom);
+		Safe_Release(m_pVIBufferCom);
+		Safe_Release(m_pAnimCom);
+		Safe_Release(m_pTextureCom);
+		Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
+		m_pGameInstance->Release_Collider(m_pColliderCom);
 
-	__super::Free();
+		__super::Free();
+
+		
 }

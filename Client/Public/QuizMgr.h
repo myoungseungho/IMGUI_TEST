@@ -4,11 +4,14 @@
 #include "Monkey_Statue.h"
 #include "Block.h"
 
+
+
 class CQuizMgr
 {
 public:
     CQuizMgr();
-    virtual ~CQuizMgr() = default;
+    virtual ~CQuizMgr();
+    void Destroy_Instance();
 
 public:
     static CQuizMgr* Get_Instance();
@@ -29,6 +32,7 @@ public:
     vector<CBlock*> m_vecBlocks;
 
 public:
+    void Free();
     static CQuizMgr* p_Instance;
 };
 

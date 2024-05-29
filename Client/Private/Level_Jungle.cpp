@@ -14,6 +14,7 @@
 #include <Rotation_Orb.h>
 #include <Small_Orb.h>
 #include <UnRotation_Orb.h>
+#include <QuizMgr.h>
 
 CLevel_Jungle::CLevel_Jungle(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
@@ -170,5 +171,7 @@ CLevel_Jungle* CLevel_Jungle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Jungle::Free()
 {
+	CQuizMgr::Get_Instance()->Destroy_Instance();
+
 	__super::Free();
 }

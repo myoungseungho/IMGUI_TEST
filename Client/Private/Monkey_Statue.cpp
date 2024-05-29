@@ -27,7 +27,6 @@ HRESULT CMonkey_Statue::Initialize_Prototype()
 
 HRESULT CMonkey_Statue::Initialize(void* pArg)
 {
-	CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -62,7 +61,7 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 
 	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	pQuizManager->Add_MonkeyStatue(this);
+	CQuizMgr::Get_Instance()->Add_MonkeyStatue(this);
 
 	return S_OK;
 }
@@ -204,13 +203,14 @@ CGameObject* CMonkey_Statue::Clone(void* pArg)
 
 void CMonkey_Statue::Free()
 {
-	Safe_Release(m_pTimerCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
+		Safe_Release(m_pTimerCom);
+		Safe_Release(m_pTransformCom);
+		Safe_Release(m_pVIBufferCom);
+		Safe_Release(m_pTextureCom);
+		Safe_Release(m_pColliderCom);
 
-	__super::Free();
+		m_pGameInstance->Release_Collider(m_pColliderCom);
+
+		__super::Free();
 }
