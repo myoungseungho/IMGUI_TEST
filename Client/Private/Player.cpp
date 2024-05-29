@@ -60,6 +60,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_ePlayerCurState = STATE_IDLE;
 	m_ePlayerDir = DIR_DOWN;
+	m_bAttack = false;
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
@@ -72,11 +73,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_bAttack = false;
+
 
 	Key_Input(fTimeDelta);
-	For_Damage_State(fTimeDelta);
-	For_Attack_State(fTimeDelta);
+
+	if (m_ePlayerCurState == STATE_HIT)
+	{
+		For_Damage_State(fTimeDelta);
+	}
+	else if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		For_Attack_State(fTimeDelta);
+	}
+	
 	
 
 	if (m_ePlayerCurState == STATE_SKILL)
@@ -217,6 +226,69 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
+	if (dynamic_cast<CBlock*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CMonkey_Statue::m_eMonkeyState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
+
+	if (dynamic_cast<CDoor*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CEnd_Orb::m_eClearState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
 
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
 	if (npc != nullptr)
@@ -687,7 +759,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-	if (m_bCanDamaged)
+	if (m_bCanDamaged && !m_bAttack)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
@@ -1151,6 +1223,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 			m_pTransformCom->Set_Scaled(m_forScaled);
 			m_ePlayerCurState = STATE_IDLE;
 			m_fAttackTime = 0.0f;
+			m_bAttack = false;
 		}
 	}
 	else
