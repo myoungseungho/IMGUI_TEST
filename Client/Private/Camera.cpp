@@ -56,14 +56,16 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	if (m_bIsMovingToTarget || m_bIsReturning)
-	{
-		UpdateCameraPosition(fTimeDelta);
-	}
-	else
-	{
-		UpdateCameraPositionToTarget();
-	}
+	Key_Input(fTimeDelta);
+
+	//if (m_bIsMovingToTarget || m_bIsReturning)
+	//{
+	//	UpdateCameraPosition(fTimeDelta);
+	//}
+	//else
+	//{
+	//	UpdateCameraPositionToTarget();
+	//}
 
 	Bind_PipeLines();
 }
@@ -304,6 +306,12 @@ HRESULT CCamera::Ready_Components()
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
+
+	/* For.Com_KeyState */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
+		TEXT("Com_KeyState"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
