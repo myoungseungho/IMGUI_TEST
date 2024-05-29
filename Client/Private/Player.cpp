@@ -104,7 +104,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_SKILL)
+	else if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -798,6 +798,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
+			if (m_bHaveSkill)
 			m_ePlayerCurState = STATE_SKILL;
 
 			if (m_pKeyCom->Key_Pressing(VK_UP))

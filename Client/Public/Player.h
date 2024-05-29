@@ -136,6 +136,10 @@ private:
 	_float3		m_SkillDir = { 0.f, 0.f, 0.f };
 
 	_float		m_bAttack = { false };
+
+public:
+	_bool		m_bHaveSkill = { false };
+
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:

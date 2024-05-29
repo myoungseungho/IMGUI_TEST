@@ -59,7 +59,7 @@ HRESULT CEnd_Orb::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	m_eClearState = STATE_UNCLEAR;
+	m_eClearState = STATE_CLEAR;
 
 	return S_OK;
 }

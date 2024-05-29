@@ -93,10 +93,12 @@ HRESULT CBox::Render(_float fTimeDelta)
 void CBox::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {		
 	CGameObject* otherObject = other->m_MineGameObject;
+	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-	if (dynamic_cast<CPlayer*>(otherObject))
+	if (pCopyPlayer)
 	{
 		m_eAnimState = ANIM_MOVE;
+		pCopyPlayer->m_bHaveSkill = true;
 	}
 }
 
