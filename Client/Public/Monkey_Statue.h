@@ -60,6 +60,8 @@ private:
 private:
 	void			Change_State(_float fTimeDelta);
 
+private:
+	_bool		bIsChangeOnce = { true };
 
 public:
 	/* 원형객체를 생성한다. */

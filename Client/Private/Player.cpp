@@ -74,7 +74,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 
-
 	Key_Input(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_HIT)
@@ -85,10 +84,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	
-	
-
-	if (m_ePlayerCurState == STATE_SKILL)
+	else if (m_ePlayerCurState == STATE_SKILL)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -109,8 +105,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	//Change_State(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -754,6 +748,8 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	m_ePlayerPreState = m_ePlayerCurState;
+
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);

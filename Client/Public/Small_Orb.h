@@ -60,6 +60,7 @@ public:
 private:
 	SMALLORB_DIR			m_eDirection = { DIR_END };
 	SMALLORB_DIR			m_ePreDirection = { DIR_END };
+	_bool		bIsChangeOnce = { true };
 public:
 	/* 원형객체를 생성한다. */
 	static CSmall_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

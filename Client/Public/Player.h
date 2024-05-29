@@ -43,10 +43,12 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-	PLAYER_STATE		Get_Player_State() {
+	PLAYER_STATE		Get_Player_CurState() {
 		return m_ePlayerCurState;
 	}
-
+	PLAYER_STATE		Get_Player_PreState() {
+		return m_ePlayerPreState;
+	}
 	_uint		Get_Player_Hp()
 	{
 		return m_iPlayerHp;

@@ -104,27 +104,34 @@ HRESULT CMonkey_Statue::Render(_float fTimeDelta)
 
 void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+
+}
+
+void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2)
+		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
 			Change_State(fTimeDelta);
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 	}
 }
 
-void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-
-}
-
 void CMonkey_Statue::OnCollisionExit(class CCollider* other)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
+
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		bIsChangeOnce = true;
+	}
 }
 
 HRESULT CMonkey_Statue::Ready_Components()
@@ -160,9 +167,15 @@ HRESULT CMonkey_Statue::Ready_Components()
 void CMonkey_Statue::Change_State(_float fTimeDelta)
 {
 	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
+	{
 		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
+		bIsChangeOnce = false;
+	}
 	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
+	{
 		CMonkey_Statue::m_eMonkeyState = STATE_UP;
+		bIsChangeOnce = false;
+	}
 }
 
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -122,7 +122,7 @@ void CRotation_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2);
+		if (pCopyPlayer->Get_Player_CurState() == 2);
 
 	}
 }

@@ -154,7 +154,7 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	if (player != nullptr)
 	{
-		if (player->Get_Player_State() != CPlayer::STATE_ATTACK)
+		if (player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
 			m_bPlayerAttack = true;
 	}
 }
