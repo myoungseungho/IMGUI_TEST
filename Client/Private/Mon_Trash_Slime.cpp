@@ -309,7 +309,7 @@ void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	CPlayer* player = static_cast<CPlayer*>(otherObject);
 
-	if (player->Get_Player_State() == CPlayer::STATE_ATTACK)
+	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
