@@ -6,6 +6,7 @@
 #include <RockBreakable.h>
 #include "UnRotation_Orb.h"
 #include <Un_Small_Orb.h>
+#include <Push_Stone.h>
 
 class CSmall_Orb;
 
@@ -141,7 +142,12 @@ void CLaser::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		
 		return;
 	}
+	else if (dynamic_cast<CPush_Stone*>(otherObject))
+	{
+		m_Died = true;
 
+		return;
+	}
 }
 
 void CLaser::OnCollisionStay(CCollider* other, _float fTimeDelta)
