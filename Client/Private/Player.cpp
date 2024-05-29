@@ -21,6 +21,7 @@
 #include <Monkey_Statue.h>
 #include <Block.h>
 #include "Npc.h"
+#include "TravelNpc.h"
 #include "UI_Npc_Talk.h"
 #include "UI_Npc_Question_Effect.h"
 #include <Laser.h>
@@ -93,7 +94,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-
 	Key_Input(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_HIT)
@@ -117,6 +117,60 @@ void CPlayer::Update(_float fTimeDelta)
 				m_iCurrentSkillCount = 0;
 			}
 		}
+	}
+	else if (m_ePlayerCurState == STATE_BALLON_UP)
+	{
+		if (!m_bIsMovingUp)
+		{
+			// 초기 설정
+			m_fElapsedTime = 0.0f;
+			m_fDuration = 5.0f; // 예를 들어 2초 동안 이동
+			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
+			m_fTargetY = m_fInitialY + 10.0f; // y값을 5만큼 증가
+			m_bIsMovingUp = true;
+		}
+
+		// 시간 경과
+		m_fElapsedTime += fTimeDelta;
+		float t = m_fElapsedTime / m_fDuration;
+		if (t >= 1.0f)
+		{
+			t = 1.0f;
+			m_bIsMovingUp = false;
+			m_ePlayerCurState = STATE_IDLE; // 상태 변경
+		}
+
+		// 위치 보간
+		_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		position.y = Lerp(m_fInitialY, m_fTargetY, t);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
+	}
+	else if (m_ePlayerCurState == STATE_BALLON_DOWN)
+	{
+		if (!m_bIsMovingDown)
+		{
+			// 초기 설정
+			m_fElapsedTime = 0.0f;
+			m_fDuration = 2.0f; // 예를 들어 2초 동안 이동
+			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
+			m_fTargetY = m_fInitialY - 5.0f; // y값을 5만큼 감소
+			m_bIsMovingDown = true;
+		}
+
+		// 시간 경과
+		m_fElapsedTime += fTimeDelta;
+		float t = m_fElapsedTime / m_fDuration;
+		if (t >= 1.0f)
+		{
+			t = 1.0f;
+			m_bIsMovingDown = false;
+			m_ePlayerCurState = STATE_IDLE; // 상태 변경
+		}
+
+		// 위치 보간
+		_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		position.y = Lerp(m_fInitialY, m_fTargetY, t);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
 	}
 	else
 		m_iCurrentSkillCount = 0;
@@ -306,8 +360,14 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	}
 
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
+	CTravelNpc* travelnpc = dynamic_cast<CTravelNpc*>(otherObject);
+
 	if (npc != nullptr)
 		Interaction_NPC(npc);
+
+	if (travelnpc != nullptr)
+		Interaction_NPC(travelnpc);
+
 
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -580,7 +640,15 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		Set_Npc_Talk(false);
 		m_bIsInteractionIng = false;
 	}
+
+	CTravelNpc* travelNpc = dynamic_cast<CTravelNpc*>(otherObject);
 	// Transform 컴포넌트를 가져옴
+	if (travelNpc != nullptr)
+	{
+		m_pCurrentCollisionOk_Npc = nullptr;
+		Set_Npc_Talk(false);
+		m_bIsInteractionIng = false;
+	}
 
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -613,7 +681,7 @@ void CPlayer::Player_Damaged()
 
 }
 
-void CPlayer::Interaction_NPC(CNpc* _npc)
+void CPlayer::Interaction_NPC(CGameObject* _npc)
 {
 	m_pCurrentCollisionOk_Npc = _npc;
 }
@@ -627,6 +695,26 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 	//충돌 On
 	if (_isOn)
 	{
+		CNpc* npc = dynamic_cast<CNpc*>(m_pCurrentCollisionOk_Npc);
+		CTravelNpc* travel = dynamic_cast<CTravelNpc*>(m_pCurrentCollisionOk_Npc);
+
+		if (npc)
+		{
+			vector<pair<wstring, wstring>> messages = {
+			{TEXT("최진영"), TEXT("아............\n어렵네요.....")},
+			{TEXT("최진영"), TEXT("잘 모르겠어요....... 아.... 어렵네요...")},
+			{TEXT("최진영"), TEXT("네엡")} };
+			npcTalk->SetNpcTalkMessages(messages);
+		}
+		else if (travel)
+		{
+			vector<pair<wstring, wstring>> messages = {
+		{TEXT("변수기"), TEXT("저 잠시 담타좀 하고 오겠슴다\n (연기를 내뿜으며) 후우...")},
+		{TEXT("변수기"), TEXT("내가 만든 퀴즈 맵 가볼래?")} };
+			npcTalk->SetNpcTalkMessages(messages);
+		}
+
+
 		npcTalk->SetIsNpcTalkOn(_isOn);
 		//// 이펙트 수정
 		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
@@ -643,6 +731,19 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
 		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
 	}
+}
+
+void CPlayer::MoveUp(float fDuration, float fDistance)
+{
+}
+
+void CPlayer::MoveDown(float fDuration)
+{
+}
+
+_float CPlayer::Lerp(float start, float end, float t)
+{
+	return start + t * (end - start);
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -763,6 +864,10 @@ HRESULT CPlayer::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Right"), TEXT("Player_Push_Right"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Down"), TEXT("Player_Push_Down"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Left"), TEXT("Player_Push_Left"));
+
+	// Ballon
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Up"), TEXT("Player_Ballon_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Down"), TEXT("Player_Ballon_Down"));
 
 	return S_OK;
 }
@@ -1245,6 +1350,12 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 1.0f, _fTimeDelta, false);
 			break;
 		}
+		break;
+	case STATE_BALLON_UP:
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
+		break;
+	case STATE_BALLON_DOWN:
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.0f, _fTimeDelta, false);
 		break;
 	}
 }

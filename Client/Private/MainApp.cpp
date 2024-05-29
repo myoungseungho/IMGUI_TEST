@@ -941,6 +941,18 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Animation_Player_Travel
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Up"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Npc/Travel/Sprite_BabyOgu_BalloonFly_%d.png"), 19))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Down"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Npc/Travel/Sprite_BabyOgu_BalloonFly_Down_%d.png"), 11))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma region Texture_Player_Skill
 
 	/* For.Prototype_Component_Texture_Player */

@@ -22,7 +22,7 @@ class CPlayer final : public CGameObject
 {
 public:
 	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
-	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END };
+	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_BALLON_UP, STATE_BALLON_DOWN, STATE_END };
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -67,6 +67,11 @@ public:
 			return m_iPlayerHp += _hp;
 	}
 
+	void	   Set_Player_Ballon_State(_uint _state)
+	{
+		_state == 0 ? m_ePlayerCurState = STATE_BALLON_UP : m_ePlayerCurState = STATE_BALLON_DOWN;
+	}
+
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
@@ -101,8 +106,13 @@ private:
 	void				Player_Damaged();
 
 private:
-	void Interaction_NPC(class CNpc* npc);
+	void Interaction_NPC(CGameObject* npc);
 	void Set_Npc_Talk(_bool _isOn);
+	void MoveUp(float fDuration, float fDistance);
+	void MoveDown(float fDuration);
+	_float Lerp(float start, float end, float t);
+
+
 private:
 	_float3		m_forScaled;
 
@@ -139,8 +149,15 @@ private:
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:
-	CNpc* m_pCurrentCollisionOk_Npc = { nullptr };
+	CGameObject* m_pCurrentCollisionOk_Npc = { nullptr };
 	_bool m_bIsInteractionIng = { false };
+private:
+	_float m_fElapsedTime = 0.0f;
+	_float m_fDuration = 0.0f;
+	_float m_fInitialY = 0.0f;
+	_float m_fTargetY = 0.0f;
+	_bool m_bIsMovingUp = false;
+	_bool m_bIsMovingDown = false;
 public:
 
 	/* 원형객체를 생성한다. */
