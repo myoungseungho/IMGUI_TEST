@@ -4,6 +4,7 @@
 #include "Skill_Koofu_Fuit.h"
 
 #include "Boss_Koofu.h"
+#include <Effect_Koofu_Smoke.h>
 
 
 CMon_Copy_Koofu::CMon_Copy_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -379,12 +380,31 @@ void CMon_Copy_Koofu::Destory()
 {
 	CMon_Copy_Koofu* pThis = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
-		Safe_Release(pThis);
+	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
 
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+
+		for (int i = 1; i <= 10; ++i)
+		{
+			Desc.iSmokeNum = i;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Effect_Koofu_Smoke"), TEXT("Layer_Koofu_Smoke"), &Desc);
+		}
+
+		Safe_Release(pThis);
+	}
 	CBoss_Koofu* pOrigin = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Boss_Koofu")));
 	if (pOrigin->HitCheck())
 	{
+		for (int i = 1; i <= 10; ++i)
+		{
+			Desc.iSmokeNum = i;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Effect_Koofu_Smoke"), TEXT("Layer_Koofu_Smoke"), &Desc);
+		}
+
 		Safe_Release(pThis);
 
 	}
