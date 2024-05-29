@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include "Monkey_Statue.h"
+#include <QuizMgr.h>
 
 
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -26,6 +27,8 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
+	CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -59,6 +62,8 @@ HRESULT CBlock::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	pQuizManager->Add_Block(this);
+
 	return S_OK;
 }
 
@@ -70,7 +75,6 @@ void CBlock::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	if (CMonkey_Statue::m_eMonkeyState ==1)
 		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
 	else
 		m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;

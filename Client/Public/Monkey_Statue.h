@@ -43,7 +43,7 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-	static _uint			m_eMonkeyState;
+
 
 private:	
 	CTexture*				m_pTextureCom = { nullptr };

@@ -4,8 +4,8 @@
 #include "GameInstance.h"
 #include <Player.h>
 #include "Block.h"
+#include "QuizMgr.h"
 
-_uint CMonkey_Statue::m_eMonkeyState = CMonkey_Statue::STATE_UP;
 
 CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -27,6 +27,8 @@ HRESULT CMonkey_Statue::Initialize_Prototype()
 
 HRESULT CMonkey_Statue::Initialize(void* pArg)
 {
+	CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -58,8 +60,9 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	CMonkey_Statue::m_eMonkeyState = STATE_UP;
 	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	pQuizManager->Add_MonkeyStatue(this);
 
 	return S_OK;
 }
@@ -166,16 +169,9 @@ HRESULT CMonkey_Statue::Ready_Components()
 
 void CMonkey_Statue::Change_State(_float fTimeDelta)
 {
-	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
-	{
-		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
-		bIsChangeOnce = false;
-	}
-	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
-	{
-		CMonkey_Statue::m_eMonkeyState = STATE_UP;
-		bIsChangeOnce = false;
-	}
+	CQuizMgr* pQuizMgr = CQuizMgr::Get_Instance();
+
+	pQuizMgr->Find_Monkey(this);
 }
 
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

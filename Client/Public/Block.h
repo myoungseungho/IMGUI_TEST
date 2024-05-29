@@ -48,7 +48,6 @@ private:
 	CCollider* m_pColliderCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
 
-	class CMonkey_Statue* m_pMonkeyStatue = { nullptr };
 
 private:
 	HRESULT Ready_Components();
