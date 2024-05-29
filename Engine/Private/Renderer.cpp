@@ -8,15 +8,15 @@ CRenderer::CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	Safe_AddRef(m_pGraphic_Device);
 }
 
-HRESULT CRenderer::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject * pRenderObject)
+HRESULT CRenderer::Add_RenderObject(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
 {
 	if (eRenderGroup >= RG_END)
 		return E_FAIL;
-	
+
 	m_RenderObjects[eRenderGroup].emplace_back(pRenderObject);
 
 	Safe_AddRef(pRenderObject);
-	
+
 	return S_OK;
 }
 
@@ -38,7 +38,7 @@ HRESULT CRenderer::Render_Priority(_float deltaTime)
 {
 	for (auto& pRenderObject : m_RenderObjects[RG_PRIORITY])
 	{
-		if (nullptr != pRenderObject)
+		if (nullptr != pRenderObject && !pRenderObject->m_Died)
 			pRenderObject->Render(deltaTime);
 
 		Safe_Release(pRenderObject);
@@ -53,10 +53,10 @@ HRESULT CRenderer::Render_NonBlend(_float DeltaTime)
 {
 	for (auto& pRenderObject : m_RenderObjects[RG_NONBLEND])
 	{
-		if (nullptr != pRenderObject)
+		if (nullptr != pRenderObject && !pRenderObject->m_Died)
 			pRenderObject->Render(DeltaTime);
 
-		Safe_Release(pRenderObject);    
+		Safe_Release(pRenderObject);
 	}
 
 	m_RenderObjects[RG_NONBLEND].clear();
@@ -99,7 +99,7 @@ HRESULT CRenderer::Render_UI(_float DeltaTime)
 	return S_OK;
 }
 
-CRenderer * CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CRenderer* CRenderer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	return new CRenderer(pGraphic_Device);
 }
