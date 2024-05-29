@@ -236,9 +236,9 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		if (m_eMon_State == MON_STATE::ATTACK && m_pTimerCom->Time_Limit(fTimeDelta, 0.8f))
 		{
-			if (m_fAttackRange +2.f >= m_fMoveRange)
+			if (m_fAttackRange + 2.f >= m_fMoveRange)
 			{
-				
+	
 			}
 		}
 	}

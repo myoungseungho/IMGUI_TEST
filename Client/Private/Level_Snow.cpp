@@ -109,7 +109,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag
 HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 3;
+	MonsterDesc.iHp = 30;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

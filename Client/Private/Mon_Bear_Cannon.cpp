@@ -427,7 +427,7 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
-		m_tMonsterDesc.iHp--;
+		//m_tMonsterDesc.iHp--;
 
 		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
