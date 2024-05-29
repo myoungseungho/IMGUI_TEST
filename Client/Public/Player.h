@@ -157,6 +157,7 @@ private:
 	_float m_fInitialY = 0.0f;
 	_float m_fTargetY = 0.0f;
 	_bool m_bIsMovingUp = false;
+	_bool m_bIsMovingComplete = false;
 	_bool m_bIsMovingDown = false;
 public:
 

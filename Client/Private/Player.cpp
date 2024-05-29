@@ -28,6 +28,7 @@
 #include <Un_Laser.h>
 #include <Door.h>
 #include "End_Orb.h"
+#include "Level_Loading.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -136,8 +137,9 @@ void CPlayer::Update(_float fTimeDelta)
 		if (t >= 1.0f)
 		{
 			t = 1.0f;
-			m_bIsMovingUp = false;
-			m_ePlayerCurState = STATE_IDLE; // 상태 변경
+			m_bIsMovingUp = false; 
+			m_bIsMovingComplete = true;
+			return;
 		}
 
 		// 위치 보간
@@ -200,6 +202,10 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
+	if (m_ePlayerCurState == STATE_BALLON_UP && m_bIsMovingComplete)
+		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, (LEVELID)(m_pGameInstance->GetCurrentLevelIndex() + 1)));
+
+	// 시간 경과
 	return S_OK;
 }
 
@@ -636,8 +642,8 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
 	if (npc != nullptr)
 	{
-		m_pCurrentCollisionOk_Npc = nullptr;
 		Set_Npc_Talk(false);
+		m_pCurrentCollisionOk_Npc = nullptr;
 		m_bIsInteractionIng = false;
 	}
 
@@ -645,8 +651,8 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 	// Transform 컴포넌트를 가져옴
 	if (travelNpc != nullptr)
 	{
-		m_pCurrentCollisionOk_Npc = nullptr;
 		Set_Npc_Talk(false);
+		m_pCurrentCollisionOk_Npc = nullptr;
 		m_bIsInteractionIng = false;
 	}
 
@@ -727,9 +733,15 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		if (npcTalk->m_bIsNpcTalkOn == true)
 			return;
 
+		CTravelNpc* travel = dynamic_cast<CTravelNpc*>(m_pCurrentCollisionOk_Npc);
 		//// 이펙트 수정
 		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
 		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+
+		if (travel)
+		{
+			m_ePlayerCurState = STATE_BALLON_UP;
+		}
 	}
 }
 
@@ -899,7 +911,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-	if (m_bCanDamaged && !m_bAttack)
+	if (m_bCanDamaged && !m_bAttack && m_ePlayerCurState != STATE_BALLON_UP)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
@@ -1091,7 +1103,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 
-		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_BALLON_UP)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
