@@ -72,7 +72,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		m_ePlayerCurState = STATE_IDLE;
 		break;
 	case Client::LEVEL_JUNGLE:
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(19.649f, 5.5f, 30.250f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(36.736f, 5.5f, 16.412f));
 		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_SNOW:
@@ -159,7 +159,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			// 초기 설정
 			m_fElapsedTime = 0.0f;
-			m_fDuration = 5.0f; // 예를 들어 2초 동안 이동
+			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 			m_fTargetY = m_fInitialY - 5.0f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
@@ -1373,7 +1373,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.0f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 3.0f, _fTimeDelta, false);
 		break;
 	}
 }

@@ -34,8 +34,7 @@ void CLevel_UI::Update(_float fTimeDelta)
 	//없다면 사본 하나 만든다.
 	if (Key_Down(VK_ESCAPE))
 	{
-		LEVELID currentLevel = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
-		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(currentLevel, TEXT("Layer_ZUI_Inventory"));
+		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
 		if (inventoryGameObject == nullptr)
 		{
 			Ready_Layer_Inventory(TEXT("Layer_ZUI_Inventory"));
@@ -73,9 +72,9 @@ _bool CLevel_UI::Key_Down(_uint _iKey)
 
 HRESULT CLevel_UI::Ready_Layer_Inventory(const _wstring& strLayerTag)
 {
-	LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+	//LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(loadingLevel, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
