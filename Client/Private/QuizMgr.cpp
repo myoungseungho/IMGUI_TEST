@@ -40,16 +40,6 @@ void CQuizMgr::Add_Block(CBlock* pBlock)
 	m_vecBlocks.push_back(pBlock);
 }
 
-const vector<CMonkey_Statue*>& CQuizMgr::Get_vecMonkeyStatues()
-{
-	return m_vecMonkeyStatues;
-}
-
-const vector<CBlock*>& CQuizMgr::Get_vecBlocks()
-{
-	return m_vecBlocks;
-}
-
 _uint CQuizMgr::Find_Monkey_Index(CMonkey_Statue* pMonkey)
 {
 	auto it = find(m_vecMonkeyStatues.begin(), m_vecMonkeyStatues.end(), pMonkey);
@@ -73,11 +63,46 @@ _uint CQuizMgr::Find_Block_Index(CBlock* pBlock)
 		return -1;
 }
 
+void CQuizMgr::Set_Block_State()
+{
+	if (m_First_State)
+	{
+		m_vecBlocks[1]->First_State();
+		m_vecBlocks[2]->First_State();
+		m_vecBlocks[4]->First_State();
+		m_vecBlocks[6]->First_State();
+		m_vecBlocks[8]->First_State();
+
+		m_First_State = false;
+	}
+}
+
 void CQuizMgr::Change_Block_State(_uint iMonkeyIndex)
 {
-	if (iMonkeyIndex == 3)
+	if (iMonkeyIndex == 0)
 	{
+		m_vecBlocks[0]->Change_State();
+		m_vecBlocks[6]->Change_State();
+	}
+	else if (iMonkeyIndex == 1)
+	{
+		m_vecBlocks[4]->Change_State();
+		m_vecBlocks[9]->Change_State();
+	}
+	else if (iMonkeyIndex == 2)
+	{
+		m_vecBlocks[1]->Change_State();
+		m_vecBlocks[5]->Change_State();
+	}
+	else if (iMonkeyIndex == 4)
+	{
+		m_vecBlocks[2]->Change_State();
 		m_vecBlocks[7]->Change_State();
+	}
+	else if (iMonkeyIndex == 3)
+	{
+		m_vecBlocks[3]->Change_State();
+		m_vecBlocks[8]->Change_State();
 	}
 }
 

@@ -49,6 +49,7 @@ private:
 	CAnimator* m_pAnimCom = { nullptr };
 
 public:
+	void		First_State();
 	void		Change_State();
 
 private:

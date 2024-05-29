@@ -28,7 +28,6 @@ HRESULT CBlock::Initialize_Prototype()
 HRESULT CBlock::Initialize(void* pArg)
 {
 
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -73,6 +72,8 @@ void CBlock::Priority_Update(_float fTimeDelta)
 
 void CBlock::Update(_float fTimeDelta)
 {
+	CQuizMgr::Get_Instance()->Set_Block_State();
+
 	__super::Update(fTimeDelta);
 }
 
@@ -132,6 +133,11 @@ void CBlock::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CBlock::OnCollisionExit(class CCollider* other)
 {
+}
+
+void CBlock::First_State()
+{
+	m_eAnimState = ANIM_BLOCK;
 }
 
 void CBlock::Change_State()

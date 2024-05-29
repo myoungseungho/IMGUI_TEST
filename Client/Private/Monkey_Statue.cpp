@@ -121,7 +121,7 @@ void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
 
-			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this) - 1;
+			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this);
 
 			pQuizManager->Change_Block_State(iMonkeyIndex);
 
