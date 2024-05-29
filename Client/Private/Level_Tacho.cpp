@@ -207,9 +207,8 @@ void CLevel_Tacho::Level_Tacho_Start1()
 	{
 		npcTalkUI->SetIsNpcTalkOn(true);
 		vector<pair<wstring, wstring>> messages = {
-			{TEXT("상점 주인"), TEXT("안녕하세요! 환영합니다.\n여기서 물건을 살 수 있습니다.")},
-			{TEXT("상점 주인"), TEXT("오늘의 특별 세일 품목도 확인해보세요.")},
-			{TEXT("상점 주인"), TEXT("감사합니다. 좋은 하루 되세요.")}
+			{TEXT("144기 요정"), TEXT("SR을 시연회를 시작해볼까?")},
+			{TEXT("144기 요정"), TEXT("ㄱㄱㄱ")}
 		};
 		npcTalkUI->SetNpcTalkMessages(messages);
 	}
