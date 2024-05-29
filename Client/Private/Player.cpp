@@ -1371,6 +1371,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		break;
 	case STATE_BALLON_DOWN:
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 3.0f, _fTimeDelta, false);
+		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;

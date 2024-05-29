@@ -116,6 +116,7 @@ private:
 	_float3		m_forScaled;
 
 	DIRECTION	m_ePlayerDir = { DIR_END };
+public:
 	PLAYER_STATE			m_ePlayerCurState = { STATE_END };
 	PLAYER_STATE			m_ePlayerPreState = { STATE_IDLE };
 
