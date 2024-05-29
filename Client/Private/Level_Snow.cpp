@@ -69,7 +69,7 @@ HRESULT CLevel_Snow::Render()
 
 HRESULT CLevel_Snow::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Terrain_Snow"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

@@ -59,7 +59,8 @@ private:
 	_float3				PrePos = { 0.f, 0.f, 0.f };
 private:
 	void			Change_State(_float fTimeDelta);
-	void			Shaking_Statue(_float fTimeDelta);
+
+
 public:
 	/* 원형객체를 생성한다. */
 	static CMonkey_Statue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

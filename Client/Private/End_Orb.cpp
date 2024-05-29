@@ -5,6 +5,8 @@
 #include <Player.h>
 #include <Un_Laser.h>
 
+_uint CEnd_Orb::m_eClearState = CEnd_Orb::STATE_UNCLEAR;
+
 CEnd_Orb::CEnd_Orb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
@@ -110,7 +112,7 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CUn_Laser*>(otherObject))
 	{
-		m_eClearState = STATE_CLEAR;
+		CEnd_Orb::m_eClearState = CEnd_Orb::STATE_CLEAR;
 		return;
 	}
 }

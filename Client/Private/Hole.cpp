@@ -92,20 +92,22 @@ HRESULT CHole::Render(_float fTimeDelta)
 
 HRESULT CHole::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_Hole"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 1.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
@@ -116,8 +118,8 @@ HRESULT CHole::Ready_Components()
 
 HRESULT CHole::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Hole_Idle"), TEXT("AnimTexture_Hole_Idle"));
-	m_pAnimCom->Add_Animator(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Hole_Stone"), TEXT("AnimTexture_Hole_Stone"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Hole_Idle"), TEXT("AnimTexture_Hole_Idle"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Sprite_Hole"), TEXT("AnimTexture_Hole_Stone"));
 
 	return S_OK;
 }
@@ -165,10 +167,12 @@ CGameObject* CHole::Clone(void* pArg)
 
 void CHole::Free()
 {
-	__super::Free();
-
+	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
+
 	m_pGameInstance->Release_Collider(m_pColliderCom);
+
+	__super::Free();
 }

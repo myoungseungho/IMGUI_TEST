@@ -25,6 +25,8 @@
 #include "UI_Npc_Question_Effect.h"
 #include <Laser.h>
 #include <Un_Laser.h>
+#include <Door.h>
+#include "End_Orb.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -58,6 +60,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_ePlayerCurState = STATE_IDLE;
 	m_ePlayerDir = DIR_DOWN;
+	m_bAttack = false;
 
 	LEVELID level =  (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 	switch (level)
@@ -90,14 +93,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	m_bAttack = false;
+
 
 	Key_Input(fTimeDelta);
-	For_Damage_State(fTimeDelta);
-	For_Attack_State(fTimeDelta);
 
-
-	if (m_ePlayerCurState == STATE_SKILL)
+	if (m_ePlayerCurState == STATE_HIT)
+	{
+		For_Damage_State(fTimeDelta);
+	}
+	else if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		For_Attack_State(fTimeDelta);
+	}
+	else if (m_ePlayerCurState == STATE_SKILL)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -266,6 +274,38 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
+	if (dynamic_cast<CDoor*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CEnd_Orb::m_eClearState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
+
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
 	if (npc != nullptr)
 		Interaction_NPC(npc);
@@ -299,6 +339,31 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CMon_Bear_Cannon*>(otherObject))
 		return;
+
+	if (dynamic_cast<CTree*>(otherObject))
+	{
+		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+		CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+		// 플레이어와 다른 객체의 위치를 가져옴
+		_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+		if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+			m_bCanMoveRight = false;
+		}
+		if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+			m_bCanMoveLeft = false;
+		}
+		if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+			m_bCanMoveForward = false;
+		}
+		if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+			m_bCanMoveBackward = false;
+		}
+		return;
+	}
+		
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
@@ -440,6 +505,38 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			}
 		}
 	}
+
+	if (dynamic_cast<CDoor*>(otherObject))
+	{
+		if (m_ePlayerCurState == STATE_WALK)
+		{
+			if (CEnd_Orb::m_eClearState != 1)
+			{
+				// Transform 컴포넌트를 가져옴
+				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+				CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+				// 플레이어와 다른 객체의 위치를 가져옴
+				_float3 playerPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+				_float3 otherPosition = other_transform->Get_State(CTransform::STATE_POSITION);
+
+				if (m_bMoveRight && playerPosition.x < otherPosition.x) {
+					m_bCanMoveRight = false;
+				}
+				if (m_bMoveLeft && playerPosition.x > otherPosition.x) {
+					m_bCanMoveLeft = false;
+				}
+				if (m_bMoveUp && playerPosition.z < otherPosition.z) {
+					m_bCanMoveForward = false;
+				}
+				if (m_bMoveDown && playerPosition.z > otherPosition.z) {
+					m_bCanMoveBackward = false;
+				}
+			}
+		}
+
+		return;
+	}
 }
 
 void CPlayer::OnCollisionExit(class CCollider* other)
@@ -511,11 +608,7 @@ void CPlayer::Player_Damaged()
 	if (m_bCanDamaged && m_bForTestDamaged != false)
 	{
 		--m_iPlayerHp;
-
-
-
 	}
-
 
 }
 
@@ -581,7 +674,8 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
-	//&_float3(39.5f, 0.5f, 30.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.0f, 0.5f, 15.f));
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -693,7 +787,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);
 	m_bMoveDown = m_pKeyCom->Key_Pressing(VK_DOWN);
 
-	if (m_bCanDamaged)
+	if (m_bCanDamaged && !m_bAttack)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
@@ -1158,6 +1252,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 			m_pTransformCom->Set_Scaled(m_forScaled);
 			m_ePlayerCurState = STATE_IDLE;
 			m_fAttackTime = 0.0f;
+			m_bAttack = false;
 		}
 	}
 	else

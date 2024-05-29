@@ -343,6 +343,9 @@
     <Filter Include="02.GameObjects\UI\MapGuide">
       <UniqueIdentifier>{c2f250d9-1786-417a-897d-f2b6ec75f162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door">
+      <UniqueIdentifier>{26e08543-7d8e-4378-aaef-5152db4deb0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -744,6 +747,9 @@
     <ClInclude Include="..\Public\UI_MapGuide.h">
       <Filter>02.GameObjects\UI\MapGuide</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Door.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1129,6 +1135,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_MapGuide.cpp">
       <Filter>02.GameObjects\UI\MapGuide</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Door.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

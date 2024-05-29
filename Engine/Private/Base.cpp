@@ -14,7 +14,7 @@ _uint CBase::Release()
 	if (0 == m_iRefCnt)
 	{
 		Free();		
-
+		
 		m_Died = true;
 
 		delete this;
