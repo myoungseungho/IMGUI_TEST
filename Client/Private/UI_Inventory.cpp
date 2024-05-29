@@ -46,14 +46,11 @@ HRESULT CInventory::Initialize(void* pArg)
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
 
-
-	LEVELID currentLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
-
 	//UI오브젝트 받아서 VECTOR에 넣기
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, prototypeTag, layerTag, pArg)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
 			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(currentLevel, layerTag, count));
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, layerTag, count));
 		if (!pUIObject)
 			return E_FAIL;
 		Safe_AddRef(pUIObject);
@@ -434,11 +431,11 @@ void CInventory::AddToQuickInventory(_uint slot)
 	if (m_firstRowSelectedCol == 0 && m_currentEquipHat != nullptr) {
 		// Hat을 간이 인벤토리에 추가
 		slotData.index = m_currentEquipHat->m_iIndex;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat_QuickInventory"), &slotData))) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat_QuickInventory"), &slotData))) {
 			return;
 		}
 
-		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Hat_QuickInventory"), m_currentEquipHat->m_iIndex);
+		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(LEVEL_STATIC, TEXT("Layer_ZUI_Hat_QuickInventory"), m_currentEquipHat->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
 		uiobject->m_bIsOn = true;
 		m_vecQuickInventory[slot] = uiobject;
@@ -447,10 +444,10 @@ void CInventory::AddToQuickInventory(_uint slot)
 	else if (m_firstRowSelectedCol == 1 && m_currentEquipItem != nullptr) {
 		// Item을 간이 인벤토리에 추가
 		slotData.index = m_currentEquipItem->m_iIndex;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(currentLevel, TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item_QuickInventory"), &slotData))) {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item_QuickInventory"), &slotData))) {
 			return;
 		}
-		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(currentLevel, TEXT("Layer_ZUI_Item_QuickInventory"), m_currentEquipItem->m_iIndex);
+		CGameObject* gameobject = m_pGameInstance->GetObjectByIndex(LEVEL_STATIC, TEXT("Layer_ZUI_Item_QuickInventory"), m_currentEquipItem->m_iIndex);
 		CUIObject* uiobject = static_cast<CUIObject*>(gameobject);
 		uiobject->m_bIsOn = true;
 		m_vecQuickInventory[slot] = uiobject;

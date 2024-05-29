@@ -74,8 +74,12 @@ HRESULT CLevel_UI::Ready_Layer_Inventory(const _wstring& strLayerTag)
 {
 	//LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))
-		return E_FAIL;
+	CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+	if (inventoryGameObject == nullptr)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
