@@ -183,7 +183,7 @@ void CBush::AnimState(_float _fTimeDelta)
 		break;
 
 	case ANIMATION_STATE::ANIM_MOVE:
-		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Move"), 0.3f, _fTimeDelta, true);
+		m_pAnimCom->Play_Animator(TEXT("AnimTexture_Bush_Move"), 0.3f, _fTimeDelta, false);
 		break;
 	}
 }
