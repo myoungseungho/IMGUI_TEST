@@ -92,7 +92,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_TACHO)))
+	if (FAILED(Open_Level(LEVEL_KOOFU)))
 		return E_FAIL;
 
 	return S_OK;
@@ -724,6 +724,7 @@ HRESULT CMainApp::SetUp_DefaultState()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
 
 	return S_OK;
 }

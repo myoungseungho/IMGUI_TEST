@@ -346,6 +346,42 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door">
       <UniqueIdentifier>{26e08543-7d8e-4378-aaef-5152db4deb0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect">
+      <UniqueIdentifier>{5cd91591-4484-411c-96b7-d8b8606d410e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster">
+      <UniqueIdentifier>{bb96e917-53a5-4994-b2a8-893f53608001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy">
+      <UniqueIdentifier>{216f5686-2296-49e9-a1ef-006fb564083d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Dash">
+      <UniqueIdentifier>{155d751a-2d21-4912-abb3-ed95d5232e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Line">
+      <UniqueIdentifier>{cf5b590d-bb9b-4831-89a3-02210fd86b88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Bug_Down">
+      <UniqueIdentifier>{f4249500-fc25-4e14-a2b4-0790776067a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Stun">
+      <UniqueIdentifier>{47bd976c-7152-4837-9471-26b0c3647abf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Mon_Destroy">
+      <UniqueIdentifier>{6e76114e-b757-4f61-b8e1-a3812e8602e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Shadow">
+      <UniqueIdentifier>{8ca3a6d7-43fd-42c5-a3af-a4bb1f9a7c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Shiled">
+      <UniqueIdentifier>{64229d6c-4f43-4160-8c19-df71c658e821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Light">
+      <UniqueIdentifier>{dd2ef63b-6419-40cb-bd53-cc0d10a7ff09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Koofu_Smoke">
+      <UniqueIdentifier>{3e2fefd2-3949-4195-8127-737e77994330}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -749,6 +785,42 @@
     </ClInclude>
     <ClInclude Include="..\Public\Door.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
+  </ClInclude>
+    <ClInclude Include="..\public\Effect.h">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Bullet_Destroy.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Dash.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Down.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Down</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Bug_Line.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Mon_Destroy.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Mon_Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Shadow.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Shield.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shiled</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Stun.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Light.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Monster.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Effect_Koofu_Smoke.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1138,6 +1210,42 @@
     </ClCompile>
     <ClCompile Include="..\Private\Door.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
+ </ClCompile>
+    <ClCompile Include="..\private\Effect.cpp">
+      <Filter>02.GameObjects\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Bullet_Destroy.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Bullet_Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Dash.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Down.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Down</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Bug_Line.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Bug_Line</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Mon_Destroy.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Mon_Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Shadow.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Shield.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Shiled</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Stun.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Stun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Light.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Monster.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Koofu_Smoke.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

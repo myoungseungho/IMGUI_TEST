@@ -35,7 +35,7 @@ private:
 	HRESULT End_RenderState();
 
 public:
-	virtual void OnCollisionEnter(class CCollider* other);
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
@@ -47,7 +47,7 @@ private:
 private:
 	CTransform* m_pPlayerTransform = { nullptr };
 	_float m_fDirAngle = { 0.f };
-
+	_bool  m_bDead = { false };
 public:
 	static CSkill_Cannon_Ball* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

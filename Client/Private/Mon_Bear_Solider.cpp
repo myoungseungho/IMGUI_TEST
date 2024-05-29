@@ -5,6 +5,8 @@
 #include "GameInstance.h"
 #include "Player.h"
 
+#include"Effect_Monster.h"
+
 CMon_Bear_Solider::CMon_Bear_Solider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
 {
@@ -48,6 +50,11 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 
 	m_fAttackRange = 1.f;
+
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Shadow"), TEXT("Layer_Effect_Shadow"), &Desc);
 
 	return S_OK;
 }
@@ -193,7 +200,7 @@ HRESULT CMon_Bear_Solider::End_RenderState()
 	return S_OK;
 }
 
-void CMon_Bear_Solider::OnCollisionEnter(CCollider* other)
+void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }
@@ -467,7 +474,29 @@ void CMon_Bear_Solider::State_Stun(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
-	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_pTimerCom->Time_Limit(fTimeDelta , 3.f))
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	m_fAlphaTimer += fTimeDelta;
+
+	if (m_fAlphaTimer >= 0.25f)
+	{
+		m_fAlpha = 50.f;
+	}
+	else
+		m_fAlpha = 255.f;
+
+
+	if (m_fAlphaTimer >= 0.5f)
+		m_fAlphaTimer = 0.f;
+
+	if (!m_bStunEffect)
+	{
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_bStunEffect = true;
+	}
+
+	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_pTimerCom->Time_Limit(fTimeDelta , 4.f))
 	{
 		Destroy();
 	}

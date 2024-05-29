@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 
 #include "Mon_Trash_Slime.h"
+#include "Effect_Monster.h"
 
 CMon_Trash_Slime::CMon_Trash_Slime(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -141,7 +142,7 @@ HRESULT CMon_Trash_Slime::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Right"), TEXT("Trash_Walk_Right"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightDown"), TEXT("Trash_Walk_RightDown"));
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightUp"), TEXT("Trash_Walk_RightUp"));
-	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Up"), TEXT("Trash_Wal_Up"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Up"), TEXT("Trash_Walk_Up"));
 
 	return S_OK;
 }
@@ -289,13 +290,19 @@ void CMon_Trash_Slime::Move(_float fTimeDelta)
 
 void CMon_Trash_Slime::Destory()
 {
-	CMon_Trash_Slime* pThis = this;
-	if(m_tMonsterDesc.iHp <= 0)
-		Safe_Release(pThis);
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
 
+	CMon_Trash_Slime* pThis = this;
+
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
+		Safe_Release(pThis);
+	}
 }
 
-void CMon_Trash_Slime::OnCollisionEnter(CCollider* other)
+void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 
 }

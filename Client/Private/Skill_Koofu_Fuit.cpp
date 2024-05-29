@@ -150,7 +150,7 @@ HRESULT CSkill_Koofu_Fuit::End_RenderState()
 	return S_OK;
 }
 
-void CSkill_Koofu_Fuit::OnCollisionEnter(CCollider* other)
+void CSkill_Koofu_Fuit::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 	CSkill_Koofu_Fuit* pThis = this;

@@ -13,6 +13,8 @@
 #include "Bush.h"
 #include "Monster.h"
 
+#include "Effect_Monster.h"
+
 CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -21,7 +23,7 @@ CLevel_Snow::CLevel_Snow(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Snow::Initialize()
 {
 	m_iLevelIndex = LEVEL_SNOW;
-
+	
 	__super::Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
@@ -42,15 +44,14 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(Ready_Layer_Monster_Bear_Cannon(TEXT("Layer_Monster_Bear_Cannon"))))
 		return E_FAIL;
 
+	if (FAILED(ParseInitialize()))
+		return E_FAIL;
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
 
 	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
 	//	return E_FAIL;
-
-	if (FAILED(ParseInitialize()))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -174,7 +175,6 @@ HRESULT CLevel_Snow::Ready_Layer_Bush(const _wstring& strLayerTag, int horizonta
 
 	return S_OK;
 }
-
 
 HRESULT CLevel_Snow::Ready_LandObjects()
 {

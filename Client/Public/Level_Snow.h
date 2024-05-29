@@ -33,6 +33,8 @@ private:
 
 	HRESULT ParseInitialize();
 
+	
+
 public:
 	static CLevel_Snow* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;

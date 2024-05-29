@@ -7,6 +7,8 @@
 #include "Skill_Bug_Bullet.h"
 
 #include "Skill_Player.h"
+#include "Effect_Monster.h"
+#include "Effect_Bug_Line.h"
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -144,7 +146,7 @@ HRESULT CBoss_Bug::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase1_Attack"), TEXT("BOSS_BUG_PHASE1_ATTACK"));
 
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Ready"), TEXT("BOSS_BUG_PHASE2_READY"));
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));\
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Regen"), TEXT("BOSS_BUG_PHASE2_REGEN"));
 
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Attack"), TEXT("BOSS_BUG_PHASE2_ATTACK"));
 	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"), TEXT("BOSS_BUG_PHASE2_DEATH"));
@@ -213,6 +215,13 @@ void CBoss_Bug::Warf(_int iPosX, _int iPosZ, _float fDistance, _float fAngle)
 	m_pTransformCom->LookAt(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	m_pTransformCom->Radian_Turn(vRight, 270.f * D3DX_PI / 180.f);
+
+
+	CEffect_Bug_Line::EFFECT_BUG_LINE_DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+	Desc.pPlayerTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Line"), TEXT("Layer_Effect_Bug_Line"), &Desc);
 }
 
 void CBoss_Bug::Skill_Dash(_float fTimeDelta)
@@ -225,6 +234,17 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	}
 	else
 	{
+		m_fDashEffectTimer += fTimeDelta;
+
+		CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+		Desc.pTargetTransform = m_pTransformCom;
+
+		if (m_fDashEffectTimer >= 0.2f)
+		{
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Dash"), TEXT("Layer_Effect_Bug_Dash"), &Desc);
+			m_fDashEffectTimer = 0.f;
+		}
+
 		m_pTransformCom->Set_Speed(10.f);
 		m_pTransformCom->Go_VectorDown(fTimeDelta * 5.f);
 
@@ -268,6 +288,11 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
+		CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+		Desc.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Down"), TEXT("Layer_Effect_Bug_Down"), &Desc);
+
 		m_eMon_State = MON_STATE::DASH;
 		Bullet_Create(36, CSkill_Bug_Bullet::BULLET_STATE::CIRCLE);
 		m_bDown = true;

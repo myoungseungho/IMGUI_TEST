@@ -8,6 +8,7 @@
 #include "Skill_Koofu_Bubble.h"
 
 #include "Mon_Copy_Koofu.h"
+#include "Effect_Koofu_Smoke.h"
 
 #include "Player.h"
 
@@ -444,17 +445,33 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::CAST;
 
+	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	if (!m_bSmoke)
+	{
+		for (int i = 1; i <= 10; ++i)
+		{
+			Desc.iSmokeNum = i;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Effect_Koofu_Smoke"), TEXT("Layer_Koofu_Smoke"), &Desc);
+		}
+		m_bSmoke = true;
+	}
+
 	if ( (m_ePrev_State == MON_STATE::IDLE || m_ePrev_State == MON_STATE::BULLET_B)&& m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
 		m_bHitCheck = false;
+		m_bSmoke = false;
 
 	}
 	else if (m_ePrev_State == MON_STATE::READY)
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET_B;
+		m_bSmoke = false;
 	}
 
 }
