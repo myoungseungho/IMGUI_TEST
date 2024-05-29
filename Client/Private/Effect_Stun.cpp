@@ -124,7 +124,7 @@ void CEffect_Stun::Destroy(_float fTimeDelta)
 {
 	CEffect_Stun* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 		Safe_Release(pThis);
 }
 

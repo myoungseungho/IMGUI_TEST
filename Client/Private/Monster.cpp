@@ -103,7 +103,5 @@ void CMonster::Free()
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pAnimCom);
 
-	Safe_Release(m_pPlayerTransform);
-
 	__super::Free();
 }
