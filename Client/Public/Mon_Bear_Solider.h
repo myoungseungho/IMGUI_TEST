@@ -56,7 +56,7 @@ private:
 
 	_bool m_bStunEffect = { false };
 	_float m_fAlphaTimer = { 0.f };
-	_float m_fAlpha = { 0.f };
+	_float m_fAlpha = { 255.f };
 public:
 	static CMon_Bear_Solider* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

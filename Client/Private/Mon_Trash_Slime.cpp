@@ -4,6 +4,7 @@
 
 #include "Mon_Trash_Slime.h"
 #include "Effect_Monster.h"
+#include "Player.h"
 
 CMon_Trash_Slime::CMon_Trash_Slime(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CMonster{ pGraphic_Device }
@@ -304,7 +305,14 @@ void CMon_Trash_Slime::Destory()
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	CPlayer* player = static_cast<CPlayer*>(otherObject);
+
+	if (player->Get_Player_State() == CPlayer::STATE_ATTACK)
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
 }
 
 void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
