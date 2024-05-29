@@ -89,6 +89,8 @@ private:
 	_bool m_bPlayerAttack = { false };
 
 	_float m_fDashEffectTimer = { 0.f };
+
+	_float m_fDashTimer = { 0.f };
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
