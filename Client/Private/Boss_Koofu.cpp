@@ -376,6 +376,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 	{
 		Warf(39, 28, 60, 47);
 		m_bWarf = true;
+		m_bHitCheck = false;
 	}
 
 	m_eAnim_State = ANIM_STATE::CAST;
@@ -426,7 +427,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
-	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
@@ -761,16 +762,19 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 	{
 		fScaleDown += fTimeDelta;
 		_float3 vScale  = m_pTransformCom->Get_Scaled();
-		m_pTransformCom->Set_Scaled(_float3(vScale.x - fScaleDown, vScale.y - fScaleDown, 1.f));
+		m_pTransformCom->Set_Scaled(_float3(vScale.x - 0.25f, vScale.y - 0.25f, 1.f));
 
 		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		_float fCurrPosX = vCurrPos.x;
-		_float fCurrPosY = fScaleDown  - 0.5f;
+		_float fCurrPosY = fScaleDown  + 0.5f;
 		_float fCurrPosZ = vCurrPos.z;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));
 	}
+	m_pTransformCom->Gravity(0.1f, 0.5f, fTimeDelta);
+
+	m_fAlpha = 255.f;
 }
 
 void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxPosZ)
