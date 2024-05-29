@@ -111,7 +111,11 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_SKILL)
+	else if (m_ePlayerCurState == STATE_GET)
+	{
+		For_Get_State(fTimeDelta);
+	}
+	else if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -143,7 +147,7 @@ void CPlayer::Update(_float fTimeDelta)
 		if (t >= 1.0f)
 		{
 			t = 1.0f;
-			m_bIsMovingUp = false; 
+			m_bIsMovingUp = false;
 			m_bIsMovingComplete = true;
 			return;
 		}
@@ -228,7 +232,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CLaser*>(otherObject))
 		return;
 
-	if (dynamic_cast<CSkill_Monster*>(otherObject))
+	if (dynamic_cast<CSkill_Monster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -257,15 +261,6 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			m_bCanDamaged = false;
 
 			return;
-		}
-	}
-
-	if (dynamic_cast<CMonster*>(otherObject))
-	{
-		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
-		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
-			pDamagedObj->Damaged();
 		}
 	}
 
@@ -438,12 +433,14 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
+		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
+
 		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
 		{
-			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
+			m_bAttack = false;
+			return;
 		}
-		return;
 	}
 
 	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
@@ -469,9 +466,6 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		return;
 	}
-
-	if (dynamic_cast<CSkill_Monster*>(otherObject))
-		return;
 
 	if (dynamic_cast<CPush_Stone*>(otherObject))
 	{
@@ -887,6 +881,8 @@ HRESULT CPlayer::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Up"), TEXT("Player_Ballon_Up"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Ballon_Down"), TEXT("Player_Ballon_Down"));
 
+	// Get Item
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Get_Item"), TEXT("Player_Get_Item"));
 	return S_OK;
 }
 
@@ -921,7 +917,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	{
 		if (m_pKeyCom->Key_Pressing('E'))
 		{
-			m_ePlayerCurState = STATE_SKILL;
+			if (m_bHaveSkill)
+				m_ePlayerCurState = STATE_SKILL;
 
 			if (m_pKeyCom->Key_Pressing(VK_UP))
 			{
@@ -1108,8 +1105,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			if (m_bCanMoveRight)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
-
-		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT/* && m_ePlayerCurState != STATE_BALLON_UP && m_ePlayerCurState != STATE_BALLON_DOWN*/)
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH &&
+			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
@@ -1374,6 +1371,8 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		break;
 	case STATE_BALLON_DOWN:
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 3.0f, _fTimeDelta, false);
+	case STATE_GET:
+		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;
 	}
 }
@@ -1397,6 +1396,22 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	}
 
 }
+
+void CPlayer::For_Get_State(_float fTimeDelta)
+{
+	if (m_ePlayerCurState == STATE_GET)
+	{
+		m_fGetTime += fTimeDelta;
+
+		if (m_fGetTime >= 2.f)
+		{
+			m_ePlayerCurState = STATE_IDLE;
+			m_fGetTime = 0.0f;
+			m_bAttack = false;
+		}
+	}
+}
+
 void CPlayer::For_Damage_State(_float fTimeDelta)
 {
 	m_fDamageTime += fTimeDelta;

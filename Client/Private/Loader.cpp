@@ -84,6 +84,7 @@
 #include "Effect_Stun.h"
 #include "Effect_Light.h"
 #include "Effect_Koofu_Smoke.h"
+#include "Box.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -298,6 +299,14 @@ HRESULT CLoader::Loading_For_Jungle()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_MonkeyStatue_Trigger.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Box_Idle"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Item/Box/Sprite_ChestWodden_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_AnimTexture_Box_Open"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Item/Box/Sprite_ChestWodden_%d.png"), 7))))
+		return E_FAIL;
+
 #pragma region Texture_Laser_Quiz
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Orb"),
@@ -400,6 +409,10 @@ HRESULT CLoader::Loading_For_Jungle()
 		return E_FAIL;
 
 #pragma endregion
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
+		CBox::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	m_isFinished = true;
 
 	return S_OK;

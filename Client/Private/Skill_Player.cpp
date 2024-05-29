@@ -57,7 +57,7 @@ void CSkill_Player::Priority_Update(_float fTimeDelta)
 
 void CSkill_Player::Update(_float fTimeDelta)
 {
-	m_bSkillAttack = true;
+	For_Skill_Damage(fTimeDelta);
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
 	{
@@ -90,6 +90,18 @@ HRESULT CSkill_Player::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CSkill_Player::For_Skill_Damage(_float fTimeDelta)
+{
+	m_fSkillTime += fTimeDelta;
+
+	if (m_fSkillTime >= 5.f)
+	{
+		
+		m_bSkillAttack = true;
+	}
+	
+}
+
 void CSkill_Player::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	int a = 3;
@@ -104,6 +116,7 @@ void CSkill_Player::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		if (m_bSkillAttack)
 		{
+			++m_Check;;
 			CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 			pDamagedObj->Damaged();
 			m_bSkillAttack = false;

@@ -443,7 +443,6 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		return;
 	}
-
 }
 
 void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)

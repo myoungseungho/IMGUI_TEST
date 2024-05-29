@@ -385,6 +385,9 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\QuizMng\Monkey_Statue">
       <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Box">
+      <UniqueIdentifier>{e25982ab-141e-46a6-ad6e-dae8d8576c5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -831,6 +834,9 @@
     <ClInclude Include="..\Public\QuizMgr.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Box.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1261,6 +1267,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\QuizMgr.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Box.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

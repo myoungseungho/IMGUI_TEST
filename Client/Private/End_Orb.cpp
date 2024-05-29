@@ -38,13 +38,6 @@ HRESULT CEnd_Orb::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//if (m_bIsPasingObject)
-	//{
-	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	//}
-
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z - 0.01f));
