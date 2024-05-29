@@ -88,17 +88,11 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle">
       <UniqueIdentifier>{1c914190-cdd5-4cc4-b5dd-a9f309c01b80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Block">
-      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Bush">
       <UniqueIdentifier>{ec6a2b3c-2207-41d3-ab7e-16d7096c4f5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Hole">
       <UniqueIdentifier>{6af1b393-fa8a-41e2-aa5c-4643ce2c6575}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Monkey_Statue">
-      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Push_Stone">
       <UniqueIdentifier>{3e1724c9-4947-4808-89af-1b26f8ce4fca}</UniqueIdentifier>
@@ -382,6 +376,15 @@
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Koofu_Smoke">
       <UniqueIdentifier>{3e2fefd2-3949-4195-8127-737e77994330}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\QuizMng">
+      <UniqueIdentifier>{7b39dce1-58d1-4aa7-94f5-385e1b2761d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\QuizMng\Block">
+      <UniqueIdentifier>{dc0b2874-9e07-4652-906a-206b0a95a743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\QuizMng\Monkey_Statue">
+      <UniqueIdentifier>{bc454981-81d4-4185-9cdb-85f247693c99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -463,13 +466,13 @@
       <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Monkey_Statue.h">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng\Monkey_Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RockBreakable.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Block.h">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng\Block</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hole.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
@@ -825,6 +828,9 @@
     <ClInclude Include="..\Public\TravelNpc.h">
       <Filter>02.GameObjects\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\QuizMgr.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -891,13 +897,13 @@
       <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Monkey_Statue.cpp">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Monkey_Statue</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng\Monkey_Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RockBreakable.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\RockBreakable</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Block.cpp">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Block</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng\Block</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hole.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Hole</Filter>
@@ -1252,6 +1258,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TravelNpc.cpp">
       <Filter>02.GameObjects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuizMgr.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

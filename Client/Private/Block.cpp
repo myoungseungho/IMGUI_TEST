@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include "Monkey_Statue.h"
+#include <QuizMgr.h>
 
 
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -26,6 +27,7 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -59,6 +61,8 @@ HRESULT CBlock::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	CQuizMgr::Get_Instance()->Add_Block(this);
+
 	return S_OK;
 }
 
@@ -68,13 +72,9 @@ void CBlock::Priority_Update(_float fTimeDelta)
 
 void CBlock::Update(_float fTimeDelta)
 {
+	CQuizMgr::Get_Instance()->Set_Block_State();
+
 	__super::Update(fTimeDelta);
-
-	if (CMonkey_Statue::m_eMonkeyState ==1)
-		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
-	else
-		m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
-
 }
 
 void CBlock::Late_Update(_float fTimeDelta)
@@ -133,6 +133,19 @@ void CBlock::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CBlock::OnCollisionExit(class CCollider* other)
 {
+}
+
+void CBlock::First_State()
+{
+	m_eAnimState = ANIM_BLOCK;
+}
+
+void CBlock::Change_State()
+{
+	if (m_eAnimState == ANIM_BLOCK)
+		m_eAnimState = ANIM_UNBLOCK;
+	else
+		m_eAnimState = ANIM_BLOCK;
 }
 
 HRESULT CBlock::Ready_Components()
@@ -205,13 +218,15 @@ CGameObject* CBlock::Clone(void* pArg)
 
 void CBlock::Free()
 {
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pAnimCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
+		Safe_Release(m_pTransformCom);
+		Safe_Release(m_pVIBufferCom);
+		Safe_Release(m_pAnimCom);
+		Safe_Release(m_pTextureCom);
+		Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
+		m_pGameInstance->Release_Collider(m_pColliderCom);
 
-	__super::Free();
+		__super::Free();
+
+		
 }

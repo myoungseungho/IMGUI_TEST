@@ -4,8 +4,8 @@
 #include "GameInstance.h"
 #include <Player.h>
 #include "Block.h"
+#include "QuizMgr.h"
 
-_uint CMonkey_Statue::m_eMonkeyState = CMonkey_Statue::STATE_UP;
 
 CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -27,6 +27,7 @@ HRESULT CMonkey_Statue::Initialize_Prototype()
 
 HRESULT CMonkey_Statue::Initialize(void* pArg)
 {
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -58,8 +59,9 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	CMonkey_Statue::m_eMonkeyState = STATE_UP;
 	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	CQuizMgr::Get_Instance()->Add_MonkeyStatue(this);
 
 	return S_OK;
 }
@@ -104,27 +106,42 @@ HRESULT CMonkey_Statue::Render(_float fTimeDelta)
 
 void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+
+}
+
+void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2)
-			Change_State(fTimeDelta);
+		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
+		{
+			CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+
+			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this);
+
+			pQuizManager->Change_Block_State(iMonkeyIndex);
+
+			bIsChangeOnce = false;
+		}
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
 	}
 }
 
-void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-
-}
-
 void CMonkey_Statue::OnCollisionExit(class CCollider* other)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
+
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		bIsChangeOnce = true;
+	}
 }
 
 HRESULT CMonkey_Statue::Ready_Components()
@@ -157,14 +174,6 @@ HRESULT CMonkey_Statue::Ready_Components()
 	return S_OK;
 }
 
-void CMonkey_Statue::Change_State(_float fTimeDelta)
-{
-	if (CMonkey_Statue::m_eMonkeyState == STATE_UP)
-		CMonkey_Statue::m_eMonkeyState = STATE_DOWN;
-	else if (CMonkey_Statue::m_eMonkeyState == STATE_DOWN)
-		CMonkey_Statue::m_eMonkeyState = STATE_UP;
-}
-
 CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CMonkey_Statue* pInstance = new CMonkey_Statue(pGraphic_Device);
@@ -194,13 +203,14 @@ CGameObject* CMonkey_Statue::Clone(void* pArg)
 
 void CMonkey_Statue::Free()
 {
-	Safe_Release(m_pTimerCom);
-	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
+		Safe_Release(m_pTimerCom);
+		Safe_Release(m_pTransformCom);
+		Safe_Release(m_pVIBufferCom);
+		Safe_Release(m_pTextureCom);
+		Safe_Release(m_pColliderCom);
 
-	__super::Free();
+		m_pGameInstance->Release_Collider(m_pColliderCom);
+
+		__super::Free();
 }

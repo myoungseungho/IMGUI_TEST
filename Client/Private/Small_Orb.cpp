@@ -146,19 +146,24 @@ HRESULT CSmall_Orb::Render(_float fTimeDelta)
 
 void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	
+}
+
+void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_State() == 2)
+		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
 		{
-			if (m_eDirection == DIR_DOWN )
+			if (m_eDirection == DIR_DOWN)
 			{
 				m_ePreDirection = DIR_DOWN;
 				m_eDirection = DIR_LEFT;
-
+				bIsChangeOnce = false;
 				return;
 			}
 
@@ -166,7 +171,7 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_LEFT;
 				m_eDirection = DIR_UP;
-
+				bIsChangeOnce = false;
 				return;
 			}
 
@@ -174,7 +179,7 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_UP;
 				m_eDirection = DIR_RIGHT;
-
+				bIsChangeOnce = false;
 				return;
 			}
 
@@ -182,21 +187,21 @@ void CSmall_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_RIGHT;
 				m_eDirection = DIR_DOWN;
-
+				bIsChangeOnce = false;
 				return;
 			}
 		}
 	}
 }
 
-void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-
-}
-
 void CSmall_Orb::OnCollisionExit(class CCollider* other)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		bIsChangeOnce = true;
+	}
 }
 
 HRESULT CSmall_Orb::Ready_Components()

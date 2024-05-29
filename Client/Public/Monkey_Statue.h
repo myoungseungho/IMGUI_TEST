@@ -42,9 +42,6 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
-public:
-	static _uint			m_eMonkeyState;
-
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -55,11 +52,9 @@ private:
 private:
 	HRESULT Ready_Components();
 
-
-	_float3				PrePos = { 0.f, 0.f, 0.f };
 private:
-	void			Change_State(_float fTimeDelta);
-
+	_float3				PrePos = { 0.f, 0.f, 0.f };
+	_bool		bIsChangeOnce = { true };
 
 public:
 	/* 원형객체를 생성한다. */

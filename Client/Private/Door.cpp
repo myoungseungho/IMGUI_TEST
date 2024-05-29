@@ -60,6 +60,7 @@ HRESULT CDoor::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
+	//m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
 	return S_OK;
 }
 

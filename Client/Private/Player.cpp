@@ -94,7 +94,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 
-
 	Key_Input(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_HIT)
@@ -125,8 +124,6 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	//Change_State(fTimeDelta);
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
@@ -246,7 +243,9 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		if (m_ePlayerCurState == STATE_WALK)
 		{
-			if (CMonkey_Statue::m_eMonkeyState != 1)
+			CBlock* pBlock = dynamic_cast<CBlock*>(otherObject);
+
+			if (pBlock->m_eAnimState != 3)
 			{
 				// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -480,7 +479,9 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		if (m_ePlayerCurState == STATE_WALK)
 		{
-			if (CMonkey_Statue::m_eMonkeyState != 1)
+			CBlock* pBlock = dynamic_cast<CBlock*>(otherObject);
+
+			if (pBlock->m_eAnimState != 3)
 			{
 				// Transform ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿È
 				CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -786,6 +787,8 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	m_ePlayerPreState = m_ePlayerCurState;
+
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
 	m_bMoveLeft = m_pKeyCom->Key_Pressing(VK_LEFT);
 	m_bMoveUp = m_pKeyCom->Key_Pressing(VK_UP);

@@ -57,6 +57,13 @@ IsParsing: 1
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
 LevelIndex: 3
+Position: 43 0.5 25
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Block
+PrototypeTag: Prototype_GameObject_Block
+LevelIndex: 3
 Position: 44.5 0.5 25
 Scale: 1 1 1
 IsParsing: 1
@@ -65,13 +72,6 @@ LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
 LevelIndex: 3
 Position: 50.5 0.5 20.5
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Bush
-PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 3
-Position: 49 0.5 22
 Scale: 1 1 1
 IsParsing: 1
 
@@ -120,7 +120,7 @@ IsParsing: 1
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
 LevelIndex: 3
-Position: 50.5 0.8 22
+Position: 50.6 0.8 22
 Scale: 1 1.4999 1
 IsParsing: 1
 
@@ -134,7 +134,7 @@ IsParsing: 1
 LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
 LevelIndex: 3
-Position: 43 0.8 25
+Position: 43 0.8 26.5
 Scale: 1 1.4999 1
 IsParsing: 1
 
@@ -149,13 +149,6 @@ LayerName: Layer_MonkeyStatue
 PrototypeTag: Prototype_GameObject_MonkeyStatue
 LevelIndex: 3
 Position: 40 0.8 31
-Scale: 1 1.4999 1
-IsParsing: 1
-
-LayerName: Layer_MonkeyStatue
-PrototypeTag: Prototype_GameObject_MonkeyStatue
-LevelIndex: 3
-Position: 44.5 0.8 22
 Scale: 1 1.4999 1
 IsParsing: 1
 
@@ -211,7 +204,7 @@ IsParsing: 1
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
 LevelIndex: 3
-Position: 53.5 0.5 31
+Position: 52 0.5 31
 Scale: 1 1 1
 IsParsing: 1
 
@@ -337,7 +330,7 @@ IsParsing: 1
 LayerName: Layer_RockBreakable
 PrototypeTag: Prototype_GameObject_RockBreakable
 LevelIndex: 3
-Position: 53.5 0.5 19
+Position: 52 0.5 19
 Scale: 1 1 1
 IsParsing: 1
 
@@ -488,31 +481,45 @@ Position: 38.5 0.5 20.5
 Scale: 1 1 1
 IsParsing: 1
 
+LayerName: Layer_RockBreakable
+PrototypeTag: Prototype_GameObject_RockBreakable
+LevelIndex: 3
+Position: 53.5 0.5 19
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_RockBreakable
+PrototypeTag: Prototype_GameObject_RockBreakable
+LevelIndex: 3
+Position: 53.5 0.5 29.5
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_RockBreakable
+PrototypeTag: Prototype_GameObject_RockBreakable
+LevelIndex: 3
+Position: 53.5 0.5 31
+Scale: 1 1 1
+IsParsing: 1
+
 LayerName: Layer_Rotation_Stand
 PrototypeTag: Prototype_GameObject_Rotation_Stand
 LevelIndex: 3
-Position: 35 0.506 20
+Position: 35 0.5 20
 Scale: 0.9 0.9 0.9
 IsParsing: 1
 
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 3
-Position: 35 10.5 5
+Position: 48.0287 15.1997 6.11438
 Scale: 1 1 1
 IsParsing: 1
 
 LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
 LevelIndex: 3
-Position: 52 0.5 19
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_StonePushable
-PrototypeTag: Prototype_GameObject_StonePushable
-LevelIndex: 3
-Position: 53.5 0.5 29.5
+Position: 35 0.5 16
 Scale: 1 1 1
 IsParsing: 1
 
@@ -645,55 +652,6 @@ IsParsing: 1
 LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
-Position: 1.4013e-45 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 1.4013e-45 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 1.4013e-45 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 1.4013e-45 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
 Position: 0 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
@@ -750,34 +708,6 @@ IsParsing: 1
 LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
 Position: 1.4013e-45 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
@@ -799,34 +729,6 @@ IsParsing: 1
 LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: -4.22017e+37 -1.9984e+18 -1.9984e+18
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
 Position: 1.4013e-45 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
@@ -842,20 +744,6 @@ LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
 Position: 1.4013e-45 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
-Scale: 0.5 0.5 0.5
-IsParsing: 1
-
-LayerName: Layer_Un_Small_Orb
-PrototypeTag: Prototype_GameObject_Un_Small_Orb
-LevelIndex: 3
-Position: 0 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
 
@@ -897,6 +785,90 @@ IsParsing: 1
 LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
 Position: 0 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
@@ -905,6 +877,167 @@ LayerName: Layer_Un_Small_Orb
 PrototypeTag: Prototype_GameObject_Un_Small_Orb
 LevelIndex: 3
 Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 1.4013e-45 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 0 0.1 -4.22017e+37
 Scale: 0.5 0.5 0.5
 IsParsing: 1
 
