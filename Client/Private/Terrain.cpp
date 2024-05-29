@@ -29,6 +29,30 @@ HRESULT CTerrain::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	LEVELID level = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+
+	switch (level)
+	{
+	case Client::LEVEL_TACHO:
+		m_iTextureNum = 0;
+		break;
+	case Client::LEVEL_JUNGLE:
+		m_iTextureNum = 0;
+		break;
+	case Client::LEVEL_SNOW:
+		m_iTextureNum = 1;
+		break;
+	case Client::LEVEL_KOOFU:
+		m_iTextureNum = 2;
+		break;
+	case Client::LEVEL_BUG:
+		m_iTextureNum = 3;
+		break;
+	case Client::LEVEL_EDIT:
+		m_iTextureNum = 0;
+		break;
+	}
+
 	return S_OK;
 }
 
@@ -52,7 +76,7 @@ HRESULT CTerrain::Render(_float fTimeDelta)
 	//m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureNum)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -68,9 +92,8 @@ HRESULT CTerrain::Render(_float fTimeDelta)
 
 HRESULT CTerrain::Ready_Components()
 {
-	LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(loadingLevel, TEXT("Prototype_Component_Texture_Terrain"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Terrain"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
