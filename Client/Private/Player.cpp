@@ -62,7 +62,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_ePlayerDir = DIR_DOWN;
 	m_bAttack = false;
 
-	LEVELID level =  (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
+	LEVELID level = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 	switch (level)
 	{
 	case Client::LEVEL_TACHO:
@@ -363,7 +363,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 		return;
 	}
-		
+
 
 	if (dynamic_cast<CMonster*>(otherObject))
 	{
@@ -621,11 +621,12 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 {
 	_uint level = m_pGameInstance->GetCurrentLevelIndex();
 	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
-	static_cast<CUI_Npc_Talk*>(gameObjectTalk)->SetIsNpcTalkOn(_isOn);
+	CUI_Npc_Talk* npcTalk = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
 
 	//충돌 On
 	if (_isOn)
 	{
+		npcTalk->SetIsNpcTalkOn(_isOn);
 		//// 이펙트 수정
 		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
 		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
@@ -634,6 +635,9 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 	//충돌 Off인데
 	else if (m_bIsInteractionIng && !_isOn)
 	{
+		if (npcTalk->m_bIsNpcTalkOn == true)
+			return;
+
 		//// 이펙트 수정
 		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
 		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);

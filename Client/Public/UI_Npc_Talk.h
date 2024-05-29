@@ -75,7 +75,7 @@ private:
 	_bool m_bGrowthComplete = false; // 성장 완료 여부
 	_bool m_bIsShrinking = { false };
 
-private:
+public:
 	_bool m_bIsNpcTalkOn = { false };
 
 private:

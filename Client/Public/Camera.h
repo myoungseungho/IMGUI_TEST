@@ -50,19 +50,20 @@ private:
     POINT m_OldMousePos = {};
     _float m_fMouseSensor = { 0.2f };
 
+    _float3 m_vPosition = {};
     _float3 m_vInitialPosition = {};
-    _float3 m_vOriginalPosition = {};
-    _float3 m_vTargetPosition = {};
+
     _float3 m_vInitialOffset = {};
     _float3 m_vCurrentOffset = {};
-    _float3 m_vTargetOffset = {};
+
 
     _float m_fElapsedTime = {};
     _float m_fDuration = {};
+    _float m_fDistance = {};
 
     _bool m_bIsMovingToTarget = { false };
+    _bool m_bIsZoomCompleted = { false };
     _bool m_bIsReturning = { false };
-    _bool m_bAtTargetPosition = { false };
 
 public:
     void MoveToTarget(_float fDuration, _float fDistance);
