@@ -2,7 +2,7 @@
 #include "..\Public\UI_Npc_Talk.h"
 #include <sstream>
 #include "GameInstance.h"
-
+#include "Camera.h"
 CUI_Npc_Talk::CUI_Npc_Talk(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
 {
@@ -185,7 +185,7 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	/*_float3 _arrowPosition = { offsetX,offsetY,0 };
 	_float3 _scale = { offsetXScale,offsetYScale,0 };*/
 
-	
+
 
 	if (m_bGrowthComplete)
 	{
@@ -302,6 +302,10 @@ void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
 {
 	m_fCreateTime = 0.0f;
 
+	_uint level = m_pGameInstance->GetCurrentLevelIndex();
+	CGameObject* gameObject = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Camera"));
+	CCamera* camera = static_cast<CCamera*>(gameObject);
+
 	if (_isOn)
 	{
 		m_bIsShrinking = false;
@@ -309,14 +313,30 @@ void CUI_Npc_Talk::SetIsNpcTalkOn(_bool _isOn)
 		m_CurrentCharIndex = 0;
 		m_DisplayText.clear();
 		m_bIsNpcTalkOn = true;
+
+		// 카메라를 찾고 이동시킵니다.
+		if (!camera)
+		{
+			_uint level = m_pGameInstance->GetLoadingLevelIndex();
+			camera = static_cast<CCamera*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Camera")));
+		}
+		if (camera)
+		{
+			camera->MoveToTarget(0.5f, -3.0f); // 0.5초 동안 -3만큼 타겟에 가까이 이동
+		}
 	}
 	else
 	{
 		m_bIsShrinking = true;
 		m_bGrowthComplete = false;
+
+		// 카메라를 원래 위치로 복귀시킵니다.
+		if (camera)
+		{
+			camera->ReturnToOriginalPosition(1.0f); // 1초 동안 원래 위치로 복귀
+		}
 	}
 }
-
 HRESULT CUI_Npc_Talk::Ready_Components()
 {
 	/* For.Com_Texture */
