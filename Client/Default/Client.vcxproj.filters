@@ -785,7 +785,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\Door.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
-  </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
@@ -821,6 +821,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Effect_Koofu_Smoke.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TravelNpc.h">
+      <Filter>02.GameObjects\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1210,7 +1213,7 @@
     </ClCompile>
     <ClCompile Include="..\Private\Door.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
- </ClCompile>
+    </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
@@ -1246,6 +1249,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Effect_Koofu_Smoke.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Koofu_Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TravelNpc.cpp">
+      <Filter>02.GameObjects\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
