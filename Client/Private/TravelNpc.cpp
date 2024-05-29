@@ -36,7 +36,6 @@ HRESULT CTravelNpc::Initialize(void* pArg)
 		return E_FAIL;
 
 	NPCDESC* npcDesc = reinterpret_cast<NPCDESC*>(pArg);
-	m_wStrNpcName = npcDesc->npcName;
 
 	m_pTransformCom->Set_Scaled(npcDesc->scale);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &npcDesc->position);
@@ -145,9 +144,7 @@ HRESULT CTravelNpc::Ready_Components()
 HRESULT CTravelNpc::Ready_Animation()
 {
 	// Idle
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_TutorialVillager_Pig_Idle"), TEXT("Npc_Idle"));
-	// Reaction
-	m_pAnimCom->Add_Animator(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_TutorialVillager_Pig_Bye"), TEXT("Npc_Reaction"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_BalloonMonkey"), TEXT("Npc_Idle"));
 
 	return S_OK;
 }
@@ -177,9 +174,6 @@ void CTravelNpc::AnimState(_float _fTimeDelta)
 	{
 	case Client::CTravelNpc::ANIM_IDLE:
 		m_pAnimCom->Play_Animator(TEXT("Npc_Idle"), 0.5f, _fTimeDelta, true);
-		break;
-	case Client::CTravelNpc::ANIM_REACTION:
-		m_pAnimCom->Play_Animator(TEXT("Npc_Reaction"), 0.5f, _fTimeDelta, true);
 		break;
 	default:
 		break;

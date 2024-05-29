@@ -14,6 +14,7 @@
 #include "Npc.h"
 #include "UI_Npc_Question_Effect.h"
 #include "UI_Npc_Talk.h"
+#include "TravelNpc.h"
 CLevel_Tacho::CLevel_Tacho(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -38,6 +39,8 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_Npc_Question(TEXT("Layer_Npc_Question"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_TravelNpc(TEXT("Layer_Npc_TravelNpc"))))
+		return E_FAIL;
 	__super::Initialize();
 
 
@@ -151,6 +154,18 @@ HRESULT CLevel_Tacho::Ready_Layer_Npc(const _wstring& strLayerTag)
 	desc.scale = _float3(1.5f, 1.5f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Npc"), strLayerTag, &desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Tacho::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
+{
+	CTravelNpc::NPCDESC desc{};
+	desc.position = _float3(54.672f, 1.0f, 28.539f);
+	desc.scale = _float3(2.f, 2.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag,&desc)))
 		return E_FAIL;
 
 	return S_OK;

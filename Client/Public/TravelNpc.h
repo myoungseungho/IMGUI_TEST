@@ -28,7 +28,6 @@ public:
 private:
 	enum ANIMATION_STATE {
 		ANIM_IDLE,
-		ANIM_REACTION
 	};
 private:
 	CTravelNpc(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
