@@ -204,6 +204,7 @@
     <ClInclude Include="..\Public\Outside_TelePhonePole.h" />
     <ClInclude Include="..\Public\Outside_WaterTank.h" />
     <ClInclude Include="..\Public\Push_Stone.h" />
+    <ClInclude Include="..\Public\QuizMgr.h" />
     <ClInclude Include="..\Public\RockBreakable.h" />
     <ClInclude Include="..\Public\Boss_Bug.h" />
     <ClInclude Include="..\Public\Boss_Koofu.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="..\Private\Outside_TelephonePole.cpp" />
     <ClCompile Include="..\Private\Outside_WaterTank.cpp" />
     <ClCompile Include="..\Private\Push_Stone.cpp" />
+    <ClCompile Include="..\Private\QuizMgr.cpp" />
     <ClCompile Include="..\Private\RockBreakable.cpp" />
     <ClCompile Include="..\Private\Boss_Bug.cpp" />
     <ClCompile Include="..\Private\Boss_Koofu.cpp" />

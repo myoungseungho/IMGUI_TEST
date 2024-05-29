@@ -747,6 +747,9 @@
     <ClInclude Include="..\Public\Door.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\QuizMgr.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1132,6 +1135,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Door.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Orb\End_Orb\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuizMgr.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\QuizMng</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
