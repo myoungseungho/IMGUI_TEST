@@ -99,6 +99,8 @@ void CBox::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		m_eAnimState = ANIM_MOVE;
 		pCopyPlayer->m_bHaveSkill = true;
+		pCopyPlayer->m_ePlayerCurState = pCopyPlayer->STATE_GET;
+		pCopyPlayer->m_bAttack = true;
 	}
 }
 

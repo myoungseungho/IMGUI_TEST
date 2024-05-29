@@ -22,7 +22,7 @@ class CPlayer final : public CGameObject
 {
 public:
 	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
-	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_END };
+	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, STATE_GET, STATE_END };
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -97,21 +97,25 @@ private:
 
 	void				For_Attack_State(_float fTimeDelta);
 	void				For_Damage_State(_float fTimeDelta);
+	void				For_Get_State(_float fTimeDelta);
 
 	void				Player_Damaged();
 
 private:
 	void Interaction_NPC(class CNpc* npc);
 	void Set_Npc_Talk(_bool _isOn);
-private:
+
+public:
 	_float3		m_forScaled;
 
 	DIRECTION	m_ePlayerDir = { DIR_END };
 	PLAYER_STATE			m_ePlayerCurState = { STATE_END };
 	PLAYER_STATE			m_ePlayerPreState = { STATE_IDLE };
 
+private:
 	_float			m_fAttackTime = { 0.0f };
 	_float			m_fDamageTime = { 0.0f };
+	_float			m_fGetTime = { 0.0f };
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };
@@ -119,7 +123,7 @@ private:
 	_bool			m_bCanDamaged = { true };
 	_bool			m_bForTestDamaged = { false };
 
-private:
+public:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;
 	_bool m_bMoveUp = false;

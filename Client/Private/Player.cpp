@@ -104,6 +104,10 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
+	else if (m_ePlayerCurState == STATE_GET)
+	{
+		For_Get_State(fTimeDelta);
+	}
 	else if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
@@ -764,6 +768,8 @@ HRESULT CPlayer::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Down"), TEXT("Player_Push_Down"));
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Push_Left"), TEXT("Player_Push_Left"));
 
+	// Get Item
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Get_Item"), TEXT("Player_Get_Item"));
 	return S_OK;
 }
 
@@ -987,7 +993,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 
-		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && m_ePlayerCurState != STATE_HIT)
+		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH && 
+			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
@@ -1246,6 +1253,8 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 			m_pAnimCom->Play_Animator(TEXT("Player_Hit_RightDown"), 1.0f, _fTimeDelta, false);
 			break;
 		}
+	case STATE_GET:
+		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;
 	}
 }
@@ -1269,6 +1278,22 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	}
 
 }
+
+void CPlayer::For_Get_State(_float fTimeDelta)
+{
+	if (m_ePlayerCurState == STATE_GET)
+	{
+		m_fGetTime += fTimeDelta;
+
+		if (m_fGetTime >= 2.f)
+		{
+			m_ePlayerCurState = STATE_IDLE;
+			m_fGetTime = 0.0f;
+			m_bAttack = false;
+		}
+	}
+}
+
 void CPlayer::For_Damage_State(_float fTimeDelta)
 {
 	m_fDamageTime += fTimeDelta;
