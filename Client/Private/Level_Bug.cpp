@@ -51,6 +51,8 @@ HRESULT CLevel_Bug::Initialize()
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
 		return E_FAIL;
 
+	CSound::Init();
+
 	return S_OK;
 }
 

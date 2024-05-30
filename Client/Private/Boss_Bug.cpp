@@ -46,11 +46,18 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	m_eMon_State = MON_STATE::IDLE;
 
+	m_pSoundCom->Init();
+
 	return S_OK;
 }
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
+	if(m_pKeyCom->Key_Down('U'))
+		m_pSoundCom->play();
+
+		m_pSoundCom->Update();
+
 	m_fAngle++;
 
 	if (m_fAngle > 360.f)
@@ -135,7 +142,11 @@ HRESULT CBoss_Bug::Ready_Components()
 
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER_SKILL, this);
-	
+
+	if (FAILED(__super::Add_Component(LEVEL_BUG, TEXT("Prototype_Component_Sound_Moon_Boss_BGM"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -621,6 +632,7 @@ void CBoss_Bug::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pSoundCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 

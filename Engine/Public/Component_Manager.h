@@ -9,6 +9,7 @@
 #include "Calc_Timer.h"
 #include "KeyState.h"
 #include "Animator.h"
+#include "CSound.h"
 
 /* 1. 원형객첼르 레벨별로 보관한다. */
 /* 2. 지정한 원형객체를 복제하여 리턴한다. */

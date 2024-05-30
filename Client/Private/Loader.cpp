@@ -86,6 +86,7 @@
 #include "Effect_Koofu_Smoke.h"
 #include "Box.h"
 #include "Skill_Arror.h"
+#include "CSound.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -1227,7 +1228,11 @@ HRESULT CLoader::Loading_For_Bug()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Boss_Bug_Down/Sprite_BugBossDown_%d.png"), 6))))
 		return E_FAIL;
 
-	
+
+	/* Sound  */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_Sound_Moon_Boss_BGM"),
+		CSound::Create(m_pGraphic_Device ,"../Bin/Resources/Orgu_144_Resource/Sound/BGM_38_MoonPowerPlant.wav",true))))
+		return E_FAIL;
 	
 
 	/* 모델을 로드한다. */
