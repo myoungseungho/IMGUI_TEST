@@ -26,6 +26,8 @@ private:
 private:
 	_bool m_bKeyState[VK_MAX];
 public:
+	_bool m_bIsAllowInventory = true;
+public:
 	virtual void Free() override;
 };
 

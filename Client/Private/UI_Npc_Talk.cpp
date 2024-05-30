@@ -182,11 +182,6 @@ HRESULT CUI_Npc_Talk::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	/*_float3 _arrowPosition = { offsetX,offsetY,0 };
-	_float3 _scale = { offsetXScale,offsetYScale,0 };*/
-
-
-
 	if (m_bGrowthComplete)
 	{
 		// 텍스트 렌더링 - 이름

@@ -32,6 +32,9 @@ void CLevel_UI::Update(_float fTimeDelta)
 {
 	//ESC를 눌렀을 때 인벤토리 사본이 이미 존재한다면 가져오고
 	//없다면 사본 하나 만든다.
+	if (!m_bIsAllowInventory)
+		return;
+
 	if (Key_Down(VK_ESCAPE))
 	{
 		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));

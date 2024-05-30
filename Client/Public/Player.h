@@ -151,8 +151,8 @@ public:
 	_float		m_bAttack = { false };
 
 public:
-	_bool		m_bHaveSkill = { false};
-	
+	_bool		m_bHaveSkill = { false };
+
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:
@@ -166,6 +166,10 @@ private:
 	_bool m_bIsMovingUp = false;
 	_bool m_bIsMovingComplete = false;
 	_bool m_bIsMovingDown = false;
+	_bool m_bOpenShop = true;
+public:
+	_bool m_bIsShop = false;
+
 public:
 
 	/* 원형객체를 생성한다. */

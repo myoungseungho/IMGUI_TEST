@@ -32,6 +32,8 @@
 #include "Level_Loading.h"
 #include <Small_Orb.h>
 #include <Un_Small_Orb.h>
+#include "Shop.h"
+#include "Level_UI.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -226,8 +228,10 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 	if (m_ePlayerCurState == STATE_BALLON_UP && m_bIsMovingComplete)
 		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, (LEVELID)(m_pGameInstance->GetCurrentLevelIndex() + 1)));
 
-	// 시간 경과
-	return S_OK;
+	if (m_bIsShop)
+
+		// 시간 경과
+		return S_OK;
 }
 
 void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
@@ -666,7 +670,21 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		Set_Npc_Talk(false);
 		m_pCurrentCollisionOk_Npc = nullptr;
 		m_bIsInteractionIng = false;
+
+		//상점이 열리면
+		if (shop != nullptr)
+		{
+			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_TACHO, TEXT("Layer_Shop")));
+			shop->SetInventoryOnOff();
+
+			m_bOpenShop = false;
+			//그리고 레벨UI에 있는 ESC를 제어해야 함.
+			static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = false;
+
+		}
 	}
+
+
 #pragma endregion
 
 
@@ -932,6 +950,9 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	if (!m_bOpenShop)
+		return S_OK;
+
 	m_ePlayerPreState = m_ePlayerCurState;
 
 	m_bMoveRight = m_pKeyCom->Key_Pressing(VK_RIGHT);
@@ -1170,7 +1191,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 	return S_OK;
 }
 
-
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
 	_float3		curScaled;
@@ -1200,7 +1220,6 @@ HRESULT CPlayer::Player_Skill()
 
 	return S_OK;
 }
-
 
 void CPlayer::BillBoarding()
 {
@@ -1491,7 +1510,6 @@ CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	return pInstance;
 }
-
 
 CGameObject* CPlayer::Clone(void* pArg)
 {
