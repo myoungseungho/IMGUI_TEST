@@ -7,7 +7,7 @@ CSound::CSound()
     
 }
 
-HRESULT CSound::Initialize_Prototype(const char* path, bool loop)
+HRESULT CSound::Sound_Create(const char* path, bool loop)
 {
     if (loop) {
         FMOD_System_CreateSound(g_sound_system, path, FMOD_LOOP_NORMAL, 0, &m_sound);
@@ -92,16 +92,9 @@ int CSound::Sound_Update() {
     return 0;
 }
 
-CSound* CSound::Create(const char* path, bool loop)
+CSound* CSound::Create()
 {
-    CSound* pInstance = new CSound();
-
-    if (FAILED(pInstance->Initialize_Prototype(path, loop)))
-    {
-        MSG_BOX(TEXT("Faild to Created : CSound"));
-        Safe_Release(pInstance);
-    }
-    return pInstance;
+    return new CSound();
 }
 
 void CSound::Free()

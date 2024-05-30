@@ -5,10 +5,6 @@
 
 #include "Skill_Bug_Bullet.h"
 
-BEGIN(Engine)
-class CSound;
-END
-
 BEGIN(Client)
 
 class CBoss_Bug final :public CMonster
@@ -96,8 +92,6 @@ private:
 
 	_float m_fDashTimer = { 0.f };
 
-private:
-	CSound* m_pSoundCom = { nullptr };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

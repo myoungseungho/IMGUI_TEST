@@ -45,6 +45,11 @@ HRESULT CLevel_Bug::Initialize()
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
 		return E_FAIL;
 
+	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/BGM_38_MoonPowerPlant.wav", true);
+	m_pGameInstance->Sound_Play();
+	
+	
+
 	return S_OK;
 }
 

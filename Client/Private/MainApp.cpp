@@ -7,6 +7,7 @@
 
 #include "..\Public\MainApp.h"
 
+#include "Sound.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "GameObject.h"
@@ -79,6 +80,8 @@ HRESULT CMainApp::Initialize()
 	/* 내 게임을 진행하기위해 필요한 여러 초기화 작업을 수행한다. */
 	if (FAILED(m_pGameInstance->Initialize_Engine(g_hWnd, LEVEL_END, g_iWinSizeX, g_iWinSizeY, &m_pGraphic_Device)))
 		return E_FAIL;
+
+	CSound::Init();
 
 	if (FAILED(SetUp_DefaultState()))
 		return E_FAIL;
@@ -1399,7 +1402,7 @@ void CMainApp::Free()
 
 	__super::Free();
 
-
+	CSound::Release();
 	Safe_Release(m_pGraphic_Device);
 
 	m_pGameInstance->Release_Engine();

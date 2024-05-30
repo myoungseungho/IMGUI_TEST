@@ -189,7 +189,7 @@
     <ClCompile Include="..\private\GameInstance.cpp">
       <Filter>01.Utility\00.GameInstance</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CSound.cpp">
+    <ClCompile Include="..\private\Sound.cpp">
       <Filter>01.Utility\04.Components\Sound</Filter>
     </ClCompile>
   </ItemGroup>
@@ -290,7 +290,7 @@
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CSound.h">
+    <ClInclude Include="..\public\Sound.h">
       <Filter>01.Utility\04.Components\Sound</Filter>
     </ClInclude>
   </ItemGroup>

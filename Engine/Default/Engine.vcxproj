@@ -166,7 +166,7 @@
     <ClCompile Include="..\Private\Collider_Manager.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\Component_Manager.cpp" />
-    <ClCompile Include="..\private\CSound.cpp" />
+    <ClCompile Include="..\private\Sound.cpp" />
     <ClCompile Include="..\Private\FileManager.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
@@ -196,7 +196,7 @@
     <ClInclude Include="..\Public\Collider_Manager.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\Component_Manager.h" />
-    <ClInclude Include="..\public\CSound.h" />
+    <ClInclude Include="..\public\Sound.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
     <ClInclude Include="..\Public\Engine_Macro.h" />

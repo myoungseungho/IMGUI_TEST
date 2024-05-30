@@ -8,7 +8,7 @@
 #include "FileManager.h"
 #include "Collider_Manager.h"
 #include "Picking.h"
-#include "CSound.h"
+#include "Sound.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -53,6 +53,10 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 
 	m_pPicking = CPicking::Create(*ppOut, hWnd);
 	if (nullptr == m_pPicking)
+		return E_FAIL;
+
+	m_pSound = CSound::Create();
+	if (nullptr == m_pSound)
 		return E_FAIL;
 
 	return S_OK;
@@ -314,8 +318,49 @@ _bool CGameInstance::Picked_InWorldSpace(const _float3* pPointA, const _float3* 
 	return m_pPicking->Picked_InWorldSpace(pPointA, pPointB, pPointC, pPickPos);
 }
 
+HRESULT CGameInstance::Sound_Create(const char* path, bool loop)
+{
+	return m_pSound->Sound_Create(path, loop);
+}
+
+int CGameInstance::Sound_Play()
+{
+	return m_pSound->Sound_Play();
+}
+
+int CGameInstance::Sound_Pause()
+{
+	return m_pSound->Sound_Pause();
+}
+
+int CGameInstance::Sound_Resume()
+{
+	return m_pSound->Sound_Resume();
+}
+
+int CGameInstance::Sound_Stop()
+{
+	return m_pSound->Sound_Stop();
+}
+
+int CGameInstance::Sound_VolumeUp()
+{
+	return m_pSound->Sound_VolumeUp();
+}
+
+int CGameInstance::Sound_VolumeDown()
+{
+	return m_pSound->Sound_VolumeDown();
+}
+
+int CGameInstance::Sound_Update()
+{
+	return m_pSound->Sound_Update();
+}
+
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pSound);
 	Safe_Release(m_pPicking);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pComponent_Manager);
