@@ -111,19 +111,23 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
+
+	if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		For_Attack_State(fTimeDelta);
+	}
+	else
+		m_pTransformCom->Set_Scaled(m_forScaled);
+
 	if (m_ePlayerCurState == STATE_HIT)
 	{
 		For_Damage_State(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_ATTACK)
-	{
-		For_Attack_State(fTimeDelta);
-	}
-	else if (m_ePlayerCurState == STATE_GET)
+	if (m_ePlayerCurState == STATE_GET)
 	{
 		For_Get_State(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
+	if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -137,7 +141,7 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 		}
 	}
-	else if (m_ePlayerCurState == STATE_BALLON_UP)
+	if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
 
 		if (!m_bIsMovingUp)
@@ -1126,7 +1130,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		else
 			m_pTransformCom->Set_Speed(3.f);
 
-		if (m_pKeyCom->Key_Down('A'))
+		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState!= STATE_HIT)
 		{
 			m_bAttack = true;
 			m_ePlayerCurState = (STATE_ATTACK);
@@ -1157,14 +1161,16 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
-	_float3		curScaled;
+	if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		_float3		curScaled;
 
-	curScaled.x = m_forScaled.x + 1.5f;
-	curScaled.y = m_forScaled.y + 1.5f;
-	curScaled.z = m_forScaled.z + 1.5f;
+		curScaled.x = m_forScaled.x + 1.5f;
+		curScaled.y = m_forScaled.y + 1.5f;
+		curScaled.z = m_forScaled.z + 1.5f;
 
-	m_pTransformCom->Set_Scaled(curScaled);
-	
+		m_pTransformCom->Set_Scaled(curScaled);
+	}	
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -1393,6 +1399,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		m_fAttackTime += fTimeDelta;
+
 		if (m_fAttackTime >= 1.0f)
 		{
 			m_pTransformCom->Set_Scaled(m_forScaled);

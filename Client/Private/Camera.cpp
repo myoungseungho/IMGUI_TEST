@@ -31,7 +31,7 @@ HRESULT CCamera::Initialize(void* pArg)
 		return E_FAIL;
 
 	_float3 targetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-	m_vInitialOffset = _float3(0.f, 10.f, -10.f); // Fixed offset
+	m_vInitialOffset = _float3(0.f, 7.5f, -10.f); // Fixed offset
 	m_vCurrentOffset = m_vInitialOffset;
 	m_vPosition = targetPos + m_vInitialOffset;
 
