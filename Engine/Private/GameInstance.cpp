@@ -8,6 +8,7 @@
 #include "FileManager.h"
 #include "Collider_Manager.h"
 #include "Picking.h"
+#include "CSound.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
