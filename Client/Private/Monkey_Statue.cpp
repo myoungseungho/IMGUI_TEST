@@ -74,10 +74,6 @@ void CMonkey_Statue::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	//if (m_pTimerCom->Time_Limit(fTimeDelta, 0.01f))
-	//{
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
-	//}
 }
 
 void CMonkey_Statue::Late_Update(_float fTimeDelta)

@@ -56,6 +56,7 @@
 #include "UI_MapGuide.h"
 #include "TravelNpc.h"
 #include <codecvt>
+#include "Effect_Item.h"
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -93,7 +94,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_SNOW)))
+	if (FAILED(Open_Level(LEVEL_JUNGLE)))
 		return E_FAIL;
 
 	return S_OK;
@@ -1197,6 +1198,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Item"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/GetItem/GetItem_0.png"), 1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -1375,6 +1380,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TravelNpc"),
 		CTravelNpc::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Item"),
+		CEffect_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

@@ -1,20 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Item_Skill.h"
+#include "..\Public\Effect_Item.h"
 
 #include "GameInstance.h"
-#include "Effect_Item.h"
 
-CItem_Skill::CItem_Skill(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CEnviormentObject{ pGraphic_Device }
+CEffect_Item::CEffect_Item(LPDIRECT3DDEVICE9 pGraphic_Device)
+	: CEffect{ pGraphic_Device }
 {
 }
 
-CItem_Skill::CItem_Skill(const CItem_Skill& Prototype)
-	: CEnviormentObject{ Prototype }
+CEffect_Item::CEffect_Item(const CEffect_Item& Prototype)
+	: CEffect{ Prototype }
 {
 }
 
-HRESULT CItem_Skill::Initialize_Prototype()
+HRESULT CEffect_Item::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -22,9 +21,9 @@ HRESULT CItem_Skill::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CItem_Skill::Initialize(void* pArg)
+HRESULT CEffect_Item::Initialize(void* pArg)
 {
-	ITEM_SKILL_DESC* pDesc = static_cast<ITEM_SKILL_DESC*>(pArg);
+	EFFECT_ITEM_DESC* pDesc = static_cast<EFFECT_ITEM_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
@@ -37,23 +36,17 @@ HRESULT CItem_Skill::Initialize(void* pArg)
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 2.f, vTargetPos.z - 0.01f));
-
-
-	CEffect_Item::EFFECT_ITEM_DESC EFFECTITEMDESC{};
-
-	EFFECTITEMDESC.pTargetTransform = m_pTransformCom;
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Item"), TEXT("Layer_Effect_Item"), &EFFECTITEMDESC);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z + 0.01f));
+	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 	return S_OK;
 }
 
-void CItem_Skill::Priority_Update(_float fTimeDelta)
+void CEffect_Item::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CItem_Skill::Update(_float fTimeDelta)
+void CEffect_Item::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
@@ -63,14 +56,14 @@ void CItem_Skill::Update(_float fTimeDelta)
 	}
 }
 
-void CItem_Skill::Late_Update(_float fTimeDelta)
+void CEffect_Item::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
-HRESULT CItem_Skill::Render(_float fTimeDelta)
+HRESULT CEffect_Item::Render(_float fTimeDelta)
 {
-	__super::Begin_RenderState();
+	__super::Begin_Blend_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -82,15 +75,15 @@ HRESULT CItem_Skill::Render(_float fTimeDelta)
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	__super::End_RenderState();
+	__super::End_Blend_RenderState();
 
 	return S_OK;
 }
 
-HRESULT CItem_Skill::Ready_Components()
+HRESULT CEffect_Item::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Item_Skill"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Item"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -116,13 +109,13 @@ HRESULT CItem_Skill::Ready_Components()
 	return S_OK;
 }
 
-CItem_Skill* CItem_Skill::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEffect_Item* CEffect_Item::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CItem_Skill* pInstance = new CItem_Skill(pGraphic_Device);
+	CEffect_Item* pInstance = new CEffect_Item(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CItem_Skill"));
+		MSG_BOX(TEXT("Failed to Created : CEffect_Item"));
 		Safe_Release(pInstance);
 	}
 
@@ -130,20 +123,20 @@ CItem_Skill* CItem_Skill::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CItem_Skill::Clone(void* pArg)
+CGameObject* CEffect_Item::Clone(void* pArg)
 {
-	CItem_Skill* pInstance = new CItem_Skill(*this);
+	CEffect_Item* pInstance = new CEffect_Item(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CItem_Skill"));
+		MSG_BOX(TEXT("Failed to Cloned : CEffect_Item"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CItem_Skill::Free()
+void CEffect_Item::Free()
 {
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTimerCom);

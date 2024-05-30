@@ -25,6 +25,10 @@ public:
 	virtual HRESULT Render();
 
 protected:
+	HRESULT Begin_Blend_RenderState();
+	HRESULT End_Blend_RenderState();
+
+protected:
 	_float				m_fViewSpaceZ = {};
 
 public:

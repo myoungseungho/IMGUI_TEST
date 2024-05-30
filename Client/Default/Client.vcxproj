@@ -164,6 +164,7 @@
     <ClInclude Include="..\Public\Bush.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\Door.h" />
+    <ClInclude Include="..\Public\Effect_Item.h" />
     <ClInclude Include="..\Public\Item_Skill.h" />
     <ClInclude Include="..\Public\Laser.h" />
     <ClInclude Include="..\public\Effect.h" />
@@ -318,6 +319,7 @@
     <ClCompile Include="..\Private\Bush.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\Door.cpp" />
+    <ClCompile Include="..\Private\Effect_Item.cpp" />
     <ClCompile Include="..\Private\Item_Skill.cpp" />
     <ClCompile Include="..\Private\Laser.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
