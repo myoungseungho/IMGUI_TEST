@@ -1,23 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Monkey_Statue.h"
+#include "..\Public\Tree_Green.h"
 
 #include "GameInstance.h"
-#include <Player.h>
-#include "Block.h"
-#include "QuizMgr.h"
 
-
-CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTree_Green::CTree_Green(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CMonkey_Statue::CMonkey_Statue(const CMonkey_Statue& Prototype)
+CTree_Green::CTree_Green(const CTree_Green& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CMonkey_Statue::Initialize_Prototype()
+HRESULT CTree_Green::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -25,9 +21,8 @@ HRESULT CMonkey_Statue::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CMonkey_Statue::Initialize(void* pArg)
+HRESULT CTree_Green::Initialize(void* pArg)
 {
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -40,8 +35,6 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
-
-
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -59,33 +52,24 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	CQuizMgr::Get_Instance()->Add_MonkeyStatue(this);
-
 	return S_OK;
 }
 
-void CMonkey_Statue::Priority_Update(_float fTimeDelta)
+void CTree_Green::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CMonkey_Statue::Update(_float fTimeDelta)
+void CTree_Green::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-	//if (m_pTimerCom->Time_Limit(fTimeDelta, 0.01f))
-	//{
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x, PrePos.y, PrePos.z));
-	//}
 }
 
-void CMonkey_Statue::Late_Update(_float fTimeDelta)
+void CTree_Green::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CMonkey_Statue::Render(_float fTimeDelta)
+HRESULT CTree_Green::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -104,53 +88,16 @@ HRESULT CMonkey_Statue::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CMonkey_Statue::OnCollisionEnter(CCollider* other, _float fTimeDelta)
-{
-
-}
-
-void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
-		{
-			CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
-
-			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this);
-
-			pQuizManager->Change_Block_State(iMonkeyIndex);
-
-			bIsChangeOnce = false;
-		}
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(PrePos.x + 0.1f, PrePos.y, PrePos.z));
-	}
-}
-
-void CMonkey_Statue::OnCollisionExit(class CCollider* other)
-{
-}
-
-HRESULT CMonkey_Statue::Ready_Components()
+HRESULT CTree_Green::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Sprite_MonkeyStatue_Trigger"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Tree_Green"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Timer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
-		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -162,17 +109,16 @@ HRESULT CMonkey_Statue::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
-CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CTree_Green* CTree_Green::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CMonkey_Statue* pInstance = new CMonkey_Statue(pGraphic_Device);
+	CTree_Green* pInstance = new CTree_Green(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CMonkey_Statue"));
+		MSG_BOX(TEXT("Failed to Created : CTree_Green"));
 		Safe_Release(pInstance);
 	}
 
@@ -180,29 +126,28 @@ CMonkey_Statue* CMonkey_Statue::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CMonkey_Statue::Clone(void* pArg)
+CGameObject* CTree_Green::Clone(void* pArg)
 {
-	CMonkey_Statue* pInstance = new CMonkey_Statue(*this);
+	CTree_Green* pInstance = new CTree_Green(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CMonkey_Statue"));
+		MSG_BOX(TEXT("Failed to Cloned : CTree_Green"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonkey_Statue::Free()
+void CTree_Green::Free()
 {
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 
-		Safe_Release(m_pTimerCom);
-		Safe_Release(m_pTransformCom);
-		Safe_Release(m_pVIBufferCom);
-		Safe_Release(m_pTextureCom);
-		Safe_Release(m_pColliderCom);
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
-		m_pGameInstance->Release_Collider(m_pColliderCom);
-
-		__super::Free();
+	__super::Free();
 }
+

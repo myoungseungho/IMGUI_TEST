@@ -42,6 +42,10 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
+	void		Change_bIsChangeOnceTrue()
+	{
+		bIsChangeOnce = { true };
+	}
 
 
 private:	
@@ -58,6 +62,7 @@ private:
 
 public:
 
+	_bool		bIsChangeOnce = { true };
 private:
 	SMALLORB_DIR			m_eDirection = { DIR_END };
 	SMALLORB_DIR			m_ePreDirection = { DIR_END };

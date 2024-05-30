@@ -144,46 +144,6 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_CurState() == 2)
-		{
-			if (m_eDirection == DIR_DOWN )
-			{
-				m_ePreDirection = DIR_DOWN;
-				m_eDirection = DIR_LEFT;
-
-				return;
-			}
-
-			if (m_eDirection == DIR_LEFT)
-			{
-				m_ePreDirection = DIR_LEFT;
-				m_eDirection = DIR_UP;
-
-				return;
-			}
-
-			if (m_eDirection == DIR_UP)
-			{
-				m_ePreDirection = DIR_UP;
-				m_eDirection = DIR_RIGHT;
-
-				return;
-			}
-
-			if (m_eDirection == DIR_RIGHT)
-			{
-				m_ePreDirection = DIR_RIGHT;
-				m_eDirection = DIR_DOWN;
-
-				return;
-			}
-		}
-	}
-
 	if (dynamic_cast<CLaser*>(otherObject))
 	{
 		m_eCollisionLazer = STATE_COL;
@@ -196,16 +156,51 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_CurState() == 2 && bIsChangeOnce)
+		{
+			if (m_eDirection == DIR_DOWN)
+			{
+				m_ePreDirection = DIR_DOWN;
+				m_eDirection = DIR_LEFT;
+				bIsChangeOnce = false;
+				return;
+			}
+
+			if (m_eDirection == DIR_LEFT)
+			{
+				m_ePreDirection = DIR_LEFT;
+				m_eDirection = DIR_UP;
+				bIsChangeOnce = false;
+				return;
+			}
+
+			if (m_eDirection == DIR_UP)
+			{
+				m_ePreDirection = DIR_UP;
+				m_eDirection = DIR_RIGHT;
+				bIsChangeOnce = false;
+				return;
+			}
+
+			if (m_eDirection == DIR_RIGHT)
+			{
+				m_ePreDirection = DIR_RIGHT;
+				m_eDirection = DIR_DOWN;
+				bIsChangeOnce = false;
+				return;
+			}
+		}
+	}
 }
 
 void CUn_Small_Orb::OnCollisionExit(class CCollider* other)
 {
-	//CGameObject* otherObject = other->m_MineGameObject;
-
-	//	if (dynamic_cast<CLaser*>(otherObject))
-	//	{
-	//		m_eCollisionLazer = STATE_NOTCOL;
-	//	}
 }
 
 HRESULT CUn_Small_Orb::Ready_Components()

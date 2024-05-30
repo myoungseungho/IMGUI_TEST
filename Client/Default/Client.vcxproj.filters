@@ -100,9 +100,6 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\RockBreakable">
       <UniqueIdentifier>{762393b3-4cdc-4477-8338-ece8b603a123}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree">
-      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Enviorment\00. Tacho">
       <UniqueIdentifier>{8d7973c2-79e0-4cc6-8465-40663dbcb0f2}</UniqueIdentifier>
     </Filter>
@@ -391,6 +388,18 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Item_Skill">
       <UniqueIdentifier>{bc6584df-b071-4b67-adbf-7904268cf950}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Wall_1">
+      <UniqueIdentifier>{ea4d80ee-2d7b-458c-9b9f-7f15ad5dde8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Wall_2">
+      <UniqueIdentifier>{51ef685f-d83f-48f0-8f7d-4d8be2bff5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree_2">
+      <UniqueIdentifier>{230e3736-f1c2-4ba9-b6c5-7e4a1391cd6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree_1">
+      <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -466,7 +475,7 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Tree.h">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_1</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Push_Stone.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
@@ -843,6 +852,15 @@
     <ClInclude Include="..\Public\Item_Skill.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Item_Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Wall_One.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Wall_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Wall_Two.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Wall_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Tree_Green.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -903,7 +921,7 @@
       <Filter>02.GameObjects\LandObject</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Tree.cpp">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_1</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Push_Stone.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Push_Stone</Filter>
@@ -1279,6 +1297,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Item_Skill.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Item_Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Wall_One.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Wall_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Wall_Two.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Wall_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Tree_Green.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

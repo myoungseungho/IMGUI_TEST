@@ -30,6 +30,7 @@
 #include "End_Orb.h"
 #include "Level_Loading.h"
 #include <Small_Orb.h>
+#include <Un_Small_Orb.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -1164,11 +1165,6 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 	m_pTransformCom->Set_Scaled(curScaled);
 	
-	CSmall_Orb* pSmallOrb = dynamic_cast<CSmall_Orb*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Small_Orb")));
-	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
-
-	if (level == LEVEL_JUNGLE)
-	pSmallOrb->Change_bIsChangeOnceTrue();
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -1404,7 +1400,29 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 			m_fAttackTime = 0.0f;
 			m_bAttack = false;
 
+
+			LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
+
+			if (level == LEVEL_JUNGLE)
+			{
+				CSmall_Orb* pSmallOrb = dynamic_cast<CSmall_Orb*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Small_Orb")));
+				pSmallOrb->Change_bIsChangeOnceTrue();
+
+				for (int i = 0; i < 6; i++)
+				{
+					CUn_Small_Orb* pUnSmallOrb = dynamic_cast<CUn_Small_Orb*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Un_Small_Orb"), i));
+					pUnSmallOrb->Change_bIsChangeOnceTrue();
+				}
+
+				for (int i = 0; i < 5; i++)
+				{
+					CMonkey_Statue* pMonkey = dynamic_cast<CMonkey_Statue*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_MonkeyStatue"), i));
+					pMonkey->Change_bIsChangeOnceTrue();
+				}
+			}
+
 		}
+
 	}
 	else
 	{

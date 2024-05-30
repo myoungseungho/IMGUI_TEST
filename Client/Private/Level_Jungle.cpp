@@ -79,55 +79,6 @@ HRESULT CLevel_Jungle::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	return S_OK;
 }
-
-HRESULT CLevel_Jungle::Ready_Layer_End_Orb(const _wstring& strLayerTag)
-{
-	CEnd_Orb::END_ORB_DESC			ENDORBDESC{};
-
-	ENDORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_End_Stand"), TEXT("Com_Transform")));
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_End_Orb"), strLayerTag, &ENDORBDESC)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Jungle::Ready_Layer_Rotation_Orb(const _wstring& strLayerTag)
-{
-	CRotation_Orb::ROTATION_ORB_DESC			ROTORBDESC{};
-
-	ROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Stand"), TEXT("Com_Transform")));
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Rotation_Orb"), strLayerTag, &ROTORBDESC)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Jungle::Ready_Layer_Small_Orb(const _wstring& strLayerTag)
-{
-	CSmall_Orb::SMALL_ORB_DESC			SAMALLORBDESC{};
-
-	SAMALLORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Rotation_Stand"), TEXT("Com_Transform")));
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Small_Orb"), strLayerTag, &SAMALLORBDESC)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Jungle::Ready_Layer_UnRotation_Orb(const _wstring& strLayerTag)
-{
-	CUnRotation_Orb::UNROTATION_ORB_DESC			UNROTORBDESC{};
-
-	UNROTORBDESC.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_UnRotation_Stand"), TEXT("Com_Transform")));
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_UnRotation_Orb"), strLayerTag, &UNROTORBDESC)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CLevel_Jungle::Ready_LandObjects()
 {
 	CLandObject::LANDOBJECT_DESC	Desc{};

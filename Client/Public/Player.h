@@ -151,9 +151,8 @@ public:
 	_float		m_bAttack = { false };
 
 public:
-	_bool		m_bHaveSkill = { true };
+	_bool		m_bHaveSkill = { false};
 	
-
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:

@@ -267,6 +267,7 @@
     <ClInclude Include="..\Public\Monster.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\Tree_Green.h" />
     <ClInclude Include="..\Public\UIObject.h" />
     <ClInclude Include="..\Public\UI_Cursor.h" />
     <ClInclude Include="..\Public\UI_FadeInOut.h" />
@@ -303,6 +304,8 @@
     <ClInclude Include="..\Public\UnRotation_Stand.h" />
     <ClInclude Include="..\Public\Un_Laser.h" />
     <ClInclude Include="..\Public\Un_Small_Orb.h" />
+    <ClInclude Include="..\Public\Wall_One.h" />
+    <ClInclude Include="..\Public\Wall_Two.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -416,6 +419,7 @@
     <ClCompile Include="..\Private\Monster.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\Tree_Green.cpp" />
     <ClCompile Include="..\Private\UIObject.cpp" />
     <ClCompile Include="..\Private\UI_Cursor.cpp" />
     <ClCompile Include="..\Private\UI_FadeInOut.cpp" />
@@ -452,6 +456,8 @@
     <ClCompile Include="..\Private\UnRotation_Stand.cpp" />
     <ClCompile Include="..\Private\Un_Laser.cpp" />
     <ClCompile Include="..\Private\Un_Small_Orb.cpp" />
+    <ClCompile Include="..\Private\Wall_One.cpp" />
+    <ClCompile Include="..\Private\Wall_Two.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
