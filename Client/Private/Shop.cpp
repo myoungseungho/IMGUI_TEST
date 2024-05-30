@@ -64,7 +64,7 @@ HRESULT CShop::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	for (size_t i = 0; i < 3; i++)
+	/*for (size_t i = 0; i < 3; i++)
 	{
 		slotData.position = { -430.f, 80.f };
 		slotData.scale = { 140.f, 145.f };
@@ -73,7 +73,7 @@ HRESULT CShop::Initialize(void* pArg)
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
 			return E_FAIL;
-	}
+	}*/
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
