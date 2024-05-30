@@ -89,6 +89,8 @@
 #include "Tree_Green.h"
 #include "Wall_One.h"
 #include "Wall_Two.h"
+#include "Outside_RealShop.h"
+#include "Shop.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -210,6 +212,9 @@ HRESULT CLoader::Loading_For_Tacho()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Tacho/Outside_TelephonePole1.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TACHO, TEXT("Prototype_Component_Texture_Sprite_UI_MobileInputs_ShopButton"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_UI_MobileInputs_ShopButton.png"), 1))))
+		return E_FAIL;
 	/* 애니메이션 텍스쳐를 로드한다*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_TACHO, TEXT("Prototype_Component_AnimTexture_Sprite_TutorialVillager_Pig_Idle"),
@@ -282,10 +287,17 @@ HRESULT CLoader::Loading_For_Tacho()
 		COutside_TelePhonePole::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Outside_RealShop"),
+		COutside_RealShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Npc"),
 		CNpc::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Shop"),
+		CShop::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	m_isFinished = true;
 }

@@ -24,6 +24,7 @@
 #include "TravelNpc.h"
 #include "UI_Npc_Talk.h"
 #include "UI_Npc_Question_Effect.h"
+#include "Outside_RealShop.h"
 #include <Laser.h>
 #include <Un_Laser.h>
 #include <Door.h>
@@ -376,8 +377,10 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		return;
 	}
 
+#pragma region 승호 영역
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
 	CTravelNpc* travelnpc = dynamic_cast<CTravelNpc*>(otherObject);
+	COutside_RealShop* shop = dynamic_cast<COutside_RealShop*>(otherObject);
 
 	if (npc != nullptr)
 		Interaction_NPC(npc);
@@ -385,6 +388,10 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (travelnpc != nullptr)
 		Interaction_NPC(travelnpc);
 
+	if (shop != nullptr)
+		Interaction_NPC(shop);
+
+#pragma endregion
 
 	// Transform 컴포넌트를 가져옴
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
@@ -648,23 +655,21 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		m_ePlayerCurState = STATE_IDLE;
 	}
 
+#pragma region 승호 영역
 	//NPC랑 충돌벗어나면 해제
 	CNpc* npc = dynamic_cast<CNpc*>(otherObject);
-	if (npc != nullptr)
-	{
-		Set_Npc_Talk(false);
-		m_pCurrentCollisionOk_Npc = nullptr;
-		m_bIsInteractionIng = false;
-	}
-
 	CTravelNpc* travelNpc = dynamic_cast<CTravelNpc*>(otherObject);
-	// Transform 컴포넌트를 가져옴
-	if (travelNpc != nullptr)
+	COutside_RealShop* shop = dynamic_cast<COutside_RealShop*>(otherObject);
+
+	if (npc != nullptr || travelNpc != nullptr || shop != nullptr)
 	{
 		Set_Npc_Talk(false);
 		m_pCurrentCollisionOk_Npc = nullptr;
 		m_bIsInteractionIng = false;
 	}
+#pragma endregion
+
+
 
 	CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
 	CTransform* other_transform = static_cast<CTransform*>(other_component);
@@ -713,6 +718,7 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 	{
 		CNpc* npc = dynamic_cast<CNpc*>(m_pCurrentCollisionOk_Npc);
 		CTravelNpc* travel = dynamic_cast<CTravelNpc*>(m_pCurrentCollisionOk_Npc);
+		COutside_RealShop* shop = dynamic_cast<COutside_RealShop*>(m_pCurrentCollisionOk_Npc);
 
 		if (npc)
 		{
@@ -721,6 +727,10 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 			{TEXT("최진영"), TEXT("잘 모르겠어요....... 아.... 어렵네요...")},
 			{TEXT("최진영"), TEXT("네엡")} };
 			npcTalk->SetNpcTalkMessages(messages);
+
+			//// 이펙트 수정
+			CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
+			static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
 		}
 		else if (travel)
 		{
@@ -729,13 +739,14 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		{TEXT("변수기"), TEXT("내가 만든 퀴즈 맵 가볼래?")} };
 			npcTalk->SetNpcTalkMessages(messages);
 		}
-
+		else if (shop)
+		{
+			vector<pair<wstring, wstring>> messages = {
+		{TEXT("상점 주인"), TEXT("명승호가 만든 상점 구경 한번 해볼래?")} };
+			npcTalk->SetNpcTalkMessages(messages);
+		}
 
 		npcTalk->SetIsNpcTalkOn(_isOn);
-		//// 이펙트 수정
-		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
-		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
-
 	}
 	//충돌 Off인데
 	else if (m_bIsInteractionIng && !_isOn)
@@ -743,10 +754,15 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		if (npcTalk->m_bIsNpcTalkOn == true)
 			return;
 
+		CNpc* npc = dynamic_cast<CNpc*>(m_pCurrentCollisionOk_Npc);
 		CTravelNpc* travel = dynamic_cast<CTravelNpc*>(m_pCurrentCollisionOk_Npc);
-		//// 이펙트 수정
-		CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
-		static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+
+		if (npc != nullptr)
+		{
+			//// 이펙트 수정
+			CGameObject* gameObjectEffect = m_pGameInstance->Get_GameObject(level, TEXT("Layer_Npc_Question"));
+			static_cast<CUI_Npc_Question_Effect*>(gameObjectEffect)->SetIsOn(_isOn);
+		}
 
 		if (travel)
 		{
@@ -1164,7 +1180,7 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 	curScaled.z = m_forScaled.z + 1.5f;
 
 	m_pTransformCom->Set_Scaled(curScaled);
-	
+
 }
 
 HRESULT CPlayer::Player_Skill()

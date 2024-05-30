@@ -400,6 +400,12 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Tree_1">
       <UniqueIdentifier>{1ace6462-cb55-48c0-9b28-78b4ea8d8b8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\00. Tacho\Outside_RealShop">
+      <UniqueIdentifier>{d0ceb53c-b720-427a-9f8f-8c3ef646464a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\ShopUI">
+      <UniqueIdentifier>{c7381cd9-deba-40c0-b060-7b2beb191970}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -861,6 +867,12 @@
     <ClInclude Include="..\Public\Tree_Green.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_2</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Outside_RealShop.h">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_RealShop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shop.h">
+      <Filter>02.GameObjects\UI\ShopUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1306,6 +1318,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Tree_Green.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Tree_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Outside_RealShop.cpp">
+      <Filter>02.GameObjects\Enviorment\00. Tacho\Outside_RealShop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shop.cpp">
+      <Filter>02.GameObjects\UI\ShopUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
