@@ -1,3 +1,4 @@
+
 #include "stdafx.h"
 
 #include "Effect_Koofu_Smoke.h"
@@ -131,6 +132,9 @@ HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
+
+
+
 	return S_OK;
 }
 
@@ -151,7 +155,6 @@ HRESULT CEffect_Koofu_Smoke::End_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-
 
 	return S_OK;
 }

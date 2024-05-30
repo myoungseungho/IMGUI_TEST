@@ -85,6 +85,7 @@
 #include "Effect_Light.h"
 #include "Effect_Koofu_Smoke.h"
 #include "Box.h"
+#include "Skill_Arror.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -475,6 +476,10 @@ HRESULT CLoader::Loading_For_Snow()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Shadow/Sprite_Shadow.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_Texture_Arror"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Arror/BearSoldierShield_%d.png"), 8))))
+		return E_FAIL;
+
 	/* 애니메이션 텍스쳐를 로드한다*/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Snow_Fire_Idle"),
@@ -842,6 +847,10 @@ HRESULT CLoader::Loading_For_Snow()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stun"),
 		CEffect_Stun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Arror"),
+		CSkill_Arror::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	
 	m_isFinished = true;
