@@ -13,7 +13,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CSound :public CComponent
+class  CSound :public CComponent
 {
 private:
     static FMOD_SYSTEM* g_sound_system;

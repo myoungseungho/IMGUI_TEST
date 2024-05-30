@@ -13,7 +13,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CSound :public CComponent
+class ENGINE_DLL CSound :public CBase
 {
 private:
     static FMOD_SYSTEM* g_sound_system;
@@ -23,32 +23,33 @@ private:
 
     float m_volume;
     FMOD_BOOL m_bool;
+
+  
 private:
-    CSound(LPDIRECT3DDEVICE9 pGraphic_Device );
-    CSound(const CSound& pPrototype);
+    CSound();
     virtual ~CSound() = default;
 
 public:
     virtual HRESULT Initialize_Prototype(const char* path, bool loop);
-    virtual HRESULT Initialize(void* pArg);
 
     static int Init();
     static int Release();
 
 public:
-    int play();
-    int pause();
-    int resume();
-    int stop();
-    int volumeUp();
-    int volumeDown();
+    int Sound_Play();
+    int Sound_Pause();
+    int Sound_Resume();
+    int Sound_Stop();
+    int Sound_VolumeUp();
+    int Sound_VolumeDown();
+    int Sound_Update();
 
-    int Update();
-
+private:
+    _uint										m_iNumLevels = { 0 };
+    map<const _wstring, const char*> * m_pPrototypes = { nullptr };
 
 public:
-    static CSound* Create(LPDIRECT3DDEVICE9 pGraphic_Device , const char* path, bool loop);
-    virtual CComponent* Clone(void* pArg) override;
+    static CSound* Create(const char* path, bool loop);
     virtual void Free() override;
 };
 

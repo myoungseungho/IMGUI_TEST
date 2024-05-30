@@ -1,16 +1,10 @@
-#include "CSound.h"
+#include "Sound.h"
 
 FMOD_SYSTEM* CSound::g_sound_system;
 
-CSound::CSound(LPDIRECT3DDEVICE9 pGraphic_Device )
-    :CComponent{ pGraphic_Device }
+CSound::CSound()
 {
     
-}
-
-CSound::CSound(const CSound& pPrototype)
-    :CComponent { pPrototype }
-{
 }
 
 HRESULT CSound::Initialize_Prototype(const char* path, bool loop)
@@ -25,11 +19,6 @@ HRESULT CSound::Initialize_Prototype(const char* path, bool loop)
     m_channel = nullptr;
     m_volume = SOUND_DEFAULT;
 
-    return S_OK;
-}
-
-HRESULT CSound::Initialize(void* pArg)
-{
     return S_OK;
 }
 
@@ -48,31 +37,31 @@ int CSound::Release() {
 }
 
 
-int CSound::play() {
+int CSound::Sound_Play() {
     FMOD_System_PlaySound(g_sound_system, m_sound, 0, false, &m_channel);
 
     return 0;
 }
 
-int CSound::pause() {
+int CSound::Sound_Pause() {
     FMOD_Channel_SetPaused(m_channel, true);
 
     return 0;
 }
 
-int CSound::resume() {
+int CSound::Sound_Resume() {
     FMOD_Channel_SetPaused(m_channel, false);
 
     return 0;
 }
 
-int CSound::stop() {
+int CSound::Sound_Stop() {
     FMOD_Channel_Stop(m_channel);
 
     return 0;
 }
 
-int CSound::volumeUp() {
+int CSound::Sound_VolumeUp() {
     if (m_volume < SOUND_MAX) {
         m_volume += SOUND_WEIGHT;
     }
@@ -82,7 +71,7 @@ int CSound::volumeUp() {
     return 0;
 }
 
-int CSound::volumeDown() {
+int CSound::Sound_VolumeDown() {
     if (m_volume > SOUND_MIN) {
         m_volume -= SOUND_WEIGHT;
     }
@@ -93,7 +82,7 @@ int CSound::volumeDown() {
 }
 
 
-int CSound::Update() {
+int CSound::Sound_Update() {
     FMOD_Channel_IsPlaying(m_channel, &m_bool);
 
     if (m_bool) {
@@ -103,9 +92,9 @@ int CSound::Update() {
     return 0;
 }
 
-CSound* CSound::Create(LPDIRECT3DDEVICE9 pGraphic_Device , const char* path, bool loop)
+CSound* CSound::Create(const char* path, bool loop)
 {
-    CSound* pInstance = new CSound(pGraphic_Device);
+    CSound* pInstance = new CSound();
 
     if (FAILED(pInstance->Initialize_Prototype(path, loop)))
     {
@@ -115,20 +104,9 @@ CSound* CSound::Create(LPDIRECT3DDEVICE9 pGraphic_Device , const char* path, boo
     return pInstance;
 }
 
-CComponent* CSound::Clone(void* pArg)
-{
-    CSound* pInstance = new CSound(*this);
-
-    if (FAILED(pInstance->Initialize(pArg)))
-    {
-        MSG_BOX(TEXT("Faild to Cloned : CSound"));
-        Safe_Release(pInstance);
-    }
-    return pInstance;
-}
-
 void CSound::Free()
 {
     FMOD_Sound_Release(m_sound);
+
     __super::Free();
 }

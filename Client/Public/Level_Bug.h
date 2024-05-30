@@ -6,6 +6,14 @@
 
 #include "LandObject.h"
 
+#include "CSound.h"
+
+BEGIN(Engine)
+
+class CSound;
+
+END
+
 BEGIN(Client)
 
 class CLevel_Bug final : public CLevel_UI
@@ -33,7 +41,6 @@ private:
 	HRESULT Ready_LandObjects();
 
 	HRESULT ParseInitialize();
-
 public:
 	static CLevel_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;
