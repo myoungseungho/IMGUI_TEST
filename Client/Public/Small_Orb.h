@@ -41,7 +41,10 @@ public:
 	virtual void OnCollisionExit(class CCollider* other);
 
 public:
-
+	void		Change_bIsChangeOnceTrue()
+	{
+		bIsChangeOnce = { true };
+	}
 
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
@@ -60,7 +63,7 @@ public:
 private:
 	SMALLORB_DIR			m_eDirection = { DIR_END };
 	SMALLORB_DIR			m_ePreDirection = { DIR_END };
-	_bool		bIsChangeOnce = { true };
+	_bool		bIsChangeOnce = { false };
 public:
 	/* 원형객체를 생성한다. */
 	static CSmall_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

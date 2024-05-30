@@ -124,6 +124,7 @@ private:
 	_float			m_fAttackTime = { 0.0f };
 	_float			m_fDamageTime = { 0.0f };
 	_float			m_fGetTime = { 0.0f };
+	_float			m_fBalloonTime = { 0.0f };
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };

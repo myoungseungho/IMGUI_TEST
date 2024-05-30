@@ -157,7 +157,7 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
+		if (pCopyPlayer->Get_Player_CurState() == 2 && bIsChangeOnce)
 		{
 			if (m_eDirection == DIR_DOWN)
 			{
@@ -196,12 +196,6 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 void CSmall_Orb::OnCollisionExit(class CCollider* other)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		bIsChangeOnce = true;
-	}
 }
 
 HRESULT CSmall_Orb::Ready_Components()

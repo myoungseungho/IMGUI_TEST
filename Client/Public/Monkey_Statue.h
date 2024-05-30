@@ -42,6 +42,13 @@ public:
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
 
+public:
+	void		Change_bIsChangeOnceTrue()
+	{
+		bIsChangeOnce = { true };
+	}
+
+
 private:	
 	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };

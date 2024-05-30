@@ -29,6 +29,7 @@
 #include <Door.h>
 #include "End_Orb.h"
 #include "Level_Loading.h"
+#include <Small_Orb.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -76,13 +77,19 @@ HRESULT CPlayer::Initialize(void* pArg)
 		m_ePlayerCurState = STATE_BALLON_DOWN;
 		break;
 	case Client::LEVEL_SNOW:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(54.f, 5.5f, 30.f));
 		m_ePlayerCurState = STATE_BALLON_DOWN;
+		m_bHaveSkill = true;
 		break;
 	case Client::LEVEL_KOOFU:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.5f, 5.5f, 17.f));
 		m_ePlayerCurState = STATE_BALLON_DOWN;
+		m_bHaveSkill = true;
 		break;
 	case Client::LEVEL_BUG:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(34.5f, 5.5f, 21.f));
 		m_ePlayerCurState = STATE_BALLON_DOWN;
+		m_bHaveSkill = true;
 		break;
 	case Client::LEVEL_EDIT:
 		break;
@@ -131,6 +138,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
+
 		if (!m_bIsMovingUp)
 		{
 			// 초기 설정
@@ -159,6 +167,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else if (m_ePlayerCurState == STATE_BALLON_DOWN)
 	{
+
 		if (!m_bIsMovingDown)
 		{
 			// 초기 설정
@@ -1154,7 +1163,12 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 	curScaled.z = m_forScaled.z + 1.5f;
 
 	m_pTransformCom->Set_Scaled(curScaled);
+	
+	CSmall_Orb* pSmallOrb = dynamic_cast<CSmall_Orb*>(m_pGameInstance->Get_GameObject(LEVEL_JUNGLE, TEXT("Layer_Small_Orb")));
+	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
 
+	if (level == LEVEL_JUNGLE)
+	pSmallOrb->Change_bIsChangeOnceTrue();
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -1389,6 +1403,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 			m_ePlayerCurState = STATE_IDLE;
 			m_fAttackTime = 0.0f;
 			m_bAttack = false;
+
 		}
 	}
 	else
