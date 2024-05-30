@@ -388,6 +388,9 @@
     <Filter Include="02.GameObjects\Enviorment\01. Jungle\Box">
       <UniqueIdentifier>{e25982ab-141e-46a6-ad6e-dae8d8576c5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Item_Skill">
+      <UniqueIdentifier>{bc6584df-b071-4b67-adbf-7904268cf950}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -837,6 +840,9 @@
     <ClInclude Include="..\Public\Box.h">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Box</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Item_Skill.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Item_Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1270,6 +1276,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Box.cpp">
       <Filter>02.GameObjects\Enviorment\01. Jungle\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Item_Skill.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Item_Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

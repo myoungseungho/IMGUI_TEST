@@ -151,7 +151,7 @@ public:
 	_float		m_bAttack = { false };
 
 public:
-	_bool		m_bHaveSkill = { false };
+	_bool		m_bHaveSkill = { true };
 	
 
 private:

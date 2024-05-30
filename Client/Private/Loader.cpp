@@ -85,6 +85,7 @@
 #include "Effect_Light.h"
 #include "Effect_Koofu_Smoke.h"
 #include "Box.h"
+#include "Item_Skill.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -291,6 +292,10 @@ HRESULT CLoader::Loading_For_Jungle()
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Item_Skill"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Item/Skill/Sprite_ItemThumbnails_Quest_4_PowerSymbolPush.png"), 1))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Sprite_StonePushable"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_StonePushable.png"), 1))))
 		return E_FAIL;
@@ -411,6 +416,10 @@ HRESULT CLoader::Loading_For_Jungle()
 #pragma endregion
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
 		CBox::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Item_Skill"),
+		CItem_Skill::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

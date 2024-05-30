@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Player.h>
+#include <Item_Skill.h>
 
 CBox::CBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -95,12 +96,19 @@ void CBox::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	CGameObject* otherObject = other->m_MineGameObject;
 	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-	if (pCopyPlayer)
+	if (pCopyPlayer&&m_bIsFirstSkill)
 	{
 		m_eAnimState = ANIM_MOVE;
 		pCopyPlayer->m_bHaveSkill = true;
 		pCopyPlayer->m_ePlayerCurState = pCopyPlayer->STATE_GET;
 		pCopyPlayer->m_bAttack = true;
+		m_bIsFirstSkill = false;
+
+		CItem_Skill::ITEM_SKILL_DESC ITEMSKILLDESC{};
+
+		ITEMSKILLDESC.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Item_Skill"), TEXT("Layer_Item_Skill"), &ITEMSKILLDESC);
 	}
 }
 
