@@ -63,6 +63,8 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bHitCheck)
 		m_fAlpha = 255.f;
+
+	m_pGameInstance->Sound_Update();
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)

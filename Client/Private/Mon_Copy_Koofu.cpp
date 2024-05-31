@@ -391,11 +391,10 @@ void CMon_Copy_Koofu::Destory()
 	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
 	Desc.pTargetTransform = m_pTransformCom;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", false);
-	m_pGameInstance->Sound_Play();
-
 	if (m_tMonsterDesc.iHp <= 0)
 	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", false);
+		m_pGameInstance->Sound_Play(); 
 
 		for (int i = 1; i <= 10; ++i)
 		{
