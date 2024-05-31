@@ -1191,7 +1191,11 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Item"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/GetItem/GetItem_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Tree"), 
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Tree_69.png"), 1))))
 		return E_FAIL;
 
@@ -1225,6 +1229,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Player"),
 		CEffect_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Item"),
+		CEffect_Item::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Camera */
