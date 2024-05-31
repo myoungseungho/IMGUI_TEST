@@ -112,7 +112,6 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
-
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
@@ -144,6 +143,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
+		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 		if (!m_bIsMovingUp)
 		{
@@ -163,6 +163,7 @@ void CPlayer::Update(_float fTimeDelta)
 			t = 1.0f;
 			m_bIsMovingUp = false;
 			m_bIsMovingComplete = true;
+			m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 			return;
 		}
 
@@ -173,6 +174,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else if (m_ePlayerCurState == STATE_BALLON_DOWN)
 	{
+		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 		if (!m_bIsMovingDown)
 		{
@@ -180,7 +182,7 @@ void CPlayer::Update(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
-			m_fTargetY = m_fInitialY - 5.0f; // y값을 5만큼 감소
+			m_fTargetY = m_fInitialY - 4.f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
 		}
 
@@ -190,8 +192,13 @@ void CPlayer::Update(_float fTimeDelta)
 		if (t >= 1.0f)
 		{
 			t = 1.0f;
+			_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			position.y -= 1.f;
 			m_bIsMovingDown = false;
 			m_ePlayerCurState = STATE_IDLE; // 상태 변경
+			m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
+			return;
 		}
 
 		// 위치 보간
