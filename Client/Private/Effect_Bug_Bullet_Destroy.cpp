@@ -35,9 +35,6 @@ HRESULT CEffect_Bug_Bullet_Destroy::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 
-	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_97_BugBulletDisappear.wav", false);
-	m_pGameInstance->Sound_Play();
-	
 	return S_OK;
 }
 

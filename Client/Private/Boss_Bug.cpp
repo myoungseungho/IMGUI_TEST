@@ -190,6 +190,13 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 		return;
 	}
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", false);
+		m_pGameInstance->Sound_Play();
+	}
+	
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -234,6 +241,9 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 	{
 		Warf(30, 20, 50.f, m_fAngle);
 		m_fDashTimer = 0.f;
+
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_116_BossMoonMoth_Fly.wav", false);
+		m_pGameInstance->Sound_Play();
 	}
 	else
 	{
@@ -248,7 +258,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 			m_fDashEffectTimer = 0.f;
 		}
 
-		if (m_fDashTimer >= 1.5f)
+		if (m_fDashTimer >= 1.f)
 		{
 			m_fDashEffectTimer += fTimeDelta;
 
@@ -268,9 +278,9 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
 	m_fWaveTimer += fTimeDelta;
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
-
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
 	{
+
 		m_isLand = false;
 		m_eMon_State = MON_STATE::LAND;
 	}
@@ -339,6 +349,9 @@ HRESULT CBoss_Bug::Bullet_Create(_uint iBulletNum, CSkill_Bug_Bullet::BULLET_STA
 	SkillDesc.iTotalBullet = iBulletNum;
 	SkillDesc.iBulletType = iBulletType;
 
+	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_106_MonsterBugColorBeatle_In.wav", false);
+	m_pGameInstance->Sound_Play();
+
 	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
 		SkillDesc.iBulletCnt = i;
@@ -371,11 +384,11 @@ void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
-	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_97_BugBulletDisappear.wav", false);
-	m_pGameInstance->Sound_Play();
-
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 0.95f))
 	{
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_112_BossMoonMoth_BulletAttack.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
 		m_iBulletCnt++;
 	}
@@ -401,7 +414,7 @@ void CBoss_Bug::State_Regen(_float _fTimeDelta)
 		m_eMon_State = MON_STATE::READY;
 	}
 
-	if (m_ePrev_State == MON_STATE::STUN && m_pTimerCom->Time_Limit(_fTimeDelta, 5.f))
+	if (m_ePrev_State == MON_STATE::STUN && m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
 	{
 		m_eMon_State = MON_STATE::FLY;
 	}
@@ -424,8 +437,13 @@ void CBoss_Bug::State_Death(_float fTimeDelta)
 	CBoss_Bug* pThis = this;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 7.f))
-		Safe_Release(pThis);
+	{
 
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_117_BossMoonMoth_Death.wav", false);
+		m_pGameInstance->Sound_Play();
+
+		Safe_Release(pThis);
+	}
 }
 
 void CBoss_Bug::State_Ready(_float _fTimeDelta)
@@ -440,16 +458,12 @@ void CBoss_Bug::State_Ready(_float _fTimeDelta)
 void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 {
 	auto iter = dynamic_cast<CMon_Turtle*>(m_pGameInstance->Get_GameObject(LEVEL_BUG, TEXT("Layer_Monster_Turtle")));
-	/*_bool Check = iter->Get_Dead();
-	int b = 10;*/
-	
-
-
-	if (!iter)
-		int a = 10;
 
 	if (!m_bStartDash)
 	{
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_115_BossMoonMoth_Soar.wav", false);
+		m_pGameInstance->Sound_Play();
+		
 		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		m_pTransformCom->Rotation(vRight, 90.f * D3DX_PI / 180.f);
 		m_bStartDash = true;
@@ -464,6 +478,9 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 		if (m_isTurtle && m_bPosRange)
 		{
+			m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_118_BossMoonMoth_Down.wav", false);
+			m_pGameInstance->Sound_Play();
+
 			m_pTransformCom->Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);
 
 			m_ePrev_State = MON_STATE::DASH;
@@ -471,7 +488,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 			m_bStartDash = false;
 		}
 
-		if(m_pTimerCom->Time_Limit(_fTimeDelta, 3.f))
+		if(m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
 		{
 			Turtle_Create();
 			m_isTurtle = true;

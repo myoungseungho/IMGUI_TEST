@@ -867,6 +867,7 @@
     <ClInclude Include="..\Public\Effect_Item.h">
       <Filter>02.GameObjects\Effect\Effect_Item</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skill_Arror.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1316,6 +1317,7 @@
     <ClCompile Include="..\Private\Effect_Item.cpp">
       <Filter>02.GameObjects\Effect\Effect_Item</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Skill_Arror.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
