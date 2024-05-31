@@ -406,6 +406,12 @@
     <Filter Include="02.GameObjects\UI\ShopUI">
       <UniqueIdentifier>{c7381cd9-deba-40c0-b060-7b2beb191970}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Item">
+      <UniqueIdentifier>{a2c4edf1-1e35-438b-bae5-156776b9d915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Player">
+      <UniqueIdentifier>{5433ec23-b20d-4584-99a1-3ebd1452e56d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -873,6 +879,12 @@
     <ClInclude Include="..\Public\Shop.h">
       <Filter>02.GameObjects\UI\ShopUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Item.h">
+      <Filter>02.GameObjects\Effect\Effect_Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Player.h">
+      <Filter>02.GameObjects\Effect\Effect_Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1324,6 +1336,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Shop.cpp">
       <Filter>02.GameObjects\UI\ShopUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Item.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Player.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

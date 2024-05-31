@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <Item_Skill.h>
 
+
 CBox::CBox(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {

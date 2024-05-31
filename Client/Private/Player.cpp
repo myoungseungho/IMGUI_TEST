@@ -34,6 +34,7 @@
 #include <Un_Small_Orb.h>
 #include "Shop.h"
 #include "Level_UI.h"
+#include <Effect_Player.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -114,13 +115,28 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
-	if (m_ePlayerCurState == STATE_HIT)
-	{
-		For_Damage_State(fTimeDelta);
-	}
-	else if (m_ePlayerCurState == STATE_ATTACK)
+
+	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
+	}
+	else if(m_ePlayerCurState != STATE_DIED && m_ePlayerCurState != STATE_LIVE)
+		m_pTransformCom->Set_Scaled(m_forScaled);
+	
+	if (m_ePlayerCurState == STATE_DIED)
+		For_Died_State(fTimeDelta);
+
+	else if (m_ePlayerCurState == STATE_LIVE)
+		For_Live_State(fTimeDelta);
+
+	else if (m_iPlayerHp <= 0)
+	{
+		m_ePlayerCurState = STATE_DIED;
+		m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
+	}
+	else if (m_ePlayerCurState == STATE_HIT)
+	{
+		For_Damage_State(fTimeDelta);
 	}
 	else if (m_ePlayerCurState == STATE_GET)
 	{
@@ -140,8 +156,13 @@ void CPlayer::Update(_float fTimeDelta)
 			}
 		}
 	}
-	else if (m_ePlayerCurState == STATE_BALLON_UP)
+	else
+		m_iCurrentSkillCount = 0;
+
+
+	if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
+		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 		if (!m_bIsMovingUp)
 		{
@@ -161,6 +182,7 @@ void CPlayer::Update(_float fTimeDelta)
 			t = 1.0f;
 			m_bIsMovingUp = false;
 			m_bIsMovingComplete = true;
+			m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
 			return;
 		}
 
@@ -171,6 +193,7 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else if (m_ePlayerCurState == STATE_BALLON_DOWN)
 	{
+		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
 		if (!m_bIsMovingDown)
 		{
@@ -178,7 +201,7 @@ void CPlayer::Update(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
-			m_fTargetY = m_fInitialY - 5.0f; // y값을 5만큼 감소
+			m_fTargetY = m_fInitialY - 4.5f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
 		}
 
@@ -188,8 +211,13 @@ void CPlayer::Update(_float fTimeDelta)
 		if (t >= 1.0f)
 		{
 			t = 1.0f;
+			_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			position.y -= 0.5f;
 			m_bIsMovingDown = false;
 			m_ePlayerCurState = STATE_IDLE; // 상태 변경
+			m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
+			return;
 		}
 
 		// 위치 보간
@@ -197,8 +225,7 @@ void CPlayer::Update(_float fTimeDelta)
 		position.y = Lerp(m_fInitialY, m_fTargetY, t);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
 	}
-	else
-		m_iCurrentSkillCount = 0;
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -715,7 +742,6 @@ void CPlayer::Player_Damaged()
 	{
 		--m_iPlayerHp;
 	}
-
 }
 
 void CPlayer::Interaction_NPC(CGameObject* _npc)
@@ -925,6 +951,12 @@ HRESULT CPlayer::Ready_Animation()
 
 	// Get Item
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Get_Item"), TEXT("Player_Get_Item"));
+	
+	// Died
+		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"), TEXT("Player_Died"));
+
+	//Live 
+		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Live"), TEXT("Player_Live"));
 	return S_OK;
 }
 
@@ -1152,7 +1184,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH &&
-			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET)
+			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET && m_ePlayerCurState != STATE_DIED &&
+			m_ePlayerCurState != STATE_LIVE)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
@@ -1162,7 +1195,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		else
 			m_pTransformCom->Set_Speed(3.f);
 
-		if (m_pKeyCom->Key_Down('A'))
+		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState!= STATE_HIT)
 		{
 			m_bAttack = true;
 			m_ePlayerCurState = (STATE_ATTACK);
@@ -1176,6 +1209,17 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			else
 				m_bForTestDamaged = true;
 		}
+	}
+
+	if (m_pKeyCom->Key_Down('L'))
+	{
+		Player_Damaged();
+	}
+
+
+	if (m_pKeyCom->Key_Down('K'))
+	{
+		m_iPlayerHp++;
 	}
 
 	if (m_pCurrentCollisionOk_Npc != nullptr)
@@ -1192,14 +1236,24 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 
 void CPlayer::Player_Attack(_float fTimeDelta)
 {
-	_float3		curScaled;
+	if (m_ePlayerCurState == STATE_ATTACK)
+	{
+		CEffect_Player::EFFECT_PLAYER_DESC EFFECTPLAYERDESC{};
 
-	curScaled.x = m_forScaled.x + 1.5f;
-	curScaled.y = m_forScaled.y + 1.5f;
-	curScaled.z = m_forScaled.z + 1.5f;
+		EFFECTPLAYERDESC.pTargetTransform = m_pTransformCom;
+		EFFECTPLAYERDESC.pTargetDirection = m_ePlayerDir;
 
-	m_pTransformCom->Set_Scaled(curScaled);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player"), TEXT("Layer_Effect_Player"), &EFFECTPLAYERDESC);
 
+
+		_float3		curScaled;
+
+		curScaled.x = m_forScaled.x + 1.5f;
+		curScaled.y = m_forScaled.y + 1.5f;
+		curScaled.z = m_forScaled.z + 1.5f;
+
+		m_pTransformCom->Set_Scaled(curScaled);
+	}	
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -1298,28 +1352,28 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_DOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 0.5f, _fTimeDelta, false);
 			break;
 		}
 		break;
@@ -1414,10 +1468,16 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 3.0f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.5f, _fTimeDelta, false);
 		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
+		break;
+	case STATE_DIED:
+		m_pAnimCom->Play_Animator(TEXT("Player_Died"), 1.0f, _fTimeDelta, false);
+		break;
+	case STATE_LIVE:
+		m_pAnimCom->Play_Animator(TEXT("Player_Live"), 1.0f, _fTimeDelta, false);
 		break;
 	}
 }
@@ -1427,7 +1487,8 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		m_fAttackTime += fTimeDelta;
-		if (m_fAttackTime >= 1.0f)
+
+		if (m_fAttackTime >= 0.5f)
 		{
 			m_pTransformCom->Set_Scaled(m_forScaled);
 			m_ePlayerCurState = STATE_IDLE;
@@ -1458,11 +1519,33 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 		}
 
 	}
-	else
+}
+
+void CPlayer::For_Died_State(_float fTimeDelta)
+{
+	m_fDiedTime += fTimeDelta;
+
+	if (m_fDiedTime >= 3.0f)
 	{
-		m_pTransformCom->Set_Scaled(m_forScaled);
+		m_ePlayerCurState = STATE_LIVE;
+		m_fDiedTime = 0.0f;
+		m_iPlayerHp = 5.f;
 	}
 
+}
+
+void CPlayer::For_Live_State(_float fTimeDelta)
+{
+	m_fLiveTime += fTimeDelta;
+
+	if (m_fLiveTime >= 2.0f)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_fLiveTime = 0.0f;
+		m_iPlayerHp = 5.f;
+		m_bAttack = false;
+		m_pTransformCom->Set_Scaled(m_forScaled);
+	}
 }
 
 void CPlayer::For_Get_State(_float fTimeDelta)

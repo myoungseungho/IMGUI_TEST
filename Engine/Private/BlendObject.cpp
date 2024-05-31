@@ -50,6 +50,23 @@ HRESULT CBlendObject::Render()
 	return S_OK;
 }
 
+HRESULT CBlendObject::Begin_Blend_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+	return S_OK;
+}
+
+HRESULT CBlendObject::End_Blend_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+
+	return S_OK;
+}
+
 void CBlendObject::Free()
 {
 	__super::Free();

@@ -2,6 +2,7 @@
 #include "..\Public\Item_Skill.h"
 
 #include "GameInstance.h"
+#include "Effect_Item.h"
 
 CItem_Skill::CItem_Skill(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -37,6 +38,13 @@ HRESULT CItem_Skill::Initialize(void* pArg)
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 2.f, vTargetPos.z - 0.01f));
+
+
+	CEffect_Item::EFFECT_ITEM_DESC EFFECTITEMDESC{};
+
+	EFFECTITEMDESC.pTargetTransform = m_pTransformCom;
+
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Item"), TEXT("Layer_Effect_Item"), &EFFECTITEMDESC);
 
 	return S_OK;
 }
