@@ -201,10 +201,27 @@ void CShop::Update(_float fTimeDelta)
 
 	bool positionChanged = false;
 
+	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
+	{
+		// CUI_Inventory_BackGround 객체의 Y 위치를 차례로 증가시키기
+		m_bBackgroundsActive = !m_bBackgroundsActive; // 백그라운드 활성화 상태로 변경
+		SetBackGroundOnOff();
+		ArrangeInventoryBackgrounds();
+
+		if (!m_bBackgroundsActive)
+		{
+			m_iCurrentBackgroundIndex = 2;
+			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
+			if (cursor)
+			{
+				CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
+				cursorUI->m_bIsOn = false;
+			}
+		}
+	}
+
 	if (m_bBackgroundsActive)
 	{
-		MoveCursorToBackground(m_iCurrentBackgroundIndex);
-
 		// 백그라운드 활성화 상태에서 방향키 처리
 		if (m_pKeyCom->Key_Down(VK_DOWN))
 		{
@@ -216,6 +233,8 @@ void CShop::Update(_float fTimeDelta)
 			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
 			positionChanged = true;
 		}
+
+		MoveCursorToBackground(m_iCurrentBackgroundIndex);
 	}
 	else
 	{
@@ -264,23 +283,11 @@ void CShop::Update(_float fTimeDelta)
 			m_iCurrentCol = (m_iCurrentCol + 1) % maxCols;
 			positionChanged = true;
 		}
-	}
 
-	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
-	{
-		// CUI_Inventory_BackGround 객체의 Y 위치를 차례로 증가시키기
-		m_bBackgroundsActive = !m_bBackgroundsActive; // 백그라운드 활성화 상태로 변경
-		SetBackGroundOnOff();
-		ArrangeInventoryBackgrounds();
-
-		if (!m_bBackgroundsActive)
-		{
-			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
-			if (cursor)
-			{
-				CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
-				cursorUI->m_bIsOn = false;
-			}
+		if (positionChanged) {
+			UpdateAlphaValues();
+			m_iPreviousRow = m_iCurrentRow;
+			m_iPreviousCol = m_iCurrentCol;
 		}
 	}
 
@@ -300,13 +307,6 @@ void CShop::Update(_float fTimeDelta)
 			CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
 			cursorUI->m_bIsOn = false;
 		}
-	}
-
-
-	if (positionChanged) {
-		UpdateAlphaValues();
-		m_iPreviousRow = m_iCurrentRow;
-		m_iPreviousCol = m_iCurrentCol;
 	}
 
 	// 현재 선택된 아이템의 인덱스를 계산
@@ -460,9 +460,12 @@ void CShop::Control_OtherRow()
 	{
 		if (typeid(*iter) == typeid(CUI_Cursor))
 		{
-			iter->m_fX = initialCursorX + m_iCurrentCol * deltaX;
-			iter->m_fY = initialCursorY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
-			iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
+			if (iter->m_iIndex == 0)
+			{
+				iter->m_fX = initialCursorX + m_iCurrentCol * deltaX;
+				iter->m_fY = initialCursorY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
+				iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
+			}
 		}
 
 		//if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
@@ -509,6 +512,7 @@ void CShop::ArrangeInventoryBackgrounds()
 		iter->m_fAlpha = 255.f;
 	}
 }
+
 void CShop::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음

@@ -91,9 +91,9 @@ void CUI_Cursor::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 
-
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, 0.f));
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
