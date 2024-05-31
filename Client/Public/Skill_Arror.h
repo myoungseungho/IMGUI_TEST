@@ -25,7 +25,6 @@ private:
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
-
 public:
 	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
