@@ -162,7 +162,7 @@ HRESULT CEffect_Player::Ready_Animation()
 
 void CEffect_Player::Effect_Player_AnimState(_float _fTimeDelta)
 {
-	m_pAnimCom->Play_Animator(TEXT("Effect_Player_Swing_Right"), 1.0f, _fTimeDelta, false);
+	m_pAnimCom->Play_Animator(TEXT("Effect_Player_Swing_Right"), 0.5f, _fTimeDelta, false);
 }
 
 CEffect_Player* CEffect_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -1279,28 +1279,28 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		switch (m_ePlayerDir)
 		{
 		case DIR_UP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Up"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Right"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_DOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Down"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFT:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_Left"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftUp"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTUP:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightUp"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_RIGHTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_RightDown"), 0.5f, _fTimeDelta, false);
 			break;
 		case DIR_LEFTDOWN:
-			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 1.0f, _fTimeDelta, false);
+			m_pAnimCom->Play_Animator(TEXT("Player_Attack_LeftDown"), 0.5f, _fTimeDelta, false);
 			break;
 		}
 		break;
@@ -1409,7 +1409,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 	{
 		m_fAttackTime += fTimeDelta;
 
-		if (m_fAttackTime >= 1.0f)
+		if (m_fAttackTime >= 0.5f)
 		{
 			m_pTransformCom->Set_Scaled(m_forScaled);
 			m_ePlayerCurState = STATE_IDLE;
