@@ -6,13 +6,6 @@
 
 #include "LandObject.h"
 
-#include "CSound.h"
-
-BEGIN(Engine)
-
-class CSound;
-
-END
 
 BEGIN(Client)
 

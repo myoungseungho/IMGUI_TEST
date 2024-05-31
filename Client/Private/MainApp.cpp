@@ -81,7 +81,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(g_hWnd, LEVEL_END, g_iWinSizeX, g_iWinSizeY, &m_pGraphic_Device)))
 		return E_FAIL;
 
-	CSound::Init();
+	//CSound::Init();
 
 	if (FAILED(SetUp_DefaultState()))
 		return E_FAIL;
@@ -1402,7 +1402,6 @@ void CMainApp::Free()
 
 	__super::Free();
 
-	CSound::Release();
 	Safe_Release(m_pGraphic_Device);
 
 	m_pGameInstance->Release_Engine();
