@@ -90,9 +90,9 @@ HRESULT CSkill_Koofu_Fuit::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_FuitBounce"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -188,6 +188,9 @@ void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 		vMoveDir = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		vMoveDir.y = 0.f;
 
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_479_FruitBounce.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		m_iBounceCnt++;
 	}
 	if (m_iBounceCnt >= 4)
@@ -242,7 +245,7 @@ CGameObject* CSkill_Koofu_Fuit::Clone(void* pArg)
 
 void CSkill_Koofu_Fuit::Free()
 {
-	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom); 
 	Safe_Release(m_pPlayerTransform);

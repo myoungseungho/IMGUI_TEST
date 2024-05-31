@@ -118,7 +118,7 @@ void CEffect_Bug_Bullet_Destroy::Destroy(_float fTimeDelta)
 {
 	CEffect_Bug_Bullet_Destroy* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.0f))
 		Safe_Release(pThis);
 }
 

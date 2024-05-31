@@ -6,6 +6,7 @@
 #include "Player.h"
 
 #include "Effect_Monster.h"
+#include <Boss_Bug.h>
 
 CSkill_Bug_Bullet::CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
@@ -54,7 +55,10 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
-
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	{
+		m_bBulletHit = true;
+	}
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
@@ -95,6 +99,11 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 5.0f;
@@ -120,6 +129,8 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+
+
 
 	return S_OK;
 }
@@ -172,8 +183,16 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	if (dynamic_cast<CPlayer*>(otherObject) && player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
 		m_pGameInstance->Sound_Play();
+	}
+
+	if (dynamic_cast<CBoss_Bug*>(otherObject) && m_bBulletHit)
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Play();
+
+		m_bBulletHit = false;
 	}
 
 }
@@ -263,6 +282,7 @@ void CSkill_Bug_Bullet::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pColliderCom);
+	Safe_Release(m_pAnimCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 

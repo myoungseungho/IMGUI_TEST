@@ -92,6 +92,7 @@ private:
 
 	_float m_fDashTimer = { 0.f };
 
+	_float m_fHitTimer = { 0.f };
 
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

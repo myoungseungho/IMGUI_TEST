@@ -76,6 +76,7 @@ public:
 
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void Radian_Turn(const _float3& vAxis, _float fRadian);
+	void Init_Rotation(const _float3& vAxis, _float fRadian);
 	void Rotation(const _float3& vAxis, _float fRadian);
 
 	void LookAt(const _float3& vTargetPos);	

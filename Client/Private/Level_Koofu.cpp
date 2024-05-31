@@ -46,7 +46,7 @@ HRESULT CLevel_Koofu::Initialize()
 	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", true);
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", true);
 	m_pGameInstance->Sound_Play();
 
 	return S_OK;

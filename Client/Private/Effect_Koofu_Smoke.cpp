@@ -37,7 +37,7 @@ HRESULT CEffect_Koofu_Smoke::Initialize(void* pArg)
 		return E_FAIL;
 
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-	vPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - 1.f;
+	vPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - (0.01f* m_iSmokeNum);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 
@@ -112,11 +112,17 @@ HRESULT CEffect_Koofu_Smoke::Ready_Components()
 
 HRESULT CEffect_Koofu_Smoke::Ready_Animation()
 {
+	/*m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);*/
+
 	return S_OK;
 }
 
 HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 {
+	/*m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);*/
+
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);

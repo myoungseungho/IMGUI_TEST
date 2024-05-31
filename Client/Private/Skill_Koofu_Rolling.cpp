@@ -40,6 +40,9 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (vPositionX , vPositionY , vPositionZ));
 
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_82_MonsterBugRolling_Rolling.wav", false);
+	m_pGameInstance->Sound_Play();
+
 	return S_OK;
 }
 
@@ -84,9 +87,9 @@ HRESULT CSkill_Koofu_Rolling::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_KOOFU, TEXT("Prototype_Component_Texture_RollingIce"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
 		return E_FAIL;
 
 	/* For.Com_Transform */
@@ -207,7 +210,7 @@ void CSkill_Koofu_Rolling::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
-	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);

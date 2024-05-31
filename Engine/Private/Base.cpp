@@ -23,6 +23,6 @@ _uint CBase::Release()
 	}
 	else
 	{		
-		return m_iRefCnt--;
+		return m_iRefCnt--; 
 	}
 }
