@@ -182,7 +182,7 @@ void CPlayer::Update(_float fTimeDelta)
 			m_fElapsedTime = 0.0f;
 			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
-			m_fTargetY = m_fInitialY - 4.f; // y값을 5만큼 감소
+			m_fTargetY = m_fInitialY - 4.5f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
 		}
 
@@ -193,7 +193,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			t = 1.0f;
 			_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			position.y -= 1.f;
+			position.y -= 0.5f;
 			m_bIsMovingDown = false;
 			m_ePlayerCurState = STATE_IDLE; // 상태 변경
 			m_pTransformCom->Set_Scaled(_float3(1.f, 1.f, 1.f));
