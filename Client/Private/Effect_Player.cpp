@@ -2,6 +2,7 @@
 #include "..\Public\Effect_Player.h"
 
 #include "GameInstance.h"
+#include <Player.h>
 
 CEffect_Player::CEffect_Player(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect{ pGraphic_Device }
@@ -23,9 +24,11 @@ HRESULT CEffect_Player::Initialize_Prototype()
 
 HRESULT CEffect_Player::Initialize(void* pArg)
 {
-	EFFECT_ITEM_DESC* pDesc = static_cast<EFFECT_ITEM_DESC*>(pArg);
+	EFFECT_PLAYER_DESC* pDesc = static_cast<EFFECT_PLAYER_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
+	m_pTagetDirection = pDesc->pTargetDirection;
+
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
@@ -34,10 +37,44 @@ HRESULT CEffect_Player::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Animation()))
+		return E_FAIL;
+
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y, vTargetPos.z + 0.01f));
+	m_pTransformCom->Rotation(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), D3DXToRadian(270.f));
 	m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
+
+	if (m_pTagetDirection == 6)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(45.f));
+	}
+	else if (m_pTagetDirection == 3)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(90.f));
+	}
+	else if (m_pTagetDirection == 7)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(135.f));
+	}
+	else if (m_pTagetDirection == 0)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(180.f));
+	}
+	else if (m_pTagetDirection == 4)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(225.f));
+	}
+	else if (m_pTagetDirection == 1)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(270.f));
+	}
+	else if (m_pTagetDirection == 5)
+	{
+		m_pTransformCom->Rotation((m_pTransformCom->Get_State(CTransform::STATE_LOOK)), D3DXToRadian(315.f));
+	}
 
 	return S_OK;
 }
@@ -49,6 +86,16 @@ void CEffect_Player::Priority_Update(_float fTimeDelta)
 void CEffect_Player::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	_uint level = m_pGameInstance->GetCurrentLevelIndex();
+	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Player")));
+
+	if (pCopyPlayer->Get_Player_CurState() != pCopyPlayer->STATE_ATTACK)
+	{
+		m_Died = true;
+	}
+
+
 }
 
 void CEffect_Player::Late_Update(_float fTimeDelta)
@@ -58,11 +105,11 @@ void CEffect_Player::Late_Update(_float fTimeDelta)
 
 HRESULT CEffect_Player::Render(_float fTimeDelta)
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+
 	__super::Begin_Blend_RenderState();
 
-	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	Effect_Player_AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
 		return E_FAIL;
@@ -72,16 +119,13 @@ HRESULT CEffect_Player::Render(_float fTimeDelta)
 
 	__super::End_Blend_RenderState();
 
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	return S_OK;
 }
 
 HRESULT CEffect_Player::Ready_Components()
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Item"),
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -114,6 +158,11 @@ HRESULT CEffect_Player::Ready_Animation()
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Effect_Player"), TEXT("Effect_Player_Swing_Right"));
 
 	return S_OK;
+}
+
+void CEffect_Player::Effect_Player_AnimState(_float _fTimeDelta)
+{
+	m_pAnimCom->Play_Animator(TEXT("Effect_Player_Swing_Right"), 1.0f, _fTimeDelta, false);
 }
 
 CEffect_Player* CEffect_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

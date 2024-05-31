@@ -31,6 +31,7 @@
 #include "Level_Loading.h"
 #include <Small_Orb.h>
 #include <Un_Small_Orb.h>
+#include <Effect_Player.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -1163,6 +1164,14 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 {
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
+		CEffect_Player::EFFECT_PLAYER_DESC EFFECTPLAYERDESC{};
+
+		EFFECTPLAYERDESC.pTargetTransform = m_pTransformCom;
+		EFFECTPLAYERDESC.pTargetDirection = m_ePlayerDir;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player"), TEXT("Layer_Effect_Player"), &EFFECTPLAYERDESC);
+
+
 		_float3		curScaled;
 
 		curScaled.x = m_forScaled.x + 1.5f;
