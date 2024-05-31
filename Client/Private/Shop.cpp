@@ -65,24 +65,6 @@ HRESULT CShop::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	for (size_t i = 0; i < 3; i++)
-	{
-		slotData.position = { -430.f, 80.f };
-		slotData.scale = { 120.f, 50.f };
-		slotData.alpha = 255.f;
-		slotData.index = i;
-
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
-			return E_FAIL;
-
-
-		CGameObject* backGround = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_Inventory_XBackGround"), i);
-		m_vecBackGroundObject.push_back(static_cast<CUIObject*>(backGround));
-		Safe_AddRef(backGround);
-	}
-
-
-
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
 
@@ -158,6 +140,22 @@ HRESULT CShop::Initialize(void* pArg)
 			return E_FAIL;
 
 		m_vecItemInfo.push_back(m_vecItemInfo[i]);
+	}
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		slotData.position = { -430.f, 80.f };
+		slotData.scale = { 120.f, 50.f };
+		slotData.alpha = 255.f;
+		slotData.index = i;
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_ZUI_ZInventory_BackGround"), &slotData, i)))
+			return E_FAIL;
+
+
+		CGameObject* backGround = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_ZInventory_BackGround"), i);
+		m_vecBackGroundObject.push_back(static_cast<CUIObject*>(backGround));
+		Safe_AddRef(backGround);
 	}
 
 	// 초기 상태 설정
