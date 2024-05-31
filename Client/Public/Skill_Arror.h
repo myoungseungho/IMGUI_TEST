@@ -1,24 +1,15 @@
 #pragma once
 
-#include "GameInstance.h"
-#include "Effect_Monster.h"
+#include "Skill_Monster.h"	
 
-BEGIN(Client)
+BEGIN(Engine)
 
-class CEffect_Koofu_Smoke :public CEffect_Monster
+class CSkill_Arror final:public CSkill_Monster
 {
-public:
-	typedef struct
-	{
-		CTransform* pTargetTransform = { nullptr };
-		_uint		iSmokeNum = { 0 };
-	}EFFECT_SMOKE_DESC;
-
 private:
-	CEffect_Koofu_Smoke(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CEffect_Koofu_Smoke(const CEffect_Koofu_Smoke& Prototype);
-	virtual ~CEffect_Koofu_Smoke() = default;
-
+	CSkill_Arror(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CSkill_Arror(const CSkill_Arror& Prototype);
+	virtual  ~CSkill_Arror() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()					override;
@@ -34,14 +25,18 @@ private:
 
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
+public:
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
 
 private:
 	void Destroy(_float fTimeDelta);
 
-private:
-	_uint m_iSmokeNum = { 0 };
+	_uint m_iDirTexture = { 0 };
+
 public:
-	static CEffect_Koofu_Smoke* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CSkill_Arror* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;

@@ -54,13 +54,15 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	/*CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
 	Desc.pTargetTransform = m_pTransformCom;
 
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Shadow"), TEXT("Layer_Effect_Shadow"), &Desc);*/
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Arror"), TEXT("Layer_Skill_Arror"), &Desc);*/
 
 	return S_OK;
 }
 
 void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 {
+	m_fAlpha = 255.f;
+
 	__super::Move_Dir(fTimeDelta);
 
 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -241,6 +243,22 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	
 			}
 		}
+	}
+	CPlayer* player = static_cast<CPlayer*>(otherObject);
+
+	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+			m_fAlphaTimer = 0.f;
 	}
 }
 

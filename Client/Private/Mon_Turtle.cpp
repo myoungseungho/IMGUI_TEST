@@ -120,8 +120,13 @@ void CMon_Turtle::Destory(_float fTimeDelta)
 	if(m_pKeyCom->Key_Down('I'))
 		Safe_Release(pTurtle);
 
-	if(m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iHp <= 0)
+	{
+		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_108_MonsterBugColorBeatle_Death.wav", false);	
+		m_pGameInstance->Sound_Play();
+
 		Safe_Release(pTurtle);
+	}
 
 
 }
@@ -213,7 +218,15 @@ HRESULT CMon_Turtle::End_RenderState()
 
 void CMon_Turtle::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+		CGameObject* otherObject = other->m_MineGameObject;
 
+		CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
+
+		if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+		{
+			m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_107_MonsterBugColorBeatle_Hit.wav", false);
+			m_pGameInstance->Sound_Play();
+		}
 }
 
 void CMon_Turtle::OnCollisionStay(CCollider* other, _float fTimeDelta)

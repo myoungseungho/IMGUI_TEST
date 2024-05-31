@@ -7,6 +7,7 @@
 
 #include "..\Public\MainApp.h"
 
+#include "Sound.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "GameObject.h"
@@ -82,6 +83,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(g_hWnd, LEVEL_END, g_iWinSizeX, g_iWinSizeY, &m_pGraphic_Device)))
 		return E_FAIL;
 
+	CSound::Init();
+
 	if (FAILED(SetUp_DefaultState()))
 		return E_FAIL;
 
@@ -95,7 +98,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_JUNGLE)))
+	if (FAILED(Open_Level(LEVEL_BUG)))
 		return E_FAIL;
 
 	return S_OK;
@@ -548,7 +551,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
 	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb",
-		L"Layer_Small_Orb", L"Layer_Laser", L"Layer_Un_Small_Orb"};
+		L"Layer_Small_Orb", L"Layer_Laser" };
 
 	// "Layer_UI"로 시작하는 모든 레이어를 스킵할 레이어에 추가
 	for (const auto& object : objectLayersVector)
@@ -1215,10 +1218,6 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Item"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/GetItem/GetItem_0.png"), 1))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -1402,10 +1401,6 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TravelNpc"),
 		CTravelNpc::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Item"),
-		CEffect_Item::Create(m_pGraphic_Device))))
-		return E_FAIL;
 }
 
 CMainApp* CMainApp::Create()
@@ -1429,6 +1424,7 @@ void CMainApp::Free()
 
 	__super::Free();
 
+	CSound::Release();
 
 	Safe_Release(m_pGraphic_Device);
 

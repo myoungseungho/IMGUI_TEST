@@ -60,6 +60,8 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Backward(fTimeDelta);
+
+	m_pGameInstance->Sound_Update();
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
@@ -161,12 +163,18 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 	if (player != nullptr)
 	{
 		if (player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
+		{
 			m_bPlayerAttack = true;
 
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Bullet_Destroy"), TEXT("Layer_Effect_Bullet_Destroy"), &Desc);
+		}
 	}
 
-	if(player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Bug_Bullet_Destroy"), TEXT("Layer_Effect_Bullet_Destroy"), &Desc);
+	if (dynamic_cast<CPlayer*>(otherObject) && player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
+	{
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Play();
+	}
 
 }
 

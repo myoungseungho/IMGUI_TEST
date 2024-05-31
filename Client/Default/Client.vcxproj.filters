@@ -412,6 +412,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Player">
       <UniqueIdentifier>{5433ec23-b20d-4584-99a1-3ebd1452e56d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Arror">
+      <UniqueIdentifier>{cf62ea21-c062-4c50-a0ee-a88fb06f117e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -885,6 +888,9 @@
     <ClInclude Include="..\Public\Effect_Player.h">
       <Filter>02.GameObjects\Effect\Effect_Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skill_Arror.h">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1342,6 +1348,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Player.cpp">
       <Filter>02.GameObjects\Effect\Effect_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skill_Arror.cpp">
+      <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

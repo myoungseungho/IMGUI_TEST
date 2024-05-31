@@ -36,12 +36,6 @@ HRESULT CLevel_Bug::Initialize()
 
 	__super::Initialize();
 
-	//int horizontalTiles = 14; // 예시로 가로 13 타일
-	//int verticalTiles = 2; // 예시로 세로 5 타일
-
-	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
-	//	return E_FAIL;
-
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
@@ -50,6 +44,11 @@ HRESULT CLevel_Bug::Initialize()
 
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
 		return E_FAIL;
+
+	m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", true);
+	m_pGameInstance->Sound_Play();
+	
+	
 
 	return S_OK;
 }
