@@ -675,7 +675,7 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZShop")));
 			shop->SetInventoryOnOff();
 
-			m_bOpenShop = true;
+			m_bOpenShopAndInventory = true;
 			//그리고 인벤토리는 나오지 못하게 막기.
 			static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = false;
 
@@ -949,7 +949,7 @@ HRESULT CPlayer::End_RenderState()
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
 	//상점 안열었으면
-	if (m_bOpenShop)
+	if (m_bOpenShopAndInventory)
 		return S_OK;
 
 	m_ePlayerPreState = m_ePlayerCurState;

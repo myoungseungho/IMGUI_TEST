@@ -81,8 +81,9 @@ private:
 	LPD3DXFONT m_pCurrentItemTitle_Font = { nullptr };
 	LPD3DXFONT m_pCurrentItemExplain_Font = { nullptr };
 
-private:
+public:
 	_bool m_bIsOn = { false };
+private:
 
 	_uint m_iCurrentRow = { 0 };// 현재 선택된 아이템의 행
 	_uint m_iCurrentCol = { 0 }; // 현재 선택된 아이템의 열

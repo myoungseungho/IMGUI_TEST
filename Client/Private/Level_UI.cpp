@@ -8,6 +8,7 @@
 #include "UI_Inventory.h"
 #include "GameInstance.h"
 #include "UI_MapGuide.h"
+#include "Player.h"
 
 CLevel_UI::CLevel_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{ pGraphic_Device }
@@ -44,11 +45,16 @@ void CLevel_UI::Update(_float fTimeDelta)
 		if (inventoryGameObject == nullptr)
 		{
 			Ready_Layer_Inventory(TEXT("Layer_ZUI_Inventory"));
+			CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+			CInventory* inventory = static_cast<CInventory*>(inventoryGameObject);
+			inventory->SetInventoryOnOff();
 		}
 		else
 		{
 			CInventory* inventory = static_cast<CInventory*>(inventoryGameObject);
 			inventory->SetInventoryOnOff();
+			CPlayer* player = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player")));
+			player->m_bOpenShopAndInventory = inventory->m_bIsOn;
 		}
 	}
 }

@@ -230,7 +230,7 @@ void CShop::Update(_float fTimeDelta)
 		static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = true;
 		//플레이어 인풋 다시 풀어야함
 		CPlayer* player = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player")));
-		player->m_bOpenShop = false;
+		player->m_bOpenShopAndInventory = false;
 
 		SetInventoryOnOff();
 		//인벤토리 다시 나올 수 있게

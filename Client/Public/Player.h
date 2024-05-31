@@ -167,7 +167,7 @@ private:
 	_bool m_bIsMovingComplete = false;
 	_bool m_bIsMovingDown = false;
 public:
-	_bool m_bOpenShop = false;
+	_bool m_bOpenShopAndInventory = false;
 
 public:
 
