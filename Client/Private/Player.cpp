@@ -117,7 +117,7 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	else
+	else if(m_ePlayerCurState != STATE_DIED)
 		m_pTransformCom->Set_Scaled(m_forScaled);
 	
 	if (m_ePlayerCurState == STATE_DIED)
@@ -126,6 +126,7 @@ void CPlayer::Update(_float fTimeDelta)
 	else if (m_iPlayerHp <= 0)
 	{
 		m_ePlayerCurState = STATE_DIED;
+		m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 	}
 	else if (m_ePlayerCurState == STATE_HIT)
 	{
@@ -1474,11 +1475,6 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 		}
 
 	}
-	else
-	{
-		m_pTransformCom->Set_Scaled(m_forScaled);
-	}
-
 }
 
 void CPlayer::For_Died_State(_float fTimeDelta)
@@ -1491,6 +1487,7 @@ void CPlayer::For_Died_State(_float fTimeDelta)
 		m_fDiedTime = 0.0f;
 		m_iPlayerHp = 5.f;
 		m_bAttack = false;
+		m_pTransformCom->Set_Scaled(m_forScaled);
 	}
 	
 }
