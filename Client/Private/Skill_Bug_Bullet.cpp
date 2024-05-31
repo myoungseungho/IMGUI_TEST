@@ -6,6 +6,7 @@
 #include "Player.h"
 
 #include "Effect_Monster.h"
+#include <Boss_Bug.h>
 
 CSkill_Bug_Bullet::CSkill_Bug_Bullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
@@ -172,7 +173,13 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	if (dynamic_cast<CPlayer*>(otherObject) && player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Play();
+	}
+
+	if (dynamic_cast<CBoss_Bug*>(otherObject) )
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
 		m_pGameInstance->Sound_Play();
 	}
 
