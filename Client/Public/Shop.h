@@ -16,7 +16,6 @@
 #include "UI_Shop_PlayerCoin.h"
 #include "UI_Shop_PriceTag.h"
 
-
 BEGIN(Engine)
 class CKeyState;
 class CTransform;
@@ -68,9 +67,25 @@ public:
 
 		for (auto& iter : m_vecUIObject)
 		{
+			if (dynamic_cast<CUI_Inventory_BackGround*>(iter))
+				continue;
+
 			iter->m_bIsOn = m_bIsOn;
 		}
 	}
+private:
+	void SetBackGroundOnOff()
+	{
+		for (auto& iter : m_vecBackGroundObject)
+		{
+			iter->m_bIsOn = !(iter->m_bIsOn);
+			if (!iter->m_bIsOn)
+			{
+				// 백그라운드 비활성화
+				m_bBackgroundsActive = false;
+			}
+		}
+	};
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };
@@ -80,6 +95,8 @@ private:
 
 private:
 	_bool m_bIsOn = { false };
+	_bool m_bBackgroundsActive{ false };
+	_uint m_iCurrentBackgroundIndex = { 0 };
 
 	_uint m_iCurrentRow = { 0 };// 현재 선택된 아이템의 행
 	_uint m_iCurrentCol = { 0 }; // 현재 선택된 아이템의 열
@@ -97,6 +114,7 @@ private:
 private:
 	_uint m_firstRowSelectedCol = { 0 }; // 첫 번째 행에서 선택된 열 위치
 	vector<CUIObject*> m_vecUIObject; // 플레이어 인벤토리에서 만든 모든 UI 오브젝트 ESC용
+	vector<CUIObject*> m_vecBackGroundObject;
 
 private:
 	_uint m_iCurrentMoney = { 5000 };

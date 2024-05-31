@@ -42,6 +42,8 @@ HRESULT CUI_Inventory_BackGround::Initialize(void* pArg)
 	m_fAlpha = uiData->alpha;
 	m_iIndex = uiData->index;
 
+	m_bIsOn = false;
+
 	return S_OK;
 }
 

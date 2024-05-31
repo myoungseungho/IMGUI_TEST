@@ -69,12 +69,19 @@ HRESULT CShop::Initialize(void* pArg)
 	{
 		slotData.position = { -430.f, 80.f };
 		slotData.scale = { 120.f, 50.f };
-		slotData.alpha = 0.f;
+		slotData.alpha = 255.f;
 		slotData.index = i;
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
 			return E_FAIL;
+
+
+		CGameObject* backGround = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_Inventory_XBackGround"), i);
+		m_vecBackGroundObject.push_back(static_cast<CUIObject*>(backGround));
+		Safe_AddRef(backGround);
 	}
+
+
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
@@ -152,7 +159,7 @@ HRESULT CShop::Initialize(void* pArg)
 
 		m_vecItemInfo.push_back(m_vecItemInfo[i]);
 	}
-	
+
 	// 초기 상태 설정
 	UpdateAlphaValues();
 	return S_OK;
@@ -162,7 +169,6 @@ void CShop::Priority_Update(_float fTimeDelta)
 {
 }
 
-
 void CShop::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn)
@@ -170,66 +176,102 @@ void CShop::Update(_float fTimeDelta)
 
 	bool positionChanged = false;
 
-	if (m_pKeyCom->Key_Down(VK_UP))
+	if (m_bBackgroundsActive)
 	{
-		// 위쪽 방향키 입력 처리
-		if (m_iCurrentRow > 1) {
-			// 두 번째 행 이상일 때 처리
-			m_iCurrentRow = (m_iCurrentRow - 1 + m_iMaxRows) % m_iMaxRows;
+		// 백그라운드 활성화 상태에서 방향키 처리
+		if (m_pKeyCom->Key_Down(VK_DOWN))
+		{
+			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
+			positionChanged = true;
+		}
+		else if (m_pKeyCom->Key_Down(VK_UP))
+		{
+			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex - 1 + 3) % 3;
+			positionChanged = true;
+		}
+		else if (m_pKeyCom->Key_Down(VK_LEFT))
+		{
+			// 백그라운드 비활성화
+			m_bBackgroundsActive = false;
+			positionChanged = true;
+
+			SetBackGroundOnOff();
+		}
+		else if (m_pKeyCom->Key_Down(VK_LEFT))
+		{
+			// 백그라운드 비활성화
+			m_bBackgroundsActive = false;
+			positionChanged = true;
+
+			SetBackGroundOnOff();
+		}
+	}
+	else
+	{
+		// 기본 상태에서 방향키 처리
+		if (m_pKeyCom->Key_Down(VK_UP))
+		{
+			// 위쪽 방향키 입력 처리
+			if (m_iCurrentRow > 1) {
+				// 두 번째 행 이상일 때 처리
+				m_iCurrentRow = (m_iCurrentRow - 1 + m_iMaxRows) % m_iMaxRows;
+				m_iCurrentCol = min(m_iCurrentCol, getMaxCols(m_iCurrentRow) - 1);
+				positionChanged = true;
+			}
+			else if (m_iCurrentRow == 1) {
+				// 두 번째 행에서 첫 번째 행으로 이동 시
+				m_iCurrentRow = 0;
+				m_iCurrentCol = 0; // 첫 번째 행의 첫 번째 열로 이동
+				positionChanged = true;
+			}
+		}
+		if (m_pKeyCom->Key_Down(VK_DOWN))
+		{
+			// 아래쪽 방향키 입력 처리
+			if (m_iCurrentRow == m_iMaxRows - 1) {
+				// 마지막 행에서 아래쪽으로 이동 시 두 번째 행으로 이동
+				m_iCurrentRow = 1;
+				positionChanged = true;
+			}
+			else if (m_iCurrentRow < m_iMaxRows - 1) {
+				m_iCurrentRow = (m_iCurrentRow + 1) % m_iMaxRows;
+				positionChanged = true;
+			}
 			m_iCurrentCol = min(m_iCurrentCol, getMaxCols(m_iCurrentRow) - 1);
+		}
+		if (m_pKeyCom->Key_Down(VK_LEFT))
+		{
+			// 왼쪽 방향키 입력 처리
+			int maxCols = getMaxCols(m_iCurrentRow);
+			m_iCurrentCol = (m_iCurrentCol - 1 + maxCols) % maxCols;
 			positionChanged = true;
 		}
-		else if (m_iCurrentRow == 1) {
-			// 두 번째 행에서 첫 번째 행으로 이동 시
-			m_iCurrentRow = 0;
-			m_iCurrentCol = 0; // 첫 번째 행의 첫 번째 열로 이동
+		if (m_pKeyCom->Key_Down(VK_RIGHT))
+		{
+			// 오른쪽 방향키 입력 처리
+			int maxCols = getMaxCols(m_iCurrentRow);
+			m_iCurrentCol = (m_iCurrentCol + 1) % maxCols;
 			positionChanged = true;
 		}
-	}
-	if (m_pKeyCom->Key_Down(VK_DOWN))
-	{
-		// 아래쪽 방향키 입력 처리
-		if (m_iCurrentRow == m_iMaxRows - 1) {
-			// 마지막 행에서 아래쪽으로 이동 시 두 번째 행으로 이동
-			m_iCurrentRow = 1;
-			positionChanged = true;
-		}
-		else if (m_iCurrentRow < m_iMaxRows - 1) {
-			m_iCurrentRow = (m_iCurrentRow + 1) % m_iMaxRows;
-			positionChanged = true;
-		}
-		m_iCurrentCol = min(m_iCurrentCol, getMaxCols(m_iCurrentRow) - 1);
-	}
-	if (m_pKeyCom->Key_Down (VK_LEFT))
-	{
-		// 왼쪽 방향키 입력 처리
-		int maxCols = getMaxCols(m_iCurrentRow);
-		m_iCurrentCol = (m_iCurrentCol - 1 + maxCols) % maxCols;
-		positionChanged = true;
-	}
-	if (m_pKeyCom->Key_Down(VK_RIGHT))
-	{
-		// 오른쪽 방향키 입력 처리
-		int maxCols = getMaxCols(m_iCurrentRow);
-		m_iCurrentCol = (m_iCurrentCol + 1) % maxCols;
-		positionChanged = true;
 	}
 
 	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
 	{
 		// CUI_Inventory_BackGround 객체의 Y 위치를 차례로 증가시키기
+		m_bBackgroundsActive = !m_bBackgroundsActive; // 백그라운드 활성화 상태로 변경
+		SetBackGroundOnOff();
 		ArrangeInventoryBackgrounds();
 	}
-	
+
 	if (m_pKeyCom->Key_Down('P'))
 	{
 		static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = true;
-		//플레이어 인풋 다시 풀어야함
+		// 플레이어 인풋 다시 풀어야함
 		CPlayer* player = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player")));
 		player->m_bOpenShopAndInventory = false;
 
 		SetInventoryOnOff();
-		//인벤토리 다시 나올 수 있게
+		// 인벤토리 다시 나올 수 있게
 	}
 
 	if (positionChanged) {
@@ -316,7 +358,7 @@ void CShop::Control_FirstRow()
 		{
 			iter->m_fAlpha = 0.f;
 		}
-		
+
 		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
 		{
 			iter->m_fAlpha = 0.f;
@@ -604,6 +646,12 @@ void CShop::Free()
 		Safe_Release(pUIObject);
 	}
 	m_vecUIObject.clear();
+
+	for (auto& pUIObject : m_vecBackGroundObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecBackGroundObject.clear();
 
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTransformCom);
