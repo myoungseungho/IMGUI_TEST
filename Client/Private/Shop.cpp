@@ -199,25 +199,6 @@ void CShop::Update(_float fTimeDelta)
 	if (!m_bIsOn)
 		return;
 
-	/*if (m_pKeyCom->Key_Down('W'))
-	{
-		m_TextPosY -= 1.f;
-	}
-	if (m_pKeyCom->Key_Down('S'))
-	{
-		m_TextPosY += 1.f;
-	}
-	if (m_pKeyCom->Key_Down('A'))
-	{
-		m_TextPosX -= 1.f;
-	}
-
-	if (m_pKeyCom->Key_Down('D'))
-	{
-		m_TextPosX += 1.f;
-	}*/
-
-
 	bool positionChanged = false;
 
 	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
