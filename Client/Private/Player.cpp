@@ -35,6 +35,7 @@
 #include "Shop.h"
 #include "Level_UI.h"
 #include <Effect_Player.h>
+#include <Hat.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -104,6 +105,14 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
+	//	CHat::HAT_DESC HATDESC{};
+
+	//HATDESC.pTargetTransform = m_pTransformCom;
+	//HATDESC.pTargetDirection = m_ePlayerDir;
+
+	//m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
+
+
 	return S_OK;
 }
 
@@ -113,8 +122,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
 
+	Key_Input(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
