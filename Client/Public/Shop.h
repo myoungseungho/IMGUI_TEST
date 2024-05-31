@@ -50,6 +50,7 @@ private:
 
 	void Font_Initialize();
 	void UpdateSelectedItemInfo();
+	void ArrangeInventoryBackgrounds();
 
 	void Control_FirstRow();
 	void Control_OtherRow();

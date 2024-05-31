@@ -65,16 +65,16 @@ HRESULT CShop::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	/*for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 3; i++)
 	{
 		slotData.position = { -430.f, 80.f };
-		slotData.scale = { 140.f, 145.f };
-		slotData.alpha = 104.f;
+		slotData.scale = { 120.f, 50.f };
+		slotData.alpha = 0.f;
 		slotData.index = i;
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_BackGround"), TEXT("Layer_UI_Inventory_XBackGround"), &slotData, i)))
 			return E_FAIL;
-	}*/
+	}
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
 		return E_FAIL;
@@ -217,15 +217,11 @@ void CShop::Update(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
 	{
-
-		//0번에서 장비 살때, 이때는 개수, 구매, 취소가 나와야함
-		if (m_firstRowSelectedCol == 0) {
-		}
-		else if (m_firstRowSelectedCol == 1) {
-		}
+		// CUI_Inventory_BackGround 객체의 Y 위치를 차례로 증가시키기
+		ArrangeInventoryBackgrounds();
 	}
 	
-	if (m_pKeyCom->Key_Down('T'))
+	if (m_pKeyCom->Key_Down('P'))
 	{
 		static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = true;
 		//플레이어 인풋 다시 풀어야함
@@ -320,12 +316,14 @@ void CShop::Control_FirstRow()
 		{
 			iter->m_fAlpha = 0.f;
 		}
-		else if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
+		
+		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
 		{
-			// 특정 조건에 맞는 CUI_Inventory_BackGround 객체를 선택
-			if (iter->m_iIndex == 1) {
-				iter->m_fAlpha = 0.f;
-			}
+			iter->m_fAlpha = 0.f;
+			//// 특정 조건에 맞는 CUI_Inventory_BackGround 객체를 선택
+			//if (iter->m_iIndex == 1) {
+			//	iter->m_fAlpha = 0.f;
+			//}
 		}
 	}
 
@@ -359,18 +357,30 @@ void CShop::Control_OtherRow()
 	}
 
 	// CUI_Cursor 객체의 위치를 업데이트
-	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
-	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
+	const float initialCursorX = -430.0f; // 첫 번째 열의 초기 X 위치
+	const float initialCursorY = 85.0f; // 첫 번째 행의 초기 Y 위치
 	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
 	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+
+	// CUI_Inventory_BackGround 객체의 위치를 업데이트
+	const float initialInventoryX = -275.0f; // Inventory_BackGround의 초기 X 위치
+	const float initialInventoryY = 55.0f; // Inventory_BackGround의 초기 Y 위치
+	const float inventoryDeltaY = 50.0f; // Inventory_BackGround의 Y 위치 증감분
 
 	for (auto& iter : m_vecUIObject)
 	{
 		if (typeid(*iter) == typeid(CUI_Cursor))
 		{
-			iter->m_fX = initialX + m_iCurrentCol * deltaX;
-			iter->m_fY = initialY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
+			iter->m_fX = initialCursorX + m_iCurrentCol * deltaX;
+			iter->m_fY = initialCursorY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
 			iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
+		}
+
+		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
+		{
+			int index = iter->m_iIndex;
+			iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
+			iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
 		}
 	}
 }
@@ -394,6 +404,25 @@ void CShop::UpdateSelectedItemInfo()
 	}
 }
 
+void CShop::ArrangeInventoryBackgrounds()
+{
+	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
+	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+	const float initialInventoryX = -275.0f; // Inventory_BackGround의 초기 X 위치
+	const float initialInventoryY = 55.0f; // Inventory_BackGround의 초기 Y 위치
+	const float inventoryDeltaY = 50.0f; // Inventory_BackGround의 Y 위치 증감분
+
+	for (auto& iter : m_vecUIObject)
+	{
+		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
+		{
+			int index = iter->m_iIndex;
+			iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
+			iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
+			iter->m_fAlpha = 255.f;
+		}
+	}
+}
 void CShop::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음

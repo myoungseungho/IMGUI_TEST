@@ -76,60 +76,24 @@ void CUI_MapGuide::Update(_float fTimeDelta)
 	m_fCreateTime += fTimeDelta;
 	UpdatePosition(fTimeDelta);
 	UpdateAlpha(fTimeDelta);
-	//if (GetAsyncKeyState('F') & 0x8000) {
-	//	offsetX -= 5.f;
-	//}
-	//if (GetAsyncKeyState('H') & 0x8000) {
-	//	offsetX += 5.f;
-	//}
-	//if (GetAsyncKeyState('T') & 0x8000) {
-	//	offsetY += 5.f;
-	//}
-	//if (GetAsyncKeyState('G') & 0x8000) {
-	//	offsetY -= 5.f;
-	//}
-	//if (GetAsyncKeyState('R') & 0x8000) {
-	//	offsetZ -= 0.01f;
-	//}
-	//if (GetAsyncKeyState('Y') & 0x8000) {
-	//	offsetZ += 0.01f;
-	//}
-	//if (GetAsyncKeyState('J') & 0x8000) {
-	//	offsetXScale -= 5.f;
-	//}
-	//if (GetAsyncKeyState('K') & 0x8000) {
-	//	offsetXScale += 5.f;
-	//}
-	//if (GetAsyncKeyState('N') & 0x8000) {
-	//	offsetYScale -= 5.f;
-	//}
-	//if (GetAsyncKeyState('M') & 0x8000) {
-	//	offsetYScale += 5.f;
-	//}
-	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
-	//	m_fAlpha += 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-	//	m_fAlpha -= 1.f;
-	//}
 
-	// 키 입력 처리
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		m_fTextY -= 10.f; // 위쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		m_fTextY += 10.f; // 아래쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		m_TextPosX -= 10.f; // 왼쪽으로 이동
-	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_TextPosX += 10.f; // 오른쪽으로 이동
-	}
+	//// 키 입력 처리
+	//if (GetAsyncKeyState(VK_UP) & 0x8000)
+	//{
+	//	m_fTextY -= 10.f; // 위쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	//{
+	//	m_fTextY += 10.f; // 아래쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	//{
+	//	m_TextPosX -= 10.f; // 왼쪽으로 이동
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	//{
+	//	m_TextPosX += 10.f; // 오른쪽으로 이동
+	//}
 }
 
 void CUI_MapGuide::Late_Update(_float fTimeDelta)
@@ -138,10 +102,6 @@ void CUI_MapGuide::Late_Update(_float fTimeDelta)
 		return;
 
 	__super::Late_Update(fTimeDelta);
-
-	/*m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(offsetX + m_fX, offsetY + m_fY, 0));
-	m_pTransformCom->Set_Scaled(_float3(offsetXScale + m_fSizeX, offsetYScale + m_fSizeY, 0));*/
-
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
 
