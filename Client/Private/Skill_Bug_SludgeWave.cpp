@@ -79,6 +79,11 @@ HRESULT CSkill_Bug_SludgeWave::Ready_Components()
 	if (FAILED(__super::Ready_Components()))
 		E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
 	TransformDesc.fSpeedPerSec = 6.0f;
@@ -183,6 +188,7 @@ CGameObject* CSkill_Bug_SludgeWave::Clone(void* pArg)
 
 void CSkill_Bug_SludgeWave::Free()
 {
+	Safe_Release(m_pAnimCom);
 	Safe_Release(m_pTargetTransform);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pColliderCom);
