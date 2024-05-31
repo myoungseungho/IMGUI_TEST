@@ -193,7 +193,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", false);
 		m_pGameInstance->Sound_Play();
 	}
 	
@@ -242,7 +242,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 		Warf(30, 20, 50.f, m_fAngle);
 		m_fDashTimer = 0.f;
 
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_116_BossMoonMoth_Fly.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_116_BossMoonMoth_Fly.wav", false);
 		m_pGameInstance->Sound_Play();
 	}
 	else
@@ -323,6 +323,9 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 
 HRESULT CBoss_Bug::Turtle_Create()
 {
+	m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_106_MonsterBugColorBeatle_In.wav", false);
+	m_pGameInstance->Sound_Play();
+
 	CMon_Turtle::MON_TURTLE_DESC	 Desc{};
 
 	Desc.iHp = 3;
@@ -349,8 +352,6 @@ HRESULT CBoss_Bug::Bullet_Create(_uint iBulletNum, CSkill_Bug_Bullet::BULLET_STA
 	SkillDesc.iTotalBullet = iBulletNum;
 	SkillDesc.iBulletType = iBulletType;
 
-	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_106_MonsterBugColorBeatle_In.wav", false);
-	m_pGameInstance->Sound_Play();
 
 	for (int i = 1; i <= SkillDesc.iTotalBullet; ++i)
 	{
@@ -386,7 +387,7 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 0.95f))
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_112_BossMoonMoth_BulletAttack.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_112_BossMoonMoth_BulletAttack.wav", false);
 		m_pGameInstance->Sound_Play();
 
 		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
@@ -439,7 +440,7 @@ void CBoss_Bug::State_Death(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 7.f))
 	{
 
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_117_BossMoonMoth_Death.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_117_BossMoonMoth_Death.wav", false);
 		m_pGameInstance->Sound_Play();
 
 		Safe_Release(pThis);
@@ -461,7 +462,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 	if (!m_bStartDash)
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_115_BossMoonMoth_Soar.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_115_BossMoonMoth_Soar.wav", false);
 		m_pGameInstance->Sound_Play();
 		
 		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -478,7 +479,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 		if (m_isTurtle && m_bPosRange)
 		{
-			m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/SoundSDK/AudioClip/SFX_118_BossMoonMoth_Down.wav", false);
+			m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_118_BossMoonMoth_Down.wav", false);
 			m_pGameInstance->Sound_Play();
 
 			m_pTransformCom->Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);

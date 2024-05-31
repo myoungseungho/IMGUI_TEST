@@ -172,7 +172,7 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 
 	if (dynamic_cast<CPlayer*>(otherObject) && player->Get_Player_CurState() != CPlayer::STATE_ATTACK)
 	{
-		m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_94_BugBallHit.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/Resources/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
 		m_pGameInstance->Sound_Play();
 	}
 
