@@ -56,9 +56,12 @@ private:
 	void UpdateAlphaValues();
 	void ShowHats();
 	void ShowItems();
+	void MoveCursorToBackground(int backgroundIndex);
 	_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_iFirstRowCols : m_iOtherRowsCols;
 	}
+
+
 
 public:
 	void SetInventoryOnOff()
@@ -96,7 +99,7 @@ private:
 private:
 	_bool m_bIsOn = { false };
 	_bool m_bBackgroundsActive{ false };
-	_uint m_iCurrentBackgroundIndex = { 0 };
+	_uint m_iCurrentBackgroundIndex = { 2 };
 
 	_uint m_iCurrentRow = { 0 };// 현재 선택된 아이템의 행
 	_uint m_iCurrentCol = { 0 }; // 현재 선택된 아이템의 열

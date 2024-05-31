@@ -61,8 +61,36 @@ HRESULT CShop::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_FadeInOut"), TEXT("Layer_UI_FadeInOut"))))
 		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_UI_ZCursor"))))
-		return E_FAIL;
+	for (size_t i = 0; i < 2; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			slotData.position = { -430.f, 85.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 255.f;
+			break;
+		case 1:
+			slotData.position = { -430.f, 85.f };
+			slotData.scale = { 160.f, 165.f };
+			slotData.alpha = 255.f;
+			break;
+		default:
+			break;
+		}
+
+		slotData.index = i;
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_ZZUI_Cursor"), &slotData, i)))
+			return E_FAIL;
+	}
+
+	CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
+	if (cursor)
+	{
+		CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
+		cursorUI->m_bIsOn = false;
+	}
 
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
@@ -72,10 +100,9 @@ HRESULT CShop::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_VerticalDotLine"), TEXT("Layer_UI_Inventory_VerticalDotLine"))))
-		return E_FAIL;
 
-	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
-		return E_FAIL;
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
+			return E_FAIL;
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Food"), TEXT("Layer_UI_ItemTabIcon_Food"))))
 		return E_FAIL;
@@ -176,32 +203,18 @@ void CShop::Update(_float fTimeDelta)
 
 	if (m_bBackgroundsActive)
 	{
+		MoveCursorToBackground(m_iCurrentBackgroundIndex);
+
 		// 백그라운드 활성화 상태에서 방향키 처리
 		if (m_pKeyCom->Key_Down(VK_DOWN))
-		{
-			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
-			positionChanged = true;
-		}
-		else if (m_pKeyCom->Key_Down(VK_UP))
 		{
 			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex - 1 + 3) % 3;
 			positionChanged = true;
 		}
-		else if (m_pKeyCom->Key_Down(VK_LEFT))
+		else if (m_pKeyCom->Key_Down(VK_UP))
 		{
-			// 백그라운드 비활성화
-			m_bBackgroundsActive = false;
+			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
 			positionChanged = true;
-
-			SetBackGroundOnOff();
-		}
-		else if (m_pKeyCom->Key_Down(VK_LEFT))
-		{
-			// 백그라운드 비활성화
-			m_bBackgroundsActive = false;
-			positionChanged = true;
-
-			SetBackGroundOnOff();
 		}
 	}
 	else
@@ -259,6 +272,16 @@ void CShop::Update(_float fTimeDelta)
 		m_bBackgroundsActive = !m_bBackgroundsActive; // 백그라운드 활성화 상태로 변경
 		SetBackGroundOnOff();
 		ArrangeInventoryBackgrounds();
+
+		if (!m_bBackgroundsActive)
+		{
+			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
+			if (cursor)
+			{
+				CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
+				cursorUI->m_bIsOn = false;
+			}
+		}
 	}
 
 	if (m_pKeyCom->Key_Down('P'))
@@ -270,7 +293,15 @@ void CShop::Update(_float fTimeDelta)
 
 		SetInventoryOnOff();
 		// 인벤토리 다시 나올 수 있게
+
+		CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_ZZZCursor"), 1);
+		if (cursor)
+		{
+			CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
+			cursorUI->m_bIsOn = false;
+		}
 	}
+
 
 	if (positionChanged) {
 		UpdateAlphaValues();
@@ -328,6 +359,24 @@ void CShop::ShowItems()
 			iter->m_fAlpha = 0.f; // Hat 객체를 보이게 설정
 		else if (typeid(*iter) == typeid(CUI_Item))
 			iter->m_fAlpha = 255.f; // Item 객체를 숨김
+	}
+}
+
+void CShop::MoveCursorToBackground(int backgroundIndex)
+{
+	CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
+	if (cursor)
+	{
+		CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
+		if (cursorUI && backgroundIndex < m_vecBackGroundObject.size())
+		{
+			CUIObject* targetBackground = m_vecBackGroundObject[backgroundIndex];
+			cursorUI->m_fX = targetBackground->m_fX;
+			cursorUI->m_fY = targetBackground->m_fY;
+			cursorUI->m_fSizeX = targetBackground->m_fSizeX;
+			cursorUI->m_fSizeY = targetBackground->m_fSizeY;
+			cursorUI->m_bIsOn = true;
+		}
 	}
 }
 
@@ -416,12 +465,12 @@ void CShop::Control_OtherRow()
 			iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
 		}
 
-		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
-		{
-			int index = iter->m_iIndex;
-			iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
-			iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
-		}
+		//if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
+		//{
+		//	int index = iter->m_iIndex;
+		//	iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
+		//	iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
+		//}
 	}
 }
 
@@ -452,15 +501,12 @@ void CShop::ArrangeInventoryBackgrounds()
 	const float initialInventoryY = 55.0f; // Inventory_BackGround의 초기 Y 위치
 	const float inventoryDeltaY = 50.0f; // Inventory_BackGround의 Y 위치 증감분
 
-	for (auto& iter : m_vecUIObject)
+	for (auto& iter : m_vecBackGroundObject)
 	{
-		if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
-		{
-			int index = iter->m_iIndex;
-			iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
-			iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
-			iter->m_fAlpha = 255.f;
-		}
+		int index = iter->m_iIndex;
+		iter->m_fX = initialInventoryX + m_iCurrentCol * deltaX;
+		iter->m_fY = initialInventoryY + (m_iCurrentRow - 1) * deltaY + index * inventoryDeltaY; // 첫 번째 행 제외, index에 따라 y위치 증가
+		iter->m_fAlpha = 255.f;
 	}
 }
 void CShop::Late_Update(_float fTimeDelta)

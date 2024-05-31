@@ -148,6 +148,9 @@ HRESULT CLevel_UI::Ready_Layer_Map_Guide(const _wstring& strLayerTag)
 
 HRESULT CLevel_UI::Ready_Layer_Shop(const _wstring& strLayerTag)
 {
+	if (!m_pGameInstance->GetLoadingLevelIndex() == LEVEL_TACHO)
+		return S_OK;
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Shop"), strLayerTag)))
 		return E_FAIL;
 

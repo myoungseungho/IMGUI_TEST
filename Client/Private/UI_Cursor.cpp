@@ -32,15 +32,31 @@ HRESULT CUI_Cursor::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 160.f;
-	m_fSizeY = 165.f;
-	m_fX = -430.f;
-	m_fY = 85.f;
+	UIDATA* uiData = reinterpret_cast<UIDATA*>(pArg);
+
+	if (dynamic_cast<UIDATA*>(uiData))
+	{
+		m_fSizeX = uiData->scale.x;
+		m_fSizeY = uiData->scale.y;
+		m_fX = uiData->position.x;
+		m_fY = uiData->position.y;
+		m_fAlpha = uiData->alpha;
+		m_iIndex = uiData->index;
+
+	}
+	else
+	{
+		m_fX = -430.f;
+		m_fY = 85.f;
+		m_fSizeX = 160.f;
+		m_fSizeY = 165.f;
+		m_fAlpha = 255.f;
+	}
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-	m_fAlpha = 255.f;
+
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -74,7 +90,7 @@ void CUI_Cursor::Update(_float fTimeDelta)
 void CUI_Cursor::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-	
+
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX + offsetXScale, m_fSizeY + offsetYScale, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX + offsetX, m_fY + offsetY, 0.f));
