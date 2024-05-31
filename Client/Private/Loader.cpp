@@ -396,7 +396,7 @@ HRESULT CLoader::Loading_For_Jungle()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonkeyStatue"),
 		CMonkey_Statue::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 #pragma region For_Laser_Quiz
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rotation_Orb"),
 		CRotation_Orb::Create(m_pGraphic_Device))))
