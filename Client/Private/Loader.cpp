@@ -93,6 +93,8 @@
 #include "Shop.h"
 #include "Skill_Arror.h"
 #include "CSound.h"
+#include "Effect_Monkey_Dust.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -375,7 +377,9 @@ HRESULT CLoader::Loading_For_Jungle()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Quiz/Laser/Sprite_CircleBlur.png"), 1))))
 		return E_FAIL;
 
-
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_Monkey_Dust"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_DustBlur.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 	/* 모델을 로드한다. */
@@ -392,6 +396,9 @@ HRESULT CLoader::Loading_For_Jungle()
 		CSkill_Player::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Monkey_Dust"),
+		CEffect_Monkey_Dust::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MonkeyStatue"),
 		CMonkey_Statue::Create(m_pGraphic_Device))))

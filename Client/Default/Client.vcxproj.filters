@@ -421,6 +421,18 @@
     <Filter Include="02.GameObjects\Item\Hat">
       <UniqueIdentifier>{27e9aa40-2c89-4deb-896f-ba8f13f640ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Player\Effect_Player_Stun">
+      <UniqueIdentifier>{30bbc902-4fcf-4017-8ce3-414ebbd63fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Player\Effect_Player_Attack">
+      <UniqueIdentifier>{d03f33c6-038f-4e56-92a4-7ff9de2c628b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object">
+      <UniqueIdentifier>{7035e514-eb10-4a08-b5d1-4624cbc22e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Monkey_Dust">
+      <UniqueIdentifier>{e3f29a3c-5a69-42f2-9bbe-c9d02d62f0b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -891,14 +903,20 @@
     <ClInclude Include="..\Public\Effect_Item.h">
       <Filter>02.GameObjects\Effect\Effect_Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_Player.h">
-      <Filter>02.GameObjects\Effect\Effect_Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Skill_Arror.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Hat.h">
       <Filter>02.GameObjects\Item\Hat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Player_Stun.h">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Stun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Player.h">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Monkey_Dust.h">
+      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1355,14 +1373,20 @@
     <ClCompile Include="..\Private\Effect_Item.cpp">
       <Filter>02.GameObjects\Effect\Effect_Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Effect_Player.cpp">
-      <Filter>02.GameObjects\Effect\Effect_Player</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Skill_Arror.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Hat.cpp">
       <Filter>02.GameObjects\Item\Hat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Player_Stun.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Stun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Player.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

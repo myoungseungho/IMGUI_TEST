@@ -50,6 +50,10 @@ public:
 	PLAYER_STATE		Get_Player_PreState() {
 		return m_ePlayerPreState;
 	}
+	DIRECTION				Get_Player_Direction()
+	{
+		return m_ePlayerDir;
+	}
 	_uint		Get_Player_Hp()
 	{
 		return m_iPlayerHp;
@@ -135,8 +139,8 @@ private:
 	_uint			m_iMaxHp = { 10 };
 
 	_bool			m_bCanDamaged = { true };
-	_bool			m_bForTestDamaged = { false };
-
+	_bool			m_bForTestDamaged = { true };
+	_bool			m_bForHitEffect = { true};
 public:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;

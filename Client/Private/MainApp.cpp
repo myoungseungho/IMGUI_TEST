@@ -59,6 +59,8 @@
 #include <codecvt>
 #include "Effect_Item.h"
 #include "Effect_Player.h"
+#include "Hat.h"
+#include "Effect_Player_Stun.h"
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -1222,11 +1224,27 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
+#pragma region Texture_Player_Hat_Towel
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hat_Towel"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Hat/Towel/Towel_Hat_%d.png"), 8))))
+		return E_FAIL;
+
+#pragma endregion
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Player_Stun"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_ThornHatRoll_Spikes.png"), 1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Player_Stun"),
+		CEffect_Player_Stun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Player"),
 		CEffect_Player::Create(m_pGraphic_Device))))
 		return E_FAIL;

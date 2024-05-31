@@ -5,6 +5,8 @@
 #include <Player.h>
 #include "Block.h"
 #include "QuizMgr.h"
+#include <Effect_Monkey_Dust.h>
+
 
 
 CMonkey_Statue::CMonkey_Statue(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -120,6 +122,12 @@ void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this);
 
 			pQuizManager->Change_Block_State(iMonkeyIndex);
+
+			CEffect_Monkey_Dust::EFFECT_MONKEY_DESC MONKEYDUST{};
+
+			MONKEYDUST.pTargetTransform = m_pTransformCom;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Effect_Monkey_Dust"), TEXT("Layer_Effect_Monkey_Dust"), &MONKEYDUST);
 
 			bIsChangeOnce = false;
 		}
