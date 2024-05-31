@@ -119,16 +119,23 @@ void CPlayer::Update(_float fTimeDelta)
 	}
 	else
 		m_pTransformCom->Set_Scaled(m_forScaled);
+	
+	if (m_ePlayerCurState == STATE_DIED)
+		For_Died_State(fTimeDelta);
 
-	if (m_ePlayerCurState == STATE_HIT)
+	else if (m_iPlayerHp <= 0)
+	{
+		m_ePlayerCurState = STATE_DIED;
+	}
+	else if (m_ePlayerCurState == STATE_HIT)
 	{
 		For_Damage_State(fTimeDelta);
 	}
-	if (m_ePlayerCurState == STATE_GET)
+	else if (m_ePlayerCurState == STATE_GET)
 	{
 		For_Get_State(fTimeDelta);
 	}
-	if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
+	else if (m_ePlayerCurState == STATE_SKILL && m_bHaveSkill)
 	{
 		if (m_pCal_Timercom->Time_Limit(fTimeDelta, 0.5f)) // E 키를 누른 시간 (1초마다)
 		{
@@ -145,10 +152,7 @@ void CPlayer::Update(_float fTimeDelta)
 	else
 		m_iCurrentSkillCount = 0;
 
-	if (m_iPlayerHp <= 0)
-	{
-		m_ePlayerCurState = STATE_DIE;
-	}
+
 	if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
@@ -713,7 +717,6 @@ void CPlayer::Player_Damaged()
 	{
 		--m_iPlayerHp;
 	}
-
 }
 
 void CPlayer::Interaction_NPC(CGameObject* _npc)
@@ -1138,7 +1141,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH &&
-			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET)
+			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET && m_ePlayerCurState != STATE_DIED)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
@@ -1162,6 +1165,17 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			else
 				m_bForTestDamaged = true;
 		}
+	}
+
+	if (m_pKeyCom->Key_Down('L'))
+	{
+		Player_Damaged();
+	}
+
+
+	if (m_pKeyCom->Key_Down('K'))
+	{
+		m_iPlayerHp++;
 	}
 
 	if (m_pCurrentCollisionOk_Npc != nullptr)
@@ -1417,7 +1431,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;
-	case STATE_DIE:
+	case STATE_DIED:
 		m_pAnimCom->Play_Animator(TEXT("Player_Died"), 1.0f, _fTimeDelta, false);
 		break;
 	}
@@ -1465,6 +1479,20 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 		m_pTransformCom->Set_Scaled(m_forScaled);
 	}
 
+}
+
+void CPlayer::For_Died_State(_float fTimeDelta)
+{
+	m_fDiedTime += fTimeDelta;
+
+	if (m_fDiedTime >= 3.0f)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_fDiedTime = 0.0f;
+		m_iPlayerHp = 5.f;
+		m_bAttack = false;
+	}
+	
 }
 
 void CPlayer::For_Get_State(_float fTimeDelta)
