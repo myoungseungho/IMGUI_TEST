@@ -100,6 +100,12 @@
     <Filter Include="01.Utility\02.GameObjects\BlendObject">
       <UniqueIdentifier>{f76f6f48-5211-4518-87f2-a9bba473fa68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\06.Sound">
+      <UniqueIdentifier>{9d765f36-0c7d-42e7-a6dd-80dbc58dc0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Components\Sound">
+      <UniqueIdentifier>{154f51e8-019a-4f7a-833c-2cb78e0e7a09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -182,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GameInstance.cpp">
       <Filter>01.Utility\00.GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound.cpp">
+      <Filter>01.Utility\04.Components\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\BlendObject.h">
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound.h">
+      <Filter>01.Utility\04.Components\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

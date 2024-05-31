@@ -51,6 +51,8 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
+	m_pGameInstance->Sound_Update();
+
 	m_fAngle++;
 
 	if (m_fAngle > 360.f)
@@ -135,7 +137,7 @@ HRESULT CBoss_Bug::Ready_Components()
 
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER_SKILL, this);
-	
+
 	return S_OK;
 }
 
@@ -369,6 +371,9 @@ void CBoss_Bug::State_Idle(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 {
+	m_pGameInstance->Sound_Create("../Bin/Resources/Orgu_144_Resource/Sound/SFX_97_BugBulletDisappear.wav", false);
+	m_pGameInstance->Sound_Play();
+
 	if (m_pTimerCom->Time_Limit(_fTimeDelta, 0.95f))
 	{
 		Bullet_Create(12, CSkill_Bug_Bullet::BULLET_STATE::NORMAL);
