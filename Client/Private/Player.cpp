@@ -209,7 +209,7 @@ void CPlayer::Update(_float fTimeDelta)
 		{
 			// 초기 설정
 			m_fElapsedTime = 0.0f;
-			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
+			m_fDuration = 2.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 			m_fTargetY = m_fInitialY - 4.5f; // y값을 5만큼 감소
 			m_bIsMovingDown = true;
@@ -1478,7 +1478,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.5f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.0f, _fTimeDelta, false);
 		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);

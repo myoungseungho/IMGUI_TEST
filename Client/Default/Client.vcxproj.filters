@@ -427,6 +427,12 @@
     <Filter Include="02.GameObjects\Effect\Effect_Player\Effect_Player_Attack">
       <UniqueIdentifier>{d03f33c6-038f-4e56-92a4-7ff9de2c628b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object">
+      <UniqueIdentifier>{7035e514-eb10-4a08-b5d1-4624cbc22e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Monkey_Dust">
+      <UniqueIdentifier>{e3f29a3c-5a69-42f2-9bbe-c9d02d62f0b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -909,6 +915,9 @@
     <ClInclude Include="..\Public\Effect_Player.h">
       <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Monkey_Dust.h">
+      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1375,6 +1384,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Player.cpp">
       <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

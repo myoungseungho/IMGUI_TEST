@@ -158,6 +158,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Effect_Monkey_Dust.h" />
     <ClInclude Include="..\Public\Effect_Player_Stun.h" />
     <ClInclude Include="..\Public\Hat.h" />
     <ClInclude Include="..\public\Skill_Arror.h" />
@@ -319,6 +320,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp" />
     <ClCompile Include="..\Private\Effect_Player_Stun.cpp" />
     <ClCompile Include="..\Private\Hat.cpp" />
     <ClCompile Include="..\private\Skill_Arror.cpp" />
