@@ -59,6 +59,7 @@
 #include <codecvt>
 #include "Effect_Item.h"
 #include "Effect_Player.h"
+#include "Hat.h"
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -98,7 +99,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_BUG)))
+	if (FAILED(Open_Level(LEVEL_JUNGLE)))
 		return E_FAIL;
 
 	return S_OK;
@@ -1218,6 +1219,13 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
+#pragma region Texture_Player_Hat_Towel
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hat_Towel"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Hat/Towel/Towel_Hat_%d.png"), 8))))
+		return E_FAIL;
+
+#pragma endregion
 	return S_OK;
 }
 
@@ -1400,6 +1408,10 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TravelNpc"),
 		CTravelNpc::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hat_Towel"),
+		CHat::Create(m_pGraphic_Device))))
 		return E_FAIL;
 }
 

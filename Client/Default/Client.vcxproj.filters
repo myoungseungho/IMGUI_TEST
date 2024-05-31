@@ -415,6 +415,12 @@
     <Filter Include="02.GameObjects\Skill\Skill_Monster\Skill_Arror">
       <UniqueIdentifier>{cf62ea21-c062-4c50-a0ee-a88fb06f117e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item">
+      <UniqueIdentifier>{dd20966d-b5bc-4632-8362-c98a6ce4d156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Hat">
+      <UniqueIdentifier>{27e9aa40-2c89-4deb-896f-ba8f13f640ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -891,6 +897,9 @@
     <ClInclude Include="..\public\Skill_Arror.h">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Hat.h">
+      <Filter>02.GameObjects\Item\Hat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1351,6 +1360,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Skill_Arror.cpp">
       <Filter>02.GameObjects\Skill\Skill_Monster\Skill_Arror</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hat.cpp">
+      <Filter>02.GameObjects\Item\Hat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
