@@ -50,6 +50,9 @@ Client/Bin/Resources/**
 Client/Bin/SoundSDK/
 Client/Bin/SoundSDK/**
 
+# Include .dll files in Bin folder
+!Client/Bin/**/*.dll
+
 # Object files
 [Oo]bj/
 
