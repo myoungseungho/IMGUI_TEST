@@ -36,6 +36,7 @@
 #include "Level_UI.h"
 #include <Effect_Player.h>
 #include <Hat.h>
+#include <Effect_Player_Stun.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -1539,6 +1540,12 @@ void CPlayer::For_Died_State(_float fTimeDelta)
 		m_ePlayerCurState = STATE_LIVE;
 		m_fDiedTime = 0.0f;
 		m_iPlayerHp = 5.f;
+
+		m_bCanMoveRight = true;
+		m_bCanMoveLeft = true;
+		m_bCanMoveForward = true;
+		m_bCanMoveBackward = true;
+		m_bCanDamaged = true;
 	}
 
 }
@@ -1554,6 +1561,8 @@ void CPlayer::For_Live_State(_float fTimeDelta)
 		m_iPlayerHp = 5.f;
 		m_bAttack = false;
 		m_pTransformCom->Set_Scaled(m_forScaled);
+
+
 	}
 }
 
@@ -1576,6 +1585,17 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 {
 	m_fDamageTime += fTimeDelta;
 
+	if (m_bForHitEffect)
+	{
+		CEffect_Player_Stun::EFFECT_PLAYER_STUN_DESC PLAYERSTUN{};
+
+		PLAYERSTUN.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player_Stun"), TEXT("Layer_Effect_Player_Stun"), &PLAYERSTUN);
+
+		m_bForHitEffect = false;
+	}
+	
 	if (m_fDamageTime >= 1.5f)
 	{
 		m_ePlayerCurState = STATE_IDLE;
@@ -1585,7 +1605,7 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 		m_bCanMoveLeft = true;
 		m_bCanMoveForward = true;
 		m_bCanMoveBackward = true;
-
+		m_bForHitEffect = true;;
 	}
 }
 
