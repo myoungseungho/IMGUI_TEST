@@ -25,6 +25,9 @@ HRESULT CLevel_UI::Initialize()
 	if (FAILED(Ready_Layer_Map_Guide(TEXT("Layer_UI_Map_Guide"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Shop(TEXT("Layer_ZShop"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -136,6 +139,14 @@ HRESULT CLevel_UI::Ready_Layer_Map_Guide(const _wstring& strLayerTag)
 	}
 }
 
+
+HRESULT CLevel_UI::Ready_Layer_Shop(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Shop"), strLayerTag)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 void CLevel_UI::Free()
 {

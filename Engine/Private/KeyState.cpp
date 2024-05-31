@@ -45,6 +45,7 @@ _bool CKeyState::Key_Down(_uint _iKey)
 	return false;
 }
 
+
 _bool CKeyState::Key_Up(_uint _iKey)
 {
 	if ((m_bKeyState[_iKey]) && !(GetAsyncKeyState(_iKey) & 0x8000))

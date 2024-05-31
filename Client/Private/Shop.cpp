@@ -11,6 +11,7 @@
 #include "UI_Hat.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "Level_UI.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
@@ -45,9 +46,9 @@ HRESULT CShop::Initialize(void* pArg)
 
 	//UI오브젝트 받아서 VECTOR에 넣기
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, prototypeTag, layerTag, pArg)))
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
 			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_TACHO, layerTag, count));
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, layerTag, count));
 		if (!pUIObject)
 			return E_FAIL;
 		Safe_AddRef(pUIObject);
@@ -164,6 +165,9 @@ void CShop::Priority_Update(_float fTimeDelta)
 
 void CShop::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn)
+		return;
+
 	bool positionChanged = false;
 
 	if (m_pKeyCom->Key_Down(VK_UP))
@@ -196,7 +200,7 @@ void CShop::Update(_float fTimeDelta)
 		}
 		m_iCurrentCol = min(m_iCurrentCol, getMaxCols(m_iCurrentRow) - 1);
 	}
-	if (m_pKeyCom->Key_Down(VK_LEFT))
+	if (m_pKeyCom->Key_Down (VK_LEFT))
 	{
 		// 왼쪽 방향키 입력 처리
 		int maxCols = getMaxCols(m_iCurrentRow);
@@ -219,6 +223,17 @@ void CShop::Update(_float fTimeDelta)
 		}
 		else if (m_firstRowSelectedCol == 1) {
 		}
+	}
+	
+	if (m_pKeyCom->Key_Down('T'))
+	{
+		static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = true;
+		//플레이어 인풋 다시 풀어야함
+		CPlayer* player = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Player")));
+		player->m_bOpenShop = false;
+
+		SetInventoryOnOff();
+		//인벤토리 다시 나올 수 있게
 	}
 
 	if (positionChanged) {

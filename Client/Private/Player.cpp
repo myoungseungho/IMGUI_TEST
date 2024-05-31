@@ -228,10 +228,8 @@ HRESULT CPlayer::Render(_float fTimeDelta)
 	if (m_ePlayerCurState == STATE_BALLON_UP && m_bIsMovingComplete)
 		m_pGameInstance->Change_Level(CLevel_Loading::Create(m_pGraphic_Device, (LEVELID)(m_pGameInstance->GetCurrentLevelIndex() + 1)));
 
-	if (m_bIsShop)
-
-		// 시간 경과
-		return S_OK;
+	// 시간 경과
+	return S_OK;
 }
 
 void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
@@ -674,11 +672,11 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		//상점이 열리면
 		if (shop != nullptr)
 		{
-			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_TACHO, TEXT("Layer_Shop")));
+			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZShop")));
 			shop->SetInventoryOnOff();
 
-			m_bOpenShop = false;
-			//그리고 레벨UI에 있는 ESC를 제어해야 함.
+			m_bOpenShop = true;
+			//그리고 인벤토리는 나오지 못하게 막기.
 			static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = false;
 
 		}
@@ -950,7 +948,8 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
-	if (!m_bOpenShop)
+	//상점 안열었으면
+	if (m_bOpenShop)
 		return S_OK;
 
 	m_ePlayerPreState = m_ePlayerCurState;

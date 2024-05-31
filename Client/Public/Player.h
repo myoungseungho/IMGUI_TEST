@@ -166,9 +166,8 @@ private:
 	_bool m_bIsMovingUp = false;
 	_bool m_bIsMovingComplete = false;
 	_bool m_bIsMovingDown = false;
-	_bool m_bOpenShop = true;
 public:
-	_bool m_bIsShop = false;
+	_bool m_bOpenShop = false;
 
 public:
 

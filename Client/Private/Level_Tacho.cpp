@@ -42,9 +42,6 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(Ready_Layer_TravelNpc(TEXT("Layer_Npc_TravelNpc"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Shop(TEXT("Layer_Shop"))))
-		return E_FAIL;
-
 	__super::Initialize();
 
 
@@ -170,14 +167,6 @@ HRESULT CLevel_Tacho::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
 	desc.scale = _float3(2.f, 2.f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag,&desc)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CLevel_Tacho::Ready_Layer_Shop(const _wstring& strLayerTag)
-{
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_Shop"), strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;
