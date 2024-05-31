@@ -50,6 +50,10 @@ public:
 	PLAYER_STATE		Get_Player_PreState() {
 		return m_ePlayerPreState;
 	}
+	DIRECTION				Get_Player_Direction()
+	{
+		return m_ePlayerDir;
+	}
 	_uint		Get_Player_Hp()
 	{
 		return m_iPlayerHp;
