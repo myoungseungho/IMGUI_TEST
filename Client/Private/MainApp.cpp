@@ -1007,6 +1007,12 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 #pragma endregion
 
+#pragma region  AnimTexture_Player_Died
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Down/Player_Down_%d.png"), 10))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region AnimTexture_Effect_Player
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Effect_Player"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Swing_Effect/Sprite_OguSwing_Effect_%d.png"), 8))))

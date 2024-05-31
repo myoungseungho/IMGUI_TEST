@@ -112,6 +112,7 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
+
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
@@ -140,6 +141,13 @@ void CPlayer::Update(_float fTimeDelta)
 				m_iCurrentSkillCount = 0;
 			}
 		}
+	}
+	else
+		m_iCurrentSkillCount = 0;
+
+	if (m_iPlayerHp <= 0)
+	{
+		m_ePlayerCurState = STATE_DIE;
 	}
 	if (m_ePlayerCurState == STATE_BALLON_UP)
 	{
@@ -206,8 +214,7 @@ void CPlayer::Update(_float fTimeDelta)
 		position.y = Lerp(m_fInitialY, m_fTargetY, t);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &position);
 	}
-	else
-		m_iCurrentSkillCount = 0;
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -905,6 +912,9 @@ HRESULT CPlayer::Ready_Animation()
 
 	// Get Item
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Get_Item"), TEXT("Player_Get_Item"));
+	
+	// Died
+		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"), TEXT("Player_Died"));
 	return S_OK;
 }
 
@@ -1406,6 +1416,9 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
+		break;
+	case STATE_DIE:
+		m_pAnimCom->Play_Animator(TEXT("Player_Died"), 1.0f, _fTimeDelta, false);
 		break;
 	}
 }
