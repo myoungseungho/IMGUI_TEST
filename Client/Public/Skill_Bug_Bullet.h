@@ -52,6 +52,7 @@ private:
 	BULLET_STATE m_iBulletType = { };
 
 	_bool m_bPlayerAttack = { false };
+	_bool m_bBulletHit = { false };
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

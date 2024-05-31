@@ -54,6 +54,7 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 	m_pGameInstance->Sound_Update();
 
 	m_fAngle++;
+	m_fHitTimer += fTimeDelta;
 
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
@@ -77,6 +78,7 @@ void CBoss_Bug::Update(_float fTimeDelta)
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	
 }
 
 HRESULT CBoss_Bug::Render(_float fTimeDelta)
@@ -189,19 +191,25 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			otherObject->Delete_Object();
 		}
 		return;
-	}
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", false);
-		m_pGameInstance->Sound_Play();
-	}
-	
+	}	
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
+
+	if (pPlayer != nullptr)
+	{
+		if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK && m_fHitTimer >= 1.f)
+		{
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", false);
+			m_pGameInstance->Sound_Play();
+
+			m_fHitTimer = 0.f;
+		}
+	}
 }
 
 void CBoss_Bug::OnCollisionExit(class CCollider* other)
@@ -278,7 +286,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 void CBoss_Bug::Fly(_float fTimeDelta)
 {
 	m_fWaveTimer += fTimeDelta;
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 8.f))
 	{
 
 		m_isLand = false;
@@ -320,6 +328,7 @@ void CBoss_Bug::Land(_int iPosX, _int iPosZ, _float fTimeDelta)
 		m_pTransformCom->Go_Down(fTimeDelta);
 	}
 }
+
 
 HRESULT CBoss_Bug::Turtle_Create()
 {

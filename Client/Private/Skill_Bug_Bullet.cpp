@@ -55,7 +55,10 @@ HRESULT CSkill_Bug_Bullet::Initialize(void* pArg)
 
 void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 {
-
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	{
+		m_bBulletHit = true;
+	}
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
@@ -184,11 +187,13 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 		m_pGameInstance->Sound_Play();
 	}
 
-	/*if (dynamic_cast<CBoss_Bug*>(otherObject) )
+	if (dynamic_cast<CBoss_Bug*>(otherObject) && m_bBulletHit)
 	{
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", false);
 		m_pGameInstance->Sound_Play();
-	}*/
+
+		m_bBulletHit = false;
+	}
 
 }
 
