@@ -49,6 +49,7 @@ private:
 private:
 	wstring m_ColorTexTag = {};
 
+	_bool m_bColliderAttack = { false };
 private:
 	virtual HRESULT Ready_Components();
 	virtual HRESULT Ready_Animation();

@@ -258,6 +258,26 @@ void CTransform::Radian_Turn(const _float3& vAxis, _float fRadian)
 	Set_State(STATE_LOOK, &vLook);
 }
 
+void CTransform::Init_Rotation(const _float3& vAxis, _float fRadian)
+{
+	_float3		vScaled = Get_Scaled();
+
+	_float3		vRight = _float3(1.f, 0.f, 0.f) * vScaled.x;
+	_float3		vUp = _float3(0.f, 1.f, 0.f) * vScaled.y;
+	_float3		vLook = _float3(0.f, 0.f, 1.f) * vScaled.z;
+
+	_float4x4	RotationMatrix;
+	D3DXMatrixRotationAxis(&RotationMatrix, &vAxis, fRadian);
+
+	D3DXVec3TransformNormal(&vRight, &vRight, &RotationMatrix);
+	D3DXVec3TransformNormal(&vUp, &vUp, &RotationMatrix);
+	D3DXVec3TransformNormal(&vLook, &vLook, &RotationMatrix);
+
+	Set_State(STATE_RIGHT, &vRight);
+	Set_State(STATE_UP, &vUp);
+	Set_State(STATE_LOOK, &vLook);
+}
+
 void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3 vScaled = Get_Scaled();

@@ -62,6 +62,8 @@ void CMon_Copy_Koofu::Priority_Update(_float fTimeDelta)
 void CMon_Copy_Koofu::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
+
+	m_pGameInstance->Sound_Update();
 }
 
 void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)
@@ -359,6 +361,7 @@ HRESULT CMon_Copy_Koofu::End_RenderState()
 
 void CMon_Copy_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	
 }
 
 void CMon_Copy_Koofu::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -382,6 +385,9 @@ void CMon_Copy_Koofu::Destory()
 
 	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
 	Desc.pTargetTransform = m_pTransformCom;
+
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", false);
+	m_pGameInstance->Sound_Play();
 
 	if (m_tMonsterDesc.iHp <= 0)
 	{
