@@ -95,6 +95,10 @@ private:
 	LPD3DXFONT m_pCurrentPlayerMoney_Font = { nullptr };
 	LPD3DXFONT m_pCurrentItemTitle_Font = { nullptr };
 	LPD3DXFONT m_pCurrentItemExplain_Font = { nullptr };
+	LPD3DXFONT m_pBuyCount_Font = { nullptr };
+	LPD3DXFONT m_pBuyDecision_Font = { nullptr };
+	LPD3DXFONT m_pBuyCancel_Font = { nullptr };
+
 
 private:
 	_bool m_bIsOn = { false };
@@ -121,8 +125,8 @@ private:
 
 private:
 	_uint m_iCurrentMoney = { 5000 };
-	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
-	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
+	_float m_TextPosX = -19.f; // 텍스트 x 좌표
+	_float m_TextPosY = -12.f; // 텍스트 y 좌표
 	wstring m_WstringTitle = { TEXT("타이틀 테스트") };
 	wstring m_WstringExplain = { TEXT("설명 테스트") };
 

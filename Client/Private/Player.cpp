@@ -708,7 +708,7 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 		//상점이 열리면
 		if (shop != nullptr)
 		{
-			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZShop")));
+			CShop* shop = dynamic_cast<CShop*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZZShop")));
 			shop->SetInventoryOnOff();
 
 			m_bOpenShopAndInventory = true;

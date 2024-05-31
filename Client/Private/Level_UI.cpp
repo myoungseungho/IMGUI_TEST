@@ -26,7 +26,7 @@ HRESULT CLevel_UI::Initialize()
 	if (FAILED(Ready_Layer_Map_Guide(TEXT("Layer_UI_Map_Guide"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Shop(TEXT("Layer_ZShop"))))
+	if (FAILED(Ready_Layer_Shop(TEXT("Layer_ZZZShop"))))
 		return E_FAIL;
 
 	return S_OK;

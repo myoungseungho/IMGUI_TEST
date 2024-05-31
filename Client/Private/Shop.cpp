@@ -199,6 +199,25 @@ void CShop::Update(_float fTimeDelta)
 	if (!m_bIsOn)
 		return;
 
+	/*if (m_pKeyCom->Key_Down('W'))
+	{
+		m_TextPosY -= 1.f;
+	}
+	if (m_pKeyCom->Key_Down('S'))
+	{
+		m_TextPosY += 1.f;
+	}
+	if (m_pKeyCom->Key_Down('A'))
+	{
+		m_TextPosX -= 1.f;
+	}
+
+	if (m_pKeyCom->Key_Down('D'))
+	{
+		m_TextPosX += 1.f;
+	}*/
+
+
 	bool positionChanged = false;
 
 	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
@@ -600,6 +619,50 @@ HRESULT CShop::Render(_float fTimeDelta)
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
 
+	if (m_bBackgroundsActive)
+	{
+		if (m_vecBackGroundObject.size() >= 3) {
+			// 폰트 좌표계 보정
+			int winCenterX = g_iWinSizeX / 2;
+			int winCenterY = g_iWinSizeY / 2;
+			// 텍스트 렌더링 - BuyCount
+			swprintf_s(text, L"3개");
+			SetRect(&rect, static_cast<int>(winCenterX + m_vecBackGroundObject[2]->m_fX) + m_TextPosX, static_cast<int>(winCenterY - m_vecBackGroundObject[2]->m_fY) + m_TextPosY, 0, 0); // 텍스트를 출력할 위치 변경
+			m_pBuyCount_Font->DrawText(
+				NULL,
+				text,
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(255, 255, 255, 255)
+			);
+
+			// 텍스트 렌더링 - BuyDecision
+			swprintf_s(text, L"사기");
+			SetRect(&rect, static_cast<int>(winCenterX + m_vecBackGroundObject[1]->m_fX) + m_TextPosX, static_cast<int>(winCenterY - m_vecBackGroundObject[1]->m_fY) + m_TextPosY, 0, 0); // 텍스트를 출력할 위치 변경
+			m_pBuyDecision_Font->DrawText(
+				NULL,
+				text,
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(255, 255, 255, 255)
+			);
+
+			// 텍스트 렌더링 - BuyCancel
+			swprintf_s(text, L"닫기");
+			SetRect(&rect, static_cast<int>(winCenterX + m_vecBackGroundObject[0]->m_fX) + m_TextPosX, static_cast<int>(winCenterY - m_vecBackGroundObject[0]->m_fY) + m_TextPosY, 0, 0); // 텍스트를 출력할 위치 변경
+			m_pBuyCancel_Font->DrawText(
+				NULL,
+				text,
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(255, 255, 255, 255)
+			);
+		}
+	}
+
 	__super::End_RenderState();
 
 	return S_OK;
@@ -659,6 +722,40 @@ void CShop::Font_Initialize()
 		MSG_BOX(L"CreateFontIndirect for CurrentItemExplain_Font Failed");
 		return;
 	}
+
+	////
+		// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCount_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyDecision_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCancel_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
 }
 
 CShop* CShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -706,6 +803,9 @@ void CShop::Free()
 	Safe_Release(m_pCurrentPlayerMoney_Font);
 	Safe_Release(m_pCurrentItemTitle_Font);
 	Safe_Release(m_pCurrentItemExplain_Font);
+	Safe_Release(m_pBuyCount_Font);
+	Safe_Release(m_pBuyDecision_Font);
+	Safe_Release(m_pBuyCancel_Font);
 
 	__super::Free();
 }
