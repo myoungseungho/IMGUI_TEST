@@ -58,7 +58,7 @@ void CHat::Update(_float fTimeDelta)
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
-	m_pTagetDirection = pCopyPlayer->Get_Player_DIrection();
+	m_pTagetDirection = pCopyPlayer->Get_Player_Direction();
 
 	if (m_pTagetDirection == pCopyPlayer->DIR_DOWN)
 	{

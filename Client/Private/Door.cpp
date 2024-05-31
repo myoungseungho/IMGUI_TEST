@@ -88,6 +88,9 @@ HRESULT CDoor::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
+
 	AnimState(fTimeDelta);
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -97,6 +100,9 @@ HRESULT CDoor::Render(_float fTimeDelta)
 		return E_FAIL;
 
 	__super::End_RenderState();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE,true);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
 	return S_OK;
 }
