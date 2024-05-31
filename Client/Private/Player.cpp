@@ -117,11 +117,14 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	else if(m_ePlayerCurState != STATE_DIED)
+	else if(m_ePlayerCurState != STATE_DIED && m_ePlayerCurState != STATE_LIVE)
 		m_pTransformCom->Set_Scaled(m_forScaled);
 	
 	if (m_ePlayerCurState == STATE_DIED)
 		For_Died_State(fTimeDelta);
+
+	else if (m_ePlayerCurState == STATE_LIVE)
+		For_Live_State(fTimeDelta);
 
 	else if (m_iPlayerHp <= 0)
 	{
@@ -919,6 +922,9 @@ HRESULT CPlayer::Ready_Animation()
 	
 	// Died
 		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"), TEXT("Player_Died"));
+
+	//Live 
+		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Live"), TEXT("Player_Live"));
 	return S_OK;
 }
 
@@ -1142,7 +1148,8 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 				m_pTransformCom->Go_Right(fTimeDelta);
 		}
 		else if (m_ePlayerCurState != STATE_ATTACK && m_ePlayerCurState != STATE_PUSH &&
-			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET && m_ePlayerCurState != STATE_DIED)
+			m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_GET && m_ePlayerCurState != STATE_DIED &&
+			m_ePlayerCurState != STATE_LIVE)
 		{
 			m_ePlayerCurState = STATE_IDLE;
 		}
@@ -1427,13 +1434,16 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 3.0f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.5f, _fTimeDelta, false);
 		break;
 	case STATE_GET:
 		m_pAnimCom->Play_Animator(TEXT("Player_Get_Item"), 1.0f, _fTimeDelta, false);
 		break;
 	case STATE_DIED:
 		m_pAnimCom->Play_Animator(TEXT("Player_Died"), 1.0f, _fTimeDelta, false);
+		break;
+	case STATE_LIVE:
+		m_pAnimCom->Play_Animator(TEXT("Player_Live"), 1.0f, _fTimeDelta, false);
 		break;
 	}
 }
@@ -1483,13 +1493,25 @@ void CPlayer::For_Died_State(_float fTimeDelta)
 
 	if (m_fDiedTime >= 3.0f)
 	{
-		m_ePlayerCurState = STATE_IDLE;
+		m_ePlayerCurState = STATE_LIVE;
 		m_fDiedTime = 0.0f;
+		m_iPlayerHp = 5.f;
+	}
+
+}
+
+void CPlayer::For_Live_State(_float fTimeDelta)
+{
+	m_fLiveTime += fTimeDelta;
+
+	if (m_fLiveTime >= 2.0f)
+	{
+		m_ePlayerCurState = STATE_IDLE;
+		m_fLiveTime = 0.0f;
 		m_iPlayerHp = 5.f;
 		m_bAttack = false;
 		m_pTransformCom->Set_Scaled(m_forScaled);
 	}
-	
 }
 
 void CPlayer::For_Get_State(_float fTimeDelta)

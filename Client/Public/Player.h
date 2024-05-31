@@ -23,7 +23,7 @@ class CPlayer final : public CGameObject
 public:
 	enum DIRECTION { DIR_LEFT, DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFTUP, DIR_RIGHTUP, DIR_RIGHTDOWN, DIR_LEFTDOWN, DIR_END };
 	enum PLAYER_STATE { STATE_IDLE, STATE_WALK, STATE_ATTACK, STATE_SKILL, STATE_PUSH, STATE_HIT, 
-											STATE_GET, STATE_BALLON_UP, STATE_BALLON_DOWN, STATE_DIED, STATE_END };
+											STATE_GET, STATE_BALLON_UP, STATE_BALLON_DOWN, STATE_DIED, STATE_LIVE, STATE_END };
 
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
@@ -105,6 +105,7 @@ private:
 	void				For_Damage_State(_float fTimeDelta);
 	void				For_Get_State(_float fTimeDelta);
 	void				For_Died_State(_float fTimeDelta);
+	void				For_Live_State(_float fTimeDelta);
 
 	void				Player_Damaged();
 
@@ -128,6 +129,7 @@ private:
 	_float			m_fGetTime = { 0.0f };
 	_float			m_fBalloonTime = { 0.0f };
 	_float			m_fDiedTime = { 0.0f };
+	_float			m_fLiveTime = { 0.0f };
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };
