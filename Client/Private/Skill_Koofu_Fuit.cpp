@@ -188,6 +188,9 @@ void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 		vMoveDir = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		vMoveDir.y = 0.f;
 
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_479_FruitBounce.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		m_iBounceCnt++;
 	}
 	if (m_iBounceCnt >= 4)

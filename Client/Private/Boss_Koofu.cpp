@@ -776,7 +776,7 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 		bScaleDown = true;
 
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_721_Koofu_Death.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Play(); 
 	}
 
 	if (!bScaleDown)

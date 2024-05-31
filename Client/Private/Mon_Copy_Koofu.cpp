@@ -233,8 +233,13 @@ void CMon_Copy_Koofu::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if(m_pTimerCom->Time_Limit(fTimeDelta , 4.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_59_FruitThrow.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		m_eMon_State = MON_STATE::THROW;
+	}
 }
 
 void CMon_Copy_Koofu::State_Throw(_float fTimeDelta)
