@@ -33,6 +33,12 @@ HRESULT CEffect_Mon_Hit::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vPos.y += 1.f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 1.f));
+
 	return S_OK;
 }
 
@@ -72,6 +78,19 @@ HRESULT CEffect_Mon_Hit::Render(_float fTimeDelta)
 
 HRESULT CEffect_Mon_Hit::Ready_Components()
 {
+	if (FAILED(__super::Ready_Components()))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	CTransform::TRANSFORM_DESC			TransformDesc{};
+	TransformDesc.fSpeedPerSec = 2.0f;
+	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+
 	/* For.Com_Amin */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
 		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))

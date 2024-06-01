@@ -31,11 +31,6 @@ HRESULT CMonster::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Timer*/
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Key"),
-		TEXT("Com_Key"), reinterpret_cast<CComponent**>(&m_pKeyCom))))
-		return E_FAIL;
-
-	/* For.Com_Timer*/
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Timer"),
 		TEXT("Com_Timer"), reinterpret_cast<CComponent**>(&m_pTimerCom))))
 		return E_FAIL;
@@ -99,7 +94,6 @@ void CMonster::Move_Dir(_float _floatTimeDelta)
 
 void CMonster::Free()
 {
-	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pAnimCom);
 

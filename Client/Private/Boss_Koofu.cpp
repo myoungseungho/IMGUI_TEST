@@ -74,9 +74,6 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);
-
-	if (m_pKeyCom->Key_Down('5'))
-		m_eMon_State = MON_STATE::MOVE;
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
@@ -559,8 +556,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('2'))
-		m_tMonsterDesc.iHp--;
+
 }
 
 void CBoss_Koofu::BillBoarding()

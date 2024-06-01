@@ -815,7 +815,7 @@ HRESULT CLoader::Loading_For_Snow()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Hit"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Rsource/Textures/Effect/Monster/Hit/HitEffect_%d.png"), 6))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Hit/HitEffect_%d.png"), 6))))
 		return E_FAIL;
 
 	/* 모델을 로드한다. */

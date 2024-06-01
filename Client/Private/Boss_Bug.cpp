@@ -69,9 +69,6 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 void CBoss_Bug::Update(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('1'))
-		m_tMonsterDesc.iHp--;
-
 	Mon_State(fTimeDelta);
 }
 

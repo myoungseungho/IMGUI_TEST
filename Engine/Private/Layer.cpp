@@ -88,7 +88,7 @@ void CLayer::Priority_Update(_float fTimeDelta)
 
 void CLayer::Update(_float fTimeDelta)
 {
-	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); )
+	for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); ) 
 	{
 		if ((*it)->m_Died)
 		{

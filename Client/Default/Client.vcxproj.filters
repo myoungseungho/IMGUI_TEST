@@ -229,12 +229,6 @@
     <Filter Include="01.Levels\5. Koofu">
       <UniqueIdentifier>{85fa5ef9-1132-46d3-8a42-c1597298ef5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\99. Loading">
-      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\99. Loading\Loader">
-      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\LandObject\Monster\Koofu_Copy">
       <UniqueIdentifier>{06864482-1852-4006-8ded-f658833293a6}</UniqueIdentifier>
     </Filter>
@@ -423,6 +417,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Hit">
       <UniqueIdentifier>{dc44024d-fd85-4c5a-8d11-9ce40f6482da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99. Loading">
+      <UniqueIdentifier>{a3db46bb-ea3d-4c11-8638-aad6c190712a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99. Loading\Loader">
+      <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

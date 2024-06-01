@@ -27,7 +27,7 @@ private:
   
 private:
     CSound();
-    virtual ~CSound() = default;
+    virtual ~CSound();
 
 public:
     virtual HRESULT Sound_Create(const char* path, bool loop);
