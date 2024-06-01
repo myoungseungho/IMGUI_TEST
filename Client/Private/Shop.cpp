@@ -291,6 +291,8 @@ HRESULT CShop::Initialize(void* pArg)
 		Safe_AddRef(priceTag);
 	}
 
+	
+
 	for (size_t i = 0; i < 3; i++)
 	{
 		slotData.position = { -430.f, 80.f };
@@ -384,7 +386,7 @@ void CShop::Update(_float fTimeDelta)
 					// 구매했을 때
 					m_iCurrentMoney -= totalCost;
 
-					CGameObject* inventory_gameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+					CGameObject* inventory_gameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Inventory"));
 					CInventory* inventory = static_cast<CInventory*>(inventory_gameObject);
 
 					if (inventory)

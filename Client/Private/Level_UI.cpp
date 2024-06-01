@@ -17,7 +17,7 @@ CLevel_UI::CLevel_UI(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_UI::Initialize()
 {
-	if (FAILED(Ready_Layer_Inventory(TEXT("Layer_ZUI_Inventory"))))
+	if (FAILED(Ready_Layer_Inventory(TEXT("Layer_ZZUI_Inventory"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Npc_Talk(TEXT("Layer_UI_Npc_Talk"))))
@@ -41,11 +41,11 @@ void CLevel_UI::Update(_float fTimeDelta)
 
 	if (Key_Down(VK_ESCAPE))
 	{
-		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+		CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Inventory"));
 		if (inventoryGameObject == nullptr)
 		{
-			Ready_Layer_Inventory(TEXT("Layer_ZUI_Inventory"));
-			CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+			Ready_Layer_Inventory(TEXT("Layer_ZZUI_Inventory"));
+			CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Inventory"));
 			CInventory* inventory = static_cast<CInventory*>(inventoryGameObject);
 			inventory->SetInventoryOnOff();
 		}
@@ -86,7 +86,7 @@ HRESULT CLevel_UI::Ready_Layer_Inventory(const _wstring& strLayerTag)
 {
 	//LEVELID loadingLevel = (LEVELID)m_pGameInstance->GetLoadingLevelIndex();
 
-	CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+	CGameObject* inventoryGameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Inventory"));
 	if (inventoryGameObject == nullptr)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Inventory"), strLayerTag)))

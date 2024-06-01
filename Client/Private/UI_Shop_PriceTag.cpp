@@ -105,18 +105,7 @@ void CUI_Shop_PriceTag::Update(_float fTimeDelta)
 		m_fAlpha -= 1.f;
 	}*/
 
-	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
-	//	m_TextPosY -= 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-	//	m_TextPosY += 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
-	//	m_TextPosX -= 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
-	//	m_TextPosX += 1.f;
-	//}
+	
 }
 
 void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)

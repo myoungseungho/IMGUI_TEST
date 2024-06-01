@@ -46,6 +46,8 @@ HRESULT CInventory::Initialize(void* pArg)
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
 
+
+
 	//UI오브젝트 받아서 VECTOR에 넣기
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
@@ -300,12 +302,14 @@ void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hato
 		result = AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, 15 + index);
 		if (result == S_OK) {
 			m_vecCurrentHaveHat[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Hat"), 15 + index));
+			m_vecHatInfo[itemIndex].count = count; // count 저장
 		}
 	}
 	else if (hatoritem == TEXT("Item")) {
 		result = AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, 15 + index);
 		if (result == S_OK) {
 			m_vecCurrentHaveItem[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Item"), 15 + index));
+			m_vecItemInfo[itemIndex].count = count; // count 저장
 		}
 	}
 
@@ -319,6 +323,7 @@ void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hato
 		}
 	}
 }
+
 void CInventory::SetMoney(_uint money)
 {
 	m_iCurrentMoney = money;
@@ -336,6 +341,18 @@ void CInventory::Update(_float fTimeDelta)
 		return;
 	}
 
+	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
+	//	m_TextPosY -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+	//	m_TextPosY += 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
+	//	m_TextPosX -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
+	//	m_TextPosX += 1.f;
+	//}
 
 	bool positionChanged = false;
 
@@ -809,6 +826,45 @@ HRESULT CInventory::Render(_float fTimeDelta)
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
 
+	// 폰트 좌표계 보정
+	int winCenterX = g_iWinSizeX / 2;
+	int winCenterY = g_iWinSizeY / 2;
+
+	// 아이템 개수 렌더링
+	for (size_t i = 0; i < m_vecCurrentHaveHat.size(); ++i) {
+		if (m_vecCurrentHaveHat[i]) {
+			const auto& positionX = m_vecCurrentHaveHat[i]->m_fX;
+			const auto& positionY = m_vecCurrentHaveHat[i]->m_fY;
+
+			swprintf_s(text, L"x%d", m_vecHatInfo[m_vecCurrentHaveHat[i]->m_iIndex].count);
+			SetRect(&rect, static_cast<int>(winCenterX + (positionX + m_TextPosX)), static_cast<int>(winCenterY - (positionY + m_TextPosY)), 0, 0);
+			m_pItemCountFont->DrawText(
+				NULL,
+				text,
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(255, 0, 0, 0)
+			);
+		}
+	}
+
+	for (size_t i = 0; i < m_vecCurrentHaveItem.size(); ++i) {
+		if (m_vecCurrentHaveItem[i]) {
+			const auto& positionX = m_vecCurrentHaveItem[i]->m_fX;
+			const auto& positionY = m_vecCurrentHaveItem[i]->m_fY;
+			swprintf_s(text, L"x%d", m_vecItemInfo[m_vecCurrentHaveItem[i]->m_iIndex].count);
+			SetRect(&rect, static_cast<int>(positionX + m_TextPosX), static_cast<int>(positionY + m_TextPosY), 0, 0);
+			m_pItemCountFont->DrawText(
+				NULL,
+				text,
+				-1,
+				&rect,
+				DT_NOCLIP,
+				D3DCOLOR_ARGB(0, 0, 0, 0)
+			);
+		}
+	}
 	__super::End_RenderState();
 
 	return S_OK;
@@ -866,6 +922,18 @@ void CInventory::Font_Initialize()
 	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemExplain_Font)))
 	{
 		MSG_BOX(L"CreateFontIndirect for CurrentItemExplain_Font Failed");
+		return;
+	}
+
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 18;
+	tFontInfo.Width = 13;
+	tFontInfo.Weight = FW_HEAVY;
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pItemCountFont)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
 		return;
 	}
 }

@@ -28,8 +28,9 @@ BEGIN(Client)
 class CInventory final : public CUIObject
 {
 	struct ItemInfo {
-		std::wstring title;
-		std::wstring explain;
+		wstring title;
+		wstring explain;
+		_uint count; // 추가
 	};
 
 private:
@@ -79,7 +80,7 @@ private:
 	LPD3DXFONT m_pCurrentPlayerMoney_Font = { nullptr };
 	LPD3DXFONT m_pCurrentItemTitle_Font = { nullptr };
 	LPD3DXFONT m_pCurrentItemExplain_Font = { nullptr };
-
+	LPD3DXFONT m_pItemCountFont = { nullptr };
 public:
 	_bool m_bIsOn = { false };
 private:
@@ -108,8 +109,8 @@ private:
 
 private:
 	_uint m_iCurrentMoney = { 5000 };
-	_float m_TextPosX = 50.0f; // 텍스트 x 좌표
-	_float m_TextPosY = 50.0f; // 텍스트 y 좌표
+	_float m_TextPosX = 31.f; // 텍스트 x 좌표
+	_float m_TextPosY = -36.f; // 텍스트 y 좌표
 	wstring m_WstringTitle = { TEXT("타이틀 테스트") };
 	wstring m_WstringExplain = { TEXT("설명 테스트") };
 
