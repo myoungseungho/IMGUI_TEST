@@ -322,7 +322,6 @@ void CShop::Update(_float fTimeDelta)
 
 	if (m_pKeyCom->Key_Down(VK_RETURN)) // 엔터 키를 눌렀을 때
 	{
-		// CUI_Inventory_BackGround 객체의 Y 위치를 차례로 증가시키기
 		m_bBackgroundsActive = !m_bBackgroundsActive; // 백그라운드 활성화 상태로 변경
 		SetBackGroundOnOff();
 		ArrangeInventoryBackgrounds();
@@ -330,12 +329,30 @@ void CShop::Update(_float fTimeDelta)
 		if (!m_bBackgroundsActive)
 		{
 			m_iCurrentBackgroundIndex = 2;
-			m_iCurrentBuyCount = 1;
 			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
 			if (cursor)
 			{
 				CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
 				cursorUI->m_bIsOn = false;
+			}
+		}
+		else
+		{
+			// 현재 아이템 가격을 가져와서 m_iCurrentMoney와 비교하여 m_iCurrentBuyCount를 설정
+			int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
+			if (m_firstRowSelectedCol == 0 && itemIndex < m_vecHatPrice.size()) {
+				m_iCurrentPrice = m_vecHatPrice[itemIndex];
+			}
+			else if (m_firstRowSelectedCol == 1 && itemIndex < m_vecItemPrice.size()) {
+				m_iCurrentPrice = m_vecItemPrice[itemIndex];
+			}
+
+			if (m_iCurrentMoney < m_iCurrentPrice) {
+				m_iCurrentBuyCount = 0;
+			}
+			else {
+				m_iMaxBuyCount = m_iCurrentMoney / m_iCurrentPrice;
+				m_iCurrentBuyCount = 1; // 항상 1개로 시작
 			}
 		}
 	}
@@ -359,31 +376,32 @@ void CShop::Update(_float fTimeDelta)
 		case 0:
 			break;
 		case 1:
+			if (m_pKeyCom->Key_Down('J'))
+			{
+				_uint totalCost = m_iCurrentBuyCount * m_iCurrentPrice;
+				if (totalCost <= m_iCurrentMoney)
+				{
+					m_iCurrentMoney -= totalCost;
+				}
+			}
 			break;
 		case 2:
 			if (m_pKeyCom->Key_Down(VK_LEFT))
 			{
-				int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
-				if (itemIndex < m_vecHatPrice.size())
+				if (m_iCurrentBuyCount > 0)
 				{
-					_uint price = m_vecHatPrice[itemIndex];
-					m_iMaxBuyCount = m_iCurrentMoney / price;
 					m_iCurrentBuyCount = m_iCurrentBuyCount == 1 ? m_iMaxBuyCount : m_iCurrentBuyCount - 1;
 				}
 			}
 			else if (m_pKeyCom->Key_Down(VK_RIGHT))
 			{
-				int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
-				if (itemIndex < m_vecHatPrice.size())
+				if (m_iCurrentBuyCount > 0)
 				{
-					_uint price = m_vecHatPrice[itemIndex];
-					m_iMaxBuyCount = m_iCurrentMoney / price;
 					m_iCurrentBuyCount = m_iCurrentBuyCount == m_iMaxBuyCount ? 1 : m_iCurrentBuyCount + 1;
 				}
 			}
 			break;
 		}
-
 
 		MoveCursorToBackground(m_iCurrentBackgroundIndex);
 	}
@@ -458,6 +476,11 @@ void CShop::Update(_float fTimeDelta)
 			CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
 			cursorUI->m_bIsOn = false;
 		}
+
+		for (auto& iter : m_vecHatPriceObject)
+			iter->m_bIsOn = false;
+		for (auto& iter : m_vecItemPriceObject)
+			iter->m_bIsOn = false;
 	}
 
 	// 현재 선택된 아이템의 인덱스를 계산
