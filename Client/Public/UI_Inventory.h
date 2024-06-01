@@ -56,7 +56,10 @@ private:
 	void UpdateAlphaValues();
 	void ShowHats();
 	void ShowItems();
-	_uint getMaxCols(_uint row) const {
+	void HideHats();
+	void HideItems();
+	void InitializeInventoryDisplay();
+		_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_iFirstRowCols : m_iOtherRowsCols;
 	}
 
@@ -66,7 +69,7 @@ private:
 	void UseQuickInventory_Item(_uint slot);
 public:
 	void SetInventoryOnOff();
-	
+
 
 	void AddItemToInventory(const wstring& itemName, const wstring& hatoritem, _uint count);
 	void SetMoney(_uint money);

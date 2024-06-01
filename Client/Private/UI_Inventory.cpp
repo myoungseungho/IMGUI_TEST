@@ -223,6 +223,9 @@ void CInventory::SetInventoryOnOff()
 		m_iPreviousCol = -1;
 		m_firstRowSelectedCol = 0;
 		static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor")))->m_fAlpha = 0.f;
+
+		// 초기 상태 설정
+		InitializeInventoryDisplay();
 	}
 }
 
@@ -438,24 +441,53 @@ void CInventory::UpdateAlphaValues()
 
 void CInventory::ShowHats()
 {
-	for (auto& iter : m_vecUIObject)
+	for (auto& iter : m_vecCurrentHaveHat)
 	{
-		if (typeid(*iter) == typeid(CUI_Hat))
-			iter->m_fAlpha = 255.f; // Hat 객체를 보이게 설정
-		else if (typeid(*iter) == typeid(CUI_Item))
-			iter->m_fAlpha = 0.f; // Item 객체를 숨김
+		if (iter)
+		{
+			iter->m_bIsOn = true;  // Hat 객체를 보이게 설정
+		}
 	}
 }
 
 void CInventory::ShowItems()
 {
-	for (auto& iter : m_vecUIObject)
+	for (auto& iter : m_vecCurrentHaveItem)
 	{
-		if (typeid(*iter) == typeid(CUI_Hat))
-			iter->m_fAlpha = 0.f; // Hat 객체를 보이게 설정
-		else if (typeid(*iter) == typeid(CUI_Item))
-			iter->m_fAlpha = 255.f; // Item 객체를 숨김
+		if (iter)
+		{
+			iter->m_bIsOn = true;  // Item 객체를 보이게 설정
+		}
 	}
+}
+
+void CInventory::HideHats()
+{
+	for (auto& iter : m_vecCurrentHaveHat)
+	{
+		if (iter)
+		{
+			iter->m_bIsOn = false;  // Hat 객체를 숨김
+		}
+	}
+}
+
+void CInventory::HideItems()
+{
+	for (auto& iter : m_vecCurrentHaveItem)
+	{
+		if (iter)
+		{
+			iter->m_bIsOn = false;  // Item 객체를 숨김
+		}
+	}
+}
+
+void CInventory::InitializeInventoryDisplay()
+{
+	// 초기 상태: m_firstRowSelectedCol이 0이므로 Hat을 보여주고 Item을 숨김
+	ShowHats();
+	HideItems();
 }
 
 void CInventory::EquipHat()
@@ -611,14 +643,15 @@ void CInventory::Control_FirstRow()
 	{
 		// Hat 객체를 보여줌
 		ShowHats();
+		HideItems();
 	}
 	else if (m_iCurrentCol == 1)
 	{
 		// Item 객체를 보여줌
 		ShowItems();
+		HideHats();
 	}
 }
-
 void CInventory::Control_OtherRow()
 {
 	// 첫 번째 행의 아이템들의 알파값을 150.f로 설정
