@@ -66,7 +66,6 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_ZZUI_Cursor"))))
 		return E_FAIL;
 
-
 	//for (size_t i = 0; i < 2; i++)
 	//{
 	//	// 각 슬롯에 대한 위치와 크기 설정
@@ -127,48 +126,48 @@ HRESULT CInventory::Initialize(void* pArg)
 	//	return E_FAIL;
 
 
-	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
-	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
-	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
-	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+	//const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
+	//const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
+	//const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
+	//const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
 
-	for (size_t i = 0; i < m_iInitHatCount; i++)
-	{
-		// 각 슬롯에 대한 위치와 크기 설정
-		int row = (i / 5); // 두 번째 행부터 시작
-		int col = i % 5;
+	//for (size_t i = 0; i < m_iInitHatCount; i++)
+	//{
+	//	// 각 슬롯에 대한 위치와 크기 설정
+	//	int row = (i / 5); // 두 번째 행부터 시작
+	//	int col = i % 5;
 
-		slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
-		slotData.scale = { 60.f, 70.f };
-		slotData.alpha = 255.f;
-		slotData.index = i;
+	//	slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
+	//	slotData.scale = { 60.f, 70.f };
+	//	slotData.alpha = 255.f;
+	//	slotData.index = i;
 
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
-			return E_FAIL;
+	//	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, i)))
+	//		return E_FAIL;
 
-		// 아이템 정보 설정
-		m_vecItemInfo.push_back(m_vecHatInfo[i]);
-	}
+	//	// 아이템 정보 설정
+	//	m_vecItemInfo.push_back(m_vecHatInfo[i]);
+	//}
 
 
 
-	for (size_t i = 0; i < m_iInitItemCount; i++)
-	{
-		// 각 슬롯에 대한 위치와 크기 설정
-		int row = (i / 5); // 두 번째 행부터 시작
-		int col = i % 5;
+	//for (size_t i = 0; i < m_iInitItemCount; i++)
+	//{
+	//	// 각 슬롯에 대한 위치와 크기 설정
+	//	int row = (i / 5); // 두 번째 행부터 시작
+	//	int col = i % 5;
 
-		slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
-		slotData.scale = { 60.f, 70.f };
-		slotData.alpha = 255.f;
-		slotData.index = i;
+	//	slotData.position = { initialX + col * deltaX, initialY + row * deltaY };
+	//	slotData.scale = { 60.f, 70.f };
+	//	slotData.alpha = 255.f;
+	//	slotData.index = i;
 
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, i)))
-			return E_FAIL;
+	//	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, i)))
+	//		return E_FAIL;
 
-		m_vecItemInfo.push_back(m_vecItemInfo[i]);
-	}
-	
+	//	m_vecItemInfo.push_back(m_vecItemInfo[i]);
+	//}
+
 	// 초기 상태 설정
 	UpdateAlphaValues();
 	return S_OK;
@@ -205,6 +204,51 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 		Safe_Release(m_vecQuickInventory[slot]);
 	}
 
+}
+
+void CInventory::SetInventoryOnOff()
+{
+	m_bIsOn = !m_bIsOn;
+
+	//인벤토리 모든 객체 켜기
+	//이때 커서는 
+	for (auto& iter : m_vecUIObject)
+	{
+		iter->m_bIsOn = m_bIsOn;
+	}
+
+	//켤때
+	if (m_bIsOn)
+	{
+		m_iCurrentRow = 0;
+		m_iCurrentCol = 0;
+		m_iPreviousRow = -1;
+		m_iPreviousCol = -1;
+		m_firstRowSelectedCol = 0;
+		static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor")))->m_fAlpha = 0.f;
+	}
+}
+
+void CInventory::AddItemToInventory(const std::wstring& itemName, _uint count)
+{
+	// 아이템을 인벤토리에 추가하는 로직을 구현합니다.
+	// 예를 들어, itemName을 기반으로 m_vecItemInfo에서 찾고, 해당 아이템의 개수를 증가시킵니다.
+
+	for (auto& item : m_vecItemInfo)
+	{
+		if (item.title == itemName)
+		{
+			// 아이템 개수를 업데이트하는 로직을 구현합니다.
+			// 현재는 개수를 별도로 저장하지 않고 있어서, 아이템 추가를 나타내기 위한 로직을 추가하세요.
+			// 예: item.count += count;
+			break;
+		}
+	}
+}
+
+void CInventory::SetMoney(_uint money)
+{
+	m_iCurrentMoney = money;
 }
 
 void CInventory::Update(_float fTimeDelta)
@@ -603,19 +647,20 @@ HRESULT CInventory::Render(_float fTimeDelta)
 		selectedIndex += m_iCurrentCol;
 	}
 
-	// 선택된 아이템의 제목과 설명을 설정
-	if (selectedIndex < m_vecItemInfo.size()) {
-		if (m_firstRowSelectedCol == 0) {
-			// Hat의 정보
-			m_WstringTitle = m_vecItemInfo[selectedIndex + m_iInitHatCount].title; // Item 정보는 Hat 정보 이후에 있음
-			m_WstringExplain = m_vecItemInfo[selectedIndex + m_iInitHatCount].explain;
-		}
-		else if (m_firstRowSelectedCol == 1) {
-			// Item의 정보
-			m_WstringTitle = m_vecItemInfo[selectedIndex].title;
-			m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
-		}
+
+	//// 선택된 아이템의 제목과 설명을 설정
+	//if (selectedIndex < m_vecItemInfo.size()) {
+	if (m_firstRowSelectedCol == 0) {
+		// Hat의 정보
+		m_WstringTitle = m_vecHatInfo[selectedIndex].title;
+		m_WstringExplain = m_vecHatInfo[selectedIndex].explain;
 	}
+	else if (m_firstRowSelectedCol == 1) {
+		// Item의 정보
+		m_WstringTitle = m_vecItemInfo[selectedIndex].title;
+		m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
+	}
+	//}
 
 	// 텍스트 렌더링 - CurrentItemTitle
 	swprintf_s(text, L"%s", m_WstringTitle.c_str());

@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "Level_UI.h"
+#include "UI_Inventory.h"
 
 CShop::CShop(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
@@ -151,18 +152,20 @@ HRESULT CShop::Initialize(void* pArg)
 			break;
 		}
 
-		slotData.index = i;
+		slotData.index = i + 1;
 
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Cursor"), TEXT("Layer_ZZUI_Cursor"), &slotData, i)))
 			return E_FAIL;
-	}
 
-	CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
-	if (cursor)
-	{
+		CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), i + 1);
 		CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
-		cursorUI->m_bIsOn = false;
+
+		m_vecCursorObject.push_back(cursorUI);
+		Safe_AddRef(cursorUI);
 	}
+	//2번째 작은 커서
+	//처음에 꺼야 함
+	m_vecCursorObject[1]->m_bIsOn = false;
 
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_DotLine"), TEXT("Layer_UI_Inventory_DotLine"))))
@@ -172,9 +175,10 @@ HRESULT CShop::Initialize(void* pArg)
 		return E_FAIL;
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_VerticalDotLine"), TEXT("Layer_UI_Inventory_VerticalDotLine"))))
+		return E_FAIL;
 
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
-			return E_FAIL;
+	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Caution"), TEXT("Layer_UI_ItemTabIcon_Caution"))))
+		return E_FAIL;
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_ItemTabIcon_Food"), TEXT("Layer_UI_ItemTabIcon_Food"))))
 		return E_FAIL;
@@ -266,7 +270,6 @@ HRESULT CShop::Initialize(void* pArg)
 		Safe_AddRef(priceTag);
 	}
 
-
 	//아이템 프라이스 태그
 	for (size_t i = 0; i < m_iInitItemCount; i++)
 	{
@@ -328,13 +331,10 @@ void CShop::Update(_float fTimeDelta)
 
 		if (!m_bBackgroundsActive)
 		{
+			//백그라운드 Index 초기화
 			m_iCurrentBackgroundIndex = 2;
-			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
-			if (cursor)
-			{
-				CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
-				cursorUI->m_bIsOn = false;
-			}
+			//작은 커서 종료
+			m_vecCursorObject[1]->m_bIsOn = false;
 		}
 		else
 		{
@@ -381,7 +381,31 @@ void CShop::Update(_float fTimeDelta)
 				_uint totalCost = m_iCurrentBuyCount * m_iCurrentPrice;
 				if (totalCost <= m_iCurrentMoney)
 				{
+					// 구매했을 때
 					m_iCurrentMoney -= totalCost;
+
+					CGameObject* inventory_gameObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Inventory"));
+					CInventory* inventory = static_cast<CInventory*>(inventory_gameObject);
+
+					if (inventory)
+					{
+						//갱신된 금액 넣어주기
+						inventory->SetMoney(m_iCurrentMoney);
+
+						wstring itemName;
+						if (m_firstRowSelectedCol == 0)
+						{
+							//모자의 이름을 넣어주기
+							itemName = m_vecHatInfo[m_iCurrentRow - 1].title;
+						}
+						else if (m_firstRowSelectedCol == 1)
+						{
+							//아이템의 이름을 넣어주기
+							itemName = m_vecItemInfo[m_iCurrentRow - 1].title;
+						}
+
+						inventory->AddItemToInventory(itemName, m_iCurrentBuyCount);
+					}
 				}
 			}
 			break;
@@ -469,18 +493,16 @@ void CShop::Update(_float fTimeDelta)
 
 		SetInventoryOnOff();
 		// 인벤토리 다시 나올 수 있게
+		//for (auto& iter : m_vecHatPriceObject)
+		//	iter->m_bIsOn = false;
+		//for (auto& iter : m_vecItemPriceObject)
+		//	iter->m_bIsOn = false;
 
-		CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_ZZZCursor"), 1);
-		if (cursor)
-		{
-			CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
-			cursorUI->m_bIsOn = false;
-		}
-
-		for (auto& iter : m_vecHatPriceObject)
+		for (auto& iter : m_vecBackGroundObject)
 			iter->m_bIsOn = false;
-		for (auto& iter : m_vecItemPriceObject)
+		for (auto& iter : m_vecCursorObject)
 			iter->m_bIsOn = false;
+		return;
 	}
 
 	// 현재 선택된 아이템의 인덱스를 계산
@@ -561,19 +583,15 @@ void CShop::ShowItems()
 
 void CShop::MoveCursorToBackground(int backgroundIndex)
 {
-	CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
-	if (cursor)
+	//작은 커서의 움직임
+	if (backgroundIndex < m_vecBackGroundObject.size())
 	{
-		CUIObject* cursorUI = static_cast<CUIObject*>(cursor);
-		if (cursorUI && backgroundIndex < m_vecBackGroundObject.size())
-		{
-			CUIObject* targetBackground = m_vecBackGroundObject[backgroundIndex];
-			cursorUI->m_fX = targetBackground->m_fX;
-			cursorUI->m_fY = targetBackground->m_fY;
-			cursorUI->m_fSizeX = targetBackground->m_fSizeX;
-			cursorUI->m_fSizeY = targetBackground->m_fSizeY;
-			cursorUI->m_bIsOn = true;
-		}
+		CUIObject* targetBackground = m_vecBackGroundObject[backgroundIndex];
+		m_vecCursorObject[1]->m_fX = targetBackground->m_fX;
+		m_vecCursorObject[1]->m_fY = targetBackground->m_fY;
+		m_vecCursorObject[1]->m_fSizeX = targetBackground->m_fSizeX;
+		m_vecCursorObject[1]->m_fSizeY = targetBackground->m_fSizeY;
+		m_vecCursorObject[1]->m_bIsOn = true;
 	}
 }
 
@@ -653,16 +671,14 @@ void CShop::Control_OtherRow()
 	const float initialInventoryY = 55.0f; // Inventory_BackGround의 초기 Y 위치
 	const float inventoryDeltaY = 50.0f; // Inventory_BackGround의 Y 위치 증감분
 
-	for (auto& iter : m_vecUIObject)
+	//첫번째 큰 커서의 경우 위치 변경
+	for (auto& iter : m_vecCursorObject)
 	{
-		if (typeid(*iter) == typeid(CUI_Cursor))
+		if (iter->m_iIndex == 1)
 		{
-			if (iter->m_iIndex == 0)
-			{
-				iter->m_fX = initialCursorX + m_iCurrentCol * deltaX;
-				iter->m_fY = initialCursorY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
-				iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
-			}
+			iter->m_fX = initialCursorX + m_iCurrentCol * deltaX;
+			iter->m_fY = initialCursorY + (m_iCurrentRow - 1) * deltaY; // 첫 번째 행 제외
+			iter->m_fAlpha = 255.f; // 두 번째 행부터는 커서가 보이게 설정
 		}
 
 		//if (typeid(*iter) == typeid(CUI_Inventory_BackGround))
@@ -865,7 +881,6 @@ HRESULT CShop::Ready_Components()
 	return S_OK;
 }
 
-
 CShop* CShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CShop* pInstance = new CShop(pGraphic_Device);
@@ -919,7 +934,12 @@ void CShop::Free()
 	}
 	m_vecItemPriceObject.clear();
 
-	m_vecHatPriceObject.clear();
+	for (auto& pUIObject : m_vecCursorObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecCursorObject.clear();
+
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCurrentPlayerMoney_Font);

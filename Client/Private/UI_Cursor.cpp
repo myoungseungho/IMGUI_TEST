@@ -42,7 +42,6 @@ HRESULT CUI_Cursor::Initialize(void* pArg)
 		m_fY = uiData->position.y;
 		m_fAlpha = uiData->alpha;
 		m_iIndex = uiData->index;
-
 	}
 	else
 	{

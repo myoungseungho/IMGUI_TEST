@@ -65,15 +65,11 @@ private:
 	void AddToQuickInventory(_uint slot);
 	void UseQuickInventory_Item(_uint slot);
 public:
-	void SetInventoryOnOff()
-	{
-		m_bIsOn = !m_bIsOn;
+	void SetInventoryOnOff();
+	
 
-		for (auto& iter : m_vecUIObject)
-		{
-			iter->m_bIsOn = m_bIsOn;
-		}
-	}
+	void AddItemToInventory(const std::wstring& itemName, _uint count);
+	void SetMoney(_uint money);
 private:
 	CTransform* m_pTransformCom = { nullptr };
 	CKeyState* m_pKeyCom = { nullptr };

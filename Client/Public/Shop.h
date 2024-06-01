@@ -73,6 +73,19 @@ public:
 
 			iter->m_bIsOn = m_bIsOn;
 		}
+
+		if (m_bIsOn)
+		{
+			m_iCurrentCol = 0;
+			m_iCurrentRow = 0;
+			m_iPreviousRow = -1;
+			m_iPreviousCol = -1;
+			m_firstRowSelectedCol = 0;
+
+		}
+
+		//m_vecCursorObject[0]->m_fAlpha = 0.f;
+		//m_vecCursorObject[1]->m_fAlpha = 0.f;
 	}
 private:
 	void SetBackGroundOnOff()
@@ -120,8 +133,9 @@ private:
 	_uint m_firstRowSelectedCol = { 0 }; // 첫 번째 행에서 선택된 열 위치
 	vector<CUIObject*> m_vecUIObject; // 플레이어 인벤토리에서 만든 모든 UI 오브젝트 ESC용
 	vector<CUIObject*> m_vecBackGroundObject;
-	vector<CUIObject*> m_vecHatPriceObject; 
-	vector<CUIObject*> m_vecItemPriceObject; 
+	vector<CUIObject*> m_vecHatPriceObject;
+	vector<CUIObject*> m_vecItemPriceObject;
+	vector<CUIObject*> m_vecCursorObject;
 
 private:
 	_uint m_iCurrentMoney = { 5000 };
