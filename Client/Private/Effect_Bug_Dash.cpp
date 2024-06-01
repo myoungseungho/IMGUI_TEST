@@ -94,6 +94,11 @@ HRESULT CEffect_Bug_Dash::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
+
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 
 
@@ -162,6 +167,7 @@ void CEffect_Bug_Dash::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pAnimCom);
 
 	__super::Free();
 }

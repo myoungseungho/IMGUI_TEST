@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "LandObject.h"
 
-
 BEGIN(Engine)
 
 class CTexture;

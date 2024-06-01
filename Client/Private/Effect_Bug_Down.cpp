@@ -88,6 +88,10 @@ HRESULT CEffect_Bug_Down::Ready_Components()
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -154,6 +158,7 @@ void CEffect_Bug_Down::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pAnimCom);
 
 	__super::Free();
 }

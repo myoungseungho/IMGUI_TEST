@@ -34,11 +34,6 @@ HRESULT CEffect_Monster::Ready_Components()
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	/* For.Com_Amin */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
-		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -46,7 +41,6 @@ void CEffect_Monster::Free()
 {
 	Safe_Release(m_pTimerCom);
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pAnimCom);
 
 	__super::Free();
 }

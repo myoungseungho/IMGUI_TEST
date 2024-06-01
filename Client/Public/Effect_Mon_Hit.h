@@ -5,12 +5,12 @@
 
 BEGIN(Client)
 
-class CEffect_Light final :public CEffect_Monster
+class CEffect_Mon_Hit final :public CEffect_Monster
 {
 private:
-	CEffect_Light(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CEffect_Light(const CEffect_Light& Prototype);
-	virtual ~CEffect_Light() = default;
+	CEffect_Mon_Hit(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CEffect_Mon_Hit(const CEffect_Mon_Hit& Prototype);
+	virtual ~CEffect_Mon_Hit() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype()					override;
@@ -27,12 +27,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-
 private:
 	void Destroy(_float fTimeDelta);
 
 public:
-	static CEffect_Light* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CEffect_Mon_Hit* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	virtual CGameObject* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
