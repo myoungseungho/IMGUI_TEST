@@ -53,15 +53,13 @@ private:
 
 	void Control_FirstRow();
 	void Control_OtherRow();
-	void UpdateAlphaValues();
+	void UpdateRow();
 	void ShowHats();
 	void ShowItems();
 	void MoveCursorToBackground(int backgroundIndex);
 	_uint getMaxCols(_uint row) const {
 		return (row == 0) ? m_iFirstRowCols : m_iOtherRowsCols;
 	}
-
-
 
 public:
 	void SetInventoryOnOff()
@@ -122,6 +120,8 @@ private:
 	_uint m_firstRowSelectedCol = { 0 }; // 첫 번째 행에서 선택된 열 위치
 	vector<CUIObject*> m_vecUIObject; // 플레이어 인벤토리에서 만든 모든 UI 오브젝트 ESC용
 	vector<CUIObject*> m_vecBackGroundObject;
+	vector<CUIObject*> m_vecHatPriceObject; 
+	vector<CUIObject*> m_vecItemPriceObject; 
 
 private:
 	_uint m_iCurrentMoney = { 5000 };

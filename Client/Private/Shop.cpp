@@ -245,7 +245,7 @@ HRESULT CShop::Initialize(void* pArg)
 	const float priceTaginitialX = -390.0f; // 첫 번째 열의 초기 X 위치
 	const float priceTaginitialY = 45.0f; // 첫 번째 행의 초기 Y 위치
 
-	//프라이스 태그
+	//모자 프라이스 태그
 	for (size_t i = 0; i < m_iInitHatCount; i++)
 	{
 		// 각 슬롯에 대한 위치와 크기 설정
@@ -261,12 +261,32 @@ HRESULT CShop::Initialize(void* pArg)
 		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_ZUI_Shop_PriceTag"), &priceuiData, i)))
 			return E_FAIL;
 
-		// 아이템 정보 설정
-		m_vecItemInfo.push_back(m_vecHatInfo[i]);
+		CGameObject* priceTag = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Shop_PriceTag"), i);
+		m_vecHatPriceObject.push_back(static_cast<CUIObject*>(priceTag));
+		Safe_AddRef(priceTag);
 	}
 
 
+	//아이템 프라이스 태그
+	for (size_t i = 0; i < m_iInitItemCount; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		int row = (i / 5); // 두 번째 행부터 시작
+		int col = i % 5;
 
+		priceuiData.position = { priceTaginitialX + col * deltaX, priceTaginitialY + row * deltaY };
+		priceuiData.scale = { 65, 30.f };
+		priceuiData.alpha = 255.f;
+		priceuiData.index = i + m_iInitHatCount;
+		priceuiData.price = m_vecItemPrice[i];
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_ZUI_Shop_PriceTag"), &priceuiData, i)))
+			return E_FAIL;
+
+		CGameObject* priceTag = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Shop_PriceTag"), i + m_iInitHatCount);
+		m_vecItemPriceObject.push_back(static_cast<CUIObject*>(priceTag));
+		Safe_AddRef(priceTag);
+	}
 
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -285,7 +305,7 @@ HRESULT CShop::Initialize(void* pArg)
 	}
 
 	// 초기 상태 설정
-	UpdateAlphaValues();
+	UpdateRow();
 	return S_OK;
 }
 
@@ -384,7 +404,7 @@ void CShop::Update(_float fTimeDelta)
 		}
 
 		if (positionChanged) {
-			UpdateAlphaValues();
+			UpdateRow();
 			m_iPreviousRow = m_iCurrentRow;
 			m_iPreviousCol = m_iCurrentCol;
 		}
@@ -429,7 +449,7 @@ void CShop::Update(_float fTimeDelta)
 	// HandleSelection(selectedIndex); // 가정된 함수
 }
 
-void CShop::UpdateAlphaValues()
+void CShop::UpdateRow()
 {
 	if (m_iCurrentRow == 0) {
 		Control_FirstRow();
@@ -448,6 +468,19 @@ void CShop::ShowHats()
 		else if (typeid(*iter) == typeid(CUI_Item))
 			iter->m_fAlpha = 0.f; // Item 객체를 숨김
 	}
+
+	if (m_bIsOn)
+	{
+		for (auto& iter : m_vecHatPriceObject)
+		{
+			iter->m_bIsOn = true;
+		}
+
+		for (auto& iter : m_vecItemPriceObject)
+		{
+			iter->m_bIsOn = false;
+		}
+	}
 }
 
 void CShop::ShowItems()
@@ -458,6 +491,16 @@ void CShop::ShowItems()
 			iter->m_fAlpha = 0.f; // Hat 객체를 보이게 설정
 		else if (typeid(*iter) == typeid(CUI_Item))
 			iter->m_fAlpha = 255.f; // Item 객체를 숨김
+	}
+
+	for (auto& iter : m_vecHatPriceObject)
+	{
+		iter->m_bIsOn = false;
+	}
+
+	for (auto& iter : m_vecItemPriceObject)
+	{
+		iter->m_bIsOn = true;
 	}
 }
 
@@ -808,6 +851,20 @@ void CShop::Free()
 	}
 	m_vecBackGroundObject.clear();
 
+	for (auto& pUIObject : m_vecHatPriceObject)
+	{
+		Safe_Release(pUIObject);
+
+	}
+	m_vecHatPriceObject.clear();
+
+	for (auto& pUIObject : m_vecItemPriceObject)
+	{
+		Safe_Release(pUIObject);
+	}
+	m_vecItemPriceObject.clear();
+
+	m_vecHatPriceObject.clear();
 	Safe_Release(m_pKeyCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCurrentPlayerMoney_Font);
