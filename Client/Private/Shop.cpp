@@ -283,7 +283,7 @@ HRESULT CShop::Initialize(void* pArg)
 		priceuiData.index = i + m_iInitHatCount;
 		priceuiData.price = m_vecItemPrice[i];
 
-		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_ZUI_Shop_PriceTag"), &priceuiData, i)))
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_ZUI_Shop_PriceTag"), &priceuiData, i + m_iInitHatCount)))
 			return E_FAIL;
 
 		CGameObject* priceTag = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Shop_PriceTag"), i + m_iInitHatCount);
@@ -389,22 +389,30 @@ void CShop::Update(_float fTimeDelta)
 
 					if (inventory)
 					{
-						//갱신된 금액 넣어주기
+						// 갱신된 금액 넣어주기
 						inventory->SetMoney(m_iCurrentMoney);
 
 						wstring itemName;
+						int selectedIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
+
 						if (m_firstRowSelectedCol == 0)
 						{
-							//모자의 이름을 넣어주기
-							itemName = m_vecHatInfo[m_iCurrentRow - 1].title;
+							// 모자의 이름을 넣어주기
+							if (selectedIndex < m_vecHatInfo.size())
+							{
+								itemName = m_vecHatInfo[selectedIndex].title;
+								inventory->AddItemToInventory(itemName, TEXT("Hat"), m_iCurrentBuyCount);
+							}
 						}
 						else if (m_firstRowSelectedCol == 1)
 						{
-							//아이템의 이름을 넣어주기
-							itemName = m_vecItemInfo[m_iCurrentRow - 1].title;
+							// 아이템의 이름을 넣어주기
+							if (selectedIndex < m_vecItemInfo.size())
+							{
+								itemName = m_vecItemInfo[selectedIndex].title;
+								inventory->AddItemToInventory(itemName, TEXT("Item"), m_iCurrentBuyCount);
+							}
 						}
-
-						inventory->AddItemToInventory(itemName, m_iCurrentBuyCount);
 					}
 				}
 			}
@@ -502,6 +510,7 @@ void CShop::Update(_float fTimeDelta)
 			iter->m_bIsOn = false;
 		for (auto& iter : m_vecCursorObject)
 			iter->m_bIsOn = false;
+		
 		return;
 	}
 

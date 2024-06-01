@@ -116,9 +116,6 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"), TEXT("Layer_UI_Shop_PlayerCoin"))))
 		return E_FAIL;
 
-	//if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
-	//	return E_FAIL;
-
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_SlotBeigeBackground"), TEXT("Layer_UI_Inventory_SlotBeigeBackground"))))
 		return E_FAIL;
 
@@ -229,23 +226,96 @@ void CInventory::SetInventoryOnOff()
 	}
 }
 
-void CInventory::AddItemToInventory(const std::wstring& itemName, _uint count)
+//상점에서 구매한 정보 넘기기
+void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hatoritem, _uint count)
 {
-	// 아이템을 인벤토리에 추가하는 로직을 구현합니다.
-	// 예를 들어, itemName을 기반으로 m_vecItemInfo에서 찾고, 해당 아이템의 개수를 증가시킵니다.
+	//UI오브젝트 받아서 VECTOR에 넣기
+	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
+			return E_FAIL;
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, layerTag, count));
+		if (!pUIObject)
+			return E_FAIL;
+		Safe_AddRef(pUIObject);
+		m_vecUIObject.push_back(pUIObject);
+		return S_OK;
+		};
 
-	for (auto& item : m_vecItemInfo)
-	{
-		if (item.title == itemName)
-		{
-			// 아이템 개수를 업데이트하는 로직을 구현합니다.
-			// 현재는 개수를 별도로 저장하지 않고 있어서, 아이템 추가를 나타내기 위한 로직을 추가하세요.
-			// 예: item.count += count;
-			break;
+	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
+	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
+	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
+	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+
+	// 아이템의 인덱스를 찾기
+	_uint itemIndex = -1;
+	if (hatoritem == TEXT("Hat")) {
+		for (size_t i = 0; i < m_vecHatInfo.size(); ++i) {
+			if (m_vecHatInfo[i].title == itemName) {
+				itemIndex = i;
+				break;
+			}
+		}
+	}
+	else if (hatoritem == TEXT("Item")) {
+		for (size_t i = 0; i < m_vecItemInfo.size(); ++i) {
+			if (m_vecItemInfo[i].title == itemName) {
+				itemIndex = i;
+				break;
+			}
+		}
+	}
+
+	// 아이템을 찾지 못한 경우 반환
+	if (itemIndex == -1) {
+		return;
+	}
+
+	// 아이템의 위치 설정
+	_uint index{};
+	UIDATA slotData{};
+
+	if (hatoritem == TEXT("Hat")) {
+		index = m_vecCurrentHaveHat.size();
+		m_vecCurrentHaveHat.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
+	}
+	else if (hatoritem == TEXT("Item")) {
+		index = m_vecCurrentHaveItem.size();
+		m_vecCurrentHaveItem.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
+	}
+
+	int row = (index / 5) + 1; // 두 번째 행부터 시작 (행 인덱스 1부터)
+	int col = index % 5;
+	slotData.position = { initialX + col * deltaX, initialY + (row - 1) * deltaY };
+	slotData.scale = { 60.f, 70.f };
+	slotData.alpha = 255.f;
+	slotData.index = itemIndex; // 아이템 인덱스로 설정
+
+	// 객체 생성 및 추가
+	HRESULT result;
+
+	if (hatoritem == TEXT("Hat")) {
+		result = AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, 15 + index);
+		if (result == S_OK) {
+			m_vecCurrentHaveHat[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Hat"), 15 + index));
+		}
+	}
+	else if (hatoritem == TEXT("Item")) {
+		result = AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, 15 + index);
+		if (result == S_OK) {
+			m_vecCurrentHaveItem[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Item"), 15 + index));
+		}
+	}
+
+	if (result != S_OK) {
+		// 객체 추가에 실패한 경우 벡터에서 제거
+		if (hatoritem == TEXT("Hat")) {
+			m_vecCurrentHaveHat.pop_back();
+		}
+		else if (hatoritem == TEXT("Item")) {
+			m_vecCurrentHaveItem.pop_back();
 		}
 	}
 }
-
 void CInventory::SetMoney(_uint money)
 {
 	m_iCurrentMoney = money;
@@ -591,12 +661,32 @@ void CInventory::UpdateSelectedItemInfo()
 		selectedIndex += m_iCurrentCol;
 
 		// 인덱스를 통해 현재 선택된 아이템 정보를 업데이트
-		if (selectedIndex >= 0 && selectedIndex < m_vecItemInfo.size()) {
-			m_WstringTitle = m_vecItemInfo[selectedIndex].title;
-			m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
+		if (m_firstRowSelectedCol == 0) {
+			if (selectedIndex < m_vecCurrentHaveHat.size()) {
+				_uint itemIndex = m_vecCurrentHaveHat[selectedIndex]->m_iIndex;
+				m_WstringTitle = m_vecHatInfo[itemIndex].title;
+				m_WstringExplain = m_vecHatInfo[itemIndex].explain;
+			}
+			else {
+				m_WstringTitle.clear();
+				m_WstringExplain.clear();
+			}
+		}
+		else if (m_firstRowSelectedCol == 1) {
+			if (selectedIndex < m_vecCurrentHaveItem.size()) {
+				_uint itemIndex = m_vecCurrentHaveItem[selectedIndex]->m_iIndex;
+				m_WstringTitle = m_vecItemInfo[itemIndex].title;
+				m_WstringExplain = m_vecItemInfo[itemIndex].explain;
+			}
+			else {
+				m_WstringTitle.clear();
+				m_WstringExplain.clear();
+			}
 		}
 	}
 }
+
+
 
 void CInventory::Late_Update(_float fTimeDelta)
 {
@@ -652,13 +742,13 @@ HRESULT CInventory::Render(_float fTimeDelta)
 	//if (selectedIndex < m_vecItemInfo.size()) {
 	if (m_firstRowSelectedCol == 0) {
 		// Hat의 정보
-		m_WstringTitle = m_vecHatInfo[selectedIndex].title;
-		m_WstringExplain = m_vecHatInfo[selectedIndex].explain;
+	/*	m_WstringTitle = m_vecHatInfo[selectedIndex].title;
+		m_WstringExplain = m_vecHatInfo[selectedIndex].explain;*/
 	}
 	else if (m_firstRowSelectedCol == 1) {
 		// Item의 정보
-		m_WstringTitle = m_vecItemInfo[selectedIndex].title;
-		m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
+		//m_WstringTitle = m_vecItemInfo[selectedIndex].title;
+		//m_WstringExplain = m_vecItemInfo[selectedIndex].explain;
 	}
 	//}
 
