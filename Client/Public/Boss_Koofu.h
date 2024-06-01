@@ -95,6 +95,8 @@ private:
 
 	_bool m_bSmoke = { false };
 	_float m_fAlphaTimer = { 0.f };
+
+	_float fSoundTimer = { 0.f };
 public:
 	static CBoss_Koofu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

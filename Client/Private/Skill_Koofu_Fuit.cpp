@@ -190,7 +190,7 @@ void CSkill_Koofu_Fuit::Bounce(_float _LandPosY)
 
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_479_FruitBounce.wav", false);
 		m_pGameInstance->Sound_Play();
-
+		
 		m_iBounceCnt++;
 	}
 	if (m_iBounceCnt >= 4)
