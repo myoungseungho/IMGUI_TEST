@@ -330,6 +330,7 @@ void CShop::Update(_float fTimeDelta)
 		if (!m_bBackgroundsActive)
 		{
 			m_iCurrentBackgroundIndex = 2;
+			m_iCurrentBuyCount = 1;
 			CGameObject* cursor = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZZUI_Cursor"), 1);
 			if (cursor)
 			{
@@ -352,6 +353,32 @@ void CShop::Update(_float fTimeDelta)
 			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
 			positionChanged = true;
 		}
+
+		switch (m_iCurrentBackgroundIndex)
+		{
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+
+			if (m_pKeyCom->Key_Down(VK_LEFT))
+			{
+				int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
+				if (itemIndex < m_vecHatPrice.size())
+				{
+					_uint price = m_vecHatPrice[itemIndex];
+					m_iMaxBuyCount = m_iCurrentMoney / price;
+					m_iCurrentBuyCount = m_iMaxBuyCount;
+				}
+			}
+			else if (m_pKeyCom->Key_Down(VK_RIGHT))
+			{
+
+			}
+			break;
+		}
+
 
 		MoveCursorToBackground(m_iCurrentBackgroundIndex);
 	}
@@ -749,7 +776,7 @@ HRESULT CShop::Render(_float fTimeDelta)
 			int winCenterX = g_iWinSizeX / 2;
 			int winCenterY = g_iWinSizeY / 2;
 			// 텍스트 렌더링 - BuyCount
-			swprintf_s(text, L"3개");
+			swprintf_s(text, L"%d개", m_iCurrentBuyCount);
 			SetRect(&rect, static_cast<int>(winCenterX + m_vecBackGroundObject[2]->m_fX) + m_TextPosX, static_cast<int>(winCenterY - m_vecBackGroundObject[2]->m_fY) + m_TextPosY, 0, 0); // 텍스트를 출력할 위치 변경
 			m_pBuyCount_Font->DrawText(
 				NULL,

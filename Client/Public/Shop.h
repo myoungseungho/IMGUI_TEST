@@ -125,6 +125,8 @@ private:
 
 private:
 	_uint m_iCurrentMoney = { 5000 };
+	_uint m_iMaxBuyCount = 0; // 구매 가능한 최대 개수
+	_uint m_iCurrentBuyCount = 1; // 현재 선택된 구매 개수
 	_float m_TextPosX = -19.f; // 텍스트 x 좌표
 	_float m_TextPosY = -12.f; // 텍스트 y 좌표
 	wstring m_WstringTitle = { TEXT("타이틀 테스트") };
