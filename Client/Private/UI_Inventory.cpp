@@ -769,6 +769,51 @@ HRESULT CInventory::Render(_float fTimeDelta)
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
 
+	// 폰트 좌표계 보정
+	int winCenterX = g_iWinSizeX / 2;
+	int winCenterY = g_iWinSizeY / 2;
+
+	if (m_firstRowSelectedCol == 0)
+	{
+		// 아이템 개수 렌더링
+		for (size_t i = 0; i < m_vecCurrentHaveHat.size(); ++i) {
+			if (m_vecCurrentHaveHat[i]) {
+				const auto& positionX = m_vecCurrentHaveHat[i]->m_fX;
+				const auto& positionY = m_vecCurrentHaveHat[i]->m_fY;
+
+				swprintf_s(text, L"x%d", m_vecHatInfo[m_vecCurrentHaveHat[i]->m_iIndex].count);
+				SetRect(&rect, static_cast<int>(winCenterX + (positionX + m_TextPosX)), static_cast<int>(winCenterY - (positionY + m_TextPosY)), 0, 0);
+				m_pItemCountFont->DrawText(
+					NULL,
+					text,
+					-1,
+					&rect,
+					DT_NOCLIP,
+					D3DCOLOR_ARGB(255, 0, 0, 0)
+				);
+			}
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < m_vecCurrentHaveItem.size(); ++i) {
+			if (m_vecCurrentHaveItem[i]) {
+				const auto& positionX = m_vecCurrentHaveItem[i]->m_fX;
+				const auto& positionY = m_vecCurrentHaveItem[i]->m_fY;
+				swprintf_s(text, L"x%d", m_vecItemInfo[m_vecCurrentHaveItem[i]->m_iIndex].count);
+				SetRect(&rect, static_cast<int>(winCenterX + positionX + m_TextPosX), static_cast<int>(winCenterY - (positionY + m_TextPosY)), 0, 0);
+				m_pItemCountFont->DrawText(
+					NULL,
+					text,
+					-1,
+					&rect,
+					DT_NOCLIP,
+					D3DCOLOR_ARGB(255, 0, 0, 0)
+				);
+			}
+		}
+	}
+
 	// 첫 번째 행인 경우 텍스트와 타이틀을 표시하지 않음
 	if (m_iCurrentRow == 0)
 	{
@@ -826,45 +871,7 @@ HRESULT CInventory::Render(_float fTimeDelta)
 		D3DCOLOR_ARGB(255, 255, 255, 255)
 	);
 
-	// 폰트 좌표계 보정
-	int winCenterX = g_iWinSizeX / 2;
-	int winCenterY = g_iWinSizeY / 2;
 
-	// 아이템 개수 렌더링
-	for (size_t i = 0; i < m_vecCurrentHaveHat.size(); ++i) {
-		if (m_vecCurrentHaveHat[i]) {
-			const auto& positionX = m_vecCurrentHaveHat[i]->m_fX;
-			const auto& positionY = m_vecCurrentHaveHat[i]->m_fY;
-
-			swprintf_s(text, L"x%d", m_vecHatInfo[m_vecCurrentHaveHat[i]->m_iIndex].count);
-			SetRect(&rect, static_cast<int>(winCenterX + (positionX + m_TextPosX)), static_cast<int>(winCenterY - (positionY + m_TextPosY)), 0, 0);
-			m_pItemCountFont->DrawText(
-				NULL,
-				text,
-				-1,
-				&rect,
-				DT_NOCLIP,
-				D3DCOLOR_ARGB(255, 0, 0, 0)
-			);
-		}
-	}
-
-	for (size_t i = 0; i < m_vecCurrentHaveItem.size(); ++i) {
-		if (m_vecCurrentHaveItem[i]) {
-			const auto& positionX = m_vecCurrentHaveItem[i]->m_fX;
-			const auto& positionY = m_vecCurrentHaveItem[i]->m_fY;
-			swprintf_s(text, L"x%d", m_vecItemInfo[m_vecCurrentHaveItem[i]->m_iIndex].count);
-			SetRect(&rect, static_cast<int>(positionX + m_TextPosX), static_cast<int>(positionY + m_TextPosY), 0, 0);
-			m_pItemCountFont->DrawText(
-				NULL,
-				text,
-				-1,
-				&rect,
-				DT_NOCLIP,
-				D3DCOLOR_ARGB(0, 0, 0, 0)
-			);
-		}
-	}
 	__super::End_RenderState();
 
 	return S_OK;
