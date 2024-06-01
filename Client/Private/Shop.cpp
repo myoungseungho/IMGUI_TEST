@@ -23,6 +23,78 @@ CShop::CShop(const CShop& Prototype)
 {
 }
 
+void CShop::Font_Initialize()
+{
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 40;
+	tFontInfo.Width = 30;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentPlayerMoney_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemTitle_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemExplain
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemExplain_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemExplain_Font Failed");
+		return;
+	}
+
+	////
+		// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCount_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyDecision_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+
+	// 폰트 설정 - CurrentItemTitle
+	tFontInfo.Height = 30;
+	tFontInfo.Width = 20;
+	tFontInfo.Weight = FW_HEAVY;
+	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCancel_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
+		return;
+	}
+}
+
+
 HRESULT CShop::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
@@ -119,8 +191,7 @@ HRESULT CShop::Initialize(void* pArg)
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PlayerCoin"), TEXT("Layer_UI_Shop_PlayerCoin"))))
 		return E_FAIL;
 
-	//if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_UI_Shop_PriceTag"))))
-	//	return E_FAIL;
+
 
 	if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Inventory_SlotBeigeBackground"), TEXT("Layer_UI_Inventory_SlotBeigeBackground"))))
 		return E_FAIL;
@@ -168,6 +239,34 @@ HRESULT CShop::Initialize(void* pArg)
 
 		m_vecItemInfo.push_back(m_vecItemInfo[i]);
 	}
+
+
+	PRICEUIDATA priceuiData{};
+	const float priceTaginitialX = -390.0f; // 첫 번째 열의 초기 X 위치
+	const float priceTaginitialY = 45.0f; // 첫 번째 행의 초기 Y 위치
+
+	//프라이스 태그
+	for (size_t i = 0; i < m_iInitHatCount; i++)
+	{
+		// 각 슬롯에 대한 위치와 크기 설정
+		int row = (i / 5); // 두 번째 행부터 시작
+		int col = i % 5;
+
+		priceuiData.position = { priceTaginitialX + col * deltaX, priceTaginitialY + row * deltaY };
+		priceuiData.scale = { 65, 30.f };
+		priceuiData.alpha = 255.f;
+		priceuiData.index = i;
+		priceuiData.price = m_vecHatPrice[i];
+
+		if (FAILED(AddUIObject(TEXT("Prototype_GameObject_UI_Shop_PriceTag"), TEXT("Layer_ZUI_Shop_PriceTag"), &priceuiData, i)))
+			return E_FAIL;
+
+		// 아이템 정보 설정
+		m_vecItemInfo.push_back(m_vecHatInfo[i]);
+	}
+
+
+
 
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -615,7 +714,7 @@ HRESULT CShop::Render(_float fTimeDelta)
 				-1,
 				&rect,
 				DT_NOCLIP,
-				D3DCOLOR_ARGB(255, 255, 255, 255)
+				D3DCOLOR_ARGB(255, 0, 0, 0)
 			);
 
 			// 텍스트 렌더링 - BuyDecision
@@ -627,7 +726,7 @@ HRESULT CShop::Render(_float fTimeDelta)
 				-1,
 				&rect,
 				DT_NOCLIP,
-				D3DCOLOR_ARGB(255, 255, 255, 255)
+				D3DCOLOR_ARGB(255, 0, 0, 0)
 			);
 
 			// 텍스트 렌더링 - BuyCancel
@@ -639,7 +738,7 @@ HRESULT CShop::Render(_float fTimeDelta)
 				-1,
 				&rect,
 				DT_NOCLIP,
-				D3DCOLOR_ARGB(255, 255, 255, 255)
+				D3DCOLOR_ARGB(255, 0, 0, 0)
 			);
 		}
 	}
@@ -668,76 +767,6 @@ HRESULT CShop::Ready_Components()
 	return S_OK;
 }
 
-void CShop::Font_Initialize()
-{
-	D3DXFONT_DESCW tFontInfo;
-	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
-
-	// 폰트 설정 - CurrentPlayerMoney
-	tFontInfo.Height = 40;
-	tFontInfo.Width = 30;
-	tFontInfo.Weight = FW_HEAVY;
-	tFontInfo.CharSet = HANGEUL_CHARSET;
-	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
-
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentPlayerMoney_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
-		return;
-	}
-
-	// 폰트 설정 - CurrentItemTitle
-	tFontInfo.Height = 30;
-	tFontInfo.Width = 20;
-	tFontInfo.Weight = FW_HEAVY;
-	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemTitle_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
-		return;
-	}
-
-	// 폰트 설정 - CurrentItemExplain
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pCurrentItemExplain_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentItemExplain_Font Failed");
-		return;
-	}
-
-	////
-		// 폰트 설정 - CurrentItemTitle
-	tFontInfo.Height = 30;
-	tFontInfo.Width = 20;
-	tFontInfo.Weight = FW_HEAVY;
-	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCount_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
-		return;
-	}
-
-	// 폰트 설정 - CurrentItemTitle
-	tFontInfo.Height = 30;
-	tFontInfo.Width = 20;
-	tFontInfo.Weight = FW_HEAVY;
-	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyDecision_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
-		return;
-	}
-
-	// 폰트 설정 - CurrentItemTitle
-	tFontInfo.Height = 30;
-	tFontInfo.Width = 20;
-	tFontInfo.Weight = FW_HEAVY;
-	// 이미 tFontInfo가 초기화되어 있으므로, 필요한 부분만 변경합니다.
-	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBuyCancel_Font)))
-	{
-		MSG_BOX(L"CreateFontIndirect for CurrentItemTitle_Font Failed");
-		return;
-	}
-}
 
 CShop* CShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

@@ -31,10 +31,14 @@ private:
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
+	LPD3DXFONT			m_pPirce_Font = { nullptr };
 
 private:
 	HRESULT Ready_Components();
-
+private:
+	_uint m_iPrice{};
+	_float m_TextPosX = -9.f; // 텍스트 x 좌표
+	_float m_TextPosY = -8.f; // 텍스트 y 좌표
 public:
 	/* 원형객체를 생성한다. */
 	static CUI_Shop_PriceTag* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

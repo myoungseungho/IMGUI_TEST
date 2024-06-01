@@ -35,4 +35,13 @@ namespace Engine
 		_uint index;
 	}UIDATA;
 
+	typedef struct
+	{
+		_float2 position;
+		_float2 scale;
+		_float alpha;
+		_uint index;
+		_uint price;
+	}PRICEUIDATA;
+
 }

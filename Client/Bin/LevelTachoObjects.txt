@@ -456,7 +456,7 @@ IsParsing: 1
 LayerName: Layer_Outside_RealShop
 PrototypeTag: Prototype_GameObject_Outside_RealShop
 LevelIndex: 2
-Position: 48.066 1.506 31.5911
+Position: 20.896 1.506 31.5911
 Scale: 2.9998 2.9998 1
 IsParsing: 1
 
@@ -547,7 +547,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 2
-Position: 47.6193 10.5 18.2708
+Position: 20.9284 8 19.7455
 Scale: 1 1 1
 IsParsing: 1
 

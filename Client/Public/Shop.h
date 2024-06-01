@@ -166,6 +166,13 @@ private:
 	{L"손오공", L"전설의 손오공이\n쓰던 모자입니다."}
 	};
 
+	vector<_uint> m_vecHatPrice = {
+		500, 300, 200, 100, 400, 600, 350, 1000, 2000, 3500, 4500, 1500, 3500, 7500, 9500
+	};
+
+	vector<_uint> m_vecItemPrice = {
+		400, 1000, 2500, 700, 300, 1500, 450, 800, 1200, 3800, 4700, 2900, 1300, 4900, 3500
+	};
 public:
 	/* 원형객체를 생성한다. */
 	static CShop* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

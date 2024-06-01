@@ -29,15 +29,33 @@ HRESULT CUI_Shop_PriceTag::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 110.f;
-	m_fSizeY = 60.f;
-	m_fX = 550.f;
-	m_fY = -45.f;
+	PRICEUIDATA* uiData = reinterpret_cast<PRICEUIDATA*>(pArg);
 
+	m_fSizeX = uiData->scale.x;
+	m_fSizeY = uiData->scale.y;
+	m_fX = uiData->position.x;
+	m_fY = uiData->position.y;
+	m_fAlpha = uiData->alpha;
+	m_iIndex = uiData->index;
+	m_iPrice = uiData->price;
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
-	m_fAlpha = 255.f;
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 18;
+	tFontInfo.Width = 13;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pPirce_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
+		return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -49,7 +67,56 @@ void CUI_Shop_PriceTag::Priority_Update(_float fTimeDelta)
 void CUI_Shop_PriceTag::Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
-	
+
+	if (GetAsyncKeyState('F') & 0x8000) {
+		offsetX -= 5.f;
+	}
+	if (GetAsyncKeyState('H') & 0x8000) {
+		offsetX += 5.f;
+	}
+	if (GetAsyncKeyState('T') & 0x8000) {
+		offsetY += 5.f;
+	}
+	if (GetAsyncKeyState('G') & 0x8000) {
+		offsetY -= 5.f;
+	}
+	if (GetAsyncKeyState('R') & 0x8000) {
+		offsetZ -= 0.01f;
+	}
+	if (GetAsyncKeyState('Y') & 0x8000) {
+		offsetZ += 0.01f;
+	}
+	if (GetAsyncKeyState('J') & 0x8000) {
+		offsetXScale -= 5.f;
+	}
+	if (GetAsyncKeyState('K') & 0x8000) {
+		offsetXScale += 5.f;
+	}
+	if (GetAsyncKeyState('N') & 0x8000) {
+		offsetYScale -= 5.f;
+	}
+	if (GetAsyncKeyState('M') & 0x8000) {
+		offsetYScale += 5.f;
+	}
+	/*if (GetAsyncKeyState(VK_UP) & 0x8000) {
+		m_fAlpha += 1.f;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+		m_fAlpha -= 1.f;
+	}*/
+
+	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
+	//	m_TextPosY -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+	//	m_TextPosY += 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
+	//	m_TextPosX -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
+	//	m_TextPosX += 1.f;
+	//}
 }
 
 void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
@@ -57,6 +124,9 @@ void CUI_Shop_PriceTag::Late_Update(_float fTimeDelta)
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 업데이트를 수행하지 않음
 	__super::Late_Update(fTimeDelta);
 
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(offsetX + m_fX, offsetY + m_fY, 0));
+	m_pTransformCom->Set_Scaled(_float3(offsetXScale + m_fSizeX, offsetYScale + m_fSizeY, 0));
 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_UI, this);
 }
@@ -75,6 +145,25 @@ HRESULT CUI_Shop_PriceTag::Render(_float fTimeDelta)
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	// 텍스트 형식화 및 렌더링
+	wchar_t text[256];
+	RECT rect;
+
+	// 폰트 좌표계 보정
+	int winCenterX = g_iWinSizeX / 2;
+	int winCenterY = g_iWinSizeY / 2;
+	// m_iPrice를 사용하여 텍스트 내용을 설정
+	swprintf_s(text, L"%d", m_iPrice);  // m_iPrice는 멤버 변수
+	SetRect(&rect, static_cast<int>(winCenterX + m_fX) + m_TextPosX, static_cast<int>(winCenterY - m_fY) + m_TextPosY, 0, 0); // 텍스트를 출력할 위치 변경
+	m_pPirce_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(255, 0, 0, 0)
+	);
 
 	__super::End_RenderState();
 
@@ -137,6 +226,6 @@ void CUI_Shop_PriceTag::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-
+	Safe_Release(m_pPirce_Font);
 	__super::Free();
 }
