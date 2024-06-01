@@ -361,7 +361,6 @@ void CShop::Update(_float fTimeDelta)
 		case 1:
 			break;
 		case 2:
-
 			if (m_pKeyCom->Key_Down(VK_LEFT))
 			{
 				int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
@@ -369,12 +368,18 @@ void CShop::Update(_float fTimeDelta)
 				{
 					_uint price = m_vecHatPrice[itemIndex];
 					m_iMaxBuyCount = m_iCurrentMoney / price;
-					m_iCurrentBuyCount = m_iMaxBuyCount;
+					m_iCurrentBuyCount = m_iCurrentBuyCount == 1 ? m_iMaxBuyCount : m_iCurrentBuyCount - 1;
 				}
 			}
 			else if (m_pKeyCom->Key_Down(VK_RIGHT))
 			{
-
+				int itemIndex = (m_iCurrentRow - 1) * 5 + m_iCurrentCol;
+				if (itemIndex < m_vecHatPrice.size())
+				{
+					_uint price = m_vecHatPrice[itemIndex];
+					m_iMaxBuyCount = m_iCurrentMoney / price;
+					m_iCurrentBuyCount = m_iCurrentBuyCount == m_iMaxBuyCount ? 1 : m_iCurrentBuyCount + 1;
+				}
 			}
 			break;
 		}
