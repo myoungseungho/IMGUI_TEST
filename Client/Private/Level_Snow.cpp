@@ -46,6 +46,9 @@ HRESULT CLevel_Snow::Initialize()
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
+	
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_37_SnowAreaField2.wav", true);
+	m_pGameInstance->Sound_Play();
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
@@ -109,7 +112,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag
 HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 15;
+	MonsterDesc.iHp = 10;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -122,7 +125,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTa
 HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Cannon(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 10;
+	MonsterDesc.iHp = 5;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

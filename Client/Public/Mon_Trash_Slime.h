@@ -50,6 +50,13 @@ private:
 	_float m_fAttackRange = { 0.f };
 	_float3 m_vTargetDistance = { };
 
+	_float m_fAlphaTimer = { 0.f };
+	_float m_fAlpha = { 255.f };
+
+	_bool m_bMoveStop = { false };
+	_bool m_bHit = { false };
+
+	_float m_fMovetTimer = { 0.f };
 public:
 	static CMon_Trash_Slime* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
