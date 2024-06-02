@@ -63,6 +63,7 @@ int CSound::Sound_Resume() {
 int CSound::Sound_Stop() {
     FMOD_Channel_Stop(m_channel);
 
+
     return 0;
 }
 

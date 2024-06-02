@@ -177,7 +177,7 @@ private:
 	_bool m_bIsMovingDown = false;
 public:
 	_bool m_bOpenShopAndInventory = false;
-
+	_bool m_bBalloonOnce = true;
 public:
 
 	/* 원형객체를 생성한다. */
