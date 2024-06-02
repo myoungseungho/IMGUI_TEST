@@ -37,12 +37,16 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 
 private:
-	float m_fAlpha = { 0.f };               // Current alpha value
-	bool m_bIncreasingAlpha = { true };     // Is alpha value increasing
-	float m_fElapsedTime = { 0.f };       // Elapsed time for alpha animation
-	float m_fAlphaAnimationDuration = { 0.5f }; // Duration for alpha increase/decrease
-	float m_fMinAlpha = { 0.f };           // Minimum alpha value
-	float m_fMaxAlpha = { 255.f };         // Maximum alpha value
+	_bool m_bIsFading = false;
+	_bool m_bIncreasingAlpha = false;
+	_float m_fStartAlpha = 0.f;
+	_float m_fEndAlpha = 255.f;
+	_float m_fFadeDuration = 1.f;
+	_float m_fFadeElapsedTime = 0.f;
+	_float m_fDefaultAlpha = 125.f;  // Default alpha value
+
+public:
+	void StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha);
 
 public:
 	/* 원형객체를 생성한다. */

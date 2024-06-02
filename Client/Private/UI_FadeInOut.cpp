@@ -29,16 +29,16 @@ HRESULT CUI_FadeInOut::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fSizeX = 1385.f;
-	m_fSizeY = 765.f;
-	m_fX = -10.f;
-	m_fY = 50.f;
+	m_fSizeX = g_iWinSizeX;
+	m_fSizeY = g_iWinSizeY;
+	m_fX = 0.f;
+	m_fY = 0.f;
 
 	m_pTransformCom->Set_Scaled(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(m_fX, m_fY, 0.f));
 
 	// 원하는 알파 값으로 초기화
-	m_fAlpha = 125.f;
+	m_fAlpha = m_fDefaultAlpha;
 
 	return S_OK;
 }
@@ -49,31 +49,39 @@ void CUI_FadeInOut::Priority_Update(_float fTimeDelta)
 
 void CUI_FadeInOut::Update(_float fTimeDelta)
 {
-	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
+	if (!m_bIsOn) return;
 
-	
-	//// Update alpha value
-	//m_fElapsedTime += fTimeDelta;
-	//float fAlphaStep = ((m_fMaxAlpha - m_fMinAlpha) / m_fAlphaAnimationDuration) * fTimeDelta;
+	if (m_bIsFading)
+	{
+		m_fFadeElapsedTime += fTimeDelta;
+		float fAlphaStep = ((m_fEndAlpha - m_fStartAlpha) / m_fFadeDuration) * fTimeDelta;
 
-	//if (m_bIncreasingAlpha)
-	//{
-	//	m_fAlpha += fAlphaStep;
-	//	if (m_fAlpha >= m_fMaxAlpha)
-	//	{
-	//		m_fAlpha = m_fMaxAlpha;
-	//		m_bIncreasingAlpha = false;
-	//	}
-	//}
-	//else
-	//{
-	//	m_fAlpha -= fAlphaStep;
-	//	if (m_fAlpha <= m_fMinAlpha)
-	//	{
-	//		m_fAlpha = m_fMinAlpha;
-	//		m_bIncreasingAlpha = true;
-	//	}
-	//}
+		if (m_bIncreasingAlpha)
+		{
+			m_fAlpha += fAlphaStep;
+			if (m_fAlpha >= m_fEndAlpha)
+			{
+				m_fAlpha = m_fEndAlpha;
+				m_bIncreasingAlpha = false;
+				m_fFadeElapsedTime = 0.f;  // 시간 초기화
+			}
+		}
+		else
+		{
+			m_fAlpha -= fAlphaStep;
+			if (m_fAlpha <= m_fStartAlpha)
+			{
+				m_fAlpha = m_fStartAlpha;
+				m_bIsFading = false;
+				m_bIncreasingAlpha = true;
+				m_bIsOn = false;  // 페이딩 종료 시 비활성화
+			}
+		}
+	}
+	else
+	{
+		m_fAlpha = m_fDefaultAlpha;
+	}
 }
 
 void CUI_FadeInOut::Late_Update(_float fTimeDelta)
@@ -126,6 +134,17 @@ HRESULT CUI_FadeInOut::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CUI_FadeInOut::StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha)
+{
+	m_fFadeDuration = fDuration;
+	m_fStartAlpha = fStartAlpha;
+	m_fEndAlpha = fEndAlpha;
+	m_fFadeElapsedTime = 0.f;
+	m_bIsFading = true;
+	m_bIncreasingAlpha = true;
+	m_bIsOn = true;  // 페이딩 시작 시 활성화
 }
 
 CUI_FadeInOut* CUI_FadeInOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

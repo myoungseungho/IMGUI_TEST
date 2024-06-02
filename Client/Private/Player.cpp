@@ -38,6 +38,7 @@
 #include <Hat.h>
 #include <Effect_Player_Stun.h>
 #include "Camera.h"
+#include "UI_FadeInOut.h"
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -994,6 +995,13 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		CGameObject* cameraObject= m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
 		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
 	}
+
+	if (m_pKeyCom->Key_Down('X'))
+	{
+		CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+		static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.1f, 0.f, 255.f);
+	}
+
 	//상점 안열었으면
 	if (m_bOpenShopAndInventory)
 		return S_OK;
