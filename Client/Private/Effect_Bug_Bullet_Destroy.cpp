@@ -27,6 +27,7 @@ HRESULT CEffect_Bug_Bullet_Destroy::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -85,6 +86,11 @@ HRESULT CEffect_Bug_Bullet_Destroy::Ready_Components()
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
+		return E_FAIL;
+
+	/* For.Com_Amin */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
+		TEXT("Com_Anim"), reinterpret_cast<CComponent**>(&m_pAnimCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -152,6 +158,7 @@ void CEffect_Bug_Bullet_Destroy::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);
+	Safe_Release(m_pAnimCom);
 
 	__super::Free();
 }

@@ -1,23 +1,23 @@
 #include "stdafx.h"
 
-#include "Effect_Bug_Down.h"
+#include "Effect_Mon_Hit.h"
 
-CEffect_Bug_Down::CEffect_Bug_Down(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEffect_Mon_Hit::CEffect_Mon_Hit(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CEffect_Monster{ pGraphic_Device }
 {
 }
 
-CEffect_Bug_Down::CEffect_Bug_Down(const CEffect_Bug_Down& Prototype)
+CEffect_Mon_Hit::CEffect_Mon_Hit(const CEffect_Mon_Hit& Prototype)
 	:CEffect_Monster{ Prototype }
 {
 }
 
-HRESULT CEffect_Bug_Down::Initialize_Prototype()
+HRESULT CEffect_Mon_Hit::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CEffect_Bug_Down::Initialize(void* pArg)
+HRESULT CEffect_Mon_Hit::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -26,38 +26,42 @@ HRESULT CEffect_Bug_Down::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	Safe_AddRef(m_pTargetTransform);
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vPos.y += 1.f;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 1.f));
 
 	return S_OK;
 }
 
-void CEffect_Bug_Down::Priority_Update(_float fTimeDelta)
+void CEffect_Mon_Hit::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CEffect_Bug_Down::Update(_float fTimeDelta)
+void CEffect_Mon_Hit::Update(_float fTimeDelta)
 {
 }
 
-void CEffect_Bug_Down::Late_Update(_float fTimeDelta)
+void CEffect_Mon_Hit::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 	Destroy(fTimeDelta);
 }
 
-HRESULT CEffect_Bug_Down::Render(_float fTimeDelta)
+HRESULT CEffect_Mon_Hit::Render(_float fTimeDelta)
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_BUG_DOWN"), 0.5f, fTimeDelta, true)))
+	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_HIT"), 0.5f, fTimeDelta, true)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -72,21 +76,20 @@ HRESULT CEffect_Bug_Down::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CEffect_Bug_Down::Ready_Components()
+HRESULT CEffect_Mon_Hit::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 0.0f;
+	TransformDesc.fSpeedPerSec = 2.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 
 	/* For.Com_Amin */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Animator"),
@@ -96,13 +99,14 @@ HRESULT CEffect_Bug_Down::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CEffect_Bug_Down::Ready_Animation()
+HRESULT CEffect_Mon_Hit::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Effect_BugBossDown"), TEXT("EFFECT_BUG_DOWN"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Hit"), TEXT("EFFECT_HIT"));
+
 	return S_OK;
 }
 
-HRESULT CEffect_Bug_Down::Begin_RenderState()
+HRESULT CEffect_Mon_Hit::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
@@ -112,7 +116,7 @@ HRESULT CEffect_Bug_Down::Begin_RenderState()
 	return S_OK;
 }
 
-HRESULT CEffect_Bug_Down::End_RenderState()
+HRESULT CEffect_Mon_Hit::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -120,41 +124,41 @@ HRESULT CEffect_Bug_Down::End_RenderState()
 	return S_OK;
 }
 
-void CEffect_Bug_Down::Destroy(_float fTimeDelta)
+void CEffect_Mon_Hit::Destroy(_float fTimeDelta)
 {
-	CEffect_Bug_Down* pThis = this;
+	CEffect_Mon_Hit* pThis = this;
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 		Safe_Release(pThis);
 }
 
-CEffect_Bug_Down* CEffect_Bug_Down::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEffect_Mon_Hit* CEffect_Mon_Hit::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CEffect_Bug_Down* pInstance = new CEffect_Bug_Down(pGraphic_Device);
+	CEffect_Mon_Hit* pInstance = new CEffect_Mon_Hit(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : Effect_Bug_Down"));
+		MSG_BOX(TEXT("Failed to Created : Effect_Mon_Hit"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CEffect_Bug_Down::Clone(void* pArg)
+CGameObject* CEffect_Mon_Hit::Clone(void* pArg)
 {
-	CEffect_Bug_Down* pInstance = new CEffect_Bug_Down(*this);
+	CEffect_Mon_Hit* pInstance = new CEffect_Mon_Hit(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : Effect_Bug_Down"));
+		MSG_BOX(TEXT("Failed to Cloned : Effect_Mon_Hit"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CEffect_Bug_Down::Free()
+void CEffect_Mon_Hit::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);

@@ -120,8 +120,6 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 void CMon_Turtle::Destory(_float fTimeDelta)
 {
 	CMon_Turtle* pTurtle = this;
-	if(m_pKeyCom->Key_Down('I'))
-		Safe_Release(pTurtle);
 
 	if (m_tMonsterDesc.iHp <= 0)
 	{

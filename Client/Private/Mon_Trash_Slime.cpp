@@ -53,6 +53,16 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
+	m_pGameInstance->Sound_Update();
+
+	m_fMovetTimer += fTimeDelta;
+
+	if (m_fMovetTimer >= 0.5f)
+	{
+		m_bMoveStop = false;
+		m_fMovetTimer = { 0.f };
+	}
+
 	__super::Move_Dir(fTimeDelta);
 
  	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -61,12 +71,32 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
 {
+	if (m_bHit)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+		{
+			m_fAlphaTimer = 0.f;
+			m_fAlpha = 255.f;
+			m_bHit = false;
+		}
+
+	}
+
 	Mon_State(fTimeDelta);
 }
 
 void CMon_Trash_Slime::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 	Destory();
 }
 
@@ -150,18 +180,42 @@ HRESULT CMon_Trash_Slime::Ready_Animation()
 
 HRESULT CMon_Trash_Slime::Begin_RenderState()
 {
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	// 컬링 모드 설정
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	// 텍스처 페이저 설정
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(m_fAlpha), 255, 255, 255));
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
 	return S_OK;
 }
 
 HRESULT CMon_Trash_Slime::End_RenderState()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
+
+	// 알파 블렌딩 비활성화
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	// 원래의 컬링 모드로 복원
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	// 알파 블렌딩 비활성화 및 텍스처 스테이지 상태 복원
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 
 	return S_OK;
 }
@@ -273,8 +327,10 @@ void CMon_Trash_Slime::State_Move(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::MOVE;
 
-	m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 0.75f);
-		Move(fTimeDelta);
+	if (!m_bMoveStop)
+		m_pTransformCom->Chase(m_pPlayerTransform->Get_State(CTransform::STATE_POSITION), fTimeDelta, 0.75f);
+		
+	Move(fTimeDelta);
 
 	if (m_fAttackRange > 10.f)
 		m_eMon_State = MON_STATE::IDLE;
@@ -299,6 +355,10 @@ void CMon_Trash_Slime::Destory()
 	if (m_tMonsterDesc.iHp <= 0)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
+
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_34_MonsterGarbage_Death.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		Safe_Release(pThis);
 	}
 }
@@ -307,11 +367,24 @@ void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	CPlayer* player = static_cast<CPlayer*>(otherObject);
+	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
 
-	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.0f;
+
+		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.25f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_33_MonsterGarbage_Hit.wav", false);
+		m_pGameInstance->Sound_Play();
+
+		m_bMoveStop = true;
+		m_bHit = true;
 	}
 }
 

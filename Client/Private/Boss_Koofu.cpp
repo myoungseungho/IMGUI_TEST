@@ -64,6 +64,8 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 	if (!m_bHitCheck)
 		m_fAlpha = 255.f;
 
+	m_fAlpha = 255.f;
+
 	m_pGameInstance->Sound_Update();
 }
 
@@ -531,10 +533,15 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 {
 	ScaleUp(fDeltaTime);
 
-	if (m_pTimerCom->Time_Limit(fDeltaTime, 0.25f))
+	fSoundTimer += fDeltaTime;
+
+	if (fSoundTimer >= 0.5f)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_712_Koofu_Damage.wav", false);
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_717_Koofu_GiantWalk1.wav", false);
+		m_pGameInstance->Sound_VolumeUp();
 		m_pGameInstance->Sound_Play();
+
+		fSoundTimer = 0.f;
 	}
 
 	m_eAnim_State = ANIM_STATE::WALK;
@@ -549,8 +556,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 void CBoss_Koofu::Key_Input(_float fTimeDelta)
 {
-	if (m_pKeyCom->Key_Down('2'))
-		m_tMonsterDesc.iHp--;
+
 }
 
 void CBoss_Koofu::BillBoarding()
@@ -747,19 +753,18 @@ void CBoss_Koofu::OnCollisionExit(class CCollider* other)
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta , 1.5f))
+	if (!bScaleUp && m_pTimerCom->Time_Limit(fTimeDelta , 1.5f))
 	{
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_716_Koofu_GiantIn.wav", false);
 		m_pGameInstance->Sound_Play();
 		bScaleUp = true;
-
 	}
 
-	if(!bScaleUp)
+	if(fScaleUp <= 3)
 	{
-		fScaleUp += fTimeDelta;
+		fScaleUp += fTimeDelta * 0.5f;
 
-		m_pTransformCom->Set_Scaled(_float3(1.f + fScaleUp, 1.f + fScaleUp, 1.f));
+		m_pTransformCom->Set_Scaled(_float3(fScaleUp , fScaleUp, 1.f));
 
 		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -773,19 +778,22 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 
 void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 {
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
-	{
-		bScaleDown = true;
 
+
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f) && !bScaleDown)
+	{
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_721_Koofu_Death.wav", false);
 		m_pGameInstance->Sound_Play(); 
+
+		bScaleDown = true;
 	}
 
-	if (!bScaleDown)
+	if (fScaleUp >= 1.f)
 	{
-		fScaleDown += fTimeDelta;
+		fScaleUp -= fTimeDelta * 0.5f;
+
 		_float3 vScale  = m_pTransformCom->Get_Scaled();
-		m_pTransformCom->Set_Scaled(_float3(vScale.x - 0.25f, vScale.y - 0.25f, 1.f));
+		m_pTransformCom->Set_Scaled(_float3(fScaleUp, fScaleUp, 1.f));
 
 		_float3 vCurrPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -795,7 +803,6 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fCurrPosX, fCurrPosY, fCurrPosZ));
 	}
-	m_pTransformCom->Gravity(0.1f, 0.5f, fTimeDelta);
 
 	m_fAlpha = 255.f;
 }

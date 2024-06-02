@@ -2,7 +2,7 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
-
+#include "Effect_Monster.h"
 
 BEGIN(Engine)
 
@@ -68,6 +68,12 @@ public:
 	virtual void Damaged() {
 		--m_tMonsterDesc.iHp;
 		m_bHitCheck = true;
+
+		CEffect_Monster::EFFECT_MONSTER__DESC	Desc{};
+
+		Desc.pTargetTransform = m_pTransformCom;
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Hit"), TEXT("Layer_Hit"), &Desc);
+			
 	};
 
 	virtual void Set_Dead()

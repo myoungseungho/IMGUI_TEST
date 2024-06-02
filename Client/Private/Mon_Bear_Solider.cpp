@@ -51,19 +51,26 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 
 	m_fAttackRange = 1.f;
 
-	/*CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
-	Desc.pTargetTransform = m_pTransformCom;
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Arror"), TEXT("Layer_Skill_Arror"), &Desc);*/
-
 	return S_OK;
 }
 
 void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 {
-	m_fAlpha = 255.f;
+	m_pGameInstance->Sound_Update();
 
-	__super::Move_Dir(fTimeDelta);
+	if(m_pTimerCom->Time_Limit(fTimeDelta , 0.25f))
+		m_fAlpha = 255.f;
+
+	m_fMovetTimer += fTimeDelta;
+	
+	if (m_fMovetTimer >= 0.5f)
+	{
+		m_bMoveStop = false;
+		m_fMovetTimer = { 0.f };
+	}
+
+	if(m_eMon_State != MON_STATE::ATTACK)
+		__super::Move_Dir(fTimeDelta);
 
 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fMoveRange = D3DXVec3Length(&m_vTargetDistance);
@@ -71,6 +78,25 @@ void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 
 void CMon_Bear_Solider::Update(_float fTimeDelta)
 {
+	if (m_bHit)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+		{
+			m_fAlphaTimer = 0.f;
+			m_bHit = false;
+		}
+
+	}
+
 	Mon_State(fTimeDelta);
 }
 
@@ -227,6 +253,27 @@ HRESULT CMon_Bear_Solider::End_RenderState()
 
 void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
+
+	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.0f;
+
+		vPosition  += *D3DXVec3Normalize(&vDir, &vDir) * 0.25f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", false);
+		m_pGameInstance->Sound_Play();
+
+		m_bMoveStop = true;
+		m_bHit = true;
+	}
 
 }
 
@@ -234,36 +281,13 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		if (m_eMon_State == MON_STATE::ATTACK && m_pTimerCom->Time_Limit(fTimeDelta, 0.8f))
-		{
-			if (m_fAttackRange + 2.f >= m_fMoveRange)
-			{
-	
-			}
-		}
-	}
 	CPlayer* player = static_cast<CPlayer*>(otherObject);
 
-	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
-	{
-		m_fAlphaTimer += fTimeDelta;
-
-		if (m_fAlphaTimer >= 0.25f)
-		{
-			m_fAlpha = 50.f;
-		}
-		else
-			m_fAlpha = 255.f;
-
-		if (m_fAlphaTimer >= 0.5f)
-			m_fAlphaTimer = 0.f;
-	}
 }
 
 void CMon_Bear_Solider::OnCollisionExit(CCollider* other)
 {
+
 }
 
 void CMon_Bear_Solider::Anim_State(_float fTimeDelta)
@@ -457,6 +481,8 @@ void CMon_Bear_Solider::State_Idle(_float fTimeDelta)
 		m_ePrev_State = MON_STATE::IDLE;
 		m_eMon_State = MON_STATE::MOVE;
 	}
+
+	
 }
 
 void CMon_Bear_Solider::State_Move(_float fTimeDelta)
@@ -468,7 +494,14 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 	TargetPos.y = 1.f;
 	TargetPos.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
-	m_pTransformCom->Chase(TargetPos, fTimeDelta);
+	if(m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_695_BearWhiteGuard_Walk.wav", false);
+		m_pGameInstance->Sound_Play();
+	}
+
+	if(!m_bMoveStop)
+		m_pTransformCom->Chase(TargetPos, fTimeDelta);
 
 	if (m_fMoveRange <= m_fAttackRange)
 	{
@@ -487,10 +520,22 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::ATTACK;
 
-	if ((m_fMoveRange > m_fAttackRange) && m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
+	m_fAttackTimer += fTimeDelta;
+
+	if ((m_fMoveRange > m_fAttackRange) && m_fAttackTimer >= 1.f)
 	{
 		m_ePrev_State = MON_STATE::ATTACK;
 		m_eMon_State = MON_STATE::MOVE;
+
+		m_fAttackTimer = 0.f;
+	}
+
+	if (m_fAttackTimer >= 1.f)
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_705_BearWhiteGuard_Attack.wav", false);
+		m_pGameInstance->Sound_Play();
+
+		m_fAttackTimer = 0.f;
 	}
 
 	if (m_tMonsterDesc.iHp <= 0)
@@ -534,18 +579,18 @@ void CMon_Bear_Solider::State_Stun(_float fTimeDelta)
 	if (!m_bStunEffect)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_694_BearWhiteGuard_Death.wav", false);
+		m_pGameInstance->Sound_Play();
+
 		m_bStunEffect = true;
 	}
 
-	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_pTimerCom->Time_Limit(fTimeDelta , 4.f))
+	m_fDeathTimer += fTimeDelta;
+
+	if ((m_ePrev_State == MON_STATE::MOVE || m_ePrev_State == MON_STATE::ATTACK ) && m_fDeathTimer >= 4.f)
 	{
 		Destroy();
-	}
-
-	if (m_ePrev_State == MON_STATE::HIT && m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
-	{
-		m_ePrev_State = MON_STATE::STUN;
-		m_eMon_State = MON_STATE::MOVE;
 	}
 
 }

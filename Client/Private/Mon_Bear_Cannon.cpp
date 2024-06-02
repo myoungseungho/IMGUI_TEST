@@ -427,8 +427,6 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
-		//m_tMonsterDesc.iHp--;
-
 		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		CSkill_Player* pSkill = dynamic_cast<CSkill_Player*>(otherObject);
@@ -441,6 +439,8 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", false);
+		m_pGameInstance->Sound_Play();
 		return;
 	}
 }

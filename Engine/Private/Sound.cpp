@@ -7,6 +7,11 @@ CSound::CSound()
     
 }
 
+CSound::~CSound()
+{
+    Release();
+}
+
 HRESULT CSound::Sound_Create(const char* path, bool loop)
 {
     if (loop) {
@@ -99,7 +104,6 @@ CSound* CSound::Create()
 
 void CSound::Free()
 {
-    Release();
     FMOD_Sound_Release(m_sound);
 
     __super::Free();

@@ -94,7 +94,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			pMainApp->Update(deltaTime);
 
 			/* 내 게임의 렌더를 수행한다.*/
-			pMainApp->Render(deltaTime);
+ 			pMainApp->Render(deltaTime);
 
 			fTimeAcc = 0.f;
 		}		
