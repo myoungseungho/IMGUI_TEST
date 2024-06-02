@@ -39,6 +39,9 @@ HRESULT CLevel_Jungle::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_4_JungleAreaField2.wav", true);
+	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Sound_Volume_Level(0.5f);
 
 	return S_OK;
 }

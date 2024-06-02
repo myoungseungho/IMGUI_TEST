@@ -366,6 +366,12 @@ int CGameInstance::Sound_Update()
 	return m_pSound->Sound_Update();
 }
 
+int CGameInstance::Sound_Volume_Level(_float fVolume)
+{
+	return m_pSound->Sound_Volume_Level(fVolume);
+
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pSound);

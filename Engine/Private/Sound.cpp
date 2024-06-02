@@ -97,6 +97,15 @@ int CSound::Sound_Update() {
     return 0;
 }
 
+int CSound::Sound_Volume_Level(_float fVolume)
+{
+    m_volume = fVolume;
+
+    FMOD_Channel_SetVolume(m_channel, m_volume);
+
+    return 0;
+}
+
 CSound* CSound::Create()
 {
     return new CSound();
