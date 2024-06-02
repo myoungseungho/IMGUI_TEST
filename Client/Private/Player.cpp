@@ -37,7 +37,7 @@
 #include <Effect_Player.h>
 #include <Hat.h>
 #include <Effect_Player_Stun.h>
-
+#include "Camera.h"
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -123,7 +123,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-
 	Key_Input(fTimeDelta);
 
 	if (m_ePlayerCurState == STATE_ATTACK)
@@ -990,6 +989,11 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	if (m_pKeyCom->Key_Down('C'))
+	{
+		CGameObject* cameraObject= m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
+	}
 	//상점 안열었으면
 	if (m_bOpenShopAndInventory)
 		return S_OK;

@@ -46,6 +46,13 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fNear = 0.1f;
 	m_fFar = 1000.f;
 
+	// Shake 관련 초기화
+	m_bIsShaking = false;
+	m_fShakeDuration = 0.0f;
+	m_fShakeElapsedTime = 0.0f;
+	m_fShakeMagnitude = 0.0f;
+	m_fShakeSpeed = 0.0f;
+
 	GetCursorPos(&m_OldMousePos);
 
 	Ready_UI_Layer((LEVELID)m_pGameInstance->GetLoadingLevelIndex());
@@ -70,9 +77,13 @@ void CCamera::Update(_float fTimeDelta)
 		UpdateCameraPositionToTarget();
 	}
 
+	if (m_bIsShaking)
+	{
+		UpdateShake(fTimeDelta);
+	}
+
 	Bind_PipeLines();
 }
-
 void CCamera::UpdateCameraPositionToTarget()
 {
 	if (m_bIsZoomCompleted)
@@ -152,8 +163,6 @@ void CCamera::ReturnToOriginalPosition(_float fDuration)
 	m_bIsZoomCompleted = false;
 }
 
-
-
 void CCamera::MoveToTarget(_float fDuration, _float fDistance)
 {
 	m_vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -166,7 +175,6 @@ void CCamera::MoveToTarget(_float fDuration, _float fDistance)
 	m_bIsZoomCompleted = false;
 }
 
-
 _float3 CCamera::Lerp(const _float3& start, const _float3& end, _float t)
 {
 	return _float3{
@@ -175,6 +183,41 @@ _float3 CCamera::Lerp(const _float3& start, const _float3& end, _float t)
 		start.z + t * (end.z - start.z)
 	};
 }
+
+void CCamera::ShakeCamera(_float fDuration, _float fMagnitude, _float fSpeed)
+{
+	m_fShakeDuration = fDuration;
+	m_fShakeMagnitude = fMagnitude;
+	m_fShakeSpeed = fSpeed;
+	m_fShakeElapsedTime = 0.0f;
+	m_bIsShaking = true;
+}
+
+void CCamera::UpdateShake(_float fTimeDelta)
+{
+	if (!m_bIsShaking)
+		return;
+
+	m_fShakeElapsedTime += fTimeDelta;
+
+	if (m_fShakeElapsedTime >= m_fShakeDuration)
+	{
+		m_bIsShaking = false;
+		return;
+	}
+
+	_float progress = m_fShakeElapsedTime / m_fShakeDuration;
+	_float damper = 1.0f - progress; // 진동의 감쇠를 위한 비율
+
+	_float offsetX = (rand() % 1000 / 500.0f - 1.0f) * m_fShakeMagnitude * damper;
+	_float offsetY = (rand() % 1000 / 500.0f - 1.0f) * m_fShakeMagnitude * damper;
+
+	_float3 currentPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 shakePosition = currentPosition + _float3(offsetX, offsetY, 0.0f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &shakePosition);
+}
+
+
 
 void CCamera::Late_Update(_float fTimeDelta)
 {
