@@ -72,9 +72,26 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 			if (m_fAlpha <= m_fStartAlpha)
 			{
 				m_fAlpha = m_fStartAlpha;
-				m_bIsFading = false;
-				m_bIncreasingAlpha = true;
-				m_bIsOn = false;  // 페이딩 종료 시 비활성화
+				m_fCurrentRepeatTime += m_fFadeDuration * 2;  // 원상태로 돌아오는 시간 추가
+				if (m_bLoop)
+				{
+					if (m_fCurrentRepeatTime >= m_fRepeatTime)
+					{
+						m_bIsFading = false;
+						m_bIsOn = false;  // 반복 종료 시 비활성화
+					}
+					else
+					{
+						m_bIncreasingAlpha = true;
+						m_fFadeElapsedTime = 0.f;  // 시간 초기화
+					}
+				}
+				else
+				{
+					m_bIsFading = false;
+					m_bIncreasingAlpha = true;
+					m_bIsOn = false;  // 페이딩 종료 시 비활성화
+				}
 			}
 		}
 	}
@@ -136,7 +153,7 @@ HRESULT CUI_FadeInOut::Ready_Components()
 	return S_OK;
 }
 
-void CUI_FadeInOut::StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha)
+void CUI_FadeInOut::StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha, _bool bLoop, _float fRepeatTime)
 {
 	m_fFadeDuration = fDuration;
 	m_fStartAlpha = fStartAlpha;
@@ -145,6 +162,9 @@ void CUI_FadeInOut::StartFading(_float fDuration, _float fStartAlpha, _float fEn
 	m_bIsFading = true;
 	m_bIncreasingAlpha = true;
 	m_bIsOn = true;  // 페이딩 시작 시 활성화
+	m_bLoop = bLoop;  // 반복 여부 설정
+	m_fRepeatTime = fRepeatTime;  // 반복 시간 설정
+	m_fCurrentRepeatTime = 0.f;  // 현재 반복 시간 초기화
 }
 
 CUI_FadeInOut* CUI_FadeInOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

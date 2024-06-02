@@ -130,9 +130,9 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Attack_State(fTimeDelta);
 	}
-	else if(m_ePlayerCurState != STATE_DIED && m_ePlayerCurState != STATE_LIVE)
+	else if (m_ePlayerCurState != STATE_DIED && m_ePlayerCurState != STATE_LIVE)
 		m_pTransformCom->Set_Scaled(m_forScaled);
-	
+
 	if (m_ePlayerCurState == STATE_DIED)
 		For_Died_State(fTimeDelta);
 
@@ -961,12 +961,12 @@ HRESULT CPlayer::Ready_Animation()
 
 	// Get Item
 	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Get_Item"), TEXT("Player_Get_Item"));
-	
+
 	// Died
-		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"), TEXT("Player_Died"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Died"), TEXT("Player_Died"));
 
 	//Live 
-		m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Live"), TEXT("Player_Live"));
+	m_pAnimCom->Add_Animator(LEVEL_STATIC, TEXT("Prototype_Component_AnimTexture_Player_Live"), TEXT("Player_Live"));
 	return S_OK;
 }
 
@@ -992,14 +992,14 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
 	if (m_pKeyCom->Key_Down('C'))
 	{
-		CGameObject* cameraObject= m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
 		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
 	}
 
 	if (m_pKeyCom->Key_Down('X'))
 	{
 		CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-		static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.1f, 0.f, 255.f);
+		static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.1f, 0.f, 255.f, true, 5.f);
 	}
 
 	//상점 안열었으면
@@ -1217,7 +1217,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		else
 			m_pTransformCom->Set_Speed(3.f);
 
-		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState!= STATE_HIT)
+		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState != STATE_HIT)
 		{
 			m_bAttack = true;
 			m_ePlayerCurState = (STATE_ATTACK);
@@ -1275,7 +1275,7 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 		curScaled.z = m_forScaled.z + 1.5f;
 
 		m_pTransformCom->Set_Scaled(curScaled);
-	}	
+	}
 }
 
 HRESULT CPlayer::Player_Skill()
@@ -1607,7 +1607,7 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 
 		m_bForHitEffect = false;
 	}
-	
+
 	if (m_fDamageTime >= 1.5f)
 	{
 		m_ePlayerCurState = STATE_IDLE;
