@@ -436,6 +436,12 @@
     <Filter Include="01.Levels\99. Loading\Loader">
       <UniqueIdentifier>{4627ad56-58d9-45e5-9d9d-a5bb27f03ba3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Bush">
+      <UniqueIdentifier>{43126afd-af08-4766-88a2-b13abbbbec07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_PushStone">
+      <UniqueIdentifier>{dbc7194f-3d9a-41c6-b548-f4b3c39bf3d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -915,14 +921,20 @@
     <ClInclude Include="..\Public\Effect_Player.h">
       <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_Monkey_Dust.h">
-      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Effect_Mon_Hit.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Effect_Monster.h">
       <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Bush_1.h">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Bush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Monkey_Dust.h">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Monkey_Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_PushStone.h">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_PushStone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1388,14 +1400,20 @@
     <ClCompile Include="..\Private\Effect_Player.cpp">
       <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp">
-      <Filter>02.GameObjects\Effect\Effect_Object</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Effect_Mon_Hit.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect_Monster.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Bush_1.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Monkey_Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_PushStone.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_PushStone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

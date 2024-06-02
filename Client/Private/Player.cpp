@@ -107,12 +107,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
-	//	CHat::HAT_DESC HATDESC{};
+	/*CHat::HAT_DESC HATDESC{};
 
-	//HATDESC.pTargetTransform = m_pTransformCom;
-	//HATDESC.pTargetDirection = m_ePlayerDir;
+	HATDESC.pTargetTransform = m_pTransformCom;
+	HATDESC.pTargetDirection = m_ePlayerDir;
 
-	//m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);*/
 
 
 	return S_OK;
