@@ -70,23 +70,6 @@ void CUI_HP_Player::Priority_Update(_float fTimeDelta)
 void CUI_HP_Player::Update(_float fTimeDelta)
 {
 	m_iPlayerCurrentHp = m_pPlayerCopy->Get_Player_Hp();
-	//// 키 입력 처리
-	//if (GetAsyncKeyState(VK_UP) & 0x8000)
-	//{
-	//	m_TextPosY -= 1.0f; // 위쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	//{
-	//	m_TextPosY += 1.0f; // 아래쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	//{
-	//	m_TextPosX -= 1.0f; // 왼쪽으로 이동
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	//{
-	//	m_TextPosX += 1.0f; // 오른쪽으로 이동
-	//}
 }
 
 void CUI_HP_Player::Late_Update(_float fTimeDelta)
