@@ -1590,7 +1590,7 @@ void CPlayer::For_Live_State(_float fTimeDelta)
 {
 	m_fLiveTime += fTimeDelta;
 
-	if (m_fLiveTime >= 1.3f)
+	if (m_fLiveTime >= 1.1f)
 	{
 		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", false);
 		m_pGameInstance->Sound_Play();
