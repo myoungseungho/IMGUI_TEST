@@ -74,13 +74,6 @@ void CDoor::Update(_float fTimeDelta)
 
 	if (CEnd_Orb::m_eClearState == 1)
 	{
-		if (m_bSoundOnce)
-		{
-			m_pGameInstance->Play_Sound(L"SFX_Block", LEVEL_STATIC, false);
-
-			m_bSoundOnce = false;
-		}
-
 		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
 
 	}

@@ -75,6 +75,9 @@ void CRotation_Stand::Update(_float fTimeDelta)
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Rotation_Orb"), TEXT("Layer_Rotation_Orb"), &ROTORBDESC);
 
 		IsHaveOrb = true;
+
+		m_pGameInstance->Play_Sound(L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, true);
+		m_pGameInstance->Set_Volume(L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, 0.1f);
 	}
 }
 

@@ -153,7 +153,7 @@ HRESULT CBlock::Change_State()
 		m_eAnimState = ANIM_UNBLOCK;
 
 		// 볼륨 설정
-		m_pGameInstance->Set_Volume(L"SFX_Block", LEVEL_STATIC, 0.2f);
+		m_pGameInstance->Set_Volume(L"SFX_Block", LEVEL_STATIC, 1.0f);
 		// 사운드 재생
 		m_pGameInstance->Play_Sound(L"SFX_Block", LEVEL_STATIC, false);
 		return S_OK;

@@ -179,6 +179,9 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", L"BGM_0_Null", LEVEL_STATIC, SOUND_BGM);
 
 	// 나머지 사운드 등록
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_72_PushWalk_Ground1.wav", L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_204_Blocked.wav", L"SFX_204_Blocked", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_99_MazePuzzle_Complete.wav", L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_446_QuestClear.wav", L"SFX_QuestClear", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_24_LeafBushTouch.wav", L"SFX_LeafBushTouch", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", L"SFX_LeafBushRemove", LEVEL_STATIC, SOUND_SFX);
@@ -218,6 +221,7 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", L"SFX_StonePressBlock_Off", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_252_OguCritical.wav", L"SFX_OguCritical", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", L"SFX_OguBalloon_In", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_234_OguBalloon_Out.wav", L"SFX_234_OguBalloon_Out", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_95_OguHit.wav", L"SFX_OguHit", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_1_Swing1_2.wav", L"SFX_Swing1_2", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", L"SFX_HoleFall", LEVEL_STATIC, SOUND_SFX);

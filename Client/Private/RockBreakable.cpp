@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Skill_Player.h>
+#include <Player.h>
 
 CRockBreakable::CRockBreakable(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -119,10 +120,30 @@ void CRockBreakable::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 void CRockBreakable::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_CurState() == 2)
+		{
+			if (m_bSoundOnce)
+			{
+				
+				m_pGameInstance->Play_Sound(L"SFX_204_Blocked", LEVEL_STATIC, false);
+				m_pGameInstance->Set_Volume(L"SFX_204_Blocked", LEVEL_STATIC, 0.3f);
+				m_bSoundOnce = false;
+			}
+	
+		}
+	}
 }
 
 void CRockBreakable::OnCollisionExit(class CCollider* other)
 {
+	m_bSoundOnce = { true };
+
 	if (m_eAnimState == ANIM_DIE)
 	{
 		m_Died = true;

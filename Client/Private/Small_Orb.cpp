@@ -117,10 +117,6 @@ void CSmall_Orb::Update(_float fTimeDelta)
 
 			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
 
-			//m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_72_PushWalk_Ground1.wav", false);
-			//m_pGameInstance->Sound_Play();
-			//m_pGameInstance->Sound_Volume_Level(0.2f);
-
 		}
 
 }
