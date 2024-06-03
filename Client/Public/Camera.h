@@ -77,6 +77,7 @@ private:
 	_bool m_bCameraStop = { false };
 	_float m_fTimer = { 0.f };
 	_bool m_bEndStop = { false };
+	_float3 vPos = {};
 public:
 	void MoveToTarget(_float fDuration, _float fDistance);
 	void ReturnToOriginalPosition(_float fDuration);
@@ -90,7 +91,10 @@ private:
 
 public:
 	void ShakeCamera(_float fDuration, _float fMagnitude, _float fSpeed);
+
+public:
 	void Circle_Moving(_float3 vPos , _float fDistance , _float fAngle , _float Timer, _float fTimerDelta);
+	void Straight_Moving(_float fSpeed,_float Timer, _float fTimerDelta);
 
 public:
 	HRESULT Bind_PipeLines();

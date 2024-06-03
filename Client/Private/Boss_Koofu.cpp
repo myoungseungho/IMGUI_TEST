@@ -55,7 +55,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	m_eMon_Dir = MON_DIR::DIR_D;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.f, 0.75f, 37.f));
-	
+
 	return S_OK;
 }
 
@@ -66,6 +66,9 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 		m_fAlpha = 255.f;
 
 	m_fAlpha = 255.f;
+
+	CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+	static_cast<CCamera*>(cameraObject)->Straight_Moving(3.f, 5.f, fTimeDelta);
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)

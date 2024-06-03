@@ -222,6 +222,27 @@ void CCamera::Circle_Moving(_float3 vPos , _float fDistance ,  _float fAngle,  _
 	}
 }
 
+void CCamera::Straight_Moving(_float fSpeed, _float Timer, _float fTimerDelta )
+{
+	vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vLook = { 0.f ,0.f ,1.f };
+
+	m_fTimer += fTimerDelta;
+
+	if (m_fTimer <= Timer)
+	{
+		m_bCameraStop = true;
+
+		vPos += vLook * fSpeed * fTimerDelta;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+	}
+	else
+	{
+		m_bCameraStop = false;
+	}
+
+}
+
 void CCamera::UpdateShake(_float fTimeDelta)
 {
 	if (!m_bIsShaking)
