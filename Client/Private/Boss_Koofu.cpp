@@ -65,8 +65,6 @@ void CBoss_Koofu::Priority_Update(_float fTimeDelta)
 		m_fAlpha = 255.f;
 
 	m_fAlpha = 255.f;
-
-	m_pGameInstance->Sound_Update();
 }
 
 void CBoss_Koofu::Update(_float fTimeDelta)
@@ -544,9 +542,8 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 	if (fSoundTimer >= 0.5f)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_717_Koofu_GiantWalk1.wav", false);
-		m_pGameInstance->Sound_VolumeUp();
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_Koofu_GiantWalk1", LEVEL_STATIC, false);
+
 
 		fSoundTimer = 0.f;
 	}
@@ -716,8 +713,8 @@ void CBoss_Koofu::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (player->Get_Player_CurState() == CPlayer::STATE_ATTACK)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_712_Koofu_Damage.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_Koofu_Damage", LEVEL_STATIC, false);
+
 	}
 }
 
@@ -762,8 +759,8 @@ void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
 	if (!bScaleUp && m_pTimerCom->Time_Limit(fTimeDelta , 1.5f))
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_716_Koofu_GiantIn.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_Koofu_GiantIn", LEVEL_STATIC, false);
+
 		bScaleUp = true;
 	}
 
@@ -789,8 +786,7 @@ void CBoss_Koofu::ScaleDown(_float fTimeDelta)
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f) && !bScaleDown)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_721_Koofu_Death.wav", false);
-		m_pGameInstance->Sound_Play(); 
+		m_pGameInstance->Play_Sound(L"SFX_Koofu_Death", LEVEL_STATIC, false);
 
 		bScaleDown = true;
 	}
@@ -818,8 +814,8 @@ void CBoss_Koofu::Warf(_int fMinPosX, _int fMinPosZ , _int fMaxPosX , _int fMaxP
 {
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(rand() % (fMaxPosX - fMinPosX) + fMinPosX, 0.75f, rand() % (fMaxPosZ - fMinPosZ )+ fMinPosZ));
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", false);
-	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Play_Sound(L"SFX_Koofu_Teleport", LEVEL_STATIC, false);
+
 }
 
 void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
@@ -828,8 +824,8 @@ void CBoss_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 	_float WarfPosZ = iPosZ - fDistance * sin(rand() % 360 * (D3DX_PI / 180.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 0.75f, WarfPosZ));
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", false);
-	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Play_Sound(L"SFX_Koofu_Teleport", LEVEL_STATIC, false);
+
 
 }
 

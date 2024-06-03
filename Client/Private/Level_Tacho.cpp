@@ -54,9 +54,11 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", true);
-	m_pGameInstance->Sound_Play();
-	m_pGameInstance->Sound_Volume_Level(0.2f);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_0_Null", LEVEL_STATIC, 0.2f);
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_0_Null", LEVEL_STATIC, true);
+
 
 	return S_OK;
 }
@@ -243,6 +245,5 @@ CLevel_Tacho* CLevel_Tacho::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Tacho::Free()
 {
-
 	__super::Free();
 }

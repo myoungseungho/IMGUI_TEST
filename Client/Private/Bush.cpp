@@ -115,9 +115,8 @@ void CBush::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_24_LeafBushTouch.wav", false);
-		m_pGameInstance->Sound_Play();
-		m_pGameInstance->Sound_Volume_Level(1.f);
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_LeafBushTouch", LEVEL_STATIC, false);
 
 		if (pCopyPlayer->Get_Player_CurState() == 2)
 		{
@@ -129,10 +128,7 @@ void CBush::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 			Delete_Object();
 
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", false);
-			m_pGameInstance->Sound_Play();
-			m_pGameInstance->Sound_Volume_Level(1.f);
-
+			m_pGameInstance->Play_Sound(L"SFX_LeafBushRemove", LEVEL_STATIC, false);
 		}
 	}
 		
@@ -150,9 +146,7 @@ void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			Delete_Object();
 
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", false);
-			m_pGameInstance->Sound_Play();
-			m_pGameInstance->Sound_Volume_Level(1.f);
+			m_pGameInstance->Play_Sound(L"SFX_LeafBushRemove", LEVEL_STATIC, false);
 		}
 	}
 }

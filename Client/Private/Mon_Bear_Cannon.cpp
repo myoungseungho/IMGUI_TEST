@@ -439,8 +439,8 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", false);
-		m_pGameInstance->Sound_Play();
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
 		return;
 	}
 }

@@ -40,8 +40,8 @@ HRESULT CSkill_Koofu_Rolling::Initialize(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3 (vPositionX , vPositionY , vPositionZ));
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_82_MonsterBugRolling_Rolling.wav", false);
-	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Play_Sound(L"SFX_MonsterBugRolling_Rolling", LEVEL_STATIC, false);
+
 
 	return S_OK;
 }

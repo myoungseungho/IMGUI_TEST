@@ -39,9 +39,10 @@ HRESULT CLevel_Jungle::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_4_JungleAreaField2.wav", true);
-	m_pGameInstance->Sound_Play();
-	m_pGameInstance->Sound_Volume_Level(0.2f);
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_JungleAreaField2", LEVEL_STATIC, true);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_JungleAreaField2", LEVEL_STATIC, 0.2f);
 
 	return S_OK;
 }

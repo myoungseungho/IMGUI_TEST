@@ -31,8 +31,8 @@ HRESULT CComponent::Initialize(void * pArg)
 
 void CComponent::Free()
 {
-	__super::Free();
-	    
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);
+
+	__super::Free();
 }

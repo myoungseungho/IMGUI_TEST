@@ -107,9 +107,8 @@ void CPush_Stone::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		if (m_PushSoundTime >= 3.f)
 		{
-			//m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_26_StonePushable_Push.wav", false);
-			//m_pGameInstance->Sound_Play();
-			//m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_pGameInstance->Play_Sound(L"SFX_StonePushable_Push", LEVEL_STATIC, false);
+
 			m_PushSoundTime = 0.f;
 		}
 	}

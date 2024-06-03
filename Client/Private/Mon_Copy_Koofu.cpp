@@ -51,8 +51,8 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 	 
 	Warf(49.f, 37.f, 7.f);
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", false);
-	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Play_Sound(L"SFX_Koofu_Teleport", LEVEL_STATIC, false);
+
 	
 	return S_OK;
 }
@@ -65,8 +65,6 @@ void CMon_Copy_Koofu::Priority_Update(_float fTimeDelta)
 void CMon_Copy_Koofu::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 }
 
 void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)
@@ -238,8 +236,8 @@ void CMon_Copy_Koofu::State_Idle(_float fTimeDelta)
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_59_FruitThrow.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_FruitThrow", LEVEL_STATIC, false);
+
 
 		m_eMon_State = MON_STATE::THROW;
 	}
@@ -396,8 +394,8 @@ void CMon_Copy_Koofu::Destory()
 
 	if (m_tMonsterDesc.iHp <= 0)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", false);
-		m_pGameInstance->Sound_Play(); 
+		m_pGameInstance->Play_Sound(L"SFX_Koofu_Fake", LEVEL_STATIC, false);
+
 
 		for (int i = 1; i <= 10; ++i)
 		{

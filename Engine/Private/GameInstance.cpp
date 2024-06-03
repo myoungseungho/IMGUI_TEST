@@ -8,7 +8,7 @@
 #include "FileManager.h"
 #include "Collider_Manager.h"
 #include "Picking.h"
-#include "Sound.h"
+#include "Sound_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -55,8 +55,8 @@ HRESULT CGameInstance::Initialize_Engine(HWND hWnd, _uint iNumLevels, _uint iWin
 	if (nullptr == m_pPicking)
 		return E_FAIL;
 
-	m_pSound = CSound::Create();
-	if (nullptr == m_pSound)
+	m_pSoundManager = CSound_Manager::Create(iNumLevels);
+	if (nullptr == m_pSoundManager)
 		return E_FAIL;
 
 	return S_OK;
@@ -326,55 +326,52 @@ _bool CGameInstance::Picked_InWorldSpace(const _float3* pPointA, const _float3* 
 	return m_pPicking->Picked_InWorldSpace(pPointA, pPointB, pPointC, pPickPos);
 }
 
-HRESULT CGameInstance::Sound_Create(const char* path, bool loop)
+
+void CGameInstance::Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType)
 {
-	return m_pSound->Sound_Create(path, loop);
+	if (m_pSoundManager == nullptr)
+		return;
+
+	return m_pSoundManager->Register_Sound(filePath, alias, channel, levelId, soundType);
 }
 
-int CGameInstance::Sound_Play()
+void CGameInstance::Play_Sound(const std::wstring& alias, _uint levelId, bool loop)
 {
-	return m_pSound->Sound_Play();
+	if (m_pSoundManager == nullptr)
+		return;
+
+	return m_pSoundManager->Play_Sound(alias, levelId, loop);
 }
 
-int CGameInstance::Sound_Pause()
+void CGameInstance::Stop_Sound(const wstring& filePath, _uint levelId)
 {
-	return m_pSound->Sound_Pause();
+	if (m_pSoundManager == nullptr)
+		return;
+
+	return m_pSoundManager->Stop_Sound(filePath, levelId);
+
 }
 
-int CGameInstance::Sound_Resume()
+void CGameInstance::Set_Volume(const wstring& filePath, _uint levelId, float volume)
 {
-	return m_pSound->Sound_Resume();
+	if (m_pSoundManager == nullptr)
+		return;
+
+	return m_pSoundManager->Set_Volume(filePath, levelId, volume);
+
 }
 
-int CGameInstance::Sound_Stop()
+void CGameInstance::Stop_All_Sounds(_uint levelId)
 {
-	return m_pSound->Sound_Stop();
-}
+	if (m_pSoundManager == nullptr)
+		return;
 
-int CGameInstance::Sound_VolumeUp()
-{
-	return m_pSound->Sound_VolumeUp();
-}
-
-int CGameInstance::Sound_VolumeDown()
-{
-	return m_pSound->Sound_VolumeDown();
-}
-
-int CGameInstance::Sound_Update()
-{
-	return m_pSound->Sound_Update();
-}
-
-int CGameInstance::Sound_Volume_Level(_float fVolume)
-{
-	return m_pSound->Sound_Volume_Level(fVolume);
-
+	return m_pSoundManager->Stop_All_Sounds(levelId);
 }
 
 void CGameInstance::Release_Engine()
 {
-	Safe_Release(m_pSound);
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pPicking);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pComponent_Manager);
