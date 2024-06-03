@@ -107,12 +107,12 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
-	//	CHat::HAT_DESC HATDESC{};
+	/*CHat::HAT_DESC HATDESC{};
 
-	//HATDESC.pTargetTransform = m_pTransformCom;
-	//HATDESC.pTargetDirection = m_ePlayerDir;
+	HATDESC.pTargetTransform = m_pTransformCom;
+	HATDESC.pTargetDirection = m_ePlayerDir;
 
-	//m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
+	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);*/
 
 
 	return S_OK;
@@ -125,6 +125,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
+
 
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
@@ -142,6 +143,9 @@ void CPlayer::Update(_float fTimeDelta)
 	else if (m_iPlayerHp <= 0)
 	{
 		m_ePlayerCurState = STATE_DIED;
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_252_OguCritical.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.0f);
 		m_pTransformCom->Set_Scaled(_float3(1.5f, 1.5f, 1.f));
 	}
 	else if (m_ePlayerCurState == STATE_HIT)
@@ -205,6 +209,15 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
+		if (m_bBalloonOnce)
+		{
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", false);
+			m_pGameInstance->Sound_Play();
+			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_bBalloonOnce = false;
+		}
+	
+
 		if (!m_bIsMovingDown)
 		{
 			// 초기 설정
@@ -220,6 +233,8 @@ void CPlayer::Update(_float fTimeDelta)
 		float t = m_fElapsedTime / m_fDuration;
 		if (t >= 1.0f)
 		{
+
+
 			t = 1.0f;
 			_float3 position = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 			position.y -= 0.5f;
@@ -748,8 +763,13 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 
 void CPlayer::Player_Damaged()
 {
+
 	if (m_bCanDamaged && m_bForTestDamaged != false)
 	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_95_OguHit.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.f);
+
 		--m_iPlayerHp;
 	}
 }
@@ -1136,7 +1156,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			if (m_bMoveLeft) {
 				Set_Direction(DIR_LEFTUP);
 				if (m_bCanMoveForward && m_bCanMoveLeft)
-					m_pTransformCom->Go_Straight_Left(fTimeDelta);
+					m_pTransformCom->Go_Straight_Left(fTimeDelta);		
 			}
 			else if (m_bMoveRight) {
 				Set_Direction(DIR_RIGHTUP);
@@ -1267,6 +1287,9 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player"), TEXT("Layer_Effect_Player"), &EFFECTPLAYERDESC);
 
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_1_Swing1_2.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.f);
 
 		_float3		curScaled;
 
@@ -1508,6 +1531,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 {
 	if (m_ePlayerCurState == STATE_ATTACK)
 	{
+
 		m_fAttackTime += fTimeDelta;
 
 		if (m_fAttackTime >= 0.5f)
@@ -1566,15 +1590,17 @@ void CPlayer::For_Live_State(_float fTimeDelta)
 {
 	m_fLiveTime += fTimeDelta;
 
-	if (m_fLiveTime >= 2.0f)
+	if (m_fLiveTime >= 1.1f)
 	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.f);
+
 		m_ePlayerCurState = STATE_IDLE;
 		m_fLiveTime = 0.0f;
 		m_iPlayerHp = 5.f;
 		m_bAttack = false;
 		m_pTransformCom->Set_Scaled(m_forScaled);
-
-
 	}
 }
 

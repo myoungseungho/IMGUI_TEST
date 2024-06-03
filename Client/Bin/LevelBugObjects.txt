@@ -1,7 +1,7 @@
 LayerName: Layer_Moon_BossFrame
 PrototypeTag: Prototype_GameObject_Moon_BossFrame
 LevelIndex: 6
-Position: 39.6688 0.006 37.7567
+Position: 39.6688 0.1 37.7567
 Scale: 9 9 1
 IsParsing: 1
 
@@ -218,7 +218,7 @@ IsParsing: 1
 LayerName: Layer_Moon_FloorStone
 PrototypeTag: Prototype_GameObject_Moon_FloorStone
 LevelIndex: 6
-Position: 39.3678 0.006 38.1018
+Position: 39.3678 0.1 38.1018
 Scale: 15 15 1
 IsParsing: 1
 

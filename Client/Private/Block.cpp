@@ -149,9 +149,17 @@ void CBlock::First_State()
 void CBlock::Change_State()
 {
 	if (m_eAnimState == ANIM_BLOCK)
+	{
 		m_eAnimState = ANIM_UNBLOCK;
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_254_Rhino_Rush.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.0f);
+	}
 	else
+	{
 		m_eAnimState = ANIM_BLOCK;
+	}
+		
 }
 
 HRESULT CBlock::Ready_Components()

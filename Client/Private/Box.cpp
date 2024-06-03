@@ -110,6 +110,10 @@ void CBox::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		ITEMSKILLDESC.pTargetTransform = m_pTransformCom;
 
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Item_Skill"), TEXT("Layer_Item_Skill"), &ITEMSKILLDESC);
+
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_446_QuestClear.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.0f);
 	}
 }
 

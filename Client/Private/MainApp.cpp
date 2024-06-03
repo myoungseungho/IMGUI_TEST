@@ -61,6 +61,7 @@
 #include "Effect_Player.h"
 #include "Hat.h"
 #include "Effect_Player_Stun.h"
+#include "Effect_Bush_1.h"
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -100,7 +101,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_KOOFU)))
+	if (FAILED(Open_Level(LEVEL_TACHO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -1236,11 +1237,23 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_ThornHatRoll_Spikes.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Bush_1"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Leaf/Leaf_Fixed/Leaf_Fixed_0.png"), 1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bush_1"),
+		CEffect_Bush_1::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hat_Towel"),
+		CHat::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Player_Stun"),
 		CEffect_Player_Stun::Create(m_pGraphic_Device))))
 		return E_FAIL;

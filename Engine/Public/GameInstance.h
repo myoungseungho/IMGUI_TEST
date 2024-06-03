@@ -79,6 +79,8 @@ public: /* For.Sound*/
 	 int Sound_VolumeDown();
 	 int Sound_Update();
 
+	 int Sound_Volume_Level(_float fVolume);
+
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
 	class CLevel_Manager* m_pLevel_Manager = { nullptr };

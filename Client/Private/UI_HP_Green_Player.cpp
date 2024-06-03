@@ -71,6 +71,9 @@ void CUI_HP_Green_Player::Late_Update(_float fTimeDelta)
 	// 현재 스케일을 가져와서 X 스케일을 체력 비율에 따라 조정
 	m_fSizeX = scaleX * healthRatio; // 체력 비율에 따라 X 스케일 조정
 
+	// 최소 크기 설정
+	if (m_fSizeX < 1.0f) m_fSizeX = 1.0f;
+
 	// 체력바의 왼쪽 끝을 고정시키기 위해 위치 조정
 	// 초기 체력바의 왼쪽 끝 위치를 기준으로 새로운 위치 계산
 	_float leftFixedX = m_fX - scaleX * 0.5f;
