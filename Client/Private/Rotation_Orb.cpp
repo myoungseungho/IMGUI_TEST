@@ -116,15 +116,6 @@ HRESULT CRotation_Orb::Render(_float fTimeDelta)
 
 void CRotation_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_CurState() == 2);
-
-	}
 }
 
 void CRotation_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)

@@ -158,9 +158,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\Effect_Bush_1.h" />
     <ClInclude Include="..\Public\Effect_Monkey_Dust.h" />
+    <ClInclude Include="..\Public\Effect_Orb.h" />
     <ClInclude Include="..\Public\Effect_Player_Stun.h" />
     <ClInclude Include="..\public\Effect_Mon_Hit.h" />
+    <ClInclude Include="..\Public\Effect_PushStone.h" />
     <ClInclude Include="..\Public\Hat.h" />
     <ClInclude Include="..\public\Skill_Arror.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -321,9 +324,12 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Effect_Bush_1.cpp" />
     <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp" />
+    <ClCompile Include="..\Private\Effect_Orb.cpp" />
     <ClCompile Include="..\Private\Effect_Player_Stun.cpp" />
     <ClCompile Include="..\private\Effect_Mon_Hit.cpp" />
+    <ClCompile Include="..\Private\Effect_PushStone.cpp" />
     <ClCompile Include="..\Private\Hat.cpp" />
     <ClCompile Include="..\private\Skill_Arror.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />

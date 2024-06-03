@@ -50,7 +50,7 @@ private:
 
 public:
 	void		First_State();
-	void		Change_State();
+	HRESULT		Change_State();
 
 private:
 	HRESULT Ready_Components();

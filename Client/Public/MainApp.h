@@ -30,6 +30,7 @@ private:
 
 	HRESULT Ready_Prototype_Components();
 	HRESULT Ready_Prototype_GameObject();
+
 private:
 	HRESULT ShowLevels();
 	HRESULT Show_PrototypeObjects();

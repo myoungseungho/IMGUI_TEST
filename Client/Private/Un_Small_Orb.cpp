@@ -168,6 +168,9 @@ void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_DOWN;
 				m_eDirection = DIR_LEFT;
+
+				m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_Off", LEVEL_STATIC, false);
+
 				bIsChangeOnce = false;
 				return;
 			}
@@ -176,6 +179,9 @@ void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_LEFT;
 				m_eDirection = DIR_UP;
+
+				m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_Off", LEVEL_STATIC, false);
+
 				bIsChangeOnce = false;
 				return;
 			}
@@ -184,6 +190,9 @@ void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_UP;
 				m_eDirection = DIR_RIGHT;
+
+				m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_Off", LEVEL_STATIC, false);
+
 				bIsChangeOnce = false;
 				return;
 			}
@@ -192,6 +201,9 @@ void CUn_Small_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_RIGHT;
 				m_eDirection = DIR_DOWN;
+
+				m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_Off", LEVEL_STATIC, false);
+
 				bIsChangeOnce = false;
 				return;
 			}

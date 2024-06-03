@@ -37,6 +37,8 @@ void CLevel_Loading::Update(_float fTimeDelta)
 	{
 		CLevel* pNextLevel = { nullptr };
 
+		m_pGameInstance->Stop_All_Sounds(LEVEL_STATIC);
+
 		switch (m_eNextLevelID)
 		{
 		case LEVEL_TACHO:
@@ -67,13 +69,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 HRESULT CLevel_Loading::Render()
 {
 	m_pLoader->Draw_Text();
-
-	if (!m_pLoader->isFinished()) {
-		
-	}
-	else {
-		
-	}
 
 	return S_OK;
 }

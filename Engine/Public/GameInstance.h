@@ -69,15 +69,11 @@ public: /* For.Picking */
 	_bool Picked_InWorldSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos);
 
 public: /* For.Sound*/
-	 HRESULT Sound_Create(const char* path, bool loop);
-
-	 int Sound_Play();
-	 int Sound_Pause();
-	 int Sound_Resume();
-	 int Sound_Stop();
-	 int Sound_VolumeUp();
-	 int Sound_VolumeDown();
-	 int Sound_Update();
+	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
+	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
+	void Stop_Sound(const std::wstring& alias, _uint levelId);
+	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
+	void Stop_All_Sounds(_uint levelId);
 
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
@@ -89,7 +85,7 @@ private:
 	class CFile_Manager* m_pFileManager = { nullptr };
 	class CCollider_Manager* m_pColliderManager = { nullptr };
 	class CPicking* m_pPicking = { nullptr };
-	class CSound* m_pSound = { nullptr };
+	class CSound_Manager* m_pSoundManager = { nullptr };
 
 public:
 	void Release_Engine();

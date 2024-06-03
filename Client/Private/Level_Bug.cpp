@@ -45,10 +45,9 @@ HRESULT CLevel_Bug::Initialize()
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", true);
-	m_pGameInstance->Sound_Play();
-	
-	
+	// 사운드 재생
+	m_pGameInstance->Set_Volume(L"BGM_MoonPowerPlant", LEVEL_STATIC, 0.2f);
+	m_pGameInstance->Play_Sound(L"BGM_MoonPowerPlant", LEVEL_STATIC, true);
 
 	return S_OK;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "EnviormentObject.h"
+#include "Effect.h"
 
 
 BEGIN(Engine)
@@ -9,24 +9,24 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CCollider;
+class CCalc_Timer;
 class CAnimator;
 END
 
 BEGIN(Client)
 
-class CDoor final : public CEnviormentObject
+class CEffect_Orb final : public CEffect
 {	
-private:
-	CDoor(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
-	CDoor(const CDoor& Prototype); /* 사본생성 시 */
-	virtual ~CDoor() = default;
+public:
+typedef struct
+	{
+		CTransform* pTargetTransform = { nullptr };
+	}EFFECT_ORB_DESC;
 
-	enum ANIMATION_STATE {
-		ANIM_IDLE,
-		ANIM_UNIDLE,
-		ANIM_UNBLOCK,
-		ANIM_BLOCK
-	};
+private:
+	CEffect_Orb(LPDIRECT3DDEVICE9 pGraphic_Device); /* 원형생성 시 */
+	CEffect_Orb(const CEffect_Orb& Prototype); /* 사본생성 시 */
+	virtual ~CEffect_Orb() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -36,31 +36,27 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
-public:
-	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
-	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
-	virtual void OnCollisionExit(class CCollider* other);
-
 private:	
-	CTexture*			m_pTextureCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
-	CCollider* m_pColliderCom = { nullptr };
+	CCollider*				m_pColliderCom = { nullptr };
+	CCalc_Timer*			m_pTimerCom = { nullptr };
 	CAnimator* m_pAnimCom = { nullptr };
 
-	class CMonkey_Statue* m_pMonkeyStatue = { nullptr };
 
 private:
-	HRESULT Ready_Components();
-	HRESULT Ready_Animation();
-	void AnimState(_float _fTimeDelta);
+	HRESULT		Ready_Components();
 
 private:
-	ANIMATION_STATE m_eAnimState = ANIM_IDLE;
-	_bool			m_bSoundOnce = { true };
+
+	
+private:
+	CTransform* m_pTargetTransform = { nullptr };
+
 public:
 	/* 원형객체를 생성한다. */
-	static CDoor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CEffect_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 
 	/* 원형객체를 복제한 사본객체를 생성한다.(내 게임내에서 실제 동작하기위한 객체들) */
 	virtual CGameObject* Clone(void* pArg = nullptr ) override;

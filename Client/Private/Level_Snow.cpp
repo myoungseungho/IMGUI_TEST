@@ -47,8 +47,11 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 	
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_37_SnowAreaField2.wav", true);
-	m_pGameInstance->Sound_Play();
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_SnowAreaField2", LEVEL_STATIC, true);
+
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_SnowAreaField2", LEVEL_STATIC, 0.2f);
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
@@ -62,8 +65,6 @@ HRESULT CLevel_Snow::Initialize()
 void CLevel_Snow::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 }
 
 HRESULT CLevel_Snow::Render()
@@ -105,13 +106,9 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform= dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	for (int i = 1; i <= 2; ++i)
-	{
-		MonsterDesc.iSpawnNum = i;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Trash_Slime"), strLayerTag, &MonsterDesc)))
+		return E_FAIL;
 
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Trash_Slime"), strLayerTag, &MonsterDesc)))
-			return E_FAIL;
-	}
 	return S_OK;
 }
 
@@ -120,7 +117,6 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTa
 	CMonster::MONSTER_DESC			MonsterDesc{};
 	MonsterDesc.iHp = 10;
 	MonsterDesc.iAttack = 1;
-	MonsterDesc.iSpawnNum = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Bear_Solider"), strLayerTag, &MonsterDesc)))
@@ -134,7 +130,6 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Cannon(const _wstring& strLayerTag
 	CMonster::MONSTER_DESC			MonsterDesc{};
 	MonsterDesc.iHp = 5;
 	MonsterDesc.iAttack = 1;
-	MonsterDesc.iSpawnNum = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Bear_Cannon"), strLayerTag, &MonsterDesc)))
@@ -230,7 +225,5 @@ CLevel_Snow* CLevel_Snow::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Snow::Free()
 {
-	m_pGameInstance->Sound_Stop();
-
 	__super::Free();
 }

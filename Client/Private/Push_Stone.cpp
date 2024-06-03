@@ -2,6 +2,8 @@
 #include "..\Public\Push_Stone.h"
 
 #include "GameInstance.h"
+#include <Effect_PushStone.h>
+#include <Player.h>
 
 CPush_Stone::CPush_Stone(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -36,8 +38,6 @@ HRESULT CPush_Stone::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
 
-	//플레이어 충돌 테스트용 포지션
-	//m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 0.5f, 10.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -92,6 +92,32 @@ HRESULT CPush_Stone::Render(_float fTimeDelta)
 	return S_OK;
 }
 
+void CPush_Stone::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CPush_Stone::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+	if (pCopyPlayer && pCopyPlayer->Get_Player_CurState() == 4)
+	{
+		m_PushSoundTime += fTimeDelta;
+
+		if (m_PushSoundTime >= 3.f)
+		{
+			m_pGameInstance->Play_Sound(L"SFX_StonePushable_Push", LEVEL_STATIC, false);
+
+			m_PushSoundTime = 0.f;
+		}
+	}
+}
+
+void CPush_Stone::OnCollisionExit(class CCollider* other)
+{
+}
+
 HRESULT CPush_Stone::Ready_Components()
 {
 	/* For.Com_Texture */
@@ -124,29 +150,61 @@ void CPush_Stone::Push_Move(_float fTimeDelta, _uint ePlayerDir)
 	{
 	case DIR_LEFT:
 		m_pTransformCom->Go_Left(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_UP:
 		m_pTransformCom->Go_Straight(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_RIGHT:
 		m_pTransformCom->Go_Right(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_DOWN:
 		m_pTransformCom->Go_Backward(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_LEFTUP:
 		m_pTransformCom->Go_Left(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_RIGHTUP:
 		m_pTransformCom->Go_Right(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_RIGHTDOWN:
 		m_pTransformCom->Go_Right(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	case DIR_LEFTDOWN:
 		m_pTransformCom->Go_Left(fTimeDelta);
+		Creat_Dust(fTimeDelta, ePlayerDir);
 		break;
 	}
+}
+
+void CPush_Stone::Creat_Dust(_float fTimeDelta, _uint ePlayerDir)
+{
+	if (m_bMakeOnce)
+	{
+		CEffect_PushStone::EFFECT_PUSHSTONE_DESC EFFECTPUSHSTONE{};
+
+		EFFECTPUSHSTONE.pTargetTransform = m_pTransformCom;
+		EFFECTPUSHSTONE.pDirection = ePlayerDir;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Effect_PushStone"), TEXT("Layer_Effect_PushStone"), &EFFECTPUSHSTONE);
+
+		m_bMakeOnce = false;
+	}
+
+	m_DustTime += fTimeDelta;
+
+	if (m_DustTime >= 1.f)
+	{
+		m_bMakeOnce = true;
+		m_DustTime = 0.f;
+	}
+	
 }
 
 CPush_Stone* CPush_Stone::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

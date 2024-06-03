@@ -58,42 +58,97 @@ void CHat::Update(_float fTimeDelta)
 
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
+
 	m_pTagetDirection = pCopyPlayer->Get_Player_Direction();
 
-	if (m_pTagetDirection == pCopyPlayer->DIR_DOWN)
+	if (pCopyPlayer->Get_Player_CurState() == pCopyPlayer->STATE_IDLE)
 	{
-		m_pTransformCom->Set_Scaled(_float3(0.9f, 0.5f, 1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		if (m_pTagetDirection == pCopyPlayer->DIR_DOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.9f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFT)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.7f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.05f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHT)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.7f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.05f , vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_UP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.9f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTUP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTUP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTDOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTDOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
 	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_LEFT)
+
+	else if (pCopyPlayer->Get_Player_CurState() == pCopyPlayer->STATE_WALK)
 	{
-		m_pTransformCom->Set_Scaled(_float3(0.7f, 0.5f, 1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x-0.05f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		if (m_pTagetDirection == pCopyPlayer->DIR_DOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.9f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFT)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.7f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.07f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHT)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.7f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.05f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_UP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.9f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTUP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTUP)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTDOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
+		else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTDOWN)
+		{
+			m_pTransformCom->Set_Scaled(_float3(0.8f, 0.5f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+		}
 	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHT)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_UP)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTUP)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTUP)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTDOWN)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
-	else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTDOWN)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.3f, vTargetPos.z - 0.06f));
-	}
+	
 
 	__super::Update(fTimeDelta);
 

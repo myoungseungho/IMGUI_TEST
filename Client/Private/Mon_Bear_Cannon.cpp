@@ -64,7 +64,6 @@ void CMon_Bear_Cannon::Priority_Update(_float fTimeDelta)
 		m_fInitAlhpaTimer = { 0.f };
 	}
 
-	m_pGameInstance->Sound_Update();
 
 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fMoveRange = D3DXVec3Length(&m_vTargetDistance);
@@ -474,7 +473,8 @@ void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
-		m_bHit = true;
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
+		return;
 	}
 }
 

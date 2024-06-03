@@ -32,6 +32,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:	
 	CTexture*			m_pTextureCom = { nullptr };
 	CTransform*			m_pTransformCom = { nullptr };
@@ -43,7 +48,12 @@ private:
 
 public:
 	void		Push_Move(_float fTimeDelta, _uint ePlayerDir);
+	void		Creat_Dust(_float fTimeDelta, _uint ePlayerDir);
 
+private:
+	_bool			m_bMakeOnce = { true };
+	_float			m_DustTime = { 0.f };
+	_float			m_PushSoundTime = { 0.0f };
 public:
 	/* 원형객체를 생성한다. */
 	static CPush_Stone* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

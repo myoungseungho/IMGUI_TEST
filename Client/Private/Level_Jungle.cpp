@@ -39,6 +39,10 @@ HRESULT CLevel_Jungle::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_JungleAreaField2", LEVEL_STATIC, true);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_JungleAreaField2", LEVEL_STATIC, 0.2f);
 
 	return S_OK;
 }
@@ -123,6 +127,5 @@ CLevel_Jungle* CLevel_Jungle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Jungle::Free()
 {
 	CQuizMgr::Get_Instance()->Destroy_Instance();
-
 	__super::Free();
 }

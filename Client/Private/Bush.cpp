@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Player.h>
+#include <Effect_Bush_1.h>
 
 CBush::CBush(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -114,9 +115,20 @@ void CBush::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
 
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_LeafBushTouch", LEVEL_STATIC, false);
+
 		if (pCopyPlayer->Get_Player_CurState() == 2)
 		{
+			CEffect_Bush_1::EFFECT_BUSH_DESC EFFECTBUSH{};
+
+			EFFECTBUSH.pTargetTransform = m_pTransformCom;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Bush_1"), TEXT("Layer_Effect_Bush_1"), &EFFECTBUSH);
+
 			Delete_Object();
+
+			m_pGameInstance->Play_Sound(L"SFX_LeafBushRemove", LEVEL_STATIC, false);
 		}
 	}
 		
@@ -133,6 +145,8 @@ void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		if (pCopyPlayer->Get_Player_CurState() == 2)
 		{
 			Delete_Object();
+
+			m_pGameInstance->Play_Sound(L"SFX_LeafBushRemove", LEVEL_STATIC, false);
 		}
 	}
 }

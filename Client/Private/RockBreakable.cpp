@@ -107,8 +107,14 @@ void CRockBreakable::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	if (dynamic_cast<CSkill_Player*>(otherObject))
+	{
+		m_pGameInstance->Play_Sound(L"SFX_OguSmashEffect3", LEVEL_STATIC, false);
+
+
 		m_eAnimState = ANIM_DIE;
 		return;
+	}
+	
 }
 
 void CRockBreakable::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -119,7 +125,7 @@ void CRockBreakable::OnCollisionExit(class CCollider* other)
 {
 	if (m_eAnimState == ANIM_DIE)
 	{
-		m_bIsDied = true;
+		m_Died = true;
 	}
 }
 

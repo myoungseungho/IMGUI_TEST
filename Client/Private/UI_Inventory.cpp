@@ -38,6 +38,7 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
 	Font_Initialize();
 
 	// 간이 인벤토리 초기화 (nullptr로 채움)
@@ -208,6 +209,9 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 void CInventory::SetInventoryOnOff()
 {
 	m_bIsOn = !m_bIsOn;
+
+	m_pGameInstance->Play_Sound(L"SFX_MapStep2Open", LEVEL_STATIC, false);
+
 
 	//인벤토리 모든 객체 켜기
 	//이때 커서는 

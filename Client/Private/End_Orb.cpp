@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include <Player.h>
 #include <Un_Laser.h>
+#include <Effect_Orb.h>
 
 _uint CEnd_Orb::m_eClearState = CEnd_Orb::STATE_UNCLEAR;
 
@@ -106,6 +107,19 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CUn_Laser*>(otherObject))
 	{
 		CEnd_Orb::m_eClearState = CEnd_Orb::STATE_CLEAR;
+
+		if (m_bOrbClearSoundOnce)
+		{
+			m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_On", LEVEL_STATIC, false);
+			m_bOrbClearSoundOnce = false;
+
+			CEffect_Orb::EFFECT_ORB_DESC			EFFECTORB{};
+
+			EFFECTORB.pTargetTransform = m_pTransformCom;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Effect_Orb"), TEXT("Layer_Effect_Orb"), &EFFECTORB);
+		}
+
 		return;
 	}
 }

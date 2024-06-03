@@ -95,6 +95,8 @@
 #include "CSound.h"
 #include "Effect_Monkey_Dust.h"
 #include "Effect_Mon_Hit.h"
+#include "Effect_PushStone.h"
+#include "Effect_Orb.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -137,6 +139,8 @@ HRESULT CLoader::Loading()
 
 	m_isFinished = false;
 
+	Ready_Sound();
+
 	switch (m_eLevelID)
 	{
 	case LEVEL_TACHO:
@@ -165,6 +169,58 @@ HRESULT CLoader::Loading()
 	LeaveCriticalSection(&m_Critical_Section);
 
 	return S_OK;
+}
+
+void CLoader::Ready_Sound()
+{
+	// 예시: Block 사운드 등록
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_254_Rhino_Rush.wav", L"SFX_Block", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", L"BGM_0_Null", 0, LEVEL_STATIC, SOUND_BGM);
+	// 나머지 사운드 등록
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_446_QuestClear.wav", L"SFX_QuestClear", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_24_LeafBushTouch.wav", L"SFX_LeafBushTouch", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", L"SFX_LeafBushRemove", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", L"SFX_BearWhiteGuard_Hit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_27_StonePressBlock_On.wav", L"SFX_StonePressBlock_On", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", L"BGM_MoonPowerPlant", 0, LEVEL_STATIC, SOUND_BGM);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_4_JungleAreaField2.wav", L"BGM_JungleAreaField2", 0, LEVEL_STATIC, SOUND_BGM);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", L"BGM_SnowFinalBoss", 0, LEVEL_STATIC, SOUND_BGM);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_37_SnowAreaField2.wav", L"BGM_SnowAreaField2", 0, LEVEL_STATIC, SOUND_BGM);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_695_BearWhiteGuard_Walk.wav", L"SFX_BearWhiteGuard_Walk", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_705_BearWhiteGuard_Attack.wav", L"SFX_BearWhiteGuard_Attack", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_694_BearWhiteGuard_Death.wav", L"SFX_BearWhiteGuard_Death", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", L"SFX_Koofu_Teleport", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_59_FruitThrow.wav", L"SFX_FruitThrow", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", L"SFX_Koofu_Fake", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_34_MonsterGarbage_Death.wav", L"SFX_MonsterGarbage_Death", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_33_MonsterGarbage_Hit.wav", L"SFX_MonsterGarbage_Hit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_26_StonePushable_Push.wav", L"SFX_StonePushable_Push", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_224_OguSmashEffect3.wav", L"SFX_OguSmashEffect3", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", L"SFX_BossMoonMoth_Hit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_116_BossMoonMoth_Fly.wav", L"SFX_BossMoonMoth_Fly", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_106_MonsterBugColorBeatle_In.wav", L"SFX_MonsterBugColorBeatle_In", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_112_BossMoonMoth_BulletAttack.wav", L"SFX_BossMoonMoth_BulletAttack", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_117_BossMoonMoth_Death.wav", L"SFX_BossMoonMoth_Death", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_115_BossMoonMoth_Soar.wav", L"SFX_BossMoonMoth_Soar", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_118_BossMoonMoth_Down.wav", L"SFX_BossMoonMoth_Down", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_717_Koofu_GiantWalk1.wav", L"SFX_Koofu_GiantWalk1", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_712_Koofu_Damage.wav", L"SFX_Koofu_Damage", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_716_Koofu_GiantIn.wav", L"SFX_Koofu_GiantIn", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_721_Koofu_Death.wav", L"SFX_Koofu_Death", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_108_MonsterBugColorBeatle_Death.wav", L"SFX_MonsterBugColorBeatle_Death", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_107_MonsterBugColorBeatle_Hit.wav", L"SFX_MonsterBugColorBeatle_Hit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", L"SFX_BugBallHit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_96_MonsterPlantCannon_Shoot.wav", L"SFX_MonsterPlantCannon_Shoot", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_479_FruitBounce.wav", L"SFX_FruitBounce", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_82_MonsterBugRolling_Rolling.wav", L"SFX_MonsterBugRolling_Rolling", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", L"SFX_StonePressBlock_Off", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_252_OguCritical.wav", L"SFX_OguCritical", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", L"SFX_OguBalloon_In", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_95_OguHit.wav", L"SFX_OguHit", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_1_Swing1_2.wav", L"SFX_Swing1_2", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", L"SFX_HoleFall", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_4_Walk_Ground_1.wav", L"SFX_Walk_Ground_1", 0, LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_595_MapStep2Open.wav", L"SFX_MapStep2Open", 0, LEVEL_STATIC, SOUND_SFX);
 }
 
 HRESULT CLoader::Loading_For_Tacho()
@@ -238,7 +294,7 @@ HRESULT CLoader::Loading_For_Tacho()
 	/* 객체원형을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("객체원형을 로딩 중 입니다."));
 
-	
+
 
 	/* For.Prototype_GameObject_Skill_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Skill_Player"),
@@ -249,7 +305,7 @@ HRESULT CLoader::Loading_For_Tacho()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Outside_Shop"),
 		COutside_Shop::Create(m_pGraphic_Device))))
@@ -310,6 +366,14 @@ HRESULT CLoader::Loading_For_Jungle()
 {
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_Orb"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/CircleBlur/CircleBlur_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_PushStone"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_JungleSunAltarRewardClouds_4.png"), 1))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Tree_Green"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Sprite_TutorialObjects_TreeStreet1.png"), 1))))
@@ -470,6 +534,14 @@ HRESULT CLoader::Loading_For_Jungle()
 		CWall_Two::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_PushStone"),
+		CEffect_PushStone::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Orb"),
+		CEffect_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	m_isFinished = true;
 
 	return S_OK;
@@ -591,21 +663,21 @@ HRESULT CLoader::Loading_For_Snow()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/TrashSlime/Movement/LeftUp/TrashSlime_%d.png"), 8))))
-		return E_FAIL;																													
-																																																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Right"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/TrashSlime/Movement/Right/TrashSlime_%d.png"), 8))))
-		return E_FAIL;																													
-																																		
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightDown"),			
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/TrashSlime/Movement/RightDown/TrashSlime_%d.png"), 8))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightUp"),				  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/TrashSlime/Movement/RightUp/TrashSlime_%d.png"), 8))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Up"),					  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Trash_Slime_Walk_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/TrashSlime/Movement/Up/TrashSlime_%d.png"), 8))))
 		return E_FAIL;
 
@@ -616,29 +688,29 @@ HRESULT CLoader::Loading_For_Snow()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/Left/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_LeftDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/LeftDown/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_LeftUp"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/LeftUp/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_Right"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/Right/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_RightDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/RightDown/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_RightUp"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/RightUp/BearSoldier1_%d.png"), 6))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_Up"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Attack_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Attack/Up/BearSoldier1_%d.png"), 6))))
 		return E_FAIL;
 
@@ -649,95 +721,95 @@ HRESULT CLoader::Loading_For_Snow()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/Left/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_LeftDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/LeftDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_LeftUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/LeftUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_Right"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/Right/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_RightDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/RightDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_RightUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/RightUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_Up"),						
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Walk_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Armor_Walk/Up/BearSoldier1_%d.png"), 4))))
 		return E_FAIL;
 
 	/* Monster_Bear_Soldier_Hit*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Down"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/Down/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Left"),						
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/Left/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_LeftDown"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/LeftDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_LeftUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/LeftUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Right"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/Right/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_RightDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/RightDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_RightUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/RightUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Up"),						
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Hit_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Hit/Up/BearSoldier1_%d.png"), 4))))
 		return E_FAIL;
 
 	/* Monster_Bear_Soldier_Stun*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Down"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/Down/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Left"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/Left/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/LeftDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/LeftUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Right"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/Right/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightDown"),				
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/RightDown/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightUp"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/RightUp/BearSoldier1_%d.png"), 4))))
-		return E_FAIL;																														
-																																			
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Up"),						
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearSoldier_Stun_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearSoldier/Stun/Up/BearSoldier1_%d.png"), 4))))
 		return E_FAIL;
 
@@ -749,66 +821,66 @@ HRESULT CLoader::Loading_For_Snow()
 	/* Monster_Bear_Cannon_Idle*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Down"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/Down/BearCannon_%d.png"), 6))))
-		return E_FAIL;																										
-																															
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Left"),		
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/Left/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftDown"),		
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/LeftDown/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftUp"),		
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/LeftUp/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Right"),		
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/Right/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightDown"),	
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/RightDown/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightUp"),		
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/RightUp/BearCannon_%d.png"), 6))))
-		return E_FAIL;																											
-																																
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Up"),			
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Idle_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Idle/Up/BearCannon_%d.png"), 6))))
 		return E_FAIL;
-	
+
 	/* Monster_Bear_Cannon_Attack*/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Down"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/Down/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Left"),				  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Left"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/Left/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftDown"),			  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/LeftDown/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftUp"),				  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_LeftUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/LeftUp/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Right"),				  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Right"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/Right/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													
-																																		
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightDown"),			
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightDown"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/RightDown/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													  
-																																		  
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightUp"),			  
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_RightUp"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/RightUp/BearCannon_Attack_%d.png"), 5))))
-		return E_FAIL;																													
-																																		
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Up"),					
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_BearCannon_Attack_Up"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BearCannon/Attack/Up/BearCannon_Attack_%d.png"), 5))))
 		return E_FAIL;
 
@@ -916,7 +988,7 @@ HRESULT CLoader::Loading_For_Snow()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Hit"),
 		CEffect_Mon_Hit::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	m_isFinished = true;
 }
 
@@ -1189,10 +1261,10 @@ HRESULT CLoader::Loading_For_Koofu()
 		CEffect_Koofu_Smoke::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Koofu_Stun"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject__Koofu_Stun"),
 		CEffect_Stun::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 	m_isFinished = true;
 }
 
@@ -1415,7 +1487,7 @@ HRESULT CLoader::Loading_For_Edit()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
 		CPlayer::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
+
 
 	m_isFinished = true;
 }

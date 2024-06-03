@@ -46,8 +46,10 @@ HRESULT CLevel_Koofu::Initialize()
 	if (FAILED(Ready_Layer_Boss_Koofu(TEXT("Layer_Boss_Koofu"))))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", true);
-	m_pGameInstance->Sound_Play();
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_SnowFinalBoss", LEVEL_STATIC, true);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_SnowFinalBoss", LEVEL_STATIC, 0.2f);
 
 	return S_OK;
 }

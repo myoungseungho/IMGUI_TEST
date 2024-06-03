@@ -58,10 +58,6 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
-	__super::Move_Dir(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
-
 	m_fMovetTimer += fTimeDelta;
 
 	if (m_fMovetTimer >= 0.5f)
@@ -362,8 +358,7 @@ void CMon_Trash_Slime::Destory()
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_34_MonsterGarbage_Death.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_MonsterGarbage_Death", LEVEL_STATIC, false);
 
 		Safe_Release(pThis);
 	}
@@ -390,6 +385,8 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.25f;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+		m_pGameInstance->Play_Sound(L"SFX_MonsterGarbage_Hit", LEVEL_STATIC, false);
 
 		m_bHit = true;
 		m_bMoveStop = true;
