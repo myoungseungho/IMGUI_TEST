@@ -38,6 +38,8 @@ HRESULT CInventory::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_595_MapStep2Open.wav", false);
+
 	Font_Initialize();
 
 	// 간이 인벤토리 초기화 (nullptr로 채움)
@@ -208,6 +210,9 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 void CInventory::SetInventoryOnOff()
 {
 	m_bIsOn = !m_bIsOn;
+
+	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Sound_Volume_Level(1.f);
 
 	//인벤토리 모든 객체 켜기
 	//이때 커서는 

@@ -65,6 +65,8 @@ void CLevel_Tacho::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	m_pGameInstance->Sound_Update();
+
 	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 
 	// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
@@ -243,7 +245,5 @@ CLevel_Tacho* CLevel_Tacho::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Tacho::Free()
 {
-	m_pGameInstance->Sound_Stop();
-
 	__super::Free();
 }
