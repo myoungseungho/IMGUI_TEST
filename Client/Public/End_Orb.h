@@ -57,7 +57,7 @@ private:
 
 public:
 	static _uint			m_eClearState;
-
+	_bool					m_bOrbClearSoundOnce = { true };
 public:
 	/* 원형객체를 생성한다. */
 	static CEnd_Orb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
