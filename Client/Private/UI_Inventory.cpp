@@ -200,6 +200,7 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 		// index에 따라 플레이어 HP 설정
 		const int hpValues[] = { 1, 2, 3 };
 		player->Set_Player_Hp(hpValues[index]);
+		m_pGameInstance->Play_Sound(L"SFX_67_UIBig_Open", LEVEL_STATIC, false);
 
 		Safe_Release(m_vecQuickInventory[slot]);
 	}
@@ -427,6 +428,7 @@ void CInventory::Update(_float fTimeDelta)
 		UpdateAlphaValues();
 		m_iPreviousRow = m_iCurrentRow;
 		m_iPreviousCol = m_iCurrentCol;
+		m_pGameInstance->Play_Sound(L"SFX_67_UIBig_Open", LEVEL_STATIC, false);
 	}
 
 	// 현재 선택된 아이템의 인덱스를 계산

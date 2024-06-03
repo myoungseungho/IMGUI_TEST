@@ -62,6 +62,7 @@ void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wst
 
     m_soundMap[levelId][alias] = sound;
 }
+
 void CSound_Manager::Play_Sound(const std::wstring& alias, _uint levelId, bool loop)
 {
     if (levelId >= m_iNumLevels) return;

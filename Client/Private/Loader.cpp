@@ -222,6 +222,9 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", L"SFX_HoleFall", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_4_Walk_Ground_1.wav", L"SFX_Walk_Ground_1", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_595_MapStep2Open.wav", L"SFX_MapStep2Open", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_67_UIBig_Open.wav", L"SFX_67_UIBig_Open", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_202_ShopSell.wav", L"SFX_202_ShopSell", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_148_UINormalOpen.wav", L"SFX_148_UINormalOpen", LEVEL_STATIC, SOUND_SFX);
 }
 
 HRESULT CLoader::Loading_For_Tacho()

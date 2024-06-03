@@ -366,12 +366,15 @@ void CShop::Update(_float fTimeDelta)
 		{
 			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex - 1 + 3) % 3;
 			positionChanged = true;
+			m_pGameInstance->Play_Sound(L"SFX_148_UINormalOpen", LEVEL_STATIC, false);
 		}
 		else if (m_pKeyCom->Key_Down(VK_UP))
 		{
 			m_iCurrentBackgroundIndex = (m_iCurrentBackgroundIndex + 1) % 3;
 			positionChanged = true;
+			m_pGameInstance->Play_Sound(L"SFX_148_UINormalOpen", LEVEL_STATIC, false);
 		}
+
 
 		switch (m_iCurrentBackgroundIndex)
 		{
@@ -383,6 +386,8 @@ void CShop::Update(_float fTimeDelta)
 				_uint totalCost = m_iCurrentBuyCount * m_iCurrentPrice;
 				if (totalCost <= m_iCurrentMoney)
 				{
+					m_pGameInstance->Play_Sound(L"SFX_202_ShopSell", LEVEL_STATIC, false);
+
 					// 구매했을 때
 					m_iCurrentMoney -= totalCost;
 
@@ -422,6 +427,7 @@ void CShop::Update(_float fTimeDelta)
 		case 2:
 			if (m_pKeyCom->Key_Down(VK_LEFT))
 			{
+				m_pGameInstance->Play_Sound(L"SFX_148_UINormalOpen", LEVEL_STATIC, false);
 				if (m_iCurrentBuyCount > 0)
 				{
 					m_iCurrentBuyCount = m_iCurrentBuyCount == 1 ? m_iMaxBuyCount : m_iCurrentBuyCount - 1;
@@ -429,6 +435,7 @@ void CShop::Update(_float fTimeDelta)
 			}
 			else if (m_pKeyCom->Key_Down(VK_RIGHT))
 			{
+				m_pGameInstance->Play_Sound(L"SFX_148_UINormalOpen", LEVEL_STATIC, false);
 				if (m_iCurrentBuyCount > 0)
 				{
 					m_iCurrentBuyCount = m_iCurrentBuyCount == m_iMaxBuyCount ? 1 : m_iCurrentBuyCount + 1;
@@ -491,6 +498,7 @@ void CShop::Update(_float fTimeDelta)
 			UpdateRow();
 			m_iPreviousRow = m_iCurrentRow;
 			m_iPreviousCol = m_iCurrentCol;
+			m_pGameInstance->Play_Sound(L"SFX_67_UIBig_Open", LEVEL_STATIC, false);
 		}
 	}
 
@@ -604,6 +612,38 @@ void CShop::MoveCursorToBackground(int backgroundIndex)
 		m_vecCursorObject[1]->m_fSizeY = targetBackground->m_fSizeY;
 		m_vecCursorObject[1]->m_bIsOn = true;
 	}
+}
+
+void CShop::SetInventoryOnOff()
+{
+	m_bIsOn = !m_bIsOn;
+
+	for (auto& iter : m_vecUIObject)
+	{
+		if (dynamic_cast<CUI_Inventory_BackGround*>(iter))
+			continue;
+
+		iter->m_bIsOn = m_bIsOn;
+	}
+
+	if (m_bIsOn)
+	{
+		m_iCurrentCol = 0;
+		m_iCurrentRow = 0;
+		m_iPreviousRow = -1;
+		m_iPreviousCol = -1;
+		m_firstRowSelectedCol = 0;
+	}
+
+	if (m_firstRowSelectedCol == 0)
+	{
+		for (auto& iter : m_vecItemPriceObject)
+		{
+			iter->m_bIsOn = false;
+		}
+	}
+
+	m_pGameInstance->Play_Sound(L"SFX_MapStep2Open", LEVEL_STATIC, false);
 }
 
 void CShop::Control_FirstRow()

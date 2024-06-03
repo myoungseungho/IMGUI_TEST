@@ -62,38 +62,8 @@ private:
 	}
 
 public:
-	void SetInventoryOnOff()
-	{
-		m_bIsOn = !m_bIsOn;
-
-		for (auto& iter : m_vecUIObject)
-		{
-			if (dynamic_cast<CUI_Inventory_BackGround*>(iter))
-				continue;
-
-
-			iter->m_bIsOn = m_bIsOn;
-		}
-
-		if (m_bIsOn)
-		{
-			m_iCurrentCol = 0;
-			m_iCurrentRow = 0;
-			m_iPreviousRow = -1;
-			m_iPreviousCol = -1;
-			m_firstRowSelectedCol = 0;
-		}
-
-		if (m_firstRowSelectedCol == 0)
-		{
-			for (auto& iter : m_vecItemPriceObject)
-			{
-				iter->m_bIsOn = false;
-			}
-		}
-		//m_vecCursorObject[0]->m_fAlpha = 0.f;
-		//m_vecCursorObject[1]->m_fAlpha = 0.f;
-	}
+	void SetInventoryOnOff();
+	
 private:
 	void SetBackGroundOnOff()
 	{
