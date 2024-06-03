@@ -130,7 +130,10 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Walk_Sound(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_ATTACK)
+	else
+		m_pGameInstance->Stop_Sound(L"SFX_Walk_Ground_1", LEVEL_STATIC);
+
+	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
 	}
@@ -182,9 +185,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 		if (m_bBalloonUpOnce)
 		{
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_234_OguBalloon_Out.wav", false);
-			m_pGameInstance->Sound_Play();
-			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_pGameInstance->Play_Sound(L"SFX_234_OguBalloon_Out", LEVEL_STATIC, false);
 			m_bBalloonUpOnce = false;
 		}
 
@@ -224,7 +225,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 			m_pGameInstance->Play_Sound(L"SFX_OguBalloon_In", LEVEL_STATIC, false);
 
-			m_bBalloonOnce = false;
+			m_bBalloonDownOnce = false;
 
 		}
 	
@@ -1610,11 +1611,15 @@ void CPlayer::For_Walk_Sound(_float fTimeDelta)
 {
 	m_fWalkSoundTime += fTimeDelta;
 
-	if (m_fWalkSoundTime >= 1.f)
+	if (m_bWalkSoundOnce)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_Walk_Ground_1", LEVEL_STATIC, false);
+		m_bWalkSoundOnce = false;
+	}
 
-
+	if (m_fWalkSoundTime >= 1.f)
+	{
+		m_bWalkSoundOnce = true;
 		m_fWalkSoundTime = 0.f;
 	}
 }

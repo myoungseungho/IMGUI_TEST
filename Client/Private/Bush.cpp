@@ -144,6 +144,13 @@ void CBush::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		if (pCopyPlayer->Get_Player_CurState() == 2)
 		{
+			CEffect_Bush_1::EFFECT_BUSH_DESC EFFECTBUSH{};
+
+			EFFECTBUSH.pTargetTransform = m_pTransformCom;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Bush_1"), TEXT("Layer_Effect_Bush_1"), &EFFECTBUSH);
+
+
 			Delete_Object();
 
 			m_pGameInstance->Play_Sound(L"SFX_LeafBushRemove", LEVEL_STATIC, false);

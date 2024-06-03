@@ -148,9 +148,8 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		if (m_bOrbClearSoundOnce)
 		{
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_27_StonePressBlock_On.wav", false);
-			m_pGameInstance->Sound_Play();
-			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_pGameInstance->Play_Sound(L"SFX_27_StonePressBlock_On", LEVEL_JUNGLE, false);
+			m_pGameInstance->Set_Volume(L"SFX_27_StonePressBlock_On", LEVEL_JUNGLE, 1.0f);
 			m_bOrbClearSoundOnce = false;
 		}
 
@@ -160,9 +159,8 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		if (m_bUnOrbClearSoundOnce)
 		{
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_27_StonePressBlock_On.wav", false);
-			m_pGameInstance->Sound_Play();
-			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_pGameInstance->Play_Sound(L"SFX_27_StonePressBlock_On", LEVEL_JUNGLE, false);
+			m_pGameInstance->Set_Volume(L"SFX_27_StonePressBlock_On", LEVEL_JUNGLE, 1.0f);
 			m_bUnOrbClearSoundOnce = false;
 		}
 
