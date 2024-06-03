@@ -164,6 +164,10 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 				m_ePreDirection = DIR_DOWN;
 				m_eDirection = DIR_LEFT;
 				bIsChangeOnce = false;
+
+				m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", false);
+				m_pGameInstance->Sound_Play();
+				m_pGameInstance->Sound_Volume_Level(1.0f);
 				return;
 			}
 
@@ -172,6 +176,11 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 				m_ePreDirection = DIR_LEFT;
 				m_eDirection = DIR_UP;
 				bIsChangeOnce = false;
+
+
+				m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", false);
+				m_pGameInstance->Sound_Play();
+				m_pGameInstance->Sound_Volume_Level(1.0f);
 				return;
 			}
 
@@ -179,6 +188,11 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_UP;
 				m_eDirection = DIR_RIGHT;
+
+
+				m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", false);
+				m_pGameInstance->Sound_Play();
+				m_pGameInstance->Sound_Volume_Level(1.0f);
 				bIsChangeOnce = false;
 				return;
 			}
@@ -187,6 +201,10 @@ void CSmall_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			{
 				m_ePreDirection = DIR_RIGHT;
 				m_eDirection = DIR_DOWN;
+
+				m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", false);
+				m_pGameInstance->Sound_Play();
+				m_pGameInstance->Sound_Volume_Level(1.0f);
 				bIsChangeOnce = false;
 				return;
 			}

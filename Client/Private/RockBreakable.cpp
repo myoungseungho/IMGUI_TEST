@@ -126,7 +126,7 @@ void CRockBreakable::OnCollisionExit(class CCollider* other)
 {
 	if (m_eAnimState == ANIM_DIE)
 	{
-		m_bIsDied = true;
+		m_Died = true;
 	}
 }
 

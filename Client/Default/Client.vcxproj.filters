@@ -442,6 +442,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_PushStone">
       <UniqueIdentifier>{dbc7194f-3d9a-41c6-b548-f4b3c39bf3d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Orb">
+      <UniqueIdentifier>{0b075949-197c-425e-9171-bf3cb2c126cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -936,6 +939,9 @@
     <ClInclude Include="..\Public\Effect_PushStone.h">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_PushStone</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Orb.h">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1414,6 +1420,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_PushStone.cpp">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_PushStone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Orb.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
