@@ -62,6 +62,8 @@ HRESULT CLevel_Snow::Initialize()
 void CLevel_Snow::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	m_pGameInstance->Sound_Update();
 }
 
 HRESULT CLevel_Snow::Render()

@@ -46,7 +46,6 @@ public:
 
 private:
     _uint										m_iNumLevels = { 0 };
-    map<const _wstring, const char*> * m_pPrototypes = { nullptr };
 
 public:
     static CSound* Create();

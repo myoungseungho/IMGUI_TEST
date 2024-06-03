@@ -56,6 +56,8 @@ HRESULT CLevel_Bug::Initialize()
 void CLevel_Bug::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	m_pGameInstance->Sound_Update();
 }
 
 HRESULT CLevel_Bug::Render()
