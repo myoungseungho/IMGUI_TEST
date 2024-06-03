@@ -44,6 +44,8 @@ public:
     int Sound_VolumeDown();
     int Sound_Update();
 
+    int Sound_Volume_Level(_float fVolume);
+
 private:
     _uint										m_iNumLevels = { 0 };
     map<const _wstring, const char*> * m_pPrototypes = { nullptr };

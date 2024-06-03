@@ -63,6 +63,7 @@ int CSound::Sound_Resume() {
 int CSound::Sound_Stop() {
     FMOD_Channel_Stop(m_channel);
 
+
     return 0;
 }
 
@@ -93,6 +94,15 @@ int CSound::Sound_Update() {
     if (m_bool) {
         FMOD_System_Update(g_sound_system);
     }
+
+    return 0;
+}
+
+int CSound::Sound_Volume_Level(_float fVolume)
+{
+    m_volume = fVolume;
+
+    FMOD_Channel_SetVolume(m_channel, m_volume);
 
     return 0;
 }

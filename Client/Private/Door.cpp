@@ -72,10 +72,24 @@ void CDoor::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	if (CEnd_Orb::m_eClearState ==1)
+	if (CEnd_Orb::m_eClearState == 1)
+	{
+		if (m_bSoundOnce)
+		{
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_254_Rhino_Rush.wav", false);
+			m_pGameInstance->Sound_Play();
+			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_bSoundOnce = false;
+		}
+
 		m_eAnimState = ANIMATION_STATE::ANIM_BLOCK;
+
+	}
 	else
+	{
 		m_eAnimState = ANIMATION_STATE::ANIM_UNBLOCK;
+	}
+		
 
 }
 
