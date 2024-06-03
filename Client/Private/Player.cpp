@@ -1261,12 +1261,6 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		Player_Damaged();
 	}
 
-
-	if (m_pKeyCom->Key_Down('K'))
-	{
-		m_iPlayerHp++;
-	}
-
 	if (m_pCurrentCollisionOk_Npc != nullptr)
 	{
 		if (m_pKeyCom->Key_Down(VK_SPACE))

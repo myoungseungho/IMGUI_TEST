@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include <Effect_PushStone.h>
+#include <Player.h>
 
 CPush_Stone::CPush_Stone(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -89,6 +90,34 @@ HRESULT CPush_Stone::Render(_float fTimeDelta)
 	__super::End_RenderState();
 
 	return S_OK;
+}
+
+void CPush_Stone::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CPush_Stone::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+	if (pCopyPlayer && pCopyPlayer->Get_Player_CurState() == 4)
+	{
+		m_PushSoundTime += fTimeDelta;
+
+		if (m_PushSoundTime >= 3.f)
+		{
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_26_StonePushable_Push.wav", false);
+			m_pGameInstance->Sound_Play();
+			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_PushSoundTime = 0.f;
+		}
+	}
+}
+
+void CPush_Stone::OnCollisionExit(class CCollider* other)
+{
+	m_pGameInstance->Sound_Stop();
 }
 
 HRESULT CPush_Stone::Ready_Components()
