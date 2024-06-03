@@ -445,6 +445,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Orb">
       <UniqueIdentifier>{0b075949-197c-425e-9171-bf3cb2c126cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil">
+      <UniqueIdentifier>{1f8f1d8f-c83c-4f2f-b218-14a7d244c897}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -942,6 +945,9 @@
     <ClInclude Include="..\Public\Effect_Orb.h">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Soil.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1423,6 +1429,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Orb.cpp">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Soil.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

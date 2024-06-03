@@ -259,6 +259,7 @@
     <ClInclude Include="..\Public\Snow_Rock.h" />
     <ClInclude Include="..\Public\Snow_Tree.h" />
     <ClInclude Include="..\Public\Snow_Vertical_Fence.h" />
+    <ClInclude Include="..\Public\Soil.h" />
     <ClInclude Include="..\Public\TachoGround_Tile.h" />
     <ClInclude Include="..\Public\TachoShop_Tile.h" />
     <ClInclude Include="..\Public\TravelNpc.h" />
@@ -424,6 +425,7 @@
     <ClCompile Include="..\Private\Snow_Rock.cpp" />
     <ClCompile Include="..\Private\Snow_Tree.cpp" />
     <ClCompile Include="..\Private\Snow_Vertical_Fence.cpp" />
+    <ClCompile Include="..\Private\Soil.cpp" />
     <ClCompile Include="..\Private\TachoGround_Tile.cpp" />
     <ClCompile Include="..\Private\TachoShop_Tile.cpp" />
     <ClCompile Include="..\Private\TravelNpc.cpp" />

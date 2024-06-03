@@ -61,7 +61,7 @@ HRESULT CBlock::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	CQuizMgr::Get_Instance()->Add_Block(this);
+	CQuizMgr::Get_QuizInstance()->Add_Block(this);
 
 	return S_OK;
 }
@@ -72,7 +72,7 @@ void CBlock::Priority_Update(_float fTimeDelta)
 
 void CBlock::Update(_float fTimeDelta)
 {
-	CQuizMgr::Get_Instance()->Set_Block_State();
+	CQuizMgr::Get_QuizInstance()->Set_Block_State();
 
 	__super::Update(fTimeDelta);
 }
