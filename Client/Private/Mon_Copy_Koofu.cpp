@@ -65,8 +65,6 @@ void CMon_Copy_Koofu::Priority_Update(_float fTimeDelta)
 void CMon_Copy_Koofu::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 }
 
 void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)

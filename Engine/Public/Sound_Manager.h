@@ -25,10 +25,10 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 
-	HRESULT Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
-	HRESULT Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
-	HRESULT Stop_Sound(const std::wstring& alias, _uint levelId);
-	HRESULT Set_Volume(const std::wstring& alias, _uint levelId, float volume);
+	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
+	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
+	void Stop_Sound(const std::wstring& alias, _uint levelId);
+	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
 
 private:
 	FMOD_SYSTEM* m_pSoundSystem;

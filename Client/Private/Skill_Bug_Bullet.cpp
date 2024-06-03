@@ -64,8 +64,6 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Backward(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)

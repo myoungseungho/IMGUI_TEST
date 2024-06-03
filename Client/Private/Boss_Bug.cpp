@@ -51,8 +51,6 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 void CBoss_Bug::Priority_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Sound_Update();
-
 	m_fAngle++;
 	m_fHitTimer += fTimeDelta;
 	m_fAlpha = 255.f;

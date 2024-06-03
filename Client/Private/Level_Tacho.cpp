@@ -54,9 +54,7 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", true);
-	m_pGameInstance->Sound_Play();
-	m_pGameInstance->Sound_Volume_Level(0.2f);
+	m_pGameInstance->Play_Sound(TEXT("../Bin/SoundSDK/AudioClip/BGM_0_Null.wav"), LEVEL_TACHO);
 
 	return S_OK;
 }
@@ -64,8 +62,6 @@ HRESULT CLevel_Tacho::Initialize()
 void CLevel_Tacho::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 
 	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 

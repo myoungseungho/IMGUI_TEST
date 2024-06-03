@@ -39,8 +39,8 @@ HRESULT CSkill_Cannon_Ball::Initialize(void* pArg)
 	//생성 위치
 	Move_Dir();
 
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_96_MonsterPlantCannon_Shoot.wav", false);
-	m_pGameInstance->Sound_Play();
+	if (FAILED(m_pGameInstance->Play_Sound(L"SFX_MonsterPlantCannon_Shoot", LEVEL_STATIC, false)))
+		return E_FAIL;
 	
 	return S_OK;
 }
@@ -52,8 +52,6 @@ void CSkill_Cannon_Ball::Priority_Update(_float fTimeDelta)
 void CSkill_Cannon_Ball::Update(_float fTimeDelta)
 {
 	Move(fTimeDelta);
-
-	m_pGameInstance->Sound_Update();
 }
 
 void CSkill_Cannon_Ball::Late_Update(_float fTimeDelta)

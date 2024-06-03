@@ -53,8 +53,6 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Sound_Update();
-
 	m_fMovetTimer += fTimeDelta;
 
 	if (m_fMovetTimer >= 0.5f)

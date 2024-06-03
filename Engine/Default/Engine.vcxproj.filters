@@ -192,6 +192,9 @@
     <ClCompile Include="..\private\Sound.cpp">
       <Filter>01.Utility\06.Sound</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>01.Utility\06.Sound\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Sound.h">
       <Filter>01.Utility\06.Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>01.Utility\06.Sound\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

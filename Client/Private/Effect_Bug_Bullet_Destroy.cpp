@@ -41,7 +41,6 @@ HRESULT CEffect_Bug_Bullet_Destroy::Initialize(void* pArg)
 
 void CEffect_Bug_Bullet_Destroy::Priority_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Sound_Update();
 }
 
 void CEffect_Bug_Bullet_Destroy::Update(_float fTimeDelta)

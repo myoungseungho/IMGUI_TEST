@@ -68,13 +68,6 @@ HRESULT CLevel_Loading::Render()
 {
 	m_pLoader->Draw_Text();
 
-	if (!m_pLoader->isFinished()) {
-		
-	}
-	else {
-		
-	}
-
 	return S_OK;
 }
 

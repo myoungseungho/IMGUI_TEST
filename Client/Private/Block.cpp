@@ -146,20 +146,25 @@ void CBlock::First_State()
 	m_eAnimState = ANIM_BLOCK;
 }
 
-void CBlock::Change_State()
+HRESULT CBlock::Change_State()
 {
 	if (m_eAnimState == ANIM_BLOCK)
 	{
 		m_eAnimState = ANIM_UNBLOCK;
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_254_Rhino_Rush.wav", false);
-		m_pGameInstance->Sound_Play();
-		m_pGameInstance->Sound_Volume_Level(1.0f);
+
+		// 사운드 재생
+		if (FAILED(m_pGameInstance->Play_Sound(L"SFX_Block", LEVEL_STATIC, false)))
+			return E_FAIL;
+
+		// 볼륨 설정
+		if (FAILED(m_pGameInstance->Set_Volume(L"SFX_Block", LEVEL_STATIC, 0.2f)))
+			return E_FAIL;
 	}
 	else
 	{
 		m_eAnimState = ANIM_BLOCK;
 	}
-		
+
 }
 
 HRESULT CBlock::Ready_Components()
@@ -232,15 +237,15 @@ CGameObject* CBlock::Clone(void* pArg)
 
 void CBlock::Free()
 {
-		Safe_Release(m_pTransformCom);
-		Safe_Release(m_pVIBufferCom);
-		Safe_Release(m_pAnimCom);
-		Safe_Release(m_pTextureCom);
-		Safe_Release(m_pColliderCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pAnimCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pColliderCom);
 
-		m_pGameInstance->Release_Collider(m_pColliderCom);
+	m_pGameInstance->Release_Collider(m_pColliderCom);
 
-		__super::Free();
+	__super::Free();
 
-		
+
 }

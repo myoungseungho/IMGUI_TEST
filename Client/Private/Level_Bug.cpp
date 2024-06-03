@@ -202,7 +202,5 @@ CLevel_Bug* CLevel_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Bug::Free()
 {
-	m_pGameInstance->Sound_Stop();
-
 	__super::Free();
 }

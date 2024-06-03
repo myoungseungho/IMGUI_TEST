@@ -56,8 +56,6 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 
 void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Sound_Update();
-
 	if(m_pTimerCom->Time_Limit(fTimeDelta , 0.25f))
 		m_fAlpha = 255.f;
 
