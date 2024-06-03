@@ -105,7 +105,8 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 		{
 			m_fAlpha = m_fEndAlpha;
 			m_bIsFadingSingleDirection = false;
-			m_bIsOn = false;  // 페이딩 종료 시 비활성화
+			m_fDefaultAlpha = m_fEndAlpha;
+			// m_bIsOn = false;  // 페이딩 종료 시 비활성화하지 않고 유지
 		}
 	}
 	else
@@ -113,7 +114,6 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 		m_fAlpha = m_fDefaultAlpha;
 	}
 }
-
 void CUI_FadeInOut::Late_Update(_float fTimeDelta)
 {
 	if (!m_bIsOn) return; // m_bIsOn이 false이면 렌더링을 수행하지 않음
@@ -189,6 +189,7 @@ void CUI_FadeInOut::StartFadingSingleDirection(_float fDuration, _float fStartAl
 	m_bIsFadingSingleDirection = true;
 	m_bIsOn = true;  // 페이딩 시작 시 활성화
 }
+
 
 
 CUI_FadeInOut* CUI_FadeInOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

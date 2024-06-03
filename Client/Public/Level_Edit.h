@@ -47,6 +47,11 @@ private:
 	_float m_fPostStart3ElapsedTime = -1.0f; // Level_Edit_Start3 이후 경과 시간
 	_float m_fEndingElapsedTime = -1.f;
 	_bool m_bIsEnd = false;
+	_bool m_bIsEnding = false;
+	_bool m_bNextStep = false;
+	_float m_fNextStepElapsedTime = -1.f;
+	_bool m_bWaitForFadeOut = false;
+	_float m_fFadeOutWaitElapsedTime = -1.f;
 
 	HRESULT ParseInitialize();
 

@@ -45,11 +45,12 @@ private:
 	_float m_fEndAlpha = 255.f;
 	_float m_fFadeDuration = 1.f;
 	_float m_fFadeElapsedTime = 0.f;
-	_float m_fDefaultAlpha = 125.f;  // Default alpha value
 	_float m_fRepeatTime = 0.f;  // 반복 시간
 	_float m_fCurrentRepeatTime = 0.f;  // 현재 반복 시간
 public:
 	_uint m_iTextureNum = 0;
+	_float m_fDefaultAlpha = 125.f;  // Default alpha value
+
 public:
 	void StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha, _bool bLoop=false, _float fRepeatTime=0.f);
 	void StartFadingSingleDirection(_float fDuration, _float fStartAlpha, _float fEndAlpha);
