@@ -119,13 +119,16 @@ void CMon_Turtle::Move_Update(_float fTimeDelta)
 
 void CMon_Turtle::Destory(_float fTimeDelta)
 {
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
 	CMon_Turtle* pTurtle = this;
 
 	if (m_tMonsterDesc.iHp <= 0)
 	{
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
+
 		m_pGameInstance->Play_Sound(L"SFX_MonsterBugColorBeatle_Death", LEVEL_STATIC, false);
-
-
 		Safe_Release(pTurtle);
 	}
 

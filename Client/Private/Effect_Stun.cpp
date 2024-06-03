@@ -33,10 +33,13 @@ HRESULT CEffect_Stun::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
+	LevelDestroyTimer();
+
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 	vPos.y = 2.f;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+
 
 
 	return S_OK;
@@ -102,7 +105,8 @@ HRESULT CEffect_Stun::Ready_Components()
 
 HRESULT CEffect_Stun::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Koofu_Stun"), TEXT("EFFECT_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
 	return S_OK;
 }
 
@@ -128,8 +132,26 @@ void CEffect_Stun::Destroy(_float fTimeDelta)
 {
 	CEffect_Stun* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.0f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, m_fDestroyTimer))
 		Safe_Release(pThis);
+}
+
+void CEffect_Stun::LevelDestroyTimer()
+{
+	_uint level = m_pGameInstance->GetCurrentLevelIndex();
+
+	switch (level)
+	{
+	case LEVEL_SNOW:
+		m_fDestroyTimer = 4.f; 
+		break;
+
+	case LEVEL_KOOFU:
+		m_fDestroyTimer = 0.5f;
+		break;
+	}
+
+
 }
 
 CEffect_Stun* CEffect_Stun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -145,7 +167,6 @@ CEffect_Stun* CEffect_Stun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-//쌤코드는 GameObject/ 내가 판단하기로는 BlendObject 일단 보류
 CGameObject* CEffect_Stun::Clone(void* pArg)
 {
 	CEffect_Stun* pInstance = new CEffect_Stun(*this);

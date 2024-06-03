@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 
 #include "Boss_Koofu.h"
 #include "GameInstance.h"
@@ -11,6 +11,7 @@
 #include "Effect_Koofu_Smoke.h"
 
 #include "Player.h"
+#include <Camera.h>
 
 
 CBoss_Koofu::CBoss_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -72,12 +73,12 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 	Move_Dir();
 	Key_Input(fTimeDelta);
 	MonState(fTimeDelta);
+	Destory();
 }
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destory();
 }
 
 HRESULT CBoss_Koofu::Render(_float fTimeDelta)
@@ -438,7 +439,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
 
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject__Koofu_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
@@ -447,7 +448,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_bHitCheck = false; 
 		m_bWarf = false;
 		
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject__Koofu_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 }
@@ -757,6 +758,14 @@ void CBoss_Koofu::OnCollisionExit(class CCollider* other)
 
 void CBoss_Koofu::ScaleUp(_float fTimeDelta)
 {
+	CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+
+	if (!m_bShackStop)
+	{
+		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
+		m_bShackStop = true;
+	}
+
 	if (!bScaleUp && m_pTimerCom->Time_Limit(fTimeDelta , 1.5f))
 	{
 		m_pGameInstance->Play_Sound(L"SFX_Koofu_GiantIn", LEVEL_STATIC, false);

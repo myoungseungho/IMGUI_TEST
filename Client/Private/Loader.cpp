@@ -1166,12 +1166,10 @@ HRESULT CLoader::Loading_For_Koofu()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/SmokeEffect/SmokeEffect_0.png"), 1))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU, TEXT("Prototype_Component_AnimTexture_Koofu_Stun"),
+	/* 애니메이션 텍스쳐를 로드한다*/
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU ,TEXT("Prototype_Component_AnimTexture_Stun"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Stun/Sprite_StunEffect_%d.png"), 16))))
 		return E_FAIL;
-
-	/* 애니메이션 텍스쳐를 로드한다*/
-
 
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
@@ -1261,7 +1259,7 @@ HRESULT CLoader::Loading_For_Koofu()
 		CEffect_Koofu_Smoke::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject__Koofu_Stun"),
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stun"),
 		CEffect_Stun::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
@@ -1371,6 +1369,10 @@ HRESULT CLoader::Loading_For_Bug()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Boss_Bug_Down/Sprite_BugBossDown_%d.png"), 6))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Mon_Destroy/Sprite_MonsterEffects_%d.png"), 5))))
+		return E_FAIL;
+
 	/* 모델을 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩 중 입니다."));
 
@@ -1460,6 +1462,14 @@ HRESULT CLoader::Loading_For_Bug()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Light"),
 		CEffect_Light::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Light"),
+		CEffect_Light::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Mon_Destory"),
+		CEffect_Mon_Destroy::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

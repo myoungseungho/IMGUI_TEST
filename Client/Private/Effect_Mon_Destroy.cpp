@@ -100,6 +100,8 @@ HRESULT CEffect_Mon_Destroy::Ready_Components()
 HRESULT CEffect_Mon_Destroy::Ready_Animation()
 {
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"), TEXT("EFFECT_MON_DESTROY"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Mon_Destroy"), TEXT("EFFECT_MON_DESTROY"));
+
 	return S_OK;
 }
 

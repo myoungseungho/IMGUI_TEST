@@ -35,7 +35,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render(_float fTimeDelta) override;
 
-
 private:
 	void Mon_State(_float fTimeDelta);
 	void Idle_Update(_float fTimeDelta);
@@ -57,13 +56,10 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
-
 public:
 	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
 	virtual void OnCollisionExit(class CCollider* other);
-
-
 
 public:
 	static CMon_Turtle* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

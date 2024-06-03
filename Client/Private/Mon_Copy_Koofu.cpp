@@ -388,6 +388,7 @@ void CMon_Copy_Koofu::Warf(_int iPosX, _int iPosZ, _float fDistance)
 void CMon_Copy_Koofu::Destory()
 {
 	CMon_Copy_Koofu* pThis = this;
+	CBoss_Koofu* pOrigin = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Boss_Koofu")));
 
 	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
 	Desc.pTargetTransform = m_pTransformCom;
@@ -406,7 +407,6 @@ void CMon_Copy_Koofu::Destory()
 
 		Safe_Release(pThis);
 	}
-	CBoss_Koofu* pOrigin = dynamic_cast<CBoss_Koofu*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Boss_Koofu")));
 	if (pOrigin->HitCheck())
 	{
 		for (int i = 1; i <= 10; ++i)
