@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Effect_Bush_1.h" />
     <ClInclude Include="..\Public\Effect_Monkey_Dust.h" />
+    <ClInclude Include="..\public\Effect_Mon_Clean.h" />
     <ClInclude Include="..\Public\Effect_Orb.h" />
     <ClInclude Include="..\Public\Effect_Player_Stun.h" />
     <ClInclude Include="..\public\Effect_Mon_Hit.h" />
@@ -326,6 +327,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Effect_Bush_1.cpp" />
     <ClCompile Include="..\Private\Effect_Monkey_Dust.cpp" />
+    <ClCompile Include="..\private\Effect_Mon_Clean.cpp" />
     <ClCompile Include="..\Private\Effect_Orb.cpp" />
     <ClCompile Include="..\Private\Effect_Player_Stun.cpp" />
     <ClCompile Include="..\private\Effect_Mon_Hit.cpp" />

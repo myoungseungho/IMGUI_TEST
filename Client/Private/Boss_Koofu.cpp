@@ -333,7 +333,6 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	if (m_bHitCheck)
 	{
-		m_eAnim_State = ANIM_STATE::STUN;
 		m_eMon_State = MON_STATE::STUN; 
 		m_isClone_Create = false;
 
@@ -376,11 +375,20 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 
 void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 {
+	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Smoke_Desc = {};
+	Smoke_Desc.pTargetTransform = m_pTransformCom;
+
 	if (!m_bWarf)
 	{
 		Warf(39, 28, 60, 47);
 		m_bWarf = true;
 		m_bHitCheck = false;
+
+		for (int i = 1; i <= 10; ++i)
+		{
+			Smoke_Desc.iSmokeNum = i;
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Effect_Koofu_Smoke"), TEXT("Layer_Koofu_Smoke"), &Smoke_Desc);
+		}
 	}
 
 	m_eAnim_State = ANIM_STATE::CAST;
@@ -431,24 +439,28 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
-		CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
-		Desc.pTargetTransform = m_pTransformCom;
+	CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+	Desc.pTargetTransform = m_pTransformCom;
+
+	if (!m_bStun)
+	{
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_bStun = true;
+	}
 
 	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
-
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_bStun = false;
 	}
 
-	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
+	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 1.0f))
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_bHitCheck = false; 
 		m_bWarf = false;
-		
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_bStun = false;
 	}
 
 }

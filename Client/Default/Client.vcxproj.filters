@@ -445,6 +445,9 @@
     <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Orb">
       <UniqueIdentifier>{0b075949-197c-425e-9171-bf3cb2c126cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Monster\Clean">
+      <UniqueIdentifier>{b2965c0a-1231-4aa4-b78c-7803d113e6be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -942,6 +945,9 @@
     <ClInclude Include="..\Public\Effect_Orb.h">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Effect_Mon_Clean.h">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Clean</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1423,6 +1429,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Orb.cpp">
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Effect_Mon_Clean.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Monster\Clean</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

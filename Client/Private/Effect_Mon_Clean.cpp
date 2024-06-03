@@ -1,23 +1,23 @@
 #include "stdafx.h"
 
-#include "Effect_Stun.h"
+#include "Effect_Mon_Clean.h"
 
-CEffect_Stun::CEffect_Stun(LPDIRECT3DDEVICE9 pGraphic_Device)
+CEffect_Mon_Clean::CEffect_Mon_Clean(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CEffect_Monster{ pGraphic_Device }
 {
 }
 
-CEffect_Stun::CEffect_Stun(const CEffect_Stun& Prototype)
+CEffect_Mon_Clean::CEffect_Mon_Clean(const CEffect_Mon_Clean& Prototype)
 	:CEffect_Monster{ Prototype }
 {
 }
 
-HRESULT CEffect_Stun::Initialize_Prototype()
+HRESULT CEffect_Mon_Clean::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CEffect_Stun::Initialize(void* pArg)
+HRESULT CEffect_Mon_Clean::Initialize(void* pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -33,8 +33,6 @@ HRESULT CEffect_Stun::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	LevelDestroyTimer();
-
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 	vPos.y = 2.f;
 
@@ -43,26 +41,26 @@ HRESULT CEffect_Stun::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CEffect_Stun::Priority_Update(_float fTimeDelta)
+void CEffect_Mon_Clean::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CEffect_Stun::Update(_float fTimeDelta)
+void CEffect_Mon_Clean::Update(_float fTimeDelta)
 {
 	Destroy(fTimeDelta);
 }
 
-void CEffect_Stun::Late_Update(_float fTimeDelta)
+void CEffect_Mon_Clean::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
-HRESULT CEffect_Stun::Render(_float fTimeDelta)
+HRESULT CEffect_Mon_Clean::Render(_float fTimeDelta)
 {
 	if (FAILED(Begin_RenderState()))
 		return E_FAIL;
 
-	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_STUN"), 0.75f, fTimeDelta, true)))
+	if (FAILED(m_pAnimCom->Play_Animator(TEXT("EFFECT_CLEAN"), 0.75f, fTimeDelta, true)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -77,7 +75,7 @@ HRESULT CEffect_Stun::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CEffect_Stun::Ready_Components()
+HRESULT CEffect_Mon_Clean::Ready_Components()
 {
 	if (FAILED(__super::Ready_Components()))
 		return E_FAIL;
@@ -101,14 +99,13 @@ HRESULT CEffect_Stun::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CEffect_Stun::Ready_Animation()
+HRESULT CEffect_Mon_Clean::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
-	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_KOOFU, TEXT("Prototype_Component_AnimTexture_Clean"), TEXT("EFFECT_CLEAN"));
 	return S_OK;
 }
 
-HRESULT CEffect_Stun::Begin_RenderState()
+HRESULT CEffect_Mon_Clean::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
@@ -118,7 +115,7 @@ HRESULT CEffect_Stun::Begin_RenderState()
 	return S_OK;
 }
 
-HRESULT CEffect_Stun::End_RenderState()
+HRESULT CEffect_Mon_Clean::End_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
@@ -126,57 +123,41 @@ HRESULT CEffect_Stun::End_RenderState()
 	return S_OK;
 }
 
-void CEffect_Stun::Destroy(_float fTimeDelta)
+void CEffect_Mon_Clean::Destroy(_float fTimeDelta)
 {
-	CEffect_Stun* pThis = this;
+	CEffect_Mon_Clean* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, m_fDestroyTimer))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 		Safe_Release(pThis);
 }
 
-void CEffect_Stun::LevelDestroyTimer()
+CEffect_Mon_Clean* CEffect_Mon_Clean::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	_uint level = m_pGameInstance->GetCurrentLevelIndex();
-
-	switch (level)
-	{
-	case LEVEL_SNOW:
-		m_fDestroyTimer = 4.f; 
-		break;
-
-	case LEVEL_KOOFU:
-		m_fDestroyTimer = 0.5f;
-		break;
-	}
-}
-
-CEffect_Stun* CEffect_Stun::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CEffect_Stun* pInstance = new CEffect_Stun(pGraphic_Device);
+	CEffect_Mon_Clean* pInstance = new CEffect_Mon_Clean(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : Effect_Stun"));
+		MSG_BOX(TEXT("Failed to Created : Effect_Mon_Clean"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CEffect_Stun::Clone(void* pArg)
+CGameObject* CEffect_Mon_Clean::Clone(void* pArg)
 {
-	CEffect_Stun* pInstance = new CEffect_Stun(*this);
+	CEffect_Mon_Clean* pInstance = new CEffect_Mon_Clean(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : Effect_Stun"));
+		MSG_BOX(TEXT("Failed to Cloned : Effect_Mon_Clean"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CEffect_Stun::Free()
+void CEffect_Mon_Clean::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransform);

@@ -97,6 +97,7 @@
 #include "Effect_Mon_Hit.h"
 #include "Effect_PushStone.h"
 #include "Effect_Orb.h"
+#include "Effect_Mon_Clean.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -1171,6 +1172,9 @@ HRESULT CLoader::Loading_For_Koofu()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Stun/Sprite_StunEffect_%d.png"), 16))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_KOOFU, TEXT("Prototype_Component_AnimTexture_Clean"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Monster/Clean/Clean_%d.png"), 7))))
+		return E_FAIL;
 
 
 	/* 모델을 로드한다. */
@@ -1263,6 +1267,10 @@ HRESULT CLoader::Loading_For_Koofu()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Stun"),
 		CEffect_Stun::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Clean"),
+		CEffect_Mon_Clean::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;
