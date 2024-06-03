@@ -110,6 +110,7 @@ private:
 	void				For_Get_State(_float fTimeDelta);
 	void				For_Died_State(_float fTimeDelta);
 	void				For_Live_State(_float fTimeDelta);
+	void				For_Walk_Sound(_float fTimeDelta);
 
 	void				Player_Damaged();
 
@@ -134,6 +135,8 @@ private:
 	_float			m_fBalloonTime = { 0.0f };
 	_float			m_fDiedTime = { 0.0f };
 	_float			m_fLiveTime = { 0.0f };
+	_float			m_fWalkSoundTime = { 0.0f };
+	
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };

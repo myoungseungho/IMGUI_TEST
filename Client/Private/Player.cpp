@@ -126,8 +126,11 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
-
-	if (m_ePlayerCurState == STATE_ATTACK)
+	if (m_ePlayerCurState == STATE_WALK)
+	{
+		For_Walk_Sound(fTimeDelta);
+	}
+	else if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
 	}
@@ -1601,6 +1604,20 @@ void CPlayer::For_Live_State(_float fTimeDelta)
 		m_iPlayerHp = 5.f;
 		m_bAttack = false;
 		m_pTransformCom->Set_Scaled(m_forScaled);
+	}
+}
+
+void CPlayer::For_Walk_Sound(_float fTimeDelta)
+{
+	m_fWalkSoundTime += fTimeDelta;
+
+	if (m_fWalkSoundTime >= 1.f)
+	{
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_4_Walk_Ground_1.wav", false);
+		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Sound_Volume_Level(1.0f);
+
+		m_fWalkSoundTime = 0.f;
 	}
 }
 
