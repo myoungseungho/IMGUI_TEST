@@ -95,6 +95,19 @@ void CUI_FadeInOut::Update(_float fTimeDelta)
 			}
 		}
 	}
+	else if (m_bIsFadingSingleDirection)
+	{
+		m_fFadeElapsedTime += fTimeDelta;
+		float fAlphaStep = ((m_fEndAlpha - m_fStartAlpha) / m_fFadeDuration) * fTimeDelta;
+
+		m_fAlpha += fAlphaStep;
+		if ((fAlphaStep > 0 && m_fAlpha >= m_fEndAlpha) || (fAlphaStep < 0 && m_fAlpha <= m_fEndAlpha))
+		{
+			m_fAlpha = m_fEndAlpha;
+			m_bIsFadingSingleDirection = false;
+			m_bIsOn = false;  // 페이딩 종료 시 비활성화
+		}
+	}
 	else
 	{
 		m_fAlpha = m_fDefaultAlpha;
@@ -115,7 +128,7 @@ HRESULT CUI_FadeInOut::Render(_float fTimeDelta)
 	__super::Begin_RenderState();
 
 	/* 사각형위에 올리고 싶은 테긋쳐를 미리 장치에 바인딩한다.  */
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	if (FAILED(m_pTextureCom->Bind_Texture(m_iTextureNum)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrix()))
@@ -166,6 +179,17 @@ void CUI_FadeInOut::StartFading(_float fDuration, _float fStartAlpha, _float fEn
 	m_fRepeatTime = fRepeatTime;  // 반복 시간 설정
 	m_fCurrentRepeatTime = 0.f;  // 현재 반복 시간 초기화
 }
+
+void CUI_FadeInOut::StartFadingSingleDirection(_float fDuration, _float fStartAlpha, _float fEndAlpha)
+{
+	m_fFadeDuration = fDuration;
+	m_fStartAlpha = fStartAlpha;
+	m_fEndAlpha = fEndAlpha;
+	m_fFadeElapsedTime = 0.f;
+	m_bIsFadingSingleDirection = true;
+	m_bIsOn = true;  // 페이딩 시작 시 활성화
+}
+
 
 CUI_FadeInOut* CUI_FadeInOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

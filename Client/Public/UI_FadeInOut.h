@@ -40,6 +40,7 @@ private:
 	_bool m_bIsFading = false;
 	_bool m_bIncreasingAlpha = false;
 	_bool m_bLoop = false;  // 반복 여부
+	_bool m_bIsFadingSingleDirection = false;
 	_float m_fStartAlpha = 0.f;
 	_float m_fEndAlpha = 255.f;
 	_float m_fFadeDuration = 1.f;
@@ -48,7 +49,10 @@ private:
 	_float m_fRepeatTime = 0.f;  // 반복 시간
 	_float m_fCurrentRepeatTime = 0.f;  // 현재 반복 시간
 public:
+	_uint m_iTextureNum = 0;
+public:
 	void StartFading(_float fDuration, _float fStartAlpha, _float fEndAlpha, _bool bLoop=false, _float fRepeatTime=0.f);
+	void StartFadingSingleDirection(_float fDuration, _float fStartAlpha, _float fEndAlpha);
 
 public:
 	/* 원형객체를 생성한다. */

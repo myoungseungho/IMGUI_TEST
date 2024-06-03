@@ -48,11 +48,13 @@ HRESULT CLevel_Edit::Initialize()
 
 void CLevel_Edit::Update(_float fTimeDelta)
 {
+	if (m_bIsEnd)
+		return;
 	__super::Update(fTimeDelta);
 
 	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 
-	// 3초가 지나고, Level_Edit_Start1 함수가 아직 호출되지 않았다면 호출
+	// 2초가 지나고, Level_Edit_Start1 함수가 아직 호출되지 않았다면 호출
 	if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
 	{
 		Level_Edit_Start1();
@@ -77,10 +79,10 @@ void CLevel_Edit::Update(_float fTimeDelta)
 			m_fTalkElapsedTime += fTimeDelta;
 		}
 
-		// npcTalkUI가 대화 중이 아니고 1초가 지났는지 확인
+		// npcTalkUI가 대화 중이 아니고 3초가 지났는지 확인
 		if (!npcTalkUI->m_bIsNpcTalkOn && m_fTalkElapsedTime > 3.0f)
 		{
-			// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
+			// 3초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
 			if (!m_bShakeCalled)
 			{
 				CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
@@ -90,6 +92,83 @@ void CLevel_Edit::Update(_float fTimeDelta)
 				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 5.f);
 
 				m_bShakeCalled = true;
+				m_fFadeElapsedTime = 0; // 페이드 아웃 경과 시간 초기화
+			}
+		}
+
+		// 페이드 아웃 시작 후 경과 시간 추적
+		if (m_bShakeCalled && !m_bStart2Called)
+		{
+			m_fFadeElapsedTime += fTimeDelta;
+
+			// 페이드 아웃과 카메라 쉐이크가 완료되고 1초가 지난 후 Level_Edit_Start2 호출
+			if (m_fFadeElapsedTime > 6.0f) // 5초 페이드 아웃 + 1초 대기
+			{
+				Level_Edit_Start2();
+				m_bStart2Called = true; // Level_Edit_Start2가 호출되었음을 표시
+				m_fPostStart2ElapsedTime = 0; // Level_Edit_Start2 이후 경과 시간 초기화
+			}
+		}
+
+		// Level_Edit_Start2 호출 이후 추가 작업
+		if (m_bStart2Called && !m_bIsWaitingForFade)
+		{
+			m_fPostStart2ElapsedTime += fTimeDelta;
+
+			if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart2ElapsedTime > 2.0f)
+			{
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(5.f, 0.f, 255.f);
+
+				m_bIsWaitingForFade = true; // 10초 대기 상태 시작
+				m_fWaitingElapsedTime = 0;  // 대기 시간 초기화
+			}
+		}
+
+		// 10초 대기 시간 경과 후 Level_Edit_Start3 호출
+		if (m_bIsWaitingForFade && !m_bStart3Called)
+		{
+			m_fWaitingElapsedTime += fTimeDelta;
+
+			if (m_fWaitingElapsedTime > 5.f)
+			{
+				Level_Edit_Start3();
+				m_bStart3Called = true; // Level_Edit_Start3가 호출되었음을 표시
+				m_fPostStart3ElapsedTime = 0; // Level_Edit_Start3 이후 경과 시간 초기화
+			}
+		}
+
+		// Level_Edit_Start3 호출 이후 추가 작업
+		if (m_bStart3Called)
+		{
+			m_fPostStart3ElapsedTime += fTimeDelta;
+
+			if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart3ElapsedTime > 3.0f)
+			{
+				// 여기에 3초 후에 할 작업 추가
+				// 작업이 완료되었음을 표시
+				m_bStart3Called = false; // 필요에 따라 추가 변수를 설정하거나, 다음 단계로 이동
+				m_fPostStart3ElapsedTime = 0;
+
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(5.f, 255.f, 0.f);
+
+				// 5초 후 업데이트 종료
+				m_bIsEnd = true;
+				m_fEndingElapsedTime = 0; // 종료 대기 시간 초기화
+			}
+		}
+
+		// 5초 후 업데이트 종료
+		if (m_bIsEnd)
+		{
+			m_fEndingElapsedTime += fTimeDelta;
+
+			if (m_fEndingElapsedTime > 5.0f)
+			{
+				m_bIsEnd = true; // 업데이트 종료
 			}
 		}
 	}
@@ -214,7 +293,24 @@ void CLevel_Edit::Level_Edit_Start2()
 	{
 		npcTalkUI->SetIsNpcTalkOn(true);
 		vector<pair<wstring, wstring>> messages = {
-			{TEXT("?"), TEXT("여기가 어디지?")},
+			{TEXT("?"), TEXT("으.. 뭐가 보여..")},
+		};
+		npcTalkUI->SetNpcTalkMessages(messages);
+	}
+}
+
+void CLevel_Edit::Level_Edit_Start3()
+{
+	_uint level = m_pGameInstance->GetLoadingLevelIndex();
+
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+	CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+
+	if (npcTalkUI)
+	{
+		npcTalkUI->SetIsNpcTalkOn(true);
+		vector<pair<wstring, wstring>> messages = {
+			{TEXT("144기 일동"), TEXT("아..")},
 		};
 		npcTalkUI->SetNpcTalkMessages(messages);
 	}
