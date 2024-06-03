@@ -327,12 +327,12 @@ _bool CGameInstance::Picked_InWorldSpace(const _float3* pPointA, const _float3* 
 }
 
 
-void CGameInstance::Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType)
+void CGameInstance::Register_Sound(const std::wstring& filePath, const std::wstring& alias, _uint levelId, _uint soundType)
 {
 	if (m_pSoundManager == nullptr)
 		return;
 
-	return m_pSoundManager->Register_Sound(filePath, alias, channel, levelId, soundType);
+	return m_pSoundManager->Register_Sound(filePath, alias, levelId, soundType);
 }
 
 void CGameInstance::Play_Sound(const std::wstring& alias, _uint levelId, bool loop)

@@ -25,7 +25,7 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 
-	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
+	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, _uint levelId, _uint soundType);
 	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
 	void Stop_Sound(const std::wstring& alias, _uint levelId);
 	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);

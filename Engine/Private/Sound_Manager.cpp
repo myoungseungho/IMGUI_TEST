@@ -39,7 +39,7 @@ void CSound_Manager::Late_Update(_float fTimeDelta)
 	
 }
 
-void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType)
+void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wstring& alias, _uint levelId, _uint soundType)
 {
     if (levelId >= m_iNumLevels) return;
 
@@ -62,7 +62,6 @@ void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wst
 
     m_soundMap[levelId][alias] = sound;
 }
-
 void CSound_Manager::Play_Sound(const std::wstring& alias, _uint levelId, bool loop)
 {
     if (levelId >= m_iNumLevels) return;

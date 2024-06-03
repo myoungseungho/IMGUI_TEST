@@ -69,7 +69,7 @@ public: /* For.Picking */
 	_bool Picked_InWorldSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos);
 
 public: /* For.Sound*/
-	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
+	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, _uint levelId, _uint soundType);
 	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
 	void Stop_Sound(const std::wstring& alias, _uint levelId);
 	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
