@@ -57,6 +57,7 @@ private:
 	_bool m_bHit = { false };
 
 	_float m_fMovetTimer = { 0.f };
+	
 public:
 	static CMon_Trash_Slime* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

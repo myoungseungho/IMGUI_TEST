@@ -100,6 +100,8 @@ void CMon_Bear_Solider::Update(_float fTimeDelta)
 
 void CMon_Bear_Solider::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
