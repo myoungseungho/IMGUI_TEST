@@ -440,16 +440,16 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
 
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject__Koofu_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
-		m_bHitCheck = false;
+		m_bHitCheck = false; 
 		m_bWarf = false;
 		
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject__Koofu_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 }
