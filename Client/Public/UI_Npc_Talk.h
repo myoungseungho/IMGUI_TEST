@@ -74,10 +74,9 @@ private:
 	_float m_fGrowthDuration = 0.5f; // n초간 커지는 시간
 	_bool m_bGrowthComplete = false; // 성장 완료 여부
 	_bool m_bIsShrinking = { false };
-
+	
 public:
 	_bool m_bIsNpcTalkOn = { false };
-
 private:
 	_float m_fArrowOffsetY = 0.f; // 화살표의 Y 오프셋
 	_float m_fArrowAnimDuration = 0.5f; // 애니메이션 시간

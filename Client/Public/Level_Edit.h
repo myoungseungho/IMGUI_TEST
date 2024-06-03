@@ -28,10 +28,12 @@ private:
 	HRESULT Ready_LandObjects();
 
 private:
-	void Level_Tacho_Start1();
+	void Level_Edit_Start1();
+	void Level_Edit_Start2();
 
 private:
 	_float m_fElapsedTime = 0.0f; // 경과 시간
+	_float m_fTalkElapsedTime = -1.f; // 유효하지 않은 상태로 초기화
 	_bool m_bStart1Called = false; // Level_Tacho_Start1 함수 호출 여부
 	_bool m_bShakeCalled = false;
 

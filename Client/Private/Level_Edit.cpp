@@ -11,6 +11,8 @@
 #include <Camera.h>
 #include "TachoShop_Tile.h"
 #include "Bush.h"
+#include "UI_Npc_Talk.h"
+#include "UI_FadeInOut.h"
 CLevel_Edit::CLevel_Edit(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -50,19 +52,46 @@ void CLevel_Edit::Update(_float fTimeDelta)
 
 	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 
-	// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
-	if (m_fElapsedTime >= 1.f && !m_bShakeCalled)
+	// 3초가 지나고, Level_Edit_Start1 함수가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
 	{
-		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
-		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.5f, 0.1f);
-		m_bShakeCalled = true;
+		Level_Edit_Start1();
+		m_bStart1Called = true;
+		m_fElapsedTime = 0; // 시작 후 경과 시간 초기화
 	}
 
-	// 3초가 지나고, Level_Tacho_Start1 함수가 아직 호출되지 않았다면 호출
-	if (m_fElapsedTime >= 3.0f && !m_bStart1Called)
+	if (m_bStart1Called)
 	{
-		Level_Tacho_Start1();
-		m_bStart1Called = true;
+		_uint level = m_pGameInstance->GetLoadingLevelIndex();
+
+		CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+		CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+
+		// npcTalkUI 접근 후 경과 시간 초기화
+		if (m_fTalkElapsedTime < 0)
+		{
+			m_fTalkElapsedTime = 0;
+		}
+		else
+		{
+			m_fTalkElapsedTime += fTimeDelta;
+		}
+
+		// npcTalkUI가 대화 중이 아니고 1초가 지났는지 확인
+		if (!npcTalkUI->m_bIsNpcTalkOn && m_fTalkElapsedTime > 3.0f)
+		{
+			// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
+			if (!m_bShakeCalled)
+			{
+				CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+				static_cast<CCamera*>(cameraObject)->ShakeCamera(5.f, 0.5f, 0.1f);
+
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 5.f);
+
+				m_bShakeCalled = true;
+			}
+		}
 	}
 }
 
@@ -158,7 +187,37 @@ HRESULT CLevel_Edit::Ready_LandObjects()
 
 void CLevel_Edit::Level_Edit_Start1()
 {
+	_uint level = m_pGameInstance->GetLoadingLevelIndex();
 
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+	CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+
+	if (npcTalkUI)
+	{
+		npcTalkUI->SetIsNpcTalkOn(true);
+		vector<pair<wstring, wstring>> messages = {
+			{TEXT("?"), TEXT("여기가 어디지?")},
+		};
+		npcTalkUI->SetNpcTalkMessages(messages);
+	}
+}
+
+
+void CLevel_Edit::Level_Edit_Start2()
+{
+	_uint level = m_pGameInstance->GetLoadingLevelIndex();
+
+	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+	CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+
+	if (npcTalkUI)
+	{
+		npcTalkUI->SetIsNpcTalkOn(true);
+		vector<pair<wstring, wstring>> messages = {
+			{TEXT("?"), TEXT("여기가 어디지?")},
+		};
+		npcTalkUI->SetNpcTalkMessages(messages);
+	}
 }
 
 HRESULT CLevel_Edit::Ready_Layer_Player(const _wstring& strLayerTag)
