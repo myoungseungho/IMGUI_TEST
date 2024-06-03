@@ -130,7 +130,10 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		For_Walk_Sound(fTimeDelta);
 	}
-	else if (m_ePlayerCurState == STATE_ATTACK)
+	else
+		m_pGameInstance->Stop_Sound(L"SFX_Walk_Ground_1", LEVEL_STATIC);
+
+	if (m_ePlayerCurState == STATE_ATTACK)
 	{
 		For_Attack_State(fTimeDelta);
 	}
@@ -180,11 +183,17 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
+		if (m_bBalloonUpOnce)
+		{
+			m_pGameInstance->Play_Sound(L"SFX_234_OguBalloon_Out", LEVEL_STATIC, false);
+			m_bBalloonUpOnce = false;
+		}
+
 		if (!m_bIsMovingUp)
 		{
 			// 초기 설정
 			m_fElapsedTime = 0.0f;
-			m_fDuration = 5.0f; // 예를 들어 2초 동안 이동
+			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 			m_fTargetY = m_fInitialY + 10.0f; // y값을 5만큼 증가
 			m_bIsMovingUp = true;
@@ -211,11 +220,13 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
-		if (m_bBalloonOnce)
+		if (m_bBalloonDownOnce)
 		{
+
 			m_pGameInstance->Play_Sound(L"SFX_OguBalloon_In", LEVEL_STATIC, false);
 
-			m_bBalloonOnce = false;
+			m_bBalloonDownOnce = false;
+
 		}
 
 
@@ -768,7 +779,7 @@ void CPlayer::Player_Damaged()
 	if (m_bCanDamaged && m_bForTestDamaged != false)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_OguHit", LEVEL_STATIC, false);
-
+		m_pGameInstance->Set_Volume(L"SFX_OguHit", LEVEL_STATIC, 0.7f);
 
 		--m_iPlayerHp;
 	}
@@ -1525,7 +1536,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	case STATE_BALLON_UP:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 3.5f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.0f, _fTimeDelta, false);
@@ -1622,11 +1633,15 @@ void CPlayer::For_Walk_Sound(_float fTimeDelta)
 {
 	m_fWalkSoundTime += fTimeDelta;
 
-	if (m_fWalkSoundTime >= 1.f)
+	if (m_bWalkSoundOnce)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_Walk_Ground_1", LEVEL_STATIC, false);
+		m_bWalkSoundOnce = false;
+	}
 
-
+	if (m_fWalkSoundTime >= 1.f)
+	{
+		m_bWalkSoundOnce = true;
 		m_fWalkSoundTime = 0.f;
 	}
 }

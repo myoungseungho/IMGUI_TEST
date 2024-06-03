@@ -97,6 +97,7 @@
 #include "Effect_Mon_Hit.h"
 #include "Effect_PushStone.h"
 #include "Effect_Orb.h"
+#include "Soil.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -178,6 +179,9 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", L"BGM_0_Null", LEVEL_STATIC, SOUND_BGM);
 
 	// 나머지 사운드 등록
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_72_PushWalk_Ground1.wav", L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_204_Blocked.wav", L"SFX_204_Blocked", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_99_MazePuzzle_Complete.wav", L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_446_QuestClear.wav", L"SFX_QuestClear", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_24_LeafBushTouch.wav", L"SFX_LeafBushTouch", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", L"SFX_LeafBushRemove", LEVEL_STATIC, SOUND_SFX);
@@ -217,6 +221,7 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", L"SFX_StonePressBlock_Off", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_252_OguCritical.wav", L"SFX_OguCritical", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", L"SFX_OguBalloon_In", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_234_OguBalloon_Out.wav", L"SFX_234_OguBalloon_Out", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_95_OguHit.wav", L"SFX_OguHit", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_1_Swing1_2.wav", L"SFX_Swing1_2", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", L"SFX_HoleFall", LEVEL_STATIC, SOUND_SFX);
@@ -375,6 +380,10 @@ HRESULT CLoader::Loading_For_Jungle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_Orb"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/CircleBlur/CircleBlur_0.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Soil"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Enviorment/Tile/Tile_183.png"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_PushStone"),
@@ -546,6 +555,10 @@ HRESULT CLoader::Loading_For_Jungle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Orb"),
 		CEffect_Orb::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Soil"),
+		CSoil::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

@@ -2,6 +2,7 @@
 #include "..\Public\Tree_Green.h"
 
 #include "GameInstance.h"
+#include <Player.h>
 
 CTree_Green::CTree_Green(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
@@ -86,6 +87,37 @@ HRESULT CTree_Green::Render(_float fTimeDelta)
 	__super::End_RenderState();
 
 	return S_OK;
+}
+
+void CTree_Green::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CTree_Green::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
+
+		if (pCopyPlayer->Get_Player_CurState() == 2)
+		{
+			if (m_bSoundOnce)
+			{
+
+				m_pGameInstance->Play_Sound(L"SFX_204_Blocked", LEVEL_STATIC, false);
+				m_pGameInstance->Set_Volume(L"SFX_204_Blocked", LEVEL_STATIC, 0.3f);
+				m_bSoundOnce = false;
+			}
+
+		}
+	}
+}
+
+void CTree_Green::OnCollisionExit(CCollider* other)
+{
+	m_bSoundOnce = { true };
 }
 
 HRESULT CTree_Green::Ready_Components()

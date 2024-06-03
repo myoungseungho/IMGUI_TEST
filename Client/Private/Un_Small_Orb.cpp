@@ -146,10 +146,25 @@ void CUn_Small_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CLaser*>(otherObject))
 	{
+		if (m_bOrbClearSoundOnce)
+		{
+			m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_On", LEVEL_STATIC, false);
+			m_pGameInstance->Set_Volume(L"SFX_StonePressBlock_On", LEVEL_STATIC, 1.0f);
+			m_bOrbClearSoundOnce = false;
+		}
+
 		m_eCollisionLazer = STATE_COL;
 	}
 	else if (dynamic_cast<CUn_Laser*>(otherObject))
 	{
+		if (m_bUnOrbClearSoundOnce)
+		{
+			m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_On", LEVEL_STATIC, false);
+			m_pGameInstance->Set_Volume(L"SFX_StonePressBlock_On", LEVEL_STATIC, 1.0f);
+			m_bUnOrbClearSoundOnce = false;
+		}
+
+
 		m_eCollisionLazer = STATE_COL;
 	}
 }

@@ -1,20 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Tree.h"
+#include "..\Public\Soil.h"
 
 #include "GameInstance.h"
-#include <Player.h>
 
-CTree::CTree(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSoil::CSoil(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CTree::CTree(const CTree& Prototype)
+CSoil::CSoil(const CSoil& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CTree::Initialize_Prototype()
+HRESULT CSoil::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -22,7 +21,7 @@ HRESULT CTree::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CTree::Initialize(void* pArg)
+HRESULT CSoil::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -36,6 +35,8 @@ HRESULT CTree::Initialize(void* pArg)
 		m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
 	}
+
+	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
@@ -56,21 +57,21 @@ HRESULT CTree::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CTree::Priority_Update(_float fTimeDelta)
+void CSoil::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CTree::Update(_float fTimeDelta)
+void CSoil::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 }
 
-void CTree::Late_Update(_float fTimeDelta)
+void CSoil::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CTree::Render(_float fTimeDelta)
+HRESULT CSoil::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -89,41 +90,10 @@ HRESULT CTree::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-void CTree::OnCollisionEnter(CCollider* other, _float fTimeDelta)
-{
-}
-
-void CTree::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_CurState() == 2)
-		{
-			if (m_bSoundOnce)
-			{
-
-				m_pGameInstance->Play_Sound(L"SFX_204_Blocked", LEVEL_STATIC, false);
-				m_pGameInstance->Set_Volume(L"SFX_204_Blocked", LEVEL_STATIC, 0.3f);
-				m_bSoundOnce = false;
-			}
-
-		}
-	}
-}
-
-void CTree::OnCollisionExit(CCollider* other)
-{
-	m_bSoundOnce = { true };
-}
-
-HRESULT CTree::Ready_Components()
+HRESULT CSoil::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Tree"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Soil"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -144,13 +114,13 @@ HRESULT CTree::Ready_Components()
 	return S_OK;
 }
 
-CTree* CTree::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSoil* CSoil::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CTree* pInstance = new CTree(pGraphic_Device);
+	CSoil* pInstance = new CSoil(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CTree"));
+		MSG_BOX(TEXT("Failed to Created : CSoil"));
 		Safe_Release(pInstance);
 	}
 
@@ -158,20 +128,20 @@ CTree* CTree::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CTree::Clone(void* pArg)
+CGameObject* CSoil::Clone(void* pArg)
 {
-	CTree* pInstance = new CTree(*this);
+	CSoil* pInstance = new CSoil(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CTree"));
+		MSG_BOX(TEXT("Failed to Cloned : CSoil"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CTree::Free()
+void CSoil::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);

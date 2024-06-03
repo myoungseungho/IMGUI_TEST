@@ -59,6 +59,8 @@ private:
 private:
 	HRESULT Ready_Components();
 	_bool	bTest = { true };
+	_bool	m_bOrbClearSoundOnce = { true };
+	_bool m_bUnOrbClearSoundOnce = { true };
 
 public:
 

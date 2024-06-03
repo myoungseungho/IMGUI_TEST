@@ -79,6 +79,7 @@ void CLaser::Update(_float fTimeDelta)
 
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.0f))
 	{
+
 		m_Died = true;
 
 		return;

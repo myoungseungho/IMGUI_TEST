@@ -140,6 +140,7 @@ CLevel_Jungle* CLevel_Jungle::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Jungle::Free()
 {
-	CQuizMgr::Get_Instance()->Destroy_Instance();
+	CQuizMgr::Get_QuizInstance()->Destroy_QuizInstance();
+
 	__super::Free();
 }

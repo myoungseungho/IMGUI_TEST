@@ -180,7 +180,10 @@ private:
 	_bool m_bIsMovingDown = false;
 public:
 	_bool m_bOpenShopAndInventory = false;
-	_bool m_bBalloonOnce = true;
+	_bool m_bBalloonDownOnce = true;
+	_bool m_bBalloonUpOnce = true;
+
+	_bool m_bWalkSoundOnce = { true };
 public:
 
 	/* 원형객체를 생성한다. */

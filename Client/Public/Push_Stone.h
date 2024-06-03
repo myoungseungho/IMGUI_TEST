@@ -53,7 +53,8 @@ public:
 private:
 	_bool			m_bMakeOnce = { true };
 	_float			m_DustTime = { 0.f };
-	_float			m_PushSoundTime = { 0.0f };
+
+	_bool			m_bPushSoundOnce = { true };
 public:
 	/* 원형객체를 생성한다. */
 	static CPush_Stone* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -6,15 +6,15 @@
 
 
 
-class CQuizMgr
+class CQuizMgr : public CBase
 {
 public:
     CQuizMgr();
     virtual ~CQuizMgr();
-    void Destroy_Instance();
+    void Destroy_QuizInstance();
 
 public:
-    static CQuizMgr* Get_Instance();
+    static CQuizMgr* Get_QuizInstance();
 
     void Add_MonkeyStatue(CMonkey_Statue* pMonkeyStatue);
     void Add_Block(CBlock* pBlock);
@@ -31,7 +31,7 @@ public:
 
     _bool m_First_State = { true };
 public:
-    void Free();
-    static CQuizMgr* p_Instance;
+    void Free() override;
+    static CQuizMgr* p_QuizInstance;
 };
 

@@ -53,6 +53,10 @@ void CEffect_Orb::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 5.f))
+	{
+		m_Died = true;
+	}
 }
 
 void CEffect_Orb::Late_Update(_float fTimeDelta)

@@ -2,7 +2,7 @@
 #include "QuizMgr.h"
 
 
-CQuizMgr* CQuizMgr::p_Instance = { nullptr };
+CQuizMgr* CQuizMgr::p_QuizInstance = { nullptr };
 
 CQuizMgr::CQuizMgr()
 {
@@ -13,21 +13,21 @@ CQuizMgr::~CQuizMgr()
 	Free();
 }
 
-void CQuizMgr::Destroy_Instance()
+void CQuizMgr::Destroy_QuizInstance()
 {
-	if (p_Instance)
+	if (p_QuizInstance)
 	{
-		delete p_Instance;
-		p_Instance = nullptr;
+		delete p_QuizInstance;
+		p_QuizInstance = nullptr;
 	}
 }
 
-CQuizMgr* CQuizMgr::Get_Instance()
+CQuizMgr* CQuizMgr::Get_QuizInstance()
 {
-	if (!p_Instance)
-		p_Instance = new CQuizMgr;
+	if (!p_QuizInstance)
+		p_QuizInstance = new CQuizMgr;
 
-	return p_Instance;
+	return p_QuizInstance;
 }
 
 void CQuizMgr::Add_MonkeyStatue(CMonkey_Statue* pMonkeyStatue)
@@ -121,4 +121,6 @@ void CQuizMgr::Free()
 	}
 	m_vecMonkeyStatues.clear();
 	m_vecMonkeyStatues.shrink_to_fit();
+
+	__super::Free();
 }

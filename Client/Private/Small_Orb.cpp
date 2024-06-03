@@ -116,6 +116,7 @@ void CSmall_Orb::Update(_float fTimeDelta)
 			LASERDESC.iLaserDir = m_eDirection;
 
 			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Laser"), TEXT("Layer_Laser"), &LASERDESC);
+
 		}
 
 }

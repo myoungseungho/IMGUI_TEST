@@ -110,7 +110,8 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		if (m_bOrbClearSoundOnce)
 		{
-			m_pGameInstance->Play_Sound(L"SFX_StonePressBlock_On", LEVEL_STATIC, false);
+			m_pGameInstance->Play_Sound(L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, false);
+			m_pGameInstance->Set_Volume(L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, 1.f);
 			m_bOrbClearSoundOnce = false;
 
 			CEffect_Orb::EFFECT_ORB_DESC			EFFECTORB{};

@@ -61,7 +61,7 @@ HRESULT CBlock::Initialize(void* pArg)
 	//콜라이더오브젝트 추가
 	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
 
-	CQuizMgr::Get_Instance()->Add_Block(this);
+	CQuizMgr::Get_QuizInstance()->Add_Block(this);
 
 	return S_OK;
 }
@@ -72,7 +72,7 @@ void CBlock::Priority_Update(_float fTimeDelta)
 
 void CBlock::Update(_float fTimeDelta)
 {
-	CQuizMgr::Get_Instance()->Set_Block_State();
+	CQuizMgr::Get_QuizInstance()->Set_Block_State();
 
 	__super::Update(fTimeDelta);
 }
@@ -153,7 +153,7 @@ HRESULT CBlock::Change_State()
 		m_eAnimState = ANIM_UNBLOCK;
 
 		// 볼륨 설정
-		m_pGameInstance->Set_Volume(L"SFX_Block", LEVEL_STATIC, 0.2f);
+		m_pGameInstance->Set_Volume(L"SFX_Block", LEVEL_STATIC, 1.0f);
 		// 사운드 재생
 		m_pGameInstance->Play_Sound(L"SFX_Block", LEVEL_STATIC, false);
 		return S_OK;

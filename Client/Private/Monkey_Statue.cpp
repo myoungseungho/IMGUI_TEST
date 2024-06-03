@@ -63,7 +63,7 @@ HRESULT CMonkey_Statue::Initialize(void* pArg)
 
 	PrePos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	CQuizMgr::Get_Instance()->Add_MonkeyStatue(this);
+	CQuizMgr::Get_QuizInstance()->Add_MonkeyStatue(this);
 
 	return S_OK;
 }
@@ -117,7 +117,7 @@ void CMonkey_Statue::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		if (pCopyPlayer->Get_Player_CurState() == 2 && pCopyPlayer->Get_Player_CurState() == pCopyPlayer->Get_Player_PreState() && bIsChangeOnce)
 		{
-			CQuizMgr* pQuizManager = CQuizMgr::Get_Instance();
+			CQuizMgr* pQuizManager = CQuizMgr::Get_QuizInstance();
 
 			_uint iMonkeyIndex = pQuizManager->Find_Monkey_Index(this);
 
