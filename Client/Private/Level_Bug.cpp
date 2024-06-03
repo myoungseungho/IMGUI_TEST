@@ -13,7 +13,7 @@
 #include "Bush.h"
 #include "Boss_Bug.h"
 #include "Effect_Monster.h"
-
+#include "TravelNpc.h"
 CLevel_Bug::CLevel_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
 {
@@ -43,6 +43,9 @@ HRESULT CLevel_Bug::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_TravelNpc(TEXT("Layer_TravelNpc"))))
 		return E_FAIL;
 
 	// 사운드 재생
@@ -179,6 +182,18 @@ HRESULT CLevel_Bug::Ready_Layer_Player(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+
+HRESULT CLevel_Bug::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
+{
+	CTravelNpc::NPCDESC desc{};
+	desc.position = _float3(45.149f, 1.0f, 23.688f);
+	desc.scale = _float3(2.f, 2.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CLevel_Bug::ParseInitialize()
 {

@@ -217,7 +217,7 @@ void CPlayer::Update(_float fTimeDelta)
 
 			m_bBalloonOnce = false;
 		}
-	
+
 
 		if (!m_bIsMovingDown)
 		{
@@ -781,7 +781,7 @@ void CPlayer::Interaction_NPC(CGameObject* _npc)
 
 void CPlayer::Set_Npc_Talk(_bool _isOn)
 {
-	_uint level = m_pGameInstance->GetCurrentLevelIndex();
+	LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
 	CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
 	CUI_Npc_Talk* npcTalk = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
 
@@ -795,9 +795,9 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		if (npc)
 		{
 			vector<pair<wstring, wstring>> messages = {
-			{TEXT("최진영"), TEXT("아............\n어렵네요.....")},
-			{TEXT("최진영"), TEXT("잘 모르겠어요....... 아.... 어렵네요...")},
-			{TEXT("최진영"), TEXT("네엡")} };
+			{TEXT("주민"), TEXT("상점에서 물건을 구매해봐\n오른쪽에 있어")},
+			{TEXT("주민"), TEXT("물건을 사서 직접 착용해봐")},
+			};
 			npcTalk->SetNpcTalkMessages(messages);
 
 			//// 이펙트 수정
@@ -806,9 +806,31 @@ void CPlayer::Set_Npc_Talk(_bool _isOn)
 		}
 		else if (travel)
 		{
-			vector<pair<wstring, wstring>> messages = {
-		{TEXT("변수기"), TEXT("저 잠시 담타좀 하고 오겠슴다\n (연기를 내뿜으며) 후우...")},
-		{TEXT("변수기"), TEXT("내가 만든 퀴즈 맵 가볼래?")} };
+			vector<pair<wstring, wstring>> messages;
+			switch (level)
+			{
+			case Client::LEVEL_TACHO:
+				messages = {
+				{TEXT("슝슝이"), TEXT("변수기가 만든 퀴즈맵 가볼래?\n (담배 연기를 내뿜으며) 후우...")} };
+				break;
+			case Client::LEVEL_JUNGLE:
+				messages = {
+				{TEXT("슝슝이"), TEXT("최진영이 만든 잡몹맵 가볼래??")} };
+				break;
+			case Client::LEVEL_SNOW:
+				messages = {
+				{TEXT("슝슝이"), TEXT("최진영이 만든 쿠푸맵 가볼래??")} };
+				break;
+			case Client::LEVEL_KOOFU:
+				messages = {
+				{TEXT("슝슝이"), TEXT("최진영이 만든 누에맵 가볼래??")} };
+				break;
+			case Client::LEVEL_BUG:
+				messages = {
+				{TEXT("슝슝이"), TEXT("오구의 여행은 여기서 끝이야!")} };
+				break;
+			}
+
 			npcTalk->SetNpcTalkMessages(messages);
 		}
 		else if (shop)
@@ -1156,7 +1178,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 			if (m_bMoveLeft) {
 				Set_Direction(DIR_LEFTUP);
 				if (m_bCanMoveForward && m_bCanMoveLeft)
-					m_pTransformCom->Go_Straight_Left(fTimeDelta);		
+					m_pTransformCom->Go_Straight_Left(fTimeDelta);
 			}
 			else if (m_bMoveRight) {
 				Set_Direction(DIR_RIGHTUP);

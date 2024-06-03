@@ -12,6 +12,7 @@
 #include "TachoShop_Tile.h"
 #include "Bush.h"
 #include "Boss_Koofu.h"
+#include "TravelNpc.h"
 
 CLevel_Koofu::CLevel_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel_UI{ pGraphic_Device }
@@ -30,6 +31,9 @@ HRESULT CLevel_Koofu::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_TravelNpc(TEXT("Layer_TravelNpc"))))
 		return E_FAIL;
 
 	__super::Initialize();
@@ -171,6 +175,17 @@ HRESULT CLevel_Koofu::Ready_Layer_Player(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Koofu::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
+{
+	CTravelNpc::NPCDESC desc{};
+	desc.position = _float3(62.5f, 1.0f, 31.151f);
+	desc.scale = _float3(2.f, 2.f, 1.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CLevel_Koofu::ParseInitialize()
 {

@@ -73,7 +73,7 @@ void CLevel_Tacho::Update(_float fTimeDelta)
 	if (m_fElapsedTime >= 1.f && !m_bShakeCalled)
 	{
 		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
-		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
+		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.5f, 0.1f);
 		m_bShakeCalled = true;
 	}
 
