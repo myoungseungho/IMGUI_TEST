@@ -42,12 +42,12 @@ void CEffect_Shield::Priority_Update(_float fTimeDelta)
 
 void CEffect_Shield::Update(_float fTimeDelta)
 {
+	Destroy(fTimeDelta);
 }
 
 void CEffect_Shield::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CEffect_Shield::Render(_float fTimeDelta)

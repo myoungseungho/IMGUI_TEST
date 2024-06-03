@@ -65,13 +65,13 @@ void CMon_Copy_Koofu::Priority_Update(_float fTimeDelta)
 void CMon_Copy_Koofu::Update(_float fTimeDelta)
 {
 	Mon_State(fTimeDelta);
+	Destory();
 }
 
 void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
-	Destory();
 }
 
 HRESULT CMon_Copy_Koofu::Render(_float fTimeDelta)

@@ -48,12 +48,12 @@ void CEffect_Stun::Priority_Update(_float fTimeDelta)
 
 void CEffect_Stun::Update(_float fTimeDelta)
 {
+	Destroy(fTimeDelta);
 }
 
 void CEffect_Stun::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CEffect_Stun::Render(_float fTimeDelta)

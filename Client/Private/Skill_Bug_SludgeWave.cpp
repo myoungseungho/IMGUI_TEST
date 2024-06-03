@@ -47,12 +47,12 @@ void CSkill_Bug_SludgeWave::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_SludgeWave::Update(_float fTimeDelta)
 {
 	Move(fTimeDelta);
+	Destroy(fTimeDelta);
 }
 
 void CSkill_Bug_SludgeWave::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Bug_SludgeWave::Render(_float fTimeDelta)

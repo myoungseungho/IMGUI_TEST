@@ -51,13 +51,13 @@ void CSkill_Cannon_Ball::Priority_Update(_float fTimeDelta)
 void CSkill_Cannon_Ball::Update(_float fTimeDelta)
 {
 	Move(fTimeDelta);
+	Destory(fTimeDelta);
 }
 
 void CSkill_Cannon_Ball::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
-	Destory(fTimeDelta);
 }
 
 HRESULT CSkill_Cannon_Ball::Render(_float fTimeDelta)

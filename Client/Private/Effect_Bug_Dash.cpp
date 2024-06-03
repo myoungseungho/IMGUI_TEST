@@ -52,12 +52,12 @@ void CEffect_Bug_Dash::Update(_float fTimeDelta)
 	m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
 	_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 	m_pTransformCom->Radian_Turn(vRight, 270.f * D3DX_PI / 180.f);
+	Destroy(fTimeDelta);
 }
 
 void CEffect_Bug_Dash::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CEffect_Bug_Dash::Render(_float fTimeDelta)
