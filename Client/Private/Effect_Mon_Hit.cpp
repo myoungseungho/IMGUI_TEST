@@ -102,6 +102,7 @@ HRESULT CEffect_Mon_Hit::Ready_Components()
 HRESULT CEffect_Mon_Hit::Ready_Animation()
 {
 	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Mon_Hit"), TEXT("EFFECT_HIT"));
+	m_pAnimCom->Add_Animator(LEVEL_BUG, TEXT("Prototype_Component_AnimTexture_Mon_Hit"), TEXT("EFFECT_HIT"));
 
 	return S_OK;
 }
