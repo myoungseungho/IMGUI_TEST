@@ -56,6 +56,9 @@ private:
 	_bool m_bStunEffect = { false };
 	_float m_fAlpha = { 255.f };
 	_float m_fAlphaTimer = { 0.f };
+	_float m_fInitAlhpaTimer = { 0.f };
+
+	_float m_bHit = { false };
 public:
 	static CMon_Bear_Cannon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 

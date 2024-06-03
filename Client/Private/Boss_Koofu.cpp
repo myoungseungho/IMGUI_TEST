@@ -369,7 +369,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	}
 
 
-	if (m_tMonsterDesc.iHp <= 60)
+	if (m_tMonsterDesc.iHp <= 50)
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -411,7 +411,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		}
 	}
 
-	if (m_tMonsterDesc.iHp <= 20)
+	if (m_tMonsterDesc.iHp <= 25)
 	{
 		m_eMon_State = MON_STATE::MOVE;
 

@@ -4,7 +4,7 @@
 
 #include <fmod.h>
 #include "Engine_Defines.h"
-#include "Component.h"
+#include "Base.h"
 
 #define SOUND_MAX 1.0f
 #define SOUND_MIN 0.0f
@@ -52,6 +52,7 @@ public:
     virtual void Free() override;
 };
 
+END
+
 #endif
 
-END

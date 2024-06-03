@@ -28,6 +28,7 @@ public:
 	{
 		_uint iHp = { 0 };
 		_uint iAttack = { 0 };
+		_uint iSpawnNum = { 0 };
 		CTransform* pTargetTransform = { nullptr };
 	}MONSTER_DESC;
 
@@ -74,6 +75,8 @@ public:
 		Desc.pTargetTransform = m_pTransformCom;
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Hit"), TEXT("Layer_Hit"), &Desc);
 			
+		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", false);
+		m_pGameInstance->Sound_Play();
 	};
 
 	virtual void Set_Dead()
