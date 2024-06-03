@@ -181,6 +181,9 @@ private:
 public:
 	_bool m_bOpenShopAndInventory = false;
 	_bool m_bBalloonOnce = true;
+
+
+	_float m_fAngle = { 0.f };
 public:
 
 	/* 원형객체를 생성한다. */

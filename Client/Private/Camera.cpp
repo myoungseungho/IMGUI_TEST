@@ -68,6 +68,11 @@ void CCamera::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
+	if (m_bCameraStop)
+		return;
+	
+	
+
 	if (m_bIsMovingToTarget || m_bIsReturning)
 	{
 		UpdateCameraPosition(fTimeDelta);
@@ -80,6 +85,12 @@ void CCamera::Update(_float fTimeDelta)
 	if (m_bIsShaking)
 	{
 		UpdateShake(fTimeDelta);
+	}
+
+	if (!m_bEndStop)
+	{
+		m_pTransformCom->LookAt(m_pTargetTransform->Get_State(CTransform::STATE_POSITION));
+		m_bEndStop = true;
 	}
 
 	Bind_PipeLines();
@@ -191,6 +202,24 @@ void CCamera::ShakeCamera(_float fDuration, _float fMagnitude, _float fSpeed)
 	m_fShakeSpeed = fSpeed;
 	m_fShakeElapsedTime = 0.0f;
 	m_bIsShaking = true;
+}
+
+void CCamera::Circle_Moving(_float3 vPos , _float fDistance ,  _float fAngle,  _float Timer,_float fTimerDelta)
+{
+	m_fTimer += fTimerDelta;
+
+	if (m_fTimer <= Timer)
+	{
+		m_bCameraStop = true;
+		_float WarfPosX = vPos.x + fDistance * cos(fAngle * (D3DX_PI / 180.f));
+		_float WarfPosZ = vPos.z - fDistance * sin(fAngle * (D3DX_PI / 180.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, vPos.y, WarfPosZ));
+		m_pTransformCom->LookAt(vPos);
+	}
+	else
+	{
+		m_bCameraStop = false;
+	}
 }
 
 void CCamera::UpdateShake(_float fTimeDelta)

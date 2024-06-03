@@ -73,6 +73,10 @@ private:
 	_float m_fShakeSpeed = { 0.0f };
 	_float3 m_vOriginalPosition = {};
 
+	//Áø¿µ
+	_bool m_bCameraStop = { false };
+	_float m_fTimer = { 0.f };
+	_bool m_bEndStop = { false };
 public:
 	void MoveToTarget(_float fDuration, _float fDistance);
 	void ReturnToOriginalPosition(_float fDuration);
@@ -83,8 +87,10 @@ private:
 	_float3 Lerp(const _float3& start, const _float3& end, _float t);
 
 	void UpdateShake(_float fTimeDelta);
+
 public:
 	void ShakeCamera(_float fDuration, _float fMagnitude, _float fSpeed);
+	void Circle_Moving(_float3 vPos , _float fDistance , _float fAngle , _float Timer, _float fTimerDelta);
 
 public:
 	HRESULT Bind_PipeLines();

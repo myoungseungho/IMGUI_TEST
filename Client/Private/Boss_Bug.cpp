@@ -10,6 +10,7 @@
 #include "Effect_Monster.h"
 #include "Effect_Bug_Line.h"
 #include <UI_FadeInOut.h>
+#include <Camera.h>
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -65,6 +66,10 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 		m_bPosRange = true;
 	else
 		m_bPosRange = false;
+
+	CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+
+	static_cast<CCamera*>(cameraObject)->Circle_Moving(_float3(39.5f, 3.f, 36.f), 20.f, m_fAngle, 7.5f, fTimeDelta);
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
