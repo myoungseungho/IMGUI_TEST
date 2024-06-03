@@ -50,6 +50,9 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(30, 0.75f, 20));
 	 
 	Warf(49.f, 37.f, 7.f);
+
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", false);
+	m_pGameInstance->Sound_Play();
 	
 	return S_OK;
 }

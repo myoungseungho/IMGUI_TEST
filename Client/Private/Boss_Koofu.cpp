@@ -432,10 +432,15 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::STUN;
 
+		CEffect_Monster::EFFECT_MONSTER__DESC Desc = {};
+		Desc.pTargetTransform = m_pTransformCom;
+
 	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 	if (m_ePrev_State == MON_STATE::BULLET_C && m_pTimerCom->Time_Limit(fTimeDelta, 2.5f))
@@ -443,6 +448,8 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_eMon_State = MON_STATE::BULLET_C;
 		m_bHitCheck = false;
 		m_bWarf = false;
+		
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 	}
 
 }
@@ -925,6 +932,8 @@ CGameObject* CBoss_Koofu::Clone(void* pArg)
 
 void CBoss_Koofu::Free()
 {
+	m_pGameInstance->Sound_Stop();
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);

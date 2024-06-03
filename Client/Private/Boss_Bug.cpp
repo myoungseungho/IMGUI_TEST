@@ -662,6 +662,8 @@ CGameObject* CBoss_Bug::Clone(void* pArg)
 
 void CBoss_Bug::Free()
 {
+	m_pGameInstance->Sound_Stop();
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pVIBufferCom);
