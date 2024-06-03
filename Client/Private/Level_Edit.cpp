@@ -47,6 +47,23 @@ HRESULT CLevel_Edit::Initialize()
 void CLevel_Edit::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
+
+	// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 1.f && !m_bShakeCalled)
+	{
+		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.5f, 0.1f);
+		m_bShakeCalled = true;
+	}
+
+	// 3초가 지나고, Level_Tacho_Start1 함수가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 3.0f && !m_bStart1Called)
+	{
+		Level_Tacho_Start1();
+		m_bStart1Called = true;
+	}
 }
 
 HRESULT CLevel_Edit::Render()
@@ -137,6 +154,11 @@ HRESULT CLevel_Edit::Ready_LandObjects()
 		return E_FAIL;*/
 
 	return S_OK;
+}
+
+void CLevel_Edit::Level_Edit_Start1()
+{
+
 }
 
 HRESULT CLevel_Edit::Ready_Layer_Player(const _wstring& strLayerTag)
