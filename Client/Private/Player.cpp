@@ -779,7 +779,7 @@ void CPlayer::Player_Damaged()
 	if (m_bCanDamaged && m_bForTestDamaged != false)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_OguHit", LEVEL_STATIC, false);
-
+		m_pGameInstance->Set_Volume(L"SFX_OguHit", LEVEL_STATIC, 0.7f);
 
 		--m_iPlayerHp;
 	}
