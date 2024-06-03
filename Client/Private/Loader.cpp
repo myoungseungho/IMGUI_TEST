@@ -96,6 +96,7 @@
 #include "Effect_Monkey_Dust.h"
 #include "Effect_Mon_Hit.h"
 #include "Effect_PushStone.h"
+#include "Effect_Orb.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -312,6 +313,10 @@ HRESULT CLoader::Loading_For_Jungle()
 	/* 텍스쳐를 로드한다. */
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐를 로딩 중 입니다."));
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_Orb"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/CircleBlur/CircleBlur_0.png"), 1))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Effect_PushStone"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_JungleSunAltarRewardClouds_4.png"), 1))))
 		return E_FAIL;
@@ -477,6 +482,10 @@ HRESULT CLoader::Loading_For_Jungle()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_PushStone"),
 		CEffect_PushStone::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Orb"),
+		CEffect_Orb::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;
