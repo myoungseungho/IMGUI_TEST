@@ -114,7 +114,7 @@ CSound* CSound::Create()
 
 void CSound::Free()
 {
-    FMOD_Sound_Release(m_sound);
+    //FMOD_Sound_Release(m_sound);
 
     __super::Free();
 }

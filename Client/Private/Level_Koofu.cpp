@@ -49,6 +49,8 @@ HRESULT CLevel_Koofu::Initialize()
 	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", true);
 	m_pGameInstance->Sound_Play();
 
+	m_pGameInstance->Sound_Volume_Level(0.2f);
+
 	return S_OK;
 }
 

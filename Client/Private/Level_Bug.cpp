@@ -48,7 +48,7 @@ HRESULT CLevel_Bug::Initialize()
 	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", true);
 	m_pGameInstance->Sound_Play();
 	
-	
+	m_pGameInstance->Sound_Volume_Level(0.2f);
 
 	return S_OK;
 }
