@@ -243,5 +243,7 @@ CLevel_Tacho* CLevel_Tacho::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Tacho::Free()
 {
+	m_pGameInstance->Sound_Stop();
+
 	__super::Free();
 }

@@ -23,7 +23,7 @@ private:
 
     float m_volume;
     FMOD_BOOL m_bool;
-
+    CSound* m_me;
   
 private:
     CSound();
@@ -43,9 +43,8 @@ public:
     int Sound_VolumeUp();
     int Sound_VolumeDown();
     int Sound_Update();
-
     int Sound_Volume_Level(_float fVolume);
-    int a = 10;
+
 private:
     _uint										m_iNumLevels = { 0 };
     map<const _wstring, const char*> * m_pPrototypes = { nullptr };
