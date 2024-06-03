@@ -37,6 +37,8 @@ void CLevel_Loading::Update(_float fTimeDelta)
 	{
 		CLevel* pNextLevel = { nullptr };
 
+		m_pGameInstance->Stop_All_Sounds(LEVEL_STATIC);
+
 		switch (m_eNextLevelID)
 		{
 		case LEVEL_TACHO:

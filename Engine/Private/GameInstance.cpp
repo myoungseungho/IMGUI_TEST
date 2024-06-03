@@ -361,6 +361,14 @@ void CGameInstance::Set_Volume(const wstring& filePath, _uint levelId, float vol
 
 }
 
+void CGameInstance::Stop_All_Sounds(_uint levelId)
+{
+	if (m_pSoundManager == nullptr)
+		return;
+
+	return m_pSoundManager->Stop_All_Sounds(levelId);
+}
+
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pSoundManager);

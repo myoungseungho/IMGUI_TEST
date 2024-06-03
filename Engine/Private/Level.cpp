@@ -73,8 +73,8 @@ HRESULT CLevel::ParseInitialize()
 
 void CLevel::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);
+
+	__super::Free();
 }

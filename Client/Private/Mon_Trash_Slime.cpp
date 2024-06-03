@@ -354,8 +354,7 @@ void CMon_Trash_Slime::Destory()
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_34_MonsterGarbage_Death.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_MonsterGarbage_Death", LEVEL_STATIC, false);
 
 		Safe_Release(pThis);
 	}
@@ -378,8 +377,8 @@ void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_33_MonsterGarbage_Hit.wav", false);
-		m_pGameInstance->Sound_Play();
+		m_pGameInstance->Play_Sound(L"SFX_MonsterGarbage_Hit", LEVEL_STATIC, false);
+
 
 		m_bMoveStop = true;
 		m_bHit = true;

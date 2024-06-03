@@ -69,10 +69,12 @@ public: /* For.Picking */
 	_bool Picked_InWorldSpace(const _float3* pPointA, const _float3* pPointB, const _float3* pPointC, _float3* pPickPos);
 
 public: /* For.Sound*/
-	HRESULT Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
-	HRESULT Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
-	HRESULT Stop_Sound(const std::wstring& alias, _uint levelId);
-	HRESULT Set_Volume(const std::wstring& alias, _uint levelId, float volume);
+	void Register_Sound(const std::wstring& filePath, const std::wstring& alias, int channel, _uint levelId, _uint soundType);
+	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
+	void Stop_Sound(const std::wstring& alias, _uint levelId);
+	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
+	void Stop_All_Sounds(_uint levelId);
+
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
 	class CLevel_Manager* m_pLevel_Manager = { nullptr };

@@ -29,7 +29,7 @@ public:
 	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
 	void Stop_Sound(const std::wstring& alias, _uint levelId);
 	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
-
+	void Stop_All_Sounds(_uint levelId);
 private:
 	FMOD_SYSTEM* m_pSoundSystem;
 	map<wstring, FMOD_SOUND*>* m_soundMap;

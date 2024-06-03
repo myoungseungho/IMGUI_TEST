@@ -42,7 +42,7 @@ private:
 	CGameInstance*				m_pGameInstance = { nullptr };
 
 private:
-
+	void Ready_Sound();
 	HRESULT Loading_For_Tacho();
 	HRESULT Loading_For_Jungle();
 	HRESULT Loading_For_Snow();

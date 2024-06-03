@@ -111,6 +111,16 @@ void CSound_Manager::Set_Volume(const std::wstring& alias, _uint levelId, float 
     }
 }
 
+void CSound_Manager::Stop_All_Sounds(_uint levelId)
+{
+    if (levelId >= m_iNumLevels) return;
+
+    for (auto& pair : m_channelMap[levelId])
+    {
+        FMOD_Channel_Stop(pair.second);
+    }
+}
+
 
 CSound_Manager* CSound_Manager::Create(_uint iNumLevels)
 {

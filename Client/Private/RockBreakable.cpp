@@ -108,9 +108,8 @@ void CRockBreakable::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 	if (dynamic_cast<CSkill_Player*>(otherObject))
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_224_OguSmashEffect3.wav", false);
-		m_pGameInstance->Sound_Play();
-		m_pGameInstance->Sound_Volume_Level(1.0f);
+		m_pGameInstance->Play_Sound(L"SFX_OguSmashEffect3", LEVEL_STATIC, false);
+
 
 		m_eAnimState = ANIM_DIE;
 		return;

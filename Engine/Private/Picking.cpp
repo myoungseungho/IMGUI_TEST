@@ -116,7 +116,7 @@ CPicking * CPicking::Create(LPDIRECT3DDEVICE9 pGraphic_Device, HWND hWnd)
 
 void CPicking::Free()
 {
-	__super::Free();
-
 	Safe_Release(m_pGraphic_Device);
+
+	__super::Free();
 }

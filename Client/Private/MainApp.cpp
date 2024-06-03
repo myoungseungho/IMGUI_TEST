@@ -86,8 +86,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(g_hWnd, LEVEL_END, g_iWinSizeX, g_iWinSizeY, &m_pGraphic_Device)))
 		return E_FAIL;
 
-	CSound::Init();
-
 	if (FAILED(SetUp_DefaultState()))
 		return E_FAIL;
 
@@ -96,6 +94,8 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Prototype_GameObject()))
 		return E_FAIL;
+
+	//Ready_Sound();
 
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(g_hWnd);
@@ -1442,59 +1442,6 @@ HRESULT CMainApp::Ready_Prototype_GameObject()
 		return E_FAIL;
 }
 
-HRESULT CMainApp::Ready_Sound()
-{
-	// 예시: Block 사운드 등록
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_254_Rhino_Rush.wav", L"SFX_Block", 0, LEVEL_STATIC, SOUND_SFX);
-
-	// 나머지 사운드 등록
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_446_QuestClear.wav", L"SFX_QuestClear", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_24_LeafBushTouch.wav", L"SFX_LeafBushTouch", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_25_LeafBushRemove.wav", L"SFX_LeafBushRemove", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", L"SFX_BearWhiteGuard_Hit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_27_StonePressBlock_On.wav", L"SFX_StonePressBlock_On", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", L"BGM_MoonPowerPlant", 0, LEVEL_STATIC, SOUND_BGM);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_4_JungleAreaField2.wav", L"BGM_JungleAreaField2", 0, LEVEL_STATIC, SOUND_BGM);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_71_SnowFinalBoss.wav", L"BGM_SnowFinalBoss", 0, LEVEL_STATIC, SOUND_BGM);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/BGM_37_SnowAreaField2.wav", L"BGM_SnowAreaField2", 0, LEVEL_STATIC, SOUND_BGM);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_695_BearWhiteGuard_Walk.wav", L"SFX_BearWhiteGuard_Walk", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_705_BearWhiteGuard_Attack.wav", L"SFX_BearWhiteGuard_Attack", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_694_BearWhiteGuard_Death.wav", L"SFX_BearWhiteGuard_Death", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_710_Koofu_Teleport.wav", L"SFX_Koofu_Teleport", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_59_FruitThrow.wav", L"SFX_FruitThrow", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_711_Koofu_Fake.wav", L"SFX_Koofu_Fake", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_34_MonsterGarbage_Death.wav", L"SFX_MonsterGarbage_Death", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_33_MonsterGarbage_Hit.wav", L"SFX_MonsterGarbage_Hit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_26_StonePushable_Push.wav", L"SFX_StonePushable_Push", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_224_OguSmashEffect3.wav", L"SFX_OguSmashEffect3", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_113_BossMoonMoth_Hit.wav", L"SFX_BossMoonMoth_Hit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_116_BossMoonMoth_Fly.wav", L"SFX_BossMoonMoth_Fly", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_106_MonsterBugColorBeatle_In.wav", L"SFX_MonsterBugColorBeatle_In", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_112_BossMoonMoth_BulletAttack.wav", L"SFX_BossMoonMoth_BulletAttack", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_117_BossMoonMoth_Death.wav", L"SFX_BossMoonMoth_Death", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_115_BossMoonMoth_Soar.wav", L"SFX_BossMoonMoth_Soar", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_118_BossMoonMoth_Down.wav", L"SFX_BossMoonMoth_Down", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_717_Koofu_GiantWalk1.wav", L"SFX_Koofu_GiantWalk1", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_712_Koofu_Damage.wav", L"SFX_Koofu_Damage", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_716_Koofu_GiantIn.wav", L"SFX_Koofu_GiantIn", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_721_Koofu_Death.wav", L"SFX_Koofu_Death", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_108_MonsterBugColorBeatle_Death.wav", L"SFX_MonsterBugColorBeatle_Death", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_107_MonsterBugColorBeatle_Hit.wav", L"SFX_MonsterBugColorBeatle_Hit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_94_BugBallHit.wav", L"SFX_BugBallHit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_96_MonsterPlantCannon_Shoot.wav", L"SFX_MonsterPlantCannon_Shoot", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_479_FruitBounce.wav", L"SFX_FruitBounce", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_82_MonsterBugRolling_Rolling.wav", L"SFX_MonsterBugRolling_Rolling", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_28_StonePressBlock_Off.wav", L"SFX_StonePressBlock_Off", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_252_OguCritical.wav", L"SFX_OguCritical", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", L"SFX_OguBalloon_In", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_95_OguHit.wav", L"SFX_OguHit", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_1_Swing1_2.wav", L"SFX_Swing1_2", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_158_HoleFall.wav", L"SFX_HoleFall", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_4_Walk_Ground_1.wav", L"SFX_Walk_Ground_1", 0, LEVEL_STATIC, SOUND_SFX);
-	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_595_MapStep2Open.wav", L"SFX_MapStep2Open", 0, LEVEL_STATIC, SOUND_SFX);
-}
-
-
 CMainApp* CMainApp::Create()
 {
 	CMainApp* pInstance = new CMainApp();
@@ -1515,8 +1462,6 @@ void CMainApp::Free()
 	ImGui::DestroyContext();
 
 	__super::Free();
-
-	CSound::Release();
 
 	Safe_Release(m_pGraphic_Device);
 

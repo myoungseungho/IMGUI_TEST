@@ -54,7 +54,11 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	m_pGameInstance->Play_Sound(TEXT("../Bin/SoundSDK/AudioClip/BGM_0_Null.wav"), LEVEL_TACHO);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_0_Null", LEVEL_STATIC, 0.2f);
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_0_Null", LEVEL_STATIC, true);
+
 
 	return S_OK;
 }

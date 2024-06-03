@@ -112,8 +112,7 @@ void CBox::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_Item_Skill"), TEXT("Layer_Item_Skill"), &ITEMSKILLDESC);
 
 		// 사운드 재생
-		if (FAILED(m_pGameInstance->Play_Sound(L"SFX_QuestClear", LEVEL_STATIC, false)))
-			return E_FAIL;
+		m_pGameInstance->Play_Sound(L"SFX_QuestClear", LEVEL_STATIC, false);
 	}
 }
 

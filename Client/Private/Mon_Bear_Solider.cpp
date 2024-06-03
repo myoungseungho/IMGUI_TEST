@@ -266,8 +266,11 @@ void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_693_BearWhiteGuard_Hit.wav", false);
-		m_pGameInstance->Sound_Play();
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
+
+		// 볼륨 설정
+		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, 0.2f);
 
 		m_bMoveStop = true;
 		m_bHit = true;
@@ -494,8 +497,10 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 
 	if(m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_695_BearWhiteGuard_Walk.wav", false);
-		m_pGameInstance->Sound_Play();
+		// 볼륨 설정
+		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Walk", LEVEL_STATIC, 0.2f);
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Walk", LEVEL_STATIC, false);
 	}
 
 	if(!m_bMoveStop)
@@ -530,8 +535,8 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 
 	if (m_fAttackTimer >= 1.f)
 	{
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_705_BearWhiteGuard_Attack.wav", false);
-		m_pGameInstance->Sound_Play();
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Attack", LEVEL_STATIC, false);
 
 		m_fAttackTimer = 0.f;
 	}
@@ -578,8 +583,8 @@ void CMon_Bear_Solider::State_Stun(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Stun"), TEXT("Layer_Effect_Stun"), &Desc);
 
-		m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_694_BearWhiteGuard_Death.wav", false);
-		m_pGameInstance->Sound_Play();
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Death", LEVEL_STATIC, false);
 
 		m_bStunEffect = true;
 	}

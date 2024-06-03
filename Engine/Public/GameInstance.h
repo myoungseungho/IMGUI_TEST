@@ -73,6 +73,8 @@ public: /* For.Sound*/
 	void Play_Sound(const std::wstring& alias, _uint levelId, bool loop);
 	void Stop_Sound(const std::wstring& alias, _uint levelId);
 	void Set_Volume(const std::wstring& alias, _uint levelId, float volume);
+	void Stop_All_Sounds(_uint levelId);
+
 private:
 	class CGraphic_Device* m_pGraphic_Device = { nullptr };
 	class CLevel_Manager* m_pLevel_Manager = { nullptr };

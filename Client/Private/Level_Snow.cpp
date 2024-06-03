@@ -47,10 +47,11 @@ HRESULT CLevel_Snow::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 	
-	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_37_SnowAreaField2.wav", true);
-	m_pGameInstance->Sound_Play();
+	// 사운드 재생
+	m_pGameInstance->Play_Sound(L"BGM_SnowAreaField2", LEVEL_STATIC, true);
 
-	m_pGameInstance->Sound_Volume_Level(0.2f);
+	// 볼륨 설정
+	m_pGameInstance->Set_Volume(L"BGM_SnowAreaField2", LEVEL_STATIC, 0.2f);
 
 	//int horizontalTiles = 14; // 예시로 가로 13 타일
 	//int verticalTiles = 2; // 예시로 세로 5 타일
@@ -224,6 +225,5 @@ CLevel_Snow* CLevel_Snow::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Snow::Free()
 {
-	m_pGameInstance->Sound_Stop();
 	__super::Free();
 }

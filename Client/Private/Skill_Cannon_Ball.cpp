@@ -39,8 +39,7 @@ HRESULT CSkill_Cannon_Ball::Initialize(void* pArg)
 	//생성 위치
 	Move_Dir();
 
-	if (FAILED(m_pGameInstance->Play_Sound(L"SFX_MonsterPlantCannon_Shoot", LEVEL_STATIC, false)))
-		return E_FAIL;
+	m_pGameInstance->Play_Sound(L"SFX_MonsterPlantCannon_Shoot", LEVEL_STATIC, false);
 	
 	return S_OK;
 }
