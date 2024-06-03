@@ -28,7 +28,6 @@ HRESULT CSkill_Bug_SludgeWave::Initialize(void* pArg)
 	m_tSkill_Desc.iBulletCnt = pDesc->iBulletCnt;
 	Safe_AddRef(m_pTargetTransform);
 
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -47,12 +46,12 @@ void CSkill_Bug_SludgeWave::Priority_Update(_float fTimeDelta)
 void CSkill_Bug_SludgeWave::Update(_float fTimeDelta)
 {
 	Move(fTimeDelta);
+	Destroy(fTimeDelta);
 }
 
 void CSkill_Bug_SludgeWave::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Bug_SludgeWave::Render(_float fTimeDelta)
@@ -136,9 +135,12 @@ void CSkill_Bug_SludgeWave::Move(_float fTimeDelta)
 void CSkill_Bug_SludgeWave::Destroy(_float fTimeDelta)
 {
 	CSkill_Bug_SludgeWave* pThis = this;
+	_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.5f))
+	if (vPos.x >= 39.f && vPos.x <= 40.f && vPos.z >= 35.f && vPos.z <= 37.f)
+	{
 		Safe_Release(pThis);
+	}
 }
 
 HRESULT CSkill_Bug_SludgeWave::Begin_RenderState()

@@ -53,6 +53,7 @@ private:
 
 	_bool m_bPlayerAttack = { false };
 	_bool m_bBulletHit = { false };
+	_bool m_bHitStop = { false };
 	
 public:
 	static CSkill_Bug_Bullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

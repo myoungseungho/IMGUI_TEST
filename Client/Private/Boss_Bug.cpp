@@ -506,9 +506,11 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 			m_ePrev_State = MON_STATE::DASH;
 			m_eMon_State = MON_STATE::STUN;
 			m_bStartDash = false;
+
+			Turtle_Create();
 		}
 
-		if(m_pTimerCom->Time_Limit(_fTimeDelta, 1.f))
+		if(m_pTimerCom->Time_Limit(_fTimeDelta, 1.f) && !m_isTurtle)
 		{
 			Turtle_Create();
 			m_isTurtle = true;
@@ -519,7 +521,6 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 void CBoss_Bug::State_Fly(_float  _fTimeDelta)
 {
-	m_isTurtle = false;
 	Fly(_fTimeDelta);
 }
 
@@ -589,7 +590,6 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 		m_eMon_State = MON_STATE::DEATH;
 	}
 		
-
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:

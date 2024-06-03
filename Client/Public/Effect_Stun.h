@@ -31,7 +31,10 @@ private:
 
 private:
 	void Destroy(_float fTimeDelta);
+	void LevelDestroyTimer();
 
+private:
+	_float m_fDestroyTimer = { 0.f };
 
 public:
 	static CEffect_Stun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

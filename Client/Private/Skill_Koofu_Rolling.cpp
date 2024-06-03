@@ -53,13 +53,13 @@ void CSkill_Koofu_Rolling::Priority_Update(_float fTimeDelta)
 void CSkill_Koofu_Rolling::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Backward(fTimeDelta);
+	Destroy(fTimeDelta);
 }
 
 void CSkill_Koofu_Rolling::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 
-	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Koofu_Rolling::Render(_float fTimeDelta)

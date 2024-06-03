@@ -44,12 +44,12 @@ void CEffect_Bug_Down::Priority_Update(_float fTimeDelta)
 
 void CEffect_Bug_Down::Update(_float fTimeDelta)
 {
+	Destroy(fTimeDelta);
 }
 
 void CEffect_Bug_Down::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CEffect_Bug_Down::Render(_float fTimeDelta)

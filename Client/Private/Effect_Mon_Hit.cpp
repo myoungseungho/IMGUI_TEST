@@ -48,12 +48,12 @@ void CEffect_Mon_Hit::Priority_Update(_float fTimeDelta)
 
 void CEffect_Mon_Hit::Update(_float fTimeDelta)
 {
+	Destroy(fTimeDelta);
 }
 
 void CEffect_Mon_Hit::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CEffect_Mon_Hit::Render(_float fTimeDelta)

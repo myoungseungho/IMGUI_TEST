@@ -70,8 +70,6 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 
  	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fAttackRange = D3DXVec3Length(&m_vTargetDistance);
-
-	
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
@@ -96,13 +94,14 @@ void CMon_Trash_Slime::Update(_float fTimeDelta)
 
 	}
 
+	Destory();
 	Mon_State(fTimeDelta);
 }
 
 void CMon_Trash_Slime::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
-	Destory();
+
 }
 
 HRESULT CMon_Trash_Slime::Render(_float fTimeDelta)

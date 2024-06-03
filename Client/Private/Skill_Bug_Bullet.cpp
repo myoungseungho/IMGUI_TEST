@@ -58,18 +58,19 @@ void CSkill_Bug_Bullet::Priority_Update(_float fTimeDelta)
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		m_bBulletHit = true;
+		m_bHitStop = true;
 	}
 }
 
 void CSkill_Bug_Bullet::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Backward(fTimeDelta);
+	Destroy(fTimeDelta);
 }
 
 void CSkill_Bug_Bullet::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	Destroy(fTimeDelta);
 }
 
 HRESULT CSkill_Bug_Bullet::Render(_float fTimeDelta)
@@ -188,11 +189,13 @@ void CSkill_Bug_Bullet::OnCollisionEnter(class CCollider* other, _float fTimeDel
 	if (dynamic_cast<CBoss_Bug*>(otherObject) && m_bBulletHit)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_BugBallHit", LEVEL_STATIC, false);
-
-
 		m_bBulletHit = false;
 	}
 
+	if (!m_bHitStop)
+	{
+		m_pGameInstance->Play_Sound(L"SFX_BugBallHit", LEVEL_STATIC, false);
+	}
 }
 
 void CSkill_Bug_Bullet::OnCollisionStay(CCollider* other, _float fTimeDelta)

@@ -74,7 +74,6 @@ void CLayer::Priority_Update(_float fTimeDelta)
 	{
 		if ((*it)->m_Died)
 		{
-			*it = nullptr;
 			Safe_Release(*it);
 			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
 			continue; // 다음 반복으로 이동
@@ -93,7 +92,6 @@ void CLayer::Update(_float fTimeDelta)
 	{
 		if ((*it)->m_Died)
 		{
-			*it = nullptr;
 			Safe_Release(*it);
 			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
 			continue; // 다음 반복으로 이동
@@ -112,7 +110,6 @@ void CLayer::Late_Update(_float fTimeDelta)
 	{
 		if ((*it)->m_Died)
 		{
-			*it = nullptr;
 			Safe_Release(*it);
 			it = m_GameObjects.erase(it); // 현재 요소를 제거하고 반복기 업데이트
 			continue; // 다음 반복으로 이동
