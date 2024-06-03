@@ -1270,7 +1270,7 @@ HRESULT CPlayer::Key_Input(_float fTimeDelta)
 		else
 			m_pTransformCom->Set_Speed(3.f);
 
-		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState != STATE_HIT)
+		if (m_pKeyCom->Key_Down('A') && m_ePlayerCurState != STATE_HIT && m_ePlayerCurState != STATE_ATTACK)
 		{
 			m_bAttack = true;
 			m_ePlayerCurState = (STATE_ATTACK);
