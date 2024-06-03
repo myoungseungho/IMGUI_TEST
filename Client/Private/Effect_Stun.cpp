@@ -102,7 +102,7 @@ HRESULT CEffect_Stun::Ready_Components()
 
 HRESULT CEffect_Stun::Ready_Animation()
 {
-	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Stun"), TEXT("EFFECT_STUN"));
+	m_pAnimCom->Add_Animator(LEVEL_SNOW, TEXT("Prototype_Component_AnimTexture_Koofu_Stun"), TEXT("EFFECT_STUN"));
 	return S_OK;
 }
 

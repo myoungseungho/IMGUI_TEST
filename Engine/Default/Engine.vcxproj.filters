@@ -103,8 +103,8 @@
     <Filter Include="01.Utility\06.Sound">
       <UniqueIdentifier>{9d765f36-0c7d-42e7-a6dd-80dbc58dc0be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\04.Components\Sound">
-      <UniqueIdentifier>{154f51e8-019a-4f7a-833c-2cb78e0e7a09}</UniqueIdentifier>
+    <Filter Include="01.Utility\06.Sound\Manager">
+      <UniqueIdentifier>{b9343d86-a02e-4dcb-ba17-fb7d7260a5c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +190,7 @@
       <Filter>01.Utility\00.GameInstance</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Sound.cpp">
-      <Filter>01.Utility\04.Components\Sound</Filter>
+      <Filter>01.Utility\06.Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +291,7 @@
       <Filter>01.Utility\02.GameObjects\BlendObject</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Sound.h">
-      <Filter>01.Utility\04.Components\Sound</Filter>
+      <Filter>01.Utility\06.Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

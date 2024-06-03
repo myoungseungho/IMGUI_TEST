@@ -94,6 +94,8 @@ private:
 
 	_float m_fHitTimer = { 0.f };
 
+	_float m_fAlphaTimer = { 0.f };
+	_float m_fAlpha = { 0.f };
 public:
 	static CBoss_Bug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg = nullptr) override;

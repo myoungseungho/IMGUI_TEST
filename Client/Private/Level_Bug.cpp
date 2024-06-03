@@ -48,7 +48,7 @@ HRESULT CLevel_Bug::Initialize()
 	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_38_MoonPowerPlant.wav", true);
 	m_pGameInstance->Sound_Play();
 	
-	
+	m_pGameInstance->Sound_Volume_Level(0.2f);
 
 	return S_OK;
 }
@@ -202,5 +202,7 @@ CLevel_Bug* CLevel_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Bug::Free()
 {
+	m_pGameInstance->Sound_Stop();
+
 	__super::Free();
 }
