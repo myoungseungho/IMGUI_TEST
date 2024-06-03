@@ -37,7 +37,7 @@ private:
 private:
 	_float m_fElapsedTime = 0.0f; // 경과 시간
 	_bool m_bStart1Called = false; // Level_Tacho_Start1 함수 호출 여부
-
+	_bool m_bShakeCalled = false;
 public:
 	static CLevel_Tacho* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual void Free() override;

@@ -54,6 +54,10 @@ HRESULT CLevel_Tacho::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
+	m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/BGM_0_Null.wav", true);
+	m_pGameInstance->Sound_Play();
+	m_pGameInstance->Sound_Volume_Level(0.2f);
+
 	return S_OK;
 }
 
@@ -63,13 +67,22 @@ void CLevel_Tacho::Update(_float fTimeDelta)
 
 	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 
-	// 2초가 지나고, Level_Tacho_Start1 함수가 아직 호출되지 않았다면 호출
-	if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
+	// 1초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 1.f && !m_bShakeCalled)
+	{
+		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+		static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
+		m_bShakeCalled = true;
+	}
+
+	// 3초가 지나고, Level_Tacho_Start1 함수가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 3.0f && !m_bStart1Called)
 	{
 		Level_Tacho_Start1();
 		m_bStart1Called = true;
 	}
 }
+
 
 HRESULT CLevel_Tacho::Render()
 {
@@ -166,7 +179,7 @@ HRESULT CLevel_Tacho::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
 	desc.position = _float3(54.672f, 1.0f, 28.539f);
 	desc.scale = _float3(2.f, 2.f, 1.f);
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag,&desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_TACHO, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -208,8 +221,8 @@ void CLevel_Tacho::Level_Tacho_Start1()
 	{
 		npcTalkUI->SetIsNpcTalkOn(true);
 		vector<pair<wstring, wstring>> messages = {
-			{TEXT("144기 요정"), TEXT("SR을 시연회를 시작해볼까?")},
-			{TEXT("144기 요정"), TEXT("ㄱㄱㄱ")}
+			{TEXT("144기 요정"), TEXT("으악! 머리가 아파")},
+			{TEXT("144기 요정"), TEXT("여기가 어디지?")}
 		};
 		npcTalkUI->SetNpcTalkMessages(messages);
 	}

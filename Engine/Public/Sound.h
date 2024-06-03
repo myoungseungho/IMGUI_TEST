@@ -23,7 +23,7 @@ private:
 
     float m_volume;
     FMOD_BOOL m_bool;
-
+    CSound* m_me;
   
 private:
     CSound();
@@ -43,7 +43,6 @@ public:
     int Sound_VolumeUp();
     int Sound_VolumeDown();
     int Sound_Update();
-
     int Sound_Volume_Level(_float fVolume);
 
 private:

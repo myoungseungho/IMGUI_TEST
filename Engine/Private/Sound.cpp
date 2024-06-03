@@ -31,13 +31,14 @@ int CSound::Init() {
     FMOD_System_Create(&g_sound_system, FMOD_VERSION);
     FMOD_System_Init(g_sound_system, 32, FMOD_INIT_NORMAL, 0);
 
+    
     return 0;
 }
 
 int CSound::Release() {
     FMOD_System_Close(g_sound_system);
     FMOD_System_Release(g_sound_system);
-
+    //FMOD_Sound_Release(m_sound);
     return 0;
 }
 
@@ -114,7 +115,5 @@ CSound* CSound::Create()
 
 void CSound::Free()
 {
-    FMOD_Sound_Release(m_sound);
-
     __super::Free();
 }
