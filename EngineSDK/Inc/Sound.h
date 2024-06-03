@@ -13,7 +13,7 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CSound final :public CBase
+class CSound final :public CBase
 {
 private:
     static FMOD_SYSTEM* g_sound_system;
