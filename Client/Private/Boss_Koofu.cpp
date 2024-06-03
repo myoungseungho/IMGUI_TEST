@@ -932,8 +932,6 @@ CGameObject* CBoss_Koofu::Clone(void* pArg)
 
 void CBoss_Koofu::Free()
 {
-	m_pGameInstance->Sound_Stop();
-
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
@@ -941,6 +939,6 @@ void CBoss_Koofu::Free()
 	Safe_Release(m_pColliderCom);
 
 	m_pGameInstance->Release_Collider(m_pColliderCom);
-
 	__super::Free();
+
 }
