@@ -181,11 +181,19 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
+		if (m_bBalloonUpOnce)
+		{
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_234_OguBalloon_Out.wav", false);
+			m_pGameInstance->Sound_Play();
+			m_pGameInstance->Sound_Volume_Level(1.0f);
+			m_bBalloonUpOnce = false;
+		}
+
 		if (!m_bIsMovingUp)
 		{
 			// 초기 설정
 			m_fElapsedTime = 0.0f;
-			m_fDuration = 5.0f; // 예를 들어 2초 동안 이동
+			m_fDuration = 3.0f; // 예를 들어 2초 동안 이동
 			m_fInitialY = m_pTransformCom->Get_State(CTransform::STATE_POSITION).y;
 			m_fTargetY = m_fInitialY + 10.0f; // y값을 5만큼 증가
 			m_bIsMovingUp = true;
@@ -212,12 +220,12 @@ void CPlayer::Update(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_Scaled(_float3(3.f, 3.f, 1.f));
 
-		if (m_bBalloonOnce)
+		if (m_bBalloonDownOnce)
 		{
 			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_235_OguBalloon_In.wav", false);
 			m_pGameInstance->Sound_Play();
 			m_pGameInstance->Sound_Volume_Level(1.0f);
-			m_bBalloonOnce = false;
+			m_bBalloonDownOnce = false;
 		}
 	
 
@@ -1507,7 +1515,7 @@ void CPlayer::Player_AnimState(_float _fTimeDelta)
 		}
 		break;
 	case STATE_BALLON_UP:
-		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 2.0f, _fTimeDelta, false);
+		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Up"), 3.5f, _fTimeDelta, false);
 		break;
 	case STATE_BALLON_DOWN:
 		m_pAnimCom->Play_Animator(TEXT("Player_Ballon_Down"), 2.0f, _fTimeDelta, false);
