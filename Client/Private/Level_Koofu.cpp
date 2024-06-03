@@ -55,6 +55,8 @@ HRESULT CLevel_Koofu::Initialize()
 void CLevel_Koofu::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+	m_pGameInstance->Sound_Update();
 }
 
 HRESULT CLevel_Koofu::Render()
@@ -191,5 +193,7 @@ CLevel_Koofu* CLevel_Koofu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Koofu::Free()
 {
+	m_pGameInstance->Sound_Stop();
+
 	__super::Free();
 }

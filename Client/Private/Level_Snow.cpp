@@ -223,5 +223,6 @@ CLevel_Snow* CLevel_Snow::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 void CLevel_Snow::Free()
 {
 	m_pGameInstance->Sound_Stop();
+
 	__super::Free();
 }
