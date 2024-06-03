@@ -110,7 +110,7 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		if (m_bOrbClearSoundOnce)
 		{
-			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_27_StonePressBlock_On.wav", false);
+			m_pGameInstance->Sound_Create("../Bin/SoundSDK/AudioClip/SFX_29_CrystalBreak.wav", false);
 			m_pGameInstance->Sound_Play();
 			m_pGameInstance->Sound_Volume_Level(1.0f);
 			m_bOrbClearSoundOnce = false;

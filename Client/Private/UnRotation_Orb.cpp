@@ -37,13 +37,6 @@ HRESULT CUnRotation_Orb::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//if (m_bIsPasingObject)
-	//{
-	//	FILEDATA* fileData = static_cast<FILEDATA*>(pArg);
-	//	m_pTransformCom->Set_Scaled(_float3(fileData->scale.x, fileData->scale.y, fileData->scale.z));
-	//	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(fileData->position.x, fileData->position.y, fileData->position.z));
-	//}
-
 	_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z-0.01f));
@@ -115,15 +108,6 @@ HRESULT CUnRotation_Orb::Render(_float fTimeDelta)
 
 void CUnRotation_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(otherObject);
-
-		if (pCopyPlayer->Get_Player_CurState() == 2);
-
-	}
 }
 
 void CUnRotation_Orb::OnCollisionStay(CCollider* other, _float fTimeDelta)
