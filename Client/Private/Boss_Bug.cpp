@@ -55,6 +55,7 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 
 	m_fAngle++;
 	m_fHitTimer += fTimeDelta;
+	m_fAlpha = 255.f;
 
 	if (m_fAngle > 360.f)
 		m_fAngle = 0.f;
@@ -159,7 +160,6 @@ HRESULT CBoss_Bug::Ready_Animation()
 HRESULT CBoss_Bug::Begin_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -207,6 +207,23 @@ void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			m_fHitTimer = 0.f;
 		}
 	}
+
+
+	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+			m_fAlphaTimer = 0.f;
+	}
+
 }
 
 void CBoss_Bug::OnCollisionExit(class CCollider* other)
