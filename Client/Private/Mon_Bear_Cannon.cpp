@@ -45,7 +45,7 @@ HRESULT CMon_Bear_Cannon::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 1.f, 15.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(37.f, 1.f, 38.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -56,6 +56,14 @@ HRESULT CMon_Bear_Cannon::Initialize(void* pArg)
 void CMon_Bear_Cannon::Priority_Update(_float fTimeDelta)
 {
 	__super::Move_Dir(fTimeDelta);
+	m_fInitAlhpaTimer += fTimeDelta;
+
+	if (m_fInitAlhpaTimer >= 0.5f)
+	{
+		m_fAlpha = 255.f;
+		m_fInitAlhpaTimer = { 0.f };
+	}
+
 
 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fMoveRange = D3DXVec3Length(&m_vTargetDistance);
@@ -63,6 +71,25 @@ void CMon_Bear_Cannon::Priority_Update(_float fTimeDelta)
 
 void CMon_Bear_Cannon::Update(_float fTimeDelta)
 {
+	if (m_bHit)
+	{
+		m_fAlphaTimer += fTimeDelta;
+
+		if (m_fAlphaTimer >= 0.25f)
+		{
+			m_fAlpha = 50.f;
+		}
+		else
+			m_fAlpha = 255.f;
+
+		if (m_fAlphaTimer >= 0.5f)
+		{
+			m_fAlphaTimer = 0.f;
+			m_bHit = false;
+		}
+
+	}
+
 	Mon_State(fTimeDelta);
 }
 
@@ -423,9 +450,16 @@ HRESULT CMon_Bear_Cannon::Attack()
 
 void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+
+}
+
+void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CSkill_Player*>(otherObject))
+	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
+
+	if (dynamic_cast<CSkill_Player*>(otherObject) && !m_bHit)
 	{
 		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -439,15 +473,9 @@ void CMon_Bear_Cannon::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
 
-		// 사운드 재생
 		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
 		return;
 	}
-}
-
-void CMon_Bear_Cannon::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
-
 }
 
 void CMon_Bear_Cannon::OnCollisionExit(CCollider* other)

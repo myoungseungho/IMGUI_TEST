@@ -61,6 +61,7 @@ HRESULT CLevel_Koofu::Initialize()
 void CLevel_Koofu::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
 }
 
 HRESULT CLevel_Koofu::Render()
@@ -143,7 +144,7 @@ HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	Bosskoofu.iHp = 100;
+	Bosskoofu.iHp = 75;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -208,5 +209,6 @@ CLevel_Koofu* CLevel_Koofu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Koofu::Free()
 {
+
 	__super::Free();
 }

@@ -30,7 +30,9 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 	m_tMonsterDesc.iHp = pDesc->iHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
+	m_tMonsterDesc.iSpawnNum = pDesc->iSpawnNum;
 	m_pPlayerTransform = pDesc->pTargetTransform;
+
 
 	Safe_AddRef(m_pPlayerTransform);
 
@@ -43,16 +45,21 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(25.f, 0.5f, 15.f));
+	if( m_tMonsterDesc.iSpawnNum == 1)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(34.f, 0.5f, 26.f));
+	else if(m_tMonsterDesc.iSpawnNum == 2)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(36.f, 0.5f, 26.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
-
+	
 	return S_OK;
 }
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
+	__super::Move_Dir(fTimeDelta);
+
 	m_fMovetTimer += fTimeDelta;
 
 	if (m_fMovetTimer >= 0.5f)
@@ -61,10 +68,10 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 		m_fMovetTimer = { 0.f };
 	}
 
-	__super::Move_Dir(fTimeDelta);
-
  	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fAttackRange = D3DXVec3Length(&m_vTargetDistance);
+
+	
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
@@ -362,11 +369,16 @@ void CMon_Trash_Slime::Destory()
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	
+}
+
+void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
 	CGameObject* otherObject = other->m_MineGameObject;
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
 
-	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
+	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK && !m_bHit)
 	{
 		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -379,14 +391,9 @@ void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		m_pGameInstance->Play_Sound(L"SFX_MonsterGarbage_Hit", LEVEL_STATIC, false);
 
-
-		m_bMoveStop = true;
 		m_bHit = true;
+		m_bMoveStop = true;
 	}
-}
-
-void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
-{
 }
 
 void CMon_Trash_Slime::OnCollisionExit(CCollider* other)
@@ -425,7 +432,6 @@ void CMon_Trash_Slime::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pColliderCom);
 	Safe_Release(m_pPlayerTransform);
-	
 	
 	m_pGameInstance->Release_Collider(m_pColliderCom);
 

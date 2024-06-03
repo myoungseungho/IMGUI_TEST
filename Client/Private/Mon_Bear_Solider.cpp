@@ -44,7 +44,7 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(15.f, 1.f, 15.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 1.f, 35.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -251,30 +251,6 @@ HRESULT CMon_Bear_Solider::End_RenderState()
 
 void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
-
-	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
-
-	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
-	{
-		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
-		vDir.y = 0.0f;
-
-		vPosition  += *D3DXVec3Normalize(&vDir, &vDir) * 0.25f;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
-
-		// 사운드 재생
-		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
-
-		// 볼륨 설정
-		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, 0.2f);
-
-		m_bMoveStop = true;
-		m_bHit = true;
-	}
 
 }
 
@@ -282,8 +258,28 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	CPlayer* player = static_cast<CPlayer*>(otherObject);
+	CPlayer* pPlayer = static_cast<CPlayer*>(otherObject);
 
+	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK && !m_bHit)
+	{
+		_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+		vDir.y = 0.0f;
+
+		vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.25f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+		m_bHit = true;
+		m_bMoveStop = true;
+
+		// 사운드 재생
+		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
+
+		// 볼륨 설정
+		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, 0.2f);
+	}
 }
 
 void CMon_Bear_Solider::OnCollisionExit(CCollider* other)

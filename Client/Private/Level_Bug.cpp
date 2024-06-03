@@ -58,6 +58,7 @@ HRESULT CLevel_Bug::Initialize()
 void CLevel_Bug::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
 }
 
 HRESULT CLevel_Bug::Render()
@@ -216,5 +217,6 @@ CLevel_Bug* CLevel_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Bug::Free()
 {
+
 	__super::Free();
 }
