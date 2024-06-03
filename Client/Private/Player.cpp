@@ -1279,7 +1279,7 @@ void CPlayer::Player_Attack(_float fTimeDelta)
 		EFFECTPLAYERDESC.pTargetTransform = m_pTransformCom;
 		EFFECTPLAYERDESC.pTargetDirection = m_ePlayerDir;
 
-		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player"), TEXT("Layer_Effect_Player"), &EFFECTPLAYERDESC);
+		//m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player"), TEXT("Layer_Effect_Player"), &EFFECTPLAYERDESC);
 
 		m_pGameInstance->Play_Sound(L"SFX_Swing1_2", LEVEL_STATIC, false);
 

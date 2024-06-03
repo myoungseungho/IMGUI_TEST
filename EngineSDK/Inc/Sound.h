@@ -4,7 +4,7 @@
 
 #include <fmod.h>
 #include "Engine_Defines.h"
-#include "Component.h"
+#include "Base.h"
 
 #define SOUND_MAX 1.0f
 #define SOUND_MIN 0.0f
@@ -23,6 +23,7 @@ private:
 
     float m_volume;
     FMOD_BOOL m_bool;
+
   
 private:
     CSound();
@@ -42,13 +43,16 @@ public:
     int Sound_VolumeUp();
     int Sound_VolumeDown();
     int Sound_Update();
-    int Sound_Volume_Level(_float fVolume);
+
+private:
+    _uint										m_iNumLevels = { 0 };
 
 public:
     static CSound* Create();
     virtual void Free() override;
 };
 
+END
+
 #endif
 
-END

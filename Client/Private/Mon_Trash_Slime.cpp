@@ -58,6 +58,8 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 {
+	__super::Move_Dir(fTimeDelta);
+
 	m_fMovetTimer += fTimeDelta;
 
 	if (m_fMovetTimer >= 0.5f)
@@ -69,6 +71,7 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
  	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_fAttackRange = D3DXVec3Length(&m_vTargetDistance);
 
+	
 }
 
 void CMon_Trash_Slime::Update(_float fTimeDelta)
