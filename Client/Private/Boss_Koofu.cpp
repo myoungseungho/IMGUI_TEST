@@ -574,7 +574,7 @@ void CBoss_Koofu::Move(_float fDeltaTime)
 
 	_float3 vChase = {};
 	vChase.x = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).x;
-	vChase.y =  fScaleUp * 0.5f + 0.75f;
+	vChase.y =  fScaleUp * 0.5f;
 	vChase.z = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION).z;
 
 	m_pTransformCom->Chase(vChase, fDeltaTime , 0.5f);
