@@ -45,7 +45,6 @@ void CEffect_Mon_Destroy::Priority_Update(_float fTimeDelta)
 void CEffect_Mon_Destroy::Update(_float fTimeDelta)
 {
 	Destroy(fTimeDelta);
-
 }
 
 void CEffect_Mon_Destroy::Late_Update(_float fTimeDelta)

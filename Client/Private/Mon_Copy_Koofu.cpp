@@ -69,7 +69,7 @@ void CMon_Copy_Koofu::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_MID , this);
 }
 
 HRESULT CMon_Copy_Koofu::Render(_float fTimeDelta)

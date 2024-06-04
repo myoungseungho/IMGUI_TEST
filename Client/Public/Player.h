@@ -130,7 +130,7 @@ private:
 	_float			m_fDiedTime = { 0.0f };
 	_float			m_fLiveTime = { 0.0f };
 	_float			m_fWalkSoundTime = { 0.0f };
-	
+	_float			m_fSafeTime = { 0.0f };
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };
@@ -138,6 +138,7 @@ private:
 	_bool			m_bCanDamaged = { true };
 	_bool			m_bForTestDamaged = { true };
 	_bool			m_bForHitEffect = { true};
+	_bool			m_bIsSafe = { false};
 public:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;

@@ -376,8 +376,6 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 		}
 	}
 
-	//1조건 동일
-	//처음 페이즈에서 -> 2페이즈 넘어갈때
 	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 2 / 3))
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
@@ -433,16 +431,6 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 1 / 3))
 	{
 		m_eMon_State = MON_STATE::MOVE;
-
-		for (int i = 0; i < 3; ++i)
-		{
-			CSkill_Koofu_Bubble* pClone = dynamic_cast<CSkill_Koofu_Bubble*>(m_pGameInstance->Get_GameObject(LEVEL_KOOFU, TEXT("Layer_Bubble"), i));
-
-			if (!pClone)
-				break;
-
-			Safe_Release(pClone);
-		}
 	}
 	
 }
