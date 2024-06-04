@@ -62,7 +62,7 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 
 	m_fMovetTimer += fTimeDelta;
 
-	if (m_fMovetTimer >= 1.5f)
+	if (m_fMovetTimer >= 3.0f)
 	{
 		m_bMoveStop = false;
 		m_fMovetTimer = { 0.f };
@@ -413,7 +413,7 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	if (dynamic_cast<CPlayer*>(otherObject))
 	{
 		m_bMoveStop = true;
-	}6
+	}
 }
 
 void CMon_Trash_Slime::OnCollisionExit(CCollider* other)

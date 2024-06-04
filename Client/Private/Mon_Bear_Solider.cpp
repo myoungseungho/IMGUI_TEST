@@ -61,7 +61,7 @@ void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 
 	m_fMovetTimer += fTimeDelta;
 	
-	if (m_fMovetTimer >= 1.0f)
+	if (m_fMovetTimer >= 2.5f)
 	{
 		m_bMoveStop = false;
 		m_fMovetTimer = { 0.f };
@@ -571,7 +571,7 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 
 		if (m_fMoveRange <= m_fAttackRange)
 		{
-			//pPlayer->Set_Player_Hp(-1);
+			pPlayer->Set_Player_Hp(-1);
 		}
 	}
 
