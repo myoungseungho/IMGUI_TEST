@@ -65,6 +65,8 @@ void CEffect_Bug_Line::Update(_float fTimeDelta)
 
 void CEffect_Bug_Line::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
