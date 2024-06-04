@@ -43,7 +43,7 @@ private:
 	_float m_TextPosX = { -57.f };
 	_float m_TextPosY = { -43.f };
 	_float m_ElapsedTime = 0.0f;
-	_float m_DisplayDelay = 7.f;
+	_float m_DisplayDelay = 8.f;
 	_bool m_bBossHpUILayerReady = false; // 플래그 변수 추가
 
 public:

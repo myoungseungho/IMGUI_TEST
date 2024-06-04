@@ -36,6 +36,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
 	m_pPlayerTransform = pDesc->pTargetTransform;
 	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
+	m_tMonsterDesc.iMaxHp = pDesc->iMaxHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
 	Safe_AddRef(m_pPlayerTransform);
@@ -125,7 +126,7 @@ HRESULT CBoss_Bug::Ready_Components()
 
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 1.5f, 36.f));
-	
+
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -191,7 +192,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			otherObject->Delete_Object();
 		}
 		return;
-	}	
+	}
 }
 
 void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -295,7 +296,7 @@ void CBoss_Bug::Skill_Dash(_float fTimeDelta)
 			}
 		}
 	}
-	
+
 }
 
 void CBoss_Bug::Fly(_float fTimeDelta)
@@ -395,7 +396,7 @@ HRESULT CBoss_Bug::Wave_Create()
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Skill_Bug_SludgeWave"), TEXT("Layer_Skill_Bug_SludgeWave"), &SkillDesc)))
 		return E_FAIL;
-	
+
 
 	return S_OK;
 }
@@ -423,7 +424,7 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 		m_iBulletCnt = 0;
 	}
 
-	if (m_tMonsterDesc.iCurrentHp <= 5)
+	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 1 / 2))
 	{
 		m_iPhaseCnt = 2;
 		m_ePrev_State = MON_STATE::BULLET;
@@ -490,10 +491,10 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 		m_bStartDash = true;
 	}
 
-	if(iter || !m_bPosRange)
+	if (iter || !m_bPosRange)
 		Skill_Dash(_fTimeDelta);
-	
-	else if(!iter)
+
+	else if (!iter)
 	{
 		m_pTransformCom->Set_Speed(2.f);
 
@@ -504,7 +505,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 			m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Down", LEVEL_STATIC, false);
 
-			m_pTransformCom->Init_Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);
+			m_pTransformCom->Init_Rotation(_float3(1.f, 1.f, 1.f), 0.f * D3DX_PI / 180.f);
 
 			m_ePrev_State = MON_STATE::DASH;
 			m_eMon_State = MON_STATE::STUN;
@@ -513,7 +514,7 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 			Turtle_Create();
 		}
 
-		if(m_pTimerCom->Time_Limit(_fTimeDelta, 1.f) && !m_isTurtle)
+		if (m_pTimerCom->Time_Limit(_fTimeDelta, 1.f) && !m_isTurtle)
 		{
 			Turtle_Create();
 			m_isTurtle = true;
@@ -592,7 +593,7 @@ void CBoss_Bug::Mon_State(_float fTimeDelta)
 	{
 		m_eMon_State = MON_STATE::DEATH;
 	}
-		
+
 	switch (m_eMon_State)
 	{
 	case MON_STATE::IDLE:

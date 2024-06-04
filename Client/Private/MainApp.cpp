@@ -101,7 +101,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_KOOFU)))
+	if (FAILED(Open_Level(LEVEL_JUNGLE)))
 		return E_FAIL;
 
 	return S_OK;
@@ -1232,7 +1232,7 @@ HRESULT CMainApp::Ready_Prototype_Components()
 #pragma region Texture_Player_Hat_Towel
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Hat_Towel"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Hat/Towel/Towel_Hat_%d.png"), 8))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Player_Hat/Sprite_HatGot.png"), 1))))
 		return E_FAIL;
 
 #pragma endregion

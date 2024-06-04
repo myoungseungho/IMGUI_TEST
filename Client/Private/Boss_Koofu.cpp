@@ -346,7 +346,9 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	}
 
-	if (m_tMonsterDesc.iCurrentHp <= 30)
+	//1조건
+	//처음 페이즈에서 -> 2페이즈 넘어갈때
+	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 2 / 3))
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -374,8 +376,9 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 		}
 	}
 
-
-	if (m_tMonsterDesc.iCurrentHp <= 6 )
+	//1조건 동일
+	//처음 페이즈에서 -> 2페이즈 넘어갈때
+	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 2 / 3))
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -426,7 +429,8 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		}
 	}
 
-	if (m_tMonsterDesc.iCurrentHp <= 3)
+	//2페이즈에서 -> 3페이즈 넘어갈때
+	if (m_tMonsterDesc.iCurrentHp <= (m_tMonsterDesc.iMaxHp * 1 / 3))
 	{
 		m_eMon_State = MON_STATE::MOVE;
 

@@ -89,7 +89,7 @@ HRESULT CLevel_Jungle::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_Jungle::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
 {
 	CTravelNpc::NPCDESC desc{};
-	desc.position = _float3(55.072f, 1.0f, 28.539f);
+	desc.position = _float3(60.172f, 1.0f, 25.181f);
 	desc.scale = _float3(2.f, 2.f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_JUNGLE, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))

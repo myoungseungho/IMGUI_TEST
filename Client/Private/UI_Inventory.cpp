@@ -976,6 +976,7 @@ void CInventory::Free()
 	Safe_Release(m_pCurrentPlayerMoney_Font);
 	Safe_Release(m_pCurrentItemTitle_Font);
 	Safe_Release(m_pCurrentItemExplain_Font);
+	Safe_Release(m_pItemCountFont);
 
 	__super::Free();
 }
