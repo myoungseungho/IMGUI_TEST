@@ -76,8 +76,8 @@ void CRotation_Stand::Update(_float fTimeDelta)
 
 		IsHaveOrb = true;
 
-		m_pGameInstance->Play_Sound(L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, true);
-		m_pGameInstance->Set_Volume(L"SFX_72_PushWalk_Ground1", LEVEL_STATIC, 0.1f);
+		m_pGameInstance->Play_Sound(L"SFX_72_PushWalk_Ground1", LEVEL_JUNGLE, true);
+		m_pGameInstance->Set_Volume(L"SFX_72_PushWalk_Ground1", LEVEL_JUNGLE, 0.1f);
 	}
 }
 
