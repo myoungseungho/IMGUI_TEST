@@ -406,7 +406,7 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		_float3 vDir = vPos - vTargetPos;
 
 		vPos +=  *D3DXVec3Normalize(&vDir, &vDir) * 3.f * fTimeDelta;
-		
+		vPos.y = 0.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 	}
 }

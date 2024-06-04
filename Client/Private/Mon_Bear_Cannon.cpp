@@ -387,6 +387,12 @@ void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::ATTACK;
 
+	if (m_bHit)
+	{
+		m_ePrev_State = MON_STATE::ATTACK;
+		m_eMon_State = MON_STATE::MOVE;
+	}
+
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		Attack();

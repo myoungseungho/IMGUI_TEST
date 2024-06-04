@@ -232,6 +232,8 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_202_ShopSell.wav", L"SFX_202_ShopSell", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_148_UINormalOpen.wav", L"SFX_148_UINormalOpen", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_373_OguEat.wav", L"SFX_373_OguEat", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_99_MazePuzzle_Complete.wav", L"Koofu_Copy_Sound", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_213_LotusLanternOut.wav", L"Koofu_Tell_Sound", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/Book_Sound.wav", L"Book_Sound", LEVEL_STATIC, SOUND_SFX);
 }
 

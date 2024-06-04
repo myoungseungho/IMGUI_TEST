@@ -315,6 +315,8 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 	if (!m_isClone_Create)
 	{
 		m_isClone_Create = true;
+
+		m_pGameInstance->Play_Sound(L"Koofu_Copy_Sound", LEVEL_STATIC, false);
 		CloneCreate();
 
 		Warf(49.f, 37.f, 7.f);
@@ -477,6 +479,8 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 
 	if (!m_bSmoke)
 	{
+		m_pGameInstance->Play_Sound(L"Koofu_Tell_Sound", LEVEL_STATIC, false);
+		
 		for (int i = 1; i <= 10; ++i)
 		{
 			Desc.iSmokeNum = i;
