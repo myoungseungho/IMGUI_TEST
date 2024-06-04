@@ -64,13 +64,7 @@ public:
 		return m_iMaxHp;
 	}
 
-	_uint		Set_Player_Hp(_uint _hp)
-	{
-		if (m_iPlayerHp + _hp >= m_iMaxHp)
-			return m_iPlayerHp = m_iMaxHp;
-		else
-			return m_iPlayerHp += _hp;
-	}
+	_uint		Set_Player_Hp(_uint _hp);
 
 	void	   Set_Player_Ballon_State(_uint _state)
 	{
@@ -165,7 +159,7 @@ public:
 
 public:
 	_bool		m_bHaveSkill = { true};
-	
+	_bool		m_bWearHat = { false };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:

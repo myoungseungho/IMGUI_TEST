@@ -58,8 +58,6 @@ void CHat::Update(_float fTimeDelta)
 
 	if (level != 1)
 	{
-
-
 		CPlayer* pCopyPlayer = static_cast<CPlayer*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Player")));
 
 		_float3 vTargetPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
@@ -68,42 +66,42 @@ void CHat::Update(_float fTimeDelta)
 
 		if (pCopyPlayer->Get_Player_CurState() == pCopyPlayer->STATE_IDLE)
 		{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.55f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 		}
 
 		else if (pCopyPlayer->Get_Player_CurState() == pCopyPlayer->STATE_WALK)
 		{
 			if (m_pTagetDirection == pCopyPlayer->DIR_DOWN)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_LEFT)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.07f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.15f, vTargetPos.y + 0.6f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHT)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.05f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.15f, vTargetPos.y + 0.6f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_UP)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTUP)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTUP)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_LEFTDOWN)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x - 0.1f, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 			else if (m_pTagetDirection == pCopyPlayer->DIR_RIGHTDOWN)
 			{
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.4f, vTargetPos.z - 0.06f));
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vTargetPos.x + 0.1f, vTargetPos.y + 0.5f, vTargetPos.z - 0.06f));
 			}
 		}
 
