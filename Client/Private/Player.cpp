@@ -121,6 +121,16 @@ void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
 
+	if (m_bIsSafe)
+	{
+		m_fSafeTime += fTimeDelta;
+
+		if (m_fSafeTime >= 3.f)
+		{
+			m_bIsSafe = false;
+			m_fSafeTime = 0.f;
+		}
+	}
 
 	if (m_ePlayerCurState == STATE_WALK)
 	{
@@ -337,7 +347,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -362,6 +372,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			m_bCanMoveForward = false;
 			m_bCanMoveBackward = false;
 			m_bCanDamaged = false;
+			m_bIsSafe = true;
 
 			return;
 		}
@@ -523,7 +534,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -548,6 +559,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			m_bCanMoveForward = false;
 			m_bCanMoveBackward = false;
 			m_bCanDamaged = false;
+			m_bIsSafe = true;
 
 			return;
 		}
@@ -1757,12 +1769,12 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 	{
 		m_ePlayerCurState = STATE_IDLE;
 		m_fDamageTime = 0.0f;
-		m_bCanDamaged = true;
 		m_bCanMoveRight = true;
 		m_bCanMoveLeft = true;
 		m_bCanMoveForward = true;
 		m_bCanMoveBackward = true;
 		m_bForHitEffect = true;;
+		m_bCanDamaged = true;
 	}
 }
 
