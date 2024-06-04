@@ -120,10 +120,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	m_fAngle++;;
-
-	if (m_fAngle > 360.f)
-		m_fAngle = 0.f;
 }
 
 void CPlayer::Update(_float fTimeDelta)
