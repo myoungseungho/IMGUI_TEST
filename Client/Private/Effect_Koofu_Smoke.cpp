@@ -112,17 +112,11 @@ HRESULT CEffect_Koofu_Smoke::Ready_Components()
 
 HRESULT CEffect_Koofu_Smoke::Ready_Animation()
 {
-	/*m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, false);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);*/
-
 	return S_OK;
 }
 
 HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 {
-	/*m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);*/
-
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -137,9 +131,6 @@ HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
-
-
 
 	return S_OK;
 }

@@ -81,6 +81,8 @@ void CBoss_Koofu::Update(_float fTimeDelta)
 
 void CBoss_Koofu::Late_Update(_float fTimeDelta)
 { 
+	__super::Late_Update(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
@@ -355,7 +357,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	m_bHitCheck = false;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(50, 0.75f, 45.f));
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 3.f) && !m_isBullet)
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 2.0f) && !m_isBullet)
 	{
 		RollingCreate();
 		m_isBullet = true;
@@ -363,7 +365,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 
 	if (m_isBullet)
 	{
-		if (m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+		if (m_pTimerCom->Time_Limit(fTimeDelta, 1.0f))
 		{
 			m_ePrev_State = MON_STATE::BULLET_B;
 			m_eMon_State = MON_STATE::IDLE;
@@ -453,7 +455,7 @@ void CBoss_Koofu::State_Stan(_float fTimeDelta)
 		m_bStun = true;
 	}
 
-	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	if (m_ePrev_State != MON_STATE::BULLET_C  &&  m_pTimerCom->Time_Limit(fTimeDelta, 1.0f))
 	{
 		m_eAnim_State = ANIM_STATE::READY;
 		m_eMon_State = MON_STATE::READY;
@@ -490,7 +492,7 @@ void CBoss_Koofu::State_Cast(_float fTimeDelta)
 		m_bSmoke = true;
 	}
 
-	if ( (m_ePrev_State == MON_STATE::IDLE || m_ePrev_State == MON_STATE::BULLET_B)&& m_pTimerCom->Time_Limit(fTimeDelta, 2.f))
+	if ( (m_ePrev_State == MON_STATE::IDLE || m_ePrev_State == MON_STATE::BULLET_B)&& m_pTimerCom->Time_Limit(fTimeDelta, 1.f))
 	{
 		m_ePrev_State = MON_STATE::CAST;
 		m_eMon_State = MON_STATE::BULLET;
