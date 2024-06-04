@@ -19,7 +19,7 @@ HRESULT CSound_Manager::Initialize(_uint iNumLevels)
 
     // FMOD 시스템 초기화
     FMOD_System_Create(&m_pSoundSystem, FMOD_VERSION);
-    FMOD_System_Init(m_pSoundSystem, 32, FMOD_INIT_NORMAL, nullptr);
+    FMOD_System_Init(m_pSoundSystem, MAX_CHANNELS, FMOD_INIT_NORMAL, nullptr);
 
     // 채널 그룹 생성
     FMOD_System_CreateChannelGroup(m_pSoundSystem, nullptr, &m_pChannelGroup);
