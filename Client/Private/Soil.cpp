@@ -38,22 +38,6 @@ HRESULT CSoil::Initialize(void* pArg)
 
 	m_pTransformCom->Rotation(_float3(1.f, 0.f, 0.f), D3DXToRadian(90.f));
 
-	/* For.Com_Transform */
-	CCollider::COLLIDER_DESC			ColliderDesc{};
-	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	ColliderDesc.width = m_pTransformCom->Get_Scaled().x;
-	ColliderDesc.height = m_pTransformCom->Get_Scaled().y;
-	ColliderDesc.depth = 1.f;
-	ColliderDesc.MineGameObject = this;
-
-	//콜라이더 사본을 만들때 Cube 정보 추가해줘야 함.
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-		return E_FAIL;
-
-	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_STATIC, this);
-
 	return S_OK;
 }
 
@@ -146,9 +130,7 @@ void CSoil::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pColliderCom);
 
-	m_pGameInstance->Release_Collider(m_pColliderCom);
 
 	__super::Free();
 }
