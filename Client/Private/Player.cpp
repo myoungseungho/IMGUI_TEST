@@ -521,7 +521,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
 		{
 			pDamagedObj->Damaged();
-			m_bAttack = false;
+			m_bAttack = true;
 			return;
 		}
 	}
