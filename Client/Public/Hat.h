@@ -47,14 +47,14 @@ private:
 	CVIBuffer_Rect*		m_pVIBufferCom = { nullptr };
 
 
-
 private:
 	HRESULT		Ready_Components();
 	
 private:
 	CTransform* m_pTargetTransform = { nullptr };
 	_uint				m_pTagetDirection = { 0 };
-
+public:
+	_bool			m_bIsOn = { false };
 public:
 	/* 원형객체를 생성한다. */
 	static CHat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

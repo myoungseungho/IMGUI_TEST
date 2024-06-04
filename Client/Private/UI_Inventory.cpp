@@ -11,6 +11,7 @@
 #include "UI_Hat.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include "Hat.h"
 #include <Effect_Player_Heal.h>
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -184,7 +185,8 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 
 	if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Hat))
 	{
-
+		CHat* hat = static_cast<CHat*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Hat_Towel")));
+		hat->m_bIsOn = true;
 	}
 	else if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Item))
 	{
@@ -240,23 +242,6 @@ void CInventory::SetInventoryOnOff()
 //상점에서 구매한 정보 넘기기
 void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hatoritem, _uint count)
 {
-	//UI오브젝트 받아서 VECTOR에 넣기
-	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
-			return E_FAIL;
-		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, layerTag, count));
-		if (!pUIObject)
-			return E_FAIL;
-		Safe_AddRef(pUIObject);
-		m_vecUIObject.push_back(pUIObject);
-		return S_OK;
-		};
-
-	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
-	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
-	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
-	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
-
 	// 아이템의 인덱스를 찾기
 	_uint itemIndex = -1;
 	if (hatoritem == TEXT("Hat")) {
@@ -281,21 +266,39 @@ void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hato
 		return;
 	}
 
+	//UI오브젝트 받아서 VECTOR에 넣기
+	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint uiIndex = 0) -> HRESULT {
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
+			return E_FAIL;
+		CUIObject* pUIObject = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, layerTag, uiIndex));
+		if (!pUIObject)
+			return E_FAIL;
+		Safe_AddRef(pUIObject);
+		pUIObject->m_iItemIndex = itemIndex;  // 아이템 인덱스를 설정합니다.
+		m_vecUIObject.push_back(pUIObject);
+		return S_OK;
+		};
+
+	const float initialX = -430.0f; // 첫 번째 열의 초기 X 위치
+	const float initialY = 85.0f; // 첫 번째 행의 초기 Y 위치
+	const float deltaX = 145.0f; // 열 이동 시의 X 위치 증감분
+	const float deltaY = -135.0f; // 행 이동 시의 Y 위치 증감분
+
 	// 아이템의 위치 설정
-	_uint index{};
+	_uint uiIndex{};
 	UIDATA slotData{};
 
 	if (hatoritem == TEXT("Hat")) {
-		index = m_vecCurrentHaveHat.size();
+		uiIndex = m_vecCurrentHaveHat.size();
 		m_vecCurrentHaveHat.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
 	}
 	else if (hatoritem == TEXT("Item")) {
-		index = m_vecCurrentHaveItem.size();
+		uiIndex = m_vecCurrentHaveItem.size();
 		m_vecCurrentHaveItem.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
 	}
 
-	int row = (index / 5) + 1; // 두 번째 행부터 시작 (행 인덱스 1부터)
-	int col = index % 5;
+	int row = (uiIndex / 5) + 1; // 두 번째 행부터 시작 (행 인덱스 1부터)
+	int col = uiIndex % 5;
 	slotData.position = { initialX + col * deltaX, initialY + (row - 1) * deltaY };
 	slotData.scale = { 60.f, 70.f };
 	slotData.alpha = 255.f;
@@ -305,16 +308,16 @@ void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hato
 	HRESULT result;
 
 	if (hatoritem == TEXT("Hat")) {
-		result = AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, 15 + index);
+		result = AddUIObject(TEXT("Prototype_GameObject_UI_Hat"), TEXT("Layer_ZUI_Hat"), &slotData, 15 + uiIndex);
 		if (result == S_OK) {
-			m_vecCurrentHaveHat[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Hat"), 15 + index));
+			m_vecCurrentHaveHat[uiIndex] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Hat"), 15 + uiIndex));
 			m_vecHatInfo[itemIndex].count = count; // count 저장
 		}
 	}
 	else if (hatoritem == TEXT("Item")) {
-		result = AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, 15 + index);
+		result = AddUIObject(TEXT("Prototype_GameObject_UI_Item"), TEXT("Layer_ZUI_Item"), &slotData, 15 + uiIndex);
 		if (result == S_OK) {
-			m_vecCurrentHaveItem[index] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Item"), 15 + index));
+			m_vecCurrentHaveItem[uiIndex] = static_cast<CUIObject*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_ZUI_Item"), 15 + uiIndex));
 			m_vecItemInfo[itemIndex].count = count; // count 저장
 		}
 	}
@@ -347,7 +350,7 @@ void CInventory::Update(_float fTimeDelta)
 		return;
 	}
 
-	
+
 
 	bool positionChanged = false;
 
@@ -514,18 +517,15 @@ void CInventory::EquipHat()
 		}
 		selectedIndex += m_iCurrentCol;
 
-		// 인덱스를 통해 현재 선택된 Hat을 찾음
-		if (selectedIndex >= 0 && selectedIndex < m_vecUIObject.size()) {
-			for (auto& iter : m_vecUIObject) {
-				if (iter->m_iIndex == selectedIndex && typeid(*iter) == typeid(CUI_Hat)) {
-					m_currentEquipHat = iter;
-					break;
-				}
+		// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Hat을 찾음
+		for (auto& iter : m_vecUIObject) {
+			if (typeid(*iter) == typeid(CUI_Hat) && iter->m_iItemIndex == selectedIndex) {
+				m_currentEquipHat = iter;
+				break;
 			}
 		}
 	}
 }
-
 void CInventory::EquipItem()
 {
 	int selectedIndex = 0;
@@ -537,13 +537,11 @@ void CInventory::EquipItem()
 		}
 		selectedIndex += m_iCurrentCol;
 
-		// 인덱스를 통해 현재 선택된 Item을 찾음
-		if (selectedIndex >= 0 && selectedIndex < m_vecUIObject.size()) {
-			for (auto& iter : m_vecUIObject) {
-				if (iter->m_iIndex == selectedIndex && typeid(*iter) == typeid(CUI_Item)) {
-					m_currentEquipItem = iter;
-					break;
-				}
+		// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Item을 찾음
+		for (auto& iter : m_vecUIObject) {
+			if (typeid(*iter) == typeid(CUI_Item) && iter->m_iItemIndex == selectedIndex) {
+				m_currentEquipItem = iter;
+				break;
 			}
 		}
 	}

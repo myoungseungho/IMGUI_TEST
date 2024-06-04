@@ -28,7 +28,6 @@ HRESULT CHat::Initialize(void* pArg)
 
 	m_pTargetTransform = pDesc->pTargetTransform;
 	m_pTagetDirection = pDesc->pTargetDirection;
-
 	Safe_AddRef(m_pTargetTransform);
 
 	if (FAILED(Ready_Components()))
@@ -52,6 +51,9 @@ void CHat::Priority_Update(_float fTimeDelta)
 
 void CHat::Update(_float fTimeDelta)
 {
+	if (!m_bIsOn)
+		return;
+
 	_uint level = m_pGameInstance->GetCurrentLevelIndex();
 
 	if (level != 1)
@@ -110,11 +112,16 @@ void CHat::Update(_float fTimeDelta)
 
 void CHat::Late_Update(_float fTimeDelta)
 {
+	if (!m_bIsOn)
+		return;
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CHat::Render(_float fTimeDelta)
 {
+	if (!m_bIsOn)
+		return S_OK;
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	Begin_RenderState();

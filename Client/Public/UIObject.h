@@ -56,6 +56,7 @@ public:
 
 public:
 	_bool m_bIsOn = { false };
+	_uint m_iItemIndex = { 0 };
 };
 
 END

@@ -75,6 +75,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pLevel_Manager->Update(fTimeDelta);
 
 	m_pColliderManager->Update(fTimeDelta);
+
+	m_pSoundManager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Render_Engine(_float deltaTime)
@@ -349,12 +351,12 @@ void CGameInstance::Stop_Sound(const wstring& filePath, _uint levelId)
 
 }
 
-void CGameInstance::Set_Volume(const wstring& filePath, _uint levelId, float volume)
+void CGameInstance::Set_Volume(const wstring& alias, _uint levelId, float volume)
 {
 	if (m_pSoundManager == nullptr)
 		return;
 
-	return m_pSoundManager->Set_Volume(filePath, levelId, volume);
+	return m_pSoundManager->Set_Volume(alias, levelId, volume);
 
 }
 
