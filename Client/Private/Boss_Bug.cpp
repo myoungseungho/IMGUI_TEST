@@ -36,6 +36,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
 	m_pPlayerTransform = pDesc->pTargetTransform;
 	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
+	m_tMonsterDesc.iMaxHp = pDesc->iMaxHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
 	Safe_AddRef(m_pPlayerTransform);

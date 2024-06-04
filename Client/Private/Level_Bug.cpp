@@ -89,7 +89,6 @@ HRESULT CLevel_Bug::Render()
 	// 텍스트 형식화 및 렌더링
 	wchar_t text[256];
 
-	// 텍스트 렌더링 - 쿠푸
 	swprintf_s(text, L"%s", L"누에");
 	RECT rect;
 	SetRect(&rect, static_cast<int>(g_iWinSizeX * 0.5f + m_TextPosX), static_cast<int>(100.f + m_TextPosY), 0, 0); // 텍스트를 출력할 위치
