@@ -93,6 +93,7 @@ void CSound_Manager::Play_Sound(const std::wstring& alias, _uint levelId, bool l
     }
     else
     {
+        int a = 3;
         // 모든 채널이 사용 중인 경우, 재생을 실패하게 함
         // 또는 기존 채널을 중단하고 새로운 채널로 교체할 수도 있음
         // 예: FMOD_Channel_Stop(기존채널); FMOD_System_PlaySound(...);
