@@ -100,8 +100,9 @@ void CMon_Trash_Slime::Update(_float fTimeDelta)
 
 void CMon_Trash_Slime::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
+	__super::Late_Update(fTimeDelta);
 
+	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
 HRESULT CMon_Trash_Slime::Render(_float fTimeDelta)
@@ -368,7 +369,8 @@ void CMon_Trash_Slime::Destory()
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	
+	CGameObject* otherObject = other->m_MineGameObject;
+
 }
 
 void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)

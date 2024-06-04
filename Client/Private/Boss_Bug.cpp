@@ -9,6 +9,8 @@
 #include "Skill_Player.h"
 #include "Effect_Monster.h"
 #include "Effect_Bug_Line.h"
+#include <UI_FadeInOut.h>
+#include <Camera.h>
 
 
 CBoss_Bug::CBoss_Bug(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -64,6 +66,10 @@ void CBoss_Bug::Priority_Update(_float fTimeDelta)
 		m_bPosRange = true;
 	else
 		m_bPosRange = false;
+
+	CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+
+	static_cast<CCamera*>(cameraObject)->Circle_Moving(_float3(39.5f, 3.f, 36.f), 20.f, m_fAngle, 7.5f, fTimeDelta);
 }
 
 void CBoss_Bug::Update(_float fTimeDelta)
@@ -74,7 +80,6 @@ void CBoss_Bug::Update(_float fTimeDelta)
 void CBoss_Bug::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
-	
 }
 
 HRESULT CBoss_Bug::Render(_float fTimeDelta)
@@ -119,7 +124,6 @@ HRESULT CBoss_Bug::Ready_Components()
 	m_pTransformCom->Set_Scaled(_float3(5.f, 5.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(39.5f, 1.5f, 36.f));
 	
-
 	/* For.Com_Transform */
 	CCollider::COLLIDER_DESC			ColliderDesc{};
 	ColliderDesc.center = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -201,11 +205,9 @@ void CBoss_Bug::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		{
 			m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Hit", LEVEL_STATIC, false);
 
-
 			m_fHitTimer = 0.f;
 		}
 	}
-
 
 	if (pPlayer->Get_Player_CurState() == CPlayer::STATE_ATTACK)
 	{
@@ -300,7 +302,6 @@ void CBoss_Bug::Fly(_float fTimeDelta)
 	m_fWaveTimer += fTimeDelta;
 	if (m_pTimerCom->Time_Limit(fTimeDelta, 8.f))
 	{
-
 		m_isLand = false;
 		m_eMon_State = MON_STATE::LAND;
 	}
@@ -483,7 +484,6 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Soar", LEVEL_STATIC, false);
 
-		
 		_float3 vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		m_pTransformCom->Rotation(vRight, 90.f * D3DX_PI / 180.f);
 		m_bStartDash = true;
@@ -498,8 +498,10 @@ void CBoss_Bug::State_Dash(_float  _fTimeDelta)
 
 		if (m_isTurtle && m_bPosRange)
 		{
-			m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Down", LEVEL_STATIC, false);
+			CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+			static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.1f, 0.f, 255.f, true, 3.5f);
 
+			m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Down", LEVEL_STATIC, false);
 
 			m_pTransformCom->Init_Rotation(_float3(1.f, 1.f, 1.f), 0.f* D3DX_PI / 180.f);
 

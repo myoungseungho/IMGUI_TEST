@@ -4,12 +4,12 @@
 #include "GameInstance.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 _pGraphicDevice)
-	:CGameObject{ _pGraphicDevice }
+	:CBlendObject{ _pGraphicDevice }
 {
 }
 
 CMonster::CMonster(const CMonster& Prototype)
-	:CGameObject{ Prototype }
+	:CBlendObject{ Prototype }
 {
 }
 

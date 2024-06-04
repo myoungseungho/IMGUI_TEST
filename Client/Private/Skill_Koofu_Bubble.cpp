@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Skill_Koofu_Bubble.h"
+#include "Effect_Monster.h"
 
 CSkill_Koofu_Bubble::CSkill_Koofu_Bubble(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CSkill_Monster{ pGraphic_Device }
@@ -41,7 +42,7 @@ HRESULT CSkill_Koofu_Bubble::Initialize(void* pArg)
 
 void CSkill_Koofu_Bubble::Priority_Update(_float fTimeDelta)
 {
-	m_fAngle += fTimeDelta;
+	m_fAngle += fTimeDelta * 2.f;
 
 	if(m_fAngle > 360)
 		m_fAngle = 0.f;
@@ -101,7 +102,7 @@ HRESULT CSkill_Koofu_Bubble::Ready_Components()
 
 	/* For.Com_Transform */
 	CTransform::TRANSFORM_DESC			TransformDesc{};
-	TransformDesc.fSpeedPerSec = 15.0f;
+	TransformDesc.fSpeedPerSec = 5.0f;
 	TransformDesc.fRotationPerSec = D3DXToRadian(90.0f);
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -146,6 +147,8 @@ void CSkill_Koofu_Bubble::Move(_int iPosX, _int iPosZ, _float fDistance, _float 
 	_float WarfPosX = iPosX + fDistance * cos((fAngle + D3DX_PI / 180.f));
 	_float WarfPosZ = iPosZ - fDistance * sin((fAngle + D3DX_PI / 180.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(WarfPosX, 1.5f, WarfPosZ));
+
+	//TransformDesc.fSpeedPerSec 
 }
 
 void CSkill_Koofu_Bubble::Destroy(_float fTimeDelta)
@@ -169,6 +172,27 @@ HRESULT CSkill_Koofu_Bubble::End_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	return S_OK;
+}
+
+void CSkill_Koofu_Bubble::OnCollisionEnter(CCollider* other, _float fTimeDelta)
+{
+	CGameObject* otherObject = other->m_MineGameObject;
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		CEffect_Monster::EFFECT_MONSTER__DESC	Desc = {};
+		Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Clean"), TEXT("Layer_Effect_Clean"), &Desc);
+	}
+}
+
+void CSkill_Koofu_Bubble::OnCollisionStay(CCollider* other, _float fTimeDelta)
+{
+}
+
+void CSkill_Koofu_Bubble::OnCollisionExit(CCollider* other)
+{
 }
 
 CSkill_Koofu_Bubble* CSkill_Koofu_Bubble::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

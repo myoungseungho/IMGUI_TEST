@@ -32,6 +32,11 @@ private:
 	HRESULT Begin_RenderState();
 	HRESULT End_RenderState();
 
+public:
+	virtual void OnCollisionEnter(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionStay(class CCollider* other, _float fTimeDelta);
+	virtual void OnCollisionExit(class CCollider* other);
+
 private:
 	_float m_fScaleAcc = { 0.f };
 	_float m_fScalePlus = { 0.1f };

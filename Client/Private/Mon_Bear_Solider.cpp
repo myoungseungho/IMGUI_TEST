@@ -100,6 +100,8 @@ void CMon_Bear_Solider::Update(_float fTimeDelta)
 
 void CMon_Bear_Solider::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
@@ -280,6 +282,8 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		// 볼륨 설정
 		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, 0.2f);
 	}
+
+
 }
 
 void CMon_Bear_Solider::OnCollisionExit(CCollider* other)
@@ -518,6 +522,8 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::ATTACK;
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(LEVEL_SNOW, TEXT("Layer_Player")));
+
 
 	m_fAttackTimer += fTimeDelta;
 
@@ -529,12 +535,17 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 		m_fAttackTimer = 0.f;
 	}
 
-	if (m_fAttackTimer >= 1.f)
+	if (m_fAttackTimer >= 1.f )
 	{
 		// 사운드 재생
 		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Attack", LEVEL_STATIC, false);
 
 		m_fAttackTimer = 0.f;
+
+		if (m_fMoveRange <= m_fAttackRange)
+		{
+			pPlayer->Set_Player_Hp(-1);
+		}
 	}
 
 	if (m_tMonsterDesc.iHp <= 0)

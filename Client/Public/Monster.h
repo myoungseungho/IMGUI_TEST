@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "LandObject.h"
+#include "BlendObject.h"
 #include "Effect_Monster.h"
 
 BEGIN(Engine)
@@ -18,7 +19,7 @@ END
 
 BEGIN(Client)
 
-class CMonster abstract : public CGameObject
+class CMonster abstract : public CBlendObject
 {
 protected:
 	enum class MON_STATE { IDLE, MOVE, ATTACK, DASH , READY, BULLET , BULLET_B,BULLET_C, FLY, LAND, STUN,HIT , REGEN,CAST, DEATH,MON_END };
@@ -74,6 +75,7 @@ public:
 
 		Desc.pTargetTransform = m_pTransformCom;
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Hit"), TEXT("Layer_Hit"), &Desc);
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Hit"), TEXT("Layer_Hit"), &Desc);
 			
 		m_pGameInstance->Play_Sound(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, false);
 	};
