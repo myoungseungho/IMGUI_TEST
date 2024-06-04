@@ -454,6 +454,9 @@
     <Filter Include="02.GameObjects\UI\EnemyUI">
       <UniqueIdentifier>{287a2407-a311-42f0-bccb-f101c5e5698e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Player\Effect_Player_Heal">
+      <UniqueIdentifier>{8366a086-b5e5-4ab6-bcda-0febc942c356}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -963,6 +966,9 @@
     <ClInclude Include="..\Public\UI_HP_Green_Enemy.h">
       <Filter>02.GameObjects\UI\EnemyUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Player_Heal.h">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Heal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1456,6 +1462,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_Green_Enemy.cpp">
       <Filter>02.GameObjects\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Player_Heal.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Heal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

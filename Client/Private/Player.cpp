@@ -39,6 +39,7 @@
 #include <Effect_Player_Stun.h>
 #include "Camera.h"
 #include "UI_FadeInOut.h"
+#include <Effect_Player_Heal.h>
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -912,6 +913,30 @@ void CPlayer::MoveDown(float fDuration)
 _float CPlayer::Lerp(float start, float end, float t)
 {
 	return start + t * (end - start);
+}
+
+_uint CPlayer::Set_Player_Hp(_uint _hp)
+{
+	_uint m_PrePlayerHp;
+
+	m_PrePlayerHp = m_iPlayerHp;
+
+	if (m_iPlayerHp + _hp >= m_iMaxHp)
+		m_iPlayerHp = m_iMaxHp;
+	else
+		m_iPlayerHp += _hp;
+
+	if (m_PrePlayerHp < m_iPlayerHp)
+	{
+		CEffect_Player_Heal::EFFECT_PLAYER_HEAL_DESC PLAYERHEAL{};
+
+		PLAYERHEAL.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player_Heal"), TEXT("Layer_Effect_Player_Heal"), &PLAYERHEAL);
+
+	}
+	
+		return m_iPlayerHp;
 }
 
 HRESULT CPlayer::Ready_Components()

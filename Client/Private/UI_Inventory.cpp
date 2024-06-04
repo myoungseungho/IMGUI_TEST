@@ -11,6 +11,7 @@
 #include "UI_Hat.h"
 #include "Player.h"
 #include "GameInstance.h"
+#include <Effect_Player_Heal.h>
 
 CInventory::CInventory(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUIObject{ pGraphic_Device }
@@ -199,6 +200,8 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 		const int hpValues[] = { 1, 2, 3 };
 		player->Set_Player_Hp(hpValues[index]);
 		m_pGameInstance->Play_Sound(L"SFX_373_OguEat", LEVEL_STATIC, false);
+
+		
 
 		Safe_Release(m_vecQuickInventory[slot]);
 	}
