@@ -71,13 +71,14 @@ HRESULT CCollider_Manager::Add_ColliderObject(COLLIDERGROUP eColliderGroup, CGam
 
 HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 {
-	//currentCollisions: 현재 프레임에서의 충돌 상태를 저장하는 맵입니다.
-	// m_CollisionHistory와 같은 구조로 되어 있습니다.
-
+	// 현재 프레임에서의 충돌 상태를 저장하는 맵입니다.
 	map<pair<CCollider*, CCollider*>, bool> currentCollisions;
-	//최적화 개선 법
-	//1. 공간 분할 (쿼드트리, 옥트리)
-	//2. 이벤트 기반 충돌 검사 (객체 움직일때만 충돌 검사?)
+
+	// 최적화 개선 법
+	// 1. 공간 분할 (쿼드트리, 옥트리)
+	// 2. 이벤트 기반 충돌 검사 (객체 움직일때만 충돌 검사?)
+
+	// 다른 그룹 간의 충돌 체크
 	for (size_t i = 0; i < CG_END; i++)
 	{
 		for (size_t j = i + 1; j < CG_END; j++)
@@ -91,11 +92,6 @@ HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 						auto key = make_pair(colliderA, colliderB);
 						currentCollisions[key] = true;
 
-						//첫 번째 조건: m_CollisionHistory.find(key) == m_CollisionHistory.end()
-						//이전 프레임에서 이 쌍이 존재하지 않았으면 OnCollisionEnter 이벤트를 호출합니다.
-
-						//두 번째 조건 : !m_CollisionHistory[key]
-						//이전 프레임에서 이 쌍이 존재했지만 충돌하지 않았으면 OnCollisionEnter 이벤트를 호출합니다.
 						if (m_CollisionHistory.find(key) == m_CollisionHistory.end() || !m_CollisionHistory[key]) {
 							colliderA->OnCollisionEnter(colliderB, fTimeDelta);
 							colliderB->OnCollisionEnter(colliderA, fTimeDelta);
@@ -110,8 +106,35 @@ HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 		}
 	}
 
-	//이전 프레임에서는 충돌했지만
-	// 현재 프레임에서는 충돌하지 않는 경우 OnCollisionExit 이벤트를 호출합니다.
+	// 같은 그룹 내의 충돌 체크 (CG_MONSTER)
+	size_t group = CG_MONSTER;
+	for (auto itA = m_Colliders[group].begin(); itA != m_Colliders[group].end(); ++itA)
+	{
+		auto itB = itA;
+		++itB;
+		for (; itB != m_Colliders[group].end(); ++itB)
+		{
+			CCollider* colliderA = *itA;
+			CCollider* colliderB = *itB;
+
+			if (IsColliding(colliderA, colliderB)) {
+
+				auto key = make_pair(colliderA, colliderB);
+				currentCollisions[key] = true;
+
+				if (m_CollisionHistory.find(key) == m_CollisionHistory.end() || !m_CollisionHistory[key]) {
+					colliderA->OnCollisionEnter(colliderB, fTimeDelta);
+					colliderB->OnCollisionEnter(colliderA, fTimeDelta);
+				}
+				else {
+					colliderA->OnCollisionStay(colliderB, fTimeDelta);
+					colliderB->OnCollisionStay(colliderA, fTimeDelta);
+				}
+			}
+		}
+	}
+
+	// 이전 프레임에서는 충돌했지만 현재 프레임에서는 충돌하지 않는 경우 OnCollisionExit 이벤트를 호출합니다.
 	for (auto& pair : m_CollisionHistory) {
 		if (currentCollisions.find(pair.first) == currentCollisions.end() || !currentCollisions[pair.first]) {
 			pair.first.first->OnCollisionExit(pair.first.second);
@@ -119,7 +142,7 @@ HRESULT CCollider_Manager::Check_Collision(_float fTimeDelta)
 		}
 	}
 
-	// Update the collision history for the next frame
+	// 다음 프레임을 위한 충돌 기록 업데이트
 	m_CollisionHistory = currentCollisions;
 	return S_OK;
 }
