@@ -590,7 +590,7 @@ void CInventory::AddToQuickInventory(_uint slot)
 		return; // 기본값 (예외 처리)
 	}
 
-	slotData.alpha = 200.f;
+	slotData.alpha = 255.f;
 
 	// 기존 슬롯에 있는 오브젝트를 제거
 	if (m_vecQuickInventory[slot] != nullptr) {
