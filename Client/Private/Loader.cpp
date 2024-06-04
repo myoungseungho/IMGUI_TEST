@@ -1521,6 +1521,10 @@ HRESULT CLoader::Loading_For_Bug()
 		CEffect_Mon_Hit::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_Green_Enemy"),
+		CUI_HP_Green_Enemy::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	m_isFinished = true;
 }
 
