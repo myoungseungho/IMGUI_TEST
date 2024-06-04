@@ -10,7 +10,7 @@ BEGIN(Engine)
 class CRenderer final : public CBase
 {
 public:
-	enum RENDERGROUP { RG_PRIORITY, RG_NONBLEND ,RG_BLEND, RG_UI, RG_END };
+	enum RENDERGROUP { RG_PRIORITY, RG_NONBLEND ,RG_MID,RG_BLEND, RG_UI, RG_END };
 private:
 	CRenderer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual ~CRenderer() = default;
@@ -26,6 +26,7 @@ private:
 private:
 	HRESULT Render_Priority(_float DeltaTime);
 	HRESULT Render_NonBlend(_float DeltaTime);
+	HRESULT Render_Mid(_float DeltaTime);
 	HRESULT Render_Blend(_float DeltaTime);
 	HRESULT Render_UI(_float DeltaTime);
 

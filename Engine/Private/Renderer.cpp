@@ -28,6 +28,8 @@ HRESULT CRenderer::Draw(_float deltaTime)
 		return E_FAIL;
 	if (FAILED(Render_Blend(deltaTime)))
 		return E_FAIL;
+	if (FAILED(Render_Mid(deltaTime)))
+		return E_FAIL;
 	if (FAILED(Render_UI(deltaTime)))
 		return E_FAIL;
 
@@ -60,6 +62,26 @@ HRESULT CRenderer::Render_NonBlend(_float DeltaTime)
 	}
 
 	m_RenderObjects[RG_NONBLEND].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Mid(_float DeltaTime)
+{
+	m_RenderObjects[RG_BLEND].sort([](CGameObject* pSour, CGameObject* pDest)->_bool
+		{
+			return ((CBlendObject*)pSour)->Get_ViewZ() > ((CBlendObject*)pDest)->Get_ViewZ();
+		});
+
+	for (auto& pRenderObject : m_RenderObjects[RG_MID])
+	{
+		if (nullptr != pRenderObject)
+			pRenderObject->Render(DeltaTime);
+
+		Safe_Release(pRenderObject);
+	}
+
+	m_RenderObjects[RG_MID].clear();
 
 	return S_OK;
 }
