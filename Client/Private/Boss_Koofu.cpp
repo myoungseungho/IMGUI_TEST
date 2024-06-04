@@ -37,7 +37,8 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	BOSS_KOOFU_DESC* pDesc = static_cast<BOSS_KOOFU_DESC*>(pArg);
 
 	m_pPlayerTransform = pDesc->m_pTargetTransform;
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
+	m_tMonsterDesc.iMaxHp = pDesc->iMaxHp;
 
 	Safe_AddRef(m_pPlayerTransform);
 
@@ -292,7 +293,7 @@ void CBoss_Koofu::State_Move(_float fTimeDelta)
 
 	Move(fTimeDelta);
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_eMon_State = MON_STATE::DEATH;
 		m_eAnim_State = ANIM_STATE::DEADTH; 
@@ -341,7 +342,7 @@ void CBoss_Koofu::State_Bullet(_float fTimeDelta)
 
 	}
 
-	if (m_tMonsterDesc.iHp <= 30)
+	if (m_tMonsterDesc.iCurrentHp <= 30)
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -370,7 +371,7 @@ void CBoss_Koofu::State_Bullet_B(_float fTimeDelta)
 	}
 
 
-	if (m_tMonsterDesc.iHp <= 60)
+	if (m_tMonsterDesc.iCurrentHp <= 6 )
 	{
 		m_eMon_State = MON_STATE::BULLET_C;
 	}
@@ -421,7 +422,7 @@ void CBoss_Koofu::State_Bullet_C(_float fTimeDelta)
 		}
 	}
 
-	if (m_tMonsterDesc.iHp <= 20)
+	if (m_tMonsterDesc.iCurrentHp <= 3)
 	{
 		m_eMon_State = MON_STATE::MOVE;
 
@@ -892,7 +893,7 @@ HRESULT CBoss_Koofu::CloneCreate()
 {
 	CMon_Copy_Koofu::MON_COPY_KOOFU_DESC			Copykoofu{};
 
-	Copykoofu.iHp = 1;
+	Copykoofu.iCurrentHp = 1;
 	Copykoofu.iAttack = 1;
 	Copykoofu.pTargetTransform  = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

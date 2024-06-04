@@ -99,6 +99,8 @@
 #include "Effect_Orb.h"
 #include "Soil.h"
 #include "Effect_Mon_Clean.h"
+#include "UI_HP_Enemy.h"
+#include "UI_HP_Green_Enemy.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device{ pGraphic_Device }
@@ -1290,6 +1292,14 @@ HRESULT CLoader::Loading_For_Koofu()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Clean"),
 		CEffect_Mon_Clean::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_Enemy"),
+		CUI_HP_Enemy::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UI_HP_Green_Enemy"),
+		CUI_HP_Green_Enemy::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	m_isFinished = true;

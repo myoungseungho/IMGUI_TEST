@@ -27,7 +27,8 @@ protected:
 public:
 	typedef struct : public CLandObject::LANDOBJECT_DESC
 	{
-		_uint iHp = { 0 };
+		_uint iMaxHp = { 0 };
+		_uint iCurrentHp = { 0 };
 		_uint iAttack = { 0 };
 		_uint iSpawnNum = { 0 };
 		CTransform* pTargetTransform = { nullptr };
@@ -68,7 +69,7 @@ public:
 	void Move_Dir(_float _floatTimeDelta);
 public:
 	virtual void Damaged() {
-		--m_tMonsterDesc.iHp;
+		--m_tMonsterDesc.iCurrentHp;
 		m_bHitCheck = true;
 
 		CEffect_Monster::EFFECT_MONSTER__DESC	Desc{};
@@ -82,7 +83,7 @@ public:
 
 	virtual void Set_Dead()
 	{
-		if (m_tMonsterDesc.iHp <= 0)
+		if (m_tMonsterDesc.iCurrentHp <= 0)
 			m_bDead = true;
 	};
 

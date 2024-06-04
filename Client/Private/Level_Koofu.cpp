@@ -19,10 +19,30 @@ CLevel_Koofu::CLevel_Koofu(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
+void CLevel_Koofu::Font_Initialize()
+{
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 40;
+	tFontInfo.Width = 30;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBoss_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
+		return;
+	}
+}
+
 HRESULT CLevel_Koofu::Initialize()
 {
 	m_iLevelIndex = LEVEL_KOOFU;
 
+	Font_Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -37,12 +57,6 @@ HRESULT CLevel_Koofu::Initialize()
 		return E_FAIL;
 
 	__super::Initialize();
-
-	//int horizontalTiles = 14; // 예시로 가로 13 타일
-	//int verticalTiles = 2; // 예시로 세로 5 타일
-
-	//if (FAILED(Ready_Layer_Tile(TEXT("Layer_TachoGround_Tile"), horizontalTiles, verticalTiles)))
-	//	return E_FAIL;
 
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
@@ -62,15 +76,63 @@ void CLevel_Koofu::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	// 시간 경과를 추적
+	m_ElapsedTime += fTimeDelta;
+
+	// 조건을 만족하고 아직 호출되지 않았다면, 메서드를 호출하고 플래그를 설정합니다.
+	if (m_ElapsedTime >= m_DisplayDelay && !m_bBossHpUILayerReady)
+	{
+		if (FAILED(Ready_Layer_Boss_Koofu_Hp_UI(TEXT("Layer_Boss_Koofu_Hp_UI"))))
+		{
+		}
+		m_bBossHpUILayerReady = true; // 한 번 호출 후 플래그 설정
+	}
+
+	//// 키 입력에 따른 텍스트 위치 조정
+	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
+	//	m_TextPosY -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
+	//	m_TextPosY += 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
+	//	m_TextPosX -= 1.f;
+	//}
+	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
+	//	m_TextPosX += 1.f;
+	//}
 }
 
 HRESULT CLevel_Koofu::Render()
 {
-	SetWindowText(g_hWnd, TEXT("게임플레이레벨"));
+	// 일정 시간이 경과하지 않았으면 즉시 반환
+	if (m_ElapsedTime < m_DisplayDelay)
+		return S_OK;
+
+	// 알파값을 계산 (경과 시간 기준으로 0에서 255로 증가)
+	float alphaTime = m_ElapsedTime - m_DisplayDelay; // 알파값 증가 시간
+	float alphaDuration = 1.0f; // 알파값이 0에서 255로 증가하는데 걸리는 시간 (예: 3초)
+	int alpha = static_cast<int>((alphaTime / alphaDuration) * 255);
+	if (alpha > 255) alpha = 255; // 최대값 255로 제한
+
+	// 텍스트 형식화 및 렌더링
+	wchar_t text[256];
+
+	// 텍스트 렌더링 - 쿠푸
+	swprintf_s(text, L"%s", L"쿠푸");
+	RECT rect;
+	SetRect(&rect, static_cast<int>(g_iWinSizeX * 0.5f + m_TextPosX), static_cast<int>(100.f + m_TextPosY), 0, 0); // 텍스트를 출력할 위치
+	m_pBoss_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(alpha, 255, 255, 255)
+	);
 
 	return S_OK;
 }
-
 HRESULT CLevel_Koofu::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_Terrain"), strLayerTag)))
@@ -144,7 +206,8 @@ HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	Bosskoofu.iHp = 75;
+	Bosskoofu.iCurrentHp = 10;
+	Bosskoofu.iMaxHp = 10;
 	Bosskoofu.iAttack = 1;
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -154,6 +217,16 @@ HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+HRESULT CLevel_Koofu::Ready_Layer_Boss_Koofu_Hp_UI(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_UI_HP_Green_Enemy"), strLayerTag)))
+		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_UI_HP_Enemy"), strLayerTag)))
+	//	return E_FAIL;
+
+	return S_OK;
+}
 
 HRESULT CLevel_Koofu::Ready_LandObjects()
 {

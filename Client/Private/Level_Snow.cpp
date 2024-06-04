@@ -105,7 +105,7 @@ HRESULT CLevel_Snow::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 3;
+	MonsterDesc.iCurrentHp = 3;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform= dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -123,7 +123,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag
 HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 10;
+	MonsterDesc.iCurrentHp = 10;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -136,7 +136,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTa
 HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Cannon(const _wstring& strLayerTag)
 {
 	CMonster::MONSTER_DESC			MonsterDesc{};
-	MonsterDesc.iHp = 5;
+	MonsterDesc.iCurrentHp = 5;
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 

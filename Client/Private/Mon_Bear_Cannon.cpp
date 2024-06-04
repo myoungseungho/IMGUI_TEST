@@ -30,7 +30,7 @@ HRESULT CMon_Bear_Cannon::Initialize(void* pArg)
 
 	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
 
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 	m_pPlayerTransform = pDesc->pTargetTransform;
 
@@ -377,7 +377,7 @@ void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 		m_eMon_State = MON_STATE::ATTACK;
 	}
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_eMon_State = MON_STATE::STUN;
 	}
@@ -398,7 +398,7 @@ void CMon_Bear_Cannon::State_Attack(_float fTimeDelta)
 		m_eMon_State = MON_STATE::IDLE;
 	}
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_eMon_State = MON_STATE::STUN;
 	}

@@ -18,7 +18,7 @@ public:
 
 	virtual void Set_Dead()
 	{
-		if (m_tMonsterDesc.iHp <= 0)
+		if (m_tMonsterDesc.iCurrentHp <= 0)
 			m_bDead = true;
 	};
 

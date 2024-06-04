@@ -47,8 +47,6 @@ HRESULT CInventory::Initialize(void* pArg)
 	D3DXMatrixIdentity(&m_ViewMatrix);
 	D3DXMatrixOrthoLH(&m_ProjMatrix, g_iWinSizeX, g_iWinSizeY, 0.0f, 1.f);
 
-
-
 	//UI오브젝트 받아서 VECTOR에 넣기
 	auto AddUIObject = [&](const TCHAR* prototypeTag, const TCHAR* layerTag, void* pArg = nullptr, const _uint count = 0) -> HRESULT {
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, prototypeTag, layerTag, pArg)))
@@ -346,18 +344,7 @@ void CInventory::Update(_float fTimeDelta)
 		return;
 	}
 
-	//if (GetAsyncKeyState(VK_UP) & 0x8000) {
-	//	m_TextPosY -= 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-	//	m_TextPosY += 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
-	//	m_TextPosX -= 1.f;
-	//}
-	//if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
-	//	m_TextPosX += 1.f;
-	//}
+	
 
 	bool positionChanged = false;
 
@@ -675,6 +662,7 @@ void CInventory::Control_FirstRow()
 		HideHats();
 	}
 }
+
 void CInventory::Control_OtherRow()
 {
 	// 첫 번째 행의 아이템들의 알파값을 150.f로 설정
@@ -741,8 +729,6 @@ void CInventory::UpdateSelectedItemInfo()
 		}
 	}
 }
-
-
 
 void CInventory::Late_Update(_float fTimeDelta)
 {

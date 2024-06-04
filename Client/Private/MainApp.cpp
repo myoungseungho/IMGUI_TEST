@@ -101,7 +101,7 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_KOOFU)))
+	if (FAILED(Open_Level(LEVEL_BUG)))
 		return E_FAIL;
 
 	return S_OK;
@@ -1190,6 +1190,10 @@ HRESULT CMainApp::Ready_Prototype_Components()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sprite_BoxShadow"),
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/Sprite_BoxShadow.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UI_Boss_HP_GuageBar"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/UI/UI_Boss_HP_GuageBar.png"), 1))))
 		return E_FAIL;
 
 #pragma endregion

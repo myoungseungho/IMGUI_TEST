@@ -30,7 +30,7 @@ HRESULT CMon_Copy_Koofu::Initialize(void* pArg)
 	MON_COPY_KOOFU_DESC* pDesc = static_cast<MON_COPY_KOOFU_DESC*>(pArg);
 
 	m_pTargetTransform = pDesc->pTargetTransform;
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
 	Safe_AddRef(m_pTargetTransform);
@@ -394,7 +394,7 @@ void CMon_Copy_Koofu::Destory()
 	CEffect_Koofu_Smoke::EFFECT_SMOKE_DESC Desc = {};
 	Desc.pTargetTransform = m_pTransformCom;
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_pGameInstance->Play_Sound(L"SFX_Koofu_Fake", LEVEL_STATIC, false);
 

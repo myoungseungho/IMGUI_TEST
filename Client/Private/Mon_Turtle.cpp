@@ -26,7 +26,7 @@ HRESULT CMon_Turtle::Initialize(void* pArg)
 
 	MON_TURTLE_DESC* pDesc = static_cast<MON_TURTLE_DESC*>(pArg);
 
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 	m_pPlayerTransform = pDesc->pTargetTransform;
 
@@ -124,7 +124,7 @@ void CMon_Turtle::Destory(_float fTimeDelta)
 
 	CMon_Turtle* pTurtle = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
 

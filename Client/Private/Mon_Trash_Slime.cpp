@@ -28,7 +28,7 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 
 	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
 
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 	m_tMonsterDesc.iSpawnNum = pDesc->iSpawnNum;
 	m_pPlayerTransform = pDesc->pTargetTransform;
@@ -357,7 +357,7 @@ void CMon_Trash_Slime::Destory()
 
 	CMon_Trash_Slime* pThis = this;
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Effect_Mon_Destory"), TEXT("Layer_Effect_Mon_Destroy"), &Desc);
 

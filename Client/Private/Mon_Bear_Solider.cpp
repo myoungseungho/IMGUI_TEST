@@ -29,7 +29,7 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 
 	MONSTER_DESC* pDesc = static_cast<MONSTER_DESC*>(pArg);
 
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 	m_pPlayerTransform = pDesc->pTargetTransform;
 
@@ -512,7 +512,7 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 		m_eMon_State = MON_STATE::ATTACK;
 	}
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_ePrev_State = MON_STATE::MOVE;
 		m_eMon_State = MON_STATE::STUN;
@@ -548,7 +548,7 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 		}
 	}
 
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_ePrev_State = MON_STATE::ATTACK;
 		m_eMon_State = MON_STATE::STUN;

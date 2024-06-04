@@ -23,6 +23,7 @@ HRESULT CLevel_Bug::Initialize()
 {
 	m_iLevelIndex = LEVEL_BUG;
 
+	Font_Initialize();
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
@@ -39,7 +40,7 @@ HRESULT CLevel_Bug::Initialize()
 	if (FAILED(ParseInitialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Koofu"))))
+	if (FAILED(Ready_Layer_Boss_Bug(TEXT("Layer_Boss_Bug"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect_Light(TEXT("Layer_Effect_Light"))))
@@ -59,11 +60,58 @@ void CLevel_Bug::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
+	// 시간 경과를 추적
+	m_ElapsedTime += fTimeDelta;
+
+	// 조건을 만족하고 아직 호출되지 않았다면, 메서드를 호출하고 플래그를 설정합니다.
+	if (m_ElapsedTime >= m_DisplayDelay && !m_bBossHpUILayerReady)
+	{
+		if (FAILED(Ready_Layer_Boss_Bug_Hp_UI(TEXT("Layer_Boss_Bug_Hp_UI"))))
+		{
+		}
+		m_bBossHpUILayerReady = true; // 한 번 호출 후 플래그 설정
+	}
+
 }
 
 HRESULT CLevel_Bug::Render()
 {
-	SetWindowText(g_hWnd, TEXT("게임플레이레벨"));
+	// 일정 시간이 경과하지 않았으면 즉시 반환
+	if (m_ElapsedTime < m_DisplayDelay)
+		return S_OK;
+
+	// 알파값을 계산 (경과 시간 기준으로 0에서 255로 증가)
+	float alphaTime = m_ElapsedTime - m_DisplayDelay; // 알파값 증가 시간
+	float alphaDuration = 1.0f; // 알파값이 0에서 255로 증가하는데 걸리는 시간 (예: 3초)
+	int alpha = static_cast<int>((alphaTime / alphaDuration) * 255);
+	if (alpha > 255) alpha = 255; // 최대값 255로 제한
+
+	// 텍스트 형식화 및 렌더링
+	wchar_t text[256];
+
+	// 텍스트 렌더링 - 쿠푸
+	swprintf_s(text, L"%s", L"누에");
+	RECT rect;
+	SetRect(&rect, static_cast<int>(g_iWinSizeX * 0.5f + m_TextPosX), static_cast<int>(100.f + m_TextPosY), 0, 0); // 텍스트를 출력할 위치
+	m_pBoss_Font->DrawText(
+		NULL,
+		text,
+		-1,
+		&rect,
+		DT_NOCLIP,
+		D3DCOLOR_ARGB(alpha, 255, 255, 255)
+	);
+
+	return S_OK;
+}
+
+HRESULT CLevel_Bug::Ready_Layer_Boss_Bug_Hp_UI(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_UI_HP_Green_Enemy"), strLayerTag)))
+		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_BUG, TEXT("Prototype_GameObject_UI_HP_Enemy"), strLayerTag)))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -141,7 +189,8 @@ HRESULT CLevel_Bug::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
 	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
 
-	BossBug.iHp = 50;
+	BossBug.iCurrentHp = 10;
+	BossBug.iMaxHp = 10;
 	BossBug.iAttack = 1;
 	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -173,6 +222,25 @@ HRESULT CLevel_Bug::Ready_LandObjects()
 		return E_FAIL;*/
 
 	return S_OK;
+}
+
+void CLevel_Bug::Font_Initialize()
+{
+	D3DXFONT_DESCW tFontInfo;
+	ZeroMemory(&tFontInfo, sizeof(D3DXFONT_DESCW));
+
+	// 폰트 설정 - CurrentPlayerMoney
+	tFontInfo.Height = 40;
+	tFontInfo.Width = 30;
+	tFontInfo.Weight = FW_HEAVY;
+	tFontInfo.CharSet = HANGEUL_CHARSET;
+	wcscpy_s(tFontInfo.FaceName, LF_FACESIZE, TEXT("Cafe24 Ssurround air OTF Light"));
+
+	if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontInfo, &m_pBoss_Font)))
+	{
+		MSG_BOX(L"CreateFontIndirect for CurrentPlayerMoney_Font Failed");
+		return;
+	}
 }
 
 HRESULT CLevel_Bug::Ready_Layer_Player(const _wstring& strLayerTag)

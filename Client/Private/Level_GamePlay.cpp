@@ -91,7 +91,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Bug(const _wstring& strLayerTag)
 {
 	CBoss_Bug::BOSS_BUG_DESC			BossBug{};
 
-	BossBug.iHp = 50;
+	BossBug.iCurrentHp = 50;
 	BossBug.iAttack = 1;
 	BossBug.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_JUNGLE, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -105,7 +105,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boss_Koofu(const _wstring& strLayerTag)
 {
 	CBoss_Koofu::BOSS_KOOFU_DESC			Bosskoofu{};
 
-	Bosskoofu.iHp = 50;
+	Bosskoofu.iCurrentHp = 50;
 	Bosskoofu.iAttack = 1;
 
 	Bosskoofu.m_pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_KOOFU, TEXT("Layer_Player"), TEXT("Com_Transform")));

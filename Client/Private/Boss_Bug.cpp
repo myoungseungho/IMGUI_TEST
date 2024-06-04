@@ -35,7 +35,7 @@ HRESULT CBoss_Bug::Initialize(void* pArg)
 
 	BOSS_BUG_DESC* pDesc = static_cast<BOSS_BUG_DESC*>(pArg);
 	m_pPlayerTransform = pDesc->pTargetTransform;
-	m_tMonsterDesc.iHp = pDesc->iHp;
+	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
 
 	Safe_AddRef(m_pPlayerTransform);
@@ -186,7 +186,7 @@ void CBoss_Bug::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 	{
 		if ((m_eMon_State == MON_STATE::BULLET) || (m_eMon_State == MON_STATE::IDLE))
 		{
-			m_tMonsterDesc.iHp--;
+			m_tMonsterDesc.iCurrentHp--;
 			otherObject->Delete_Object();
 		}
 		return;
@@ -350,7 +350,7 @@ HRESULT CBoss_Bug::Turtle_Create()
 
 	CMon_Turtle::MON_TURTLE_DESC	 Desc{};
 
-	Desc.iHp = 3;
+	Desc.iCurrentHp = 3;
 	Desc.iAttack = 1;
 	Desc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_BUG, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
@@ -422,7 +422,7 @@ void CBoss_Bug::State_Bullet(_float  _fTimeDelta)
 		m_iBulletCnt = 0;
 	}
 
-	if (m_tMonsterDesc.iHp <= 40)
+	if (m_tMonsterDesc.iCurrentHp <= 5)
 	{
 		m_iPhaseCnt = 2;
 		m_ePrev_State = MON_STATE::BULLET;
@@ -587,7 +587,7 @@ void CBoss_Bug::Mon_AnimState(_float _fTimeDelta)
 
 void CBoss_Bug::Mon_State(_float fTimeDelta)
 {
-	if (m_tMonsterDesc.iHp <= 0)
+	if (m_tMonsterDesc.iCurrentHp <= 0)
 	{
 		m_eMon_State = MON_STATE::DEATH;
 	}
