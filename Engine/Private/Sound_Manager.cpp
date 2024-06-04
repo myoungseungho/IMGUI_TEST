@@ -11,32 +11,35 @@ CSound_Manager::CSound_Manager()
 
 HRESULT CSound_Manager::Initialize(_uint iNumLevels)
 {
-	m_iNumLevels = iNumLevels;
+    m_iNumLevels = iNumLevels;
 
-	// 동적 배열 할당
-	m_soundMap = new map<wstring, FMOD_SOUND*>[iNumLevels];
-	m_channelMap = new map<wstring, FMOD_CHANNEL*>[iNumLevels];
+    // 동적 배열 할당
+    m_soundMap = new map<wstring, FMOD_SOUND*>[iNumLevels];
+    m_channelMap = new map<wstring, FMOD_CHANNEL*>[iNumLevels];
 
-	// FMOD 시스템 초기화
-	FMOD_System_Create(&m_pSoundSystem, FMOD_VERSION);
-	FMOD_System_Init(m_pSoundSystem, 32, FMOD_INIT_NORMAL, nullptr);
+    // FMOD 시스템 초기화
+    FMOD_System_Create(&m_pSoundSystem, FMOD_VERSION);
+    FMOD_System_Init(m_pSoundSystem, 32, FMOD_INIT_NORMAL, nullptr);
 
-	return S_OK;
+    // 채널 그룹 생성
+    FMOD_System_CreateChannelGroup(m_pSoundSystem, nullptr, &m_pChannelGroup);
+
+    return S_OK;
 }
 
 void CSound_Manager::Priority_Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CSound_Manager::Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CSound_Manager::Late_Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wstring& alias, _uint levelId, _uint soundType)
@@ -60,6 +63,7 @@ void CSound_Manager::Register_Sound(const std::wstring& filePath, const std::wst
         return;
     }
 
+    // 사운드 등록
     m_soundMap[levelId][alias] = sound;
 }
 
@@ -75,12 +79,25 @@ void CSound_Manager::Play_Sound(const std::wstring& alias, _uint levelId, bool l
     FMOD_MODE mode = loop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
     FMOD_Sound_SetMode(it->second, mode);
 
-    if (FMOD_System_PlaySound(m_pSoundSystem, it->second, nullptr, false, &channel) != FMOD_OK)
+    // 현재 재생 중인 채널 수를 확인
+    int playingChannels = 0;
+    FMOD_ChannelGroup_GetNumChannels(m_pChannelGroup, &playingChannels);
+
+    if (playingChannels < MAX_CHANNELS) // MAX_CHANNELS는 사용자가 정의한 최대 채널 수
     {
+        // 채널 그룹에 속한 새로운 채널을 생성하여 재생
+        if (FMOD_System_PlaySound(m_pSoundSystem, it->second, m_pChannelGroup, false, &channel) == FMOD_OK)
+        {
+            m_channelMap[levelId][alias] = channel;
+        }
+    }
+    else
+    {
+        // 모든 채널이 사용 중인 경우, 재생을 실패하게 함
+        // 또는 기존 채널을 중단하고 새로운 채널로 교체할 수도 있음
+        // 예: FMOD_Channel_Stop(기존채널); FMOD_System_PlaySound(...);
         return;
     }
-
-    m_channelMap[levelId][alias] = channel;
 }
 
 void CSound_Manager::Stop_Sound(const std::wstring& alias, _uint levelId)
@@ -119,18 +136,17 @@ void CSound_Manager::Stop_All_Sounds(_uint levelId)
     }
 }
 
-
 CSound_Manager* CSound_Manager::Create(_uint iNumLevels)
 {
-	CSound_Manager* pInstance = new CSound_Manager();
+    CSound_Manager* pInstance = new CSound_Manager();
 
-	if (FAILED(pInstance->Initialize(iNumLevels)))
-	{
-		MSG_BOX(TEXT("Failed to Created : CSound_Manager"));
-		Safe_Release(pInstance);
-	}
+    if (FAILED(pInstance->Initialize(iNumLevels)))
+    {
+        MSG_BOX(TEXT("Failed to Created : CSound_Manager"));
+        Safe_Release(pInstance);
+    }
 
-	return pInstance;
+    return pInstance;
 }
 
 void CSound_Manager::Free()
