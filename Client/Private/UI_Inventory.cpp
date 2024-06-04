@@ -186,7 +186,8 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 	if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Hat))
 	{
 		CHat* hat = static_cast<CHat*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Hat_Towel")));
-		hat->m_bIsOn = true;
+		if (hat != nullptr)
+			hat->m_bIsOn = true;
 	}
 	else if (typeid(*m_vecQuickInventory[slot]) == typeid(CUI_Item))
 	{
@@ -203,7 +204,7 @@ void CInventory::UseQuickInventory_Item(_uint slot)
 		player->Set_Player_Hp(hpValues[index]);
 		m_pGameInstance->Play_Sound(L"SFX_373_OguEat", LEVEL_STATIC, false);
 
-		
+
 
 		Safe_Release(m_vecQuickInventory[slot]);
 	}
@@ -291,10 +292,12 @@ void CInventory::AddItemToInventory(const wstring& itemName, const wstring& hato
 	if (hatoritem == TEXT("Hat")) {
 		uiIndex = m_vecCurrentHaveHat.size();
 		m_vecCurrentHaveHat.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
+		m_hatIndexMap[uiIndex] = itemIndex; // selectedIndex와 itemIndex 매핑
 	}
 	else if (hatoritem == TEXT("Item")) {
 		uiIndex = m_vecCurrentHaveItem.size();
 		m_vecCurrentHaveItem.push_back(nullptr); // 나중에 채우기 위해 nullptr을 넣음
+		m_itemIndexMap[uiIndex] = itemIndex; // selectedIndex와 itemIndex 매핑
 	}
 
 	int row = (uiIndex / 5) + 1; // 두 번째 행부터 시작 (행 인덱스 1부터)
@@ -516,13 +519,15 @@ void CInventory::EquipHat()
 			selectedIndex += getMaxCols(i);
 		}
 		selectedIndex += m_iCurrentCol;
+	}
 
-		// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Hat을 찾음
-		for (auto& iter : m_vecUIObject) {
-			if (typeid(*iter) == typeid(CUI_Hat) && iter->m_iItemIndex == selectedIndex) {
-				m_currentEquipHat = iter;
-				break;
-			}
+	_uint itemIndex = (selectedIndex < m_vecCurrentHaveHat.size()) ? m_hatIndexMap[selectedIndex] : selectedIndex;
+
+	// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Hat을 찾음
+	for (auto& iter : m_vecUIObject) {
+		if (typeid(*iter) == typeid(CUI_Hat) && iter->m_iItemIndex == itemIndex) {
+			m_currentEquipHat = iter;
+			break;
 		}
 	}
 }
@@ -536,16 +541,19 @@ void CInventory::EquipItem()
 			selectedIndex += getMaxCols(i);
 		}
 		selectedIndex += m_iCurrentCol;
+	}
 
-		// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Item을 찾음
-		for (auto& iter : m_vecUIObject) {
-			if (typeid(*iter) == typeid(CUI_Item) && iter->m_iItemIndex == selectedIndex) {
-				m_currentEquipItem = iter;
-				break;
-			}
+	_uint itemIndex = (selectedIndex < m_vecCurrentHaveItem.size()) ? m_itemIndexMap[selectedIndex] : selectedIndex;
+
+	// selectedIndex를 아이템 인덱스로 사용하여 현재 선택된 Item을 찾음
+	for (auto& iter : m_vecUIObject) {
+		if (typeid(*iter) == typeid(CUI_Item) && iter->m_iItemIndex == itemIndex) {
+			m_currentEquipItem = iter;
+			break;
 		}
 	}
 }
+
 
 void CInventory::AddToQuickInventory(_uint slot)
 {

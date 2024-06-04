@@ -106,7 +106,8 @@ private:
 	vector<CUIObject*> m_vecUIObject; // 플레이어 인벤토리에서 만든 모든 UI 오브젝트 ESC용
 	vector<CUIObject*> m_vecCurrentHaveHat;
 	vector<CUIObject*> m_vecCurrentHaveItem;
-
+	unordered_map<_uint, _uint> m_hatIndexMap; // Hat의 selectedIndex와 itemIndex를 매핑
+	unordered_map<_uint, _uint> m_itemIndexMap; // Item의 selectedIndex와 itemIndex를 매핑
 private:
 	_uint m_iCurrentMoney = { 5000 };
 	_float m_TextPosX = 31.f; // 텍스트 x 좌표
