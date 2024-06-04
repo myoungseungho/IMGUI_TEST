@@ -37,7 +37,7 @@ HRESULT CEffect_Koofu_Smoke::Initialize(void* pArg)
 		return E_FAIL;
 
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-	vPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - (0.01f* m_iSmokeNum);
+	vPos.z = m_pTargetTransform->Get_State(CTransform::STATE_POSITION).z - (0.01f * m_iSmokeNum);
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 
@@ -47,11 +47,14 @@ HRESULT CEffect_Koofu_Smoke::Initialize(void* pArg)
 
 	m_pTransformCom->Rotation(_float3(0.f, 0.f, 1.f), (m_pTargetTransform->Dir_Degree() - fStartRange + fAngle_Per_Piece * m_iSmokeNum) * D3DX_PI / 180.f);
 
+
+
 	return S_OK;
 }
 
 void CEffect_Koofu_Smoke::Priority_Update(_float fTimeDelta)
 {
+	
 }
 
 void CEffect_Koofu_Smoke::Update(_float fTimeDelta)
@@ -106,7 +109,7 @@ HRESULT CEffect_Koofu_Smoke::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scaled(_float3(2.5f, 3.f, 1.f));
+	m_pTransformCom->Set_Scaled(_float3(2.f, 2.f, 1.f));
 
 
 	return S_OK;
@@ -127,7 +130,7 @@ HRESULT CEffect_Koofu_Smoke::Begin_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	// 텍스처 페이저 설정
-	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(150), 255, 255, 255));
+	m_pGraphic_Device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(static_cast<DWORD>(100), 255, 255, 255));
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);

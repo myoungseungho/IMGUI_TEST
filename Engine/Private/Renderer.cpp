@@ -26,9 +26,9 @@ HRESULT CRenderer::Draw(_float deltaTime)
 		return E_FAIL;
 	if (FAILED(Render_NonBlend(deltaTime)))
 		return E_FAIL;
-	if (FAILED(Render_Blend(deltaTime)))
-		return E_FAIL;
 	if (FAILED(Render_Mid(deltaTime)))
+		return E_FAIL;
+	if (FAILED(Render_Blend(deltaTime)))
 		return E_FAIL;
 	if (FAILED(Render_UI(deltaTime)))
 		return E_FAIL;
