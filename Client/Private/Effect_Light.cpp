@@ -48,6 +48,8 @@ void CEffect_Light::Update(_float fTimeDelta)
 
 void CEffect_Light::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
+
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
