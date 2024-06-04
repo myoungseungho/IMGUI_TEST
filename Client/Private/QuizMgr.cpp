@@ -10,7 +10,6 @@ CQuizMgr::CQuizMgr()
 
 CQuizMgr::~CQuizMgr()
 {
-	Free();
 }
 
 void CQuizMgr::Destroy_QuizInstance()
@@ -122,5 +121,4 @@ void CQuizMgr::Free()
 	m_vecMonkeyStatues.clear();
 	m_vecMonkeyStatues.shrink_to_fit();
 
-	__super::Free();
 }
