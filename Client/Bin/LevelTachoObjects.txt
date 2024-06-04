@@ -218,13 +218,6 @@ IsParsing: 1
 LayerName: Layer_Bush
 PrototypeTag: Prototype_GameObject_Bush
 LevelIndex: 2
-Position: 24.744 0.6 28.668
-Scale: 1 1 1
-IsParsing: 1
-
-LayerName: Layer_Bush
-PrototypeTag: Prototype_GameObject_Bush
-LevelIndex: 2
 Position: 25.544 0.6 28.668
 Scale: 1 1 1
 IsParsing: 1
@@ -435,7 +428,98 @@ IsParsing: 1
 LayerName: Layer_Outside_Fence
 PrototypeTag: Prototype_GameObject_Outside_Fence
 LevelIndex: 2
+Position: 70.4782 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
 Position: 55.1784 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 56.3784 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 57.4784 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 58.6783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 59.7783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 60.9783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 62.0783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 63.2783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 64.2783 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 65.5782 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 66.7782 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 67.8782 0.506 25.9438
+Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Outside_Fence
+PrototypeTag: Prototype_GameObject_Outside_Fence
+LevelIndex: 2
+Position: 69.1782 0.506 25.9438
 Scale: 1 1 1
 IsParsing: 1
 
@@ -540,7 +624,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 2
-Position: 48.2158 8 19.2978
+Position: 64.5837 8 17.8299
 Scale: 1 1 1
 IsParsing: 1
 

@@ -232,7 +232,7 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_202_ShopSell.wav", L"SFX_202_ShopSell", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_148_UINormalOpen.wav", L"SFX_148_UINormalOpen", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_373_OguEat.wav", L"SFX_373_OguEat", LEVEL_STATIC, SOUND_SFX);
-
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/Book_Sound.wav", L"Book_Sound", LEVEL_STATIC, SOUND_SFX);
 }
 
 HRESULT CLoader::Loading_For_Tacho()

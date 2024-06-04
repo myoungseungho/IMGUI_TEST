@@ -109,6 +109,7 @@ void CUI_Npc_Talk::Update(_float fTimeDelta)
 	// Enter 키 입력 처리
 	if (m_pKeyCom->Key_Down(VK_RETURN))
 	{
+		m_pGameInstance->Play_Sound(L"Book_Sound", LEVEL_STATIC, false);
 		AdvanceTalkCycle();
 	}
 

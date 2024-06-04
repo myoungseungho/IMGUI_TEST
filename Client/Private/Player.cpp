@@ -742,7 +742,6 @@ void CPlayer::OnCollisionExit(class CCollider* other)
 			m_bOpenShopAndInventory = true;
 			//그리고 인벤토리는 나오지 못하게 막기.
 			static_cast<CLevel_UI*>(m_pGameInstance->GetCurrentLevel())->m_bIsAllowInventory = false;
-
 		}
 	}
 
@@ -1631,6 +1630,9 @@ void CPlayer::For_Live_State(_float fTimeDelta)
 
 void CPlayer::For_Walk_Sound(_float fTimeDelta)
 {
+	if (m_bOpenShopAndInventory)
+		return;
+
 	m_fWalkSoundTime += fTimeDelta;
 
 	if (m_bWalkSoundOnce)

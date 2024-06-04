@@ -41,7 +41,7 @@ private:
 	float m_fElapsedTime = { 0.f };       // Elapsed time for alpha animation
 	float m_fAlphaAnimationDuration = { 0.5f }; // Duration for alpha increase/decrease
 	float m_fMinAlpha = { 0.f };           // Minimum alpha value
-	float m_fMaxAlpha = { 50.f };         // Maximum alpha value
+	float m_fMaxAlpha = { 100.f };         // Maximum alpha value
 
 public:
 	/* 원형객체를 생성한다. */

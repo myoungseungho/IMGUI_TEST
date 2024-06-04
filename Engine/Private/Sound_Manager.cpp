@@ -94,8 +94,6 @@ void CSound_Manager::Stop_Sound(const std::wstring& alias, _uint levelId)
     {
         return;
     }
-
-    m_channelMap[levelId].erase(it);
 }
 
 void CSound_Manager::Set_Volume(const std::wstring& alias, _uint levelId, float volume)
