@@ -8,56 +8,56 @@ IsParsing: 1
 LayerName: Layer_Koofu_LeftCenter
 PrototypeTag: Prototype_GameObject_Koofu_LeftCenter
 LevelIndex: 5
-Position: 34.9 0.006 38
+Position: 34.9 0.1 38
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_LowerCenter
 PrototypeTag: Prototype_GameObject_Koofu_LowerCenter
 LevelIndex: 5
-Position: 49.505 0.006 23.6834
+Position: 49.505 0.1 23.6834
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_LowerLeft
 PrototypeTag: Prototype_GameObject_Koofu_LowerLeft
 LevelIndex: 5
-Position: 34.9 0.006 23.683
+Position: 34.9 0.1 23.683
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_LowerRight
 PrototypeTag: Prototype_GameObject_Koofu_LowerRight
 LevelIndex: 5
-Position: 64.2 0.006 23.683
+Position: 64.2 0.1 23.683
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_RightCenter
 PrototypeTag: Prototype_GameObject_Koofu_RightCenter
 LevelIndex: 5
-Position: 64.1998 0.006 38
+Position: 64.1998 0.1 38
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_Upper
 PrototypeTag: Prototype_GameObject_Koofu_Upper
 LevelIndex: 5
-Position: 49.505 0.006 52.7
+Position: 49.505 0.1 52.7
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_UpperLeft
 PrototypeTag: Prototype_GameObject_Koofu_UpperLeft
 LevelIndex: 5
-Position: 34.9 0.006 52.7
+Position: 34.9 0.1 52.7
 Scale: 15 15 1
 IsParsing: 1
 
 LayerName: Layer_Koofu_UpperRight
 PrototypeTag: Prototype_GameObject_Koofu_UpperRight
 LevelIndex: 5
-Position: 64.2 0.006 52.7
+Position: 64.2 0.1 52.7
 Scale: 15 15 1
 IsParsing: 1
 
