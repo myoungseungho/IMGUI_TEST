@@ -1,7 +1,7 @@
 LayerName: Layer_Block
 PrototypeTag: Prototype_GameObject_Block
 LevelIndex: 3
-Position: 52 0.5 25
+Position: 52 0.6 25
 Scale: 1 1 1
 IsParsing: 1
 
@@ -610,8 +610,29 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 3
-Position: 34.014 8.01778 0.425529
+Position: 36.7868 26.5805 -29.2619
 Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Soil_3
+PrototypeTag: Prototype_GameObject_Soil_3
+LevelIndex: 3
+Position: 27.612 0.1 14.291
+Scale: 20 20 1
+IsParsing: 1
+
+LayerName: Layer_Soil_4
+PrototypeTag: Prototype_GameObject_Soil_4
+LevelIndex: 3
+Position: 44.031 0.1 3.358
+Scale: 13 10 1
+IsParsing: 1
+
+LayerName: Layer_Soil_5
+PrototypeTag: Prototype_GameObject_Soil_5
+LevelIndex: 3
+Position: 42.491 0.1 13.259
+Scale: 10 10 1
 IsParsing: 1
 
 LayerName: Layer_StonePushable
@@ -1305,6 +1326,48 @@ PrototypeTag: Prototype_GameObject_UnRotation_Stand
 LevelIndex: 3
 Position: 40 0.5 7
 Scale: 1 1 1
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 35 1.1 9.97
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 45 1.1 9.97
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 45 1.1 14.97
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 30 1.1 14.97
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 30 1.1 6.97
+Scale: 0.5 0.5 0.5
+IsParsing: 1
+
+LayerName: Layer_Un_Small_Orb
+PrototypeTag: Prototype_GameObject_Un_Small_Orb
+LevelIndex: 3
+Position: 40 1.1 6.97
+Scale: 0.5 0.5 0.5
 IsParsing: 1
 
 LayerName: Layer_Wall_One

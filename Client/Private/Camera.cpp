@@ -73,14 +73,14 @@ void CCamera::Update(_float fTimeDelta)
 	
 	
 
-	if (m_bIsMovingToTarget || m_bIsReturning)
-	{
-		UpdateCameraPosition(fTimeDelta);
-	}
-	else
-	{
-		UpdateCameraPositionToTarget();
-	}
+	//if (m_bIsMovingToTarget || m_bIsReturning)
+	//{
+	//	UpdateCameraPosition(fTimeDelta);
+	//}
+	//else
+	//{
+	//	UpdateCameraPositionToTarget();
+	//}
 
 	if (m_bIsShaking)
 	{
