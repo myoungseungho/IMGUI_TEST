@@ -527,6 +527,36 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 	}
 
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	{
+		if (m_bCanDamaged && m_bForTestDamaged != false)
+		{
+			m_ePlayerCurState = STATE_HIT;
+			Player_Damaged();
+
+			_float3 vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+			CMonster* pMonster = dynamic_cast<CMonster*>(otherObject);
+			CTransform* pMonTransform = dynamic_cast<CTransform*>(pMonster->Get_Component(TEXT("Com_Transform")));
+
+			_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_POSITION) - pMonTransform->Get_State(CTransform::STATE_POSITION);
+			vDir.y = 0.0f;
+
+			vPosition += *D3DXVec3Normalize(&vDir, &vDir) * 0.5f;
+
+
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPosition);
+
+			m_bCanMoveRight = false;
+			m_bCanMoveLeft = false;
+			m_bCanMoveForward = false;
+			m_bCanMoveBackward = false;
+			m_bCanDamaged = false;
+
+			return;
+		}
+	}
+
 	if (dynamic_cast<CSkill_Bug_Bullet*>(otherObject))
 	{
 		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
