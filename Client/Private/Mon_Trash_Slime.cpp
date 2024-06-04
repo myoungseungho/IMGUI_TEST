@@ -370,7 +370,6 @@ void CMon_Trash_Slime::Destory()
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
-
 }
 
 void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -394,6 +393,21 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 
 		m_bHit = true;
 		m_bMoveStop = true;
+	}
+
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+		CTransform* other_transform = static_cast<CTransform*>(other_component);
+
+		_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vTargetPos = other_transform->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDir = vPos - vTargetPos;
+
+		vPos +=  *D3DXVec3Normalize(&vDir, &vDir) * 3.f * fTimeDelta;
+		
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 	}
 }
 

@@ -127,7 +127,7 @@ HRESULT CSkill_Bug_Bullet::Ready_Components()
 		return E_FAIL;
 
 	//콜라이더오브젝트 추가
-	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER, this);
+	m_pGameInstance->Add_ColliderObject(CCollider_Manager::CG_MONSTER_SKILL, this);
 
 
 
