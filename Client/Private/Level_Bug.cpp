@@ -284,6 +284,6 @@ CLevel_Bug* CLevel_Bug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 void CLevel_Bug::Free()
 {
-
+	Safe_Release(m_pBoss_Font);
 	__super::Free();
 }
