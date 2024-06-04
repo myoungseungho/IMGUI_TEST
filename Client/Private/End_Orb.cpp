@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <Un_Laser.h>
 #include <Effect_Orb.h>
+#include <Camera.h>
 
 _uint CEnd_Orb::m_eClearState = CEnd_Orb::STATE_UNCLEAR;
 
@@ -110,6 +111,9 @@ void CEnd_Orb::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 
 		if (m_bOrbClearSoundOnce)
 		{
+			CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+			static_cast<CCamera*>(cameraObject)->ShakeCamera(2.f, 0.1f, 0.1f);
+
 			m_pGameInstance->Play_Sound(L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, false);
 			m_pGameInstance->Set_Volume(L"SFX_99_MazePuzzle_Complete", LEVEL_STATIC, 1.f);
 			m_bOrbClearSoundOnce = false;
