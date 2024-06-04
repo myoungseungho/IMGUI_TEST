@@ -234,6 +234,8 @@ void CLoader::Ready_Sound()
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_202_ShopSell.wav", L"SFX_202_ShopSell", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_148_UINormalOpen.wav", L"SFX_148_UINormalOpen", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_373_OguEat.wav", L"SFX_373_OguEat", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_99_MazePuzzle_Complete.wav", L"Koofu_Copy_Sound", LEVEL_STATIC, SOUND_SFX);
+	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/SFX_213_LotusLanternOut.wav", L"Koofu_Tell_Sound", LEVEL_STATIC, SOUND_SFX);
 	m_pGameInstance->Register_Sound(L"../Bin/SoundSDK/AudioClip/Book_Sound.wav", L"Book_Sound", LEVEL_STATIC, SOUND_SFX);
 }
 
@@ -1363,7 +1365,7 @@ HRESULT CLoader::Loading_For_Bug()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Death"),
-		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BugBoss/Phase2/Death/Bugboss_%d.png"), 4))))
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Monster/BugBoss/Phase2/Death/Bugboss_%d.png"), 6))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_BUG, TEXT("Prototype_Component_Texture_BugBoss_Phase2_Down"),

@@ -283,7 +283,21 @@ void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		m_pGameInstance->Set_Volume(L"SFX_BearWhiteGuard_Hit", LEVEL_STATIC, 0.2f);
 	}
 
+	if (dynamic_cast<CMonster*>(otherObject))
+	{
+		CComponent* other_component = otherObject->Get_Component(TEXT("Com_Transform"));
+		CTransform* other_transform = static_cast<CTransform*>(other_component);
 
+		_float3 vPos = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vTargetPos = other_transform->Get_State(CTransform::STATE_POSITION);
+
+		_float3 vDir = vPos - vTargetPos;
+
+		vPos += *D3DXVec3Normalize(&vDir, &vDir) * 3.f * fTimeDelta;
+		vPos.y = 1.f;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+	}
 }
 
 void CMon_Bear_Solider::OnCollisionExit(CCollider* other)
@@ -506,6 +520,7 @@ void CMon_Bear_Solider::State_Move(_float fTimeDelta)
 	if(!m_bMoveStop)
 		m_pTransformCom->Chase(TargetPos, fTimeDelta);
 
+
 	if (m_fMoveRange <= m_fAttackRange)
 	{
 		m_ePrev_State = MON_STATE::MOVE;
@@ -526,6 +541,12 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 
 
 	m_fAttackTimer += fTimeDelta;
+
+	if (m_bHit)
+	{
+		m_ePrev_State = MON_STATE::ATTACK;
+		m_eMon_State = MON_STATE::MOVE;
+	}
 
 	if ((m_fMoveRange > m_fAttackRange) && m_fAttackTimer >= 1.f)
 	{
