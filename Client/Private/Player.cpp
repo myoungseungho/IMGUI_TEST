@@ -107,12 +107,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
-	CHat::HAT_DESC HATDESC{};
-
-	HATDESC.pTargetTransform = m_pTransformCom;
-	HATDESC.pTargetDirection = m_ePlayerDir;
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
 
 
 	return S_OK;
@@ -125,6 +119,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
+
 
 	if (m_ePlayerCurState == STATE_WALK)
 	{
@@ -1073,6 +1068,29 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	if (m_pKeyCom->Key_Down('H'))
+	{
+		if (!m_bWearHat)
+		{
+			CHat::HAT_DESC HATDESC{};
+
+			HATDESC.pTargetTransform = m_pTransformCom;
+			HATDESC.pTargetDirection = m_ePlayerDir;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
+
+			m_bWearHat = true;
+		}
+		else
+		{
+			CHat* pCopyHat = static_cast<CHat*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Hat_Towel")));
+
+			pCopyHat->m_Died = true;
+
+			m_bWearHat = false;
+		}
+	}
+
 	if (m_pKeyCom->Key_Down('C'))
 	{
 		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
