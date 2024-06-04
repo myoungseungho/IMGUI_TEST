@@ -61,7 +61,7 @@ void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 
 	m_fMovetTimer += fTimeDelta;
 	
-	if (m_fMovetTimer >= 0.5f)
+	if (m_fMovetTimer >= 1.0f)
 	{
 		m_bMoveStop = false;
 		m_fMovetTimer = { 0.f };
@@ -253,7 +253,12 @@ HRESULT CMon_Bear_Solider::End_RenderState()
 
 void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
+	CGameObject* otherObject = other->m_MineGameObject;
 
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		m_bMoveStop = true;
+	}
 }
 
 void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -554,6 +559,7 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 		m_eMon_State = MON_STATE::MOVE;
 
 		m_fAttackTimer = 0.f;
+		m_bMoveStop = true;
 	}
 
 	if (m_fAttackTimer >= 1.f )
@@ -565,7 +571,7 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 
 		if (m_fMoveRange <= m_fAttackRange)
 		{
-			pPlayer->Set_Player_Hp(-1);
+			//pPlayer->Set_Player_Hp(-1);
 		}
 	}
 
