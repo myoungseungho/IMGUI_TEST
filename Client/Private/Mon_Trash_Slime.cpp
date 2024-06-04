@@ -62,7 +62,7 @@ void CMon_Trash_Slime::Priority_Update(_float fTimeDelta)
 
 	m_fMovetTimer += fTimeDelta;
 
-	if (m_fMovetTimer >= 0.5f)
+	if (m_fMovetTimer >= 1.5f)
 	{
 		m_bMoveStop = false;
 		m_fMovetTimer = { 0.f };
@@ -369,7 +369,6 @@ void CMon_Trash_Slime::Destory()
 
 void CMon_Trash_Slime::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
-	CGameObject* otherObject = other->m_MineGameObject;
 }
 
 void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -409,6 +408,12 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		vPos.y = 0.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
 	}
+
+
+	if (dynamic_cast<CPlayer*>(otherObject))
+	{
+		m_bMoveStop = true;
+	}6
 }
 
 void CMon_Trash_Slime::OnCollisionExit(CCollider* other)
