@@ -64,13 +64,7 @@ public:
 		return m_iMaxHp;
 	}
 
-	_uint		Set_Player_Hp(_uint _hp)
-	{
-		if (m_iPlayerHp + _hp >= m_iMaxHp)
-			return m_iPlayerHp = m_iMaxHp;
-		else
-			return m_iPlayerHp += _hp;
-	}
+	_uint		Set_Player_Hp(_uint _hp);
 
 	void	   Set_Player_Ballon_State(_uint _state)
 	{
@@ -136,7 +130,7 @@ private:
 	_float			m_fDiedTime = { 0.0f };
 	_float			m_fLiveTime = { 0.0f };
 	_float			m_fWalkSoundTime = { 0.0f };
-	
+	_float			m_fSafeTime = { 0.0f };
 
 	_uint			m_iPlayerHp = { 10 };
 	_uint			m_iMaxHp = { 10 };
@@ -144,6 +138,7 @@ private:
 	_bool			m_bCanDamaged = { true };
 	_bool			m_bForTestDamaged = { true };
 	_bool			m_bForHitEffect = { true};
+	_bool			m_bIsSafe = { false};
 public:
 	_bool m_bMoveRight = false;
 	_bool m_bMoveLeft = false;
@@ -165,7 +160,7 @@ public:
 
 public:
 	_bool		m_bHaveSkill = { true};
-	
+	_bool		m_bWearHat = { false };
 private:
 	_uint m_iCurrentSkillCount = { 0 };
 private:

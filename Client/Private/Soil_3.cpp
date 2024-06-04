@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\Soil.h"
+#include "..\Public\Soil_3.h"
 
 #include "GameInstance.h"
 
-CSoil::CSoil(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSoil_3::CSoil_3(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEnviormentObject{ pGraphic_Device }
 {
 }
 
-CSoil::CSoil(const CSoil& Prototype)
+CSoil_3::CSoil_3(const CSoil_3& Prototype)
 	: CEnviormentObject{ Prototype }
 {
 }
 
-HRESULT CSoil::Initialize_Prototype()
+HRESULT CSoil_3::Initialize_Prototype()
 {
 	/* 원형객체의 초기화작업을 수행한다. */
 	/* 서버로부터 데이터를 받아오거나. 파일 입출력을 통해 데이터를 셋한다.  */
@@ -21,7 +21,7 @@ HRESULT CSoil::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CSoil::Initialize(void* pArg)
+HRESULT CSoil_3::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -41,21 +41,21 @@ HRESULT CSoil::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CSoil::Priority_Update(_float fTimeDelta)
+void CSoil_3::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CSoil::Update(_float fTimeDelta)
+void CSoil_3::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 }
 
-void CSoil::Late_Update(_float fTimeDelta)
+void CSoil_3::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_NONBLEND, this);
 }
 
-HRESULT CSoil::Render(_float fTimeDelta)
+HRESULT CSoil_3::Render(_float fTimeDelta)
 {
 	__super::Begin_RenderState();
 
@@ -74,10 +74,10 @@ HRESULT CSoil::Render(_float fTimeDelta)
 	return S_OK;
 }
 
-HRESULT CSoil::Ready_Components()
+HRESULT CSoil_3::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Soil"),
+	if (FAILED(__super::Add_Component(LEVEL_JUNGLE, TEXT("Prototype_Component_Texture_Soil_3"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -98,13 +98,13 @@ HRESULT CSoil::Ready_Components()
 	return S_OK;
 }
 
-CSoil* CSoil::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CSoil_3* CSoil_3::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CSoil* pInstance = new CSoil(pGraphic_Device);
+	CSoil_3* pInstance = new CSoil_3(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CSoil"));
+		MSG_BOX(TEXT("Failed to Created : CSoil_3"));
 		Safe_Release(pInstance);
 	}
 
@@ -112,25 +112,24 @@ CSoil* CSoil::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 
-CGameObject* CSoil::Clone(void* pArg)
+CGameObject* CSoil_3::Clone(void* pArg)
 {
-	CSoil* pInstance = new CSoil(*this);
+	CSoil_3* pInstance = new CSoil_3(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX(TEXT("Failed to Cloned : CSoil"));
+		MSG_BOX(TEXT("Failed to Cloned : CSoil_3"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CSoil::Free()
+void CSoil_3::Free()
 {
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
-
 
 	__super::Free();
 }

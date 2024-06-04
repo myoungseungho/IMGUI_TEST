@@ -39,6 +39,7 @@
 #include <Effect_Player_Stun.h>
 #include "Camera.h"
 #include "UI_FadeInOut.h"
+#include <Effect_Player_Heal.h>
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -107,12 +108,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_forScaled = m_pTransformCom->Get_Scaled();
 
-	CHat::HAT_DESC HATDESC{};
-
-	HATDESC.pTargetTransform = m_pTransformCom;
-	HATDESC.pTargetDirection = m_ePlayerDir;
-
-	m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
 
 
 	return S_OK;
@@ -125,6 +120,17 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 void CPlayer::Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
+
+	if (m_bIsSafe)
+	{
+		m_fSafeTime += fTimeDelta;
+
+		if (m_fSafeTime >= 3.f)
+		{
+			m_bIsSafe = false;
+			m_fSafeTime = 0.f;
+		}
+	}
 
 	if (m_ePlayerCurState == STATE_WALK)
 	{
@@ -341,7 +347,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -366,6 +372,7 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 			m_bCanMoveForward = false;
 			m_bCanMoveBackward = false;
 			m_bCanDamaged = false;
+			m_bIsSafe = true;
 
 			return;
 		}
@@ -527,7 +534,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -552,6 +559,7 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 			m_bCanMoveForward = false;
 			m_bCanMoveBackward = false;
 			m_bCanDamaged = false;
+			m_bIsSafe = true;
 
 			return;
 		}
@@ -919,6 +927,30 @@ _float CPlayer::Lerp(float start, float end, float t)
 	return start + t * (end - start);
 }
 
+_uint CPlayer::Set_Player_Hp(_uint _hp)
+{
+	_uint m_PrePlayerHp;
+
+	m_PrePlayerHp = m_iPlayerHp;
+
+	if (m_iPlayerHp + _hp >= m_iMaxHp)
+		m_iPlayerHp = m_iMaxHp;
+	else
+		m_iPlayerHp += _hp;
+
+	if (m_PrePlayerHp < m_iPlayerHp)
+	{
+		CEffect_Player_Heal::EFFECT_PLAYER_HEAL_DESC PLAYERHEAL{};
+
+		PLAYERHEAL.pTargetTransform = m_pTransformCom;
+
+		m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Effect_Player_Heal"), TEXT("Layer_Effect_Player_Heal"), &PLAYERHEAL);
+
+	}
+	
+		return m_iPlayerHp;
+}
+
 HRESULT CPlayer::Ready_Components()
 {
 	/* For.Com_VIBuffer_Rect */
@@ -1073,6 +1105,29 @@ HRESULT CPlayer::End_RenderState()
 
 HRESULT CPlayer::Key_Input(_float fTimeDelta)
 {
+	if (m_pKeyCom->Key_Down('H'))
+	{
+		if (!m_bWearHat)
+		{
+			CHat::HAT_DESC HATDESC{};
+
+			HATDESC.pTargetTransform = m_pTransformCom;
+			HATDESC.pTargetDirection = m_ePlayerDir;
+
+			m_pGameInstance->Add_GameObject_ToLayer(LEVEL_STATIC, TEXT("Prototype_GameObject_Hat_Towel"), TEXT("Layer_Hat_Towel"), &HATDESC);
+
+			m_bWearHat = true;
+		}
+		else
+		{
+			CHat* pCopyHat = static_cast<CHat*>(m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_Hat_Towel")));
+
+			pCopyHat->m_Died = true;
+
+			m_bWearHat = false;
+		}
+	}
+
 	if (m_pKeyCom->Key_Down('C'))
 	{
 		CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
@@ -1710,16 +1765,16 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 		m_bForHitEffect = false;
 	}
 
-	if (m_fDamageTime >= 1.5f)
+	if (m_fDamageTime >= 1.0f)
 	{
 		m_ePlayerCurState = STATE_IDLE;
 		m_fDamageTime = 0.0f;
-		m_bCanDamaged = true;
 		m_bCanMoveRight = true;
 		m_bCanMoveLeft = true;
 		m_bCanMoveForward = true;
 		m_bCanMoveBackward = true;
 		m_bForHitEffect = true;;
+		m_bCanDamaged = true;
 	}
 }
 

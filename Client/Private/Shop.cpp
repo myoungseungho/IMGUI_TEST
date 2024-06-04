@@ -938,7 +938,7 @@ CShop* CShop::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX(TEXT("Failed to Created : CUI_Inventory"));
+		MSG_BOX(TEXT("Failed to Created : CShop"));
 		Safe_Release(pInstance);
 	}
 

@@ -62,6 +62,7 @@
 #include "Hat.h"
 #include "Effect_Player_Stun.h"
 #include "Effect_Bush_1.h"
+#include "Effect_Player_Heal.h"
 
 bool bShowImGuiWindows = false;  // IMGUI 창 표시 여부를 제어하는 전역 변수
 
@@ -554,7 +555,7 @@ HRESULT CMainApp::Save_Button_Pressed(bool* bShowSaveSuccessMessage, bool* bShow
 	// 여기에 스킵할 레이어 이름을 정의
 	unordered_set<wstring> skipLayers =
 	{ L"Layer_BackGround", L"Layer_Camera", L"Layer_Player", L"Layer_Skill_Player", L"Layer_End_Orb", L"Layer_Rotation_Orb" , L"Layer_UnRotation_Orb",
-		L"Layer_Small_Orb", L"Layer_Laser",L"Layer_Shop" };
+		L"Layer_Small_Orb", L"Layer_Laser",L"Layer_Shop", L"Layer_Un_Small_Orb" };
 
 	// "Layer_UI"로 시작하는 모든 레이어를 스킵할 레이어에 추가
 	for (const auto& object : objectLayersVector)
@@ -1245,11 +1246,19 @@ HRESULT CMainApp::Ready_Prototype_Components()
 		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Effect/Leaf/Leaf_Fixed/Leaf_Fixed_0.png"), 1))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Player_Heal"),
+		CTexture::Create(m_pGraphic_Device, CTexture::TYPE_TEXTURE2D, TEXT("../Bin/Resources/Orgu_144_Resource/Textures/Player/Effect/OneTexture/Sprite_LensFlare_Source.png"), 1))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CMainApp::Ready_Prototype_GameObject()
 {
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Player_Heal"),
+		CEffect_Player_Heal::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Effect_Bush_1"),
 		CEffect_Bush_1::Create(m_pGraphic_Device))))
 		return E_FAIL;

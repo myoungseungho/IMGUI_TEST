@@ -83,6 +83,23 @@ void CSound_Manager::Play_Sound(const std::wstring& alias, _uint levelId, bool l
     int playingChannels = 0;
     FMOD_ChannelGroup_GetNumChannels(m_pChannelGroup, &playingChannels);
 
+    // 재생이 완료된 채널을 해제하는 코드 추가
+    for (int i = 0; i < playingChannels; ++i)
+    {
+        FMOD_CHANNEL* tempChannel = nullptr;
+        if (FMOD_ChannelGroup_GetChannel(m_pChannelGroup, i, &tempChannel) == FMOD_OK)
+        {
+            FMOD_BOOL isPlaying = false;
+            if (FMOD_Channel_IsPlaying(tempChannel, &isPlaying) == FMOD_OK && !isPlaying)
+            {
+                FMOD_Channel_Stop(tempChannel);  // 재생이 완료된 채널을 해제
+            }
+        }
+    }
+
+    // 재생 중인 채널 수를 다시 확인
+    FMOD_ChannelGroup_GetNumChannels(m_pChannelGroup, &playingChannels);
+
     if (playingChannels < MAX_CHANNELS) // MAX_CHANNELS는 사용자가 정의한 최대 채널 수
     {
         // 채널 그룹에 속한 새로운 채널을 생성하여 재생

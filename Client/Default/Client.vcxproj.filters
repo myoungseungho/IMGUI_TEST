@@ -445,14 +445,29 @@
     <Filter Include="02.GameObjects\Effect\Effect_Object\Effect_Orb">
       <UniqueIdentifier>{0b075949-197c-425e-9171-bf3cb2c126cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil">
-      <UniqueIdentifier>{1f8f1d8f-c83c-4f2f-b218-14a7d244c897}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect\Effect_Monster\Clean">
       <UniqueIdentifier>{b2965c0a-1231-4aa4-b78c-7803d113e6be}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\EnemyUI">
       <UniqueIdentifier>{287a2407-a311-42f0-bccb-f101c5e5698e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Effect_Player\Effect_Player_Heal">
+      <UniqueIdentifier>{8366a086-b5e5-4ab6-bcda-0febc942c356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil_3">
+      <UniqueIdentifier>{e3add882-fba0-42eb-8da4-521a7d513ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil_5">
+      <UniqueIdentifier>{8211a43d-f16a-4672-9717-cb052bfbdb6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil_2">
+      <UniqueIdentifier>{d33ad162-e0af-4e4c-816c-5e5fe7bfd085}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil_1">
+      <UniqueIdentifier>{1f8f1d8f-c83c-4f2f-b218-14a7d244c897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Enviorment\01. Jungle\Soil_4">
+      <UniqueIdentifier>{898afc40-10ec-4271-98a5-a10ea54c9108}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -952,7 +967,7 @@
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Soil.h">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_1</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Effect_Mon_Clean.h">
       <Filter>02.GameObjects\Effect\Effect_Monster\Clean</Filter>
@@ -962,6 +977,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI_HP_Green_Enemy.h">
       <Filter>02.GameObjects\UI\EnemyUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Player_Heal.h">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Heal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Soil_2.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Soil_3.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Soil_4.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Soil_5.h">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1446,7 +1476,7 @@
       <Filter>02.GameObjects\Effect\Effect_Object\Effect_Orb</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Soil.cpp">
-      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil</Filter>
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_1</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect_Mon_Clean.cpp">
       <Filter>02.GameObjects\Effect\Effect_Monster\Clean</Filter>
@@ -1456,6 +1486,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI_HP_Green_Enemy.cpp">
       <Filter>02.GameObjects\UI\EnemyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Player_Heal.cpp">
+      <Filter>02.GameObjects\Effect\Effect_Player\Effect_Player_Heal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Soil_2.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Soil_3.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Soil_4.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Soil_5.cpp">
+      <Filter>02.GameObjects\Enviorment\01. Jungle\Soil_5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
