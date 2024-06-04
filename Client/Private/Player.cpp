@@ -518,10 +518,11 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 	{
 		CMonster* pDamagedObj = dynamic_cast<CMonster*>(otherObject);
 
-		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack)
+		if (m_ePlayerCurState == STATE_ATTACK && m_bAttack && m_bDamageOnce)
 		{
 			pDamagedObj->Damaged();
 			m_bAttack = true;
+			m_bDamageOnce = false;
 			return;
 		}
 	}
@@ -1566,6 +1567,7 @@ void CPlayer::For_Attack_State(_float fTimeDelta)
 			m_ePlayerCurState = STATE_IDLE;
 			m_fAttackTime = 0.0f;
 			m_bAttack = false;
+			m_bDamageOnce = true;
 
 
 			LEVELID level = (LEVELID)m_pGameInstance->GetCurrentLevelIndex();
