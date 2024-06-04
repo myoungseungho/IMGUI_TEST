@@ -35,7 +35,8 @@ private:
 	map<wstring, FMOD_SOUND*>* m_soundMap;
 	map<wstring, FMOD_CHANNEL*>* m_channelMap;
 	_uint m_iNumLevels;
-
+	static const _uint MAX_CHANNELS = 32;  // 최대 채널 수 정의
+	FMOD_CHANNELGROUP* m_pChannelGroup = nullptr;
 public:
 	static CSound_Manager* Create(_uint iNumLevels);
 	virtual void Free() override;
