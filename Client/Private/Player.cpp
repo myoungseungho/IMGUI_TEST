@@ -1753,7 +1753,7 @@ void CPlayer::For_Damage_State(_float fTimeDelta)
 		m_bForHitEffect = false;
 	}
 
-	if (m_fDamageTime >= 1.5f)
+	if (m_fDamageTime >= 1.0f)
 	{
 		m_ePlayerCurState = STATE_IDLE;
 		m_fDamageTime = 0.0f;
