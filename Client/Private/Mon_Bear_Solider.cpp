@@ -75,7 +75,7 @@ void CMon_Bear_Solider::Priority_Update(_float fTimeDelta)
 		m_fMovetTimer = { 0.f };
 	}
 
-	if(m_eMon_State != MON_STATE::ATTACK)
+	if(m_eMon_State != (MON_STATE::STUN))
 		__super::Move_Dir(fTimeDelta);
 
 	m_vTargetDistance = m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) - m_pTransformCom->Get_State(CTransform::STATE_POSITION);

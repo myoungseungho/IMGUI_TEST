@@ -35,6 +35,7 @@ HRESULT CEffect_Stun::Initialize(void* pArg)
 
 	LevelDestroyTimer();
 
+	
 	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
 	vPos.y = 2.f;
 
@@ -49,11 +50,17 @@ void CEffect_Stun::Priority_Update(_float fTimeDelta)
 
 void CEffect_Stun::Update(_float fTimeDelta)
 {
+	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	vPos.y = 2.f;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
+
 	Destroy(fTimeDelta);
 }
 
 void CEffect_Stun::Late_Update(_float fTimeDelta)
 {
+	__super::Late_Update(fTimeDelta);
 	m_pGameInstance->Add_RenderObject(CRenderer::RG_BLEND, this);
 }
 
