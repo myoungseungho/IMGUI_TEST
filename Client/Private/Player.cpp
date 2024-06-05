@@ -347,7 +347,8 @@ void CPlayer::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe && m_ePlayerCurState != STATE_LIVE 
+		&& m_ePlayerCurState != STATE_DIED)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
@@ -534,7 +535,8 @@ void CPlayer::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		}
 	}
 
-	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe)
+	if (dynamic_cast<CMonster*>(otherObject) && m_ePlayerCurState != STATE_ATTACK && !m_bIsSafe && m_ePlayerCurState != STATE_LIVE
+		&& m_ePlayerCurState != STATE_DIED)
 	{
 		if (m_bCanDamaged && m_bForTestDamaged != false)
 		{
