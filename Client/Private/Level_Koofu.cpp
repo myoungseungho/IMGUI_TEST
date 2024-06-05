@@ -252,7 +252,7 @@ HRESULT CLevel_Koofu::Ready_Layer_Player(const _wstring& strLayerTag)
 HRESULT CLevel_Koofu::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
 {
 	CTravelNpc::NPCDESC desc{};
-	desc.position = _float3(62.5f, 1.0f, 31.151f);
+	desc.position = _float3(46.837f, 1.1f, 41.114f);
 	desc.scale = _float3(2.f, 2.f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_KOOFU, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))

@@ -610,7 +610,7 @@ IsParsing: 1
 LayerName: Layer_Sky
 PrototypeTag: Prototype_GameObject_Sky
 LevelIndex: 3
-Position: 45.1368 8.97563 -10.5215
+Position: 34.0978 8.01924 5.69268
 Scale: 1 1 1
 IsParsing: 1
 
@@ -869,7 +869,7 @@ IsParsing: 1
 LayerName: Layer_StonePushable
 PrototypeTag: Prototype_GameObject_StonePushable
 LevelIndex: 3
-Position: 32.6833 0.5 16
+Position: 35.1274 0.5 16
 Scale: 1 1 1
 IsParsing: 1
 

@@ -55,7 +55,7 @@ HRESULT CBoss_Koofu::Initialize(void* pArg)
 	m_eAnim_State = ANIM_STATE::IDLE;
 	m_eMon_Dir = MON_DIR::DIR_D;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.f, 0.75f, 37.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(49.f, 1.1f, 37.f));
 
 	return S_OK;
 }

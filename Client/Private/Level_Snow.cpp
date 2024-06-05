@@ -196,7 +196,7 @@ HRESULT CLevel_Snow::Ready_Layer_Bush(const _wstring& strLayerTag, int horizonta
 HRESULT CLevel_Snow::Ready_Layer_TravelNpc(const _wstring& strLayerTag)
 {
 	CTravelNpc::NPCDESC desc{};
-	desc.position = _float3(64.572f, 1.0f, 28.539f);
+	desc.position = _float3(34.328f, 1.1f, 38.987f);
 	desc.scale = _float3(2.f, 2.f, 1.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_TravelNpc"), strLayerTag, &desc)))
