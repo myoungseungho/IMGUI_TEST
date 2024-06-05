@@ -54,10 +54,6 @@ void CEffect_Player_Heal::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
 
-	_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
-
-
 	_uint level = m_pGameInstance->GetCurrentLevelIndex();
 	CPlayer* pCopyPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Get_GameObject(level, TEXT("Layer_Player")));
 
@@ -66,10 +62,13 @@ void CEffect_Player_Heal::Update(_float fTimeDelta)
 		m_Died = true;
 	}
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 1.5f))
+	else if (m_pTimerCom->Time_Limit(fTimeDelta, 0.5f))
 	{
 		m_Died = true;
 	}
+
+	/*_float3 vPos = m_pTargetTransform->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(vPos.x, vPos.x, vPos.z + 1.f));*/
 }
 
 void CEffect_Player_Heal::Late_Update(_float fTimeDelta)
