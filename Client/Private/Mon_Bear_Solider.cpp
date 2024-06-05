@@ -31,6 +31,7 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 
 	m_tMonsterDesc.iCurrentHp = pDesc->iCurrentHp;
 	m_tMonsterDesc.iAttack = pDesc->iAttack;
+	m_tMonsterDesc.iSpawnNum = pDesc->iSpawnNum;
 	m_pPlayerTransform = pDesc->pTargetTransform;
 
 	Safe_AddRef(m_pPlayerTransform);
@@ -44,12 +45,19 @@ HRESULT CMon_Bear_Solider::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(35.f, 1.f, 35.f));
+	if (m_tMonsterDesc.iSpawnNum == 1)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(43.f, 1.0f, 23.f));
+	else if (m_tMonsterDesc.iSpawnNum == 2)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(43.f, 1.0f, 20.f));
+	else if (m_tMonsterDesc.iSpawnNum == 3)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(32.f, 1.0f, 33.f));
+	else if (m_tMonsterDesc.iSpawnNum == 4)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(37.f, 1.0f, 33.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	m_fAttackRange = 1.f;
+	m_fAttackRange = 1.5f;
 
 	return S_OK;
 }
@@ -255,10 +263,6 @@ void CMon_Bear_Solider::OnCollisionEnter(CCollider* other, _float fTimeDelta)
 {
 	CGameObject* otherObject = other->m_MineGameObject;
 
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		m_bMoveStop = true;
-	}
 }
 
 void CMon_Bear_Solider::OnCollisionStay(CCollider* other, _float fTimeDelta)
@@ -496,7 +500,7 @@ void CMon_Bear_Solider::Mon_State(_float fTimeDelta)
 
 void CMon_Bear_Solider::State_Idle(_float fTimeDelta)
 {
-	if (m_fMoveRange <= 10.f)
+	if (m_fMoveRange <= 5.f)
 	{
 		m_ePrev_State = MON_STATE::IDLE;
 		m_eMon_State = MON_STATE::MOVE;
@@ -559,7 +563,6 @@ void CMon_Bear_Solider::State_Attack(_float fTimeDelta)
 		m_eMon_State = MON_STATE::MOVE;
 
 		m_fAttackTimer = 0.f;
-		m_bMoveStop = true;
 	}
 
 	if (m_fAttackTimer >= 1.f )

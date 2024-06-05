@@ -109,7 +109,7 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Trash_Slime(const _wstring& strLayerTag
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform= dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	for (int i = 1; i <= 2; ++i)
+	for (int i = 1; i <= 4; ++i)
 	{
 		MonsterDesc.iSpawnNum = i; 
 
@@ -127,8 +127,12 @@ HRESULT CLevel_Snow::Ready_Layer_Monster_Bear_Solider(const _wstring& strLayerTa
 	MonsterDesc.iAttack = 1;
 	MonsterDesc.pTargetTransform = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(LEVEL_SNOW, TEXT("Layer_Player"), TEXT("Com_Transform")));
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Bear_Solider"), strLayerTag, &MonsterDesc)))
-		return E_FAIL;
+	for (int i = 1 ; i <= 4; ++i)
+	{
+		MonsterDesc.iSpawnNum = i;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(LEVEL_SNOW, TEXT("Prototype_GameObject_Monster_Bear_Solider"), strLayerTag, &MonsterDesc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

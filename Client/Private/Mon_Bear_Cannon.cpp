@@ -45,7 +45,7 @@ HRESULT CMon_Bear_Cannon::Initialize(void* pArg)
 	if (FAILED(Ready_Animation()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(37.f, 1.f, 38.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(32.f, 1.f, 27.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -372,7 +372,7 @@ void CMon_Bear_Cannon::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if (m_fMoveRange <= 10.f && m_pTimerCom->Time_Limit(fTimeDelta , 2.f))
+	if (m_fMoveRange <= 5.f && m_pTimerCom->Time_Limit(fTimeDelta , 2.f))
 	{
 		m_eMon_State = MON_STATE::ATTACK;
 	}
