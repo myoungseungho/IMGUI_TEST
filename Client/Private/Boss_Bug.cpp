@@ -461,7 +461,7 @@ void CBoss_Bug::State_Death(_float fTimeDelta)
 {
 	CBoss_Bug* pThis = this;
 
-	if (m_pTimerCom->Time_Limit(fTimeDelta, 7.f))
+	if (m_pTimerCom->Time_Limit(fTimeDelta, 4.f))
 	{
 		m_pGameInstance->Play_Sound(L"SFX_BossMoonMoth_Death", LEVEL_STATIC, false);
 
