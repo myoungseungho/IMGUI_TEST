@@ -48,152 +48,152 @@ HRESULT CLevel_Edit::Initialize()
 
 void CLevel_Edit::Update(_float fTimeDelta)
 {
-    if (m_bIsEnd)
-        return;
-    __super::Update(fTimeDelta);
+	if (m_bIsEnd)
+		return;
+	__super::Update(fTimeDelta);
 
-    m_fElapsedTime += fTimeDelta; // 경과 시간 증가
+	m_fElapsedTime += fTimeDelta; // 경과 시간 증가
 
-    // 2초가 지나고, Level_Edit_Start1 함수가 아직 호출되지 않았다면 호출
-    if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
-    {
-        Level_Edit_Start1();
-        m_bStart1Called = true;
-        m_fElapsedTime = 0; // 시작 후 경과 시간 초기화
-    }
+	// 2초가 지나고, Level_Edit_Start1 함수가 아직 호출되지 않았다면 호출
+	if (m_fElapsedTime >= 2.0f && !m_bStart1Called)
+	{
+		Level_Edit_Start1();
+		m_bStart1Called = true;
+		m_fElapsedTime = 0; // 시작 후 경과 시간 초기화
+	}
 
-    if (m_bStart1Called)
-    {
-        _uint level = m_pGameInstance->GetLoadingLevelIndex();
+	if (m_bStart1Called)
+	{
+		_uint level = m_pGameInstance->GetLoadingLevelIndex();
 
-        CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
-        CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
+		CGameObject* gameObjectTalk = m_pGameInstance->Get_GameObject(level, TEXT("Layer_UI_Npc_Talk"));
+		CUI_Npc_Talk* npcTalkUI = static_cast<CUI_Npc_Talk*>(gameObjectTalk);
 
-        // npcTalkUI 접근 후 경과 시간 초기화
-        if (m_fTalkElapsedTime < 0)
-        {
-            m_fTalkElapsedTime = 0;
-        }
-        else
-        {
-            m_fTalkElapsedTime += fTimeDelta;
-        }
+		// npcTalkUI 접근 후 경과 시간 초기화
+		if (m_fTalkElapsedTime < 0)
+		{
+			m_fTalkElapsedTime = 0;
+		}
+		else
+		{
+			m_fTalkElapsedTime += fTimeDelta;
+		}
 
-        // npcTalkUI가 대화 중이 아니고 3초가 지났는지 확인
-        if (!npcTalkUI->m_bIsNpcTalkOn && m_fTalkElapsedTime > 3.0f)
-        {
-            // 3초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
-            if (!m_bShakeCalled)
-            {
-                CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
-                static_cast<CCamera*>(cameraObject)->ShakeCamera(5.f, 0.5f, 0.1f);
+		// npcTalkUI가 대화 중이 아니고 3초가 지났는지 확인
+		if (!npcTalkUI->m_bIsNpcTalkOn && m_fTalkElapsedTime > 3.0f)
+		{
+			// 3초가 지나고, 카메라 쉐이크가 아직 호출되지 않았다면 호출
+			if (!m_bShakeCalled)
+			{
+				CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+				static_cast<CCamera*>(cameraObject)->ShakeCamera(5.f, 0.5f, 0.1f);
 
-                CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 5.f);
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 5.f);
 
-                m_bShakeCalled = true;
-                m_fFadeElapsedTime = 0; // 페이드 아웃 경과 시간 초기화
-            }
-        }
+				m_bShakeCalled = true;
+				m_fFadeElapsedTime = 0; // 페이드 아웃 경과 시간 초기화
+			}
+		}
 
-        // 페이드 아웃 시작 후 경과 시간 추적
-        if (m_bShakeCalled && !m_bStart2Called)
-        {
-            m_fFadeElapsedTime += fTimeDelta;
+		// 페이드 아웃 시작 후 경과 시간 추적
+		if (m_bShakeCalled && !m_bStart2Called)
+		{
+			m_fFadeElapsedTime += fTimeDelta;
 
-            // 페이드 아웃과 카메라 쉐이크가 완료되고 1초가 지난 후 Level_Edit_Start2 호출
-            if (m_fFadeElapsedTime > 6.0f) // 5초 페이드 아웃 + 1초 대기
-            {
-                Level_Edit_Start2();
-                m_bStart2Called = true; // Level_Edit_Start2가 호출되었음을 표시
-                m_fPostStart2ElapsedTime = 0; // Level_Edit_Start2 이후 경과 시간 초기화
-            }
-        }
+			// 페이드 아웃과 카메라 쉐이크가 완료되고 1초가 지난 후 Level_Edit_Start2 호출
+			if (m_fFadeElapsedTime > 6.0f) // 5초 페이드 아웃 + 1초 대기
+			{
+				Level_Edit_Start2();
+				m_bStart2Called = true; // Level_Edit_Start2가 호출되었음을 표시
+				m_fPostStart2ElapsedTime = 0; // Level_Edit_Start2 이후 경과 시간 초기화
+			}
+		}
 
-        // Level_Edit_Start2 호출 이후 추가 작업
-        if (m_bStart2Called && !m_bIsWaitingForFade)
-        {
-            m_fPostStart2ElapsedTime += fTimeDelta;
+		// Level_Edit_Start2 호출 이후 추가 작업
+		if (m_bStart2Called && !m_bIsWaitingForFade)
+		{
+			m_fPostStart2ElapsedTime += fTimeDelta;
 
-            if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart2ElapsedTime > 2.0f)
-            {
-                CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(5.f, 0.f, 255.f);
+			if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart2ElapsedTime > 2.0f)
+			{
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(3.f, 0.f, 255.f);
 
-                m_bIsWaitingForFade = true; // 5초 대기 상태 시작
-                m_fWaitingElapsedTime = 0;  // 대기 시간 초기화
-            }
-        }
+				m_bIsWaitingForFade = true; // 5초 대기 상태 시작
+				m_fWaitingElapsedTime = 0;  // 대기 시간 초기화
+			}
+		}
 
-        // 5초 대기 시간 경과 후 Level_Edit_Start3 호출
-        if (m_bIsWaitingForFade && !m_bStart3Called)
-        {
-            m_fWaitingElapsedTime += fTimeDelta;
+		// 5초 대기 시간 경과 후 Level_Edit_Start3 호출
+		if (m_bIsWaitingForFade && !m_bStart3Called)
+		{
+			m_fWaitingElapsedTime += fTimeDelta;
 
-            if (m_fWaitingElapsedTime > 5.0f)
-            {
-                Level_Edit_Start3();
-                m_bStart3Called = true; // Level_Edit_Start3가 호출되었음을 표시
-                m_fPostStart3ElapsedTime = 0; // Level_Edit_Start3 이후 경과 시간 초기화
-            }
-        }
+			if (m_fWaitingElapsedTime > 3.0f)
+			{
+				Level_Edit_Start3();
+				m_bStart3Called = true; // Level_Edit_Start3가 호출되었음을 표시
+				m_fPostStart3ElapsedTime = 0; // Level_Edit_Start3 이후 경과 시간 초기화
+			}
+		}
 
-        // Level_Edit_Start3 호출 이후 추가 작업
-        if (m_bStart3Called && !m_bIsEnding)
-        {
-            m_fPostStart3ElapsedTime += fTimeDelta;
+		// Level_Edit_Start3 호출 이후 추가 작업
+		if (m_bStart3Called && !m_bIsEnding)
+		{
+			m_fPostStart3ElapsedTime += fTimeDelta;
 
-            if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart3ElapsedTime > 5.0f)
-            {
-                // 여기에 3초 후에 할 작업 추가
-                m_fPostStart3ElapsedTime = 0;
+			if (!npcTalkUI->m_bIsNpcTalkOn && m_fPostStart3ElapsedTime > 3.0f && !m_bWaitForFadeOut)
+			{
+				// 여기에 3초 후에 할 작업 추가
+				m_fPostStart3ElapsedTime = 0;
 
-                CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(5.f, 255.f, 0.f);
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 1;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(3.f, 255.f, 0.f);
 
-                // 5초 후 다음 단계로 이동
-                m_bWaitForFadeOut = true;
-                m_fFadeOutWaitElapsedTime = 0;
-            }
-        }
+				// 5초 후 다음 단계로 이동
+				m_bWaitForFadeOut = true;
+				m_fFadeOutWaitElapsedTime = 0;
+			}
+		}
 
-        // 5초 후 카메라 쉐이크 및 페이드
-        if (m_bWaitForFadeOut && !m_bNextStep)
-        {
-            m_fFadeOutWaitElapsedTime += fTimeDelta;
+		// 5초 후 카메라 쉐이크 및 페이드
+		if (m_bWaitForFadeOut && !m_bNextStep)
+		{
+			m_fFadeOutWaitElapsedTime += fTimeDelta;
 
-            if (m_fFadeOutWaitElapsedTime > 5.0f)
-            {
-                CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
-                static_cast<CCamera*>(cameraObject)->ShakeCamera(5.f, 0.5f, 0.1f);
+			if (m_fFadeOutWaitElapsedTime > 3.0f)
+			{
+				CGameObject* cameraObject = m_pGameInstance->Get_GameObject(m_pGameInstance->GetCurrentLevelIndex(), TEXT("Layer_Camera"));
+				static_cast<CCamera*>(cameraObject)->ShakeCamera(4.f, 0.5f, 0.1f);
 
-                CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 0;
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 5.f);
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 0;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFading(0.3f, 0.f, 255.f, true, 4.f);
 
-                // 5초 후 다음 단계로 이동
-                m_bNextStep = true;
-                m_fNextStepElapsedTime = 0;
-            }
-        }
+				// 5초 후 다음 단계로 이동
+				m_bNextStep = true;
+				m_fNextStepElapsedTime = 0;
+			}
+		}
 
-        // 5초 후 업데이트 종료
-        if (m_bNextStep)
-        {
-            m_fNextStepElapsedTime += fTimeDelta;
+		// 5초 후 업데이트 종료
+		if (m_bNextStep)
+		{
+			m_fNextStepElapsedTime += fTimeDelta;
 
-            if (m_fNextStepElapsedTime > 5.0f)
-            {
-                CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 0;
-                static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(0.1f, 0.f, 255.f);
+			if (m_fNextStepElapsedTime > 4.5f)
+			{
+				CGameObject* fadeInOutObject = m_pGameInstance->Get_GameObject(LEVEL_STATIC, TEXT("Layer_UI_FadeInOut"));
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->m_iTextureNum = 0;
+				static_cast<CUI_FadeInOut*>(fadeInOutObject)->StartFadingSingleDirection(0.1f, 0.f, 255.f);
 
-                m_bIsEnd = true; // 업데이트 종료
-            }
-        }
-    }
+				m_bIsEnd = true; // 업데이트 종료
+			}
+		}
+	}
 }
 
 HRESULT CLevel_Edit::Render()
