@@ -60,24 +60,24 @@ HRESULT CEnviormentObject::Initialize(void* pArg)
 
 	if (pArg == nullptr)
 	{
-		////카메라 트랜스폼
-		//CComponent* camera_componenet = m_pGameInstance->Get_Component(LEVEL_TACHO, TEXT("Layer_Camera"), TEXT("Com_Transform"));
-		//CTransform* camera_transform = static_cast<CTransform*>(camera_componenet);
+		//카메라 트랜스폼
+		CComponent* camera_componenet = m_pGameInstance->Get_Component(LEVEL_TACHO, TEXT("Layer_Camera"), TEXT("Com_Transform"));
+		CTransform* camera_transform = static_cast<CTransform*>(camera_componenet);
 
-		//// 카메라의 현재 위치 가져오기
-		//_float3 cameraPosition = camera_transform->Get_State(CTransform::STATE_POSITION);
+		// 카메라의 현재 위치 가져오기
+		_float3 cameraPosition = camera_transform->Get_State(CTransform::STATE_POSITION);
 
-		//// 새로운 위치 계산 (Z 값은 카메라 위치에서 5만큼 떨어지고, Y는 0으로 설정)
-		//float zOffset = 5.0f;
-		//_float3 newPosition = cameraPosition;
-		//newPosition.z += zOffset;
-		//newPosition.y = 0.006f;
+		// 새로운 위치 계산 (Z 값은 카메라 위치에서 5만큼 떨어지고, Y는 0으로 설정)
+		float zOffset = 15.0f;
+		_float3 newPosition = cameraPosition;
+		newPosition.z += zOffset;
+		newPosition.y = 0.006f;
 
-		//CComponent* componenet = Get_Component(TEXT("Com_Transform"));
-		//CTransform* transform = static_cast<CTransform*>(componenet);
+		CComponent* componenet = Get_Component(TEXT("Com_Transform"));
+		CTransform* transform = static_cast<CTransform*>(componenet);
 
-		//// 오브젝트의 위치 설정
-		//transform->Set_State(CTransform::STATE_POSITION, &newPosition);
+		// 오브젝트의 위치 설정
+		transform->Set_State(CTransform::STATE_POSITION, &newPosition);
 
 		return S_OK;
 	}

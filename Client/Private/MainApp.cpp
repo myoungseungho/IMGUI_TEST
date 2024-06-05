@@ -102,7 +102,9 @@ HRESULT CMainApp::Initialize()
 	ImGui_ImplWin32_Init(g_hWnd);
 	ImGui_ImplDX9_Init(m_pGraphic_Device);
 
-	if (FAILED(Open_Level(LEVEL_EDIT)))
+	Click_Collider_Toggle(true);
+
+	if (FAILED(Open_Level(LEVEL_TACHO)))
 		return E_FAIL;
 
 	return S_OK;
@@ -194,7 +196,7 @@ HRESULT CMainApp::Render(_float fTimeDelta)
 
 
 		// 새로운 Collider 창 추가
-		static bool bColliderToggle = false;
+		static bool bColliderToggle = true;
 		ImGui::Begin("Collider", &bShowSettings);
 		if (ImGui::Checkbox("Toggle Collider", &bColliderToggle)) {
 			Click_Collider_Toggle(bColliderToggle);

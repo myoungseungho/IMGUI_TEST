@@ -115,7 +115,7 @@ private:
 	vector<CUIObject*> m_vecCursorObject;
 
 private:
-	_uint m_iCurrentMoney = { 5000 };
+	_uint m_iCurrentMoney = { 10000 };
 	_uint m_iMaxBuyCount = 0; // 구매 가능한 최대 개수
 	_uint m_iCurrentBuyCount = 1; // 현재 선택된 구매 개수
 	_uint m_iCurrentPrice = 0; // 현재 아이템의 가격

@@ -59,7 +59,6 @@ HRESULT CLevel_Tacho::Initialize()
 	// 사운드 재생
 	m_pGameInstance->Play_Sound(L"BGM_0_Null", LEVEL_STATIC, true);
 
-
 	return S_OK;
 }
 

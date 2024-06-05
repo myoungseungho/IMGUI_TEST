@@ -108,8 +108,9 @@ private:
 	vector<CUIObject*> m_vecCurrentHaveItem;
 	unordered_map<_uint, _uint> m_hatIndexMap; // Hat의 selectedIndex와 itemIndex를 매핑
 	unordered_map<_uint, _uint> m_itemIndexMap; // Item의 selectedIndex와 itemIndex를 매핑
+
 private:
-	_uint m_iCurrentMoney = { 5000 };
+	_uint m_iCurrentMoney = { 10000 };
 	_float m_TextPosX = 31.f; // 텍스트 x 좌표
 	_float m_TextPosY = -36.f; // 텍스트 y 좌표
 	wstring m_WstringTitle = { TEXT("타이틀 테스트") };
