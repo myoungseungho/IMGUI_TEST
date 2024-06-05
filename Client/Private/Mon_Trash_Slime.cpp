@@ -46,9 +46,13 @@ HRESULT CMon_Trash_Slime::Initialize(void* pArg)
 		return E_FAIL;
 
 	if( m_tMonsterDesc.iSpawnNum == 1)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(34.f, 0.5f, 26.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(58.f, 0.5f, 21.f));
 	else if(m_tMonsterDesc.iSpawnNum == 2)
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(36.f, 0.5f, 26.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(55.f, 0.5f, 21.f));
+	else if (m_tMonsterDesc.iSpawnNum == 3)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(52.f, 0.5f, 21.f));
+	else if (m_tMonsterDesc.iSpawnNum == 4)
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &_float3(61.f, 0.5f, 21.f));
 
 	m_eMon_State = MON_STATE::IDLE;
 	m_eAnim_State = ANIM_STATE::IDLE;
@@ -323,7 +327,7 @@ void CMon_Trash_Slime::State_Idle(_float fTimeDelta)
 {
 	m_eAnim_State = ANIM_STATE::IDLE;
 
-	if (m_fAttackRange <= 10.f)
+	if (m_fAttackRange <= 7.5f)
 		m_eMon_State = MON_STATE::MOVE;
 
 }
@@ -337,7 +341,7 @@ void CMon_Trash_Slime::State_Move(_float fTimeDelta)
 		
 	Move(fTimeDelta);
 
-	if (m_fAttackRange > 10.f)
+	if (m_fAttackRange > 5.f)
 		m_eMon_State = MON_STATE::IDLE;
 
 }
@@ -407,12 +411,6 @@ void CMon_Trash_Slime::OnCollisionStay(CCollider* other, _float fTimeDelta)
 		vPos +=  *D3DXVec3Normalize(&vDir, &vDir) * 3.f * fTimeDelta;
 		vPos.y = 0.5f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, &vPos);
-	}
-
-
-	if (dynamic_cast<CPlayer*>(otherObject))
-	{
-		m_bMoveStop = true;
 	}
 }
 
